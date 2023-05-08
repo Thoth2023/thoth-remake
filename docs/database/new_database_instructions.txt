@@ -1,0 +1,4 @@
+Criar nova versão DataBase
+
+- Via migrations laravel
+- Analisar mudanças necessárias
