@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('project', function (Blueprint $table) {
-            $table->foreign(['created_by'], 'project_ibfk_1')->references(['id_user'])->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign(['id_user'], 'project_ibfk_1')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

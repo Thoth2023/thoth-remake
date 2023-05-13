@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('activity_log', function (Blueprint $table) {
             $table->integer('id_log', true);
-            $table->integer('id_user')->index('id_user');
+            $table->unsignedBigInteger('id_user')->index('id_user');
             $table->integer('id_module')->index('id_module');
             $table->string('activity');
             $table->integer('id_project')->nullable()->index('id_project');
