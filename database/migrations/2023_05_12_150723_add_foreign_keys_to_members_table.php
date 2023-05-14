@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('members', function (Blueprint $table) {
             $table->foreign(['level'], 'members_ibfk_3')->references(['id_level'])->on('levels')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign(['id_user'], 'members_ibfk_2')->references(['id_user'])->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign(['id_user'], 'members_ibfk_2')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign(['id_project'], 'members_ibfk_1')->references(['id_project'])->on('project')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
