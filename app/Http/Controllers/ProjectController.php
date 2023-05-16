@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -29,7 +30,14 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        Project::create($request->all());
+        $id_user = Auth::user()->id;
+        Project::create([ 
+            'id_user' => $id_user,
+            'title' => $request->title,
+            'description' => $request->description,
+            'objectives' => $request->objectives,
+            //'copy_planning'
+        ]);
         return redirect('/projects');
     }
 
