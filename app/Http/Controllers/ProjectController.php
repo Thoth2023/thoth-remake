@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the projects.
      */
     public function index()
     {
@@ -17,7 +17,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new project.
      */
     public function create()
     {
@@ -25,7 +25,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created project in storage.
      */
     public function store(Request $request)
     {
@@ -34,7 +34,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified project.
      */
     public function show(string $id)
     {
@@ -43,7 +43,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified project.
      */
     public function edit(string $id)
     {
@@ -52,7 +52,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified project in storage.
      */
     public function update(Request $request, string $id)
     {
@@ -62,7 +62,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified project from storage.
      */
     public function destroy(string $id)
     {
