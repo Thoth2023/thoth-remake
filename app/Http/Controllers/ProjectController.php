@@ -31,7 +31,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $id_user = Auth::user()->id;
-        Project::create([ 
+        Project::create([
             'id_user' => $id_user,
             'title' => $request->title,
             'description' => $request->description,
