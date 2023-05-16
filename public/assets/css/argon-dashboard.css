@@ -115,6 +115,11 @@ h1, .h1 {
   }
 }
 
+.title-thoth{
+  font-size: 1.8rem;
+  margin-top: 0.6rem;
+}
+
 h2, .h2 {
   font-size: calc(1.35rem + 1.2vw);
 }
