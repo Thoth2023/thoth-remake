@@ -2,7 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Create Project'])
-<div class="card shadow-lg mx-4 card-profile-bottom">
+<div class="card shadow-lg mx-4">
     <div class="container-fluid py-4">
         <p class="text-uppercase text-sm">Create Project</p>
         <form method="POST" action="{{ route('projects.store') }}">

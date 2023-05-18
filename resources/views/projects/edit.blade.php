@@ -2,7 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Edit Project'])
-<div class="card shadow-lg mx-4 card-profile-bottom">
+<div class="card shadow-lg mx-4">
     <div class="container-fluid py-4">
         <p class="text-uppercase text-sm">Edit Project</p>
         <form method="POST" action="{{ route('projects.update', $project->id_project) }}">
@@ -31,7 +31,7 @@
                 </select>
             </div>
             <div class="d-flex align-items-center">
-                <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
+                <button type="submit" class="btn btn-primary btn-sm ms-auto">Edit</button>
             </div>
         </form>
         @include('layouts.footers.auth.footer')
