@@ -54,9 +54,27 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle">
-                                                <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v text-xs"></i>
-                                                </button>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false" id="optionsdropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fa fa-ellipsis-v text-xs"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);">
+                                                        <li>
+                                                            <a class="dropdown-item" href="{{ route('projects.edit', $project->id_project) }}">
+                                                                Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id }}').submit();">
+                                                                Excluir
+                                                            </a>
+                                                            <form id="delete-project-{{ $project->id }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
                                         @empty

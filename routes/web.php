@@ -36,9 +36,9 @@ use App\Http\Controllers\ProjectController;
     Route::get('/projects/create', [ProjectController::class, 'create'])->middleware('auth');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}', [ProjectController::class, 'show']);
-    Route::get('/projects/{id}/edit', [ProjectController::class, 'edit']);
+    Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
-    Route::delete('/projects/{id}', [ProjectController::class, 'destroy']);
+    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
     // end of the projects routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
