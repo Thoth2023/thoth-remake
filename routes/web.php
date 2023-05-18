@@ -37,7 +37,7 @@ use App\Http\Controllers\ProjectController;
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}', [ProjectController::class, 'show']);
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit']);
-    Route::put('/projects/{id}', [ProjectController::class, 'update']);
+    Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy']);
     // end of the projects routes
 
