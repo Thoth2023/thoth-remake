@@ -32,6 +32,10 @@ class User extends Authenticatable
         'lattes_link'
     ];
 
+    public function projects() { /* Faz a relação com os usuários */
+        return $this->belongsToMany(Project::class)->withPivot('email', 'level');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

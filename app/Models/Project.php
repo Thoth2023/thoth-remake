@@ -30,6 +30,10 @@ class Project extends Model
         //'copy_planning',
     ];
 
+    public function users() { /* Faz a relação com os projetos */
+        return $this->belongsToMany(User::class)->withPivot('email', 'level');
+    }
+
     private function insertSearchStringGenerics($idProject)
     {
         // Insert logic for search_string_generics table
