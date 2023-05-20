@@ -7,6 +7,11 @@
         <p class="text-uppercase text-sm">Create Project</p>
         <form method="POST" action="{{ route('projects.store') }}">
             @csrf
+            @foreach ($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+                {{ $error }}
+            </div>
+            @endforeach
             <div class="form-group">
                 <label for="titleInput">Title</label>
                 <input name="title" type="text" class="form-control" id="titleInput" placeholder="Enter the title">

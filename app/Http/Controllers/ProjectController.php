@@ -30,6 +30,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' =>'required|string|max:255',
+            'description' =>'required|string',
+            'objectives' =>'required|string'
+        ]);
+
         $id_user = Auth::user()->id;
         Project::create([
             'id_user' => $id_user,
