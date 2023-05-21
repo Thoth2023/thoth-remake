@@ -17,7 +17,7 @@ jobs:
         php-version: '8.1'
     - uses: actions/checkout@v3
     - name: Enable pdo extension
-      run: sudo apt-get install -y php8.0-pdo
+      run: sudo apt-get install -y php8.1-pdo
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
