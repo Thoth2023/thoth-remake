@@ -12,10 +12,10 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
                                     <h5 class="font-weight-bolder">
-                                        $53,000
+                                        $0,000
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                        <span class="text-success text-sm font-weight-bolder">+1000%</span>
                                         since yesterday
                                     </p>
                                 </div>

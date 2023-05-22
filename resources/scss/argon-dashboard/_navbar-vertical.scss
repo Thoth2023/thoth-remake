@@ -5,25 +5,30 @@
 @use "sass:math";
 
 .navbar-vertical {
-  .navbar-brand > img,
+
+  .navbar-brand>img,
   .navbar-brand-img {
     max-width: 100%;
     max-height: 2rem;
   }
+
   // Navbar navigaton
   .navbar-nav {
+
     // Navbar link
     .nav-link {
       padding-left: $navbar-padding-x;
       padding-right: $navbar-padding-x;
       font-weight: $navbar-nav-link-font-weight;
       color: $font-color;
+
       // Icon
-      > i {
+      >i {
         min-width: $navbar-icon-min-width;
         font-size: 0.9375rem;
         line-height: ($font-size-base * $line-height-base);
       }
+
       // Dropdown
       .dropdown-menu {
         border: none;
@@ -32,6 +37,7 @@
           margin-left: $dropdown-item-padding-x * 0.5;
         }
       }
+
       .icon {
         padding: 10px;
       }
@@ -43,12 +49,14 @@
       }
     }
   }
+
   // Navbar navigation
   .navbar-nav .nav-link {
     display: flex;
     align-items: center;
     white-space: nowrap;
   }
+
   // Navbar heading
   .navbar-heading {
     padding-top: $nav-link-padding-y;
@@ -57,9 +65,12 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+
   // Expanded navbar specific styles
   &.navbar-expand {
-    @each $breakpoint, $dimension in $grid-breakpoints {
+
+    @each $breakpoint,
+    $dimension in $grid-breakpoints {
       &-#{$breakpoint} {
         @include media-breakpoint-up(#{$breakpoint}) {
           display: block;
@@ -76,28 +87,34 @@
           .navbar-collapse {
             display: block;
             overflow: auto;
-            height: $navbar-vertical-inner;
+            //height: $navbar-vertical-inner;
           }
+
           // Container
-          > [class*="container"] {
+          >[class*="container"] {
             flex-direction: column;
             align-items: stretch;
             min-height: 100%;
             padding-left: 0;
             padding-right: 0; // Target IE 10 & 11
-            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+            @media all and (-ms-high-contrast: none),
+            (-ms-high-contrast: active) {
               min-height: none;
               height: 100%;
             }
           }
+
           // Fixes the vertical navbar to the left
           &.fixed-start {
             left: 0;
           }
+
           // Fixed the vertical navbar to the right
           &.fixed-end {
             right: 0;
           }
+
           // Navbar navigation
           .navbar-nav .nav-link {
             padding-top: $navbar-vertical-nav-link-padding-y;
@@ -116,7 +133,7 @@
             width: 100%;
           }
 
-          .navbar-nav > .nav-item {
+          .navbar-nav>.nav-item {
             margin-top: 0.125rem;
 
             .icon {
@@ -125,7 +142,7 @@
               }
             }
 
-            > .nav-link {
+            >.nav-link {
               .icon {
                 svg {
                   .color-background {
@@ -150,13 +167,14 @@
             padding-right: 1rem;
             border-radius: $border-radius-sm;
           }
+
           // Second level
           .navbar-nav .nav .nav-link {
             padding-top: calc($navbar-vertical-nav-link-padding-y / 1.5);
             padding-bottom: calc($navbar-vertical-nav-link-padding-y / 1.5);
             padding-left: 15px;
 
-            > span.sidenav-normal {
+            >span.sidenav-normal {
               transition: all 0.1s ease 0s;
             }
           }
@@ -167,10 +185,12 @@
 }
 
 .sidenav {
+
   // Define colors
-  @each $color, $value in $theme-colors {
+  @each $color,
+  $value in $theme-colors {
     &[data-color="#{$color}"] {
-      .navbar-nav > .nav-item > .nav-link.active {
+      .navbar-nav>.nav-item>.nav-link.active {
         @include gradient-directional(nth(#{$value}, 1) 0%, nth(#{$value}, -1) 100%, $deg: 310deg);
 
         .icon i,
@@ -185,12 +205,14 @@
     }
   }
 }
+
 // Sidenav + Main content transition
 
 .main-content,
 .sidenav {
   transition: $transition-base;
 }
+
 //
 // Sidenav
 //
@@ -202,6 +224,7 @@
   .navbar-heading {
     display: block;
   }
+
   @include media-breakpoint-up(xl) {
     &:hover {
       max-width: $navbar-vertical-open-width;
@@ -211,11 +234,11 @@
       padding: 1.5rem;
     }
 
-    &.fixed-start + .main-content {
+    &.fixed-start+.main-content {
       margin-left: $navbar-vertical-open-width + 1.5;
     }
 
-    &.fixed-end + .main-content {
+    &.fixed-end+.main-content {
       margin-right: $navbar-vertical-open-width + 1.5;
     }
   }
@@ -246,6 +269,7 @@
     }
   }
 }
+
 // Sidenav states
 
 .g-sidenav-show {
@@ -261,6 +285,7 @@
     }
   }
 }
+
 // Media fixes for iPhone 5 like resolutions
 @include media-breakpoint-down(xl) {
   .g-sidenav-show {
@@ -295,7 +320,7 @@
     box-shadow: $card-box-shadow;
 
     .navbar-nav {
-      > .nav-item {
+      >.nav-item {
         .nav-link {
           &.active {
             background-color: #f6f9fc;
@@ -312,7 +337,7 @@
     border-radius: $border-radius-md;
   }
 
-  .navbar-nav > .nav-item .nav-link.active {
+  .navbar-nav>.nav-item .nav-link.active {
     color: $dark;
     background-color: $dark-sidebar-nav-active-bg;
   }
@@ -325,10 +350,11 @@
     width: calc(100% - (#{$navbar-vertical-open-width} + #{$spacer * 1.5} * 3));
   }
 
-  &.fixed-top + [class*="container"] {
+  &.fixed-top+[class*="container"] {
     margin-top: 7.1875rem !important;
   }
 }
+
 // Navbar Vertical Extend
 .navbar-vertical {
   .navbar-nav .nav-link[data-bs-toggle="collapse"] {
@@ -342,9 +368,10 @@
       font-weight: 700;
       content: "\f107";
       margin-left: auto;
-      color: rgba($dark-gradient-state,0.5);
+      color: rgba($dark-gradient-state, 0.5);
       @include transition($transition-base);
     }
+
     // Expanded
     &[aria-expanded="true"] {
       &:after {
@@ -356,6 +383,7 @@
 
   .navbar-nav {
     .nav-item {
+
       .collapse,
       .collapsing {
         .nav {
@@ -366,7 +394,7 @@
               position: relative;
               background-color: transparent;
               box-shadow: none;
-              color: rgba($dark-gradient-state,0.5);
+              color: rgba($dark-gradient-state, 0.5);
               margin-left: $navbar-vertical-collapse-margin-left;
 
               &.active {
@@ -379,6 +407,7 @@
                 color: $dark-gradient-state;
               }
             }
+
             // Third level
             .nav-item {
               .nav-link {
@@ -394,7 +423,7 @@
   }
 
   &.blur {
-    .navbar-nav > .nav-item {
+    .navbar-nav>.nav-item {
       .nav-link {
         background-color: transparent;
         box-shadow: none;
@@ -402,9 +431,11 @@
     }
   }
 }
+
 // Styles for minimized sidenav
 .navbar-vertical {
   .navbar-brand {
+
     .navbar-brand-img,
     span {
       @include transition($transition-base);
@@ -444,6 +475,7 @@
                 color: $white;
                 opacity: .8;
               }
+
               &.active {
                 .nav-link.active {
                   color: $white;
@@ -459,16 +491,19 @@
         }
       }
     }
+
     .sidenav-header {
       .navbar-brand {
         color: $white;
       }
     }
+
     .sidenav-footer {
       h6 {
         color: $white;
       }
     }
+
     hr {
       background-image: $hr-horizontal-bg-image-light !important;
     }
@@ -507,7 +542,7 @@
 
     &.rtl {
       .sidenav:hover {
-        & + .main-content {
+        &+.main-content {
           margin-right: $navbar-vertical-open-width + 1.5 !important;
         }
       }
@@ -516,7 +551,7 @@
     .navbar-vertical {
       max-width: $navbar-vertical-hidden-width !important;
 
-      &.fixed-start + .main-content {
+      &.fixed-start+.main-content {
         margin-left: $navbar-vertical-hidden-width + 1.5;
       }
 
@@ -586,11 +621,12 @@
           height: 0;
         }
       }
+
       // Hover style on sidenav minimized
       &:hover {
         max-width: $navbar-vertical-open-width !important;
 
-        &.fixed-start + .main-content {
+        &.fixed-start+.main-content {
           margin-left: $navbar-vertical-open-width + 1.5;
         }
 
@@ -602,6 +638,7 @@
 
         .nav-item {
           .nav-link {
+
             .nav-link-text,
             .sidenav-normal {
               opacity: 1;

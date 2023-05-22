@@ -21,6 +21,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    public function welcome()
+    {
+        return view('welcome');
+    }
+
     public function index()
     {
         return view('pages.dashboard');
