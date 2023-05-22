@@ -2,7 +2,9 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Planning Overall Information'])
-@include('convert-language-name.php')
+@include('planning.convert-language-name')
+@include('planning.convert-study-type-name')
+
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="row">
@@ -216,7 +218,7 @@
                                                     <div class="form-group">
                                                         <select class="form-control" name="id_language">
                                                         @forelse ($languages as $language)
-                                                            <option value="{{ $language->id_language }}">{{$language->description}}</option>
+                                                            <option value="{{ $language->id_language }}">{{ $language->description }}</option>
                                                         @empty
                                                         <option>No languages in database.</option>
                                                         @endforelse
@@ -241,13 +243,13 @@
                                                             @forelse ($projectLanguages as $projectLanguage)
                                                             <tr>
                                                                 <td>
-                                                                    <p class="text-sm font-weight-bold mb-0"><?php convert_language_name($projectLanguage->id_language) ?></p>
+                                                                    <p class="text-sm font-weight-bold mb-0"><?=convert_language_name($projectLanguage->id_language)?></p>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
+                                                                    <form action="{{ route('planning_overall.languageDestroy', $projectLanguage->id_language) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
+                                                                        <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete language">Delete</button>
                                                                     </form>
                                                                 </td> 
                                                             </tr>
@@ -269,7 +271,7 @@
                         <!-- Study type starts here -->
                         <div class="col-md-8 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.studyTAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -305,12 +307,12 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="example-text-input" class="form-control-label">Types</label>
-                                                        <select class="form-control" name="language">
-                                                            <option>Book</option>
-                                                            <option>Thesis</option>
-                                                            <option>Article in Press</option>
-                                                            <option>Article</option>
-                                                            <option>Conference Paper</option>
+                                                        <select class="form-control" name="id_study_type">
+                                                            @forelse ($studyTypes as $studyType)
+                                                            <option value="{{ $studyType->id_study_type }}">{{ $studyType->description }}</option>
+                                                            @empty
+                                                            <option>No study types in database.</option>
+                                                            @endforelse
                                                         </select>
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                                                     
@@ -329,13 +331,13 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($domains as $domain)
+                                                            @forelse ($projectStudyTypes as $pStudyType)
                                                             <tr>
                                                                 <td>
-                                                                    <p class="text-sm font-weight-bold mb-0">{{ $domain->description }}</p>
+                                                                    <p class="text-sm font-weight-bold mb-0"><?=convert_study_type_name($pStudyType->id_study_type)?></p>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
+                                                                    <form action="{{ route('planning_overall.studyTDestroy', $pStudyType->id_study_type) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
@@ -360,7 +362,7 @@
                         <!-- Keywords here -->
                         <div class="col-md-8 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.keywordAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -414,30 +416,30 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($domains as $domain)
+                                                            @forelse ($keywords as $keyword)
                                                             <tr>
                                                                 <td>
-                                                                    <p class="text-sm font-weight-bold mb-0">{{ $domain->description }}</p>
+                                                                    <p class="text-sm font-weight-bold mb-0">{{ $keyword->description }}</p>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <button style="border:0; background: none; padding: 0px;" type="button" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#modal-form{{ $domain->id_domain }}" data-original-title="Edit domain">Edit</button>
+                                                                    <button style="border:0; background: none; padding: 0px;" type="button" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#modal-form{{ $keyword->id_keyword }}" data-original-title="Edit domain">Edit</button>
                                                                     <!-- Modal Here Edition -->
                                                                     <div class="col-md-4">
-                                                                        <div class="modal fade" id="modal-form{{ $domain->id_domain }}" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                                                                        <div class="modal fade" id="modal-form{{ $keyword->id_keyword }}" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
                                                                         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                                                                             <div class="modal-content">
                                                                             <div class="modal-body p-0">
                                                                                 <div class="card card-plain">
                                                                                 <div class="card-header pb-0 text-left">
-                                                                                    <h3>Domain Update</h3>
+                                                                                    <h3>Keyword Update</h3>
                                                                                 </div>
                                                                                 <div class="card-body">
-                                                                                    <form role="form text-left" method="POST" action="{{ route('planning_overall.domainEdit', $domain->id_domain) }}">
+                                                                                    <form role="form text-left" method="POST" action="{{ route('planning_overall.keywordEdit', $keyword->id_keyword) }}">
                                                                                         @csrf
                                                                                         @method('PUT')
-                                                                                        <label>Domain</label>
+                                                                                        <label>Keyword</label>
                                                                                         <div class="input-group mb-3">
-                                                                                        <input class="form-control" type="text" name="description" value="{{ $domain->description }}">
+                                                                                        <input class="form-control" type="text" name="description" value="{{ $keyword->description }}">
                                                                                         </div>
                                                                                         <div class="text-center">
                                                                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
@@ -452,16 +454,16 @@
                                                                     <!-- Modal Ends Here -->
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
+                                                                    <form action="{{ route('planning_overall.keywordDestroy', $keyword->id_keyword) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
+                                                                        <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete keyword">Delete</button>
                                                                     </form>
                                                                 </td> 
                                                             </tr>
                                                             @empty
                                                             <tr>
-                                                                <td colspan="5" class="text-center">No domains found.</td>
+                                                                <td colspan="5" class="text-center">No keywords found.</td>
                                                             </tr>
                                                             @endforelse
                                                         </tbody>
