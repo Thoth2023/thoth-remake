@@ -10,7 +10,7 @@ Ferramenta de Revisão Sistemática da Literatura
 
 ### Entendendo a Estrutura do framework
 1. Laravel DOC - https://laravel.com/docs/10.x
-2. Entendendo a estrutura - https://www.youtube.com/watch?v=zN0gAqOcxsk 
+2. Entendendo a estrutura - https://www.youtube.com/watch?v=zN0gAqOcxsk
 
 ### Template Bootstrap Sugerido
 Esse quesito ainda pode ser alterado em conjunto com a equipe responsável pelo projeto.
@@ -39,9 +39,19 @@ Instale as dependências do projeto
 ```sh
 composer install
 ```
+Se der algum erro na instalação das dependências
+```sh
+composer update
+```
+
 Gere a key do projeto Laravel
 ```sh
 php artisan key:generate
+```
+
+Para popular o Banco de Dados
+```sh
+php artisan migrate
 ```
 
 Acesse o projeto
