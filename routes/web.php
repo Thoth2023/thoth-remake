@@ -33,7 +33,7 @@ use App\Http\Controllers\ProjectController;
 
     // projects routes
     Route::get('/projects', [ProjectController::class, 'index']);
-    Route::get('/projects/create', [ProjectController::class, 'create'])->middleware('auth');
+    Route::get('/projects/create', [ProjectController::class, 'create'])->middleware('auth')->name('projects.create');;
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
