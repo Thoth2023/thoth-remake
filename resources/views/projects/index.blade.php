@@ -15,7 +15,7 @@
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('projects.create') }}">
                                 <i class="fas fa-plus"></i>&nbsp;&nbsp;New Project</a>
                         </div>
-                        <h6>Projects</h6>
+                        <h6>My Projects</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
