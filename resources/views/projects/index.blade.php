@@ -2,12 +2,19 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Projects'])
+
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
+
                 <div class="card mb-4">
+
                     <div class="card-header pb-0">
+                        <div class="col-12 text-end">
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('projects.create') }}">
+                                <i class="fas fa-plus"></i>&nbsp;&nbsp;New Project</a>
+                        </div>
                         <h6>Projects</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -23,8 +30,8 @@
                                             Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                             Completion</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                            Options</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,12 +61,13 @@
                                             </div>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a href="{{ route('projects.show', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Project">
+                                                View
+                                            </a>
+                                            <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit Project">
                                                 Edit
                                             </a>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Delete Project">
                                                 Delete
                                             </a>
                                             <form id="delete-project-{{ $project->id_project }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
