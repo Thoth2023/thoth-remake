@@ -130,6 +130,11 @@ h1, .h1 {
   color: white;
 }
 
+.unique-form-planning{
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
 h2, .h2 {
   font-size: calc(1.35rem + 1.2vw);
 }
