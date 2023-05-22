@@ -59,10 +59,10 @@
                                             </a>
                                         </td>
                                         <td class="align-middle">
-                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Edit user">
                                                 Delete
                                             </a>
-                                            <form id="delete-project-{{ $project->id }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
+                                            <form id="delete-project-{{ $project->id_project }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
