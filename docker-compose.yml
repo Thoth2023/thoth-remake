@@ -14,7 +14,7 @@ services:
         depends_on:
             - redis
         networks:
-            - laravel
+            - thoth
 
     # nginx
     nginx:
@@ -27,7 +27,7 @@ services:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
-            - laravel
+            - thoth
 
     # db mysql
     db:
@@ -42,9 +42,9 @@ services:
         volumes:
             - ./.docker/mysql/dbdata:/var/lib/mysql
         ports:
-            - "3388:3306"
+            - "3306:3306"
         networks:
-            - laravel
+            - thoth
     #phpmyadmin
     db-phpmyadmin:
         depends_on:
@@ -60,7 +60,7 @@ services:
             PMA_HOST: db
             UPLOAD_LIMIT: 256M
         networks:
-            - laravel
+            - thoth
 
     # queue
     queue:
@@ -74,15 +74,15 @@ services:
             - redis
             - app
         networks:
-            - laravel
+            - thoth
 
     # redis
     redis:
         image: redis:latest
         container_name: redis
         networks:
-            - laravel
+            - thoth
 
 networks:
-    laravel:
+    thoth:
         driver: bridge
