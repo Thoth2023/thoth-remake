@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Domain;
+use App\Models\Language;
+use App\Models\ProjectLanguage;
 
 class PlanningOverallInformationController extends Controller
 {
@@ -12,18 +14,13 @@ class PlanningOverallInformationController extends Controller
      */
     public function index(string $id_project)
     {
+        $languages = Language::all();
+        $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project'));
-    }
-    /**
-     * Display a list of the Domains of the project
-     */
-    public function domainList(string $id)
-    {
-        $domains = Domain::where('id_project', $id)->get();
-        return view('projects.planning.index', compact('domains'));
+        return view('planning.index', compact('domains', 'id_project', 'languages', 'projectLanguages'));
     }
 
+    // DOMAIN AREA
     /**
      * Store a newly created Domain
      */
@@ -65,4 +62,37 @@ class PlanningOverallInformationController extends Controller
 
          return redirect("/planning/".$id_project);
     }
+    // DOMAIN AREA
+
+    // LANGUAGE AREA
+    /**
+     * Add a language stored in the database to the project
+     */
+    public function languageAdd(Request $request)
+    {
+        $this->validate($request, [
+            'id_language' =>'required|string',
+        ]);
+
+        ProjectLanguage::create([
+            'id_project' => $request->id_project,
+            'id_language' => $request->id_language,
+        ]);
+        $id_project = $request->id_project;
+
+        return redirect("/planning/".$id_project);
+    }
+
+    /*
+    * Remove the specified Domain from the project
+    */
+    public function languageDestroy(string $id)
+    {
+         $domain = Domain::findOrFail($id);
+         $id_project = $domain->id_project;
+         $domain->delete();
+
+         return redirect("/planning/".$id_project);
+    }
+    // LANGUAGE AREA
 }

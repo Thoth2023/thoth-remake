@@ -178,7 +178,7 @@
                         <!-- Language starts here -->
                         <div class="col-md-8 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.languageAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -213,12 +213,12 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <select class="form-control" name="language">
-                                                            <option>Portuguese</option>
-                                                            <option>English</option>
-                                                            <option>Spanish</option>
-                                                            <option>French</option>
-                                                            <option>Russian</option>
+                                                        <select class="form-control" name="id_language">
+                                                        @forelse ($languages as $language)
+                                                            <option value="{{ $language->id_language }}">{{$language->description}}</option>
+                                                        @empty
+                                                        <option>No languages in database.</option>
+                                                        @endforelse
                                                         </select>
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                                                     
@@ -237,10 +237,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($domains as $domain)
+                                                            @forelse ($projectLanguages as $projectLanguage)
                                                             <tr>
                                                                 <td>
-                                                                    <p class="text-sm font-weight-bold mb-0">{{ $domain->description }}</p>
+                                                                    <p class="text-sm font-weight-bold mb-0"><?php if($projectLanguage->id_language == 1){ echo "Portuguese"; } ?></p>
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
