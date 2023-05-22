@@ -2,6 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Planning Overall Information'])
+@include('convert-language-name.php')
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="row">
@@ -240,7 +241,7 @@
                                                             @forelse ($projectLanguages as $projectLanguage)
                                                             <tr>
                                                                 <td>
-                                                                    <p class="text-sm font-weight-bold mb-0"><?php if($projectLanguage->id_language == 1){ echo "Portuguese"; } ?></p>
+                                                                    <p class="text-sm font-weight-bold mb-0"><?php convert_language_name($projectLanguage->id_language) ?></p>
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
