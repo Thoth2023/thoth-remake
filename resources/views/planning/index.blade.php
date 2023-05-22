@@ -14,17 +14,47 @@
                     <div class="nav-wrapper position-relative end-0">
                         <ul class="nav nav-pills nav-fill p-1" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true">
-                                Domain
+                                <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#Overallinformation" role="tab" aria-controls="Overallinformation " aria-selected="false">
+                                Overall information
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
-                                Dashboard
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#ResearchQuestions" role="tab" aria-controls="ResearchQuestions" aria-selected="false">
+                                Research Questions
                                 </a>
                             </li>
-                            </ul>
-                        </div>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Databases" role="tab" aria-controls="Databases" aria-selected="false">
+                                Data Bases
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
+                                Search String
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchStrategy" role="tab" aria-controls="SearchStrategy" aria-selected="false">
+                                Search Strategy
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Criteria" role="tab" aria-controls="Criteria" aria-selected="false">
+                                Criteria
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#QualityAssessment" role="tab" aria-controls="QualityAssessment" aria-selected="false">
+                                Quality Assessment
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#DataExtraction" role="tab" aria-controls="DataExtraction" aria-selected="false">
+                                Data Extraction
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     </div>
                     <div class="row" style="justify-content: space-around;">
                         <div class="col-md-8">
@@ -34,6 +64,29 @@
                                     <div class="card-header pb-0">
                                         <div class="d-flex align-items-center">
                                             <p class="mb-0">Domains</p>
+                                            <button type="button" class="help-thoth-button" data-bs-toggle="modal" data-bs-target="#DomainModal">
+                                                ?
+                                            </button>
+                                            <!-- Help Button Description -->
+                                            <div class="modal fade" id="DomainModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Help for Domains</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ...
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Help Description Ends Here -->
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -47,6 +100,7 @@
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
                                             </div>
+                                            </form>
                                             <div class="table-responsive p-0">
                                                 <table class="table align-items-center justify-content-center mb-0">
                                                     <thead>
@@ -65,10 +119,36 @@
                                                                 <p class="text-sm font-weight-bold mb-0">{{ $domain->description }}</p>
                                                             </td>
                                                             <td class="align-middle">
-                                                                <a class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit domain">
-                                                                    Edit
-                                                                </a>
+                                                                <button style="border:0; background: none; padding: 0px;" type="button" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#modal-form{{ $domain->id_domain }}" data-original-title="Edit domain">Edit</button>
                                                                 <!-- Modal Here Edition -->
+                                                                <div class="col-md-4">
+                                                                    <div class="modal fade" id="modal-form{{ $domain->id_domain }}" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                                                        <div class="modal-content">
+                                                                        <div class="modal-body p-0">
+                                                                            <div class="card card-plain">
+                                                                            <div class="card-header pb-0 text-left">
+                                                                                <h3>Domain Update</h3>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <form role="form text-left" method="POST" action="{{ route('planning_overall.domainEdit', $domain->id_domain) }}">
+                                                                                    @csrf
+                                                                                    @method('PUT')
+                                                                                    <label>Domain</label>
+                                                                                    <div class="input-group mb-3">
+                                                                                    <input class="form-control" type="text" name="description" value="{{ $domain->description }}">
+                                                                                    </div>
+                                                                                    <div class="text-center">
+                                                                                        <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Modal Ends Here -->
                                                             </td>
                                                             <td class="align-middle">
                                                                 <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
@@ -87,9 +167,8 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <hr class="horizontal dark">
-                                    </div>
-                                </form>
+                                    <hr class="horizontal dark">
+                                </div>
                             </div>
                         </div>
                     </div>

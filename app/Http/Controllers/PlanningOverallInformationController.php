@@ -49,7 +49,7 @@ class PlanningOverallInformationController extends Controller
     {
         $domain = Domain::findOrFail($id);
         $domain->update($request->all());
-        $id_project = $request->id_project;
+        $id_project = $domain->id_project;
 
         return redirect("/planning/".$id_project);
     }
