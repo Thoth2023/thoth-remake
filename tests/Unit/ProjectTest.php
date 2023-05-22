@@ -76,3 +76,4 @@ class ProjectTest extends TestCase
         $this->assertFalse($project->timestamps);
     }
 }
+

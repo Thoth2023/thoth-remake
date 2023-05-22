@@ -12,7 +12,7 @@ use App\Models\User;
 class ProjectTest extends TestCase
 {
     //use RefreshDatabase;
-    
+
     /**
      * Test that only logged-in users can see the projects list.
      *
@@ -74,7 +74,7 @@ class ProjectTest extends TestCase
         $response = $this->delete('/projects/'. $project->id_project.'/')
             ->assertRedirect('/login');
     }
-    
+
     /**
     * Test that the GetProjectsPage returns the projects list for a logged-in user.
     *
@@ -91,9 +91,9 @@ class ProjectTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/projects');
-        
+
         $response->assertStatus(200);
-        
+
         $response->assertViewIs('projects.index');
 
         $response->assertViewHas('projects');
@@ -149,7 +149,7 @@ class ProjectTest extends TestCase
 
         $response->assertRedirect('/projects');
     }
-    
+
     /**
     * Test that showing an existing project returns the project details.
     *
@@ -252,3 +252,4 @@ class ProjectTest extends TestCase
         $response->assertRedirect('/projects');
     }
 }
+
