@@ -30,6 +30,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PlanningOverallInformationController;
 
     // projects routes
     Route::get('/projects', [ProjectController::class, 'index']);
@@ -41,9 +42,12 @@ use App\Http\Controllers\ProjectController;
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
     // end of the projects routes
 
-		// planning routes
-		Route::get('/projects/planning', [ProjectController::class, 'index']);
-		//end of the planning routes
+	// planning routes
+	Route::get('/planning/{id}', [PlanningOverallInformationController::class, 'index']);
+	Route::post('/planning/domain', [PlanningOverallInformationController::class, 'domainUpdate'])->name('planning_overall.domainUpdate');
+	Route::put('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainEdit'])->name('planning_overall.domainEdit');
+	Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainDestroy'])->name('planning_overall.domainDestroy');
+	//end of the planning routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
     Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
