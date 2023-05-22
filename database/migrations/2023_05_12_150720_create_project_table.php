@@ -19,15 +19,15 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('objectives');
-            $table->integer('created_by')->index('created_by');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->integer('c_papers')->default(0);
-            $table->float('planning', 10, 0)->default(0);
-            $table->float('import', 10, 0)->default(0);
-            $table->float('selection', 10, 0)->default(0);
-            $table->float('quality', 10, 0)->default(0);
-            $table->float('extraction', 10, 0)->default(0);
+            // $table->integer('created_by')->index('created_by');
+            // $table->date('start_date');
+            // $table->date('end_date');
+            // $table->integer('c_papers')->default(0);
+            // $table->float('planning', 10, 0)->default(0);
+            // $table->float('import', 10, 0)->default(0);
+            // $table->float('selection', 10, 0)->default(0);
+            // $table->float('quality', 10, 0)->default(0);
+            // $table->float('extraction', 10, 0)->default(0);
         });
     }
 
