@@ -57,6 +57,27 @@ class Project extends Model
 		);
     }
 
+    public function get_members($id_project)
+	{
+		$members = array();
+		$this->db->select('name,email,levels.level');
+		$this->db->from('members');
+		$this->db->join('user', 'user.id_user = members.id_user');
+		$this->db->join('levels', 'levels.id_level = members.level');
+		$this->db->where('id_project', $id_project);
+		$query = $this->db->get();
+
+		foreach ($query->result() as $row) {
+			$user = new User();
+			$user->set_email($row->email);
+			$user->set_level($row->level);
+			$user->set_name($row->name);
+			array_push($members, $user);
+		}
+
+		return $members;
+	}
+
     private function insertSearchStringGenerics($idProject)
     {
         // Insert logic for search_string_generics table
