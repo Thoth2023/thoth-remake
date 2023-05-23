@@ -51,7 +51,8 @@ use App\Http\Controllers\ProjectController;
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
-	Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
+	Route::get('/', function () {return redirect('/home');})->middleware('guest');
+	Route::get('/home', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
