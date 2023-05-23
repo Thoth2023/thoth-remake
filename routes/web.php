@@ -32,6 +32,7 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
 
     // projects routes
+
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
