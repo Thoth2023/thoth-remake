@@ -54,7 +54,8 @@ class ProjectTest extends TestCase
     */
     public function test_onlyLoggedInUsers_Project_canEditProject(): void
     {
-        $response = $this->get('/projects/1/edit')
+        $project = Project::factory()->create();
+        $response = $this->get('/projects/'. $project->id_project .'/edit')
             ->assertRedirect('/login');
     }
 
@@ -69,7 +70,8 @@ class ProjectTest extends TestCase
     */
     public function test_onlyLoggedInUsers_Project_canDeleteProject(): void
     {
-        $response = $this->delete('/projects/7/')
+        $project = Project::factory()->create();
+        $response = $this->delete('/projects/'. $project->id_project.'/')
             ->assertRedirect('/login');
     }
     
