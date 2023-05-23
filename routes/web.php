@@ -41,8 +41,7 @@ use App\Http\Controllers\ProjectController;
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
     // end of the projects routes
 
-    //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-    Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+    Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
