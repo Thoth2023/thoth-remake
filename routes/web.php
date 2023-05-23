@@ -32,13 +32,13 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
 
     // projects routes
-    Route::get('/projects', [ProjectController::class, 'index'])->middleware('auth');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
     Route::get('/projects/create', [ProjectController::class, 'create'])->middleware('auth');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
-    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth');
     // end of the projects routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
