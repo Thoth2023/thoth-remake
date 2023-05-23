@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProjectController extends Controller
 {
@@ -13,7 +16,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $id = Auth::user()->id;
+        $projects = Project::where('id_user', $id)->get();
         return view('projects.index', compact('projects'));
     }
 
@@ -84,4 +88,45 @@ class ProjectController extends Controller
          $project->delete();
          return redirect('/projects');
     }
+
+    public function add_member(string $idProject) 
+    {
+        $project = Project::findOrFail($idProject); 
+        return view('projects.add_member', compact('project')); //compact() passa o projeto para a view
+    }
+
+    public function add_member_update(Request $request, string $idProject)
+    {
+        $email_member = $request->get('email_member');
+        $user_id = $this->findIdByEmail($email_member);
+        $level_member = $request->get('level_member');
+
+        $data = User::where('email', $email_member)->first(); // ->get();
+        //$user_id = User::findOrFail($data->id); // pega o id do "novo" membro
+        
+        $table_data = [ // tabela intermediaria "members" 
+            'id_user' => $user_id,
+            'id_project' => $idProject,
+            'level' => $level_member, // $request->input(1)
+        ];
+    
+        DB::table('members')->insert($table_data);
+
+        $project = Project::findOrFail($idProject);
+        $project->update($request->all());
+        return redirect('/projects');
+    }
+
+    public function findIdByEmail($email)
+    {
+        try {
+            $user = User::where('email', $email)->firstOrFail();
+            $userId = $user->id;
+
+            return $userId;
+        } catch (ModelNotFoundException $exception) {
+            return null;
+        }
+    }
+
 }

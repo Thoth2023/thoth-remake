@@ -27,11 +27,34 @@ class Project extends Model
         'title',
         'description',
         'objectives',
+        // 'id_member',
         //'copy_planning',
     ];
 
-    public function users() { /* Faz a relação com os projetos */
-        return $this->belongsToMany(User::class)->withPivot('email', 'level');
+    public function users() { /* Faz a relação com os usuários*/
+        return $this->belongsToMany(User::class);//->withPivot('email', 'level');
+        //return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+    }
+
+    public function add_member($email, $level, $idProject)
+    {
+        $id_level = null;
+		$this->db->select('id_level');
+		$this->db->from('levels');
+		$this->db->where('level', $level);
+		$query = $this->db->get();
+
+		foreach ($query->result() as $row) {
+			$id_level = $row->id_level;
+		}
+
+		$id_user = $this->get_id_name_user($email);
+
+		$data = array(
+			'id_user' => $id_user[0],
+			'id_project' => $id_project,
+			'level' => $id_level
+		);
     }
 
     private function insertSearchStringGenerics($idProject)

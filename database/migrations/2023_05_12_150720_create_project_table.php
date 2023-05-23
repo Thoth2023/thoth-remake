@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('objectives');
+            $table->string('email_member');
             // $table->integer('created_by')->index('created_by');
             // $table->date('start_date');
             // $table->date('end_date');

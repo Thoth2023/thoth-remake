@@ -39,6 +39,9 @@ use App\Http\Controllers\ProjectController;
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+	Route::get('/projects/{id}/add_member', [ProjectController::class, 'add_member'])->name('projects.add');
+	Route::put('/projects/{id}', [ProjectController::class, 'add_member_update'])->name('projects.member_update');
+	
     // end of the projects routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -52,7 +55,7 @@ use App\Http\Controllers\ProjectController;
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::group(['middleware' => 'auth'], function () {
+	Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

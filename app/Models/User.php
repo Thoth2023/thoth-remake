@@ -12,11 +12,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'username',
         'firstname',
@@ -32,35 +27,19 @@ class User extends Authenticatable
         'lattes_link'
     ];
 
-    public function projects() { /* Faz a relação com os usuários */
-        return $this->belongsToMany(Project::class)->withPivot('email', 'level');
+    public function projects() { /* Faz a relação com os os projetos */
+        return $this->belongsToMany(Project::class);//->withPivot('email', 'level');
     }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Always encrypt the password when it is updated.
-     *
-     * @param $value
-    * @return string
-    */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);

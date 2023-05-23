@@ -67,6 +67,15 @@
                                                 @method('DELETE')
                                             </form>
                                         </td>
+                                        <td class="align-middle">
+                                            <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Add member">
+                                                Add Member
+                                            </a>
+                                            <form id="delete-project-{{ $project->id }}" action="{{}}" method="POST" style="display: none;">
+                                                @csrf
+                                                
+                                            </form>
+                                        </td>
                                     </tr>
                                     @empty
                                     <tr>
