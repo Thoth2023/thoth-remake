@@ -22,5 +22,20 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@argon.com',
             'password' => bcrypt('secret')
         ]);
+        DB::table('language')->insert([
+            'description' => 'Portuguese',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'English',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'Spanish',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'French',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'Russian',
+        ]);
     }
 }

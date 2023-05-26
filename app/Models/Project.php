@@ -30,6 +30,10 @@ class Project extends Model
         //'copy_planning',
     ];
 
+    public function users() {
+        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+    }
+
     private function insertSearchStringGenerics($idProject)
     {
         // Insert logic for search_string_generics table
