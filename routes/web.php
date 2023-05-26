@@ -61,7 +61,7 @@ use App\Http\Controllers\PlanningOverallInformationController;
 	//end of the planning routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-    Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+	Route::get('/', [HomeController::class, 'guest_home'])->name('home');
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
@@ -70,7 +70,7 @@ use App\Http\Controllers\PlanningOverallInformationController;
 	Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+	Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

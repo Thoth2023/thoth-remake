@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Models\Project;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,7 +51,9 @@ class ProjectController extends Controller
     public function show(string $id)
     {
         $project = Project::findOrFail($id);
-        return view('projects.show', compact('project'));
+        $users = $project->users;
+        $activities = Activity::where('id_project', $id)->get();
+        return view('projects.show', compact('project'), compact('users'), compact('activities'));
     }
 
     /**

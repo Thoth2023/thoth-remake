@@ -21,13 +21,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function welcome()
-    {
-        return view('welcome');
-    }
 
     public function index()
     {
         return view('pages.dashboard');
+    }
+
+    public function guest_home() {
+        return view('pages.home');
     }
 }
