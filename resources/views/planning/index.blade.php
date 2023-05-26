@@ -61,7 +61,7 @@
                     </div>
                     <div class="row" style="justify-content: space-around;">
                         <!-- Domain starts here -->
-                        <div class="col-md-8 unique-form-planning">
+                        <div class="col-md-6 unique-form-planning">
                             <div class="card">
                                 <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
                                     @csrf
@@ -101,7 +101,7 @@
                                                         <label for="example-text-input" class="form-control-label">Description</label>
                                                         <input class="form-control" type="text" name="description">
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
-                                                    
+
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
                                                 </div>
@@ -161,7 +161,7 @@
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
                                                                     </form>
-                                                                </td> 
+                                                                </td>
                                                             </tr>
                                                             @empty
                                                             <tr>
@@ -179,7 +179,7 @@
                         </div>
                         <!-- Domain ends here -->
                         <!-- Language starts here -->
-                        <div class="col-md-8 unique-form-planning">
+                        <div class="col-md-6 unique-form-planning">
                             <div class="card">
                                 <form role="form" method="POST" action={{ route('planning_overall.languageAdd') }} enctype="multipart/form-data">
                                     @csrf
@@ -224,7 +224,7 @@
                                                         @endforelse
                                                         </select>
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
-                                                    
+
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
                                                 </div>
@@ -251,7 +251,7 @@
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete language">Delete</button>
                                                                     </form>
-                                                                </td> 
+                                                                </td>
                                                             </tr>
                                                             @empty
                                                             <tr>
@@ -269,7 +269,7 @@
                         </div>
                         <!-- Language ends here -->
                         <!-- Study type starts here -->
-                        <div class="col-md-8 unique-form-planning">
+                        <div class="col-md-6 unique-form-planning">
                             <div class="card">
                                 <form role="form" method="POST" action={{ route('planning_overall.studyTAdd') }} enctype="multipart/form-data">
                                     @csrf
@@ -315,7 +315,7 @@
                                                             @endforelse
                                                         </select>
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
-                                                    
+
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
                                                 </div>
@@ -342,7 +342,7 @@
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
                                                                     </form>
-                                                                </td> 
+                                                                </td>
                                                             </tr>
                                                             @empty
                                                             <tr>
@@ -360,7 +360,7 @@
                         </div>
                         <!-- Study type ends here -->
                         <!-- Keywords here -->
-                        <div class="col-md-8 unique-form-planning">
+                        <div class="col-md-6 unique-form-planning">
                             <div class="card">
                                 <form role="form" method="POST" action={{ route('planning_overall.keywordAdd') }} enctype="multipart/form-data">
                                     @csrf
@@ -399,7 +399,7 @@
                                                     <div class="form-group">
                                                         <input class="form-control" type="text" name="description">
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
-                                                    
+
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
                                                 </div>
@@ -459,7 +459,7 @@
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete keyword">Delete</button>
                                                                     </form>
-                                                                </td> 
+                                                                </td>
                                                             </tr>
                                                             @empty
                                                             <tr>
