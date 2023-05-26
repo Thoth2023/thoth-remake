@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Domain;
 use App\Models\Language;
@@ -17,13 +18,14 @@ class PlanningOverallInformationController extends Controller
      */
     public function index(string $id_project)
     {
+        $project = Project::where('id_project', $id_project)->get();
         $languages = Language::all();
         $studyTypes = StudyType::all();
         $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
         $keywords = Keyword::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project', 'languages', 'projectLanguages', 'studyTypes', 'projectStudyTypes', 'keywords'));
+        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages', 'studyTypes', 'projectStudyTypes', 'keywords'));
     }
 
     // DOMAIN AREA

@@ -9481,6 +9481,10 @@ textarea.form-control-lg {
   background-color: #8392ab !important;
 }
 
+.bg-secondary-overview {
+    background-color: #dee2e6 !important;
+}
+
 .bg-success {
   background-color: #2dce89 !important;
 }
