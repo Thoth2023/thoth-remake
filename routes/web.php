@@ -30,6 +30,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PlanningOverallInformationController;
 
     // projects routes
 
@@ -41,6 +42,23 @@ use App\Http\Controllers\ProjectController;
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth');
     // end of the projects routes
+
+	// planning routes
+	Route::get('/planning/{id}', [PlanningOverallInformationController::class, 'index']);
+	Route::post('/planning/domain', [PlanningOverallInformationController::class, 'domainUpdate'])->name('planning_overall.domainUpdate');
+	Route::put('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainEdit'])->name('planning_overall.domainEdit');
+	Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainDestroy'])->name('planning_overall.domainDestroy');
+
+	Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('planning_overall.languageAdd');
+	Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('planning_overall.languageDestroy');
+	
+	Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
+	Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
+	
+	Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
+	Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
+	Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
+	//end of the planning routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
     Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
