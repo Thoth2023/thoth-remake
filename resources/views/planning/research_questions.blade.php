@@ -17,7 +17,6 @@
                 <li class="nav-item">
                     <a class="btn bg-gradient-faded-white mb-0" href="{{ route('projects.show', $project->id_project) }}">
                         <i class="fas fa-plus"></i>Overview</a>
-
                 </li>
                 <li class="nav-item">
                     <a class="btn bg-gradient-dark mb-0" href="{{ route('planning.index', $project->id_project) }}">
@@ -48,44 +47,44 @@
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                     <div class="nav-wrapper position-relative end-0">
-                        <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                    <ul class="nav nav-pills nav-fill p-1" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="{{ route('planning.index', $id_project) }}"role="tab" aria-controls="Overallinformation " aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.index', $id_project) }}" aria-controls="Overallinformation">
                                 Overall information
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#ResearchQuestions" role="tab" aria-controls="ResearchQuestions" aria-selected="true">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.research_questions', $project->id_project) }}" aria-controls="ResearchQuestions" style="background-color: #212229; color: white;">
                                 Research Questions
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Databases" role="tab" aria-controls="Databases" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#Databases" aria-controls="Databases">
                                 Data Bases
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#SearchString" aria-controls="SearchString">
                                 Search String
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchStrategy" role="tab" aria-controls="SearchStrategy" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#SearchStrategy" aria-controls="SearchStrategy">
                                 Search Strategy
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Criteria" role="tab" aria-controls="Criteria" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#Criteria" aria-controls="Criteria">
                                 Criteria
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#QualityAssessment" role="tab" aria-controls="QualityAssessment" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#QualityAssessment" aria-controls="QualityAssessment">
                                 Quality Assessment
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#DataExtraction" role="tab" aria-controls="DataExtraction" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" aria-controls="DataExtraction">
                                 Data Extraction
                                 </a>
                             </li>
@@ -180,10 +179,13 @@
                                                                                     <form role="form text-left" method="POST" action="{{ route('planning_research.Edit', $researchQuestion->id_research_question) }}">
                                                                                         @csrf
                                                                                         @method('PUT')
-                                                                                        <label>Domain</label>
+                                                                                        <label>ID</label>
                                                                                         <div class="input-group mb-3">
-                                                                                        <input class="form-control" type="text" name="id" value="{{ $researchQuestion->id }}">
-                                                                                        <input class="form-control" type="text" name="description" value="{{ $researchQuestion->description }}">
+                                                                                            <input class="form-control" type="text" name="id" value="{{ $researchQuestion->id }}">
+                                                                                        </div>
+                                                                                        <label>Description</label>
+                                                                                        <div class="input-group mb-3">
+                                                                                            <input class="form-control" type="text" name="description" value="{{ $researchQuestion->description }}">
                                                                                         </div>
                                                                                         <div class="text-center">
                                                                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
@@ -224,8 +226,15 @@
                 </div>
             </div>
         </div>
+    @error('id') <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
+        <span class="alert-text"><strong>Alert!</strong> {{$message}} </span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>@enderror
     </div>
 </div>
 @include('layouts.footers.auth.footer')
 </div>
 @endsection
+

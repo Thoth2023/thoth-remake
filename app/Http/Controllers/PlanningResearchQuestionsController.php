@@ -44,11 +44,18 @@ class PlanningResearchQuestionsController extends Controller
     */
     public function edit(Request $request, string $id)
     {
+
+        $this->validate($request, [
+            'description' =>'required|string',
+            'id' => 'required|alpha_num',
+        ]);
+
         $researchQuestion = ResearchQuestion::findOrFail($id);
         $researchQuestion->update($request->all());
         $id_project = $researchQuestion->id_project;
 
         return redirect("/planning/".$id_project."/research_questions");
+        
     }
 
     /*
