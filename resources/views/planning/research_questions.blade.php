@@ -232,6 +232,12 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>@enderror
+    @error('duplicate') <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
+        <span class="alert-text"><strong>Alert!</strong> {{$message}} </span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>@enderror
     </div>
 </div>
 @include('layouts.footers.auth.footer')

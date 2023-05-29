@@ -27,21 +27,25 @@ class PlanningResearchQuestionsController extends Controller
             'description' =>'required|string',
             'id' => 'required|alpha_num',
         ]);
+        $matchThese = ['id_project' => $request->id_project, 'id' => $request->id];
+        $researchQuestion = ResearchQuestion::where($matchThese)->first();
 
-        $researchQuestion = ResearchQuestion::where('id_project', $request->id_project && 'id', $request->id)->get();
         if($researchQuestion){
-            return back();
+            return back()->withErrors([
+                'duplicate' => 'The provided ID already exists in this project.',
+            ]);;
         }
-
-        ResearchQuestion::create([
-            'id_project' => $request->id_project,
-            'id' => $request->id,
-            'description' => $request->description,
-        ]);
-
-        $id_project = $request->id_project;
-
-        return redirect("/planning/".$id_project."/research_questions");
+        else{
+            ResearchQuestion::create([
+                'id_project' => $request->id_project,
+                'id' => $request->id,
+                'description' => $request->description,
+            ]);
+    
+            $id_project = $request->id_project;
+    
+            return redirect("/planning/".$id_project."/research_questions");
+        }
     }
 
     /*
