@@ -28,6 +28,11 @@ class PlanningResearchQuestionsController extends Controller
             'id' => 'required|alpha_num',
         ]);
 
+        $researchQuestion = ResearchQuestion::where('id_project', $request->id_project && 'id', $request->id)->get();
+        if($researchQuestion){
+            return back();
+        }
+
         ResearchQuestion::create([
             'id_project' => $request->id_project,
             'id' => $request->id,

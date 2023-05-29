@@ -131,9 +131,9 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="example-text-input" class="form-control-label">ID</label>
-                                                        <input class="form-control" type="text" name="id">
+                                                        <input class="form-control" type="text" name="id" required>
                                                         <label for="example-text-input" class="form-control-label">Description</label>
-                                                        <input class="form-control" type="text" name="description">
+                                                        <input class="form-control" type="text" name="description" required>
                                                         <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
@@ -181,11 +181,11 @@
                                                                                         @method('PUT')
                                                                                         <label>ID</label>
                                                                                         <div class="input-group mb-3">
-                                                                                            <input class="form-control" type="text" name="id" value="{{ $researchQuestion->id }}">
+                                                                                            <input class="form-control" type="text" name="id" value="{{ $researchQuestion->id }}" required>
                                                                                         </div>
                                                                                         <label>Description</label>
                                                                                         <div class="input-group mb-3">
-                                                                                            <input class="form-control" type="text" name="description" value="{{ $researchQuestion->description }}">
+                                                                                            <input class="form-control" type="text" name="description" value="{{ $researchQuestion->description }}" required>
                                                                                         </div>
                                                                                         <div class="text-center">
                                                                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
