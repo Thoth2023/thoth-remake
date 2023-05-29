@@ -27,16 +27,14 @@ class Project extends Model
         'title',
         'description',
         'objectives',
-        // 'id_member',
-        //'copy_planning',
-    ];
+    ]; 
 
     public function users() { /* Faz a relação com os usuários*/
-        return $this->belongsToMany(User::class);//->withPivot('email', 'level');
-        //return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+        return $this->hasMany(User::class); // ->withPivot('email', 'level');
+        // return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
     }
 
-    public function add_member($email, $level, $idProject)
+    /*public function add_member($email, $level, $idProject)
     {
         $id_level = null;
 		$this->db->select('id_level');
@@ -47,7 +45,7 @@ class Project extends Model
 		foreach ($query->result() as $row) {
 			$id_level = $row->id_level;
 		}
-
+        
 		$id_user = $this->get_id_name_user($email);
 
 		$data = array(
@@ -55,7 +53,7 @@ class Project extends Model
 			'id_project' => $id_project,
 			'level' => $id_level
 		);
-    }
+    }*/
 
     public function get_members($id_project)
 	{

@@ -96,23 +96,28 @@ class ProjectController extends Controller
     }
 
     public function add_member_update(Request $request, string $idProject)
-    {
+    {   
+        $project = Project::findOrFail($idProject);
         $email_member = $request->get('email_member');
-        $user_id = $this->findIdByEmail($email_member);
+        $member_id = $this->findIdByEmail($email_member);
         $level_member = $request->get('level_member');
 
         $data = User::where('email', $email_member)->first(); // ->get();
-        //$user_id = User::findOrFail($data->id); // pega o id do "novo" membro
         
+        if(Auth::user()->id === $project->member_id) //verifica se o usuário tem permissao de add membros
+        {
+            $project->users()->attach($email_member->id); // associando o colaborador ao projeto usando attach
+        }
+
         $table_data = [ // tabela intermediaria "members" 
-            'id_user' => $user_id,
+            'id_user' => $member_id,
             'id_project' => $idProject,
             'level' => $level_member, // $request->input(1)
         ];
     
         DB::table('members')->insert($table_data);
 
-        $project = Project::findOrFail($idProject);
+        //$project = Project::findOrFail($idProject);
         $project->update($request->all());
         return redirect('/projects');
     }

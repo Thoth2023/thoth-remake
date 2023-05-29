@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     public function projects() { /* Faz a relação com os os projetos */
-        return $this->belongsToMany(Project::class);//->withPivot('email', 'level');
+        return $this->belongsToMany(Project::class, 'project_user', 'project_id', 'id_user');//->withPivot('email', 'level');
     }
 
     protected $hidden = [
