@@ -5,6 +5,41 @@
 @include('planning.convert-language-name')
 @include('planning.convert-study-type-name')
 
+<div class="row mt-4 mx-4">
+   <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>
+                {{ $project->title }}
+                </h4>
+            </div>
+            <div class="card-body">
+            <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1">
+                <li class="nav-item">
+                    <a class="btn bg-gradient-faded-white mb-0" href="{{ route('projects.show', $project->id_project) }}">
+                        <i class="fas fa-plus"></i>Overview</a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ route('planning.index', $project->id_project) }}">
+                        <i class="fas fa-plus"></i>Planning</a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Conducting</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Reporting</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Export</button>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="row">
@@ -22,7 +57,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#ResearchQuestions" role="tab" aria-controls="ResearchQuestions" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('planning.research_questions', $project->id_project) }}" role="tab" aria-controls="ResearchQuestions" aria-selected="false">
                                 Research Questions
                                 </a>
                             </li>
@@ -63,7 +98,7 @@
                         <!-- Domain starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('planning_overall.domainUpdate') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
