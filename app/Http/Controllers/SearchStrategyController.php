@@ -31,7 +31,7 @@ class SearchStrategyController extends Controller
         } else {
             SearchStrategy::create([
                 'description' => $validatedData['search_strategy'],
-                'project_id' => $project->id,
+                'project_id' => $project->id_project,
             ]);
         }
 
