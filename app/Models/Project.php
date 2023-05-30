@@ -34,6 +34,11 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
     }
 
+    public function searchStrategy()
+    {
+        return $this->hasOne(SearchStrategy::class, 'id_project');
+    }
+
     private function insertSearchStringGenerics($idProject)
     {
         // Insert logic for search_string_generics table
