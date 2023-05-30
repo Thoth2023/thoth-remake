@@ -60,7 +60,17 @@ class PlanningResearchQuestionsController extends Controller
         ]);
 
         $researchQuestion = ResearchQuestion::findOrFail($id);
-        $researchQuestion->update($request->all());
+        $matchThese = ['id_project' => $researchQuestion->id_project, 'id' => $researchQuestion->id];
+        $researchQuestion2 = ResearchQuestion::where($matchThese)->first();
+
+        if($researchQuestion2){
+            return back()->withErrors([
+                'duplicate' => 'The provided ID already exists in this project.',
+            ]);;
+        }
+        else{
+            $researchQuestion->update($request->all());
+        }
         $id_project = $researchQuestion->id_project;
 
         return redirect("/planning/".$id_project."/research_questions");
