@@ -7,22 +7,32 @@
         <p class="text-uppercase text-sm">Create Project</p>
         <form method="POST" action="{{ route('projects.store') }}">
             @csrf
-            @foreach ($errors->all() as $error)
-            <div class="alert alert-danger" role="alert">
-                {{ $error }}
-            </div>
-            @endforeach
             <div class="form-group">
                 <label for="titleInput">Title</label>
-                <input name="title" type="text" class="form-control" id="titleInput" placeholder="Enter the title">
+                <input name="title" type="text" class="form-control @error('title') is-invalid @enderror" id="titleInput" placeholder="Enter the title" value="{{old('title')}}">
+                @error('title')
+                <span class="invalid-feedback" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="descriptionTextarea">Description</label>
-                <textarea name="description" class="form-control" id="descriptionTextarea" rows="3" placeholder="Enter the description"></textarea>
+                <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="descriptionTextarea" rows="3" placeholder="Enter the description">{{old('description')}}</textarea>
+                @error('description')
+                <span class="invalid-feedback" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="objectivesTextarea">Objectives</label>
-                <textarea name="objectives" class="form-control" id="objectivesTextarea" rows="3" placeholder="Enter the objectives"></textarea>
+                <textarea name="objectives" class="form-control @error('objectives') is-invalid @enderror" id="objectivesTextarea" rows="3" placeholder="Enter the objectives">{{old('objectives')}}</textarea>
+                @error('objectives')
+                <span class="invalid-feedback" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="copyPlanningSelect">Copy Planning</label>
