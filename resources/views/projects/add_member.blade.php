@@ -9,109 +9,75 @@
             @csrf
             @method('PUT')
             <div class="form-group">
-                <label for="titleInput">Email</label>
-                <input name="email_member" value="{{ $project->email_member }}" type="text" class="form-control" id="emailMemberInput" placeholder="Enter the email">
+                <label for="emailMemberInput">Email</label>
+                <input name="email_member" value="{{ $project->email_member }}" type="text" class="form-control @error('email_member') is-invalid @enderror" id="emailMemberInput" placeholder="Enter the email">
+                @error('email_member')
+                <span class="invalid-feedback" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="levelCollaboratorSelect">Level</label>
-                <select class="form-control" id="levelCollaboratorSelect" name="level_member">
-                    <option value = 1>Viewer</option>
-                    <option value = 2>Researcher</option>
-                    <option value = 3>Reviser</option>
+                <select class="form-control" id="levelCollaboratorSelect" name="level_member" placeholder="Select level">
+                    <option value="" disabled selected>Select a Level</option>
+                    <option value = 2>Viewer</option>
+                    <option value = 3>Researcher</option>
+                    <option value = 4>Reviser</option>
                 </select>
             </div>
             <div class="d-flex align-items-center">
                 <button type="submit" class="btn btn-primary btn ms-auto" name="add">Add</button>
             </div>
-        </form>          
+        </form>   
+        
+        <table class="table align-items-center justify-content-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                        Email</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                        Level</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                        Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users_relation as $member)
+                <tr>
+                    <td>
+                        <div class="d-flex px-2">
+                            <div class="my-auto">
+                                <h6 class="mb-0 text-sm">{{ $member->username }}</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="text-sm font-weight-bold mb-0">{{ $member->email }}</p>
+                    </td>
+                    <td>
+                        {{-- <select class="form-control" id="levelCollaboratorSelect2" name="level_member2" placeholder="Select level">
+                            <option value="" disabled selected>Select a Level</option>
+                            <option value="2" {{ $member->level_name == 'Viewer' ? 'selected' : '' }}>Viewer</option>
+                            <option value="3" {{ $member->level_name == 'Researcher' ? 'selected' : '' }}>Researcher</option>
+                            <option value="4" {{ $member->level_name == 'Reviser' ? 'selected' : '' }}>Reviser</option>
+                        </select> --}}
+                        <p class="text-sm font-weight-bold mb-0">{{ $member->level_name }}</p>
+                    </td>
+                    <td class="text-center">
+                        <form action="{{ route('projects.destroy_member', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}" method="post">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>                        
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
         @include('layouts.footers.auth.footer')
     </div>
 </div>
 @endsection
-
-
-
-
-
-{{-- <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center justify-content-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Email</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Level</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                        Delete</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($projects as $project)
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">{{ $members->name }}</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $members->email }}</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">{{$members->level}}</span> // ver depois como responde inteiro para string
-                                    </td>
-                                    <!-- <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">100%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td> -->
-                                    <td class="align-middle">
-                                        <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Edit user">
-                                            Delete
-                                        </a>
-                                        <form id="delete-project-{{ $project->id }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </td>
-                                    <!-- <td class="align-middle">
-                                        <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Add member">
-                                            Add Member
-                                        </a>
-                                        <form id="delete-project-{{ $project->id }}" action="{{}}" method="POST" style="display: none;">
-                                            @csrf
-                                            
-                                        </form>
-                                    </td> -->
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">No projects found.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
-

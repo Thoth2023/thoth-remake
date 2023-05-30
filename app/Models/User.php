@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasRoles;
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
@@ -27,8 +29,8 @@ class User extends Authenticatable
         'lattes_link'
     ];
 
-    public function projects() { /* Faz a relação com os os projetos */
-        return $this->belongsToMany(Project::class, 'project_user', 'project_id', 'id_user');//->withPivot('email', 'level');
+    public function projects() {   
+        return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
     }
 
     protected $hidden = [

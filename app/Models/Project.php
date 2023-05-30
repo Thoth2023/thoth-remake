@@ -29,52 +29,12 @@ class Project extends Model
         'objectives',
     ]; 
 
-    public function users() { /* Faz a relação com os usuários*/
-        return $this->hasMany(User::class); // ->withPivot('email', 'level');
-        // return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+    public function users() { 
+        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
+                    ->withPivot('level')
+                    ->join('levels', 'members.level', '=', 'levels.id_level')
+                    ->select('users.*', 'levels.level as level_name');
     }
-
-    /*public function add_member($email, $level, $idProject)
-    {
-        $id_level = null;
-		$this->db->select('id_level');
-		$this->db->from('levels');
-		$this->db->where('level', $level);
-		$query = $this->db->get();
-
-		foreach ($query->result() as $row) {
-			$id_level = $row->id_level;
-		}
-        
-		$id_user = $this->get_id_name_user($email);
-
-		$data = array(
-			'id_user' => $id_user[0],
-			'id_project' => $id_project,
-			'level' => $id_level
-		);
-    }*/
-
-    public function get_members($id_project)
-	{
-		$members = array();
-		$this->db->select('name,email,levels.level');
-		$this->db->from('members');
-		$this->db->join('user', 'user.id_user = members.id_user');
-		$this->db->join('levels', 'levels.id_level = members.level');
-		$this->db->where('id_project', $id_project);
-		$query = $this->db->get();
-
-		foreach ($query->result() as $row) {
-			$user = new User();
-			$user->set_email($row->email);
-			$user->set_level($row->level);
-			$user->set_name($row->name);
-			array_push($members, $user);
-		}
-
-		return $members;
-	}
 
     private function insertSearchStringGenerics($idProject)
     {

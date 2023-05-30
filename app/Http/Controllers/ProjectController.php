@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,9 +17,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $id = Auth::user()->id;
-        $projects = Project::where('id_user', $id)->get();
-        return view('projects.index', compact('projects'));
+        $user = auth()->user();
+        $projects_relation = $user->projects;
+
+        $projects = Project::where('id_user', $user->id)->get();
+        $merged_projects = $projects_relation->merge($projects);
+        return view('projects.index', compact('merged_projects'));
     }
 
     /**
@@ -89,49 +93,40 @@ class ProjectController extends Controller
          return redirect('/projects');
     }
 
+    public function destroy_member(string $idProject, $idMember)
+    {
+        $project = Project::findOrFail($idProject);
+        $project->users()->detach($idMember);
+        return redirect()->back();
+    }
+
     public function add_member(string $idProject) 
     {
         $project = Project::findOrFail($idProject); 
-        return view('projects.add_member', compact('project')); //compact() passa o projeto para a view
-    }
+        $users_relation = $project->users()->get(); 
 
-    public function add_member_update(Request $request, string $idProject)
+        return view('projects.add_member', compact('project','users_relation')); 
+    }
+    
+    public function add_member_update(ProjectAddMemberRequest $request, string $idProject)
     {   
+        $request->validated();
         $project = Project::findOrFail($idProject);
         $email_member = $request->get('email_member');
         $member_id = $this->findIdByEmail($email_member);
         $level_member = $request->get('level_member');
 
-        $data = User::where('email', $email_member)->first(); // ->get();
-        
-        if(Auth::user()->id === $project->member_id) //verifica se o usuário tem permissao de add membros
-        {
-            $project->users()->attach($email_member->id); // associando o colaborador ao projeto usando attach
-        }
+        $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
 
-        $table_data = [ // tabela intermediaria "members" 
-            'id_user' => $member_id,
-            'id_project' => $idProject,
-            'level' => $level_member, // $request->input(1)
-        ];
-    
-        DB::table('members')->insert($table_data);
-
-        //$project = Project::findOrFail($idProject);
         $project->update($request->all());
-        return redirect('/projects');
+        return redirect()->back();
     }
 
     public function findIdByEmail($email)
     {
-        try {
-            $user = User::where('email', $email)->firstOrFail();
-            $userId = $user->id;
+        $user = User::where('email', $email)->firstOrFail();
+        $userId = $user->id;
 
-            return $userId;
-        } catch (ModelNotFoundException $exception) {
-            return null;
-        }
+        return $userId;
     }
-
 }

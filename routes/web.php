@@ -40,8 +40,9 @@ use App\Http\Controllers\ProjectController;
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 	Route::get('/projects/{id}/add_member', [ProjectController::class, 'add_member'])->name('projects.add');
-	Route::put('/projects/{id}', [ProjectController::class, 'add_member_update'])->name('projects.member_update');
-	
+	Route::put('/projects/{id}/add_member', [ProjectController::class, 'add_member_update'])->name('projects.member_update');
+	Route::delete('/projects/{idProject}/add_member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
+
     // end of the projects routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');

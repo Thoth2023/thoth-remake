@@ -25,10 +25,11 @@
                                             Completion</th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($projects as $project)
+                                    @forelse ($merged_projects as $project)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -59,22 +60,18 @@
                                             </a>
                                         </td>
                                         <td class="align-middle">
-                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Edit user">
                                                 Delete
                                             </a>
-                                            <form id="delete-project-{{ $project->id }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
+                                            <form id="delete-project-{{ $project->id_project }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
                                         </td>
                                         <td class="align-middle">
-                                            <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Add member">
+                                            <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs " data-toggle="tooltip" data-original-title="Add member">
                                                 Add Member
                                             </a>
-                                            <form id="delete-project-{{ $project->id }}" action="{{}}" method="POST" style="display: none;">
-                                                @csrf
-                                                
-                                            </form>
                                         </td>
                                     </tr>
                                     @empty
