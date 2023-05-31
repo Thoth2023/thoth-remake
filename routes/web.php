@@ -31,6 +31,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PlanningOverallInformationController;
+use App\Http\Controllers\PlanningResearchQuestionsController;
 
     // projects routes
 
@@ -58,6 +59,11 @@ use App\Http\Controllers\PlanningOverallInformationController;
 	Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
 	Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
 	Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
+
+	Route::get('/planning/{id}/research_questions', [PlanningResearchQuestionsController::class, 'index'])->name('planning.research_questions')->middleware('auth');
+	Route::post('/planning/research_questions/add', [PlanningResearchQuestionsController::class, 'add'])->name('planning_research.Add');
+	Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('planning_research.Edit');
+	Route::delete('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('planning_research.Destroy');
 	//end of the planning routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
