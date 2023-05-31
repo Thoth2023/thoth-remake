@@ -18,7 +18,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function index(string $id_project)
     {
-        $project = Project::where('id_project', $id_project)->get();
+        $project = Project::findOrFail($id_project);
         $languages = Language::all();
         $studyTypes = StudyType::all();
         $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
