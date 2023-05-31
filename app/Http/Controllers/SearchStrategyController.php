@@ -34,9 +34,12 @@ class SearchStrategyController extends Controller
         ]);
 
         $project = Project::findOrFail($projectId);
-        $project->searchStrategy()->updateOrCreate([], ['description' => $request->search_strategy]);
+        $project->searchStrategy()
+                ->updateOrCreate([], ['description' => $request->search_strategy]);
 
-        return redirect()->back()->with('success', 'Search strategy updated successfully.');
+        return redirect()->back()
+                         ->with('message', 'Search strategy updated successfully')
+                         ->with('message_type', 'success');
     }
 }
 

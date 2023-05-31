@@ -21,14 +21,16 @@
                         <li>Cross-checking the trial research string against lists of already known primary studies.</li>
                         <li>Seeking consultations with experts in the field.</li>
                     </ul>
-                    <p>Describe here the strategy that will be used for your research.</p>
+                    <p>Describe here the strategy that will be used in your research.</p>
                 </div>
             </div>
         </div>
         @if(session()->has('message'))
         <div class="alert alert-{{ session('message_type') }} alert-dismissible fade show" role="alert">
             {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         @endif
         <form method="POST" action="{{ route('search-strategy.update', ['projectId' => $project->id_project]) }}">
