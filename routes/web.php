@@ -33,8 +33,12 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PlanningOverallInformationController;
 
-// projects routes
+// about and help routes
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
+// end of about and help routes
+
+// projects routes
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
@@ -61,6 +65,8 @@ Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::clas
 Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
 //end of the planning routes
 
+
+
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::get('/', [HomeController::class, 'guest_home'])->name('home');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -71,7 +77,6 @@ Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-Route::get('/about', [AboutController::class, 'index'])->name('About')->middleware('guest');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
