@@ -2,9 +2,26 @@
 
 @section('content')
     @include('layouts.navbars.guest.navbar', ['title' => 'Home'])
-    <div class="card d-inline-flex p-2 mt-8">
+    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+         style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+        <span class="mask bg-gradient-faded-warning opacity-5"></span>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center mx-auto">
+                    <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+                    <p class="text-lead text-white">Use these awesome forms to login or create new account in your
+                        project for free.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+        <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
+
+    <div class="card d-inline-flex p-3 mt-8">
         <div class="card-body pt-2">
-            <a href="javascript:;" class="card-title h5 d-block text-darker">
+            <a href="javascript:" class="card-title h5 d-block text-darker">
             Thoth
             </a>
             <p class="card-description mb-4">
@@ -12,10 +29,10 @@
             </p>
         </div>
     </div>
-    <div class="card-group">
-  <div class="card">
-    <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+    <div class="card-group ">
+  <div class="card p-3">
+    <div class="card-body pt-4">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Questions
       </a>
       <p class="card-description mb-4">
@@ -23,9 +40,9 @@
       </p>
     </div>
   </div>
-  <div class="card">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Relevant data
       </a>
       <p class="card-description mb-4">
@@ -33,9 +50,9 @@
       </p>
     </div>
   </div>
-  <div class="card">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Quality
       </a>
       <p class="card-description mb-4">
@@ -43,9 +60,9 @@
       </p>
     </div>
   </div>
-  <div class="card">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Analyse the data
       </a>
       <p class="card-description mb-4">
@@ -54,5 +71,7 @@
     </div>
   </div>
 </div>
+
+        </div>   </div></div>
 
 @endsection
