@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -67,7 +67,7 @@ use App\Http\Controllers\PlanningResearchQuestionsController;
 	//end of the planning routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-	Route::get('/', [HomeController::class, 'guest_home'])->name('home');
+	Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');

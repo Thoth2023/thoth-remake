@@ -2,9 +2,12 @@
 
 @section('content')
     @include('layouts.navbars.guest.navbar', ['title' => 'Home'])
-    <div class="card d-inline-flex p-2 mt-8">
+
+    <div class="row mt-2 mx-2">
+        <div class="col-12">
+    <div class="card d-inline-flex p-3 mt-8">
         <div class="card-body pt-2">
-            <a href="javascript:;" class="card-title h5 d-block text-darker">
+            <a href="javascript:" class="card-title h5 d-block text-darker">
             Thoth
             </a>
             <p class="card-description mb-4">
@@ -12,10 +15,10 @@
             </p>
         </div>
     </div>
-    <div class="card-group">
-  <div class="card">
+    <div class="card-group ">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Questions
       </a>
       <p class="card-description mb-4">
@@ -23,9 +26,9 @@
       </p>
     </div>
   </div>
-  <div class="card">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Relevant data
       </a>
       <p class="card-description mb-4">
@@ -33,9 +36,9 @@
       </p>
     </div>
   </div>
-  <div class="card">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Quality
       </a>
       <p class="card-description mb-4">
@@ -43,9 +46,9 @@
       </p>
     </div>
   </div>
-  <div class="card">
+  <div class="card p-3">
     <div class="card-body pt-2">
-      <a href="javascript:;" class="card-title h5 d-block text-darker">
+      <a href="javascript:" class="card-title h5 d-block text-darker">
         Analyse the data
       </a>
       <p class="card-description mb-4">
@@ -54,5 +57,6 @@
     </div>
   </div>
 </div>
+        </div></div>
 
 @endsection
