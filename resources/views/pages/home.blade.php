@@ -31,9 +31,9 @@
     </div>
     <div class="card-group ">
   <div class="card p-3">
-    <div class="card-body pt-4">
+    <div class="card-body pt-2">
       <a href="javascript:" class="card-title h5 d-block text-darker">
-        Questions
+          <i class="ni ni-bullet-list-67"></i> Questions
       </a>
       <p class="card-description mb-4">
         Defining a question and agreeing an objective method.
@@ -43,7 +43,7 @@
   <div class="card p-3">
     <div class="card-body pt-2">
       <a href="javascript:" class="card-title h5 d-block text-darker">
-        Relevant data
+          <i class="ni ni-single-copy-04"></i> Relevant data
       </a>
       <p class="card-description mb-4">
         A search for relevant data from research that matches certain criteria. For example, only selecting research that is good quality and answers the defined question.
@@ -53,9 +53,9 @@
   <div class="card p-3">
     <div class="card-body pt-2">
       <a href="javascript:" class="card-title h5 d-block text-darker">
-        Quality
+          <i class="ni ni-like-2"> </i> Quality
       </a>
-      <p class="card-description mb-4">
+      <p class="card-description mb-4">ni ni-chart-bar-32
         Assess the quality of the data by judging it against criteria identified at the first stage.
       </p>
     </div>
@@ -63,7 +63,7 @@
   <div class="card p-3">
     <div class="card-body pt-2">
       <a href="javascript:" class="card-title h5 d-block text-darker">
-        Analyse the data
+          <i class="ni ni-chart-bar-32"> </i> Analyse the data
       </a>
       <p class="card-description mb-4">
       Analyse and combine the data (using complex statistical methods) which give an overall result from all of the data. Once these stages are complete, the review may be published, disseminated and translated into practice after being adopted as evidence.
