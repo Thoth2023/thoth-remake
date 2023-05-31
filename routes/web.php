@@ -67,8 +67,8 @@ Route::post('/planning/research_questions/add', [PlanningResearchQuestionsContro
 Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('planning_research.Edit');
 Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('planning_research.Destroy');
 
-Route::get('/search-strategy/{projectId}', [SearchStrategyController::class, 'index'])->name('search-strategy.index');
-Route::post('/search-strategy/{projectId}/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
+Route::get('/projects/{projectId}/search-strategy', [SearchStrategyController::class, 'index'])->name('search-strategy.index');
+Route::post('/projects/{projectId}/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
 
 //end of the planning routes
 
