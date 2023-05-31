@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Project;
 
 class SearchStrategy extends Model
 {
@@ -15,4 +16,8 @@ class SearchStrategy extends Model
 
     protected $fillable = ['description'];
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project');
+    }
 }
