@@ -2,9 +2,23 @@
 
 @section('content')
     @include('layouts.navbars.guest.navbar', ['title' => 'Home'])
+    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+         style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+        <span class="mask bg-gradient-faded-warning opacity-5"></span>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center mx-auto">
+                    <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+                    <p class="text-lead text-white">Use these awesome forms to login or create new account in your
+                        project for free.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+        <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
 
-    <div class="row mt-2 mx-2">
-        <div class="col-12">
     <div class="card d-inline-flex p-3 mt-8">
         <div class="card-body pt-2">
             <a href="javascript:" class="card-title h5 d-block text-darker">
@@ -17,7 +31,7 @@
     </div>
     <div class="card-group ">
   <div class="card p-3">
-    <div class="card-body pt-2">
+    <div class="card-body pt-4">
       <a href="javascript:" class="card-title h5 d-block text-darker">
         Questions
       </a>
@@ -57,6 +71,7 @@
     </div>
   </div>
 </div>
-        </div></div>
+
+        </div>   </div></div>
 
 @endsection
