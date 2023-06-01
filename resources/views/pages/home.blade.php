@@ -55,7 +55,7 @@
       <a href="javascript:" class="card-title h5 d-block text-darker">
           <i class="ni ni-like-2"> </i> Quality
       </a>
-      <p class="card-description mb-4">ni ni-chart-bar-32
+      <p class="card-description mb-4">
         Assess the quality of the data by judging it against criteria identified at the first stage.
       </p>
     </div>
