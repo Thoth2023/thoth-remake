@@ -28,6 +28,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center me-2 active"
+                                    href="{{ route('about') }}">
+                                    <i class="ni ni-bulb-61 opacity-6 text-dark me-1"></i>
+                                    About
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link me-2" href="{{ route('register') }}">
                                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                                     Sign Up
