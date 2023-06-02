@@ -33,9 +33,11 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
+use App\Http\Controllers\HelpController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/help', [HelpController::class, 'index'])->name('help');
 
 // end of about and help routes
 
