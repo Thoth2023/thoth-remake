@@ -33,10 +33,10 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
+use App\Http\Controllers\SearchStrategyController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-
 // end of about and help routes
 
 // projects routes
@@ -58,27 +58,31 @@ Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::cl
 Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('planning_overall.languageAdd');
 Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('planning_overall.languageDestroy');
 
-	Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
-	Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
-	Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
+Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
+Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
+Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
 
-	Route::get('/planning/{id}/research_questions', [PlanningResearchQuestionsController::class, 'index'])->name('planning.research_questions')->middleware('auth');
-	Route::post('/planning/research_questions/add', [PlanningResearchQuestionsController::class, 'add'])->name('planning_research.Add');
-	Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('planning_research.Edit');
-	Route::delete('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('planning_research.Destroy');
-	//end of the planning routes
+Route::get('/planning/{id}/research_questions', [PlanningResearchQuestionsController::class, 'index'])->name('planning.research_questions')->middleware('auth');
+Route::post('/planning/research_questions/add', [PlanningResearchQuestionsController::class, 'add'])->name('planning_research.Add');
+Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('planning_research.Edit');
+Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('planning_research.Destroy');
 
-    //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-	Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
-	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-	Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
-	Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
-	Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
-	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
-	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
+Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
+
+//end of the planning routes
+
+//Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
+Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
+Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
+Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
+Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
+Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
+Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
@@ -89,4 +93,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
 });

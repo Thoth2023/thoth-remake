@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SearchStrategy;
+
 
 class Project extends Model
 {
@@ -32,6 +34,11 @@ class Project extends Model
 
     public function users() {
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+    }
+
+    public function searchStrategy()
+    {
+        return $this->hasOne(SearchStrategy::class, 'id_project');
     }
 
     private function insertSearchStringGenerics($idProject)

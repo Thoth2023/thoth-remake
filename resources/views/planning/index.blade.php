@@ -72,7 +72,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+<<<<<<< HEAD
                                 <a class="nav-link mb-0 px-0 py-1" href="#SearchStrategy" aria-controls="SearchStrategy">
+=======
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('search-strategy.edit', ['projectId' => $id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
+>>>>>>> f04b6ab (fix: search strategy post and update)
                                 Search Strategy
                                 </a>
                             </li>
