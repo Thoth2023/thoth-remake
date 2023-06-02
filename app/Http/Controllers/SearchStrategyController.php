@@ -1,4 +1,14 @@
 <?php
+/**
+ * File: SearchStrategyController.php
+ * Author: Auri Gabriel
+ *
+ * Description: This is the controller class for the SearchStrategy
+ *
+ * Date: 2023-06-02
+ *
+ * @see SearchStrategy, Project
+ */
 
 namespace App\Http\Controllers;
 
@@ -37,9 +47,7 @@ class SearchStrategyController extends Controller
         $project->searchStrategy()
                 ->updateOrCreate([], ['description' => $request->search_strategy]);
 
-        return redirect()->back()
-                         ->with('message', 'Search strategy updated successfully')
-                         ->with('message_type', 'success');
+        return redirect()->back() ->with('message', 'Search strategy updated successfully') ->with('message_type', 'success');
     }
 }
 

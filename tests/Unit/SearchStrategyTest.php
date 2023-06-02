@@ -14,14 +14,13 @@ class SearchStrategyTest extends TestCase
     public function testSearchStrategyIndex()
     {
         $project = Project::factory()->create();
-        $searchStrategy = SearchStrategy::factory()->create(['project_id' => $project->id]);
 
         $response = $this->get(route('search-strategy.index', ['projectId' => $project->id]));
 
         $response->assertStatus(200)
             ->assertViewIs('search_strategy')
             ->assertViewHas('project', $project)
-            ->assertViewHas('searchStrategy', $searchStrategy);
+            ->assertViewHas('searchStrategy',$project->searchStrategy());
     }
 
     public function testSearchStrategyUpdate()
