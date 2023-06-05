@@ -33,6 +33,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
+use App\Http\Controllers\PlanningCriteriaController;
 use App\Http\Controllers\SearchStrategyController;
 
 // about and help routes
@@ -58,6 +59,9 @@ Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::cl
 Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('planning_overall.languageAdd');
 Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('planning_overall.languageDestroy');
 
+Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
+Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
+
 Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
 Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
 Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
@@ -66,6 +70,11 @@ Route::get('/planning/{id}/research_questions', [PlanningResearchQuestionsContro
 Route::post('/planning/research_questions/add', [PlanningResearchQuestionsController::class, 'add'])->name('planning_research.Add');
 Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('planning_research.Edit');
 Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('planning_research.Destroy');
+
+Route::get('/planning/{id}/criteria', [PlanningCriteriaController::class, 'index'])->name('planning.criteria')->middleware('auth');
+Route::post('/planning/criteria/add', [PlanningCriteriaController::class, 'add'])->name('planning_criteria.Add');
+Route::put('/planning/criteria/{id}', [PlanningCriteriaController::class, 'edit'])->name('planning_criteria.Edit');
+Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->name('planning_criteria.Destroy');
 
 Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
 Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
