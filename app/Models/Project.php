@@ -38,9 +38,9 @@ class Project extends Model
                     ->select('users.*', 'levels.level as level_name');
     }
 
-    public function users() {
-        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
-    }
+    // public function users() {
+    //     return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+    // }
 
     public function searchStrategy()
     {
