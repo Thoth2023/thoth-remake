@@ -308,7 +308,7 @@
                         <!-- Study type starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.studyTAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -513,6 +513,11 @@
                             </div>
                         </div>
                         <!-- Keywords ends here -->
+                      <div class="col-md-6 unique-form-planning">
+                        <div class="card p-4">
+                         @include('planning.add-date', compact('project'))
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>

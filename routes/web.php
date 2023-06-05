@@ -86,6 +86,8 @@ Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->
 Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
 Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
 
+Route::post('/projects/{projectId}/planning/add-date', [PlanningOverallInformationController::class, 'addDate'])->name('planning_overall.add-date');
+
 //end of the planning routes
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');

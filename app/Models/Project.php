@@ -29,9 +29,9 @@ class Project extends Model
         'title',
         'description',
         'objectives',
-    ]; 
+    ];
 
-    public function users() { 
+    public function users() {
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
                     ->withPivot('level')
                     ->join('levels', 'members.level', '=', 'levels.id_level')
@@ -52,11 +52,6 @@ class Project extends Model
         // Insert logic for search_string_generics table
     }
 
-    private function insertSearchStrategy($idProject)
-    {
-        // Insert logic for search_strategy table
-    }
-
     private function insertInclusionRule($idProject)
     {
         // Insert logic for inclusion_rule table
@@ -70,5 +65,12 @@ class Project extends Model
     private function insertMembers($idProject, $createdBy, $name)
     {
         // Insert logic for members table
+    }
+
+    public function addDate($startDate, $endDate)
+    {
+        $this->start_date = $startDate;
+        $this->end_date = $endDate;
+        $this->save();
     }
 }
