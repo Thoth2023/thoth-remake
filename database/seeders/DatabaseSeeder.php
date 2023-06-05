@@ -43,5 +43,20 @@ class DatabaseSeeder extends Seeder
             ['id_level' => 3, 'level' => 'Researcher'],
             ['id_level' => 4, 'level' => 'Reviser'],
         ]);
+        DB::table('language')->insert([
+            'description' => 'Portuguese',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'English',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'Spanish',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'French',
+        ]);
+        DB::table('language')->insert([
+            'description' => 'Russian',
+        ]);
     }
 }

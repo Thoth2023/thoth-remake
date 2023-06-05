@@ -22,7 +22,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets
-# RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd intl zip opcache
+#RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd intl zip opcache
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -36,6 +36,12 @@ RUN mkdir -p /home/$user/.composer && \
 RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
+
+COPY ./xdebug.ini "${PHP_INI_DIR}/conf.d"
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 
 # Set working directory
 WORKDIR /var/www
