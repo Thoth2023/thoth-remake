@@ -11,7 +11,16 @@ use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-    public function testAddMember()
+    /**
+     * Tests the behavior of accessing the "add member" page for a project.
+     *
+     * Action: accessAddMemberPage
+     * Who or What to do: Project
+     * Expected Behavior: The response should have a status of 200 (OK) and the view returned should be "projects.add_member".
+     *
+     * @return void
+     */
+    public function testAccessAddMemberPage()
     {
         $project = Project::factory()->create();
 
@@ -24,7 +33,16 @@ class ProjectTest extends TestCase
         $response->assertViewHas(['project', 'users_relation']);
     }
 
-    public function testDestroyMember()
+    /**
+     * Tests the behavior of removing a member from a project.
+     *
+     * Action: destroyMember
+     * Who or What to do: Project
+     * Expected Behavior: Member should be successfully removed from the project and the database should reflect the change.
+     *
+     * @return void
+     */
+    public function testRemoveMemberFromProject()
     {
         $project = Project::factory()->create();
 
@@ -43,7 +61,16 @@ class ProjectTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testAddMemberProject()
+    /**
+     * Tests the behavior of adding a member to a project.
+     *
+     * Action: addMemberProject
+     * Who or What to do: Project
+     * Expected Behavior: Member should be successfully added to the project and the database should reflect the change.
+     *
+     * @return void
+     */
+    public function testAddMemberToProject()
     {
         $project = Project::factory()->create();
         $user = User::factory()->create();
@@ -67,7 +94,16 @@ class ProjectTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testUpdateMemberLevel()
+    /**
+     * Tests the behavior of updating the member level in a project.
+     *
+     * Action: updateMemberLevel
+     * Who or What to do: Project
+     * Expected Behavior: The member's level should be successfully updated in the project and the database should reflect the change.
+     *
+     * @return void
+     */
+    public function testUpdateMemberLevelInProject()
     {
         $project = Project::factory()->create();
 
@@ -93,7 +129,16 @@ class ProjectTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testFindIdByEmail()
+    /**
+     * Tests the behavior of finding a user ID by email.
+     *
+     * Action: findIdByEmail
+     * Who or What to do: ProjectController
+     * Expected Behavior: The user ID should be successfully found based on the provided email.
+     *
+     * @return void
+     */
+    public function testFindUserIdByEmail()
     {
         $project_controller = new ProjectController();
         $user = User::factory()->create();
