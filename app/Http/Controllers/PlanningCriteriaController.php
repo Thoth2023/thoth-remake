@@ -14,8 +14,11 @@ class PlanningCriteriaController extends Controller
     public function index(string $id_project)
     {
         $project = Project::findOrFail($id_project);
-        $criterias = Criteria::where('id_project', $id_project)->get();
-        return view('planning.criteria', compact('id_project', 'project', 'criterias'));
+        $inclusions = ['id_project' => $id_project, 'type' => 'Inclusion'];
+        $exclusions = ['id_project' => $id_project, 'type' => 'Exclusion'];
+        $inclusion_criterias = Criteria::where($inclusions)->get();
+        $exclusion_criterias = Criteria::where($exclusions)->get();
+        return view('planning.criteria', compact('id_project', 'project', 'inclusion_criterias', 'exclusion_criterias'));
     }
 
      /**

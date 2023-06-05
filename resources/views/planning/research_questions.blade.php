@@ -74,7 +74,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#Criteria" aria-controls="Criteria">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.criteria', $project->id_project) }}" aria-controls="Criteria">
                                 Criteria
                                 </a>
                             </li>
