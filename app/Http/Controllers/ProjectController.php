@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\ProjectAddMemberRequest;
+use App\Http\Requests\Project\UpdateMemberLevelRequest;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -45,13 +46,15 @@ class ProjectController extends Controller
         ]);
 
         $id_user = Auth::user()->id;
-        Project::create([
+        $project = Project::create([
             'id_user' => $id_user,
             'title' => $request->title,
             'description' => $request->description,
             'objectives' => $request->objectives,
             //'copy_planning'
         ]);
+
+        $project->users()->attach($project->id_project, ['id_user' => $id_user, 'level' => 1]);
         return redirect('/projects');
     }
 
@@ -108,7 +111,7 @@ class ProjectController extends Controller
         return view('projects.add_member', compact('project','users_relation')); 
     }
     
-    public function add_member_update(ProjectAddMemberRequest $request, string $idProject)
+    public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
     {   
         $request->validated();
         $project = Project::findOrFail($idProject);
@@ -120,6 +123,18 @@ class ProjectController extends Controller
 
         $project->update($request->all());
         return redirect()->back();
+    }
+
+    public function update_member_level(UpdateMemberLevelRequest $request, $idProject, $idMember)
+    {
+        $project = Project::findOrFail($idProject);
+        $member = $project->users()->findOrFail($idMember);
+        $validatedData = $request->validated();
+
+        $member->pivot->level = $validatedData['level_member'];
+        $member->pivot->save();
+
+        return redirect()->back()->with('succes', 'The member level has been changed successfully.');
     }
 
     public function findIdByEmail($email)

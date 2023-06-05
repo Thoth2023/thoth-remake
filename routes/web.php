@@ -30,6 +30,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
+use App\Mail\newLaravelTips;
 
     // projects routes
     Route::get('/projects', [ProjectController::class, 'index']);
@@ -39,9 +40,11 @@ use App\Http\Controllers\ProjectController;
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
-	Route::get('/projects/{id}/add_member', [ProjectController::class, 'add_member'])->name('projects.add');
-	Route::put('/projects/{id}/add_member', [ProjectController::class, 'add_member_update'])->name('projects.member_update');
-	Route::delete('/projects/{idProject}/add_member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
+	Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add');
+	Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_project'])->name('projects.add_member');
+	Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
+	Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
+
 
     // end of the projects routes
 
