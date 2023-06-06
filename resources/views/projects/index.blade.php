@@ -65,9 +65,10 @@
                                             <a href="{{ route('projects.show', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Project">
                                                 View
                                             </a>
+                                            @if ($project->user_level == 1) 
                                             <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit Project">
                                                 Edit
-                                            </a>
+                                            </a>                                             
                                             <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Delete Project">
                                                 Delete
                                             </a>
@@ -81,6 +82,7 @@
                                                 Add Member
                                             </a>
                                         </td>
+                                        @endif
                                     </tr>
                                     @empty
                                     <tr>

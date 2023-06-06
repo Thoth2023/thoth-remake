@@ -25,6 +25,15 @@ class ProjectController extends Controller
 
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
+
+        foreach ($merged_projects as $project) { // IMPORTANT: refactoring 
+            $project->user_level = $project->users()
+                ->where('users.id', $user->id)
+                ->first()
+                ->pivot
+                ->level;
+        }
+
         return view('projects.index', compact('merged_projects'));
     }
 
