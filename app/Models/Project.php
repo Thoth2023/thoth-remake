@@ -29,12 +29,18 @@ class Project extends Model
         'title',
         'description',
         'objectives',
-        //'copy_planning',
-    ];
+    ]; 
 
-    public function users() {
-        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+    public function users() { 
+        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
+                    ->withPivot('level')
+                    ->join('levels', 'members.level', '=', 'levels.id_level')
+                    ->select('users.*', 'levels.level as level_name');
     }
+
+    // public function users() {
+    //     return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+    // }
 
     public function searchStrategy()
     {

@@ -22,6 +22,27 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@argon.com',
             'password' => bcrypt('secret')
         ]);
+        DB::table('users')->insert([
+            'username' => 'Japer',
+            'firstname' => 'Admin',
+            'lastname' => 'Admin',
+            'email' => 'a@gmail.com',
+            'password' => bcrypt('12345')
+        ]);
+        DB::table('users')->insert([
+            'username' => 'Bart',
+            'firstname' => 'Admin',
+            'lastname' => 'Admin',
+            'email' => 'b@gmail.com',
+            'password' => bcrypt('12345')
+        ]);
+
+        DB::table('levels')->insert([
+            ['id_level' => 1, 'level' => 'Administrator'],
+            ['id_level' => 2, 'level' => 'Viewer'],
+            ['id_level' => 3, 'level' => 'Researcher'],
+            ['id_level' => 4, 'level' => 'Reviser'],
+        ]);
         DB::table('language')->insert([
             'description' => 'Portuguese',
         ]);
