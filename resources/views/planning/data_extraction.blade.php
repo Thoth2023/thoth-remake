@@ -98,6 +98,9 @@
                                 <div class="card-group card-frame mt-5">
                                     <!-- create data extraction -->
                                     <div class="card">
+                                        <div class="card-header">
+                                            <h5>Create Data Extraction Question</h5>
+                                        </div>
                                         <div class="card-body">
                                             <form role="form" method="POST" action="{{ route('planning.dataExtractionCreate', $project->id_project) }}" enctype="multipart/form-data">
                                                 @csrf
@@ -117,6 +120,9 @@
                                         </div>
                                     </div>
                                     <div class="card">
+                                        <div class="card-header">
+                                            <h5>Create Data Extraction Question Option</h5>
+                                        </div>
                                         <div class="card-body">
                                             <form role="form" method="POST" action="{{ route('planning.dataExtractionOptionCreate', $project->id_project) }}" enctype="multipart/form-data">
                                                 @csrf

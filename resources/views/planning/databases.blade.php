@@ -98,6 +98,9 @@
                                 <div class="card-group card-frame mt-5">
                                     <!-- database selector -->
                                     <div class="card">
+                                        <div class="card-header">
+                                            <h5>Select Data Bases</h5>
+                                        </div>
                                         <div class="card-body">
                                             <form role="form" method="POST" action="{{ route('planning.databasesAdd', $project->id_project) }}" enctype="multipart/form-data" style="display: flex;">
                                                 @csrf
@@ -126,6 +129,9 @@
                                         </div>
                                     </div>
                                     <div class="card">
+                                        <div class="card-header">
+                                            <h5>Add New Data Base</h5>
+                                        </div>
                                         <div class="card-body">
                                             <form role="form" method="POST" action="{{ route('planning.databasesCreate', $project->id_project) }}" enctype="multipart/form-data">
                                                 @csrf
