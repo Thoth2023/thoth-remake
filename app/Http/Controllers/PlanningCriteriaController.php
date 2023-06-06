@@ -69,17 +69,17 @@ class PlanningCriteriaController extends Controller
         ]);
 
         $criteria = Criteria::findOrFail($id);
-        /*$matchThese = ['id_project' => $researchQuestion->id_project, 'id' => $researchQuestion->id];
-        $researchQuestion2 = ResearchQuestion::where($matchThese)->first();
+        $matchThese = ['id_project' =>$request->id_project, 'id' =>$request->id];
+        $criteria2 = Criteria::where($matchThese)->first();
 
-        if($researchQuestion2){
+        if($criteria2){
             return back()->withErrors([
                 'duplicate' => 'The provided ID already exists in this project.',
-            ]);;
+            ]);
         }
-        else{*/
+        else{
             $criteria->update($request->all());
-        /*}*/
+        }
         $id_project = $criteria->id_project;
 
         return redirect("/planning/".$id_project."/criteria");
@@ -96,5 +96,23 @@ class PlanningCriteriaController extends Controller
          $criteria->delete();
 
          return redirect("/planning/".$id_project."/criteria");
+    }
+
+    /*
+    * Change pre selected value of a criteria
+    */
+    public function change_preselected(Request $request, string $id)
+    {
+        $this->validate($request, [
+            'pre_selected' => 'required|int',
+        ]);
+
+        $criteria = Criteria::findOrFail($id);
+
+        $criteria->update($request->all());
+
+        $id_project = $criteria->id_project;
+
+        return redirect("/planning/".$id_project."/criteria");
     }
 }

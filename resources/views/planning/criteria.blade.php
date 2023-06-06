@@ -3,6 +3,9 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Planning Criteria'])
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 <div class="row mt-4 mx-4">
    <div class="col-12">
         <div class="card">
@@ -141,17 +144,17 @@
                                                         </select>
                                                         <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                                                         <input class="form-control" type="hidden" name="pre_selected" value="0">
-
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
                                                 </div>
                                                 </form>
                                                 <hr>
-                                                <h6>Inclusion Criterias</h6>
-                                                <div class="table-responsive p-0">
+                                                    <h6>Inclusion Criterias</h6>
+                                                <div class="table-responsive p-0" id="inclusion_criteria">
                                                     <table class="table align-items-center justify-content-center mb-0">
                                                         <thead>
                                                             <tr>
+                                                                <th>Select</th>
                                                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                                     ID
                                                                 </th>
@@ -165,6 +168,22 @@
                                                         <tbody>
                                                             @forelse ($inclusion_criterias as $criteria)
                                                             <tr>
+                                                                <td>
+                                                                    @if($criteria->pre_selected == 0)
+                                                                        <form action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria" id="pre_select_form-<?=$criteria->id_criteria;?>" method="POST">
+                                                                            @csrf
+                                                                            @method('PUT')
+                                                                            <input type="checkbox" name="pre_selected" value="1" id="check-box-<?=$criteria->id_criteria;?>" onChange="this.form.submit()">
+                                                                        </form>
+                                                                    @else
+                                                                        <form action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria" id="pre_select_form-<?=$criteria->id_criteria;?>" method="POST">
+                                                                            @csrf
+                                                                            @method('PUT')
+                                                                            <input type="checkbox" id="check-box-<?=$criteria->id_criteria;?>" onChange="this.form.submit()" checked>
+                                                                            <input type="hidden" name="pre_selected" value="0">
+                                                                        </form>
+                                                                    @endif
+                                                                </td>
                                                                 <td>
                                                                     <p class="text-sm font-weight-bold mb-0">{{ $criteria->id }}</p>
                                                                 </td>
@@ -187,14 +206,17 @@
                                                                                     <form role="form text-left" method="POST" action="{{ route('planning_criteria.Edit', $criteria->id_criteria) }}">
                                                                                         @csrf
                                                                                         @method('PUT')
-                                                                                        <label>ID</label>
-                                                                                        <div class="input-group mb-3">
-                                                                                            <input class="form-control" type="text" name="id" value="{{ $criteria->id }}" required>
-                                                                                        </div>
-                                                                                        <label>Description</label>
-                                                                                        <div class="input-group mb-3">
-                                                                                            <input class="form-control" type="text" name="description" value="{{ $criteria->description }}" required>
-                                                                                        </div>
+                                                                                        <label for="example-text-input" class="form-control-label">ID</label>
+                                                                                        <input class="form-control" type="text" name="id" value="{{ $criteria->id }}" required>
+                                                                                        <label for="example-text-input" class="form-control-label">Description</label>
+                                                                                        <input class="form-control" type="text" name="description" value="{{ $criteria->description }}" required>
+                                                                                        <label for="example-text-input" class="form-control-label">Type</label>
+                                                                                        <select class="form-control" name="type">
+                                                                                            <option value="{{ $criteria->type }}"><?= $criteria->type ?></option>
+                                                                                            <option value="Exclusion">Exclusion</option>
+                                                                                        </select>
+                                                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                                                        <input class="form-control" type="hidden" name="pre_selected" value="{{ $criteria->pre_selected }}">
                                                                                         <div class="text-center">
                                                                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
                                                                                         </div>
@@ -222,12 +244,23 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
+                                                    <div class="col-md-2">
+                                                        <br>
+                                                        <label class="form-control-label">Inclusion Rule</label>
+                                                        <select class="form-control" name="inclusion_rule">
+                                                                    <option value="all">All</option>
+                                                                    <option value="any">Any</option>
+                                                                    <option value="at_least">At Least</option>
+                                                                </select>
+                                                            <br>
+                                                    </div>
                                                     <hr>
                                                     <h6>Exclusion Criterias</h6>
-                                                    <div class="table-responsive p-0">
+                                                    <div class="table-responsive p-0" id="exclusion_criteria">
                                                         <table class="table align-items-center justify-content-center mb-0">
                                                             <thead>
                                                                 <tr>
+                                                                    <th>Select</th>
                                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                                         ID
                                                                     </th>
@@ -241,6 +274,22 @@
                                                             <tbody>
                                                                 @forelse ($exclusion_criterias as $criteria)
                                                                 <tr>
+                                                                    <td>
+                                                                        @if($criteria->pre_selected == 0)
+                                                                        <form action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#exclusion_criteria" id="pre_select_form-<?=$criteria->id_criteria;?>" method="POST">
+                                                                            @csrf
+                                                                            @method('PUT')
+                                                                            <input type="checkbox" name="pre_selected" value="1" id="check-box-<?=$criteria->id_criteria;?>" onChange="this.form.submit()">
+                                                                        </form>
+                                                                        @else
+                                                                        <form action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#exclusion_criteria" id="pre_select_form-<?=$criteria->id_criteria;?>" method="POST">
+                                                                            @csrf
+                                                                            @method('PUT')
+                                                                            <input type="checkbox" id="check-box-<?=$criteria->id_criteria;?>" onChange="this.form.submit()" checked>
+                                                                            <input type="hidden" name="pre_selected" value="0">
+                                                                        </form>
+                                                                        @endif
+                                                                    </td>
                                                                     <td>
                                                                         <p class="text-sm font-weight-bold mb-0">{{ $criteria->id }}</p>
                                                                     </td>
@@ -263,17 +312,20 @@
                                                                                         <form role="form text-left" method="POST" action="{{ route('planning_criteria.Edit', $criteria->id_criteria) }}">
                                                                                             @csrf
                                                                                             @method('PUT')
-                                                                                            <label>ID</label>
-                                                                                            <div class="input-group mb-3">
-                                                                                                <input class="form-control" type="text" name="id" value="{{ $criteria->id }}" required>
-                                                                                            </div>
-                                                                                            <label>Description</label>
-                                                                                            <div class="input-group mb-3">
-                                                                                                <input class="form-control" type="text" name="description" value="{{ $criteria->description }}" required>
-                                                                                            </div>
+                                                                                            <label for="example-text-input" class="form-control-label">ID</label>
+                                                                                            <input class="form-control" type="text" name="id" value="{{ $criteria->id }}" required>
+                                                                                            <label for="example-text-input" class="form-control-label">Description</label>
+                                                                                            <input class="form-control" type="text" name="description" value="{{ $criteria->description }}" required>
+                                                                                            <label for="example-text-input" class="form-control-label">Type</label>
+                                                                                            <select class="form-control" name="type">
+                                                                                                <option value="{{ $criteria->type }}"><?= $criteria->type ?></option>
+                                                                                                <option value="Inclusion">Inclusion</option>
+                                                                                            </select>
+                                                                                            <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                                                            <input class="form-control" type="hidden" name="pre_selected" value="{{ $criteria->pre_selected }}">
                                                                                             <div class="text-center">
-                                                                                                <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
-                                                                                            </div>
+                                                                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
+                                                                                        </div>
                                                                                         </form>
                                                                                     </div>
                                                                                 </div>
@@ -298,6 +350,16 @@
                                                                 @endforelse
                                                             </tbody>
                                                         </table>
+                                                        <div class="col-md-2">
+                                                        <br>
+                                                        <label class="form-control-label">Exclusion Rule</label>
+                                                        <select class="form-control" name="exclusion_rule">
+                                                                    <option value="all">All</option>
+                                                                    <option value="any">Any</option>
+                                                                    <option value="at_least">At Least</option>
+                                                                </select>
+                                                            <br>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -308,19 +370,19 @@
                     </div>
                 </div>
             </div>
+            @error('id') <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
+                <span class="alert-text"><strong>Alert!</strong> {{$message}} </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>@enderror
+            @error('duplicate') <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
+                <span class="alert-text"><strong>Alert!</strong> {{$message}} </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>@enderror
         </div>
-    @error('id') <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
-        <span class="alert-text"><strong>Alert!</strong> {{$message}} </span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>@enderror
-    @error('duplicate') <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
-        <span class="alert-text"><strong>Alert!</strong> {{$message}} </span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>@enderror
     </div>
 </div>
 @include('layouts.footers.auth.footer')

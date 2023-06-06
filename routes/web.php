@@ -74,6 +74,7 @@ Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::c
 Route::get('/planning/{id}/criteria', [PlanningCriteriaController::class, 'index'])->name('planning.criteria')->middleware('auth');
 Route::post('/planning/criteria/add', [PlanningCriteriaController::class, 'add'])->name('planning_criteria.Add');
 Route::put('/planning/criteria/{id}', [PlanningCriteriaController::class, 'edit'])->name('planning_criteria.Edit');
+Route::put('/planning/criteria/change/{id}', [PlanningCriteriaController::class, 'change_preselected'])->name('planning_criteria.ChangeSelect');
 Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->name('planning_criteria.Destroy');
 
 Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');

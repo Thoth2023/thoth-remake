@@ -187,6 +187,7 @@
                                                                                         <div class="input-group mb-3">
                                                                                             <input class="form-control" type="text" name="description" value="{{ $researchQuestion->description }}" required>
                                                                                         </div>
+                                                                                        <input type="hidden" name="id_project" value="{{ $researchQuestion->id_project }}">
                                                                                         <div class="text-center">
                                                                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
                                                                                         </div>
