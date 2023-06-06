@@ -70,8 +70,6 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-
-                                    <a class="nav-link mb-0 px-0 py-1" href="#SearchStrategy" aria-controls="SearchStrategy">
                                     <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('search-strategy.edit', ['projectId' => $project->id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
                                     Search Strategy
                                     </a>
