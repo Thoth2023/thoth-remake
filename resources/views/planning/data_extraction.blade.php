@@ -85,7 +85,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" aria-controls="DataExtraction" style="background-color: #212229; color: white;">
+                                    <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" href="{{ route('planning.dataExtraction', $project->id_project) }}" aria-controls="DataExtraction" style="background-color: #212229; color: white;">
                                     Data Extraction
                                     </a>
                                 </li>
