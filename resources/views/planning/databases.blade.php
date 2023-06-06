@@ -133,7 +133,7 @@
                                                 <input class="form-control" name="name" type="text" id="db-name">
                                                 <label class="form-control-label" for="db-link">Link</label>
                                                 <input class="form-control" name="link" type="text" id="db-link">
-                                                <button type="sumbit" class="btn btn-success">Add Data Base</button>
+                                                <button type="sumbit" class="btn btn-success mt-3">Add Data Base</button>
                                             </form>
                                         </div>
                                     </div>

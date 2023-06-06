@@ -112,7 +112,7 @@
                                                         <option value="{{ $type->id_type }}">{{ $type->type }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button type="sumbit" class="btn btn-success">Add Question</button>
+                                                <button type="sumbit" class="btn btn-success mt-3">Add Question</button>
                                             </form>
                                         </div>
                                     </div>
@@ -131,7 +131,7 @@
                                                 </select>
                                                 <label class="form-control-label" for="option">Option</label>
                                                 <input class="form-control" id="option" type="text" name="option">
-                                                <button type="sumbit" class="btn btn-success">Add option</button>
+                                                <button type="sumbit" class="btn btn-success mt-3">Add option</button>
                                             </form>
                                         </div>
                                     </div>
