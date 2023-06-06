@@ -58,8 +58,6 @@ class DataExtractionController extends Controller
 	}
 
 	public function edit_question(Request $request, string $id_project, string $id_question) {
-		dd($request->id);
-
 		$question = QuestionExtraction::findOrFail($id_question);
 		$question->update([
 			'id' => $request->id,
