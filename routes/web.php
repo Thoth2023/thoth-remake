@@ -35,6 +35,7 @@ use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
 use App\Http\Controllers\SearchStrategyController;
 use App\Http\Controllers\DataBasesController;
+use App\Http\Controllers\DataExtractionController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -75,6 +76,13 @@ Route::get('/projects/{projectId}/planning/data-bases', [DataBasesController::cl
 Route::post('/projects/{projectId}/planning/data-bases/add', [DataBasesController::class, 'add_database'])->name('planning.databasesAdd')->middleware('auth');
 Route::post('/projects/{projectId}/planning/data-bases/{databaseId}/remove', [DataBasesController::class, 'remove_database'])->name('planning.databasesRemove')->middleware('auth');
 Route::post('/projects/{projectId}/planning/data-bases/create', [DataBasesController::class, 'create_database'])->name('planning.databasesCreate')->middleware('auth');
+
+Route::get('projects/{projectId}/planning/data-extraction', [DataExtractionController::class, 'index'])->name('planning.dataExtraction')->middleware('auth');
+Route::post('projects/{projectId}/planning/data-extraction/create', [DataExtractionController::class, 'add_extraction'])->name('planning.dataExtractionCreate')->middleware('auth');
+Route::post('projects/{projectId}/planning/data-extraction/option/create', [DataExtractionController::class, 'add_option'])->name('planning.dataExtractionOptionCreate')->middleware('auth');
+Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove', [DataExtractionController::class, 'delete_question'])->name('planning.dataExtractionDeleteQuestion')->middleware('auth');
+Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('planning.dataExtractionDeleteOption')->middleware('auth');
+Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('planning.dataExtractionUpdateQuestion')->middleware('auth');
 
 //end of the planning routes
 

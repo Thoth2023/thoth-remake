@@ -40,6 +40,10 @@ class Project extends Model
         return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
     }
 
+    public function questionExtractions() {
+        return $this->hasMany(QuestionExtraction::class, 'id_project');
+    }
+
     public function searchStrategy()
     {
         return $this->hasOne(SearchStrategy::class, 'id_project');
