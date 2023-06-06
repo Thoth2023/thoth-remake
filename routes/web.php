@@ -34,6 +34,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
 use App\Http\Controllers\SearchStrategyController;
+use App\Http\Controllers\DataBasesController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -69,6 +70,11 @@ Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::c
 
 Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
 Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
+
+Route::get('/projects/{projectId}/planning/data-bases', [DataBasesController::class, 'index'])->name('planning.databases')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/add', [DataBasesController::class, 'add_database'])->name('planning.databasesAdd')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/{databaseId}/remove', [DataBasesController::class, 'remove_database'])->name('planning.databasesRemove')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/create', [DataBasesController::class, 'create_database'])->name('planning.databasesCreate')->middleware('auth');
 
 //end of the planning routes
 

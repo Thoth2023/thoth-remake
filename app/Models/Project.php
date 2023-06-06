@@ -36,6 +36,10 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
     }
 
+    public function databases() {
+        return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
+    }
+
     public function searchStrategy()
     {
         return $this->hasOne(SearchStrategy::class, 'id_project');
