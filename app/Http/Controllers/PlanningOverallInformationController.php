@@ -10,6 +10,8 @@ use App\Models\ProjectLanguage;
 use App\Models\StudyType;
 use App\Models\ProjectStudyType;
 use App\Models\Keyword;
+use App\Models\Database;
+use App\Models\ProjectDatabase;
 
 class PlanningOverallInformationController extends Controller
 {
@@ -20,12 +22,14 @@ class PlanningOverallInformationController extends Controller
     {
         $project = Project::where('id_project', $id_project)->get();
         $languages = Language::all();
+        $databases = Database::all();
         $studyTypes = StudyType::all();
         $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
+        $projectDatabases = ProjectDatabase::where('id_project', $id_project)->get();
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
         $keywords = Keyword::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages', 'studyTypes', 'projectStudyTypes', 'keywords'));
+        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages','databases', 'projectDatabases',  'studyTypes', 'projectStudyTypes', 'keywords'));
     }
 
     // DOMAIN AREA
@@ -71,6 +75,38 @@ class PlanningOverallInformationController extends Controller
          return redirect("/planning/".$id_project);
     }
     // DOMAIN AREA
+
+        // DATABASE AREA
+    /**
+     * Add a Database stored in the database to the project
+     */
+    public function databaseAdd(Request $request)
+    {
+        $this->validate($request, [
+            'id_database' =>'required|string',
+        ]);
+
+        ProjectDatabase::create([
+            'id_project' => $request->id_project,
+            'id_database' => $request->id_database,
+        ]);
+        $id_project = $request->id_project;
+
+        return redirect("/planning/".$id_project);
+    }
+
+    /*
+    * Remove the specified Database from the project
+    */
+    public function databaseDestroy(string $id)
+    {
+
+         $database = ProjectDatabase::where('id_database', $id)->first();
+         $id_project = $database->id_project;
+         $database->delete();
+
+         return redirect("/planning/".$id_project);
+    }
 
     // LANGUAGE AREA
     /**

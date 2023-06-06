@@ -23,7 +23,5 @@ class Database extends Model
 
     use HasFactory;
 
-    protected $fillable = [
-        'description',
-    ];
+    protected $fillable = ['name', 'link'];
 }

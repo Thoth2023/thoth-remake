@@ -100,7 +100,7 @@
                                                     <div class="form-group">
                                                         <select class="form-control" name="id_database">
                                                         @forelse ($databases as $database)
-                                                            <option value="{{ $database->id_database }}">{{ $database->description }}</option>
+                                                            <option value="{{ $database->id_database }}">{{ $database->name }}</option>
                                                         @empty
                                                         <option>No data bases in database.</option>
                                                         @endforelse
@@ -125,7 +125,7 @@
                                                             @forelse ($projectDatabases as $projectDatabase)
                                                             <tr>
                                                                 <td>
-                                                                    <p class="text-sm font-weight-bold mb-0"><?=convert_database_name($projectDatabase->id_database)?></p>
+                                                                    <p class="text-sm font-weight-bold mb-0"><?=convert_databases_name($projectDatabase->id_database)?></p>
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <form action="{{ route('planning_overall.databaseDestroy', $projectDatabase->id_database) }}" method="POST">
