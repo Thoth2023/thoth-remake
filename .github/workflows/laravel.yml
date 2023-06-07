@@ -41,4 +41,4 @@ jobs:
         DB_DATABASE: thoth
         DB_USERNAME: root
         DB_PASSWORD: root
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit tests
