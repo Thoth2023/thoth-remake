@@ -83,6 +83,7 @@ Route::post('projects/{projectId}/planning/data-extraction/option/create', [Data
 Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove', [DataExtractionController::class, 'delete_question'])->name('planning.dataExtractionDeleteQuestion')->middleware('auth');
 Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('planning.dataExtractionDeleteOption')->middleware('auth');
 Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('planning.dataExtractionUpdateQuestion')->middleware('auth');
+Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('planning.dataExtractionUpdateOption')->middleware('auth');
 
 //end of the planning routes
 

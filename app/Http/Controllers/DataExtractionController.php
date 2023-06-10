@@ -32,7 +32,6 @@ class DataExtractionController extends Controller
 
 	public function add_option(Request $request, string $id_project) {
 		$this->validate($request, [
-			'questionId' => 'required|string',
 			'option' => 'required|string'
 		]);
 		$option = OptionsExtraction::create([
@@ -58,13 +57,34 @@ class DataExtractionController extends Controller
 	}
 
 	public function edit_question(Request $request, string $id_project, string $id_question) {
+		$this->validate($request, [
+			'id' => 'required|string',
+			'description' => 'required|string',
+		]);
 		$question = QuestionExtraction::findOrFail($id_question);
+		$type = TypesQuestion::findOrFail($request->type);
+		if ($type->type == 'Text') {
+			$question->options()->delete();
+		}
 		$question->update([
 			'id' => $request->id,
 			'description' => $request->description,
 			'type' => $request->type
 		]);
 		$question->save();
+		return redirect('/projects/'.$id_project.'/planning/data-extraction');
+	}
+
+	public function edit_option(Request $request, string $id_project, string $id_option) {
+		$this->validate($request, [
+			'option' => 'required|string'
+		]);
+		$option = OptionsExtraction::findOrFail($id_option);
+		$option->update([
+			'description' => $request->option
+		]);
+		$option->save();
+		
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 }

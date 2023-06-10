@@ -130,7 +130,7 @@
                                                 <select class="form-control" name="questionId" id="question-id" placeholder="Departure">
                                                     <option value="" selected=""></option>
                                                     @foreach($project->questionExtractions as $question)
-                                                        @if ($question->question_type->type == "Multiple Choice List" || $question->question_type->type == "PickOneList")
+                                                        @if ($question->question_type->type == "Multiple Choice List" || $question->question_type->type == "Pick One List")
                                                             <option value="{{ $question->id_de }}">{{ $question->id }}</option>
                                                         @endif
                                                     @endforeach
@@ -184,8 +184,27 @@
                                                                                 <span>{{ $option->description }}</span>
                                                                             </div>
                                                                             <div class="col-md-auto d-flex">
-                                                                                <form class="m-1">
-                                                                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
+                                                                                <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}" enctype="multipart/form-data">
+                                                                                    @csrf
+                                                                                    @method('PUT')
+                                                                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#optionModal">Edit</button>
+                                                                                    <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                            <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Option</h5>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <label class="form-control-label" for="option">Option</label>
+                                                                                                <input class="form-control" type="text" id="option" name="option" value="{{ $option->description }}">
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                                                <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                                                                                            </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </form>
                                                                                 <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
                                                                                     @csrf
@@ -202,26 +221,25 @@
                                                             <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
-                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
-                                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#questionModal">Edit</button>
+                                                                <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title" id="exampleModalLabel">Edit Question</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
                                                                             </div>
                                                                             <div class="modal-body">
                                                                                 <label class="form-control-label" for="id">ID</label>
-                                                                                <input class="form-control" id="id" value="{{ $question->id }}">
+                                                                                <input class="form-control" id="id" value="{{ $question->id }}" name="id">
                                                                                 <label class="form-control-label" for="description">Description</label>
-                                                                                <input class="form-control" id="description" value="{{ $question->description }}">
+                                                                                <input class="form-control" id="description" value="{{ $question->description }}" name="description">
                                                                                 <label class="form-control-lavel" for="type">Type</label>
                                                                                 <select class="form-control" name="type" id="type" placeholder="Departure">
-                                                                                    <option value="" selected=""></option>
+                                                                                    <option value="{{ $question->question_type->id_type }}" selected>{{ $question->question_type->type }}</option>
                                                                                     @foreach($types as $type)
-                                                                                        <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                                                        @if ($type->id_type !== $question->question_type->id_type)
+                                                                                            <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                                                        @endif
                                                                                     @endforeach
                                                                                 </select>
                                                                             </div>
