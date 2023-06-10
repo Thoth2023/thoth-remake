@@ -150,6 +150,21 @@
                             </div>
                         </div>
                         <!-- Database ends here -->
+                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" class="form-control-label">Suggest a new Data Base:</label>
+                                                        <input class="form-control" type="text" name="description">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Send suggestion</button>
+                                                </div>
+                                                </form>
+
+                                                    </table>
+                                                </div>
 
                     </div>
                 </div>

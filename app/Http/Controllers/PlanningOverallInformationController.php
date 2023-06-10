@@ -84,6 +84,7 @@ class PlanningOverallInformationController extends Controller
     {
         $this->validate($request, [
             'id_database' =>'required|string',
+            'id_database' => 'required|string|unique:project_databases,id_database,NULL,id_project,id_project,'.$request->id_project,
         ]);
 
         ProjectDatabase::create([
