@@ -144,122 +144,122 @@
                                 </div>
                                 <div class="card mt-3 p-4">
                                     <ul class="list-group">
+                                        <li class="list-group-item m-1">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <b>ID</b>
+                                                </div>
+                                                <div class="col">
+                                                    <b>Description</b>
+                                                </div>
+                                                <div class="col">
+                                                    <b>Question Type</b>
+                                                </div>
+                                                <div class="col-5">
+                                                    <b>Options</b>
+                                                </div>
+                                                <div class="col-md-auto">
+                                                    <b>Actions</b>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @foreach($project->questionExtractions as $question)
                                             <li class="list-group-item m-1">
                                                 <div class="row">
                                                     <div class="col-1">
-                                                        <b>ID</b>
+                                                        <span>{{ $question->id }}</span>
                                                     </div>
                                                     <div class="col">
-                                                        <b>Description</b>
+                                                        <span>{{ $question->description }}</span>
                                                     </div>
                                                     <div class="col">
-                                                        <b>Question Type</b>
+                                                        <span>{{ $question->question_type->type }}</span>
                                                     </div>
                                                     <div class="col-5">
-                                                        <b>Options</b>
-                                                    </div>
-                                                    <div class="col-md-auto">
-                                                        <b>Actions</b>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            @foreach($project->questionExtractions as $question)
-                                                <li class="list-group-item m-1">
-                                                    <div class="row">
-                                                        <div class="col-1">
-                                                            <span>{{ $question->id }}</span>
-                                                        </div>
-                                                        <div class="col">
-                                                            <span>{{ $question->description }}</span>
-                                                        </div>
-                                                        <div class="col">
-                                                            <span>{{ $question->question_type->type }}</span>
-                                                        </div>
-                                                        <div class="col-5">
-                                                            <ul class="list-group">
-                                                                @foreach($question->options as $option)
-                                                                    <li class="list-group-item m-1">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <span>{{ $option->description }}</span>
-                                                                            </div>
-                                                                            <div class="col-md-auto d-flex">
-                                                                                <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}" enctype="multipart/form-data">
-                                                                                    @csrf
-                                                                                    @method('PUT')
-                                                                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#optionModal">Edit</button>
-                                                                                    <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                                            <div class="modal-content">
-                                                                                            <div class="modal-header">
-                                                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Option</h5>
-                                                                                            </div>
-                                                                                            <div class="modal-body">
-                                                                                                <label class="form-control-label" for="option">Option</label>
-                                                                                                <input class="form-control" type="text" id="option" name="option" value="{{ $option->description }}">
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                                                <button type="submit" class="btn bg-gradient-primary">Save changes</button>
-                                                                                            </div>
-                                                                                            </div>
+                                                        <ul class="list-group">
+                                                            @foreach($question->options as $option)
+                                                                <li class="list-group-item m-1">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <span>{{ $option->description }}</span>
+                                                                        </div>
+                                                                        <div class="col-md-auto d-flex">
+                                                                            <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#optionModal">Edit</button>
+                                                                                <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                        <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Option</h5>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <label class="form-control-label" for="option">Option</label>
+                                                                                            <input class="form-control" type="text" id="option" name="option" value="{{ $option->description }}">
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                                            <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                                                                                        </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </form>
-                                                                                <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
-                                                                                    @csrf
-                                                                                    @method('DELETE')
-                                                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                                                </form>
-                                                                            </div>
+                                                                                </div>
+                                                                            </form>
+                                                                            <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                                            </form>
                                                                         </div>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-auto d-flex">
-                                                            <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}" enctype="multipart/form-data">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#questionModal">Edit</button>
-                                                                <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Question</h5>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <label class="form-control-label" for="id">ID</label>
-                                                                                <input class="form-control" id="id" value="{{ $question->id }}" name="id">
-                                                                                <label class="form-control-label" for="description">Description</label>
-                                                                                <input class="form-control" id="description" value="{{ $question->description }}" name="description">
-                                                                                <label class="form-control-lavel" for="type">Type</label>
-                                                                                <select class="form-control" name="type" id="type" placeholder="Departure">
-                                                                                    <option value="{{ $question->question_type->id_type }}" selected>{{ $question->question_type->type }}</option>
-                                                                                    @foreach($types as $type)
-                                                                                        @if ($type->id_type !== $question->question_type->id_type)
-                                                                                            <option value="{{ $type->id_type }}">{{ $type->type }}</option>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                                                                                <button type="submit" class="btn bg-gradient-primary">Save changes</button>
-                                                                            </div>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-auto d-flex">
+                                                        <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}" enctype="multipart/form-data">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#questionModal">Edit</button>
+                                                            <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Question</h5>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <label class="form-control-label" for="id">ID</label>
+                                                                            <input class="form-control" id="id" value="{{ $question->id }}" name="id">
+                                                                            <label class="form-control-label" for="description">Description</label>
+                                                                            <input class="form-control" id="description" value="{{ $question->description }}" name="description">
+                                                                            <label class="form-control-lavel" for="type">Type</label>
+                                                                            <select class="form-control" name="type" id="type" placeholder="Departure">
+                                                                                <option value="{{ $question->question_type->id_type }}" selected>{{ $question->question_type->type }}</option>
+                                                                                @foreach($types as $type)
+                                                                                    @if ($type->id_type !== $question->question_type->id_type)
+                                                                                        <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                                                            <button type="submit" class="btn bg-gradient-primary">Save changes</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                            <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteQuestion', [$project->id_project, $question->id_de]) }}">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                            </form>
-                                                        </div>
+                                                            </div>
+                                                        </form>
+                                                        <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteQuestion', [$project->id_project, $question->id_de]) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                        </form>
                                                     </div>
-                                                </li>
-                                            @endforeach
+                                                </div>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
