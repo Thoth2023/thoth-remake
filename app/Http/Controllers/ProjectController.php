@@ -145,12 +145,17 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
         $email_member = $request->get('email_member');
         $member_id = $this->findIdByEmail($email_member);
+        $name_member = User::findOrFail($member_id);
         $level_member = $request->get('level_member');
+
+        if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
+            return redirect()->back()->with('error','The user is already associated with the project.');
+        }
 
         $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
 
         $project->update($request->all());
-        return redirect()->back();
+        return redirect()->back()->with('succes',$name_member->username.' has been added to the current project.');
     }
 
     /**
