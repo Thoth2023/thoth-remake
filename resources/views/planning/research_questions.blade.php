@@ -74,7 +74,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#Criteria" aria-controls="Criteria">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.criteria', $project->id_project) }}" aria-controls="Criteria">
                                 Criteria
                                 </a>
                             </li>
@@ -187,6 +187,7 @@
                                                                                         <div class="input-group mb-3">
                                                                                             <input class="form-control" type="text" name="description" value="{{ $researchQuestion->description }}" required>
                                                                                         </div>
+                                                                                        <input type="hidden" name="id_project" value="{{ $researchQuestion->id_project }}">
                                                                                         <div class="text-center">
                                                                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
                                                                                         </div>

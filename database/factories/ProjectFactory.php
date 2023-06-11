@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\SearchStrategy;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
  */
@@ -25,5 +26,10 @@ class ProjectFactory extends Factory
             'description' => $this->faker->paragraph,
             'objectives' => $this->faker->paragraph,
         ];
+    }
+
+    public function withSearchStrategy()
+    {
+        return $this->has(SearchStrategy::factory());
     }
 }
