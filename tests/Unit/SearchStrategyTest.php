@@ -19,7 +19,7 @@ class SearchStrategyTest extends TestCase
             ->get(route('search-strategy.edit', ['projectId' => $project->id_project]));
 
         $response->assertStatus(200)
-            ->assertViewIs('planning.search_strategy')
+            ->assertViewIs('planning.search-strategy')
             ->assertViewHas('project', $project);
     }
 

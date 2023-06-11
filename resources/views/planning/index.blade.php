@@ -137,7 +137,7 @@
                                                     <div class="form-group">
                                                         <label for="example-text-input" class="form-control-label">Description</label>
                                                         <input class="form-control" type="text" name="description">
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -260,7 +260,7 @@
                                                         <option>No languages in database.</option>
                                                         @endforelse
                                                         </select>
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -351,7 +351,7 @@
                                                             <option>No study types in database.</option>
                                                             @endforelse
                                                         </select>
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -435,7 +435,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <input class="form-control" type="text" name="description">
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>

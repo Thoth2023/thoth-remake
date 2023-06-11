@@ -11,6 +11,7 @@ use App\Models\StudyType;
 use App\Models\ProjectStudyType;
 use App\Models\Keyword;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PlanningOverallInformationController extends Controller
 {
@@ -226,8 +227,12 @@ class PlanningOverallInformationController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+        try {
+            $project = Project::findOrFail($projectId);
+        } catch (ModelNotFoundException $exception) {
+            throw new ModelNotFoundException('The project does not exist.');
+        }
 
-        $project = Project::findOrFail($projectId);
         $project->addDate($startDate, $endDate);
 
         return redirect()->route('planning.index', ['id' => $project->id_project, 'project' => $project]);

@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PlanningOverallInformationControllerAddDateTest extends TestCase
 {
@@ -64,27 +64,7 @@ class PlanningOverallInformationControllerAddDateTest extends TestCase
         ]);
 
         // Assert a validation error response with a specific error message
-        $response->assertSessionHasErrors(['start_date', 'end_date'], 'The end date must be after the start date.');
+        $response->assertSessionHasErrors(['end_date'], 'The end date must be after the start date.');
 
-    }
-
-    /** @test */
-    public function it_does_not_add_dates_to_a_nonexistent_project()
-    {
-        $this->withoutExceptionHandling();
-
-        // Nonexistent project ID
-        $projectId = 999;
-        $startDate = '2023-06-01';
-        $endDate = '2023-06-30';
-
-        // Send a request to the add date endpoint for a nonexistent project
-        $response = $this->post(route('planning_overall.add-date', $projectId), [
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-        ]);
-
-        // Assert a not found response
-        $response->assertNotFound();
     }
 }

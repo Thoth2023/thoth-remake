@@ -27,7 +27,7 @@ class SearchStrategyController extends Controller
     {
         $project = Project::findOrFail($projectId);
 
-        return view('planning.search_strategy', compact('project'));
+        return view('planning.search-strategy', compact('project'));
     }
 
     /**
