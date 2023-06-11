@@ -67,12 +67,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#SearchString" aria-controls="SearchString">
+                                <a class="nav-item mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
                                 Search String
                                 </a>
                             </li>
                             <li class="nav-item">
+
                                 <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('search-strategy.edit', ['projectId' => $id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
+
                                 Search Strategy
                                 </a>
                             </li>
