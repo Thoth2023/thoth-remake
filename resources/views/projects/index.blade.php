@@ -32,10 +32,11 @@
                                             Completion</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                             Options</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($projects as $project)
+                                    @forelse ($merged_projects as $project)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -74,6 +75,11 @@
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs " data-toggle="tooltip" data-original-title="Add member">
+                                                Add Member
+                                            </a>
                                         </td>
                                     </tr>
                                     @empty
