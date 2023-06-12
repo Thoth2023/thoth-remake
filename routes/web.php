@@ -35,9 +35,14 @@ use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
 use App\Http\Controllers\PlanningCriteriaController;
 use App\Http\Controllers\SearchStrategyController;
+use App\Http\Controllers\DataBasesController;
+use App\Http\Controllers\DataExtractionController;
+use App\Http\Controllers\HelpController;
+
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 
 // projects routes
@@ -86,6 +91,19 @@ Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->
 Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
 Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
 
+Route::get('/projects/{projectId}/planning/data-bases', [DataBasesController::class, 'index'])->name('planning.databases')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/add', [DataBasesController::class, 'add_database'])->name('planning.databasesAdd')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/{databaseId}/remove', [DataBasesController::class, 'remove_database'])->name('planning.databasesRemove')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/create', [DataBasesController::class, 'create_database'])->name('planning.databasesCreate')->middleware('auth');
+
+Route::get('projects/{projectId}/planning/data-extraction', [DataExtractionController::class, 'index'])->name('planning.dataExtraction')->middleware('auth');
+Route::post('projects/{projectId}/planning/data-extraction/create', [DataExtractionController::class, 'add_extraction'])->name('planning.dataExtractionCreate')->middleware('auth');
+Route::post('projects/{projectId}/planning/data-extraction/option/create', [DataExtractionController::class, 'add_option'])->name('planning.dataExtractionOptionCreate')->middleware('auth');
+Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove', [DataExtractionController::class, 'delete_question'])->name('planning.dataExtractionDeleteQuestion')->middleware('auth');
+Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('planning.dataExtractionDeleteOption')->middleware('auth');
+Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('planning.dataExtractionUpdateQuestion')->middleware('auth');
+Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('planning.dataExtractionUpdateOption')->middleware('auth');
+
 //end of the planning routes
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -110,5 +128,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
 });
