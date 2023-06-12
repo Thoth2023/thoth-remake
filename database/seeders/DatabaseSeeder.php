@@ -58,5 +58,17 @@ class DatabaseSeeder extends Seeder
         DB::table('language')->insert([
             'description' => 'Russian',
         ]);
+
+        DB::table('types_question')->insert([
+            'type' => 'Text',
+        ]);
+
+        DB::table('types_question')->insert([
+            'type' => 'Multiple Choice List',
+        ]);
+
+        DB::table('types_question')->insert([
+            'type' => 'Pick One List',
+        ]);
     }
 }
