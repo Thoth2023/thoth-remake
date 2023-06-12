@@ -1,14 +1,12 @@
-name: Laravel
+name: Test_Actions
 
 on:
   push:
     branches:
-      - develop
-      - actions-laravel
+      - Actions_Config 
   pull_request:
     branches:
-      - develop
-      - actions-laravel
+      - Actions_Config
 
 jobs:
   laravel-tests:
@@ -34,7 +32,7 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
+    - name: Execute tests (Unit and Feature tests) by PHPUnit
       env:
         DB_CONNECTION: mysql
         DB_HOST: db
