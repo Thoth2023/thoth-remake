@@ -19,13 +19,14 @@ class PlanningOverallInformationController extends Controller
     public function index(string $id_project)
     {
         $project = Project::findOrFail($id_project);
+        $usersRelation = $project->users()->get(); 
         $languages = Language::all();
         $studyTypes = StudyType::all();
         $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
         $keywords = Keyword::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages', 'studyTypes', 'projectStudyTypes', 'keywords'));
+        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages', 'studyTypes', 'projectStudyTypes', 'keywords', 'usersRelation'));
     }
 
     // DOMAIN AREA

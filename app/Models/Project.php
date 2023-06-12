@@ -39,6 +39,7 @@ class Project extends Model
     }
 
 
+
     public function databases() {
         return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
     }
@@ -51,6 +52,15 @@ class Project extends Model
     public function searchStrategy()
     {
         return $this->hasOne(SearchStrategy::class, 'id_project');
+    }
+
+    public function setUserLevel(User $user)
+    {
+        $this->user_level = $this->users()
+            ->where('users.id', $user->id)
+            ->first()
+            ->pivot
+            ->level;
     }
 
     private function insertSearchStringGenerics($idProject)
