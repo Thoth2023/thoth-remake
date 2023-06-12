@@ -38,13 +38,29 @@ class Project extends Model
                     ->select('users.*', 'levels.level as level_name');
     }
 
-    // public function users() {
-    //     return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
-    // }
+
+
+    public function databases() {
+        return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
+    }
+
+    public function questionExtractions() {
+        return $this->hasMany(QuestionExtraction::class, 'id_project');
+    }
+
 
     public function searchStrategy()
     {
         return $this->hasOne(SearchStrategy::class, 'id_project');
+    }
+
+    public function setUserLevel(User $user)
+    {
+        $this->user_level = $this->users()
+            ->where('users.id', $user->id)
+            ->first()
+            ->pivot
+            ->level;
     }
 
     private function insertSearchStringGenerics($idProject)

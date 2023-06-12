@@ -62,7 +62,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#Databases" aria-controls="Databases">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
                                 Data Bases
                                 </a>
                             </li>
@@ -73,6 +73,8 @@
                             </li>
                             <li class="nav-item">
 
+
+                                <a class="nav-link mb-0 px-0 py-1" href="#SearchStrategy" aria-controls="SearchStrategy">
                                 <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('search-strategy.edit', ['projectId' => $id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
 
                                 Search Strategy
@@ -218,7 +220,7 @@
                         <!-- Language starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.languageAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
