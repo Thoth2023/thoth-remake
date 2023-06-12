@@ -25,6 +25,11 @@ class ProjectController extends Controller
 
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
+
+        foreach ($merged_projects as $project) {
+            $project->setUserLevel($user);
+        }
+
         return view('projects.index', compact('merged_projects'));
     }
 
@@ -58,12 +63,12 @@ class ProjectController extends Controller
     /**
      * Display the specified project.
      */
-    public function show(string $id)
+    public function show(string $idProject)
     {
-        $project = Project::findOrFail($id);
-        $users = $project->users;
-        $activities = Activity::where('id_project', $id)->get();
-        return view('projects.show', compact('project'), compact('users'), compact('activities'));
+        $project = Project::findOrFail($idProject);
+        $users_relation = $project->users()->get(); 
+        $activities = Activity::where('id_project', $idProject)->get();
+        return view('projects.show', compact('project'), compact('users_relation'), compact('activities'));
     }
 
     /**
@@ -90,9 +95,9 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
-         $project = Project::findOrFail($id);
-         $project->delete();
-         return redirect('/projects');
+        $project = Project::findOrFail($id);
+        $project->delete();
+        return redirect('/projects');
     }
 
     /**
@@ -136,12 +141,17 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
         $email_member = $request->get('email_member');
         $member_id = $this->findIdByEmail($email_member);
+        $name_member = User::findOrFail($member_id);
         $level_member = $request->get('level_member');
+
+        if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
+            return redirect()->back()->with('error','The user is already associated with the project.');
+        }
 
         $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
 
         $project->update($request->all());
-        return redirect()->back();
+        return redirect()->back()->with('succes',$name_member->username.' has been added to the current project.');
     }
 
     /**

@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
 
+    use HasFactory;
     protected $table = 'activity_log';
     protected $primaryKey = 'id_log';
+    public $timestamps = false;
 
     protected $fillable = [
         'activity',
@@ -19,11 +21,8 @@ class Activity extends Model
         'time'
     ];
 
-    use HasFactory;
-
     public function user() {
 
         return $this->belongsTo(User::class);
     }
-
 }
