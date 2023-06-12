@@ -21,9 +21,9 @@
     </div>
     <div class="card-body pt-2">
       <ul>
-        @foreach($users as $user)
+        @foreach($users_relation as $user)
             <li>
-                <span>{{ $user->firstname.$user->lastname }}</span>
+                <span>{{ $user->username }} - {{ $user->level_name }}</span>
             </li>
         @endforeach
       </ul>

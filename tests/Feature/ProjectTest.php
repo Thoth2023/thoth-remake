@@ -172,10 +172,10 @@ class ProjectTest extends TestCase
         $response->assertViewIs('projects.show');
 
         $response->assertViewHas('project');
-        $response->assertViewHas('users', $project->users);
+        $response->assertViewHas('users_relation', $project->users);
 
         // !need to implement assertViewHas for activities
-        //$response->assertViewHas('activities', $activities);
+        //$response->assertViewHas('activitiesactivities', $activities);
     }
 
     /**

@@ -26,12 +26,8 @@ class ProjectController extends Controller
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
 
-        foreach ($merged_projects as $project) { // IMPORTANT: refactoring 
-            $project->user_level = $project->users()
-                ->where('users.id', $user->id)
-                ->first()
-                ->pivot
-                ->level;
+        foreach ($merged_projects as $project) {
+            $project->setUserLevel($user);
         }
 
         return view('projects.index', compact('merged_projects'));
@@ -67,12 +63,12 @@ class ProjectController extends Controller
     /**
      * Display the specified project.
      */
-    public function show(string $id)
+    public function show(string $idProject)
     {
-        $project = Project::findOrFail($id);
-        $users = $project->users;
-        $activities = Activity::where('id_project', $id)->get();
-        return view('projects.show', compact('project'), compact('users'), compact('activities'));
+        $project = Project::findOrFail($idProject);
+        $users_relation = $project->users()->get(); 
+        $activities = Activity::where('id_project', $idProject)->get();
+        return view('projects.show', compact('project'), compact('users_relation'), compact('activities'));
     }
 
     /**

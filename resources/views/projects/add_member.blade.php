@@ -132,13 +132,36 @@
                                     </div>
                                 </form>
                             </td>
-                            <td class="text-center">
-                                <form action="{{ route('projects.destroy_member', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}" method="post">
-                                    @method('delete')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm ms-auto">Delete</button>
-                                </form>
-                            </td>
+                            <td class="text-center col-md-4">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <button type="button" class="btn btn-danger btn-sm ms-auto mr-0" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $member->id }}">Delete</button>
+                                    <div class="modal fade" id="modal-delete-{{ $member->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-delete-{{ $member->id }}" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered modal-" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h6 class="modal-title" id="modal-title-delete-{{ $member->id }}">Confirm Deletion</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">×</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <p>Are you sure you want to delete this member?</p>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <form action="{{ route('projects.destroy_member', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}" method="post">
+                                              @method('delete')
+                                              @csrf
+                                              <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                            <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Cancel</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
                         @endif
                     </tr>
                 @endforeach
