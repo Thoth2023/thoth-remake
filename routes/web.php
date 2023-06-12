@@ -35,9 +35,11 @@ use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
 use App\Http\Controllers\PlanningCriteriaController;
 use App\Http\Controllers\SearchStrategyController;
+use App\Http\Controllers\HelpController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 
 // projects routes
@@ -110,5 +112,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
 });
