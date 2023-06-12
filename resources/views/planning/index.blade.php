@@ -139,7 +139,7 @@
                                                     <div class="form-group">
                                                         <label for="example-text-input" class="form-control-label">Description</label>
                                                         <input class="form-control" type="text" name="description">
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -262,7 +262,7 @@
                                                         <option>No languages in database.</option>
                                                         @endforelse
                                                         </select>
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -310,7 +310,7 @@
                         <!-- Study type starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -353,7 +353,7 @@
                                                             <option>No study types in database.</option>
                                                             @endforelse
                                                         </select>
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -437,7 +437,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <input class="form-control" type="text" name="description">
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -515,6 +515,11 @@
                             </div>
                         </div>
                         <!-- Keywords ends here -->
+                      <div class="col-md-6 unique-form-planning">
+                        <div class="card p-4">
+                         @include('planning.add-date', compact('project'))
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
