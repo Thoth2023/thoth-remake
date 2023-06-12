@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Term;
 use App\Models\SearchStrategy;
 
 
@@ -38,8 +39,6 @@ class Project extends Model
                     ->select('users.*', 'levels.level as level_name');
     }
 
-
-
     public function databases() {
         return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
     }
@@ -47,7 +46,6 @@ class Project extends Model
     public function questionExtractions() {
         return $this->hasMany(QuestionExtraction::class, 'id_project');
     }
-
 
     public function searchStrategy()
     {
@@ -61,6 +59,11 @@ class Project extends Model
             ->first()
             ->pivot
             ->level;
+    }
+
+    public function terms()
+    {
+        return $this->hasMany(Term::class);
     }
 
     private function insertSearchStringGenerics($idProject)

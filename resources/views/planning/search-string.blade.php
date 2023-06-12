@@ -2,7 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Planning Data Bases'])
-
+<style>#h5Search{display: inline;}</style>
 <div class="row mt-4 mx-4">
    <div class="col-12">
         <div class="card">
@@ -60,12 +60,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases" style="background-color: #212229; color: white;">
+                                    <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
                                     Data Bases
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.search_string', $project->id_project) }}" aria-controls="SearchString">
+                                    <a class="nav-link mb-0 px-0 py-1" href="#SearchString" aria-controls="SearchString" style="background-color: #212229; color: white;">
                                     Search String
                                     </a>
                                 </li>
@@ -95,22 +95,57 @@
                     <div class="col-12">
                         <div class="card bg-secondary-overview">
                             <div class="card-body">
-                                <div class="card-group card-frame mt-5">
+                                <div class="card-group card-frame mt-5"> 
                                     <!-- database selector -->
                                     <div class="card">
-                                        <div class="card-header">
-                                            <h5>Select Data Bases</h5>
-                                        </div>
+                                        <!-- Help Start -->
+                                            <div class="card-header">
+                                                <h5 id="h5Search" >Search String</h5>
+                                                <button type="button" class="bg-gradient-warning mb-3 help-thoth-button" data-bs-toggle="modal" data-bs-target="#modal-notification-3">?</button>
+                                                <div class="modal fade" id="modal-notification-3" tabindex="-1" role="dialog" aria-labelledby="modal-notification-3" aria-hidden="true">
+                                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="modal-title-notification-3">Instruction help for register a Search String</h6>
+                                                        <button type="button" class="btn btn-danger small-button" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">x</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="py-3 text-center">
+                                                        <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i> Enter a Term and Select it!</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Ok, Got it</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        <!-- End Help -->
+                                        
                                         <div class="card-body">
                                             <form role="form" method="POST" action="{{ route('planning.databasesAdd', $project->id_project) }}" enctype="multipart/form-data" style="display: flex;">
                                                 @csrf
-                                                <select name="database" class="form-control form-select form-select-lg mb-3" aria-label=".form-select-lg example" placeholder="Departure" id="choices-button">
+                                                {{-- <select name="database" class="form-control form-select form-select-lg mb-3" aria-label=".form-select-lg example" placeholder="Departure" id="choices-button">
                                                     <option value=""></option>
-                                                    @foreach($databases as $database)
-                                                        <option value="{{ $database->id_database }}">{{ $database->name }}</option>
-                                                    @endforeach
+                                                        @foreach($databases as $database) 
+                                                            <option value="{{ $database->id_database }}">{{ $database->name }}</option> 
+                                                        @endforeach 
                                                 </select>
-                                                <button type="submit" class="btn btn-success">Add</button>
+                                                <button type="submit" class="btn btn-success">Add</button> --}}
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">Term</label>
+                                                            <input class="form-control" type="text" name="description">
+                                                            <input class="form-control" type="hidden" name="id_project" value="">
+
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
+                                                    </div>
+
                                             </form>
                                             <ul class="list-group">
                                             @foreach($project->databases as $database)
@@ -143,7 +178,6 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <!-- end database selector -->
                                 </div>
                             </div>
                         </div>
@@ -156,4 +190,3 @@
 @include('layouts.footers.auth.footer')
 </div>
 @endsection
-

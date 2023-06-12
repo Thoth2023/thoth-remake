@@ -35,6 +35,7 @@ use App\Http\Controllers\PlanningOverallInformationController;
 use App\Http\Controllers\PlanningResearchQuestionsController;
 use App\Http\Controllers\PlanningCriteriaController;
 use App\Http\Controllers\SearchStrategyController;
+use App\Http\Controllers\SearchStringController;
 use App\Http\Controllers\DataBasesController;
 use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
@@ -88,6 +89,12 @@ Route::put('/planning/criteria/{id}', [PlanningCriteriaController::class, 'edit'
 Route::put('/planning/criteria/change/{id}', [PlanningCriteriaController::class, 'change_preselected'])->name('planning_criteria.ChangeSelect');
 Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->name('planning_criteria.Destroy');
 
+// Search String
+Route::get('/planning/{id}/search-string', [SearchStringController::class, 'index'])->name('planning.search_string')->middleware('auth');
+Route::post('/planning/search-string/add', [SearchStringController::class, 'add'])->name('planning_search_string.Add');
+Route::put('/planning/search-string/{id}', [SearchStringController::class, 'edit'])->name('planning_search_string.Edit');
+Route::delete('search-string/{id}', [SearchStringController::class, 'destroy'])->name('planning_search_string.Destroy');
+
 Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
 Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
 
@@ -104,6 +111,7 @@ Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove
 Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('planning.dataExtractionDeleteOption')->middleware('auth');
 Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('planning.dataExtractionUpdateQuestion')->middleware('auth');
 Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('planning.dataExtractionUpdateOption')->middleware('auth');
+
 
 //end of the planning routes
 
