@@ -29,12 +29,15 @@ class Project extends Model
         'title',
         'description',
         'objectives',
-        //'copy_planning',
-    ];
+    ]; 
 
-    public function users() {
-        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+    public function users() { 
+        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
+                    ->withPivot('level')
+                    ->join('levels', 'members.level', '=', 'levels.id_level')
+                    ->select('users.*', 'levels.level as level_name');
     }
+
 
     public function databases() {
         return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
@@ -43,6 +46,7 @@ class Project extends Model
     public function questionExtractions() {
         return $this->hasMany(QuestionExtraction::class, 'id_project');
     }
+
 
     public function searchStrategy()
     {
