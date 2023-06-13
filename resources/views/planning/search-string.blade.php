@@ -170,8 +170,8 @@
                                                                             id="descriptionTermInput"
                                                                             placeholder="Enter the term">
                                                                     </div>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary btn-sm ms-auto">Add</button>
+                                                                    <button type="submit" class="btn btn-outline-warning ps-4 pe-4 py-1 px-2 mt-1">Add</button>
+                                                                   
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -246,10 +246,9 @@
                                                                 <div class="form-group d-flex justify-content-between">
                                                                     <div class="col-sm-9">
                                                                         <input class="form-control" type="text"
-                                                                            name="description_synonym">
+                                                                            name="description_synonym" placeholder="Enter a synonym">
                                                                     </div>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary btn-sm">Add</button>
+                                                                    <button type="submit" class="btn btn-outline-warning ps-4 pe-4 py-1 px-2 mt-1">Add</button>
                                                                 </div>
                                                             </div>
                                                             </form>
@@ -287,8 +286,8 @@
                                                                                         <tr>
                                                                                             <td>{{ $synonym->description }}</td>
                                                                                             <td>
-                                                                                                <button class="btn btn-primary">Edit</button>
-                                                                                                <button class="btn btn-danger">Delete</button>
+                                                                                                <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-form"  data-original-title="Edit Synonym">Edit</button>
+                                                                                                <button type="button" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-form" data-original-title="Delete Synonym">Delete</button>
                                                                                             </td>
                                                                                         </tr>
                                                                                     @endforeach
@@ -296,8 +295,42 @@
                                                                             </table>
                                                                         </td>
                                                                         <td>
-                                                                            <button class="btn btn-primary">Edit</button>
-                                                                            <button class="btn btn-danger">Delete</button>
+                                                                            <div class="d-flex justify-content-center">
+                                                                                    <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage{{$term->id_term}}" data-original-title="Edit Synonym">Edit</button>
+                                                                                    <!-- Modal -->
+                                                                                    <div class="modal fade" id="exampleModalMessage{{$term->id_term}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle{{$term->id_term}}" aria-hidden="true">
+                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <h5 class="modal-title" id="exampleModalLabel">Term Update</h5>
+                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                                                        <span aria-hidden="true">×</span>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <form action="{{ route('planning_search_string.update_term', $term->id_term) }}" method="POST">
+                                                                                                    @csrf
+                                                                                                    @method('PUT')
+                                                                                                    <div class="modal-body">
+                                                                                                        <div class="form-group">
+                                                                                                            <label for="term-description{{$term->id_term}}" class="col-form-label">Term:</label>
+                                                                                                            <input type="text" class="form-control" value="{{ $term->description }}" id="term-description{{$term->id_term}}" name="term-description">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                                                        <button type="submit" class="btn bg-gradient-info">Save</button>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    {{-- end modal --}}
+                                                                                <form class="form-unstyled" action="{{ route('planning_search_string.destroy_term', $term->id_term) }}" method="post">
+                                                                                    @method('delete')
+                                                                                    @csrf
+                                                                                    <button type="submit" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-form" data-original-title="Delete Synonym">Delete</button>
+                                                                                </form>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach

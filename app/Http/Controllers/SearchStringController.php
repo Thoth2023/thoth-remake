@@ -51,34 +51,24 @@ class SearchStringController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(SearchString $searchString)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SearchString $searchString)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SearchString $searchString)
+    public function update_term(Request $request, $id_term)
     {
-        //
+        $term = Term::findOrFail($id_term);
+        $term->description = $request->input('term-description');
+        $term->save();
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SearchString $searchString)
+    public function destroy_term($id_term)
     {
-        //
+        $term = Term::findOrFail($id_term);
+        $term->delete();
+        return redirect()->back();
     }
 }
