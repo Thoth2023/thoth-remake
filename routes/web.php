@@ -52,6 +52,9 @@ use App\Http\Controllers\SearchStrategyController;
 	Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('planning_overall.languageAdd');
 	Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('planning_overall.languageDestroy');
 
+    Route::post('/planning/database', [PlanningOverallInformationController::class, 'databaseAdd'])->name('planning_overall.databaseAdd');
+	Route::delete('/planning/database/{id}', [PlanningOverallInformationController::class, 'databaseDestroy'])->name('planning_overall.databaseDestroy');
+
 	Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
 	Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
 
