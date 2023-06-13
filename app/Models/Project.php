@@ -48,6 +48,13 @@ class Project extends Model
         return $this->hasMany(QuestionExtraction::class, 'id_project');
     }
 
+    public function generalScores() {
+        return $this->hasMany(GeneralScore::class, 'id_project');
+    }
+
+    public function questionQualities() {
+        return $this->hasMany(QuestionQuality::class, 'id_project');
+    }
 
     public function searchStrategy()
     {

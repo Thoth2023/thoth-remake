@@ -38,7 +38,7 @@ use App\Http\Controllers\SearchStrategyController;
 use App\Http\Controllers\DataBasesController;
 use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
-
+use App\Http\Controllers\QualityAssessmentController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -104,6 +104,11 @@ Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove
 Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('planning.dataExtractionDeleteOption')->middleware('auth');
 Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('planning.dataExtractionUpdateQuestion')->middleware('auth');
 Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('planning.dataExtractionUpdateOption')->middleware('auth');
+
+Route::get('projects/{projectId}/planning/quality-assessment', [QualityAssessmentController::class, 'index'])->name('planning.qualityAssessment')->middleware('auth');
+Route::post('projects/{projectId}/planning/quality-assessment/interval/create', [QualityAssessmentController::class, 'create_general_score_interval'])->name('planning.createGeneralScoreInterval')->middleware('auth');
+Route::post('projects/{projectId}/planning/quality-assessment/min-to-app', [QualityAssessmentController::class, 'set_min_to_app'])->name('planning.setMinToApp')->middleware('auth');
+Route::put('projects/{projectId}/planning/quality-assessment/interval/{intervalId}/update', [QualityAssessmentController::class, 'edit_general_score_interval'])->name('planning.editGeneralScoreInterval')->middleware('auth');
 
 //end of the planning routes
 
