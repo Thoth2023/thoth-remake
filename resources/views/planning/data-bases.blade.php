@@ -135,6 +135,9 @@
                                                                     </form>
                                                                 </td>
                                                             </tr>
+                                                            @error('name')
+                                                                <p>{{ $message }}</p>
+                                                            @enderror
                                                             @empty
                                                             <tr>
                                                                 <td colspan="5" class="text-center">No databases found.</td>
