@@ -63,7 +63,7 @@ class Project extends Model
 
     public function terms()
     {
-        return $this->hasMany(Term::class);
+        return $this->hasMany(Term::class, 'id_project');
     }
 
     private function insertSearchStringGenerics($idProject)

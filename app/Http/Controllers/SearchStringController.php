@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SearchString;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Term;
 
 class SearchStringController extends Controller
 {
@@ -14,24 +15,22 @@ class SearchStringController extends Controller
     public function index($id_project)
     {
         $project = Project::findOrFail($id_project);
-        
-        return view('planning.search-string', compact('project'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $terms = $project->terms;
+        return view('planning.search-string', compact('project'), compact('terms'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store_term(Request $request, $id_project)
     {
-        //
+        $project = Project::findOrFail($id_project);
+
+        $project->terms()->create([
+            'description' => $request->input('description_term'),
+        ]);
+
+        return redirect("/planning/".$id_project."/search-string");
     }
 
     /**

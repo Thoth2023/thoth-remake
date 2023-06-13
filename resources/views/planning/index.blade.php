@@ -67,7 +67,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-item mb-0 px-0 py-1" href="{{ route('planning.search_string', $project->id_project) }}" aria-controls="SearchString">
+                                <a class="nav-item mb-0 px-0 py-1" href="{{ route('planning_search_string', $project->id_project) }}" aria-controls="SearchString">
                                 Search String
                                 </a>
                             </li>

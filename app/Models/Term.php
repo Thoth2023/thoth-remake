@@ -11,6 +11,7 @@ class Term extends Model
     use HasFactory;
     protected $table = 'term';
     protected $primaryKey = 'id_term';
+    public $timestamps = false;
     protected $fillable = [
         'description',
         'project_id',
