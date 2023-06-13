@@ -31,7 +31,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PlanningOverallInformationController;
-
+use App\Http\Controllers\SearchStrategyController;
     // projects routes
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
@@ -61,6 +61,10 @@ use App\Http\Controllers\PlanningOverallInformationController;
 	Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
 	Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
 	Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
+
+    Route::get('/search-strategy/{projectId}', [SearchStrategyController::class, 'index'])->name('search-strategy.index');
+    Route::post('/search-strategy/{projectId}/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
+
 	//end of the planning routes
 
     //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -84,4 +88,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
 });
