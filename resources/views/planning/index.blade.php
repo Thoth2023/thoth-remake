@@ -13,53 +13,38 @@
                     <div class="card-header pb-0">
                         <h6>Planning</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                    <div class="nav-wrapper position-relative end-0">
-                        <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#Overallinformation" role="tab" aria-controls="Overallinformation " aria-selected="false">
-                                Overall information
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#ResearchQuestions" role="tab" aria-controls="ResearchQuestions" aria-selected="false">
-                                Research Questions
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Databases" role="tab" aria-controls="Databases" aria-selected="false">
-                                Data Bases
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
-                                Search String
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchStrategy" role="tab" aria-controls="SearchStrategy" aria-selected="false">
-                                Search Strategy
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Criteria" role="tab" aria-controls="Criteria" aria-selected="false">
-                                Criteria
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#QualityAssessment" role="tab" aria-controls="QualityAssessment" aria-selected="false">
-                                Quality Assessment
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#DataExtraction" role="tab" aria-controls="DataExtraction" aria-selected="false">
-                                Data Extraction
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    </div>
-                    <div class="row" style="justify-content: space-around;">
+                    <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" id="overall-info-tab" data-bs-toggle="tab" href="#overall-info">Overall Information</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="research-questions-tab" data-bs-toggle="tab" href="#research-questions">Research Questions</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="data-bases-tab" data-bs-toggle="tab" href="#data-bases">Data Bases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="search-string-tab" data-bs-toggle="tab" href="#search-string">Search String</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="search-strategy-tab" data-bs-toggle="tab" href="#search-_strategy">Search Strategy</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="criteria-tab" data-bs-toggle="tab" href="#criteria">Criteria</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="quality-assessment-tab" data-bs-toggle="tab" href="#quality-assessment">Quality Assessment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="data-extraction-tab" data-bs-toggle="tab" href="#data-extraction">Data Extraction</a>
+  </li>
+
+  <!-- Add the rest of the tabs in a similar manner -->
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="overall-info">
+  <div class="row" style="justify-content: space-around;">
                         <!-- Domain starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
@@ -477,6 +462,16 @@
                         </div>
                         <!-- Keywords ends here -->
                     </div>
+  </div>
+  <div class="tab-pane fade" id="research-questions">
+    <!-- Research Questions content here -->
+    <h1>Research Questions</h1>
+    <p>Here are the research questions for the project...</p>
+  </div>
+  <!-- Add the rest of the tab content in a similar manner -->
+</div>
+
+
                 </div>
             </div>
         </div>

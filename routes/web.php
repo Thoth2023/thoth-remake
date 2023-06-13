@@ -61,6 +61,9 @@ use App\Http\Controllers\SearchStrategyController;
 
     Route::get('/search-strategy/{projectId}', [SearchStrategyController::class, 'index'])->name('search-strategy.index');
     Route::post('/search-strategy/{projectId}/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
+    Route::get('/search-strategy', function () {
+        return view('search_strategy');
+    });
 
 	//end of the planning routes
 
