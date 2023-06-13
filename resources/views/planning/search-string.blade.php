@@ -108,8 +108,8 @@
                                 <div class="col-12">
                                     <div class="card bg-secondary-overview">
                                         <div class="card-body">
-                                            <div class="card-group card-frame mt-5">
-                                                <div class="card">
+                                            <div class="dflex column card mt-0">
+                                                <div class="mt-4">
                                                     {{-- Start modal help  --}}
                                                     <div class="card-header pb-0">
                                                         <h5 class="d-inline">Search String</h5>
@@ -154,132 +154,131 @@
                                                     </div>
                                                     <!-- End Help -->
 
-                                                    <div class="card-body mt-n3">
+                                                    <div class="card-body">
                                                         {{-- add term --}}
                                                         <form role="form" method="POST"
                                                             action="{{ route('planning_search_string.add_term', $project->id_project) }}"
                                                             style="display: flex;">
                                                             @csrf
                                                             <div class="col-md-5">
-                                                                <div class="form-group">
-                                                                    <label for="example-text-input"
-                                                                        class="form-control-label">Term</label>
-                                                                    <input class="form-control" type="text"
-                                                                        name="description_term" id="descriptionTermInput"
-                                                                        placeholder="Enter the term">
+                                                                <label for="example-text-input"
+                                                                    class="form-control-label">Term</label>
+                                                                <div class="form-group d-flex justify-content-between">
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text"
+                                                                            name="description_term"
+                                                                            id="descriptionTermInput"
+                                                                            placeholder="Enter the term">
+                                                                    </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-sm ms-auto">Add</button>
                                                                 </div>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary btn-sm ms-auto">Add</button>
                                                             </div>
                                                         </form>
                                                         {{-- end term --}}
                                                     </div>
-                                                    <div class="card">
-                                                        <div class="card">
-                                                            <div class="card-header pt-2 pb-0">
-                                                                <h5 class="d-inline">Synonym</h5>
-                                                                <button type="button"
-                                                                    class="bg-gradient-warning mb-3 help-thoth-button"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#modal-notification-4">?</button>
-                                                                <div class="modal fade" id="modal-notification-4"
-                                                                    tabindex="-1" role="dialog"
-                                                                    aria-labelledby="modal-notification-4"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog modal-danger modal-dialog-centered modal-"
-                                                                        role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h6 class="modal-title"
-                                                                                    id="modal-title-notification-4">Help
-                                                                                    Synonym</h6>
-                                                                                <button type="button"
-                                                                                    class="btn btn-danger small-button"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <span aria-hidden="true">x</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <div class="py-3 text-center">
-                                                                                    <h4 class="text-black mt-4">Fill in
-                                                                                        this
-                                                                                        help.</h4>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button"
-                                                                                    class="btn btn-white"
-                                                                                    data-bs-dismiss="modal">Ok, Got
-                                                                                    it</button>
-                                                                            </div>
+                                                </div>
+                                                <hr>
+                                                <div class="mt-4">
+                                                    <div class="card-header pt-2 pb-0">
+                                                        <h5 class="d-inline">Synonym</h5>
+                                                        <button type="button"
+                                                            class="bg-gradient-warning mb-3 help-thoth-button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modal-notification-4">?</button>
+                                                        <div class="modal fade" id="modal-notification-4" tabindex="-1"
+                                                            role="dialog" aria-labelledby="modal-notification-4"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-danger modal-dialog-centered modal-"
+                                                                role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h6 class="modal-title"
+                                                                            id="modal-title-notification-4">Help
+                                                                            Synonym</h6>
+                                                                        <button type="button"
+                                                                            class="btn btn-danger small-button"
+                                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">x</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="py-3 text-center">
+                                                                            <h4 class="text-black mt-4">Fill in
+                                                                                this
+                                                                                help.</h4>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-body pt-0">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-5">
-                                                                        <div class="col-auto">
-                                                                            <label for="example-text-input"
-                                                                                class="form-control-label">Term</label>
-                                                                            <select class="form-select" id="termSelect"
-                                                                                name="term">
-                                                                                <option value="" disabled selected>
-                                                                                    Select a Term</option>
-                                                                                @foreach ($terms as $term)
-                                                                                    <option value="{{ $term->id_term }}">
-                                                                                        {{ $term->description }}</option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-5 text-start">
-                                                                        <label for="example-text-input"
-                                                                            class="form-control-label">Synonym</label>
-                                                                        <div
-                                                                            class="form-group d-flex justify-content-between">
-                                                                            <div class="col-sm-9">
-                                                                                <input class="form-control" type="text"
-                                                                                    name="description">
-                                                                            </div>
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary btn-sm">Add</button>
-                                                                        </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-white"
+                                                                            data-bs-dismiss="modal">Ok, Got
+                                                                            it</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="card-body pt-0">
+                                                        <div class="row align-content-center">
+                                                            <div class="col-md-5">
+                                                                <div class="col-auto">
+                                                                    <label for="example-text-input"
+                                                                        class="form-control-label">Term</label>
+                                                                    <select class="form-select" id="termSelect"
+                                                                        name="term">
+                                                                        <option value="" disabled selected>
+                                                                            Select a Term</option>
+                                                                        @foreach ($terms as $term)
+                                                                            <option value="{{ $term->id_term }}">
+                                                                                {{ $term->description }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5 text-start">
+                                                                <label for="example-text-input"
+                                                                    class="form-control-label">Synonym</label>
+                                                                <div class="form-group d-flex justify-content-between">
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text"
+                                                                            name="description">
+                                                                    </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-sm">Add</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card mt-4">
-                                                <div class="table-responsive">
-                                                    <table class="table align-items-center mb-0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Term</th>
-                                                                <th>Synonyms</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($terms as $term)
+                                                <hr>
+                                                <div class="mt-4">
+                                                    <div class="table-responsive m-4 card shadow-none border">
+                                                        <table class="table align-items-center mb-0">
+                                                            <thead>
                                                                 <tr>
-                                                                    {{-- <td rowspan="{{ count($synonyms) }}"> --}}
-                                                                    <td>
-                                                                        {{ $term->description }}
-                                                                    </td>
-                                                                    {{-- <td>{{ $synonyms[0] }}</td> --}}
-                                                                    <td></td>
+                                                                    <th>Term</th>
+                                                                    <th>Synonyms</th>
                                                                 </tr>
-                                                                {{-- @for ($i = 1; $i < count($synonyms); $i++) --}}
-                                                                {{--     <tr> --}}
-                                                                {{--         <td>{{ $synonyms[$i] }}</td> --}}
-                                                                {{--     </tr> --}}
-                                                                {{-- @endfor --}}
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($terms as $term)
+                                                                    <tr>
+                                                                        {{-- <td rowspan="{{ count($synonyms) }}"> --}}
+                                                                        <td>
+                                                                            {{ $term->description }}
+                                                                        </td>
+                                                                        {{-- <td>{{ $synonyms[0] }}</td> --}}
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    {{-- @for ($i = 1; $i < count($synonyms); $i++) --}}
+                                                                    {{--     <tr> --}}
+                                                                    {{--         <td>{{ $synonyms[$i] }}</td> --}}
+                                                                    {{--     </tr> --}}
+                                                                    {{-- @endfor --}}
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
 
