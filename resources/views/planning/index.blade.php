@@ -4,41 +4,7 @@
 @include('layouts.navbars.auth.topnav', ['title' => 'Planning Overall Information'])
 @include('planning.convert-language-name')
 @include('planning.convert-study-type-name')
-
-<div class="row mt-4 mx-4">
-   <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                {{ $project->title }}
-                </h4>
-            </div>
-            <div class="card-body">
-            <div class="nav-wrapper position-relative end-0">
-            <ul class="nav nav-pills nav-fill p-1">
-                <li class="nav-item">
-                    <a class="btn bg-gradient-faded-white mb-0" href="{{ route('projects.show', $project->id_project) }}">
-                        <i class="fas fa-plus"></i>Overview</a>
-
-                </li>
-                <li class="nav-item">
-                    <a class="btn bg-gradient-dark mb-0" href="{{ route('planning.index', $project->id_project) }}">
-                        <i class="fas fa-plus"></i>Planning</a>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn bg-gradient-default">Conducting</button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn bg-gradient-default">Reporting</button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn bg-gradient-default">Export</button>
-                </li>
-            </ul>
-        </div>
-        </div>
-    </div>
-</div>
+@include('planning.convert-database')
 
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
@@ -48,57 +14,42 @@
                     <div class="card-header pb-0">
                         <h6>Planning</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                    <div class="nav-wrapper position-relative end-0">
-                        <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#Overallinformation" role="tab" aria-controls="Overallinformation " aria-selected="false">
-                                Overall information
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#ResearchQuestions" role="tab" aria-controls="ResearchQuestions" aria-selected="false">
-                                Research Questions
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Databases" role="tab" aria-controls="Databases" aria-selected="false">
-                                Data Bases
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
-                                Search String
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchStrategy" role="tab" aria-controls="SearchStrategy" aria-selected="false">
-                                Search Strategy
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Criteria" role="tab" aria-controls="Criteria" aria-selected="false">
-                                Criteria
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#QualityAssessment" role="tab" aria-controls="QualityAssessment" aria-selected="false">
-                                Quality Assessment
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#DataExtraction" role="tab" aria-controls="DataExtraction" aria-selected="false">
-                                Data Extraction
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    </div>
-                    <div class="row" style="justify-content: space-around;">
+                    <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" id="overall-info-tab" data-bs-toggle="tab" href="#overall-info">Overall Information</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="research-questions-tab" data-bs-toggle="tab" href="#research-questions">Research Questions</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="data-bases-tab" data-bs-toggle="tab" href="#data-bases">Data Bases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="search-string-tab" data-bs-toggle="tab" href="#search-string">Search String</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="search-strategy-tab" data-bs-toggle="tab" href="#search-_strategy">Search Strategy</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="criteria-tab" data-bs-toggle="tab" href="#criteria">Criteria</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="quality-assessment-tab" data-bs-toggle="tab" href="#quality-assessment">Quality Assessment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="data-extraction-tab" data-bs-toggle="tab" href="#data-extraction">Data Extraction</a>
+  </li>
+
+  <!-- Add the rest of the tabs in a similar manner -->
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="overall-info">
+   <div class="row" style="justify-content: space-around;">
                         <!-- Domain starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action="{{ route('planning_overall.domainUpdate') }}" enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -135,7 +86,7 @@
                                                     <div class="form-group">
                                                         <label for="example-text-input" class="form-control-label">Description</label>
                                                         <input class="form-control" type="text" name="description">
-                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -216,7 +167,7 @@
                         <!-- Language starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.languageAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -258,7 +209,7 @@
                                                         <option>No languages in database.</option>
                                                         @endforelse
                                                         </select>
-                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -306,7 +257,7 @@
                         <!-- Study type starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('planning_overall.studyTAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -349,7 +300,7 @@
                                                             <option>No study types in database.</option>
                                                             @endforelse
                                                         </select>
-                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -433,7 +384,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <input class="form-control" type="text" name="description">
-                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -511,17 +462,123 @@
                             </div>
                         </div>
                         <!-- Keywords ends here -->
-                      <div class="col-md-6 unique-form-planning">
-                        <div class="card p-4">
-                         @include('planning.add-date', compact('project'))
-                        </div>
-                      </div>
                     </div>
   </div>
   <div class="tab-pane fade" id="research-questions">
     <!-- Research Questions content here -->
     <h1>Research Questions</h1>
     <p>Here are the research questions for the project...</p>
+  </div>
+
+  <div class="tab-pane fade" id="data-bases">
+                            <!-- Database starts here -->
+                            <div class="col-md-6 unique-form-planning">
+                            <div class="card">
+                                <form role="form" method="POST" action={{ route('planning_overall.databaseAdd') }} enctype="multipart/form-data">
+                                    @csrf
+                                    <div>
+                                        <div class="card-header pb-0">
+                                            <div class="d-flex align-items-center">
+                                                <p class="mb-0">Databases</p>
+                                                <button type="button" class="help-thoth-button" data-bs-toggle="modal" data-bs-target="#DatabaseModal">
+                                                    ?
+                                                </button>
+                                                <!-- Help Button Description -->
+                                                <div class="modal fade" id="DatabaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Help for Data Bases</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            ...
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Help Description Ends Here -->
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select class="form-control" name="id_database">
+                                                        @forelse ($databases as $database)
+                                                            <option value="{{ $database->id_database }}">{{ $database->name }}</option>
+                                                        @empty
+                                                        <option>No data bases in database.</option>
+                                                        @endforelse
+                                                        </select>
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
+                                                </div>
+                                                </form>
+                                                <div class="table-responsive p-0">
+                                                    <table class="table align-items-center justify-content-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                                    Data Bases
+                                                                </th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @forelse ($projectDatabases as $projectDatabase)
+                                                            <tr>
+                                                                <td>
+                                                                    <p class="text-sm font-weight-bold mb-0"><?=convert_databases_name($projectDatabase->id_database)?></p>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <form action="{{ route('planning_overall.databaseDestroy', $projectDatabase->id_database) }}" method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Database">Delete</button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                            @error('name')
+                                                                <p>{{ $message }}</p>
+                                                            @enderror
+                                                            @empty
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">No databases found.</td>
+                                                            </tr>
+                                                            @endforelse
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <hr class="horizontal dark">
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Database ends here -->
+                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" class="form-control-label">Suggest a new Data Base:</label>
+                                                        <input class="form-control" type="text" name="description">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Send suggestion</button>
+                                                </div>
+                                                </form>
+
+                                                    </table>
+                                                </div>
   </div>
   <!-- Add the rest of the tab content in a similar manner -->
 </div>
