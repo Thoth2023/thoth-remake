@@ -24,6 +24,6 @@ class Term extends Model
     
     public function synonyms()
     {
-        return $this->hasMany(Synonym::class);
+        return $this->hasMany(Synonym::class, 'id_term');
     }
 }

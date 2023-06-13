@@ -6,6 +6,7 @@ use App\Models\SearchString;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Term;
+use App\Models\Synonym;
 
 class SearchStringController extends Controller
 {
@@ -16,7 +17,9 @@ class SearchStringController extends Controller
     {
         $project = Project::findOrFail($id_project);
         $terms = $project->terms;
-        return view('planning.search-string', compact('project'), compact('terms'));
+        $synonyms = $project->synonyms;
+       
+        return view('planning.search-string', compact('project', 'terms', 'synonyms'));
     }
 
     /**
@@ -31,6 +34,20 @@ class SearchStringController extends Controller
         ]);
 
         return redirect("/planning/".$id_project."/search-string");
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store_synonym(Request $request, $id_project)
+    {
+        $id_term = $request->input('termSelect');
+        $term = Term::findOrFail($id_term);
+        $term->synonyms()->create([
+            'description' => $request->input('description_synonym'),
+        ]);
+     
+        return redirect()->back();
     }
 
     /**

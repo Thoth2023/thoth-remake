@@ -11,6 +11,7 @@ class Synonym extends Model
     use HasFactory;
     protected $table = 'synonym';
     protected $primaryKey = 'id_synonym';
+    public $timestamps = false;
     protected $fillable = [
         'description',
         'term_id',
@@ -20,5 +21,4 @@ class Synonym extends Model
     {
         return $this->belongsTo(Term::class);
     }
-
 }

@@ -220,12 +220,17 @@
                                                     </div>
                                                     <div class="card-body pt-0">
                                                         <div class="row align-content-center">
+                                                            {{-- add synonym --}}
+                                                            <form role="form" method="POST"
+                                                            action="{{ route('planning_search_string.add_synonym', $project->id_project) }}"
+                                                            style="display: flex;">
+                                                            @csrf
                                                             <div class="col-md-5">
                                                                 <div class="col-auto">
                                                                     <label for="example-text-input"
                                                                         class="form-control-label">Term</label>
                                                                     <select class="form-select" id="termSelect"
-                                                                        name="term">
+                                                                        name="termSelect">
                                                                         <option value="" disabled selected>
                                                                             Select a Term</option>
                                                                         @foreach ($terms as $term)
@@ -241,12 +246,14 @@
                                                                 <div class="form-group d-flex justify-content-between">
                                                                     <div class="col-sm-9">
                                                                         <input class="form-control" type="text"
-                                                                            name="description">
+                                                                            name="description_synonym">
                                                                     </div>
                                                                     <button type="submit"
                                                                         class="btn btn-primary btn-sm">Add</button>
                                                                 </div>
                                                             </div>
+                                                            </form>
+                                                            {{-- end synonym --}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,30 +265,47 @@
                                                                 <tr>
                                                                     <th>Term</th>
                                                                     <th>Synonyms</th>
+                                                                    <th>Actions</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 @foreach ($terms as $term)
                                                                     <tr>
-                                                                        {{-- <td rowspan="{{ count($synonyms) }}"> --}}
                                                                         <td>
                                                                             {{ $term->description }}
                                                                         </td>
-                                                                        {{-- <td>{{ $synonyms[0] }}</td> --}}
-                                                                        <td></td>
+                                                                        <td>
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">Synonym</th>
+                                                                                        <th scope="col">Actions</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($term->synonyms as $synonym)
+                                                                                        <tr>
+                                                                                            <td>{{ $synonym->description }}</td>
+                                                                                            <td>
+                                                                                                <button class="btn btn-primary">Edit</button>
+                                                                                                <button class="btn btn-danger">Delete</button>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button class="btn btn-primary">Edit</button>
+                                                                            <button class="btn btn-danger">Delete</button>
+                                                                        </td>
                                                                     </tr>
-                                                                    {{-- @for ($i = 1; $i < count($synonyms); $i++) --}}
-                                                                    {{--     <tr> --}}
-                                                                    {{--         <td>{{ $synonyms[$i] }}</td> --}}
-                                                                    {{--     </tr> --}}
-                                                                    {{-- @endfor --}}
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

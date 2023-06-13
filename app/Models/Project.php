@@ -66,6 +66,12 @@ class Project extends Model
         return $this->hasMany(Term::class, 'id_project');
     }
 
+    public function synonyms()
+    {
+        return $this->hasManyThrough(Synonym::class, Term::class, 'id_project', 'id_term');
+    }
+
+
     private function insertSearchStringGenerics($idProject)
     {
         // Insert logic for search_string_generics table
