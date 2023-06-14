@@ -71,4 +71,26 @@ class SearchStringController extends Controller
         $term->delete();
         return redirect()->back();
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update_synonym(Request $request, $id_synonym)
+    {
+        $synonym = Synonym::findOrFail($id_synonym);
+        $synonym->description = $request->input('synonym-description');
+        $synonym->save();
+
+        return redirect()->back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy_synonym($id_synonym)
+    {
+        $synonym = Synonym::findOrFail($id_synonym);
+        $synonym->delete();
+        return redirect()->back();
+    }
 }

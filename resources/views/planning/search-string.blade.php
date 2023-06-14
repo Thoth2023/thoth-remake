@@ -286,8 +286,60 @@
                                                                                         <tr>
                                                                                             <td>{{ $synonym->description }}</td>
                                                                                             <td>
-                                                                                                <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-form"  data-original-title="Edit Synonym">Edit</button>
-                                                                                                <button type="button" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-form" data-original-title="Delete Synonym">Delete</button>
+                                                                                                <div class="d-flex justify-content-center">
+                                                                                                    <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage{{$term->id_term}}_{{$synonym->id_synonym}}" data-original-title="Edit Synonym">Edit</button>
+                                                                                                    <div class="modal fade" id="exampleModalMessage{{$term->id_term}}_{{$synonym->id_synonym}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle{{$term->id_term}}_{{$synonym->id_synonym}}" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                                            <div class="modal-content">
+                                                                                                                <div class="modal-header">
+                                                                                                                    <h5 class="modal-title" id="exampleModalLabel">Synonym Update</h5>
+                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                                                                        <span aria-hidden="true">×</span>
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                                <form action="{{ route('planning_search_string.update_synonym', $synonym->id_synonym) }}" method="POST">
+                                                                                                                    @csrf
+                                                                                                                    @method('PUT')
+                                                                                                                    <div class="modal-body">
+                                                                                                                        <div class="form-group">
+                                                                                                                            <label for="synonym-description{{$term->id_term}}_{{$synonym->id_synonym}} class="col-form-label">Synonym:</label>
+                                                                                                                            <input type="text" class="form-control" value="{{ $synonym->description }}" id="synonym-description{{$term->id_term}}_{{$synonym->id_synonym}}" name="synonym-description">
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="modal-footer">
+                                                                                                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                                                                        <button type="submit" class="btn bg-gradient-info">Save</button>
+                                                                                                                    </div>
+                                                                                                                </form>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    </form>
+                                                                                                    <button type="button" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$term->id_term}}_{{$synonym->id_synonym}}">Delete</button>
+                                                                                                    <div class="modal fade" id="modal-delete-{{$term->id_term}}_{{$synonym->id_synonym}}" tabindex="-1" role="dialog" aria-labelledby="modal-delete-{{$term->id_term}}_{{$synonym->id_synonym}}" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-centered modal-" role="document">
+                                                                                                            <div class="modal-content">
+                                                                                                                <div class="modal-header">
+                                                                                                                    <h6 class="modal-title" id="modal-title-delete-{{$term->id_term}}_{{$synonym->id_synonym}}">Confirm Deletion</h6>
+                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                                                                        <span aria-hidden="true">×</span>
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                                <div class="modal-body">
+                                                                                                                    <p>Are you sure you want to delete this synonym?</p>
+                                                                                                                </div>
+                                                                                                                <div class="modal-footer">
+                                                                                                                    <form class="form-unstyled" action="{{ route('planning_search_string.destroy_synonym', $synonym->id_synonym) }}" method="post">
+                                                                                                                        @method('delete')
+                                                                                                                        @csrf
+                                                                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                                                                    </form>
+                                                                                                                    <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Cancel</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
                                                                                             </td>
                                                                                         </tr>
                                                                                     @endforeach
@@ -296,7 +348,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="d-flex justify-content-center">
-                                                                                    <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage{{$term->id_term}}" data-original-title="Edit Synonym">Edit</button>
+                                                                                    <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage{{$term->id_term}}" data-original-title="Edit Term">Edit</button>
                                                                                     <!-- Modal -->
                                                                                     <div class="modal fade" id="exampleModalMessage{{$term->id_term}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle{{$term->id_term}}" aria-hidden="true">
                                                                                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -324,12 +376,30 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    {{-- end modal --}}
-                                                                                <form class="form-unstyled" action="{{ route('planning_search_string.destroy_term', $term->id_term) }}" method="post">
-                                                                                    @method('delete')
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-form" data-original-title="Delete Synonym">Delete</button>
-                                                                                </form>
+                                                                                    <button type="button" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $term->id_term }}">Delete</button>
+                                                                                    <div class="modal fade" id="modal-delete-{{ $term->id_term }}" tabindex="-1" role="dialog" aria-labelledby="modal-delete-{{ $term->id_term }}" aria-hidden="true">
+                                                                                        <div class="modal-dialog modal-dialog-centered modal-" role="document">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <h6 class="modal-title" id="modal-title-delete-{{ $term->id_term }}">Confirm Deletion</h6>
+                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                                                        <span aria-hidden="true">×</span>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <div class="modal-body">
+                                                                                                    <p>Are you sure you want to delete this term?</p>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <form class="form-unstyled" action="{{ route('planning_search_string.destroy_term', $term->id_term) }}" method="post">
+                                                                                                        @method('delete')
+                                                                                                        @csrf
+                                                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                                                    </form>
+                                                                                                    <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Cancel</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
