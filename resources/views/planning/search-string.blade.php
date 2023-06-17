@@ -110,50 +110,20 @@
                                         <div class="card-body">
                                             <div class="dflex column card mt-0">
                                                 <div class="mt-4">
-                                                    {{-- Start modal help  --}}
                                                     <div class="card-header pb-0">
                                                         <h5 class="d-inline">Search String</h5>
                                                         <button type="button"
                                                             class="bg-gradient-warning mb-3 help-thoth-button"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#modal-notification-3">?</button>
-                                                        <div class="modal fade" id="modal-notification-3" tabindex="-1"
-                                                            role="dialog" aria-labelledby="modal-notification-3"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog modal-danger modal-dialog-centered modal-"
-                                                                role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h6 class="modal-title"
-                                                                            id="modal-title-notification-3">Help Search
-                                                                            String</h6>
-                                                                        <button type="button"
-                                                                            class="btn btn-danger small-button"
-                                                                            data-bs-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">x</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="py-3 text-center">
-                                                                            <h4 class="text-black mt-4">The terms help to
-                                                                                focus your search appropriately, looking for
-                                                                                items that have had a specific term applied
-                                                                                by an indexer.
-                                                                                After determining all relevant terms, you
-                                                                                should relate them if all their synonyms to
-                                                                                make your search string broader.</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-white"
-                                                                            data-bs-dismiss="modal">Ok, Got it</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @component('partials.help-modal', ['modalId' => 'modal-notification-3', 'title' => 'Help Search String'])
+                                                            <h4 class="text-black mt-4">The terms help to focus your search
+                                                                appropriately, looking for items that have had a specific term
+                                                                applied by an indexer. After determining all relevant terms, you
+                                                                should relate them if all their synonyms to make your search
+                                                                string broader.</h4>
+                                                        @endcomponent
                                                     </div>
-                                                    <!-- End Help -->
-
                                                     <div class="card-body">
                                                         {{-- add term --}}
                                                         <form role="form" method="POST"
@@ -161,17 +131,18 @@
                                                             style="display: flex;">
                                                             @csrf
                                                             <div class="col-md-5">
-                                                                <label for="example-text-input"
+                                                                <label for="descriptionTermInput"
                                                                     class="form-control-label">Term</label>
                                                                 <div class="form-group d-flex justify-content-between">
                                                                     <div class="col-sm-9">
                                                                         <input class="form-control" type="text"
                                                                             name="description_term"
                                                                             id="descriptionTermInput"
-                                                                            placeholder="Enter the term">
+                                                                            placeholder="Enter the term" required>
                                                                     </div>
-                                                                    <button type="submit" class="btn btn-outline-warning ps-4 pe-4 py-1 px-2 mt-1">Add</button>
-                                                                   
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary ps-4 pe-4 py-1 px-2 mt-1"
+                                                                        id="addTermButton">Add</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -186,71 +157,52 @@
                                                             class="bg-gradient-warning mb-3 help-thoth-button"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#modal-notification-4">?</button>
-                                                        <div class="modal fade" id="modal-notification-4" tabindex="-1"
-                                                            role="dialog" aria-labelledby="modal-notification-4"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog modal-danger modal-dialog-centered modal-"
-                                                                role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h6 class="modal-title"
-                                                                            id="modal-title-notification-4">Help
-                                                                            Synonym</h6>
-                                                                        <button type="button"
-                                                                            class="btn btn-danger small-button"
-                                                                            data-bs-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">x</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="py-3 text-center">
-                                                                            <h4 class="text-black mt-4">Fill in
-                                                                                this
-                                                                                help.</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-white"
-                                                                            data-bs-dismiss="modal">Ok, Got
-                                                                            it</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @component('partials.help-modal', ['modalId' => 'modal-notification-4', 'title' => 'Help Synonym'])
+                                                            <h4 class="text-black mt-4">Synonyms help searching for articles
+                                                                that use a different word for the same meaning as the term we
+                                                                are searching for.</h4>
+                                                        @endcomponent
                                                     </div>
                                                     <div class="card-body pt-0">
                                                         <div class="row align-content-center">
                                                             {{-- add synonym --}}
                                                             <form role="form" method="POST"
-                                                            action="{{ route('planning_search_string.add_synonym', $project->id_project) }}"
-                                                            style="display: flex;">
-                                                            @csrf
-                                                            <div class="col-md-5">
-                                                                <div class="col-auto">
-                                                                    <label for="example-text-input"
-                                                                        class="form-control-label">Term</label>
-                                                                    <select class="form-select" id="termSelect"
-                                                                        name="termSelect">
-                                                                        <option value="" disabled selected>
-                                                                            Select a Term</option>
-                                                                        @foreach ($terms as $term)
-                                                                            <option value="{{ $term->id_term }}">
-                                                                                {{ $term->description }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-5 text-start">
-                                                                <label for="example-text-input"
-                                                                    class="form-control-label">Synonym</label>
-                                                                <div class="form-group d-flex justify-content-between">
-                                                                    <div class="col-sm-9">
-                                                                        <input class="form-control" type="text"
-                                                                            name="description_synonym" placeholder="Enter a synonym">
+                                                                action="{{ route('planning_search_string.add_synonym', $project->id_project) }}"
+                                                                style="display: flex;">
+                                                                @csrf
+                                                                <div class="col-md-5">
+                                                                    <div class="col-auto">
+                                                                        <label for="termSelect"
+                                                                            class="form-control-label">Term</label>
+                                                                        <select class="form-select" id="termSelect"
+                                                                            name="termSelect" required>
+                                                                            <option value="" disabled selected>Select
+                                                                                a Term</option>
+                                                                            @forelse ($terms as $term)
+                                                                                <option value="{{ $term->id_term }}">
+                                                                                    {{ $term->description }}</option>
+                                                                            @empty
+                                                                                <option value="" disabled>No terms
+                                                                                    available</option>
+                                                                            @endforelse
+                                                                        </select>
                                                                     </div>
-                                                                    <button type="submit" class="btn btn-outline-warning ps-4 pe-4 py-1 px-2 mt-1">Add</button>
                                                                 </div>
-                                                            </div>
+                                                                <div class="col-md-5 text-start">
+                                                                    <label for="descriptionSynonymInput"
+                                                                        class="form-control-label">Synonym</label>
+                                                                    <div class="form-group d-flex justify-content-between">
+                                                                        <div class="col-sm-9">
+                                                                            <input class="form-control" type="text"
+                                                                                name="description_synonym"
+                                                                                id="descriptionSynonymInput"
+                                                                                placeholder="Enter a synonym" required>
+                                                                        </div>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary ps-4 pe-4 py-1 px-2 mt-1"
+                                                                            id="addSynonymButton">Add</button>
+                                                                    </div>
+                                                                </div>
                                                             </form>
                                                             {{-- end synonym --}}
                                                         </div>
@@ -268,146 +220,78 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach ($terms as $term)
+                                                                @forelse ($terms as $term)
                                                                     <tr>
-                                                                        <td>
-                                                                            {{ $term->description }}
-                                                                        </td>
+                                                                        <td>{{ $term->description }}</td>
                                                                         <td>
                                                                             <table class="table">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th scope="col">Synonym</th>
-                                                                                        <th scope="col">Actions</th>
-                                                                                    </tr>
-                                                                                </thead>
                                                                                 <tbody>
-                                                                                    @foreach ($term->synonyms as $synonym)
+                                                                                    @forelse ($term->synonyms as $synonym)
                                                                                         <tr>
-                                                                                            <td>{{ $synonym->description }}</td>
+                                                                                            <td>{{ $synonym->description }}
+                                                                                            </td>
                                                                                             <td>
-                                                                                                <div class="d-flex justify-content-center">
-                                                                                                    <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage{{$term->id_term}}_{{$synonym->id_synonym}}" data-original-title="Edit Synonym">Edit</button>
-                                                                                                    <div class="modal fade" id="exampleModalMessage{{$term->id_term}}_{{$synonym->id_synonym}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle{{$term->id_term}}_{{$synonym->id_synonym}}" aria-hidden="true">
-                                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                                                            <div class="modal-content">
-                                                                                                                <div class="modal-header">
-                                                                                                                    <h5 class="modal-title" id="exampleModalLabel">Synonym Update</h5>
-                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                                                                        <span aria-hidden="true">×</span>
-                                                                                                                    </button>
-                                                                                                                </div>
-                                                                                                                <form action="{{ route('planning_search_string.update_synonym', $synonym->id_synonym) }}" method="POST">
-                                                                                                                    @csrf
-                                                                                                                    @method('PUT')
-                                                                                                                    <div class="modal-body">
-                                                                                                                        <div class="form-group">
-                                                                                                                            <label for="synonym-description{{$term->id_term}}_{{$synonym->id_synonym}} class="col-form-label">Synonym:</label>
-                                                                                                                            <input type="text" class="form-control" value="{{ $synonym->description }}" id="synonym-description{{$term->id_term}}_{{$synonym->id_synonym}}" name="synonym-description">
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                    <div class="modal-footer">
-                                                                                                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                                                                        <button type="submit" class="btn bg-gradient-info">Save</button>
-                                                                                                                    </div>
-                                                                                                                </form>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    </form>
-                                                                                                    <button type="button" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$term->id_term}}_{{$synonym->id_synonym}}">Delete</button>
-                                                                                                    <div class="modal fade" id="modal-delete-{{$term->id_term}}_{{$synonym->id_synonym}}" tabindex="-1" role="dialog" aria-labelledby="modal-delete-{{$term->id_term}}_{{$synonym->id_synonym}}" aria-hidden="true">
-                                                                                                        <div class="modal-dialog modal-dialog-centered modal-" role="document">
-                                                                                                            <div class="modal-content">
-                                                                                                                <div class="modal-header">
-                                                                                                                    <h6 class="modal-title" id="modal-title-delete-{{$term->id_term}}_{{$synonym->id_synonym}}">Confirm Deletion</h6>
-                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                                                                        <span aria-hidden="true">×</span>
-                                                                                                                    </button>
-                                                                                                                </div>
-                                                                                                                <div class="modal-body">
-                                                                                                                    <p>Are you sure you want to delete this synonym?</p>
-                                                                                                                </div>
-                                                                                                                <div class="modal-footer">
-                                                                                                                    <form class="form-unstyled" action="{{ route('planning_search_string.destroy_synonym', $synonym->id_synonym) }}" method="post">
-                                                                                                                        @method('delete')
-                                                                                                                        @csrf
-                                                                                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                                                                                    </form>
-                                                                                                                    <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Cancel</button>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
+                                                                                                <div
+                                                                                                    class="d-flex justify-content-end">
+                                                                                                    <a href="#"
+                                                                                                        class="btn btn-link text-secondary mt-2 pt-1 pb-1 mt-3"
+                                                                                                        data-bs-toggle="modal"
+                                                                                                        data-bs-target="#exampleModalMessage{{ $term->id_term }}_{{ $synonym->id_synonym }}"
+                                                                                                        data-original-title="Edit Synonym">Edit</a>
+                                                                                                    <!-- Synonym Edit Modal -->
+                                                                                                    @component('partials.synonym-modal', ['term' => $term, 'synonym' => $synonym])
+                                                                                                    @endcomponent
+
+                                                                                                    <a href="#"
+                                                                                                        class="btn btn-link text-danger mt-2 pt-1 pb-1 mt-3"
+                                                                                                        data-bs-toggle="modal"
+                                                                                                        data-bs-target="#modal-delete-{{ $term->id_term }}_{{ $synonym->id_synonym }}">Delete</a>
+                                                                                                    <!-- Synonym Delete Modal -->
+                                                                                                    @component('partials.synonym-delete-modal', ['term' => $term, 'synonym' => $synonym])
+                                                                                                    @endcomponent
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>
-                                                                                    @endforeach
+                                                                                    @empty
+                                                                                        <tr>
+                                                                                            <td colspan="2">No synonyms
+                                                                                                available</td>
+                                                                                        </tr>
+                                                                                    @endforelse
                                                                                 </tbody>
                                                                             </table>
                                                                         </td>
                                                                         <td>
                                                                             <div class="d-flex justify-content-center">
-                                                                                    <button type="button" class="btn btn-outline-dark mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage{{$term->id_term}}" data-original-title="Edit Term">Edit</button>
-                                                                                    <!-- Modal -->
-                                                                                    <div class="modal fade" id="exampleModalMessage{{$term->id_term}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle{{$term->id_term}}" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h5 class="modal-title" id="exampleModalLabel">Term Update</h5>
-                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                                                        <span aria-hidden="true">×</span>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                                <form action="{{ route('planning_search_string.update_term', $term->id_term) }}" method="POST">
-                                                                                                    @csrf
-                                                                                                    @method('PUT')
-                                                                                                    <div class="modal-body">
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="term-description{{$term->id_term}}" class="col-form-label">Term:</label>
-                                                                                                            <input type="text" class="form-control" value="{{ $term->description }}" id="term-description{{$term->id_term}}" name="term-description">
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="modal-footer">
-                                                                                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                                                        <button type="submit" class="btn bg-gradient-info">Save</button>
-                                                                                                    </div>
-                                                                                                </form>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <button type="button" class="btn btn-outline-danger mt-2 pt-1 pb-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $term->id_term }}">Delete</button>
-                                                                                    <div class="modal fade" id="modal-delete-{{ $term->id_term }}" tabindex="-1" role="dialog" aria-labelledby="modal-delete-{{ $term->id_term }}" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-dialog-centered modal-" role="document">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h6 class="modal-title" id="modal-title-delete-{{ $term->id_term }}">Confirm Deletion</h6>
-                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                                                        <span aria-hidden="true">×</span>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                                <div class="modal-body">
-                                                                                                    <p>Are you sure you want to delete this term?</p>
-                                                                                                </div>
-                                                                                                <div class="modal-footer">
-                                                                                                    <form class="form-unstyled" action="{{ route('planning_search_string.destroy_term', $term->id_term) }}" method="post">
-                                                                                                        @method('delete')
-                                                                                                        @csrf
-                                                                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                                                                    </form>
-                                                                                                    <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Cancel</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                <a href="#"
+                                                                                    class="btn btn-link text-secondary mt-2 pt-1 pb-1 mt-3"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#exampleModalMessage{{ $term->id_term }}"
+                                                                                    data-original-title="Edit Term">Edit</a>
+                                                                                <!-- Term Edit Modal -->
+                                                                                @component('partials.term-modal', ['term' => $term])
+                                                                                @endcomponent
+
+                                                                                <a href="#"
+                                                                                    class="btn btn-link text-danger mt-2 pt-1 pb-1 mt-3"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#modal-delete-{{ $term->id_term }}">Delete</a>
+                                                                                <!-- Term Delete Modal -->
+                                                                                @component('partials.term-delete-modal', ['term' => $term])
+                                                                                @endcomponent
                                                                             </div>
                                                                         </td>
                                                                     </tr>
-                                                                @endforeach
+                                                                @empty
+                                                                    <tr>
+                                                                        <td colspan="3">No terms available</td>
+                                                                    </tr>
+                                                                @endforelse
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
