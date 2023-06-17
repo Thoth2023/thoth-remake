@@ -291,7 +291,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-
+                                                @include('components.prev-next')
                                             </div>
                                         </div>
                                     </div>

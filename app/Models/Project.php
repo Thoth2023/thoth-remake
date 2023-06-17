@@ -30,6 +30,7 @@ class Project extends Model
         'title',
         'description',
         'objectives',
+        'created_by',
     ];
 
     public function users() {

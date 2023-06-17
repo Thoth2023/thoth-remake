@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('objectives');
-            $table->integer('created_by')->index('created_by');
+            $table->string('created_by');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('c_papers')->default(0);
