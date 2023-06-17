@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+
   pull_request:
     branches:
       - main
@@ -60,4 +61,4 @@ jobs:
         DB_DATABASE: thoth
         DB_USERNAME: root
         DB_PASSWORD: root
-      run: vendor/bin/phpunit tests
+      run: vendor/bin/phpunit tests --testdox
