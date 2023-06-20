@@ -45,7 +45,7 @@
                 <h4>Overview</h4>
             </div>
             <div class="card-body">
-            @include('projects.project-overview', ['project' => $project])
+            @include('projects.project-overview', ['project' => $project, 'activities' => $activities])
             </div>
         </div>
     </div>

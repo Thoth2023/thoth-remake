@@ -8,6 +8,7 @@ use App\Http\Requests\Project\UpdateMemberLevelRequest;
 use App\Models\Project;
 use App\Models\Activity;
 use App\Models\User;
+use App\Utils\ActivityLogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -53,10 +54,13 @@ class ProjectController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'objectives' => $request->objectives,
-            //'copy_planning'
         ]);
 
+        $activity = "Created the project ".$project->title;
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $id_user);
+
         $project->users()->attach($project->id_project, ['id_user' => $id_user, 'level' => 1]);
+        
         return redirect('/projects');
     }
 
@@ -67,8 +71,11 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($idProject);
         $users_relation = $project->users()->get(); 
-        $activities = Activity::where('id_project', $idProject)->get();
-        return view('projects.show', compact('project'), compact('users_relation'), compact('activities'));
+        $activities = Activity::where('id_project', $idProject)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        
+        return view('projects.show', compact('project'), compact('users_relation'))->with('activities', $activities);
     }
 
     /**
@@ -87,6 +94,10 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->update($request->all());
+
+        $activity = "Edited project";
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+
         return redirect('/projects');
     }
 
@@ -96,7 +107,10 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         $project = Project::findOrFail($id);
+        $activity = "Deleted project ".$project->id_;
         $project->delete();
+        ActivityLogHelper::insertActivityLog($activity, 1, null, Auth::user()->id);
+
         return redirect('/projects');
     }
 
@@ -111,6 +125,10 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($idProject);
         $project->users()->detach($idMember);
+        $name_member = User::findOrFail($idMember);
+        
+        $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";    
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
         return redirect()->back();
     }
 
@@ -150,6 +168,9 @@ class ProjectController extends Controller
 
         $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
 
+        $activity = "Added a new member: ".$name_member->username;
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+
         $project->update($request->all());
         return redirect()->back()->with('succes',$name_member->username.' has been added to the current project.');
     }
@@ -167,9 +188,13 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
         $member = $project->users()->findOrFail($idMember);
         $validatedData = $request->validated();
+        $name_member = User::findOrFail($idMember);
 
         $member->pivot->level = $validatedData['level_member'];
-        $member->pivot->save();
+        $member->pivot->save(); 
+
+        $activity = "The admin updated ".$name_member->username." level to ".$validatedData['level_member'].".";
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 
         return redirect()->back()->with('succes', 'The member level has been changed successfully.');
     }
