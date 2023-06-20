@@ -90,7 +90,7 @@ class PlanningOverallInformationController extends Controller
         if($language){
             return back()->withErrors([
                 'duplicate' => 'The provided language already exists in this project.',
-            ]);;
+            ]);
         }
         else{
             ProjectLanguage::create([
@@ -132,7 +132,7 @@ class PlanningOverallInformationController extends Controller
         if($study_type){
             return back()->withErrors([
                 'duplicate' => 'The provided study type already exists in this project.',
-            ]);;
+            ]);
         }
         else{
             ProjectStudyType::create([
