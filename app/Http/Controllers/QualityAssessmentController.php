@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\GeneralScore;
 use App\Models\MinToApp;
 use App\Models\Project;
+use App\Models\QuestionQuality;
+use App\Models\ScoreQuality;
 use Illuminate\Http\Request;
 
 class QualityAssessmentController extends Controller
@@ -62,7 +64,7 @@ class QualityAssessmentController extends Controller
             return redirect($urlToRedirect);
         }
         $score->update([
-            'description' => $request->gs_description,
+            'description' => $request->description,
             'start' => $request->start,
             'end' => $request->end,
         ]);
@@ -71,15 +73,53 @@ class QualityAssessmentController extends Controller
         return redirect($urlToRedirect);
     }
 
+    public function remove_general_score(string $id_project, string $id_general_score) {
+        
+        $scoreToDelete = GeneralScore::findOrFail($id_general_score);
+        if ($scoreToDelete->start != 0) {
+            $scoreToDelete->delete();
+        }
+        return redirect('/projects/'.$id_project.'/planning/quality-assessment');
+    }
+
+    public function create_question_quality(Request $request, string $id_project) {
+
+        $newQuestionQuality = QuestionQuality::create([
+            'description' => $request->description,
+            'id' => $request->id,
+            'id_project' => $id_project,
+            'wheight' => $request->wheight
+        ]);
+
+        return redirect('/projects/'.$id_project.'/planning/quality-assessment');
+    }
+
+    public function create_question_score(Request $request, string $id_project) {
+
+        $scoreQuality = ScoreQuality::create([
+            'description' => $request->description,
+            'id_qa' => $request->question,
+            'score' => $request->score,
+            'score_rule' => $request->scoreRule
+        ]);
+
+        return redirect('/projects/'.$id_project.'/planning/quality-assessment');
+    }
+
     private function isScoreValid(GeneralScore $generalScore, $generalScores) {
         if ($generalScore->start >= $generalScore->end) {
             return false;
         }
+        $hasStartInterval = false;
         foreach ($generalScores as $gScore) {
             if (($generalScore->start < $gScore->start && $generalScore->end > $gScore->start) ||
             ($generalScore->start < $gScore->end && $generalScore->end > $gScore->end)) {
                 return false;
             }
+            $hasStartInterval = $hasStartInterval || $gScore->start == 0;
+        }
+        if (!$hasStartInterval && $generalScore->start != 0) {
+            return false;
         }
         return true;
     }

@@ -109,6 +109,9 @@ Route::get('projects/{projectId}/planning/quality-assessment', [QualityAssessmen
 Route::post('projects/{projectId}/planning/quality-assessment/interval/create', [QualityAssessmentController::class, 'create_general_score_interval'])->name('planning.createGeneralScoreInterval')->middleware('auth');
 Route::post('projects/{projectId}/planning/quality-assessment/min-to-app', [QualityAssessmentController::class, 'set_min_to_app'])->name('planning.setMinToApp')->middleware('auth');
 Route::put('projects/{projectId}/planning/quality-assessment/interval/{intervalId}/update', [QualityAssessmentController::class, 'edit_general_score_interval'])->name('planning.editGeneralScoreInterval')->middleware('auth');
+Route::delete('projects/{projectId}/planning/quality-assessment/interval/{intervalId}/delete', [QualityAssessmentController::class, 'remove_general_score'])->name('planning.deleteGeneralScoreInterval')->middleware('auth');
+Route::post('projects/{projectId}/planning/quality-assessment/quality-question/create', [QualityAssessmentController::class, 'create_question_quality'])->name('planning.createQualityQuestion')->middleware('auth');
+Route::post('projects/{projectId}/planning/quality-assessment/quality-score/create', [QualityAssessmentController::class, 'create_question_score'])->name('planning.createQualityScore')->middleware('auth');
 
 //end of the planning routes
 

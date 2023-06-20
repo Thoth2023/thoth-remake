@@ -168,8 +168,8 @@
                                                             <form class="m-1" role="form" action="{{ route('planning.editGeneralScoreInterval', [$project->id_project, $generalScore->id_general_score]) }}" method="POST">
                                                                 @csrf
                                                                 @method('PUT')
-                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#generalScoreModal">Edit</button>
-                                                                <div class="modal fade" id="generalScoreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#generalScoreModal{{ $generalScore->id_general_score }}">Edit</button>
+                                                                <div class="modal fade" id="generalScoreModal{{ $generalScore->id_general_score }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
@@ -181,8 +181,8 @@
                                                                                     <input type="number" value="{{ $generalScore->start }}" class="form-control" name="start" min="0" step="0.1" placeholder="Start Score Interval" aria-label="Start Score Interval Input" aria-describedby="button-addon4">
                                                                                     <input type="number" value="{{ $generalScore->end }}" class="form-control" name="end" min="0" step="0.1" placeholder="End Score Interval" aria-label="End Score Interval Input" aria-describedby="button-addon4">
                                                                                 </div>
-                                                                                <label class="form-control-label" for="gs-description">General Score Description</label>
-                                                                                <input class="form-control" type="text" id="gs-description" value="{{ $generalScore->description }}" name="gs_description">
+                                                                                <label class="form-control-label" for="egs-description">General Score Description</label>
+                                                                                <input class="form-control" type="text" id="egs-description" value="{{ $generalScore->description }}" name="description">
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
@@ -192,7 +192,7 @@
                                                                     </div>
                                                                 </div>
                                                             </form>
-                                                            <form class="m-1" role="form" method="POST">
+                                                            <form class="m-1" role="form" action="{{ route('planning.deleteGeneralScoreInterval', [$project->id_project, $generalScore->id_general_score]) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -210,13 +210,14 @@
                                             <h5>Question Quality</h5>
                                         </div>
                                         <div class="card-body">
-                                            <form role="form" method ="POST" enctype="multipart/form-data">
+                                            <form role="form" method="POST" action="{{ route('planning.createQualityQuestion', $project->id_project) }}" enctype="multipart/form-data">
+                                                @csrf
                                                 <label class="form-control-label" for="id">ID</label>
                                                 <input class="form-control" id="id" type="text" name="id">
                                                 <label class="form-control-label" for="description">Description</label>
                                                 <input class="form-control" id="description" type="text" name="description">
                                                 <label class="form-control-label" for="weight">Weight</label>
-                                                <input class="form-control" id="weight" type="number" name="weight">
+                                                <input class="form-control" id="weight" type="number" min="0" step="0.5" name="weight">
                                                 <button class="btn btn-success mt-3" type="submit">Add</button>
                                             </form>
                                         </div>
@@ -226,7 +227,8 @@
                                             <h5>Question Score</h5>
                                         </div>
                                         <div class="card-body">
-                                            <form role="form" method ="POST" enctype="multipart/form-data">
+                                            <form role="form" method ="POST" action="{{ route('planning.createQualityScore', $project->id_project) }}" enctype="multipart/form-data">
+                                                @csrf
                                                 <label class="form-control-label" for="question">Question</label>
                                                 <select class="form-control" name="question" id="question" placeholder="Departure">
                                                     <option value="" selected=""></option>
@@ -253,22 +255,22 @@
                                         <ul class="list-group">
                                             <li class="list-group-item m-1">
                                                 <div class="row">
-                                                    <div class="col">
+                                                    <div class="col-1">
                                                         <b>ID</b>
                                                     </div>
                                                     <div class="col">
                                                         <b>Description</b>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col-4">
                                                         <b>Score Rules</b>
                                                     </div>
-                                                    <div class="col-md-auto d-flex">
+                                                    <div class="col-1">
                                                         <b>Weight</b>
                                                     </div>
-                                                    <div class="col-md-auto d-flex">
+                                                    <div class="col">
                                                         <b>Minimum to Approve</b>
                                                     </div>
-                                                    <div class="col-md-auto d-flex">
+                                                    <div class="col">
                                                         <b>Actions</b>
                                                     </div>
                                                 </div>
@@ -276,44 +278,99 @@
                                             @foreach($project->questionQualities as $questionQuality)
                                                 <li class="list-group-item m-1">
                                                     <div class="row">
-                                                        <div class="col">
+                                                        <div class="col-1">
                                                             <span>{{ $questionQuality->id }}</span>
                                                         </div>
                                                         <div class="col">
                                                             <span>{{ $questionQuality->description }}</span>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-4">
                                                             <ul class="list-group">
-                                                                @foreach($questionQuality->scoreQualities as $scoreQuality)
-                                                                    <li class="list-group-item m-1">
+                                                                <li class="list-group-item">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <b>Score Rule</b>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <b>Score</b>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <b>Description</b>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <b>Actions</b>
+                                                                        </div>
+                                                                    </div>                                                                    
+                                                                </li>
+                                                                @foreach($questionQuality->scoreQualities as $sQuality)
+                                                                    <li class="list-group-item">
                                                                         <div class="row">
                                                                             <div class="col">
-                                                                                <span></span>
+                                                                                <span>{{ $sQuality->score_rule }}</span>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <span>{{ $sQuality->score }}%</span>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <span>{{ $sQuality->description }}</span>
+                                                                            </div>
+                                                                            <div class="col-md-auto">
+                                                                                <form class="m-1" role="form" method="POST">
+                                                                                    @csrf
+                                                                                    @method('PUT')
+                                                                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#scoreQualityModal{{ $questionQuality->id_question_quality }}">Edit</button>
+                                                                                    <div class="modal fade" id="scoreQualityModal{{ $questionQuality->id_question_quality }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Score Interval</h5>
+                                                                                                </div>
+                                                                                                <div class="modal-body">
+                                                                                                    ...
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                                    <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                                <form class="m-1" role="form" method="POST">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
                                                         </div>
+                                                        <div class="col-1">
+                                                            <span>{{ $questionQuality->weight }}%</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <select class="form-control" name="minimum" id="minimum-to-approve" placeholder="Departure">
+                                                                <option value="" selected=""></option>
+                                                                @foreach($questionQuality->scoreQualities as $sQuality)
+                                                                    <option value="{{ $sQuality->id_score }}">{{ $sQuality->score_rule }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                         <div class="col-md-auto d-flex">
                                                             <form class="m-1" role="form" method="POST">
                                                                 @csrf
                                                                 @method('PUT')
-                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#generalScoreModal">Edit</button>
-                                                                <div class="modal fade" id="generalScoreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#questionQualityModal{{ $questionQuality->id_question_quality }}">Edit</button>
+                                                                <div class="modal fade" id="questionQualityModal{{ $questionQuality->id_question_quality }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Score Interval</h5>
+                                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Question Quality</h5>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <label class="form-control-label">Intervals</label>
-                                                                                <div class="input-group">
-                                                                                    <input type="number" class="form-control" placeholder="Start Score Interval" aria-label="Start Score Interval Input" aria-describedby="button-addon4">
-                                                                                    <input type="number" class="form-control" placeholder="End Score Interval" aria-label="End Score Interval Input" aria-describedby="button-addon4">
-                                                                                </div>
-                                                                                <label class="form-control-label" for="gs-description">General Score Description</label>
-                                                                                <input class="form-control" type="text" id="gs-description" name="gs_description">
+                                                                                ...
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
