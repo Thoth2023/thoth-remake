@@ -84,14 +84,23 @@ class PlanningOverallInformationController extends Controller
         $this->validate($request, [
             'id_language' => 'required|string',
         ]);
+        $matchThese = ['id_project' => $request->id_project, 'id_language' => $request->id_language];
+        $language = ProjectLanguage::where($matchThese)->first();
 
-        ProjectLanguage::create([
-            'id_project' => $request->id_project,
-            'id_language' => $request->id_language,
-        ]);
-        $id_project = $request->id_project;
-
-        return redirect("/planning/" . $id_project);
+        if($language){
+            return back()->withErrors([
+                'duplicate' => 'The provided language already exists in this project.',
+            ]);;
+        }
+        else{
+            ProjectLanguage::create([
+                'id_project' => $request->id_project,
+                'id_language' => $request->id_language,
+            ]);
+            $id_project = $request->id_project;
+    
+            return redirect("/planning/" . $id_project);
+        }
     }
 
     /*
@@ -117,14 +126,23 @@ class PlanningOverallInformationController extends Controller
         $this->validate($request, [
             'id_study_type' => 'required|string',
         ]);
+        $matchThese = ['id_project' => $request->id_project, 'id_study_type' => $request->id_study_type];
+        $study_type = ProjectStudyType::where($matchThese)->first();
 
-        ProjectStudyType::create([
-            'id_project' => $request->id_project,
-            'id_study_type' => $request->id_study_type,
-        ]);
-        $id_project = $request->id_project;
-
-        return redirect("/planning/" . $id_project);
+        if($study_type){
+            return back()->withErrors([
+                'duplicate' => 'The provided study type already exists in this project.',
+            ]);;
+        }
+        else{
+            ProjectStudyType::create([
+                'id_project' => $request->id_project,
+                'id_study_type' => $request->id_study_type,
+            ]);
+            $id_project = $request->id_project;
+    
+            return redirect("/planning/" . $id_project);
+        }
     }
 
     /*
