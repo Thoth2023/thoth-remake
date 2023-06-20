@@ -1,5 +1,6 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-
+<script src="{{ asset('assets/js/search_string.js')}}"></script>
+<script src="{{ asset('assets/js/terms.js') }}"></script>
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Planning Search String'])
     <div class="row mt-4 mx-4">
@@ -124,7 +125,7 @@
                                                                 string broader.</h4>
                                                         @endcomponent
                                                     </div>
-                                                    <div class="card-body">
+                                                    <div class="card-body pb-0">
                                                         {{-- add term --}}
                                                         <form role="form" method="POST"
                                                             action="{{ route('planning_search_string.add_term', $project->id_project) }}"
@@ -175,7 +176,7 @@
                                                                         <label for="termSelect"
                                                                             class="form-control-label">Term</label>
                                                                         <select class="form-select" id="termSelect"
-                                                                            name="termSelect" required>
+                                                                            name="termSelect" required onchange="related_terms(this.value);">
                                                                             <option value="" disabled selected>Select
                                                                                 a Term</option>
                                                                             @forelse ($terms as $term)
@@ -189,7 +190,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-5 text-start">
-                                                                    <label for="descriptionSynonymInput"
+                                                                    <label for="termSelect"
                                                                         class="form-control-label">Synonym</label>
                                                                     <div class="form-group d-flex justify-content-between">
                                                                         <div class="col-sm-9">
@@ -203,7 +204,11 @@
                                                                             id="addSynonymButton">Add</button>
                                                                     </div>
                                                                 </div>
+                                                                
                                                             </form>
+                                                            <div class="" id="related-terms">
+
+                                                            </div>
                                                             {{-- end synonym --}}
                                                         </div>
                                                     </div>
@@ -212,23 +217,24 @@
                                                 <div class="mt-4">
                                                     <div class="table-responsive m-4 card shadow-none border">
                                                         <table class="table align-items-center mb-0">
+                                                            <caption class="ps-2 mb-1 mt-3">List of Term</caption>
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Term</th>
+                                                                    <th class="ps-5">Term</th>
                                                                     <th>Synonyms</th>
-                                                                    <th>Actions</th>
+                                                                    <th class="text-center">Actions</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 @forelse ($terms as $term)
                                                                     <tr>
-                                                                        <td>{{ $term->description }}</td>
+                                                                        <td class="ps-5">{{ $term->description }}</td>
                                                                         <td>
                                                                             <table class="table">
                                                                                 <tbody>
                                                                                     @forelse ($term->synonyms as $synonym)
                                                                                         <tr>
-                                                                                            <td>{{ $synonym->description }}
+                                                                                            <td class="text-center">{{ $synonym->description }}
                                                                                             </td>
                                                                                             <td>
                                                                                                 <div
@@ -291,6 +297,30 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                                <h6 class="ps-4 mt-2 mb-2"><strong><a target="_blank" href="#">String Improver</a></strong></h6>
+                                                
+                                                {{-- <div id="strings">
+                                                    <div class="form-inline">
+                                                        <label><strong>Strings</strong></label>
+                                                        <a onclick="modal_help('modal_help_strings')" class="float-right opt"><i class="fas fa-question-circle "></i></a>
+                                                    </div>
+                                                
+                                                    @foreach ($project->get_search_strings() as $search_string)
+                                                        <div class="form-group" id="div_string_{{ $search_string->get_database()->get_name() }}">
+                                                            <a target="_blank" href="{{ $search_string->get_database()->get_link() }}">
+                                                                {{ $search_string->get_database()->get_name() }}
+                                                            </a>
+                                                            <textarea class="form-control" id="string_{{ $search_string->get_database()->get_name() }}">
+                                                                {{ $search_string->get_description() }}
+                                                            </textarea>
+                                                            <button type="button" class="btn btn-info opt" onclick="generate_string('{{ $search_string->get_database()->get_name() }}');">
+                                                                Generate
+                                                            </button>
+                                                            <hr>
+                                                        </div>
+                                                    @endforeach
+                                                </div> --}}
+                                                
                                                 @include('components.prev-next')
                                             </div>
                                         </div>

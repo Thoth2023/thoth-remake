@@ -72,6 +72,21 @@ class Project extends Model
         return $this->hasManyThrough(Synonym::class, Term::class, 'id_project', 'id_term');
     }
 
+    public function termsAndSynonyms($id_project): array
+    {
+        $project = Project::findOrFail($id_project);
+        $terms = $project->terms;
+        $data = array();
+        
+        foreach($terms as $term) {
+            $termData = array(
+                'term' => $term->description,
+                'synonyms' => $term->synonyms->pluck('description')->toArray(),
+            );
+            array_push($data, $termData);
+        }
+        return $data;
+    }
 
     private function insertSearchStringGenerics($idProject)
     {
@@ -86,11 +101,6 @@ class Project extends Model
     private function insertExclusionRule($idProject)
     {
         // Insert logic for exclusion_rule table
-    }
-
-    private function insertMembers($idProject, $createdBy, $name)
-    {
-        // Insert logic for members table
     }
 
     public function addDate($startDate, $endDate)
