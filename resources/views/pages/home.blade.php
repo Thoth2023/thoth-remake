@@ -73,5 +73,10 @@
 </div>
 
         </div>   </div></div>
-
+    <!-- PWA service worker -->
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+        }
+    </script>
 @endsection
