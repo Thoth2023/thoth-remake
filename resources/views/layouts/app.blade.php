@@ -9,6 +9,9 @@
     <title>
         Thoth :: Tool for RSL
     </title>
+    <!--  pwa  -->
+    <link rel="manifest" href="/public/manifest.json">
+
     <!-- Fonts and icons -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -58,6 +61,12 @@
                 damping: '0.5'
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <!-- PWA service worker -->
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
         }
     </script>
     <!-- Github buttons -->
