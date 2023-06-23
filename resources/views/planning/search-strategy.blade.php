@@ -3,8 +3,95 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Search Strategy'])
 
+<div class="row mt-4 mx-4">
+   <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>
+                {{ $project->title }}
+                </h4>
+            </div>
+            <div class="card-body">
+            <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1">
+                <li class="nav-item">
+                    <a class="btn bg-gradient-faded-white mb-0" href="{{ route('projects.show', $project->id_project) }}">
+                        <i class="fas fa-plus"></i>Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ route('planning.index', $project->id_project) }}">
+                        <i class="fas fa-plus"></i>Planning</a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Conducting</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Reporting</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Export</button>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4">
 <div class="card shadow-lg mx-4">
     <div class="container-fluid py-4">
+    <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Planning</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                    <div class="nav-wrapper position-relative end-0">
+                    <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.index', $project->id_project) }}" aria-controls="Overallinformation">
+                                Overall information
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.research_questions', $project->id_project) }}" aria-controls="ResearchQuestions">
+                                Research Questions
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
+                                Data Bases
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="#SearchString" aria-controls="SearchString">
+                                Search String
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('search-strategy.edit', $project->id_project) }}" aria-controls="SearchStrategy" style="background-color: #212229; color: white;">
+                                Search Strategy
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.criteria', $project->id_project) }}" aria-controls="Criteria">
+                                Criteria
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="#QualityAssessment" aria-controls="QualityAssessment">
+                                Quality Assessment
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.dataExtraction', $project->id_project) }}" role="tab" aria-controls="DataExtraction">
+                                Data Extraction
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
         <div class="d-flex justify-content-between">
             <p class="text-uppercase text-sm">Search Strategy</p>
             <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseHelp" role="button" aria-expanded="false" aria-controls="collapseHelp">
@@ -56,5 +143,6 @@
 
         @include('layouts.footers.auth.footer')
     </div>
+</div>
 </div>
 @endsection
