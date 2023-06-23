@@ -66,7 +66,7 @@
     <!-- PWA service worker -->
     <script>
         if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('pwabuilder-sw.js')
+            navigator.serviceWorker.register('/public/pwabuilder-sw.js')
         }
     </script>
     <!-- Github buttons -->
