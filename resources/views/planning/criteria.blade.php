@@ -52,7 +52,7 @@
                     <div class="nav-wrapper position-relative end-0">
                     <ul class="nav nav-pills nav-fill p-1" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.index', $id_project) }}" aria-controls="Overallinformation">
+                                <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.index', $project->id_project) }}" aria-controls="Overallinformation">
                                 Overall information
                                 </a>
                             </li>
@@ -62,7 +62,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#Databases" aria-controls="Databases">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
                                 Data Bases
                                 </a>
                             </li>
@@ -72,7 +72,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#SearchStrategy" aria-controls="SearchStrategy">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('search-strategy.edit', $project->id_project) }}" aria-controls="SearchStrategy">
                                 Search Strategy
                                 </a>
                             </li>
@@ -87,7 +87,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" aria-controls="DataExtraction">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.dataExtraction', $project->id_project) }}" role="tab" aria-controls="DataExtraction">
                                 Data Extraction
                                 </a>
                             </li>

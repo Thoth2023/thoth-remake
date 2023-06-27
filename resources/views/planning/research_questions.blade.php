@@ -59,7 +59,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#Databases" aria-controls="Databases">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
                                 Data Bases
                                 </a>
                             </li>
@@ -84,7 +84,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" aria-controls="DataExtraction">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.dataExtraction', $project->id_project) }}" role="tab" aria-controls="DataExtraction">
                                 Data Extraction
                                 </a>
                             </li>

@@ -67,16 +67,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-item mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#SearchString" aria-controls="SearchString">
                                 Search String
                                 </a>
                             </li>
                             <li class="nav-item">
-
-
-                                <a class="nav-link mb-0 px-0 py-1" href="#SearchStrategy" aria-controls="SearchStrategy">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('search-strategy.edit', ['projectId' => $id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
-
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('search-strategy.edit', ['projectId' => $id_project]) }}" aria-controls="SearchStrategy">
                                 Search Strategy
                                 </a>
                             </li>
@@ -91,7 +87,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" aria-controls="DataExtraction">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.dataExtraction', $project->id_project) }}" role="tab" aria-controls="DataExtraction">
                                 Data Extraction
                                 </a>
                             </li>
@@ -220,7 +216,7 @@
                         <!-- Language starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" enctype="multipart/form-data">
+                                <form role="form" action="{{ route('planning_overall.languageAdd') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -310,7 +306,7 @@
                         <!-- Study type starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('planning_overall.studyTAdd') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -401,7 +397,7 @@
                         <!-- Keywords here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.keywordAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('planning_overall.keywordAdd') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -524,6 +520,16 @@
                 </div>
             </div>
         </div>
+    @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
+                <span class="alert-text"><strong>Alert!</strong> {{$error}} </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endforeach
+    @endif
     </div>
 </div>
 @include('layouts.footers.auth.footer')
