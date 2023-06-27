@@ -184,7 +184,7 @@
                                                                                     {{ $term->description }}</option>
                                                                             @empty
                                                                                 <option value="" disabled>No terms
-                                                                                    available</option>
+                                                                                    added</option>
                                                                             @endforelse
                                                                         </select>
                                                                     </div>
@@ -204,7 +204,7 @@
                                                                             id="addSynonymButton">Add</button>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                             </form>
                                                             <div class="" id="related-terms">
 
@@ -217,7 +217,7 @@
                                                 <div class="mt-4">
                                                     <div class="table-responsive m-4 card shadow-none border">
                                                         <table class="table align-items-center mb-0">
-                                                            <caption class="ps-2 mb-1 mt-3">List of Term</caption>
+                                                            {{-- <caption class="ps-2 mb-1 mt-3">List of Term</caption> --}}
                                                             <thead>
                                                                 <tr>
                                                                     <th class="ps-5">Term</th>
@@ -261,7 +261,7 @@
                                                                                     @empty
                                                                                         <tr>
                                                                                             <td colspan="2">No synonyms
-                                                                                                available</td>
+                                                                                                added</td>
                                                                                         </tr>
                                                                                     @endforelse
                                                                                 </tbody>
@@ -290,7 +290,7 @@
                                                                     </tr>
                                                                 @empty
                                                                     <tr>
-                                                                        <td colspan="3">No terms available</td>
+                                                                        <td colspan="3">No terms</td>
                                                                     </tr>
                                                                 @endforelse
                                                             </tbody>
@@ -298,13 +298,13 @@
                                                     </div>
                                                 </div>
                                                 <h6 class="ps-4 mt-2 mb-2"><strong><a target="_blank" href="#">String Improver</a></strong></h6>
-                                                
+
                                                 {{-- <div id="strings">
                                                     <div class="form-inline">
                                                         <label><strong>Strings</strong></label>
                                                         <a onclick="modal_help('modal_help_strings')" class="float-right opt"><i class="fas fa-question-circle "></i></a>
                                                     </div>
-                                                
+
                                                     @foreach ($project->get_search_strings() as $search_string)
                                                         <div class="form-group" id="div_string_{{ $search_string->get_database()->get_name() }}">
                                                             <a target="_blank" href="{{ $search_string->get_database()->get_link() }}">
@@ -320,7 +320,7 @@
                                                         </div>
                                                     @endforeach
                                                 </div> --}}
-                                                
+
                                                 @include('components.prev-next')
                                             </div>
                                         </div>
