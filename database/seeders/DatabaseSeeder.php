@@ -64,5 +64,17 @@ class DatabaseSeeder extends Seeder
         DB::table('language')->insert([
             'description' => 'Russian',
         ]);
+        DB::table('study_type')->insert([
+            ['id_study_type' => 1, 'description' => 'Book'],
+            ['id_study_type' => 2, 'description' => 'Thesis'],
+            ['id_study_type' => 3, 'description' => 'Article in Press'],
+            ['id_study_type' => 4, 'description' => 'Article'],
+            ['id_study_type' => 5, 'description' => 'Conference Paper'],
+        ]);
+        DB::table('types_question')->insert([
+            ['id_type' => 1, 'type' => 'Text'],
+            ['id_type' => 2, 'type' => 'Multiple Choice List'],
+            ['id_type' => 3, 'type' => 'Pick One List'],
+        ]);
     }
 }

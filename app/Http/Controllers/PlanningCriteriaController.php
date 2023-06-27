@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Criteria;
+use App\Utils\ActivityLogHelper;
+use Illuminate\Support\Facades\Auth;
 
 class PlanningCriteriaController extends Controller
 {
@@ -41,7 +43,7 @@ class PlanningCriteriaController extends Controller
             ]);;
         }
         else{
-            Criteria::create([
+            $project_criteria = Criteria::create([
                 'id_project' => $request->id_project,
                 'id' => $request->id,
                 'description' => $request->description,
@@ -51,6 +53,9 @@ class PlanningCriteriaController extends Controller
     
             $id_project = $request->id_project;
     
+            $activity = "Added ". $project_criteria->type. " criteria ". $project_criteria->id;
+            ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
             return redirect("/planning/".$id_project."/criteria");
         }
     }
@@ -82,6 +87,9 @@ class PlanningCriteriaController extends Controller
         }
         $id_project = $criteria->id_project;
 
+        $activity = "Updated criteria ". $criteria->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
         return redirect("/planning/".$id_project."/criteria");
         
     }
@@ -91,11 +99,14 @@ class PlanningCriteriaController extends Controller
     */
     public function destroy(string $id)
     {
-         $criteria = Criteria::findOrFail($id);
-         $id_project = $criteria->id_project;
-         $criteria->delete();
+        $criteria = Criteria::findOrFail($id);
+        $id_project = $criteria->id_project;
+        $activity = "Deleted criteria ". $criteria->id;
 
-         return redirect("/planning/".$id_project."/criteria");
+        $criteria->delete();
+
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+        return redirect("/planning/".$id_project."/criteria");
     }
 
     /*

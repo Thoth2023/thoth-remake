@@ -205,7 +205,7 @@ class ProjectController extends Controller
      * @return mixed The ID of the user.
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findIdByEmail($email)
+    public function findIdByEmail($email)   
     {
         $user = User::where('email', $email)->firstOrFail();
         $userId = $user->id;
