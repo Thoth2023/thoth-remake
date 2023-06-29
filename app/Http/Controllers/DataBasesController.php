@@ -16,7 +16,7 @@ class DataBasesController extends Controller
 	public function add_database(Request $request, string $id_project) {
 		$project = Project::find($id_project);
 		if (!$project->databases->contains('id_database', $request->database)) {
-			$project->databases()->attach($request->database);	
+			$project->databases()->attach($request->database);
 		}
 		return redirect('/projects/'.$id_project.'/planning/data-bases');
 	}

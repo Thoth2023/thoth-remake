@@ -110,10 +110,7 @@
                                                 <input class="form-control" id="description" type="text" name="description">
                                                 <label class="form-control-label" for="type">Type</label>
                                                 <select class="form-control" name="type" id="type" placeholder="Departure">
-                                                    <option value="" selected=""></option>
-                                                    @foreach($types as $type)
-                                                        <option value="{{ $type->id_type }}">{{ $type->type }}</option>
-                                                    @endforeach
+
                                                 </select>
                                                 <button type="sumbit" class="btn btn-success mt-3">Add Question</button>
                                             </form>
@@ -263,7 +260,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>

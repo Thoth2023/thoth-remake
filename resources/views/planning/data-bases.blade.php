@@ -152,8 +152,8 @@
                                 </div>
                             </div>
                         </div>
+</div>
                         <!-- Database ends here -->
-                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -164,13 +164,11 @@
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Send suggestion</button>
                                                 </div>
+                                            </div>
                                                 </form>
 
                                                     </table>
                                                 </div>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -178,3 +176,22 @@
 @include('layouts.footers.auth.footer')
 </div>
 @endsection
+
+
+<p class="mb-0">Suggest a new Data Base:</p>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                    <label for="example-text-input" class="form-control-label">Data Base name:</label>
+                                                        <input class="form-control" type="text" name="description">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+
+                                                        <label for="example-text-input" class="form-control-label">Data Base Link:</label>
+                                                        <input class="form-control" type="text" name="description">
+                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+
+
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Send suggestion</button>
+                                                </div>
+                                            </div>
+                        </div>
