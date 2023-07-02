@@ -5,6 +5,41 @@
 @include('planning.convert-language-name')
 @include('planning.convert-study-type-name')
 
+<div class="row mt-4 mx-4">
+   <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>
+                {{ $project->title }}
+                </h4>
+            </div>
+            <div class="card-body">
+            <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1">
+                <li class="nav-item">
+                    <a class="btn bg-gradient-faded-white mb-0" href="{{ route('projects.show', $project->id_project) }}">
+                        <i class="fas fa-plus"></i>Overview</a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ route('planning.index', $project->id_project) }}">
+                        <i class="fas fa-plus"></i>Planning</a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Conducting</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Reporting</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn bg-gradient-default">Export</button>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid py-4">
     <div class="container-fluid py-4">
         <div class="row">
@@ -17,42 +52,42 @@
                     <div class="nav-wrapper position-relative end-0">
                         <ul class="nav nav-pills nav-fill p-1" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#Overallinformation" role="tab" aria-controls="Overallinformation " aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.index', $id_project) }}" aria-controls="Overallinformation" style="background-color: #212229; color: white;">
                                 Overall information
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#ResearchQuestions" role="tab" aria-controls="ResearchQuestions" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.research_questions', $project->id_project) }}" aria-controls="ResearchQuestions">
                                 Research Questions
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Databases" role="tab" aria-controls="Databases" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
                                 Data Bases
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchString" role="tab" aria-controls="SearchString" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#SearchString" aria-controls="SearchString">
                                 Search String
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#SearchStrategy" role="tab" aria-controls="SearchStrategy" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('search-strategy.edit', ['projectId' => $id_project]) }}" aria-controls="SearchStrategy">
                                 Search Strategy
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Criteria" role="tab" aria-controls="Criteria" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.criteria', $project->id_project) }}" aria-controls="Criteria">
                                 Criteria
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#QualityAssessment" role="tab" aria-controls="QualityAssessment" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="#QualityAssessment" aria-controls="QualityAssessment">
                                 Quality Assessment
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#DataExtraction" role="tab" aria-controls="DataExtraction" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.dataExtraction', $project->id_project) }}" role="tab" aria-controls="DataExtraction">
                                 Data Extraction
                                 </a>
                             </li>
@@ -63,7 +98,7 @@
                         <!-- Domain starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.domainUpdate') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('planning_overall.domainUpdate') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -100,7 +135,7 @@
                                                     <div class="form-group">
                                                         <label for="example-text-input" class="form-control-label">Description</label>
                                                         <input class="form-control" type="text" name="description">
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -181,7 +216,7 @@
                         <!-- Language starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.languageAdd') }} enctype="multipart/form-data">
+                                <form role="form" action="{{ route('planning_overall.languageAdd') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -223,7 +258,7 @@
                                                         <option>No languages in database.</option>
                                                         @endforelse
                                                         </select>
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -271,7 +306,7 @@
                         <!-- Study type starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.studyTAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('planning_overall.studyTAdd') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -314,7 +349,7 @@
                                                             <option>No study types in database.</option>
                                                             @endforelse
                                                         </select>
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -362,7 +397,7 @@
                         <!-- Keywords here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.keywordAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('planning_overall.keywordAdd') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -398,7 +433,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <input class="form-control" type="text" name="description">
-                                                        <input clas="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+                                                        <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
 
                                                     </div>
                                                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Add</button>
@@ -476,10 +511,25 @@
                             </div>
                         </div>
                         <!-- Keywords ends here -->
+                      <div class="col-md-6 unique-form-planning">
+                        <div class="card p-4">
+                         @include('planning.add-date', compact('project'))
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
         </div>
+    @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                <div class="alert alert-dark alert-dismissible fade show" role="alert" style="position: absolute; color: white;">
+                <span class="alert-text"><strong>Alert!</strong> {{$error}} </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endforeach
+    @endif
     </div>
 </div>
 @include('layouts.footers.auth.footer')

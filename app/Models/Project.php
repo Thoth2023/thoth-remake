@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SearchStrategy;
+
 
 class Project extends Model
 {
@@ -27,21 +29,43 @@ class Project extends Model
         'title',
         'description',
         'objectives',
-        //'copy_planning',
     ];
 
     public function users() {
-        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user');
+        return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
+                    ->withPivot('level')
+                    ->join('levels', 'members.level', '=', 'levels.id_level')
+                    ->select('users.*', 'levels.level as level_name');
+    }
+
+
+
+    public function databases() {
+        return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
+    }
+
+    public function questionExtractions() {
+        return $this->hasMany(QuestionExtraction::class, 'id_project');
+    }
+
+
+    public function searchStrategy()
+    {
+        return $this->hasOne(SearchStrategy::class, 'id_project');
+    }
+
+    public function setUserLevel(User $user)
+    {
+        $this->user_level = $this->users()
+            ->where('users.id', $user->id)
+            ->first()
+            ->pivot
+            ->level;
     }
 
     private function insertSearchStringGenerics($idProject)
     {
         // Insert logic for search_string_generics table
-    }
-
-    private function insertSearchStrategy($idProject)
-    {
-        // Insert logic for search_strategy table
     }
 
     private function insertInclusionRule($idProject)
@@ -57,5 +81,12 @@ class Project extends Model
     private function insertMembers($idProject, $createdBy, $name)
     {
         // Insert logic for members table
+    }
+
+    public function addDate($startDate, $endDate)
+    {
+        $this->start_date = $startDate;
+        $this->end_date = $endDate;
+        $this->save();
     }
 }
