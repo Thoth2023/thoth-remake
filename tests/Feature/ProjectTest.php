@@ -97,7 +97,7 @@ class ProjectTest extends TestCase
 
         $response->assertViewIs('projects.index');
 
-        $response->assertViewHas('projects');
+        $response->assertViewHas('merged_projects');
     }
 
     /**
@@ -165,13 +165,17 @@ class ProjectTest extends TestCase
     {
         $project = Project::factory()->create();
 
-        $response = $this->get('/projects/' . $project->id);
+        $response = $this->get('/projects/' . $project->id_project);
 
         $response->assertStatus(200);
 
         $response->assertViewIs('projects.show');
 
         $response->assertViewHas('project');
+        $response->assertViewHas('users_relation', $project->users);
+
+        // !need to implement assertViewHas for activities
+        //$response->assertViewHas('activitiesactivities', $activities);
     }
 
     /**

@@ -10,6 +10,8 @@ use App\Models\ProjectLanguage;
 use App\Models\StudyType;
 use App\Models\ProjectStudyType;
 use App\Models\Keyword;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Database;
 use App\Models\ProjectDatabase;
 
@@ -21,6 +23,7 @@ class PlanningOverallInformationController extends Controller
     public function index(string $id_project)
     {
         $project = Project::findOrFail($id_project);
+        $usersRelation = $project->users()->get();
         $languages = Language::all();
         $databases = Database::all();
         $studyTypes = StudyType::all();
@@ -29,7 +32,7 @@ class PlanningOverallInformationController extends Controller
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
         $keywords = Keyword::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages','databases', 'projectDatabases',  'studyTypes', 'projectStudyTypes', 'keywords'));
+        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages','databases', 'projectDatabases',  'studyTypes', 'projectStudyTypes', 'keywords', 'usersRelation'));
     }
 
     // DOMAIN AREA
@@ -39,7 +42,7 @@ class PlanningOverallInformationController extends Controller
     public function domainUpdate(Request $request)
     {
         $this->validate($request, [
-            'description' =>'required|string',
+            'description' => 'required|string',
         ]);
 
         Domain::create([
@@ -48,7 +51,7 @@ class PlanningOverallInformationController extends Controller
         ]);
         $id_project = $request->id_project;
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
 
     /*
@@ -60,7 +63,7 @@ class PlanningOverallInformationController extends Controller
         $domain->update($request->all());
         $id_project = $domain->id_project;
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
 
     /*
@@ -68,11 +71,11 @@ class PlanningOverallInformationController extends Controller
     */
     public function domainDestroy(string $id)
     {
-         $domain = Domain::findOrFail($id);
-         $id_project = $domain->id_project;
-         $domain->delete();
+        $domain = Domain::findOrFail($id);
+        $id_project = $domain->id_project;
+        $domain->delete();
 
-         return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
     // DOMAIN AREA
 
@@ -116,16 +119,25 @@ class PlanningOverallInformationController extends Controller
     public function languageAdd(Request $request)
     {
         $this->validate($request, [
-            'id_language' =>'required|string',
+            'id_language' => 'required|string',
         ]);
+        $matchThese = ['id_project' => $request->id_project, 'id_language' => $request->id_language];
+        $language = ProjectLanguage::where($matchThese)->first();
 
-        ProjectLanguage::create([
-            'id_project' => $request->id_project,
-            'id_language' => $request->id_language,
-        ]);
-        $id_project = $request->id_project;
+        if($language){
+            return back()->withErrors([
+                'duplicate' => 'The provided language already exists in this project.',
+            ]);
+        }
+        else{
+            ProjectLanguage::create([
+                'id_project' => $request->id_project,
+                'id_language' => $request->id_language,
+            ]);
+            $id_project = $request->id_project;
 
-        return redirect("/planning/".$id_project);
+            return redirect("/planning/" . $id_project);
+        }
     }
 
     /*
@@ -134,11 +146,11 @@ class PlanningOverallInformationController extends Controller
     public function languageDestroy(string $id)
     {
 
-         $language = ProjectLanguage::where('id_language', $id)->first();
-         $id_project = $language->id_project;
-         $language->delete();
+        $language = ProjectLanguage::where('id_language', $id)->first();
+        $id_project = $language->id_project;
+        $language->delete();
 
-         return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
     // LANGUAGE AREA
 
@@ -149,16 +161,25 @@ class PlanningOverallInformationController extends Controller
     public function studyTAdd(Request $request)
     {
         $this->validate($request, [
-            'id_study_type' =>'required|string',
+            'id_study_type' => 'required|string',
         ]);
+        $matchThese = ['id_project' => $request->id_project, 'id_study_type' => $request->id_study_type];
+        $study_type = ProjectStudyType::where($matchThese)->first();
 
-        ProjectStudyType::create([
-            'id_project' => $request->id_project,
-            'id_study_type' => $request->id_study_type,
-        ]);
-        $id_project = $request->id_project;
+        if($study_type){
+            return back()->withErrors([
+                'duplicate' => 'The provided study type already exists in this project.',
+            ]);
+        }
+        else{
+            ProjectStudyType::create([
+                'id_project' => $request->id_project,
+                'id_study_type' => $request->id_study_type,
+            ]);
+            $id_project = $request->id_project;
 
-        return redirect("/planning/".$id_project);
+            return redirect("/planning/" . $id_project);
+        }
     }
 
     /*
@@ -167,11 +188,11 @@ class PlanningOverallInformationController extends Controller
     public function studyTDestroy(string $id)
     {
 
-         $studyT = ProjectStudyType::where('id_study_type', $id)->first();
-         $id_project = $studyT->id_project;
-         $studyT->delete();
+        $studyT = ProjectStudyType::where('id_study_type', $id)->first();
+        $id_project = $studyT->id_project;
+        $studyT->delete();
 
-         return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
     // STUDY TYPE AREA
 
@@ -182,7 +203,7 @@ class PlanningOverallInformationController extends Controller
     public function keywordAdd(Request $request)
     {
         $this->validate($request, [
-            'description' =>'required|string',
+            'description' => 'required|string',
         ]);
 
         Keyword::create([
@@ -191,7 +212,7 @@ class PlanningOverallInformationController extends Controller
         ]);
         $id_project = $request->id_project;
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
 
     /*
@@ -203,7 +224,7 @@ class PlanningOverallInformationController extends Controller
         $keyword->update($request->all());
         $id_project = $keyword->id_project;
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
 
     /*
@@ -211,11 +232,57 @@ class PlanningOverallInformationController extends Controller
     */
     public function keywordDestroy(string $id)
     {
-         $keyword = Keyword::findOrFail($id);
-         $id_project = $keyword->id_project;
-         $keyword->delete();
+        $keyword = Keyword::findOrFail($id);
+        $id_project = $keyword->id_project;
+        $keyword->delete();
 
-         return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
     // DOMAIN AREA
+
+    /**
+     * Add date to a project.
+     *
+     * We get the start date and the end date from the form
+     * and we add them to the project via the addDate method
+     *
+     * TODO: Separate the validation from the controller
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addDate(Request $request, $projectId)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Define the validation rules
+        $rules = [
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+        ];
+
+        // Create a custom error message for the date comparison
+        $customMessages = [
+            'end_date.after' => 'The end date must be after the start date.',
+        ];
+
+        // Validate the form input
+        $validator = Validator::make($request->all(), $rules, $customMessages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        try {
+            $project = Project::findOrFail($projectId);
+        } catch (ModelNotFoundException $exception) {
+            throw new ModelNotFoundException('The project does not exist.');
+        }
+
+        $project->addDate($startDate, $endDate);
+
+        return redirect()->route('planning.index', ['id' => $project->id_project, 'project' => $project]);
+    }
 }

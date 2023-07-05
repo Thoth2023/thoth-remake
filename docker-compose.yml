@@ -62,6 +62,17 @@ services:
         networks:
             - thoth
 
+    # mailhog
+    thoth-mailhog:
+        image: mailhog/mailhog
+        container_name: thoth-mailhog
+        logging:
+            driver: 'none'
+        ports:
+            - 1025:1025 # smtp server
+            - 8025:8025 # web ui
+        networks:
+            - thoth
     # queue
     queue:
         image: especializati/laravel9-app

@@ -15,7 +15,8 @@
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('projects.create') }}">
                                 <i class="fas fa-plus"></i>&nbsp;&nbsp;New Project</a>
                         </div>
-                        <h6>My Projects</h6>
+
+                        <h6><i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i> My Projects</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -41,6 +42,7 @@
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
+
                                                     <h6 class="mb-0 text-sm">{{ $project->title }}</h6>
                                                 </div>
                                             </div>
@@ -62,25 +64,21 @@
                                             </div>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('projects.show', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Project">
-                                                View
+                                            <a href="{{ route('projects.show', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Project">View |
                                             </a>
-                                            <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit Project">
-                                                Edit
+                                            @if ($project->user_level == 1)
+                                            <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit Project">Edit |
                                             </a>
-                                            <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Delete Project">
-                                                Delete
+                                            <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs " data-toggle="tooltip" data-original-title="Add member">Add Member |
                                             </a>
-                                            <form id="delete-project-{{ $project->id_project }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
+                                                <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();" href="#" class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0" data-toggle="tooltip" data-original-title="Delete Project">Delete
+                                                </a>
+                                                <form id="delete-project-{{ $project->id_project }}" action="{{ route('projects.destroy', $project) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                         </td>
-                                        <td class="align-middle">
-                                            <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs " data-toggle="tooltip" data-original-title="Add member">
-                                                Add Member
-                                            </a>
-                                        </td>
+                                        @endif
                                     </tr>
                                     @empty
                                     <tr>
