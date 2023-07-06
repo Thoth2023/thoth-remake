@@ -98,19 +98,22 @@
                 </div>
             </div>
         </div>
-        @if (!empty($activities))
-            <div class="card card-frame">
-                <div class="card-body">
-                    <ul>
-                        @foreach($activities as $activity)
-                            <li>
-                                <span>{{ $activity->user() }}: {{ $activity->activity }} - {{ $activity->time }} </span>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+        <div class="card">
+            <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                <h5>Activity Record</h5>
             </div>
-        @endif
+            <div style="max-height:390px; overflow-y: auto;">
+                @if (!empty($activities))
+                    @foreach($activities as $activity)
+                        <div class="card p-0 mx-3 mt-3 border rounded-3">
+                            <div class="card-header bg-light rounded-top pt-3 pb-3"><strong>{{ $activity->user->username }}</strong></div>
+                            <div class="card-body bg-white pt-3 pb-3">{{ $activity->activity }}</div>
+                            <div class="card-footer text-muted pt-2 pb-2"><small>{{ $activity->created_at }}</small></div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 

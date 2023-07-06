@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('id_module')->index('id_module');
             $table->string('activity');
             $table->integer('id_project')->nullable()->index('id_project');
-            $table->timestamp('time')->useCurrent();
+            $table->timestamps();
         });
     }
 
