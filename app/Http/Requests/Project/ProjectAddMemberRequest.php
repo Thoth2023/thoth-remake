@@ -23,6 +23,7 @@ class ProjectAddMemberRequest extends FormRequest
     {
         return [
             'email_member' => 'required|email|exists:users,email',
+            'level_member' => 'required|integer|between:2,4',
         ];
     }
 
@@ -31,7 +32,8 @@ class ProjectAddMemberRequest extends FormRequest
         return [
             'email_member.required' => 'Email cannot be empty!',
             'email_member.email' => 'Email has to be valid!',
-            'email_member.exists:users,email' => 'Email entered does not exist!', 
+            'email_member.exists:users,email' => 'Email entered does not exist!',
+            'level_member.required' => 'Level cannot be empty!',
         ];
     }
 }
