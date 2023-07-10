@@ -18,14 +18,14 @@ class DataBasesController extends Controller
 		if (!$project->databases->contains('id_database', $request->database)) {
 			$project->databases()->attach($request->database);
 		}
-		return redirect('/projects/'.$id_project.'/planning/data-bases');
+		return redirect('/planning/'.$id_project);
 	}
 
 	public function remove_database(string $id_project, string $id_database) {
 		$project = Project::find($id_project);
 		$project->databases()->detach($id_database);
 
-		return redirect('/projects/'.$id_project.'/planning/data-bases');
+		return redirect('/planning/'.$id_project);
 	}
 
 	public function create_database(Request $request, string $id_project) {
@@ -40,6 +40,6 @@ class DataBasesController extends Controller
 		$project = Project::findOrFail($id_project);
 		$project->databases()->attach($database->id_database);
 
-		return redirect('/projects/'.$id_project.'/planning/data-bases');
+		return redirect('/planning/'.$id_project);
 	}
 }

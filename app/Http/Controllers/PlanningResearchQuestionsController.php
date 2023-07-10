@@ -41,10 +41,10 @@ class PlanningResearchQuestionsController extends Controller
                 'id' => $request->id,
                 'description' => $request->description,
             ]);
-    
+
             $id_project = $request->id_project;
-    
-            return redirect("/planning/".$id_project."/research_questions");
+
+            return redirect("/planning/".$id_project);
         }
     }
 
@@ -73,8 +73,8 @@ class PlanningResearchQuestionsController extends Controller
         }
         $id_project = $researchQuestion->id_project;
 
-        return redirect("/planning/".$id_project."/research_questions");
-        
+        return redirect("/planning/".$id_project);
+
     }
 
     /*
@@ -86,6 +86,6 @@ class PlanningResearchQuestionsController extends Controller
          $id_project = $researchQuestion->id_project;
          $researchQuestion->delete();
 
-         return redirect("/planning/".$id_project."/research_questions");
+         return redirect("/planning/".$id_project);
     }
 }

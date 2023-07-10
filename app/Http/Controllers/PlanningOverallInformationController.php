@@ -27,6 +27,7 @@ class PlanningOverallInformationController extends Controller
         $languages = Language::all();
         $databases = Database::all();
         $studyTypes = StudyType::all();
+        $activeTab = 'overall-info';
         $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
         $projectDatabases = ProjectDatabase::where('id_project', $id_project)->get();
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
@@ -41,6 +42,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function domainUpdate(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'description' => 'required|string',
         ]);
@@ -50,7 +52,6 @@ class PlanningOverallInformationController extends Controller
             'description' => $request->description,
         ]);
         $id_project = $request->id_project;
-
         return redirect("/planning/" . $id_project);
     }
 
@@ -59,6 +60,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function domainEdit(Request $request, string $id)
     {
+        $activeTab = 'overall-info';
         $domain = Domain::findOrFail($id);
         $domain->update($request->all());
         $id_project = $domain->id_project;
@@ -71,6 +73,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function domainDestroy(string $id)
     {
+        $activeTab = 'overall-info';
         $domain = Domain::findOrFail($id);
         $id_project = $domain->id_project;
         $domain->delete();
@@ -85,6 +88,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function databaseAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'id_database' =>'required|string',
             'id_database' => 'required|string|unique:project_databases,id_database,NULL,id_project,id_project,'.$request->id_project,
@@ -104,7 +108,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function databaseDestroy(string $id)
     {
-
+        $activeTab = 'overall-info';
          $database = ProjectDatabase::where('id_database', $id)->first();
          $id_project = $database->id_project;
          $database->delete();
@@ -118,6 +122,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function languageAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'id_language' => 'required|string',
         ]);
@@ -145,7 +150,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function languageDestroy(string $id)
     {
-
+        $activeTab = 'overall-info';
         $language = ProjectLanguage::where('id_language', $id)->first();
         $id_project = $language->id_project;
         $language->delete();
@@ -160,6 +165,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function studyTAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'id_study_type' => 'required|string',
         ]);
@@ -187,7 +193,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function studyTDestroy(string $id)
     {
-
+        $activeTab = 'overall-info';
         $studyT = ProjectStudyType::where('id_study_type', $id)->first();
         $id_project = $studyT->id_project;
         $studyT->delete();
@@ -202,6 +208,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function keywordAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'description' => 'required|string',
         ]);
@@ -220,6 +227,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function keywordEdit(Request $request, string $id)
     {
+        $activeTab = 'overall-info';
         $keyword = Keyword::findOrFail($id);
         $keyword->update($request->all());
         $id_project = $keyword->id_project;
@@ -232,6 +240,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function keywordDestroy(string $id)
     {
+        $activeTab = 'overall-info';
         $keyword = Keyword::findOrFail($id);
         $id_project = $keyword->id_project;
         $keyword->delete();
@@ -253,6 +262,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function addDate(Request $request, $projectId)
     {
+        $activeTab = 'overall-info';
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 

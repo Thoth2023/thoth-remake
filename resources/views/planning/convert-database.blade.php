@@ -1,4 +1,5 @@
 <?php
+if (!function_exists('convert_databases_name')) {
     function convert_databases_name($database_id) {
         if($database_id == 1){
             return "IEEE";
@@ -19,3 +20,4 @@
             return "Not Found";
         }
     }
+}

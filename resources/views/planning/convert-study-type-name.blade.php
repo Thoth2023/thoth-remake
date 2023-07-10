@@ -1,4 +1,5 @@
 <?php
+if (!function_exists('convert_study_type_name')) {
     function convert_study_type_name($study_type_id) {
         if($study_type_id == 1){
             return "Book";
@@ -19,3 +20,4 @@
             return "Not Found";
         }
     }
+}

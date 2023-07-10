@@ -48,10 +48,10 @@ class PlanningCriteriaController extends Controller
                 'type' => $request->type,
                 'pre_selected' => $request->pre_selected,
             ]);
-    
+
             $id_project = $request->id_project;
-    
-            return redirect("/planning/".$id_project."/criteria");
+
+            return redirect("/planning/".$id_project);
         }
     }
 
@@ -82,8 +82,8 @@ class PlanningCriteriaController extends Controller
         }
         $id_project = $criteria->id_project;
 
-        return redirect("/planning/".$id_project."/criteria");
-        
+        return redirect("/planning/".$id_project);
+
     }
 
     /*
@@ -95,7 +95,7 @@ class PlanningCriteriaController extends Controller
          $id_project = $criteria->id_project;
          $criteria->delete();
 
-         return redirect("/planning/".$id_project."/criteria");
+         return redirect("/planning/".$id_project);
     }
 
     /*
@@ -113,6 +113,6 @@ class PlanningCriteriaController extends Controller
 
         $id_project = $criteria->id_project;
 
-        return redirect("/planning/".$id_project."/criteria");
+        return redirect("/planning/".$id_project);
     }
 }
