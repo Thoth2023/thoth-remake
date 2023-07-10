@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\ResearchQuestion;
+use App\Utils\ActivityLogHelper;
+use Illuminate\Support\Facades\Auth;
 
 class PlanningResearchQuestionsController extends Controller
 {
@@ -36,13 +38,16 @@ class PlanningResearchQuestionsController extends Controller
             ]);;
         }
         else{
-            ResearchQuestion::create([
+            $research_question = ResearchQuestion::create([
                 'id_project' => $request->id_project,
                 'id' => $request->id,
                 'description' => $request->description,
             ]);
 
             $id_project = $request->id_project;
+
+            $activity = "Added the research question ". $research_question->id;
+            ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
             return redirect("/planning/".$id_project);
         }
@@ -73,6 +78,12 @@ class PlanningResearchQuestionsController extends Controller
         }
         $id_project = $researchQuestion->id_project;
 
+        $activity = "Edited the research question ". $researchQuestion->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
+        $activity = "Edited the research question ". $researchQuestion->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
         return redirect("/planning/".$id_project);
 
     }
@@ -82,9 +93,14 @@ class PlanningResearchQuestionsController extends Controller
     */
     public function destroy(string $id)
     {
-         $researchQuestion = ResearchQuestion::findOrFail($id);
-         $id_project = $researchQuestion->id_project;
-         $researchQuestion->delete();
+        $researchQuestion = ResearchQuestion::findOrFail($id);
+        $id_project = $researchQuestion->id_project;
+
+        $activity = "Deleted the research question ". $researchQuestion->id;
+
+        $researchQuestion->delete();
+
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
          return redirect("/planning/".$id_project);
     }

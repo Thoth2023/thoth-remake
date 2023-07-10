@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\QuestionExtraction;
 use App\Models\TypesQuestion;
 use App\Models\OptionsExtraction;
+use App\Utils\ActivityLogHelper;
+use Illuminate\Support\Facades\Auth;
 
 class DataExtractionController extends Controller
 {
@@ -27,6 +29,10 @@ class DataExtractionController extends Controller
 			'id_project' => $id_project,
 			'type' => $request->type
 		]);
+
+		$activity = "Added question extraction ". $question->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $question->id_project, Auth::user()->id);
+		
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 
@@ -38,20 +44,30 @@ class DataExtractionController extends Controller
 			'description' => $request->option,
 			'id_de' => $request->questionId,
 		]);
+		$activity = "Added option to question extraction ". QuestionExtraction::findOrFail($option->id_de)->description;
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 
 	public function delete_question(string $id_project, string $id_question) {
 		$question = QuestionExtraction::findOrFail($id_question);
+		$activity = "Deleted question extraction ". $question->id;
+		
 		$question->options()->delete();
 		$question->delete();
+		
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 
 	public function delete_option(string $id_project, string $id_option) {
 		$option = OptionsExtraction::findOrFail($id_option);
+		$activity = "Deleted option ".$option->description." to question extraction ". QuestionExtraction::findOrFail($option->id_de)->description;
+		
 		$option->delete();
+
+		ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
@@ -72,6 +88,10 @@ class DataExtractionController extends Controller
 			'type' => $request->type
 		]);
 		$question->save();
+
+		$activity = "Edited question extraction ". $question->id;
+		ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 
@@ -84,6 +104,8 @@ class DataExtractionController extends Controller
 			'description' => $request->option
 		]);
 		$option->save();
+		$activity = "Edited option to question extraction ".QuestionExtraction::findOrFail($option->id_de)->description;
+		ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 		
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}

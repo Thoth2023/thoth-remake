@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\DataBase;
+use App\Utils\ActivityLogHelper;
+use Illuminate\Support\Facades\Auth;
 
 class DataBasesController extends Controller
 {
@@ -23,7 +25,14 @@ class DataBasesController extends Controller
 
 	public function remove_database(string $id_project, string $id_database) {
 		$project = Project::find($id_project);
+		$database = DataBase::findOrFail($id_database);
+		$activity = "Deleted the data base ".$database->name;
+
 		$project->databases()->detach($id_database);
+
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 
 		return redirect('/planning/'.$id_project);
 	}
@@ -39,6 +48,10 @@ class DataBasesController extends Controller
 		]);
 		$project = Project::findOrFail($id_project);
 		$project->databases()->attach($database->id_database);
+
+		$activity = "Added the data base ". $database->name;
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+
 
 		return redirect('/planning/'.$id_project);
 	}

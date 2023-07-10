@@ -14,6 +14,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Utils\ActivityLogHelper;
+use Illuminate\Support\Facades\Auth;
 
 class SearchStrategyController extends Controller
 {
@@ -46,6 +48,9 @@ class SearchStrategyController extends Controller
         $project = Project::findOrFail($projectId);
         $project->searchStrategy()
                 ->updateOrCreate([], ['description' => $request->search_strategy]);
+        
+        $activity = "Edited search strategy";
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 
         return redirect()->back() ->with('message', 'Search strategy updated successfully') ->with('message_type', 'success');
     }
