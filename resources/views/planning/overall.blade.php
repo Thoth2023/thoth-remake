@@ -486,10 +486,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="table-responsive p-0">
+                            <div class="table-responsive p-0">
                                     <table
                                         class="table align-items-center justify-content-center mb-0">
                                         <thead>
@@ -597,7 +594,11 @@
                                             @endforelse
                                         </tbody>
                                     </table>
-                    </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 <hr class="horizontal dark">
             </div>
         </div>
