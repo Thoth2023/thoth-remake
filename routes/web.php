@@ -38,12 +38,13 @@ use App\Http\Controllers\SearchStrategyController;
 use App\Http\Controllers\DataBasesController;
 use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
-
+use App\Http\Controllers\SearchProjectController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
+Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // projects routes
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
