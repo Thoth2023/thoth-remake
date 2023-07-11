@@ -48,18 +48,20 @@ class ProjectController extends Controller
     public function store(ProjectStoreRequest $request)
     {
         $request->validated();
-        $id_user = Auth::user()->id;
+        $user = Auth::user();
         $project = Project::create([
-            'id_user' => $id_user,
+            'id_user' => $user->id,
             'title' => $request->title,
             'description' => $request->description,
             'objectives' => $request->objectives,
+            'created_by' => $user->username,
+            //'copy_planning'
         ]);
 
         $activity = "Created the project ".$project->title;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $id_user);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-        $project->users()->attach($project->id_project, ['id_user' => $id_user, 'level' => 1]);
+        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
         
         return redirect('/projects');
     }

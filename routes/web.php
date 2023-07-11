@@ -38,12 +38,13 @@ use App\Http\Controllers\SearchStrategyController;
 use App\Http\Controllers\DataBasesController;
 use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
-
+use App\Http\Controllers\SearchProjectController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
+Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // projects routes
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
@@ -65,6 +66,23 @@ Route::post('/planning/domain', [PlanningOverallInformationController::class, 'd
 Route::put('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainEdit'])->name('planning_overall.domainEdit');
 Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainDestroy'])->name('planning_overall.domainDestroy');
 
+    Route::post('/planning/database', [PlanningOverallInformationController::class, 'databaseAdd'])->name('planning_overall.databaseAdd');
+	Route::delete('/planning/database/{id}', [PlanningOverallInformationController::class, 'databaseDestroy'])->name('planning_overall.databaseDestroy');
+
+	Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
+	Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
+
+	Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
+	Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
+	Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
+
+    Route::get('/search-strategy/{projectId}', [SearchStrategyController::class, 'index'])->name('search-strategy.index');
+    Route::post('/search-strategy/{projectId}/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
+    Route::get('/search-strategy', function () {
+        return view('search_strategy');
+    });
+
+	//end of the planning routes
 Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('planning_overall.languageAdd');
 Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('planning_overall.languageDestroy');
 
@@ -129,4 +147,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
 });

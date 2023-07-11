@@ -12,6 +12,8 @@ use App\Models\ProjectStudyType;
 use App\Models\Keyword;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Database;
+use App\Models\ProjectDatabase;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,14 +25,17 @@ class PlanningOverallInformationController extends Controller
     public function index(string $id_project)
     {
         $project = Project::findOrFail($id_project);
-        $usersRelation = $project->users()->get(); 
+        $usersRelation = $project->users()->get();
         $languages = Language::all();
+        $databases = Database::all();
         $studyTypes = StudyType::all();
+        $activeTab = 'overall-info';
         $projectLanguages = ProjectLanguage::where('id_project', $id_project)->get();
+        $projectDatabases = ProjectDatabase::where('id_project', $id_project)->get();
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
         $keywords = Keyword::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages', 'studyTypes', 'projectStudyTypes', 'keywords', 'usersRelation'));
+        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages','databases', 'projectDatabases',  'studyTypes', 'projectStudyTypes', 'keywords', 'usersRelation'));
     }
 
     // DOMAIN AREA
@@ -39,6 +44,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function domainUpdate(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'description' => 'required|string',
         ]);
@@ -50,7 +56,6 @@ class PlanningOverallInformationController extends Controller
         $id_project = $request->id_project;
         $activity = "Added the domain ".$domain->description;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-
         return redirect("/planning/" . $id_project);
     }
 
@@ -59,6 +64,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function domainEdit(Request $request, string $id)
     {
+        $activeTab = 'overall-info';
         $domain = Domain::findOrFail($id);
         $description_old = $domain->description;
         $domain->update($request->all());
@@ -74,6 +80,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function domainDestroy(string $id)
     {
+        $activeTab = 'overall-info';
         $domain = Domain::findOrFail($id);
         $id_project = $domain->id_project;
         $domain->delete();
@@ -84,12 +91,47 @@ class PlanningOverallInformationController extends Controller
     }
     // DOMAIN AREA
 
+        // DATABASE AREA
+    /**
+     * Add a Database stored in the database to the project
+     */
+    public function databaseAdd(Request $request)
+    {
+        $activeTab = 'overall-info';
+        $this->validate($request, [
+            'id_database' =>'required|string',
+            'id_database' => 'required|string|unique:project_databases,id_database,NULL,id_project,id_project,'.$request->id_project,
+        ]);
+
+        ProjectDatabase::create([
+            'id_project' => $request->id_project,
+            'id_database' => $request->id_database,
+        ]);
+        $id_project = $request->id_project;
+
+        return redirect("/planning/".$id_project);
+    }
+
+    /*
+    * Remove the specified Database from the project
+    */
+    public function databaseDestroy(string $id)
+    {
+        $activeTab = 'overall-info';
+         $database = ProjectDatabase::where('id_database', $id)->first();
+         $id_project = $database->id_project;
+         $database->delete();
+
+         return redirect("/planning/".$id_project);
+    }
+
     // LANGUAGE AREA
     /**
      * Add a language stored in the database to the project
      */
     public function languageAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'id_language' => 'required|string',
         ]);
@@ -106,10 +148,10 @@ class PlanningOverallInformationController extends Controller
                 'id_project' => $request->id_project,
                 'id_language' => $request->id_language,
             ]);
-            
+
             $language = Language::findOrFail($project_language->id_language);
             $id_project = $request->id_project;
-            
+
             $activity = "Added the language ". $language->description;
             ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
             return redirect("/planning/" . $id_project);
@@ -124,9 +166,9 @@ class PlanningOverallInformationController extends Controller
         $project_language = ProjectLanguage::where('id_language', $id)->first();
         $language = Language::findOrFail($project_language->id_language);
         $id_project = $project_language->id_project;
-        
+                $activeTab = 'overall-info';
         $project_language->delete();
-        
+
         $activity = "Deleted the language ". $language->description;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
@@ -140,6 +182,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function studyTAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'id_study_type' => 'required|string',
         ]);
@@ -157,9 +200,9 @@ class PlanningOverallInformationController extends Controller
                 'id_study_type' => $request->id_study_type,
             ]);
             $study_type = StudyType::findOrFail($project_study_type->id_study_type);
-            
+
             $id_project = $request->id_project;
-            
+
             $activity = "Added the study type ". $study_type->description;
             ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
             return redirect("/planning/" . $id_project);
@@ -171,10 +214,10 @@ class PlanningOverallInformationController extends Controller
     */
     public function studyTDestroy(string $id)
     {
-
+        $activeTab = 'overall-info';
         $project_studyT = ProjectStudyType::where('id_study_type', $id)->first();
         $id_project = $project_studyT->id_project;
-        
+
         $studyT = StudyType::findOrFail($project_studyT->id_study_type);
         $activity = "Deleted the study type ". $studyT->description;
 
@@ -191,6 +234,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function keywordAdd(Request $request)
     {
+        $activeTab = 'overall-info';
         $this->validate($request, [
             'description' => 'required|string',
         ]);
@@ -211,6 +255,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function keywordEdit(Request $request, string $id)
     {
+        $activeTab = 'overall-info';
         $keyword = Keyword::findOrFail($id);
         $keyword_old = $keyword->description;
         $keyword->update($request->all());
@@ -226,6 +271,7 @@ class PlanningOverallInformationController extends Controller
     */
     public function keywordDestroy(string $id)
     {
+        $activeTab = 'overall-info';
         $keyword = Keyword::findOrFail($id);
         $id_project = $keyword->id_project;
         $activity = "Deleted the keyword ". $keyword->description;
@@ -249,6 +295,7 @@ class PlanningOverallInformationController extends Controller
      */
     public function addDate(Request $request, $projectId)
     {
+        $activeTab = 'overall-info';
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 

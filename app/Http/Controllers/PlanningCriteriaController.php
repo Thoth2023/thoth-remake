@@ -50,13 +50,13 @@ class PlanningCriteriaController extends Controller
                 'type' => $request->type,
                 'pre_selected' => $request->pre_selected,
             ]);
-    
+
             $id_project = $request->id_project;
-    
+
             $activity = "Added ". $project_criteria->type. " criteria ". $project_criteria->id;
             ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-            return redirect("/planning/".$id_project."/criteria");
+            return redirect("/planning/".$id_project);
         }
     }
 
@@ -90,8 +90,11 @@ class PlanningCriteriaController extends Controller
         $activity = "Updated criteria ". $criteria->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        return redirect("/planning/".$id_project."/criteria");
-        
+        $activity = "Updated criteria ". $criteria->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
+        return redirect("/planning/".$id_project);
+
     }
 
     /*
@@ -106,7 +109,7 @@ class PlanningCriteriaController extends Controller
         $criteria->delete();
 
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-        return redirect("/planning/".$id_project."/criteria");
+        return redirect("/planning/".$id_project.);
     }
 
     /*
@@ -124,6 +127,6 @@ class PlanningCriteriaController extends Controller
 
         $id_project = $criteria->id_project;
 
-        return redirect("/planning/".$id_project."/criteria");
+        return redirect("/planning/".$id_project);
     }
 }
