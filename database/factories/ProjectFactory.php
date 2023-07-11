@@ -25,6 +25,7 @@ class ProjectFactory extends Factory
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'objectives' => $this->faker->paragraph,
+            'created_by' => User::factory()->create()->username,
         ];
     }
 
