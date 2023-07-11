@@ -43,13 +43,13 @@ class PlanningResearchQuestionsController extends Controller
                 'id' => $request->id,
                 'description' => $request->description,
             ]);
-    
+
             $id_project = $request->id_project;
 
             $activity = "Added the research question ". $research_question->id;
             ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-            return redirect("/planning/".$id_project."/research_questions");
+            return redirect("/planning/".$id_project);
         }
     }
 
@@ -81,8 +81,11 @@ class PlanningResearchQuestionsController extends Controller
         $activity = "Edited the research question ". $researchQuestion->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        return redirect("/planning/".$id_project."/research_questions");
-        
+        $activity = "Edited the research question ". $researchQuestion->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+
+        return redirect("/planning/".$id_project);
+
     }
 
     /*
@@ -99,6 +102,6 @@ class PlanningResearchQuestionsController extends Controller
 
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        return redirect("/planning/".$id_project."/research_questions");
+         return redirect("/planning/".$id_project);
     }
 }

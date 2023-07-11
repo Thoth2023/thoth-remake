@@ -1,4 +1,5 @@
 <?php
+if (!function_exists('convert_language_name')) {
     function convert_language_name($language_id) {
         if($language_id == 1){
             return "Portuguese";
@@ -19,3 +20,4 @@
             return "Not Found";
         }
     }
+}

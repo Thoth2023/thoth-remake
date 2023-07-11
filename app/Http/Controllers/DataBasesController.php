@@ -18,22 +18,23 @@ class DataBasesController extends Controller
 	public function add_database(Request $request, string $id_project) {
 		$project = Project::find($id_project);
 		if (!$project->databases->contains('id_database', $request->database)) {
-			$project->databases()->attach($request->database);	
+			$project->databases()->attach($request->database);
 		}
-
-		return redirect('/projects/'.$id_project.'/planning/data-bases');
+		return redirect('/planning/'.$id_project);
 	}
 
 	public function remove_database(string $id_project, string $id_database) {
 		$project = Project::find($id_project);
 		$database = DataBase::findOrFail($id_database);
 		$activity = "Deleted the data base ".$database->name;
-		
+
 		$project->databases()->detach($id_database);
 
 		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 
-		return redirect('/projects/'.$id_project.'/planning/data-bases');
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+
+		return redirect('/planning/'.$id_project);
 	}
 
 	public function create_database(Request $request, string $id_project) {
@@ -47,10 +48,11 @@ class DataBasesController extends Controller
 		]);
 		$project = Project::findOrFail($id_project);
 		$project->databases()->attach($database->id_database);
-		
+
 		$activity = "Added the data base ". $database->name;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
-		
-		return redirect('/projects/'.$id_project.'/planning/data-bases');
+
+
+		return redirect('/planning/'.$id_project);
 	}
 }

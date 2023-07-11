@@ -48,6 +48,17 @@ class Project extends Model
         return $this->hasMany(QuestionExtraction::class, 'id_project');
     }
 
+    public function inclusion_criterias() {
+        return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Inclusion');
+    }
+
+    public function exclusion_criterias() {
+        return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Exclusion');
+    }
+
+    public function researchQuestions() {
+        return $this->hasMany(ResearchQuestion::class, 'id_project');
+    }
 
     public function searchStrategy()
     {
@@ -58,9 +69,7 @@ class Project extends Model
     {
         $this->user_level = $this->users()
             ->where('users.id', $user->id)
-            ->first()
-            ->pivot
-            ->level;
+            ->first();
     }
 
     private function insertSearchStringGenerics($idProject)
