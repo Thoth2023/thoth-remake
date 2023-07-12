@@ -66,7 +66,7 @@
                                         <td class="align-middle">
                                             <a href="{{ route('projects.show', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Project">View |
                                             </a>
-                                            @if ($project->user_level == 1)
+                                           {{// @if ($project->user_level == 1) }}
                                             <a href="{{ route('projects.edit', $project->id_project) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit Project">Edit |
                                             </a>
                                             <a  href="{{route('projects.add', $project->id_project)}}" class="text-secondary font-weight-bold text-xs " data-toggle="tooltip" data-original-title="Add member">Add Member |
@@ -84,7 +84,7 @@
                                     <tr>
                                         <td colspan="5" class="text-center">No projects found.</td>
                                     </tr>
-                                    @endforelse
+                                   {{ //  @endforelse }}
                                 </tbody>
                             </table>
                         </div>
