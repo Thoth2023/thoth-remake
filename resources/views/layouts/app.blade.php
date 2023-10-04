@@ -10,8 +10,7 @@
         Thoth :: Tool for RSL
     </title>
     <!--  pwa  -->
-    <link rel="manifest" href="/manifest.json">
-
+    <link rel="manifest" href="{{ url('/manifest.json') }}">
     <!-- Fonts and icons -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -22,6 +21,12 @@
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css') }}" rel="stylesheet" />
+    <!-- PWA service worker -->
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+        }
+    </script>
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -48,12 +53,7 @@
             @include('components.fixed-plugin')
         @endif
     @endauth
-    <!-- PWA service worker -->
-    <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('pwabuilder-sw.js')
-        }
-    </script>
+
 
     <!-- Core JS Files -->
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -79,3 +79,4 @@
 </body>
 
 </html>
+
