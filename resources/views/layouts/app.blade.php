@@ -21,12 +21,7 @@
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css') }}" rel="stylesheet" />
-    <!-- PWA service worker -->
-    <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('pwabuilder-sw.js')
-        }
-    </script>
+
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -54,6 +49,12 @@
         @endif
     @endauth
 
+    <!-- PWA service worker -->
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+        }
+    </script>
 
     <!-- Core JS Files -->
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -77,6 +78,5 @@
     <script src="{{ asset('assets/js/argon-dashboard.js') }}"></script>
     @stack('js')
 </body>
-
 </html>
 

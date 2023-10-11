@@ -3,8 +3,8 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Projects'])
 
-<div class="container-fluid py-4">
-    <div class="container-fluid py-4">
+<div class="container-fluid py-2">
+    <div class="container-fluid py-2">
         <div class="row">
             <div class="col-12">
 
@@ -93,7 +93,8 @@
             </div>
         </div>
     </div>
+    @include('layouts.footers.auth.footer')
 </div>
-@include('layouts.footers.auth.footer')
 </div>
+
 @endsection
