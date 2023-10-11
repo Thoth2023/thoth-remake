@@ -1,5 +1,10 @@
 @extends('layouts.app')
-
+<!-- PWA service worker -->
+<script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+        navigator.serviceWorker.register('pwabuilder-sw.js')
+    }
+</script>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -21,3 +26,4 @@
     </div>
 </div>
 @endsection
+
