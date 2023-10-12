@@ -1,11 +1,14 @@
 {
     "name": "Thoth :: Tool for SLR",
     "short_name": "Thoth SLR",
-    "start_url": "/index.php",
+    "start_url": "/login",
+    "orientation": "any",
     "background_color": "#c9c5b1",
     "description": "Thoth :: Tool for SLR",
-    "display": "fullscreen",
+    "display": "standalone",
     "theme_color": "#c9c5b1",
+    "lang": "en-US",
+    "dir": "ltr",
     "icons": [
         {
             "src": "img/windows11/SmallTile.scale-100.png",
