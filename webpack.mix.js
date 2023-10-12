@@ -16,4 +16,4 @@ mix.js('resources/js/app.js', 'public/assets/js/argon-dashboard.js')
         //
     ]);
 
-mix.js('resources/js/pwabuilder-sw.js', 'public/pwabuilder-sw.js');
+mix.js('resources/js/pwabuilder-sw.js', 'public');
