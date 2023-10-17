@@ -9506,7 +9506,7 @@ textarea.form-control-lg {
 }
 
 .bg-dark {
-  background-color: #344767 !important;
+    radial-gradient(370px circle at 60% 50%, rgb(207 213 222 / 60%) 0, #c9c5b1 100%);
 }
 
 .bg-white {
@@ -20417,7 +20417,10 @@ label,
 }
 
 .bg-gradient-faded-warning {
-  background-image: radial-gradient(370px circle at 80% 50%, rgba(251, 99, 64, 0.6) 0, #fa3a0e 100%);
+  background-image: radial-gradient(370px circle at 60% 50%, rgba(251, 99, 64, 0.6) 0, #fa3a0e 100%);
+}
+.bg-gradient-faded-thoth {
+    background-image: radial-gradient(370px circle at 60% 50%,  rgba(52, 71, 103, 0.6) 0, #c9c5b1 100%);
 }
 
 .bg-gradient-faded-danger {
@@ -20425,7 +20428,7 @@ label,
 }
 
 .bg-gradient-faded-light {
-  background-image: radial-gradient(370px circle at 80% 50%, rgba(233, 236, 239, 0.6) 0, #cbd3da 100%);
+    background-image: radial-gradient(370px circle at 60% 50%,  rgba(52, 71, 103, 0.6) 0, #c9c5b1 100%);
 }
 
 .bg-gradient-faded-dark {

@@ -10,7 +10,7 @@
         Thoth :: Tool for SLR
     </title>
     <!-- PWA  -->
-    <meta name="theme-color" content="#6777ef"/>
+    <meta name="theme-color" content="#c9c5b1"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
 
@@ -37,7 +37,7 @@
         @if (in_array(request()->route()->getName(), ['login', 'register', 'recover-password']))
             @yield('content')
         @else
-            @if (!in_array(request()->route()->getName(), ['profile']))
+            @if (!in_array(request()->route()->getName(), ['profile','home']))
                 <div class="min-height-300 bg-primary position-absolute w-100"></div>
             @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
                 <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('{{ asset('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg') }}'); background-position-y: 50%;">
