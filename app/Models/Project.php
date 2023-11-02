@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Term;
 use App\Models\SearchStrategy;
+use App\Models\SearchString;
+use App\Models\ProjectDatabases;
+use Illuminate\Support\Collection;
 
 
 class Project extends Model
@@ -86,21 +90,6 @@ class Project extends Model
             array_push($data, $termData);
         }
         return $data;
-    }
-
-    private function insertSearchStringGenerics($idProject)
-    {
-        // Insert logic for search_string_generics table
-    }
-
-    private function insertInclusionRule($idProject)
-    {
-        // Insert logic for inclusion_rule table
-    }
-
-    private function insertExclusionRule($idProject)
-    {
-        // Insert logic for exclusion_rule table
     }
 
     public function addDate($startDate, $endDate)

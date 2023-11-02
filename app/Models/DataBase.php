@@ -28,7 +28,9 @@ class DataBase extends Model
         'name'
     ];
 
-    public function searchString() {
-        return $this->hasOne(SearchString::class, 'id_database');
+    public function searchString()
+    {
+        return $this->belongsTo(SearchString::class);
     }
+
 }

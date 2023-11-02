@@ -297,29 +297,30 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <h6 class="ps-4 mt-2 mb-2"><strong><a target="_blank" href="#">String Improver</a></strong></h6>
+                                                <h6 class="ps-4 mt-2 mb-2"><strong><a href="#">String Improver</a></strong></h6>
 
-                                                {{-- <div id="strings">
+                                                <div id="strings">
                                                     <div class="form-inline">
                                                         <label><strong>Strings</strong></label>
                                                         <a onclick="modal_help('modal_help_strings')" class="float-right opt"><i class="fas fa-question-circle "></i></a>
                                                     </div>
 
-                                                    @foreach ($project->get_search_strings() as $search_string)
-                                                        <div class="form-group" id="div_string_{{ $search_string->get_database()->get_name() }}">
-                                                            <a target="_blank" href="{{ $search_string->get_database()->get_link() }}">
-                                                                {{ $search_string->get_database()->get_name() }}
+                                                    @foreach ($searchStrings as $searchString)
+                                                        <div class="form-group" id="div_string_{{ $searchString->database->name }}">
+                                                            <a target="_blank" href="{{ $searchString->database->link }}">
+                                                                {{ $searchString->database->name }}
                                                             </a>
-                                                            <textarea class="form-control" id="string_{{ $search_string->get_database()->get_name() }}">
-                                                                {{ $search_string->get_description() }}
+                                                            <textarea class="form-control" name="generated_string" id="string_{{ $searchString->database->name }}">
+                                                                {{ $searchString->description }}
                                                             </textarea>
-                                                            <button type="button" class="btn btn-info opt" onclick="generate_string('{{ $search_string->get_database()->get_name() }}');">
-                                                                Generate
-                                                            </button>
+                                                            <form action="{{ route('generate-string', ['id_project' => $project->id_project, 'database_id' => 1]) }}" method="POST">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-info opt">Generate</button>
+                                                            </form>
                                                             <hr>
                                                         </div>
                                                     @endforeach
-                                                </div> --}}
+                                                </div>
 
                                                 @include('components.prev-next')
                                             </div>

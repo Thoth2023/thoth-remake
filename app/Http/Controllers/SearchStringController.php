@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\SearchString;
+use App\Models\SearchStringGeneric;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Models\Project;
 use App\Models\Term;
 use App\Models\Synonym;
@@ -21,9 +24,10 @@ class SearchStringController extends Controller
         $terms = $project->terms;
         $synonyms = $project->synonyms;
 
-        $data = $project->termsAndSynonyms($id_project);
-
-        return view('planning.search-string', compact('project', 'terms', 'synonyms'));
+        $searchStrings = $this->getSearchStrings($id_project);
+        dd($searchStrings);
+        
+        return view('planning.search-string', compact('project', 'terms', 'synonyms', 'searchStrings'));
     }
 
     /**
@@ -100,81 +104,132 @@ class SearchStringController extends Controller
 
     public function generate_string($id_project)
     {
-        $database = Database::all();
-        $project = Project::findOrFail('id_project');
+        $project = Project::findOrFail($id_project);
+        $databases = $project->databases;
 
         $data = $project->termsAndSynonyms($id_project);
 
-        switch ($database) {  // IMPORTANT! Refactoring
-            case "SCOPUS":
-                $string = 'TITLE-ABS-KEY ';
-                break;
-            case "IEEE":
-                $string = '';
-                break;
-            case "SCIENCE DIRECT":
-                $string = '';
-                break;
-            case "ENGINEERING VILLAGE":
-                $string = '(';
-                break;
-            case "ACM":
-                $string = '';
-                break;
-            case "SPRINGER LINK":
-                $string = '';
-                break;
-            default:
-                break;
-        }
+        foreach ($databases as $database) {
+            $string = '';
+            switch ($database->name) { 
+                case "SCOPUS":
+                    $string = 'TITLE-ABS-KEY ';
+                    break;
+                case "IEEE":
+                    $string = '';
+                    break;
+                case "SCIENCE DIRECT":
+                    $string = '';
+                    break;
+                case "ENGINEERING VILLAGE":
+                    $string = '(';
+                    break;
+                case "ACM":
+                    $string = '';
+                    break;
+                case "SPRINGER LINK":
+                    $string = '';
+                    break;
+                default:
+                    break;
+            }
+            
+            $count = 0;
+            foreach ($data as $term) {
+                if ($count > 0) {
+                    $string .= " AND ";
+                }
+                if ($database == "ENGINEERING VILLAGE") {
+                    $string .= '(';
+                }
+                $string .= "(";
 
-        $count = 0;
-        foreach ($data as $term) {
-            if ($count > 0) {
-                $string .= " AND ";
+                if (preg_match('/\s/', $term['term'])) {
+                    $string .= '"' . $term['term'] . '"';
+                } else {
+                    $string .= $term['term'];
+                }
+
+                foreach ($term['synonyms'] as $synonym) {
+                    if ($database == "ACM") {
+                        $string .= " ";
+                    } else {
+                        $string .= " OR ";
+                    }
+                    if (preg_match('/\s/', $synonym)) {
+                        $string .= '"' . $synonym . '"';
+                    } else {
+                        $string .= $synonym;
+                    }
+                }
+                $string .= ")";
+                if ($database == "ENGINEERING VILLAGE") {
+                    $string .= ' WN KY)';
+                }
+                $count++;
             }
             if ($database == "ENGINEERING VILLAGE") {
-                $string .= '(';
+                $string .= ' AND ({english} WN LA)';
             }
-            $string .= "(";
 
-            if (preg_match('/\s/', $term['term'])) {
-                $string .= '"' . $term['term'] . '"';
+            // Verifique se $database não é "Generic" antes de executar o código apropriado
+            
+            if ($database->name != "Generic") {
+                $search_string = new SearchString();
+                $search_string->description = $string;
+                $search_string->id_project_database = $search_string->getIdProjectDatabase($database->name, $id_project);
+                $search_string->save();
             } else {
-                $string .= $term['term'];
+                $search_string_generic = new SearchStringGeneric();
+                $search_string_generic->description = $string;
+                $search_string_generic->id_project = $id_project;
+                $search_string_generic->save();
             }
-
-            foreach ($term['synonyms'] as $synonym) {
-
-                if ($database == "ACM") {
-                    $string .= " ";
-                } else {
-                    $string .= " OR ";
-                }
-                if (preg_match('/\s/', $synonym)) {
-                    $string .= '"' . $synonym . '"';
-                } else {
-                    $string .= $synonym;
-                }
-            }
-            $string .= ")";
-            if ($database == "ENGINEERING VILLAGE") {
-                $string .= ' WN KY)';
-            }
-            $count++;
-        }
-        if ($database == "ENGINEERING VILLAGE") {
-            $string .= ' AND ({english} WN LA)';
-        }
-
-        if ($database != "Generic") {
-            $search_string = new SearchString();
-            $id_project_database = $search_string->getIdProjectDatabase($database, $id_project);
-            $search_string->generateString($string, $id_project_database);
-
-        } else {
-            $search_string = new SearchString();
-            $search_string->generateStringGeneric($string, $id_project);
         }
     }
+
+    public function generateString($id_project)
+    {
+
+        $this->generate_string($id_project);
+
+        return redirect()->back();
+    }
+
+    public function getSearchStrings($id_project): array
+    {
+        $sss = [];
+		
+        $genericSearchStrings = SearchStringGeneric::where('id_project', $id_project)->get();
+
+        foreach ($genericSearchStrings as $row) {
+            $ss = new SearchString();
+            $ss->description($row->description);
+    
+            $db = new Database();
+            $db->name = "Generic";
+            $db->link = "#";
+            $ss->database = $db;
+            $sss[] = $ss;
+        }
+
+        $searchStrings = SearchString::select('search_string.description', 'data_base.name', 'data_base.link')
+        ->join('project_databases', 'project_databases.id_project_database', '=', 'search_string.id_project_database')
+        ->join('data_base', 'data_base.id_database', '=', 'project_databases.id_database')
+        ->where('id_project', $id_project)
+        ->with('data_base')
+        ->get();
+    
+        
+        foreach ($searchStrings as $row) {
+            $ss = new SearchString();
+            $ss->description = $row->description;
+            $ss->database = $row->database;
+ 
+            $sss[] = $ss;
+        }
+
+        return $sss;
+    }
+
 }

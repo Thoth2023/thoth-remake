@@ -93,6 +93,8 @@ Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->
 Route::get('/planning/{id}/search-string', [SearchStringController::class, 'index'])->name('planning_search_string')->middleware('auth');
 Route::post('/planning/{id}/search-string/term/add', [SearchStringController::class, 'store_term'])->name('planning_search_string.add_term');
 Route::post('/planning/{id}/search-string/synonym/add', [SearchStringController::class, 'store_synonym'])->name('planning_search_string.add_synonym');
+Route::post('/planning/generate-string/{id_project}/{database_id}', [SearchStringController::class, 'generateString'])->name('generate-string');
+
 Route::put('/planning/search-string/term/{id}', [SearchStringController::class, 'update_term'])->name('planning_search_string.update_term');
 Route::put('/planning/search-string/synonym/{id}', [SearchStringController::class, 'update_synonym'])->name('planning_search_string.update_synonym');
 Route::delete('search-string/term/{id}', [SearchStringController::class, 'destroy_term'])->name('planning_search_string.destroy_term');
