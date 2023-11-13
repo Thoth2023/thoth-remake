@@ -39,6 +39,7 @@ use App\Http\Controllers\DataBasesController;
 use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\SearchProjectController;
+use App\Http\Controllers\ReportingController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -124,6 +125,9 @@ Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', 
 Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('planning.dataExtractionUpdateOption')->middleware('auth');
 
 //end of the planning routes
+
+// start of the reporting routes
+Route::get('/projects/{projectId}/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');

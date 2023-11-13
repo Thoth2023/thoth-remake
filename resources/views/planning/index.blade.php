@@ -34,8 +34,10 @@
                                 class="btn bg-gradient-default">Conducting</button>
                         </li>
                         <li class="nav-item">
-                            <button type="button"
-                                class="btn bg-gradient-default">Reporting</button>
+                            <a class="btn bg-gradient-faded-white mb-0"
+                                href="{{ route('reporting.index', $project->id_project) }}">
+
+                                <i class="fas fa-plus"></i>Reporting</a>
                         </li>
                         <li class="nav-item">
                             <button type="button"
