@@ -45,6 +45,11 @@ services:
             - "3306:3306"
         networks:
             - thoth
+        ulimits:
+            nproc: 65535
+            nofile:
+                soft: 20000
+                hard: 40000
     #phpmyadmin
     db-phpmyadmin:
         depends_on:
