@@ -4,47 +4,13 @@
 @include('layouts.navbars.auth.topnav', ['title' => 'Reporting'])
 
 <div class="row mt-4 mx-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                    {{ $project->title }}
-                </h4>
-            </div>
-            <div class="card-body">
-                <div class="nav-wrapper position-relative end-0">
-                    <ul class="nav nav-pills nav-fill p-1" id="myTabs">
-                        <li class="nav-item">
-                            <a class="btn bg-gradient-faded-white mb-0"
-                                href="{{ route('projects.show', $project->id_project) }}">
-                                <i class="fas fa-plus"></i>Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn bg-gradient-faded-white mb-0"
-                                href="{{ route('planning.index', $project->id_project) }}">
-                                <i class="fas fa-plus"></i>Planning</a>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn bg-gradient-default">Conducting</button>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn bg-gradient-dark mb-0"
-                                href="{{ route('reporting.index', $project->id_project) }}">
-                                <i class="fas fa-plus"></i>Reporting</a>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn bg-gradient-default">Export</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    @include('project.components.project-header', ['project' => $project, 'activePage' => 'reporting'])
 
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
-                <div class="card mb-4">
+                <div class="card mb-4 pb-2" style="overflow: hidden;">
                     <div class="card-header pb-0">
                         <h6>Planning</h6>
                     </div>

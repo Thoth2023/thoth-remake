@@ -22,6 +22,6 @@ class ReportingController extends Controller
     public function index(string $id_project): View
     {
         $project = Project::findOrFail($id_project);
-        return view('reporting.index', compact('project'));
+        return view('project.reporting.index', compact('project'));
     }
 }

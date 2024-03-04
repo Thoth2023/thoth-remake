@@ -27,7 +27,7 @@
             </button>
         </div>
         @endif
-        <form method="POST" action="{{ route('search-strategy.update', ['projectId' => $project->id_project]) }}">
+        <form method="POST" action="{{ route('project.search-strategy.update', ['projectId' => $project->id_project]) }}">
             @csrf
             @method('post')
             <div class="form-group">

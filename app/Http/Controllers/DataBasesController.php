@@ -12,7 +12,7 @@ class DataBasesController extends Controller
 	public function index($id) {
 		$project = Project::find($id);
 		$databases = DataBase::all();
-        return view('planning.databases', compact('project'), compact('databases'));
+        return view('project.planning.databases', compact('project'), compact('databases'));
 	}
 
 	public function add_database(Request $request, string $id_project) {

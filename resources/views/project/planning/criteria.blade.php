@@ -4,7 +4,7 @@
             <div class="card-group card-frame mt-5">
         <div class="card">
             <form role="form" method="POST"
-                action="{{ route('planning_criteria.Add') }}"
+                action="{{ route('project.planning_criteria.Add') }}"
                 enctype="multipart/form-data">
                 @csrf
                 <div>
