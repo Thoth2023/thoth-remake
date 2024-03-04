@@ -73,21 +73,26 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="overview">
-                        <!-- Highcharts Chart -->
+                        <!-- Content for Overview tab -->
                         <div id="overviewFunnelChart" style="height: 400px;" class="card my-2 p-2"></div>
                         <div id="overviewChart" style="height: 400px;" class="card my-2 p-2"></div>
                     </div>
                     <div class="tab-pane fade" id="import-studies">
                         <!-- Content for Import Studies tab -->
+                        <div id="papers_per_database" style="height: 400px;" class="card my-2 p-2"></div>
                     </div>
                     <div class="tab-pane fade" id="study-selection">
                         <!-- Content for Study Selection tab -->
+                        <div id="papers_per_selection" style="height: 400px;" class="card my-2 p-2"></div>
                     </div>
                     <div class="tab-pane fade" id="quality-assessment">
                         <!-- Content for Quality Assessment tab -->
+                        <div id="papers_per_quality" style="height: 400px;" class="card my-2 p-2"></div>
+                        <div id="papers_gen_score" style="height: 400px;" class="card my-2 p-2"></div>
                     </div>
                     <div class="tab-pane fade" id="data-extraction">
                         <!-- Content for Data Extraction tab -->
+
                     </div>
                 </div>
             </div>
@@ -115,13 +120,12 @@
     document.addEventListener('DOMContentLoaded', function () {
 
         // Overview Tab
-
         Highcharts.chart('overviewFunnelChart', {
             chart: {
                 type: 'funnel'
             },
             title: {
-                text: '{{ $project->title }} Funnel'
+                text: 'Systematic mapping study on domain-specific language development tools Funnel'
             },
             plotOptions: {
                 series: {
@@ -139,17 +143,7 @@
             legend: {
                 enabled: false
             },
-            series: [{
-                name: 'Unique users',
-                data: [
-                    ['Website visits', 15654],
-                    ['Downloads', 4064],
-                    ['Requested price list', 1987],
-                    ['Invoice sent', 976],
-                    ['Finalized', 846]
-                ]
-            }],
-
+            series: [{"name": "Studies", "data": [["Imported Studies", 1737], ["Not Duplicate", 1737], ["Status Selection", 10], ["Status Quality", 4], ["Status Extraction", 4]]}],
             responsive: {
                 rules: [{
                     condition: {
@@ -169,7 +163,6 @@
                 }]
             }
         });
-
         Highcharts.chart('overviewChart', {
             chart: {
                 type: 'line'
@@ -178,26 +171,171 @@
                 text: 'Failure of Daily Project Activities'
             },
             xAxis: {
-                categories: ['Category 1', 'Category 2', 'Category 3']
+                categories: ["2023-03-28", "2023-03-30", "2023-04-04", "2023-04-24", "2023-06-03"]
             },
             yAxis: {
                 title: {
-                    text: 'Values'
+                    text: 'Activities'
                 }
             },
-            series: [{
-                name: 'Series 1',
-                data: [10, 20, 30]
-            }]
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{"name": "Project", "data": [40, 103, 257, 7, 2]}, {"name": "Auri Gabriel", "data": [40, 103, 257, 7, 2]}]
         });
 
         // Import Studies Tab
 
+        Highcharts.chart('papers_per_database', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Papers per Database'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
+            },
+            plotOptions: {
+                column: {
+                    colorByPoint: true
+                },
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: [{"name": "IEEE Base", "y": 1737}]
+            }]
+        });
+
         // Study Selection Tab
+
+        Highcharts.chart('papers_per_selection', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Papers per Status Selection'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: [{"name": "Accepted", "y": 10, "color": "#90ed7d"}, {"name": "Unclassified", "y": 1727, "color": "#434348"}]
+            }]
+        });
 
         // Quality Assessment Tab
 
+        Highcharts.chart('papers_per_quality', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Papers per Status Quality'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: [{"name": "Accepted", "y": 4, "color": "#90ed7d"}, {"name": "Rejected", "y": 6, "color": "#f45b5b"}]
+            }]
+        });
+
+        Highcharts.chart('papers_gen_score', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Papers per General Score'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: [{"name": "Poor", "y": 2}, {"name": "OK", "y": 4}, {"name": "Good", "y": 4}]
+            }]
+        });
+
         // Data Extraction Tab
+
+
+
+
+
 
     });
 </script>
