@@ -17,7 +17,7 @@ class PlanningResearchQuestionsController extends Controller
     {
         $project = Project::findOrFail($id_project);
         $researchQuestions = ResearchQuestion::where('id_project', $id_project)->get();
-        return view('planning.research_questions', compact('id_project', 'project', 'researchQuestions'));
+        return view('project.planning.research_questions', compact('id_project', 'project', 'researchQuestions'));
     }
 
      /**

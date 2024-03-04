@@ -6,7 +6,7 @@
             <div class="card-group card-frame mt-5">
                 <div class="card">
                     <form role="form" method="POST"
-                        action="{{ route('planning_overall.domainUpdate') }}"
+                        action="{{ route('project.planning_overall.domainUpdate') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div>
@@ -181,7 +181,7 @@
             <div class="card-group card-frame mt-5">
                 <div class="card">
                     <form role="form"
-                        action="{{ route('planning_overall.languageAdd') }}"
+                        action="{{ route('project.planning_overall.languageAdd') }}"
                         method="POST" enctype="multipart/form-data">
                             @csrf
                             <div>
@@ -301,7 +301,7 @@
             <div class="card-group card-frame mt-5">
                 <div class="card">
                     <form role="form" method="POST"
-                        action="{{ route('planning_overall.studyTAdd') }}"
+                        action="{{ route('project.planning_overall.studyTAdd') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div>
@@ -424,7 +424,7 @@
             <div class="card-group card-frame mt-5">
                 <div class="card">
                     <form role="form" method="POST"
-                        action="{{ route('planning_overall.keywordAdd') }}"
+                        action="{{ route('project.planning_overall.keywordAdd') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div>

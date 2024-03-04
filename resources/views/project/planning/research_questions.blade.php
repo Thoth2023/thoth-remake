@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="card-group card-frame mt-5">
                                         <div class="card">
-                                            <form role="form" method="POST" action="{{ route('planning_research.Add') }}" enctype="multipart/form-data">
+                                            <form role="form" method="POST" action="{{ route('project.planning_research.Add') }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <div>
                                                     <div class="card-header pb-0">

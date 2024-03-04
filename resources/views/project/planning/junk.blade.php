@@ -4,7 +4,7 @@
                         <!-- Domain starts here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action="{{ route('planning_overall.domainUpdate') }}" enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('project.planning_overall.domainUpdate') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -303,7 +303,7 @@
                         <!-- Keywords here -->
                         <div class="col-md-6 unique-form-planning">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.keywordAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('project.planning_overall.keywordAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -424,7 +424,7 @@
                         <!-- Criteria starts here -->
                         <div class="col-md-6 unique-form-planning" style="width: 100%;">
                             <div class="card">
-                                <form role="form" method="POST" action="{{ route('planning_criteria.Add') }}" enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{ route('project.planning_criteria.Add') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -564,7 +564,7 @@
                         <!-- Database starts here -->
                         <div class="container-fluid py-4">
                             <div class="card">
-                                <form role="form" method="POST" action={{ route('planning_overall.databaseAdd') }} enctype="multipart/form-data">
+                                <form role="form" method="POST" action={{ route('project.planning_overall.databaseAdd') }} enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <div class="card-header pb-0">
@@ -684,17 +684,17 @@
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.index', $project->id_project) }}" aria-controls="Overallinformation">
+                                    <a class="nav-link mb-0 px-0 py-1" href="{{ route('project.planning.index', $project->id_project) }}" aria-controls="Overallinformation">
                                     Overall information
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" href="{{ route('planning.research_questions', $project->id_project) }}" aria-controls="ResearchQuestions">
+                                    <a class="nav-link mb-0 px-0 py-1" href="{{ route('project.planning.research_questions', $project->id_project) }}" aria-controls="ResearchQuestions">
                                     Research Questions
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('planning.databases', $project->id_project) }}" aria-controls="Databases">
+                                    <a class="nav-link mb-0 px-0 py-1 active" href="{{ route('project.planning.databases', $project->id_project) }}" aria-controls="Databases">
                                     Data Bases
                                     </a>
                                 </li>
@@ -719,7 +719,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" href="{{ route('planning.dataExtraction', $project->id_project) }}" aria-controls="DataExtraction" style="background-color: #212229; color: white;">
+                                    <a class="nav-link mb-0 px-0 py-1" href="#DataExtraction" role="tab" href="{{ route('project.planning.dataExtraction', $project->id_project) }}" aria-controls="DataExtraction" style="background-color: #212229; color: white;">
                                     Data Extraction
                                     </a>
                                 </li>
@@ -736,7 +736,7 @@
                                             <h5>Create Data Extraction Question</h5>
                                         </div>
                                         <div class="card-body">
-                                            <form role="form" method="POST" action="{{ route('planning.dataExtractionCreate', $project->id_project) }}" enctype="multipart/form-data">
+                                            <form role="form" method="POST" action="{{ route('project.planning.dataExtractionCreate', $project->id_project) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <label class="form-control-label" for="id">ID</label>
                                                 <input class="form-control" id="id" type="text" name="id">
@@ -755,7 +755,7 @@
                                             <h5>Create Data Extraction Question Option</h5>
                                         </div>
                                         <div class="card-body">
-                                            <form role="form" method="POST" action="{{ route('planning.dataExtractionOptionCreate', $project->id_project) }}" enctype="multipart/form-data">
+                                            <form role="form" method="POST" action="{{ route('project.planning.dataExtractionOptionCreate', $project->id_project) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <label class="form-control-label" for="question-id">Question</label>
                                                 <select class="form-control" name="questionId" id="question-id" placeholder="Departure">
@@ -815,7 +815,7 @@
                                                                             <span>{{ $option->description }}</span>
                                                                         </div>
                                                                         <div class="col-md-auto d-flex">
-                                                                            <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}" enctype="multipart/form-data">
+                                                                            <form class="m-1" role="form" method="POST" action="{{ route('project.planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}" enctype="multipart/form-data">
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#optionModal">Edit</button>
@@ -837,7 +837,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
-                                                                            <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
+                                                                            <form class="m-1" role="form" method="POST" action="{{ route('project.planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -849,7 +849,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="col-md-auto d-flex">
-                                                        <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}" enctype="multipart/form-data">
+                                                        <form class="m-1" role="form" method="POST" action="{{ route('project.planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
                                                             <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#questionModal">Edit</button>
@@ -882,7 +882,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <form class="m-1" role="form" method="POST" action="{{ route('planning.dataExtractionDeleteQuestion', [$project->id_project, $question->id_de]) }}">
+                                                        <form class="m-1" role="form" method="POST" action="{{ route('project.planning.dataExtractionDeleteQuestion', [$project->id_project, $question->id_de]) }}">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>

@@ -35,7 +35,7 @@ class PlanningOverallInformationController extends Controller
         $projectStudyTypes = ProjectStudyType::where('id_project', $id_project)->get();
         $domains = Domain::where('id_project', $id_project)->get();
         $keywords = Keyword::where('id_project', $id_project)->get();
-        return view('planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages','databases', 'projectDatabases',  'studyTypes', 'projectStudyTypes', 'keywords', 'usersRelation'));
+        return view('project.planning.index', compact('domains', 'id_project', 'project','languages', 'projectLanguages','databases', 'projectDatabases',  'studyTypes', 'projectStudyTypes', 'keywords', 'usersRelation'));
     }
 
     // DOMAIN AREA
@@ -329,6 +329,6 @@ class PlanningOverallInformationController extends Controller
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 
 
-        return redirect()->route('planning.index', ['id' => $project->id_project, 'project' => $project]);
+        return redirect()->route('project.planning.index', ['id' => $project->id_project, 'project' => $project]);
     }
 }
