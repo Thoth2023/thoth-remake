@@ -79,6 +79,7 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 
     <script src="{{ asset('assets/js/argon-dashboard.js') }}"></script>
+    <script src="{{ mix('resources/js/app.js') }}" defer></script>
     @stack('js')
 
     <script src="{{ asset('/pwabuilder-sw.js') }}"></script>

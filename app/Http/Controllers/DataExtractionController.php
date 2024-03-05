@@ -15,7 +15,7 @@ class DataExtractionController extends Controller
 		$project = Project::find($id);
 		$types = TypesQuestion::all();
 
-        return view('planning.data_extraction', compact('project', 'types'));
+        return view('project.planning.data_extraction', compact('project', 'types'));
 	}
 
 	public function add_extraction(Request $request, string $id_project) {
@@ -32,7 +32,7 @@ class DataExtractionController extends Controller
 
 		$activity = "Added question extraction ". $question->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $question->id_project, Auth::user()->id);
-		
+
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 
@@ -52,10 +52,10 @@ class DataExtractionController extends Controller
 	public function delete_question(string $id_project, string $id_question) {
 		$question = QuestionExtraction::findOrFail($id_question);
 		$activity = "Deleted question extraction ". $question->id;
-		
+
 		$question->options()->delete();
 		$question->delete();
-		
+
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
@@ -64,7 +64,7 @@ class DataExtractionController extends Controller
 	public function delete_option(string $id_project, string $id_option) {
 		$option = OptionsExtraction::findOrFail($id_option);
 		$activity = "Deleted option ".$option->description." to question extraction ". QuestionExtraction::findOrFail($option->id_de)->description;
-		
+
 		$option->delete();
 
 		ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
@@ -106,7 +106,7 @@ class DataExtractionController extends Controller
 		$option->save();
 		$activity = "Edited option to question extraction ".QuestionExtraction::findOrFail($option->id_de)->description;
 		ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-		
+
 		return redirect('/projects/'.$id_project.'/planning/data-extraction');
 	}
 }

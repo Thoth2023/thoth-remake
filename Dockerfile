@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
     libwebp-dev \
     -y mariadb-client
 
+# Install Node.js and npm
+RUN apt-get install -y nodejs npm
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -52,7 +55,15 @@ RUN echo "file_uploads = On\n" \
 # Set working directory
 WORKDIR /var/www
 
+# Install Node.js and npm
+USER root
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm
+
+USER $user
+
 # Copy custom configurations PHP
 COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
-USER $user
+

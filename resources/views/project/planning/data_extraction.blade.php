@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         <form role="form" method="POST"
-                            action="{{ route('planning.dataExtractionCreate', $project->id_project) }}"
+                            action="{{ route('project.planning.dataExtractionCreate', $project->id_project) }}"
                             enctype="multipart/form-data">
                             @csrf
                             <label class="form-control-label" for="id">ID</label>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="card-body">
                         <form role="form" method="POST"
-                            action="{{ route('planning.dataExtractionOptionCreate', $project->id_project) }}"
+                            action="{{ route('project.planning.dataExtractionOptionCreate', $project->id_project) }}"
                             enctype="multipart/form-data">
                             @csrf
                             <label class="form-control-label" for="question-id">Question</label>
@@ -100,7 +100,7 @@
                                             <div class="col-md-auto d-flex">
                                                 <form class="m-1" role="form"
                                                     method="POST"
-                                                    action="{{ route('planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}"
+                                                    action="{{ route('project.planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}"
                                                     enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
@@ -155,7 +155,7 @@
                                                 </form>
                                                 <form class="m-1" role="form"
                                                     method="POST"
-                                                    action="{{ route('planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
+                                                    action="{{ route('project.planning.dataExtractionDeleteOption', [$project->id_project, $option->id_option]) }}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -169,7 +169,7 @@
                             </div>
                             <div class="col-md-auto d-flex">
                                 <form class="m-1" role="form" method="POST"
-                                    action="{{ route('planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}"
+                                    action="{{ route('project.planning.dataExtractionUpdateQuestion', [$project->id_project, $question->id_de]) }}"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
@@ -238,7 +238,7 @@
                                     </div>
                                 </form>
                                 <form class="m-1" role="form" method="POST"
-                                    action="{{ route('planning.dataExtractionDeleteQuestion', [$project->id_project, $question->id_de]) }}">
+                                    action="{{ route('project.planning.dataExtractionDeleteQuestion', [$project->id_project, $question->id_de]) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"

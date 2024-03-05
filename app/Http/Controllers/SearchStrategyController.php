@@ -29,7 +29,7 @@ class SearchStrategyController extends Controller
     {
         $project = Project::findOrFail($projectId);
 
-        return view('planning.search-strategy', compact('project'));
+        return view('project.planning.search-strategy', compact('project'));
     }
 
     /**
@@ -48,7 +48,7 @@ class SearchStrategyController extends Controller
         $project = Project::findOrFail($projectId);
         $project->searchStrategy()
                 ->updateOrCreate([], ['description' => $request->search_strategy]);
-        
+
         $activity = "Edited search strategy";
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 

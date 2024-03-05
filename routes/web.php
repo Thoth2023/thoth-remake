@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
+Route::get('/', function ()
+{
+    return view('welcome');
 });
 
 Auth::routes();
@@ -39,6 +40,7 @@ use App\Http\Controllers\DataBasesController;
 use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\SearchProjectController;
+use App\Http\Controllers\ReportingController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -61,69 +63,73 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 // end of the projects routes
 
 // planning routes
-Route::get('/planning/{id}', [PlanningOverallInformationController::class, 'index'])->name('planning.index')->middleware('auth');
-Route::post('/planning/domain', [PlanningOverallInformationController::class, 'domainUpdate'])->name('planning_overall.domainUpdate');
-Route::put('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainEdit'])->name('planning_overall.domainEdit');
-Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainDestroy'])->name('planning_overall.domainDestroy');
+Route::get('/planning/{id}', [PlanningOverallInformationController::class, 'index'])->name('project.planning.index')->middleware('auth');
+Route::post('/planning/domain', [PlanningOverallInformationController::class, 'domainUpdate'])->name('project.planning_overall.domainUpdate');
+Route::put('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainEdit'])->name('project.planning_overall.domainEdit');
+Route::delete('/planning/domain/{id}', [PlanningOverallInformationController::class, 'domainDestroy'])->name('project.planning_overall.domainDestroy');
 
-    Route::post('/planning/database', [PlanningOverallInformationController::class, 'databaseAdd'])->name('planning_overall.databaseAdd');
-	Route::delete('/planning/database/{id}', [PlanningOverallInformationController::class, 'databaseDestroy'])->name('planning_overall.databaseDestroy');
+Route::post('/planning/database', [PlanningOverallInformationController::class, 'databaseAdd'])->name('project.planning_overall.databaseAdd');
+Route::delete('/planning/database/{id}', [PlanningOverallInformationController::class, 'databaseDestroy'])->name('project.planning_overall.databaseDestroy');
 
-	Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
-	Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
+Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('project.planning_overall.studyTAdd');
+Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('project.planning_overall.studyTDestroy');
 
-	Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
-	Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
-	Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
+Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('project.planning_overall.keywordAdd');
+Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('project.planning_overall.keywordEdit');
+Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('project.planning_overall.keywordDestroy');
 
-    Route::get('/search-strategy/{projectId}', [SearchStrategyController::class, 'index'])->name('search-strategy.index');
-    Route::post('/search-strategy/{projectId}/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
-    Route::get('/search-strategy', function () {
-        return view('search_strategy');
-    });
-
-	//end of the planning routes
-Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('planning_overall.languageAdd');
-Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('planning_overall.languageDestroy');
-
-Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
-Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
-
-Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('planning_overall.keywordAdd');
-Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('planning_overall.keywordEdit');
-Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('planning_overall.keywordDestroy');
-Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('planning_overall.studyTAdd');
-Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('planning_overall.studyTDestroy');
-
-Route::get('/planning/{id}/research_questions', [PlanningResearchQuestionsController::class, 'index'])->name('planning.research_questions')->middleware('auth');
-Route::post('/planning/research_questions/add', [PlanningResearchQuestionsController::class, 'add'])->name('planning_research.Add');
-Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('planning_research.Edit');
-Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('planning_research.Destroy');
-
-Route::get('/planning/{id}/criteria', [PlanningCriteriaController::class, 'index'])->name('planning.criteria')->middleware('auth');
-Route::post('/planning/criteria/add', [PlanningCriteriaController::class, 'add'])->name('planning_criteria.Add');
-Route::put('/planning/criteria/{id}', [PlanningCriteriaController::class, 'edit'])->name('planning_criteria.Edit');
-Route::put('/planning/criteria/change/{id}', [PlanningCriteriaController::class, 'change_preselected'])->name('planning_criteria.ChangeSelect');
-Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->name('planning_criteria.Destroy');
-
-Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('search-strategy.edit');
-Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('search-strategy.update');
-
-Route::post('/projects/{projectId}/planning/add-date', [PlanningOverallInformationController::class, 'addDate'])->name('planning_overall.add-date');
-Route::get('/projects/{projectId}/planning/data-bases', [DataBasesController::class, 'index'])->name('planning.databases')->middleware('auth');
-Route::post('/projects/{projectId}/planning/data-bases/add', [DataBasesController::class, 'add_database'])->name('planning.databasesAdd')->middleware('auth');
-Route::post('/projects/{projectId}/planning/data-bases/{databaseId}/remove', [DataBasesController::class, 'remove_database'])->name('planning.databasesRemove')->middleware('auth');
-Route::post('/projects/{projectId}/planning/data-bases/create', [DataBasesController::class, 'create_database'])->name('planning.databasesCreate')->middleware('auth');
-
-Route::get('projects/{projectId}/planning/data-extraction', [DataExtractionController::class, 'index'])->name('planning.dataExtraction')->middleware('auth');
-Route::post('projects/{projectId}/planning/data-extraction/create', [DataExtractionController::class, 'add_extraction'])->name('planning.dataExtractionCreate')->middleware('auth');
-Route::post('projects/{projectId}/planning/data-extraction/option/create', [DataExtractionController::class, 'add_option'])->name('planning.dataExtractionOptionCreate')->middleware('auth');
-Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove', [DataExtractionController::class, 'delete_question'])->name('planning.dataExtractionDeleteQuestion')->middleware('auth');
-Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('planning.dataExtractionDeleteOption')->middleware('auth');
-Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('planning.dataExtractionUpdateQuestion')->middleware('auth');
-Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('planning.dataExtractionUpdateOption')->middleware('auth');
+Route::get('/search-strategy/{projectId}', [SearchStrategyController::class, 'index'])->name('project.search-strategy.index');
+Route::post('/search-strategy/{projectId}/update', [SearchStrategyController::class, 'update'])->name('project.search-strategy.update');
+Route::get('/search-strategy', function ()
+{
+    return view('search_strategy');
+});
 
 //end of the planning routes
+Route::post('/planning/language', [PlanningOverallInformationController::class, 'languageAdd'])->name('project.planning_overall.languageAdd');
+Route::delete('/planning/language/{id}', [PlanningOverallInformationController::class, 'languageDestroy'])->name('project.planning_overall.languageDestroy');
+
+Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('project.planning_overall.studyTAdd');
+Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('project.planning_overall.studyTDestroy');
+
+Route::post('/planning/keyword', [PlanningOverallInformationController::class, 'keywordAdd'])->name('project.planning_overall.keywordAdd');
+Route::put('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordEdit'])->name('project.planning_overall.keywordEdit');
+Route::delete('/planning/keyword/{id}', [PlanningOverallInformationController::class, 'keywordDestroy'])->name('project.planning_overall.keywordDestroy');
+Route::post('/planning/study_type', [PlanningOverallInformationController::class, 'studyTAdd'])->name('project.planning_overall.studyTAdd');
+Route::delete('/planning/study_type/{id}', [PlanningOverallInformationController::class, 'studyTDestroy'])->name('project.planning_overall.studyTDestroy');
+
+Route::get('/planning/{id}/research_questions', [PlanningResearchQuestionsController::class, 'index'])->name('project.planning.research_questions')->middleware('auth');
+Route::post('/planning/research_questions/add', [PlanningResearchQuestionsController::class, 'add'])->name('project.planning_research.Add');
+Route::put('/planning/research_questions/{id}', [PlanningResearchQuestionsController::class, 'edit'])->name('project.planning_research.Edit');
+Route::delete('research_questions/{id}', [PlanningResearchQuestionsController::class, 'destroy'])->name('project.planning_research.Destroy');
+
+Route::get('/planning/{id}/criteria', [PlanningCriteriaController::class, 'index'])->name('project.planning.criteria')->middleware('auth');
+Route::post('/planning/criteria/add', [PlanningCriteriaController::class, 'add'])->name('project.planning_criteria.Add');
+Route::put('/planning/criteria/{id}', [PlanningCriteriaController::class, 'edit'])->name('project.planning_criteria.Edit');
+Route::put('/planning/criteria/change/{id}', [PlanningCriteriaController::class, 'change_preselected'])->name('project.planning_criteria.ChangeSelect');
+Route::delete('criteria/{id}', [PlanningCriteriaController::class, 'destroy'])->name('project.planning_criteria.Destroy');
+
+Route::get('/projects/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'edit'])->name('project.search-strategy.edit');
+Route::post('/projects/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])->name('project.search-strategy.update');
+
+Route::post('/projects/{projectId}/planning/add-date', [PlanningOverallInformationController::class, 'addDate'])->name('project.planning_overall.add-date');
+Route::get('/projects/{projectId}/planning/data-bases', [DataBasesController::class, 'index'])->name('project.planning.databases')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/add', [DataBasesController::class, 'add_database'])->name('project.planning.databasesAdd')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/{databaseId}/remove', [DataBasesController::class, 'remove_database'])->name('project.planning.databasesRemove')->middleware('auth');
+Route::post('/projects/{projectId}/planning/data-bases/create', [DataBasesController::class, 'create_database'])->name('project.planning.databasesCreate')->middleware('auth');
+
+Route::get('projects/{projectId}/planning/data-extraction', [DataExtractionController::class, 'index'])->name('project.planning.dataExtraction')->middleware('auth');
+Route::post('projects/{projectId}/planning/data-extraction/create', [DataExtractionController::class, 'add_extraction'])->name('project.planning.dataExtractionCreate')->middleware('auth');
+Route::post('projects/{projectId}/planning/data-extraction/option/create', [DataExtractionController::class, 'add_option'])->name('project.planning.dataExtractionOptionCreate')->middleware('auth');
+Route::delete('projects/{projectId}/planning/data-extraction/{questionId}/remove', [DataExtractionController::class, 'delete_question'])->name('project.planning.dataExtractionDeleteQuestion')->middleware('auth');
+Route::delete('projects/{projectId}/planning/data-extraction/option/{optionId}/remove', [DataExtractionController::class, 'delete_option'])->name('project.planning.dataExtractionDeleteOption')->middleware('auth');
+Route::put('projects/{projectId}/planning/data-extraction/{questionId}/update', [DataExtractionController::class, 'edit_question'])->name('project.planning.dataExtractionUpdateQuestion')->middleware('auth');
+Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/update', [DataExtractionController::class, 'edit_option'])->name('project.planning.dataExtractionUpdateOption')->middleware('auth');
+
+//end of the planning routes
+
+// start of the reporting routes
+Route::get('/projects/{projectId}/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
@@ -137,15 +143,15 @@ Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('gue
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 
-Route::group(['middleware' => 'auth'], function () {
-	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
-	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
-	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
-	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
-	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
-	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
-	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-	Route::get('/{page}', [PageController::class, 'index'])->name('page');
-	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
+Route::group(['middleware' => 'auth'], function ()
+{
+    Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
+    Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+    Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
+    Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
+    Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
+    Route::get('/{page}', [PageController::class, 'index'])->name('page');
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });

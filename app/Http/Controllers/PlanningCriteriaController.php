@@ -20,7 +20,7 @@ class PlanningCriteriaController extends Controller
         $exclusions = ['id_project' => $id_project, 'type' => 'Exclusion'];
         $inclusion_criterias = Criteria::where($inclusions)->get();
         $exclusion_criterias = Criteria::where($exclusions)->get();
-        return view('planning.criteria', compact('id_project', 'project', 'inclusion_criterias', 'exclusion_criterias'));
+        return view('project.planning.criteria', compact('id_project', 'project', 'inclusion_criterias', 'exclusion_criterias'));
     }
 
      /**
@@ -109,7 +109,7 @@ class PlanningCriteriaController extends Controller
         $criteria->delete();
 
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-        return redirect("/planning/".$id_project.);
+        return redirect("/planning/" . $id_project . "/criteria");
     }
 
     /*

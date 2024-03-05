@@ -16,10 +16,10 @@ class SearchStrategyTest extends TestCase
         $project = Project::factory()->create();
 
         $response = $this
-            ->get(route('search-strategy.edit', ['projectId' => $project->id_project]));
+            ->get(route('project.search-strategy.edit', ['projectId' => $project->id_project]));
 
         $response->assertStatus(200)
-            ->assertViewIs('planning.search-strategy')
+            ->assertViewIs('project.planning.search-strategy')
             ->assertViewHas('project', $project);
     }
 
@@ -30,7 +30,7 @@ class SearchStrategyTest extends TestCase
             ->create(['id_project' => $project->id_project]);
         $newDescription = 'New search strategy description';
 
-        $response = $this->post(route('search-strategy.update', ['projectId' => $project->id_project]), [
+        $response = $this->post(route('project.search-strategy.update', ['projectId' => $project->id_project]), [
             'search_strategy' => $newDescription,
         ]);
 
@@ -39,7 +39,7 @@ class SearchStrategyTest extends TestCase
          * but using in the real frontend seems to be working fine
          *  so this will be commented out for now
          * $response->assertStatus(302)
-         *     ->assertRedirect(route('search-strategy.edit', ['projectId' => $project->id_project]));
+         *     ->assertRedirect(route('project.search-strategy.edit', ['projectId' => $project->id_project]));
          */
 
         $updatedSearchStrategy = SearchStrategy::find($searchStrategy->id_search_strategy);
