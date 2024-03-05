@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project;
 
-use App\Models\Project;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Criteria;
+use App\Models\Project;
 use App\Utils\ActivityLogHelper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PlanningCriteriaController extends Controller
@@ -23,13 +24,13 @@ class PlanningCriteriaController extends Controller
         return view('project.planning.criteria', compact('id_project', 'project', 'inclusion_criterias', 'exclusion_criterias'));
     }
 
-     /**
+    /**
      * Store a newly created Criteria
      */
     public function add(Request $request)
     {
         $this->validate($request, [
-            'description' =>'required|string',
+            'description' => 'required|string',
             'id' => 'required|alpha_num',
             'pre_selected' => 'required|alpha_num',
             'type' => 'required|string',
@@ -37,12 +38,11 @@ class PlanningCriteriaController extends Controller
         $matchThese = ['id_project' => $request->id_project, 'id' => $request->id];
         $criteria = Criteria::where($matchThese)->first();
 
-        if($criteria){
+        if ($criteria) {
             return back()->withErrors([
                 'duplicate' => 'The provided ID already exists in this project.',
-            ]);;
-        }
-        else{
+            ]);
+        } else {
             $project_criteria = Criteria::create([
                 'id_project' => $request->id_project,
                 'id' => $request->id,
@@ -53,10 +53,10 @@ class PlanningCriteriaController extends Controller
 
             $id_project = $request->id_project;
 
-            $activity = "Added ". $project_criteria->type. " criteria ". $project_criteria->id;
+            $activity = "Added " . $project_criteria->type . " criteria " . $project_criteria->id;
             ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-            return redirect("/planning/".$id_project);
+            return redirect("/planning/" . $id_project);
         }
     }
 
@@ -67,33 +67,32 @@ class PlanningCriteriaController extends Controller
     {
 
         $this->validate($request, [
-            'description' =>'required|string',
+            'description' => 'required|string',
             'id' => 'required|alpha_num',
             'pre_selected' => 'required|int',
             'type' => 'required|string',
         ]);
 
         $criteria = Criteria::findOrFail($id);
-        $matchThese = ['id_project' =>$request->id_project, 'id' =>$request->id];
+        $matchThese = ['id_project' => $request->id_project, 'id' => $request->id];
         $criteria2 = Criteria::where($matchThese)->first();
 
-        if($criteria2){
+        if ($criteria2) {
             return back()->withErrors([
                 'duplicate' => 'The provided ID already exists in this project.',
             ]);
-        }
-        else{
+        } else {
             $criteria->update($request->all());
         }
         $id_project = $criteria->id_project;
 
-        $activity = "Updated criteria ". $criteria->id;
+        $activity = "Updated criteria " . $criteria->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        $activity = "Updated criteria ". $criteria->id;
+        $activity = "Updated criteria " . $criteria->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
 
     }
 
@@ -104,7 +103,7 @@ class PlanningCriteriaController extends Controller
     {
         $criteria = Criteria::findOrFail($id);
         $id_project = $criteria->id_project;
-        $activity = "Deleted criteria ". $criteria->id;
+        $activity = "Deleted criteria " . $criteria->id;
 
         $criteria->delete();
 
@@ -127,6 +126,6 @@ class PlanningCriteriaController extends Controller
 
         $id_project = $criteria->id_project;
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
 }

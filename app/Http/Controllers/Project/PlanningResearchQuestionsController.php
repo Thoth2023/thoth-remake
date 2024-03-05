@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project;
 
+use App\Http\Controllers\Controller;
 use App\Models\Project;
-use Illuminate\Http\Request;
 use App\Models\ResearchQuestion;
 use App\Utils\ActivityLogHelper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PlanningResearchQuestionsController extends Controller
@@ -20,24 +21,23 @@ class PlanningResearchQuestionsController extends Controller
         return view('project.planning.research_questions', compact('id_project', 'project', 'researchQuestions'));
     }
 
-     /**
+    /**
      * Store a newly created Research Question
      */
     public function add(Request $request)
     {
         $this->validate($request, [
-            'description' =>'required|string',
+            'description' => 'required|string',
             'id' => 'required|alpha_num',
         ]);
         $matchThese = ['id_project' => $request->id_project, 'id' => $request->id];
         $researchQuestion = ResearchQuestion::where($matchThese)->first();
 
-        if($researchQuestion){
+        if ($researchQuestion) {
             return back()->withErrors([
                 'duplicate' => 'The provided ID already exists in this project.',
-            ]);;
-        }
-        else{
+            ]);
+        } else {
             $research_question = ResearchQuestion::create([
                 'id_project' => $request->id_project,
                 'id' => $request->id,
@@ -46,10 +46,10 @@ class PlanningResearchQuestionsController extends Controller
 
             $id_project = $request->id_project;
 
-            $activity = "Added the research question ". $research_question->id;
+            $activity = "Added the research question " . $research_question->id;
             ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-            return redirect("/planning/".$id_project);
+            return redirect("/planning/" . $id_project);
         }
     }
 
@@ -60,31 +60,30 @@ class PlanningResearchQuestionsController extends Controller
     {
 
         $this->validate($request, [
-            'description' =>'required|string',
+            'description' => 'required|string',
             'id' => 'required|alpha_num',
         ]);
 
         $researchQuestion = ResearchQuestion::findOrFail($id);
-        $matchThese = ['id_project' =>$request->id_project, 'id' =>$request->id];
+        $matchThese = ['id_project' => $request->id_project, 'id' => $request->id];
         $researchQuestion2 = ResearchQuestion::where($matchThese)->first();
 
-        if($researchQuestion2){
+        if ($researchQuestion2) {
             return back()->withErrors([
                 'duplicate' => 'The provided ID already exists in this project.',
             ]);
-        }
-        else{
+        } else {
             $researchQuestion->update($request->all());
         }
         $id_project = $researchQuestion->id_project;
 
-        $activity = "Edited the research question ". $researchQuestion->id;
+        $activity = "Edited the research question " . $researchQuestion->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        $activity = "Edited the research question ". $researchQuestion->id;
+        $activity = "Edited the research question " . $researchQuestion->id;
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-        return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
 
     }
 
@@ -96,12 +95,12 @@ class PlanningResearchQuestionsController extends Controller
         $researchQuestion = ResearchQuestion::findOrFail($id);
         $id_project = $researchQuestion->id_project;
 
-        $activity = "Deleted the research question ". $researchQuestion->id;
+        $activity = "Deleted the research question " . $researchQuestion->id;
 
         $researchQuestion->delete();
 
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
 
-         return redirect("/planning/".$id_project);
+        return redirect("/planning/" . $id_project);
     }
 }

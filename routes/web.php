@@ -1,5 +1,23 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\HelpController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\Project\DataBasesController;
+use App\Http\Controllers\Project\DataExtractionController;
+use App\Http\Controllers\Project\PlanningCriteriaController;
+use App\Http\Controllers\Project\PlanningOverallInformationController;
+use App\Http\Controllers\Project\PlanningResearchQuestionsController;
+use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Project\ReportingController;
+use App\Http\Controllers\Project\SearchProjectController;
+use App\Http\Controllers\Project\SearchStrategyController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResetPassword;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,25 +40,6 @@ Route::get('/', function ()
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\ResetPassword;
-use App\Http\Controllers\ChangePassword;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\PlanningOverallInformationController;
-use App\Http\Controllers\PlanningResearchQuestionsController;
-use App\Http\Controllers\PlanningCriteriaController;
-use App\Http\Controllers\SearchStrategyController;
-use App\Http\Controllers\DataBasesController;
-use App\Http\Controllers\DataExtractionController;
-use App\Http\Controllers\HelpController;
-use App\Http\Controllers\SearchProjectController;
-use App\Http\Controllers\ReportingController;
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
