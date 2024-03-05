@@ -13,6 +13,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@creative-tim-official/argon-dashboard-free": "^1.2.0"
+        "@creative-tim-official/argon-dashboard-free": "^1.2.0",
+        "lodash": "^4.17.21",
+        "perfect-scrollbar": "^1.5.5"
     }
 }

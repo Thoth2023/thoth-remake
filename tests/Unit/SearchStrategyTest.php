@@ -30,7 +30,7 @@ class SearchStrategyTest extends TestCase
             ->create(['id_project' => $project->id_project]);
         $newDescription = 'New search strategy description';
 
-        $response = $this->post(route('search-strategy.update', ['projectId' => $project->id_project]), [
+        $response = $this->post(route('project.search-strategy.update', ['projectId' => $project->id_project]), [
             'search_strategy' => $newDescription,
         ]);
 
