@@ -2,6 +2,36 @@
 
 @props(['project', 'activePage'])
 
+@php
+    $tabs = [
+        'overview' => [
+            'icon' => 'fas fa-info-circle',
+            'label' => 'Overview',
+            'route' => 'projects.show'
+        ],
+        'planning' => [
+            'icon' => 'fas fa-calendar-alt',
+            'label' => 'Planning',
+            'route' => 'project.planning.index'
+        ],
+        'conducting' => [
+            'icon' => 'fas fa-tasks',
+            'label' => 'Conducting',
+            'route' => null
+        ],
+        'reporting' => [
+            'icon' => 'fas fa-chart-bar',
+            'label' => 'Reporting',
+            'route' => 'reporting.index'
+        ],
+        'export' => [
+            'icon' => 'fas fa-file-export',
+            'label' => 'Export',
+            'route' => null
+        ],
+    ];
+@endphp
+
 <div class="col-12">
     <div class="card">
         <div class="card-header">
@@ -10,30 +40,21 @@
         <div class="card-body">
             <div class="nav-wrapper position-relative end-0">
                 <ul class="nav nav-pills nav-fill p-1" id="myTabs">
-                    <li class="nav-item">
-                        <a class="btn mb-0 {{ $activePage === 'overview' ? 'bg-gradient-dark' : 'bg-gradient-faded-white' }}"
-                           href="{{ route('projects.show', $project->id_project) }}">
-                            <i class="fas fa-info-circle"></i> Overview
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn mb-0 {{ $activePage === 'planning' ? 'bg-gradient-dark' : 'bg-gradient-faded-white' }}"
-                           href="{{ route('project.planning.index', $project->id_project) }}">
-                            <i class="fas fa-calendar-alt"></i> Planning
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="btn bg-gradient-default"><i class="fas fa-tasks"></i> Conducting</button>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn mb-0 {{ $activePage === 'reporting' ? 'bg-gradient-dark' : 'bg-gradient-faded-white' }}"
-                           href="{{ route('reporting.index', $project->id_project) }}">
-                            <i class="fas fa-chart-bar"></i> Reporting
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="btn bg-gradient-default"><i class="fas fa-file-export"></i> Export</button>
-                    </li>
+                    @foreach($tabs as $page => $pageDetails)
+                        <li class="nav-item">
+                            @if($pageDetails['route'])
+                                <a class="btn mb-0 {{
+                                    $activePage === $page ? 'bg-gradient-dark' : 'bg-gradient-faded-white'
+                                }}" href="{{ route($pageDetails['route'], $project->id_project) }}">
+                                    <i class="{{ $pageDetails['icon'] }}"></i> {{ $pageDetails['label'] }}
+                                </a>
+                            @else
+                                <button type="button" class="btn bg-gradient-default">
+                                    <i class="{{ $pageDetails['icon'] }}"></i> {{ $pageDetails['label'] }}
+                                </button>
+                            @endif
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
