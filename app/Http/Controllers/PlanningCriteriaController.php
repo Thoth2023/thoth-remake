@@ -109,7 +109,7 @@ class PlanningCriteriaController extends Controller
         $criteria->delete();
 
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-        return redirect("/planning/".$id_project.);
+        return redirect("/planning/" . $id_project . "/criteria");
     }
 
     /*
