@@ -2,16 +2,17 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlanningResearchQuestionsTest extends TestCase
 {
 
-    /*Os testes não estão gerando valores dinamicos, ou seja, se for feito mais de 1 teste subsequente sem mudar os valores, vai ser gerado alguns erros*/
-    /*Alguns testes vao dar erros mas é um Falso positivo*/
+    /* Os testes não estão gerando valores dinamicos, ou seja, se for feito mais
+     * de 1 teste subsequente sem mudar os valores, vai ser gerado alguns erros
+     * Alguns testes vao dar erros mas é um Falso positivo*/
 
+    use DatabaseTransactions;
 
     //Teste de comunicação com a rota
     public function test_status_research_questions(): void
@@ -34,7 +35,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->post('/planning/research_questions/add',['id_project'=>'1','description'=>'abc','id'=>'RQ6']);
+        $response = $this->post('/planning/research_questions/add', ['id_project' => '1', 'description' => 'abc', 'id' => 'RQ6']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -47,7 +48,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->post('/planning/research_questions/add',['id_project'=>'1','description'=>'abcdefg','id'=>'RQ5']);
+        $response = $this->post('/planning/research_questions/add', ['id_project' => '1', 'description' => 'abcdefg', 'id' => 'RQ5']);
 
         $response->assert('/planning/1/research_questions');
     }
@@ -60,7 +61,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->post('/planning/research_questions/add',['id_project'=>'1','description'=>'adbcd','id'=>'']);
+        $response = $this->post('/planning/research_questions/add', ['id_project' => '1', 'description' => 'adbcd', 'id' => '']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -73,7 +74,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->post('/planning/research_questions/add',['id_project'=>'1','description'=>'adbcde','id'=>'_$ç^`^RQ2']);
+        $response = $this->post('/planning/research_questions/add', ['id_project' => '1', 'description' => 'adbcde', 'id' => '_$ç^`^RQ2']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -86,7 +87,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->put('/planning/research_questions/4',['id_project'=>'1','description'=>'adbcdeeeee','id'=>'RQQ6']);
+        $response = $this->put('/planning/research_questions/4', ['id_project' => '1', 'description' => 'adbcdeeeee', 'id' => 'RQQ6']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -99,7 +100,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->put('/planning/research_questions/3',['id_project'=>'1','description'=>'adbcdeeeee','id'=>'RQ3']);
+        $response = $this->put('/planning/research_questions/3', ['id_project' => '1', 'description' => 'adbcdeeeee', 'id' => 'RQ3']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -112,7 +113,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->put('/planning/research_questions/3',['id_project'=>'1','description'=>'adbcdeeeee','id'=>'$%&¨*_~^RQ2']);
+        $response = $this->put('/planning/research_questions/3', ['id_project' => '1', 'description' => 'adbcdeeeee', 'id' => '$%&¨*_~^RQ2']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -125,7 +126,7 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->put('/planning/research_questions/3',['id_project'=>'1','description'=>'adbcdeeeee','id'=>'']);
+        $response = $this->put('/planning/research_questions/3', ['id_project' => '1', 'description' => 'adbcdeeeee', 'id' => '']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
@@ -138,9 +139,8 @@ class PlanningResearchQuestionsTest extends TestCase
             'password' => 'secret',
         ]);
 
-        $response = $this->delete('/planning/research_questions/1',['id_project'=>'1','id'=>'RQ6']);
+        $response = $this->delete('/planning/research_questions/1', ['id_project' => '1', 'id' => 'RQ6']);
 
         $response->assertRedirect('/planning/1/research_questions');
     }
-    
 }

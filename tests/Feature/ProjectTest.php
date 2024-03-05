@@ -9,10 +9,13 @@ use App\Http\Controllers\ProjectController;
 use Tests\TestCase;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
 {
     //use RefreshDatabase;
+
+    use DatabaseTransactions;
 
     /**
      * Test that only logged-in users can see the projects list.

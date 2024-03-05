@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 //usar essas variaveis para testar a criação e remoção
@@ -12,6 +11,7 @@ define('idAtualKeyword',3);
 
 class PlanningOverallTest extends TestCase
 {
+    use DatabaseTransactions;
 
     public function test_planning_page(){
         $response = $this->post('/login', [

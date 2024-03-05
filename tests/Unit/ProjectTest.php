@@ -5,9 +5,12 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\TestCase;
 use App\Models\Project;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
     * Test if the columns of the Project model are correct.
     *

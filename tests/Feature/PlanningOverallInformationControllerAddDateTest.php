@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Project;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlanningOverallInformationControllerAddDateTest extends TestCase
 {
-    use RefreshDatabase; // Reset the database for each test
+    use DatabaseTransactions;
 
     /** @test */
     public function it_adds_dates_to_a_project()
