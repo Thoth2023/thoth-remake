@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => 'Planning Overall Information'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Planning'])
 @include('project.planning.convert-language-name')
 @include('project.planning.convert-study-type-name')
 @include('project.planning.convert-database')
@@ -13,56 +13,20 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header pb-0">
-                        <h6>Planning</h6>
-                    </div>
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" id=" "
-                                data-bs-toggle="tab" href="#overall-info">Overall
-                                Information</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="research-questions-tab"
-                                data-bs-toggle="tab"
-                                href="#research-questions">Research
-                                Questions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="data-bases-tab"
-                                data-bs-toggle="tab" href="#data-bases">Data
-                                Bases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="search-string-tab"
-                                data-bs-toggle="tab" href="#search-string">Search
-                                String</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="search-strategy-tab"
-                                data-bs-toggle="tab" href="#search-strategy">Search
-                                Strategy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="criteria-tab"
-                                data-bs-toggle="tab" href="#criteria">Criteria</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="quality-assessment-tab"
-                                data-bs-toggle="tab"
-                                href="#quality-assessment">Quality
-                                Assessment</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="data-extraction-tab"
-                                data-bs-toggle="tab" href="#data-extraction">Data
-                                Extraction</a>
-                        </li>
-
-                        <!-- Add the rest of the tabs in a similar manner -->
-                    </ul>
-                </div>
+                @include('project.components.project-tabs', [
+                    'header' => 'Planning',
+                    'tabs' => [
+                        ['id' => 'overall-info-tab', 'label' => 'Overall Information', 'href' => '#overall-info'],
+                        ['id' => 'research-questions-tab', 'label' => 'Research Questions', 'href' => '#research-questions'],
+                        ['id' => 'data-bases-tab', 'label' => 'Data Bases', 'href' => '#data-bases'],
+                        ['id' => 'search-string-tab', 'label' => 'Search String', 'href' => '#search-string'],
+                        ['id' => 'search-strategy-tab', 'label' => 'Search Strategy', 'href' => '#search-strategy'],
+                        ['id' => 'criteria-tab', 'label' => 'Criteria', 'href' => '#criteria'],
+                        ['id' => 'quality-assessment-tab', 'label' => 'Quality Assessment', 'href' => '#quality-assessment'],
+                        ['id' => 'data-extraction-tab', 'label' => 'Data Extraction', 'href' => '#data-extraction'],
+                    ],
+                    'activeTab' => 'overall-info-tab'
+                ])
 
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="overall-info">
@@ -94,7 +58,8 @@
 @endsection
 
 <script>
-function storeActiveTab(tabId) {
-  document.cookie = "activeTab=" + tabId + ";path=/";
-}
+    // Function to store the active tab in a cookie
+    function storeActiveTab(tabId) {
+        document.cookie = "activePlanningTab=" + tabId + ";path=/";
+    }
 </script>

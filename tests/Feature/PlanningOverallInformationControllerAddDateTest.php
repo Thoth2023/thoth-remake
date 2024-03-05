@@ -23,7 +23,7 @@ class PlanningOverallInformationControllerAddDateTest extends TestCase
         $endDate = '2023-06-30';
 
         // Send a request to the add date endpoint
-        $response = $this->post(route('planning_overall.add-date', $projectId), [
+        $response = $this->post(route('project.planning_overall.add-date', $projectId), [
             'start_date' => $startDate,
             'end_date' => $endDate,
         ]);
@@ -36,7 +36,7 @@ class PlanningOverallInformationControllerAddDateTest extends TestCase
         ]);
 
         // Assert a successful response
-        $response->assertRedirect(route('planning.index', ['id' => $projectId, 'project' => $project]));
+        $response->assertRedirect(route('project.planning.index', ['id' => $projectId, 'project' => $project]));
     }
 
     /** @test */
@@ -51,7 +51,7 @@ class PlanningOverallInformationControllerAddDateTest extends TestCase
         $endDate = '2023-06-01';
 
         // Send a request to the add date endpoint with invalid dates
-        $response = $this->post(route('planning_overall.add-date', $projectId), [
+        $response = $this->post(route('project.planning_overall.add-date', $projectId), [
             'start_date' => $startDate,
             'end_date' => $endDate,
         ]);

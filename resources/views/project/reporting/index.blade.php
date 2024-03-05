@@ -10,33 +10,17 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
-                <div class="card mb-4 pb-2" style="overflow: hidden;">
-                    <div class="card-header pb-0">
-                        <h6>Planning</h6>
-                    </div>
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="overview-tab" data-bs-toggle="tab"
-                                href="#overview">Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="import-studies-tab" data-bs-toggle="tab"
-                                href="#import-studies">Import Studies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="study-selection-tab" data-bs-toggle="tab"
-                                href="#study-selection">Study Selection</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="quality-assessment-tab" data-bs-toggle="tab"
-                                href="#quality-assessment">Quality Assessment</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="data-extraction-tab" data-bs-toggle="tab"
-                                href="#data-extraction">Data Extraction</a>
-                        </li>
-                    </ul>
-                </div>
+                @include('project.components.project-tabs', [
+                    'header' => 'Reporting',
+                    'tabs' => [
+                        ['id' => 'overview-tab', 'label' => 'Overview', 'href' => '#overview'],
+                        ['id' => 'import-studies-tab', 'label' => 'Import Studies', 'href' => '#import-studies'],
+                        ['id' => 'study-selection-tab', 'label' => 'Study Selection', 'href' => '#study-selection'],
+                        ['id' => 'quality-assessment-tab', 'label' => 'Quality Assessment', 'href' => '#quality-assessment'],
+                        ['id' => 'data-extraction-tab', 'label' => 'Data Extraction', 'href' => '#data-extraction'],
+                    ],
+                    'activeTab' => 'overview-tab'
+                ])
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="overview">
                         <!-- Content for Overview tab -->
