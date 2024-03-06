@@ -77,7 +77,7 @@
                                                                                     <h3>Domain Update</h3>
                                                                                 </div>
                                                                                 <div class="card-body">
-                                                                                    <form role="form text-left" method="POST" action="{{ route('planning_overall.domainEdit', $domain->id_domain) }}">
+                                                                                    <form role="form text-left" method="POST" action="{{ route('project.planning_overall.domainEdit', $domain->id_domain) }}">
                                                                                         @csrf
                                                                                         @method('PUT')
                                                                                         <label>Domain</label>
@@ -97,7 +97,7 @@
                                                                     <!-- Modal Ends Here -->
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
+                                                                    <form action="{{ route('project.planning_overall.domainDestroy', $domain->id_domain) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
@@ -187,7 +187,7 @@
                                                                     <p class="text-sm font-weight-bold mb-0"><?=convert_language_name($projectLanguage->id_language)?></p>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.languageDestroy', $projectLanguage->id_language) }}" method="POST">
+                                                                    <form action="{{ route('project.planning_overall.languageDestroy', $projectLanguage->id_language) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete language">Delete</button>
@@ -278,7 +278,7 @@
                                                                     <p class="text-sm font-weight-bold mb-0"><?=convert_study_type_name($pStudyType->id_study_type)?></p>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.studyTDestroy', $pStudyType->id_study_type) }}" method="POST">
+                                                                    <form action="{{ route('project.planning_overall.studyTDestroy', $pStudyType->id_study_type) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete domain">Delete</button>
@@ -375,7 +375,7 @@
                                                                                     <h3>Keyword Update</h3>
                                                                                 </div>
                                                                                 <div class="card-body">
-                                                                                    <form role="form text-left" method="POST" action="{{ route('planning_overall.keywordEdit', $keyword->id_keyword) }}">
+                                                                                    <form role="form text-left" method="POST" action="{{ route('project.planning_overall.keywordEdit', $keyword->id_keyword) }}">
                                                                                         @csrf
                                                                                         @method('PUT')
                                                                                         <label>Keyword</label>
@@ -395,7 +395,7 @@
                                                                     <!-- Modal Ends Here -->
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.keywordDestroy', $keyword->id_keyword) }}" method="POST">
+                                                                    <form action="{{ route('project.planning_overall.keywordDestroy', $keyword->id_keyword) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete keyword">Delete</button>
@@ -629,7 +629,7 @@
                                                                     <p class="text-sm font-weight-bold mb-0"><?=convert_databases_name($projectDatabase->id_database)?></p>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <form action="{{ route('planning_overall.databaseDestroy', $projectDatabase->id_database) }}" method="POST">
+                                                                    <form action="{{ route('project.planning_overall.databaseDestroy', $projectDatabase->id_database) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="submit" class="btn btn-danger btn-sm" >Delete</button>
@@ -704,7 +704,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('search-strategy.edit', ['projectId' => $project->id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
+                                    <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="{{ route('project.search-strategy.edit', ['projectId' => $project->id_project]) }}" role="tab" aria-controls="SearchStrategy" aria-selected="false">
                                     Search Strategy
                                     </a>
                                 </li>

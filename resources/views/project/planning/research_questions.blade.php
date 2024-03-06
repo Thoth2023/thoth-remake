@@ -84,7 +84,7 @@
                                                                                                 <h3>Research Question Update</h3>
                                                                                             </div>
                                                                                             <div class="card-body">
-                                                                                                <form role="form text-left" method="POST" action="{{ route('planning_research.Edit', $researchQuestion->id_research_question) }}">
+                                                                                                <form role="form text-left" method="POST" action="{{ route('project.planning_research.Edit', $researchQuestion->id_research_question) }}">
                                                                                                     @csrf
                                                                                                     @method('PUT')
                                                                                                     <label>ID</label>
@@ -109,7 +109,7 @@
                                                                                 <!-- Modal Ends Here -->
                                                                             </td>
                                                                             <td class="align-middle">
-                                                                                <form action="{{ route('planning_research.Destroy', $researchQuestion->id_research_question) }}" method="POST">
+                                                                                <form action="{{ route('project.planning_research.Destroy', $researchQuestion->id_research_question) }}" method="POST">
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Research">Delete</button>
