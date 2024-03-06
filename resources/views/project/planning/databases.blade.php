@@ -89,7 +89,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <form
-                                                action="{{ route('planning_overall.databaseDestroy', $projectDatabase->id_database) }}"
+                                                action="{{ route('project.planning_overall.databaseDestroy', $projectDatabase->id_database) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')

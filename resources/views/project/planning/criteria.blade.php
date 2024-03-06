@@ -104,7 +104,7 @@
                                         <td>
                                             @if($criteria->pre_selected == 0)
                                             <form
-                                                action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria"
+                                                action="{{ route('project.planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria"
                                                 id="pre_select_form-<?=$criteria->id_criteria;?>"
                                                 method="POST">
                                                 @csrf
@@ -117,7 +117,7 @@
                                             </form>
                                             @else
                                             <form
-                                                action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria"
+                                                action="{{ route('project.planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria"
                                                 id="pre_select_form-<?=$criteria->id_criteria;?>"
                                                 method="POST">
                                                 @csrf
@@ -176,7 +176,7 @@
                                                                         <form
                                                                             role="form text-left"
                                                                             method="POST"
-                                                                            action="{{ route('planning_criteria.Edit', $criteria->id_criteria) }}">
+                                                                            action="{{ route('project.planning_criteria.Edit', $criteria->id_criteria) }}">
                                                                             @csrf
                                                                             @method('PUT')
                                                                             <label
@@ -237,7 +237,7 @@
                                             </td>
                                             <td class="align-middle">
                                                 <form
-                                                    action="{{ route('planning_criteria.Destroy', $criteria->id_criteria) }}"
+                                                    action="{{ route('project.planning_criteria.Destroy', $criteria->id_criteria) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -297,7 +297,7 @@
                                                 <td>
                                                     @if($criteria->pre_selected == 0)
                                                     <form
-                                                        action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#exclusion_criteria"
+                                                        action="{{ route('project.planning_criteria.ChangeSelect', $criteria->id_criteria) }}#exclusion_criteria"
                                                         id="pre_select_form-<?=$criteria->id_criteria;?>"
                                                         method="POST">
                                                         @csrf
@@ -310,7 +310,7 @@
                                                     </form>
                                                     @else
                                                     <form
-                                                        action="{{ route('planning_criteria.ChangeSelect', $criteria->id_criteria) }}#exclusion_criteria"
+                                                        action="{{ route('project.planning_criteria.ChangeSelect', $criteria->id_criteria) }}#exclusion_criteria"
                                                         id="pre_select_form-<?=$criteria->id_criteria;?>"
                                                         method="POST">
                                                         @csrf
@@ -371,7 +371,7 @@
                                                                                 <form
                                                                                     role="form text-left"
                                                                                     method="POST"
-                                                                                    action="{{ route('planning_criteria.Edit', $criteria->id_criteria) }}">
+                                                                                    action="{{ route('project.planning_criteria.Edit', $criteria->id_criteria) }}">
                                                                                     @csrf
                                                                                     @method('PUT')
                                                                                     <label
@@ -432,7 +432,7 @@
                                                     </td>
                                                     <td class="align-middle">
                                                         <form
-                                                            action="{{ route('planning_criteria.Destroy', $criteria->id_criteria) }}"
+                                                            action="{{ route('project.planning_criteria.Destroy', $criteria->id_criteria) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')

@@ -120,7 +120,7 @@
                                                                         <form
                                                                             role="form text-left"
                                                                             method="POST"
-                                                                            action="{{ route('planning_overall.domainEdit', $domain->id_domain) }}">
+                                                                            action="{{ route('project.planning_overall.domainEdit', $domain->id_domain) }}">
                                                                             @csrf
                                                                             @method('POST')
                                                                             <label>Domain</label>
@@ -150,7 +150,7 @@
                                         </td>
                                             <td class="align-middle">
                                                 <form
-                                                    action="{{ route('planning_overall.domainDestroy', $domain->id_domain) }}"
+                                                    action="{{ route('project.planning_overall.domainDestroy', $domain->id_domain) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -272,7 +272,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <form
-                                                action="{{ route('planning_overall.languageDestroy', $projectLanguage->id_language) }}"
+                                                action="{{ route('project.planning_overall.languageDestroy', $projectLanguage->id_language) }}"
                                                 method="POST">
                                                 @csrf
                                             @method('DELETE')
@@ -393,7 +393,7 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <form
-                                                        action="{{ route('planning_overall.studyTDestroy', $pStudyType->id_study_type) }}"
+                                                        action="{{ route('project.planning_overall.studyTDestroy', $pStudyType->id_study_type) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -542,7 +542,7 @@
                                                                                 <form
                                                                                     role="form text-left"
                                                                                     method="POST"
-                                                                                    action="{{ route('planning_overall.keywordEdit', $keyword->id_keyword) }}">
+                                                                                    action="{{ route('project.planning_overall.keywordEdit', $keyword->id_keyword) }}">
                                                                                     @csrf
                                                                                     @method('POST')
                                                                                     <label>Keyword</label>
@@ -572,7 +572,7 @@
                                                 </td>
                                                 <td class="align-middle">
                                                         <form
-                                                            action="{{ route('planning_overall.keywordDestroy', $keyword->id_keyword) }}"
+                                                            action="{{ route('project.planning_overall.keywordDestroy', $keyword->id_keyword) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')

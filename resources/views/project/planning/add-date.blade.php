@@ -1,4 +1,4 @@
-<form action="{{ route('planning_overall.add-date', $id_project) }}" method="POST">
+<form action="{{ route('project.planning_overall.add-date', $id_project) }}" method="POST">
     @csrf
     <div class="form-group">
         <label for="start_date">Start Date:</label>
