@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function ()
+Route::middleware(Localization::class)->get('/', function ()
 {
     return view('welcome');
 });
@@ -41,6 +42,9 @@ use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\ReportingController;
+use App\Http\Controllers\LocalizationController;
+
+Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -135,7 +139,7 @@ Route::get('/projects/{projectId}/reporting/', [ReportingController::class, 'ind
 Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
+Route::middleware(Localization::class)->get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');

@@ -54,6 +54,23 @@
                                 </a>
                             </li>
                         </ul>
+                        <!-- Language Selector Dropdown -->
+                        <div class="dropdown">
+                            <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                {{ __('Language') }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                @foreach (config('localization.locales') as $locale)
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('localization', $locale) }}">
+                                            {{ $locale }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <!-- End Language Selector Dropdown -->
+
                     </div>
                 </div>
             </nav>
