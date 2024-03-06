@@ -16,50 +16,47 @@
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                             <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
-                                    <h4 class="font-weight-bolder">Sign In</h4>
-                                    <p class="mb-0">Enter your email and password to sign in</p>
+                                    <h4 class="font-weight-bolder">{{ __('auth.signup_page.sign_in') }}</h4>
+                                    <p class="mb-0">{{ __('auth.signup_page.enter_email_password') }}</p>
                                 </div>
                                 <div class="card-body">
                                     <form role="form" method="POST" action="{{ route('login.perform') }}">
                                         @csrf
                                         @method('post')
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="E-mail" aria-label="Email">
+                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="{{ __('auth.signup_page.email') }}" aria-label="Email">
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg" aria-label="Password" placeholder="Password" >
+                                            <input type="password" name="password" class="form-control form-control-lg" aria-label="{{ __('auth.signup_page.password') }}" placeholder="{{ __('password') }}" >
                                             @error('password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="remember" type="checkbox" id="rememberMe">
-                                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                                            <label class="form-check-label" for="rememberMe">{{ __('auth.signup_page.remember_me') }}</label>
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">Sign in</button>
+                                            <button type="submit" class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ __('auth.signup_page.sign_in_button') }}</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-1 text-sm mx-auto">
-                                        Forgot you password? Reset your password
-                                        <a href="{{ route('reset-password') }}" class="text-primary text-gradient font-weight-bold">here</a>
+                                        {{ __('auth.signup_page.forgot_password') }} <a href="{{ route('reset-password') }}" class="text-primary text-gradient font-weight-bold">{{ __('auth.signup_page.reset_password_link') }}</a>
                                     </p>
                                 </div>
                                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-4 text-sm mx-auto">
-                                        Don't have an account?
-                                        <a href="{{ route('register') }}" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                                        {{ __('auth.signup_page.dont_have_account') }} <a href="{{ route('register') }}" class="text-primary text-gradient font-weight-bold">{{ __('auth.signup_page.sign_up_link') }}</a>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+                        <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                             <div class="position-relative bg-gradient-light h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden">
                                 <span class="mask bg-gradient-faded-dark opacity-6"></span>
-                                <h4 class="mt-5 text-white font-weight-bolder position-relative">"Thoth :: Tool for SLR"</h4>
-                                <p class="text-white position-relative">Systematic reviews are a type of literature review that uses systematic methods to collect secondary data, critically appraise research studies, and synthesize studies.</p>
+                                <h4 class="mt-5 text-white font-weight-bolder position-relative">{{ __('auth.signup_page.app_description') }}</h4>
+                                <p class="text-white position-relative">{{ __('auth.signup_page.app_description_long') }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,3 +65,4 @@
         </section>
     </main>
 @endsection
+
