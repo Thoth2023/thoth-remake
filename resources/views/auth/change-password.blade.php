@@ -17,10 +17,10 @@
                             <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
                                     <h4 class="font-weight-bolder">
-                                        {{ __('auth.change_password.change_password_title') }}
+                                        {{ __('auth/change-password.title') }}
                                     </h4>
                                     <p class="mb-0">
-                                        {{ __('auth.change_password.change_password_description') }}
+                                        {{ __('auth/change-password.description') }}
                                     </p>
                                 </div>
                                 <div class="card-body">
@@ -28,19 +28,19 @@
                                         @csrf
 
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="{{ __('auth.change_password.email') }}" value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
+                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="{{ __('auth/change-password.email') }}" value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
                                             @error('email') <p class="text-danger text-xs pt-1"> {{ $message }} </p> @enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="{{ __('auth.change_password.password') }}" aria-label="{{ __('auth.password') }}">
+                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="{{ __('auth/change-password.password') }}" aria-label="{{ __('auth.password') }}">
                                             @error('password') <p class="text-danger text-xs pt-1"> {{ $message }} </p> @enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="confirm-password" class="form-control form-control-lg" placeholder="{{ __('auth.change_password.confirm_password') }}" aria-label="{{ __('auth.confirm_password') }}">
+                                            <input type="password" name="confirm-password" class="form-control form-control-lg" placeholder="{{ __('auth/change-password.confirm_password') }}" aria-label="{{ __('auth.confirm_password') }}">
                                             @error('confirm-password') <p class="text-danger text-xs pt-1"> {{ $message }} </p> @enderror
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('auth.change_password.send_reset') }}</button>
+                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('auth/change-password.send_reset') }}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -56,10 +56,10 @@
               background-size: cover;">
                                 <span class="mask bg-gradient-primary opacity-6"></span>
                                 <h4 class="mt-5 text-white font-weight-bolder position-relative">
-                                    {{ __('auth.change_password.quote.title') }}
+                                    {{ __('auth/change-password.quote.title') }}
                                 </h4>
                                 <p class="text-white position-relative">
-                                    {{ __('auth.change_password.quote.content') }}
+                                    {{ __('auth/change-password.quote.content') }}
                                 </p>
                             </div>
                         </div>

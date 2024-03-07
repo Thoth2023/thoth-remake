@@ -9,8 +9,8 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
-                        <h1 class="text-white mb-2 mt-5">{{ __('auth.register_page.welcome') }}</h1>
-                        <p class="text-lead text-white">{{ __('auth.register_page.description') }}</p>
+                        <h1 class="text-white mb-2 mt-5">{{ __('auth/register.welcome') }}</h1>
+                        <p class="text-lead text-white">{{ __('auth/register.description') }}</p>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0">
                         <div class="card-header text-center pt-4">
-                            <h5>{{ __('auth.register_page.register_with') }}</h5>
+                            <h5>{{ __('auth/register.register_with') }}</h5>
                         </div>
                         <div class="row px-xl-5 px-sm-4 px-3">
                             <div class="col-3 ms-auto px-1">
@@ -75,7 +75,7 @@
                             </div>
                             <div class="mt-2 position-relative text-center">
                                 <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
-                                    {{ __('auth.register_page.or') }}
+                                    {{ __('auth/register.or') }}
                                 </p>
                             </div>
                         </div>
@@ -83,35 +83,35 @@
                             <form method="POST" action="{{ route('register.perform') }}">
                                 @csrf
                                 <div class="flex flex-col mb-3">
-                                    <input type="text" name="username" class="form-control" placeholder="{{ __('auth.register_page.username') }}" aria-label="{{ __('auth.register_page.username') }}" value="{{ old('username') }}" >
+                                    <input type="text" name="username" class="form-control" placeholder="{{ __('auth/register.username') }}" aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}" >
                                     @error('username') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
                                 </div>
                                 <div class="flex flex-col mb-3">
-                                    <input type="email" name="email" class="form-control" placeholder="{{ __('auth.register_page.email') }}" aria-label="{{ __('auth.register_page.email') }}" value="{{ old('email') }}" >
+                                    <input type="email" name="email" class="form-control" placeholder="{{ __('auth/register.email') }}" aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}" >
                                     @error('email') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
                                 </div>
                                 <div class="flex flex-col mb-3">
-                                    <input type="password" name="password" class="form-control" placeholder="{{ __('auth.register_page.password') }}" aria-label="{{ __('auth.register_page.password') }}">
+                                    <input type="password" name="password" class="form-control" placeholder="{{ __('auth/register.password') }}" aria-label="{{ __('auth.register.password') }}">
                                     @error('password') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
                                 </div>
                                 <div class="form-check form-check-info text-start">
                                     <input class="form-check-input" type="checkbox" name="terms" id="flexCheckDefault" >
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
-                                        {{ __('auth.register_page.i_agree')}}
+                                        {{ __('auth/register.i_agree')}}
                                         <a href="javascript:;" class="text-dark font-weight-bolder">
-                                            {{ __('auth.register_page.terms_and_conditions') }}
+                                            {{ __('auth/register.terms_and_conditions') }}
                                         </a>
                                     </label>
                                     @error('terms') <p class='text-danger text-xs'> {{ $message }} </p> @enderror
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">{{ __('auth.register_page.sign_up') }}</button>
+                                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">{{ __('auth/register.sign_up') }}</button>
                                 </div>
                                 <p class="text-sm mt-3 mb-0">
-                                    {{ __('auth.register_page.already_have_account') }}
+                                    {{ __('auth/register.already_have_account') }}
                                     <a href="{{ route('login') }}" class="text-dark font-weight-bolder">
-                                        {{ __('auth.register_page.sign_in', ['login_link' => route('login')]) }}
+                                        {{ __('auth/register.sign_in', ['login_link' => route('login')]) }}
                                     </a>
                                 </p>
                             </form>

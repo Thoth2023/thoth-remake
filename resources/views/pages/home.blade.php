@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.guest.navbar', ['title' => __('home.home')])
+    @include('layouts.navbars.guest.navbar', ['title' => __('pages/home.home')])
 
     <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
         <span class="mask bg-gradient-faded-dark opacity-5"></span>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center mx-auto">
-                    <h1 class="text-white mb-2 mt-5">{{ __('home.welcome') }}</h1>
-                    <p class="text-lead text-white">{{ __('home.project_description') }}</p>
+                    <h1 class="text-white mb-2 mt-5">{{ __('pages/home.welcome') }}</h1>
+                    <p class="text-lead text-white">{{ __('pages/home.project_description') }}</p>
                 </div>
             </div>
         </div>
@@ -22,10 +22,10 @@
                 <div class="card d-inline-flex p-3 mt-8">
                     <div class="card-body pt-2">
                         <a href="javascript:" class="card-title h5 d-block text-darker">
-                            {{ __('home.thoth') }}
+                            {{ __('pages/home.thoth') }}
                         </a>
                         <p class="card-description mb-4">
-                            {{ __('home.thoth_description') }}
+                            {{ __('pages/home.thoth_description') }}
                         </p>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
                         <div class="card p-3">
                             <div class="card-body pt-2">
                                 <a href="javascript:" class="card-title h5 d-block text-darker">
-                                    <i class="{{ $icon }}"></i> {{ __('home.' . $key) }}
+                                    <i class="{{ $icon }}"></i> {{ __('pages/home.' . $key) }}
                                 </a>
                                 <p class="card-description mb-4">
-                                    {{ __('home.' . $key . '_description') }}
+                                    {{ __('pages/home.' . $key . '_description') }}
                                 </p>
                             </div>
                         </div>

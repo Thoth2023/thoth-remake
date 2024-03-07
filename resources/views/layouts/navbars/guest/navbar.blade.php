@@ -23,40 +23,40 @@
                                 <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"
                                     href="{{ route('home') }}">
                                     <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                                    {{ __('nav.home') }}
+                                    {{ __('nav/nav.home') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center me-2 active"
                                     href="{{ route('about') }}">
                                     <i class="ni ni-bulb-61 opacity-6 text-dark me-1"></i>
-                                    {{ __('nav.about') }}
+                                    {{ __('nav/nav.about') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center me-2 active"
                                     href="{{ route('help') }}">
                                     <i class="ni ni-satisfied opacity-6 text-dark me-1"></i>
-                                    {{ __('nav.help') }}
+                                    {{ __('nav/nav.help') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link me-2" href="{{ route('register') }}">
                                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                    {{ __('nav.sign_up') }}
+                                    {{ __('nav/nav.sign_up') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link me-2" href="{{ route('login') }}">
                                     <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                    {{ __('nav.sign_in') }}
+                                    {{ __('nav/nav.sign_in') }}
                                 </a>
                             </li>
                         </ul>
                         <!-- Language Selector Dropdown -->
                         <div class="dropdown">
                             <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                                {{ __('nav.language') }}
+                                {{ __('nav/nav.language') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                                 @foreach (config('localization.locales') as $locale)
