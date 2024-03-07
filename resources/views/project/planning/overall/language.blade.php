@@ -4,29 +4,19 @@
             @csrf
             <div>
                 <div class="card-header pb-0">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0">Languages</p>
-                        <button type="button" class="help-thoth-button" data-bs-toggle="modal" data-bs-target="#LanguageModal">?</button>
+                        @include ('components.help-button', ['dataTarget' => 'LanguageModal'])
                         <!-- Help Button Description -->
-                        <div class="modal fade" id="LanguageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Help for Languages</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Help content goes here -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Help Description Ends Here -->
+                        @include(
+                        'components.help-modal',
+                        [
+                            'modalId' => 'LanguageModal',
+                            'modalLabel' => 'exampleModalLabel',
+                            'modalTitle' => 'Help for Keywords',
+                            'modalContent' => 'test'
+                            ]
+                        )
                     </div>
                 </div>
             </div>
