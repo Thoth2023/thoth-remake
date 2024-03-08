@@ -42,6 +42,18 @@ return [
                              'a specific aspect or topic related to your research question or area of interest.',
             ],
         ],
+        'dates' => [
+            'title' => 'Project Dates',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+            'add_date' => 'Add Date',
+            'help' => [
+                'title' => 'Project Dates',
+                'content' => 'Set the start and end dates for your project to define the period during which you will ' .
+                             'conduct your literature review. This will help you to keep track of your progress and to ' .
+                             'schedule your work effectively.',
+            ],
+        ],
     ],
 ];
 
