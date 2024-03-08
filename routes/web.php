@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function ()
+Route::middleware(Localization::class)->get('/', function ()
 {
     return view('welcome');
 });
@@ -41,6 +42,9 @@ use App\Http\Controllers\DataExtractionController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\ReportingController;
+use App\Http\Controllers\LocalizationController;
+
+Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
 // about and help routes
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -132,16 +136,19 @@ Route::put('projects/{projectId}/planning/data-extraction/option/{optionId}/upda
 Route::get('/projects/{projectId}/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-Route::get('/', [HomeController::class, 'guest_home'])->middleware('guest')->name('home');
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
-Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
-Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
-Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
-Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::middleware(['locale', 'guest'])->group(function ()
+{
+    Route::get('/', [HomeController::class, 'guest_home'])->name('home');
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
+    Route::get('/login', [LoginController::class, 'show'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
+    Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
+    Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
+    Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+});
 
 Route::group(['middleware' => 'auth'], function ()
 {
