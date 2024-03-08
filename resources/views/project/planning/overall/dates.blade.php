@@ -3,19 +3,16 @@
         <div class="card-header pb-0">
             <div class="d-flex align-items-center justify-content-between">
                 <p class="mb-0">
-                {{ __('project/planning.overall.dates.title') }}
+                    {{ __('project/planning.overall.dates.title') }}
                 </p>
                 @include ('components.help-button', ['dataTarget' => 'DatesModal'])
                 <!-- Help Button Description -->
-                @include(
-                'components.help-modal',
-                [
+                @include('components.help-modal', [
                     'modalId' => 'DatesModal',
                     'modalLabel' => 'exampleModalLabel',
                     'modalTitle' => __('project/planning.overall.dates.help.title'),
-                    'modalContent' => __('project/planning.overall.dates.help.content')
-                    ]
-                )
+                    'modalContent' => __('project/planning.overall.dates.help.content'),
+                ])
             </div>
         </div>
         <div class="card-body">
@@ -25,13 +22,15 @@
                     <label for="start_date">
                         {{ __('project/planning.overall.dates.start_date') }}:
                     </label>
-                    <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $project->start_date ?? '' }}" required>
+                    <input type="date" name="start_date" id="start_date" class="form-control"
+                        value="{{ $project->start_date ?? '' }}" required>
                 </div>
                 <div class="form-group">
                     <label for="end_date">
                         {{ __('project/planning.overall.dates.end_date') }}:
                     </label>
-                    <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $project->end_date ?? '' }}" required>
+                    <input type="date" name="end_date" id="end_date" class="form-control"
+                        value="{{ $project->end_date ?? '' }}" required>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-success mt-1">
@@ -42,4 +41,3 @@
         </div>
     </div>
 </div>
-

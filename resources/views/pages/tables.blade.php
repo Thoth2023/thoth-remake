@@ -32,8 +32,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-2.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user1">
+                                                    <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">John Michael</h6>
@@ -62,8 +61,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-3.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user2">
+                                                    <img src="/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Alexa Liras</h6>
@@ -92,8 +90,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-4.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user3">
+                                                    <img src="/img/team-4.jpg" class="avatar avatar-sm me-3" alt="user3">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Laurent Perrier</h6>
@@ -122,8 +119,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-3.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user4">
+                                                    <img src="/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user4">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Michael Levi</h6>
@@ -152,8 +148,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-2.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user5">
+                                                    <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user5">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Richard Gran</h6>

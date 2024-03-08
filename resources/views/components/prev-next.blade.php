@@ -2,6 +2,7 @@
     .bt-custom {
         background-color: #34476727 !important
     }
+
     .bt-custom:hover {
         color: #fb6340;
     }

@@ -1,6 +1,7 @@
 <div class="card-body col-md-6 pt-3">
     <div class="card">
-        <form role="form" action="{{ route('project.planning_overall.languageAdd') }}" method="POST" enctype="multipart/form-data">
+        <form role="form" action="{{ route('project.planning_overall.languageAdd') }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             <div>
                 <div class="card-header pb-0">
@@ -8,15 +9,12 @@
                         <p class="mb-0">Languages</p>
                         @include ('components.help-button', ['dataTarget' => 'LanguageModal'])
                         <!-- Help Button Description -->
-                        @include(
-                        'components.help-modal',
-                        [
+                        @include('components.help-modal', [
                             'modalId' => 'LanguageModal',
                             'modalLabel' => 'exampleModalLabel',
                             'modalTitle' => 'Help for Keywords',
-                            'modalContent' => 'test'
-                            ]
-                        )
+                            'modalContent' => 'test',
+                        ])
                     </div>
                 </div>
             </div>
@@ -50,13 +48,18 @@
                     @forelse ($projectLanguages as $projectLanguage)
                         <tr>
                             <td>
-                                <p class="text-sm font-weight-bold mb-0"><?= convert_language_name($projectLanguage->id_language) ?></p>
+                                <p class="text-sm font-weight-bold mb-0">
+                                    <?= convert_language_name($projectLanguage->id_language) ?></p>
                             </td>
                             <td class="align-middle">
-                                <form action="{{ route('project.planning_overall.languageDestroy', $projectLanguage->id_language) }}" method="POST">
+                                <form
+                                    action="{{ route('project.planning_overall.languageDestroy', $projectLanguage->id_language) }}"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button style="border:0; background: none; padding: 0px;" type="submit" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete language">Delete</button>
+                                    <button style="border:0; background: none; padding: 0px;" type="submit"
+                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                        data-original-title="Delete language">Delete</button>
                                 </form>
                             </td>
                         </tr>
