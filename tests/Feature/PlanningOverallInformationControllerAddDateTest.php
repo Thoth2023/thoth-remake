@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\User;
 
 class PlanningOverallInformationControllerAddDateTest extends TestCase
 {
@@ -20,6 +21,11 @@ class PlanningOverallInformationControllerAddDateTest extends TestCase
         $projectId = $project->id_project;
         $startDate = '2023-06-01';
         $endDate = '2023-06-30';
+
+        //acting as the project creator
+        $username = $project->created_by;
+        $user = User::where('username', $username)->first();
+        $this->actingAs($user);
 
         // Send a request to the add date endpoint
         $response = $this->post(route('project.planning_overall.add-date', $projectId), [
