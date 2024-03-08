@@ -1,4 +1,4 @@
-<div class="card-group card-frame mt-5">
+<div class="card-body col-md-6 pt-3">
     <div class="card">
         <form role="form" action="{{ route('project.planning_overall.languageAdd') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -33,7 +33,7 @@
                             </select>
                             <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                         </div>
-                        <button type="submit" class="btn btn-success mt-3">Add</button>
+                        <button type="submit" class="btn btn-success mt-1">Add</button>
                     </div>
                 </div>
             </div>
@@ -69,5 +69,4 @@
             </table>
         </div>
     </div>
-    <hr class="horizontal dark">
 </div>

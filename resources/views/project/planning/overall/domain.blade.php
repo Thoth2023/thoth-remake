@@ -1,9 +1,9 @@
-<div class="card-group card-frame mt-5">
+<div class="card-body col-md-6 pt-3">
     <div class="card">
         <form role="form" method="POST" action="{{ route('project.planning_overall.domainUpdate') }}" enctype="multipart/form-data">
             @csrf
             <div>
-                <div class="card-header pb-0">
+                <div class="card-header">
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0">{{ __('project/planning.overall.domain.title') }}</p>
                         @include ('components.help-button', ['dataTarget' => 'DomainModal'])
@@ -29,7 +29,7 @@
                                 <input class="form-control" type="text" name="description">
                                 <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                             </div>
-                            <button type="submit" class="btn btn-success mt-3">
+                            <button type="submit" class="btn btn-success mt-1">
                                 {{ __('project/planning.overall.domain.add') }}
                             </button>
                         </div>
@@ -132,7 +132,6 @@
                     </tbody>
                 </table>
             </div>
-            <hr class="horizontal dark">
         </form>
     </div>
 </div>

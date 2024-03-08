@@ -1,4 +1,4 @@
-<div class="card-group card-frame mt-5">
+<div class="card-body col-md-6 pt-3">
     <div class="card">
         <form role="form" method="POST" action="{{ route('project.planning_overall.keywordAdd') }}" enctype="multipart/form-data">
             @csrf
@@ -26,7 +26,7 @@
                                 <input class="form-control" type="text" name="description">
                                 <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                             </div>
-                            <button type="submit" class="btn btn-success mt-3">Add</button>
+                            <button type="submit" class="btn btn-success mt-1">Add</button>
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,5 @@
                 </div>
             </div>
         </form>
-        <hr class="horizontal dark">
     </div>
 </div>
