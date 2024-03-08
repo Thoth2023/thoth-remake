@@ -1,6 +1,11 @@
+<div class="col-12">
+    <div class="card bg-secondary-overview">
+        <div class="card-body">
+            <div class="card-group card-frame mt-1">
+                <div class="card">
 <div class="container-fluid py-4">
         <div class="d-flex justify-content-between">
-            <p class="text-uppercase text-sm">Search Strategy</p>
+            <p class="mb-0">Search Strategy</p>
             <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseHelp" role="button" aria-expanded="false" aria-controls="collapseHelp">
                 <i class="fas fa-question-circle"></i> Help
             </a>
@@ -31,7 +36,7 @@
             @csrf
             @method('post')
             <div class="form-group">
-                <label for="searchStrategyTextarea">Search Strategy</label>
+
                 <textarea name="search_strategy" class="form-control @error('search_strategy') is-invalid @enderror" id="searchStrategyTextarea" rows="8" placeholder="Enter the search strategy">{{ $project->searchStrategy->description ?? old('search_strategy') }}</textarea>
 
                 @error('search_strategy')
@@ -47,4 +52,9 @@
                 </button>
             </div>
         </form>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,14 +1,14 @@
 
 <div class="col-12">
     <div class="card bg-secondary-overview">
-        <div class="card-body">
+        <div class="card-group justify-content-center">
             <!-- Domain Section starts here -->
-            <div class="card-group card-frame mt-5">
+            <div class="card-body col-md-6 pt-3">
                 <div class="card">
                     <form role="form" method="POST" action="{{ route('project.planning_overall.domainUpdate') }}" enctype="multipart/form-data">
                         @csrf
                         <div>
-                            <div class="card-header pb-0">
+                            <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <p class="mb-0">Domains</p>
                                     <button type="button" class="help-thoth-button" data-bs-toggle="modal" data-bs-target="#DomainModal">?</button>
@@ -40,8 +40,9 @@
                                             <label for="example-text-input" class="form-control-label">Description</label>
                                             <input class="form-control" type="text" name="description">
                                             <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
+
+                                        <button type="submit" class="btn btn-success mt-1">Add</button>
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">Add</button>
                                     </div>
                                 </div>
                             </div>
@@ -116,14 +117,13 @@
             </div>
             <!-- Domain Section ends here -->
 
-
             <!-- Language Section starts here -->
-            <div class="card-group card-frame mt-5">
+            <div class="card-body col-md-6 pt-3">
                 <div class="card">
                     <form role="form" action="{{ route('project.planning_overall.languageAdd') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div>
-                            <div class="card-header pb-0">
+                            <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <p class="mb-0">Languages</p>
                                     <button type="button" class="help-thoth-button" data-bs-toggle="modal" data-bs-target="#LanguageModal">?</button>
@@ -163,7 +163,7 @@
                                         </select>
                                         <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                                     </div>
-                                    <button type="submit" class="btn btn-success mt-3">Add</button>
+                                    <button type="submit" class="btn btn-success mt-1">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
             <!-- Language Section ends here -->
 
             <!-- Study Type Section starts here -->
-            <div class="card-group card-frame mt-5">
+            <div class="card-body col-md-6 pt-3">
                 <div class="card">
                     <form role="form" method="POST" action="{{ route('project.planning_overall.studyTAdd') }}" enctype="multipart/form-data">
                         @csrf
@@ -249,7 +249,7 @@
                                             </select>
                                             <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">Add</button>
+                                        <button type="submit" class="btn btn-success mt-1">Add</button>
                                     </div>
                                 </div>
                             </div>
@@ -291,7 +291,7 @@
             <!-- Study Type Section ends here -->
 
             <!-- Keywords Section starts here -->
-            <div class="card-group card-frame mt-5">
+            <div class="card-body col-md-6 pt-3">
                 <div class="card">
                     <form role="form" method="POST" action="{{ route('project.planning_overall.keywordAdd') }}" enctype="multipart/form-data">
                         @csrf
@@ -329,7 +329,7 @@
                                             <input class="form-control" type="text" name="description">
                                             <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">Add</button>
+                                        <button type="submit" class="btn btn-success mt-1">Add</button>
                                     </div>
                                 </div>
                             </div>

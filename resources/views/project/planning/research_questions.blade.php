@@ -1,7 +1,7 @@
 <div class="col-12">
     <div class="card bg-secondary-overview">
         <div class="card-body">
-            <div class="card-group card-frame mt-5">
+            <div class="card-group card-frame mt-1">
                                         <div class="card">
                                             <form role="form" method="POST" action="{{ route('project.planning_research.Add') }}" enctype="multipart/form-data">
                                                 @csrf
