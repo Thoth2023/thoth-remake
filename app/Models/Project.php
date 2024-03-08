@@ -3,8 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Term;
 use App\Models\SearchStrategy;
+use App\Models\SearchString;
+use App\Models\ProjectDatabases;
+use Illuminate\Support\Collection;
 
 
 class Project extends Model
@@ -64,6 +69,35 @@ class Project extends Model
     public function searchStrategy()
     {
         return $this->hasOne(SearchStrategy::class, 'id_project');
+    }
+
+    public function terms()
+    {
+        // Insert logic for inclusion_rule table
+        return $this->hasMany(Term::class, 'id_project');
+    }
+
+    public function synonyms()
+    {
+        // Insert logic for exclusion_rule table
+        return $this->hasManyThrough(Synonym::class, Term::class, 'id_project', 'id_term');
+    }
+
+    public function termsAndSynonyms($id_project): array
+    {
+        // Insert logic for members table
+        $project = Project::findOrFail($id_project);
+        $terms = $project->terms;
+        $data = array();
+
+        foreach($terms as $term) {
+            $termData = array(
+                'term' => $term->description,
+                'synonyms' => $term->synonyms->pluck('description')->toArray(),
+            );
+            array_push($data, $termData);
+        }
+        return $data;
     }
 
     public function setUserLevel(User $user)
