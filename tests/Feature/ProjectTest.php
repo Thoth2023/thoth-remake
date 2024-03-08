@@ -220,11 +220,16 @@ class ProjectTest extends TestCase
         $project = Project::factory()->create();
         $user = User::find($project->id_user);
 
-        $response = $this->put('/projects/' . $project->id_project, [
+        $this->actingAs($user);
+
+        $response = $this->put(
+            route('projects.update', [ 'id' => $project->id_project]),
+            [
             'title' => 'Updated Project',
             'description' => 'Updated project description',
             'objectives' => 'Updated project goals',
-        ]);
+            ]
+        );
 
         $this->assertDatabaseHas('project', [
             'id_project' => $project->id_project,
@@ -296,6 +301,8 @@ class ProjectTest extends TestCase
         $project = Project::factory()->create();
 
         $user = User::factory()->create();
+
+        $this->actingAs($user);
 
         $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
 
