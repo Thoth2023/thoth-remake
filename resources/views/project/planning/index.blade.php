@@ -35,6 +35,8 @@
                     <div class="tab-pane fade" id="data-bases">
                         @include('project.planning.databases')
                     </div>
+
+
                     <div class="tab-pane fade" id="data-extraction">
                         @include('project.planning.data_extraction')
                     </div>
