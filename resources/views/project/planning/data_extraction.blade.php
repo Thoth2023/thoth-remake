@@ -1,7 +1,7 @@
 <div class="col-12">
     <div class="card bg-secondary-overview">
         <div class="card-body">
-            <div class="card-group card-frame mt-5">
+            <div class="card-group card-frame mt-1">
                 <!-- create data extraction -->
                 <div class="card">
                     <div class="card-header">
@@ -23,7 +23,7 @@
                                 placeholder="Departure">
 
                             </select>
-                            <button type="sumbit" class="btn btn-success mt-3">Add
+                            <button type="submit" class="btn btn-success mt-3">Add
                                 Question</button>
                         </form>
                     </div>
