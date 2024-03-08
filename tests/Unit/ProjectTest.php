@@ -28,6 +28,7 @@ class ProjectTest extends TestCase
             'title',
             'description',
             'objectives',
+            'created_by',
         ];
 
         $this->assertEquals($expected, $project->getFillable());
