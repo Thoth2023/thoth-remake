@@ -6,14 +6,14 @@
             <div>
                 <div class="card-header pb-0">
                     <div class="d-flex align-items-center justify-content-between">
-                        <p class="mb-0">Languages</p>
+                        <p class="mb-0">{{ __('project/planning.overall.language.title') }}</p>
                         @include ('components.help-button', ['dataTarget' => 'LanguageModal'])
                         <!-- Help Button Description -->
                         @include('components.help-modal', [
                             'modalId' => 'LanguageModal',
                             'modalLabel' => 'exampleModalLabel',
-                            'modalTitle' => 'Help for Keywords',
-                            'modalContent' => 'test',
+                            'modalTitle' => __('project/planning.overall.language.help.title'),
+                            'modalContent' => __('project/planning.overall.language.help.content'),
                         ])
                     </div>
                 </div>
@@ -26,12 +26,13 @@
                                 @forelse ($languages as $language)
                                     <option value="{{ $language->id_language }}">{{ $language->description }}</option>
                                 @empty
-                                    <option>No languages in the database.</option>
+                                    <option>{{ __('project/planning.overall.language.list.empty') }}</option>
                                 @endforelse
                             </select>
                             <input class="form-control" type="hidden" name="id_project" value="{{ $id_project }}">
                         </div>
-                        <button type="submit" class="btn btn-success mt-1">Add</button>
+                        <button type="submit"
+                            class="btn btn-success mt-1">{{ __('project/planning.overall.language.add') }}</button>
                     </div>
                 </div>
             </div>
@@ -40,7 +41,8 @@
             <table class="table align-items-center justify-content-center mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Languages</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            {{ __('project/planning.overall.language.list.headers.languages') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -49,7 +51,7 @@
                         <tr>
                             <td>
                                 <p class="text-sm font-weight-bold mb-0">
-                                    <?= convert_language_name($projectLanguage->id_language) ?></p>
+                                    {{ convert_language_name($projectLanguage->id_language) }}</p>
                             </td>
                             <td class="align-middle">
                                 <form
@@ -59,13 +61,16 @@
                                     @method('DELETE')
                                     <button style="border:0; background: none; padding: 0px;" type="submit"
                                         class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                        data-original-title="Delete language">Delete</button>
+                                        data-original-title="{{ __('project/planning.overall.language.list.actions.delete.button') }}">
+                                        {{ __('project/planning.overall.language.list.actions.delete.button') }}
+                                    </button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">No languages found.</td>
+                            <td colspan="5" class="text-center">
+                                {{ __('project/planning.overall.language.list.empty') }}</td>
                         </tr>
                     @endforelse
                 </tbody>

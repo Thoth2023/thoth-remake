@@ -76,7 +76,7 @@
                                                                 <form role="form text-left" method="POST"
                                                                     action="{{ route('project.planning_overall.domainEdit', $domain->id_domain) }}">
                                                                     @csrf
-                                                                    @method('POST')
+                                                                    @method('PUT')
                                                                     <label>
                                                                         {{ __('project/planning.overall.domain.list.actions.edit.modal.description') }}
                                                                     </label>
