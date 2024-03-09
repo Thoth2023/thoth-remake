@@ -4,7 +4,7 @@
     @include('layouts.navbars.guest.navbar')
     <main class="main-content  mt-0">
         <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-             style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+            style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
             <span class="mask bg-gradient-dark opacity-6"></span>
             <div class="container">
                 <div class="row justify-content-center">
@@ -74,7 +74,8 @@
                                 </a>
                             </div>
                             <div class="mt-2 position-relative text-center">
-                                <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                                <p
+                                    class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
                                     {{ __('auth/register.or') }}
                                 </p>
                             </div>
@@ -83,30 +84,45 @@
                             <form method="POST" action="{{ route('register.perform') }}">
                                 @csrf
                                 <div class="flex flex-col mb-3">
-                                    <input type="text" name="username" class="form-control" placeholder="{{ __('auth/register.username') }}" aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}" >
-                                    @error('username') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
+                                    <input type="text" name="username" class="form-control"
+                                        placeholder="{{ __('auth/register.username') }}"
+                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
+                                    @error('username')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
                                 </div>
                                 <div class="flex flex-col mb-3">
-                                    <input type="email" name="email" class="form-control" placeholder="{{ __('auth/register.email') }}" aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}" >
-                                    @error('email') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="{{ __('auth/register.email') }}"
+                                        aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}">
+                                    @error('email')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
                                 </div>
                                 <div class="flex flex-col mb-3">
-                                    <input type="password" name="password" class="form-control" placeholder="{{ __('auth/register.password') }}" aria-label="{{ __('auth.register.password') }}">
-                                    @error('password') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
+                                    <input type="password" name="password" class="form-control"
+                                        placeholder="{{ __('auth/register.password') }}"
+                                        aria-label="{{ __('auth.register.password') }}">
+                                    @error('password')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
                                 </div>
                                 <div class="form-check form-check-info text-start">
-                                    <input class="form-check-input" type="checkbox" name="terms" id="flexCheckDefault" >
+                                    <input class="form-check-input" type="checkbox" name="terms" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
-                                        {{ __('auth/register.i_agree')}}
+                                        {{ __('auth/register.i_agree') }}
                                         <a href="javascript:;" class="text-dark font-weight-bolder">
                                             {{ __('auth/register.terms_and_conditions') }}
                                         </a>
                                     </label>
-                                    @error('terms') <p class='text-danger text-xs'> {{ $message }} </p> @enderror
+                                    @error('terms')
+                                        <p class='text-danger text-xs'> {{ $message }} </p>
+                                    @enderror
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">{{ __('auth/register.sign_up') }}</button>
+                                    <button type="submit"
+                                        class="btn bg-gradient-dark w-100 my-4 mb-2">{{ __('auth/register.sign_up') }}</button>
                                 </div>
                                 <p class="text-sm mt-3 mb-0">
                                     {{ __('auth/register.already_have_account') }}
@@ -123,4 +139,3 @@
     </main>
     @include('layouts.footers.guest.footer')
 @endsection
-

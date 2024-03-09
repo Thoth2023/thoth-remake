@@ -28,19 +28,33 @@
                                         @csrf
 
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="{{ __('auth/change-password.email') }}" value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
-                                            @error('email') <p class="text-danger text-xs pt-1"> {{ $message }} </p> @enderror
+                                            <input type="email" name="email" class="form-control form-control-lg"
+                                                placeholder="{{ __('auth/change-password.email') }}"
+                                                value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
+                                            @error('email')
+                                                <p class="text-danger text-xs pt-1"> {{ $message }} </p>
+                                            @enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="{{ __('auth/change-password.password') }}" aria-label="{{ __('auth.password') }}">
-                                            @error('password') <p class="text-danger text-xs pt-1"> {{ $message }} </p> @enderror
+                                            <input type="password" name="password" class="form-control form-control-lg"
+                                                placeholder="{{ __('auth/change-password.password') }}"
+                                                aria-label="{{ __('auth.password') }}">
+                                            @error('password')
+                                                <p class="text-danger text-xs pt-1"> {{ $message }} </p>
+                                            @enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="confirm-password" class="form-control form-control-lg" placeholder="{{ __('auth/change-password.confirm_password') }}" aria-label="{{ __('auth.confirm_password') }}">
-                                            @error('confirm-password') <p class="text-danger text-xs pt-1"> {{ $message }} </p> @enderror
+                                            <input type="password" name="confirm-password"
+                                                class="form-control form-control-lg"
+                                                placeholder="{{ __('auth/change-password.confirm_password') }}"
+                                                aria-label="{{ __('auth.confirm_password') }}">
+                                            @error('confirm-password')
+                                                <p class="text-danger text-xs pt-1"> {{ $message }} </p>
+                                            @enderror
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('auth/change-password.send_reset') }}</button>
+                                            <button type="submit"
+                                                class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('auth/change-password.send_reset') }}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -69,4 +83,3 @@
         </section>
     </main>
 @endsection
-

@@ -23,8 +23,7 @@
                             target="_blank">GitHub</a>
                     </li>
                     <li class="nav-item">
-                        <a href="https://www.lesse.com.br" class="nav-link pe-0 text-muted"
-                           target="_blank">Lesse</a>
+                        <a href="https://www.lesse.com.br" class="nav-link pe-0 text-muted" target="_blank">Lesse</a>
                     </li>
                 </ul>
             </div>

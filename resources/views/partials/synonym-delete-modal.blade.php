@@ -1,5 +1,5 @@
 <div class="modal fade" id="modal-delete-{{ $term->id_term }}_{{ $synonym->id_synonym }}" tabindex="-1" role="dialog"
-     aria-labelledby="modal-delete-{{ $term->id_term }}_{{ $synonym->id_synonym }}" aria-hidden="true">
+    aria-labelledby="modal-delete-{{ $term->id_term }}_{{ $synonym->id_synonym }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
             </div>
             <div class="modal-footer">
                 <form class="form-unstyled"
-                      action="{{ route('planning_search_string.destroy_synonym', $synonym->id_synonym) }}" method="post">
+                    action="{{ route('planning_search_string.destroy_synonym', $synonym->id_synonym) }}" method="post">
                     @method('delete')
                     @csrf
                     <button type="submit" class="btn btn-danger">Delete</button>
