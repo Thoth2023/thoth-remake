@@ -1,23 +1,24 @@
 <div class="card-body col-md-6 pt-3">
     <div class="card">
-        <form role="form" method="POST" action="{{ route('project.planning_overall.keywordAdd') }}"
-            enctype="multipart/form-data">
-            @csrf
-            <div>
-                <div class="card-header pb-0">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p class="mb-0">{{ __('project/planning.overall.keyword.title') }}</p>
-                        @include ('components.help-button', ['dataTarget' => 'KeywordModal'])
-                        <!-- Help Button Description -->
-                        @include('components.help-modal', [
-                            'modalId' => 'KeywordModal',
-                            'modalLabel' => 'exampleModalLabel',
-                            'modalTitle' => __('project/planning.overall.keyword.help.title'),
-                            'modalContent' => __('project/planning.overall.keyword.help.content'),
-                        ])
-                    </div>
+        <div>
+            <div class="card-header pb-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0">{{ __('project/planning.overall.keyword.title') }}</p>
+                    @include ('components.help-button', ['dataTarget' => 'KeywordModal'])
+                    <!-- Help Button Description -->
+                    @include('components.help-modal', [
+                        'modalId' => 'KeywordModal',
+                        'modalLabel' => 'exampleModalLabel',
+                        'modalTitle' => __('project/planning.overall.keyword.help.title'),
+                        'modalContent' => __('project/planning.overall.keyword.help.content'),
+                    ])
                 </div>
-                <div class="card-body">
+            </div>
+            <div class="card-body">
+                <form role="form"
+                    action="{{ route('project.planning.keywords.store', ['projectId' => $project->id_project]) }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -29,7 +30,7 @@
                                 class="btn btn-success mt-1">{{ __('project/planning.overall.keyword.add') }}</button>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive p-0">
                     <table class="table align-items-center justify-content-center mb-0">
                         <thead>
@@ -41,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($keywords as $keyword)
+                            @forelse ($projectKeywords as $keyword)
                                 <tr>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $keyword->description }}</p>
@@ -70,9 +71,9 @@
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <form role="form text-left" method="POST"
-                                                                        action="{{ route('project.planning_overall.keywordEdit', $keyword->id_keyword) }}">
+                                                                        action="{{ route('project.planning.keywords.update', ['keyword' => $keyword, 'projectId' => $project->id_project]) }}">
                                                                         @csrf
-                                                                        @method('POST')
+                                                                        @method('PUT')
                                                                         <label>
                                                                             {{ __('project/planning.overall.keyword.list.actions.edit.modal.description') }}
                                                                         </label>
@@ -99,8 +100,8 @@
                                     </td>
                                     <td class="align-middle">
                                         <form
-                                            action="{{ route('project.planning_overall.keywordDestroy', $keyword->id_keyword) }}"
-                                            method="POST">
+                                            action="{{ route('project.planning.keywords.destroy', ['keyword' => $keyword, 'projectId' => $project->id_project]) }}"
+                                            + method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button style="border:0; background: none; padding: 0px;" type="submit"
@@ -122,6 +123,6 @@
                     </table>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

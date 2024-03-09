@@ -3,7 +3,8 @@
         <div class="card-body">
             <div class="card-group card-frame mt-1">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ route('project.planning_research.Add') }}"
+                    <form role="form" method="POST"
+                        action="{{ route('project.planning.research-questions.store', ['projectId' => $project->id_project]) }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div>
@@ -135,7 +136,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <form
-                                                action="{{ route('project.planning_research.Destroy', $researchQuestion->id_research_question) }}"
+                                                action="{{ route('project.planning.research.destroy', $researchQuestion->id_research_question) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')

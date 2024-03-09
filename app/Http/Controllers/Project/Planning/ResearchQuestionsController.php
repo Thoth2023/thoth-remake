@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project\Planning;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\ResearchQuestion;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
-class PlanningResearchQuestionsController extends Controller
+class ResearchQuestionsController extends Controller
 {
     /**
      * Display the initial page of the Research Questions about the Planning

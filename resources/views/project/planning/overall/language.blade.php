@@ -1,6 +1,7 @@
 <div class="card-body col-md-6 pt-3">
     <div class="card">
-        <form role="form" action="{{ route('project.planning_overall.languageAdd') }}" method="POST"
+        <form role="form"
+            action="{{ route('project.planning.languages.store', ['projectId' => $project->id_project]) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
             <div>
@@ -47,15 +48,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($projectLanguages as $projectLanguage)
+                    @forelse ($project->languages as $projectLanguage)
                         <tr>
                             <td>
                                 <p class="text-sm font-weight-bold mb-0">
-                                    {{ convert_language_name($projectLanguage->id_language) }}</p>
+                                    {{ $projectLanguage->description }}</p>
                             </td>
                             <td class="align-middle">
                                 <form
-                                    action="{{ route('project.planning_overall.languageDestroy', $projectLanguage->id_language) }}"
+                                    action="{{ route('project.planning.languages.destroy', ['language' => $projectLanguage, 'projectId' => $project->id_project]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')

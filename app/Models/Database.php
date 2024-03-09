@@ -29,11 +29,15 @@ class DataBase extends Model
         'name'
     ];
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_databases', 'id_database', 'id_project')
+            ->using(ProjectDatabase::class)
+            ->withPivot('id_project_database');
+    }
+
     public function searchString()
-        {
-            return $this->belongsTo(SearchString::class);
-        }
-
+    {
+        return $this->belongsTo(SearchString::class);
+    }
 }
-
-

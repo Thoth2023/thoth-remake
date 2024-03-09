@@ -1,7 +1,8 @@
 <div class="card-body col-md-6 pt-3">
     <div class="card">
-        <form role="form" method="POST" action="{{ route('project.planning_overall.studyTAdd') }}"
-            enctype="multipart/form-data">
+        <form role="form"
+            action="{{ route('project.planning.studyTypes.store', ['projectId' => $project->id_project]) }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
             <div>
                 <div class="card-header pb-0">
@@ -51,15 +52,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($projectStudyTypes as $pStudyType)
+                    @forelse ($project->studyTypes as $projectStudyType)
                         <tr>
                             <td>
                                 <p class="text-sm font-weight-bold mb-0">
-                                    {{ convert_study_type_name($pStudyType->id_study_type) }}</p>
+                                    {{ $projectStudyType->description }}</p>
                             </td>
                             <td class="align-middle">
                                 <form
-                                    action="{{ route('project.planning_overall.studyTDestroy', $pStudyType->id_study_type) }}"
+                                    action="{{ route('project.planning.studyTypes.destroy', ['study_type' => $projectStudyType, 'projectId' => $project->id_project]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')

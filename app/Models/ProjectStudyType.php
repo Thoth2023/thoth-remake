@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ProjectStudyType extends Model
+class ProjectStudyType extends Pivot
 {
     protected $table = 'project_study_types';
 

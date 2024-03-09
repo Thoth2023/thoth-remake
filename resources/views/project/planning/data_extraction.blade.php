@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         <form role="form" method="POST"
-                            action="{{ route('project.planning.dataExtractionCreate', $project->id_project) }}"
+                            action="{{ route('project.planning.data-extraction.store', [$project->id_project]) }}"
                             enctype="multipart/form-data">
                             @csrf
                             <label class="form-control-label" for="id">ID</label>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         <form role="form" method="POST"
-                            action="{{ route('project.planning.dataExtractionOptionCreate', $project->id_project) }}"
+                            action="{{ route('project.planning.data-extraction.create-option', ['projectId' => $project->id_project, '']) }}"
                             enctype="multipart/form-data">
                             @csrf
                             <label class="form-control-label" for="question-id">Question</label>

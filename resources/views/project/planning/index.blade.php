@@ -2,9 +2,6 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Planning'])
-    @include('project.planning.convert-language-name')
-    @include('project.planning.convert-study-type-name')
-    @include('project.planning.convert-database')
 
     <div class="row mt-4 mx-4">
 

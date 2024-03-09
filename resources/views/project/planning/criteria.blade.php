@@ -3,7 +3,8 @@
         <div class="card-body">
             <div class="card-group card-frame mt-1">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ route('project.planning_criteria.Add') }}"
+                    <form role="form" method="POST"
+                        action="{{ route('project.planning.criteria.store', ['projectId' => $project->id_project]) }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div>
@@ -85,7 +86,7 @@
                                         <td>
                                             @if ($criteria->pre_selected == 0)
                                                 <form
-                                                    action="{{ route('project.planning_criteria.ChangeSelect', $criteria->id_criteria) }}#inclusion_criteria"
+                                                    action="{{ route('project.planning.criteria.change-preselected', ['projectId' => $project->id_project, 'criteriaId' => $criteria->id_criteria]) }}#inclusion_criteria"
                                                     id="pre_select_form-<?= $criteria->id_criteria ?>" method="POST">
                                                     @csrf
                                                     @method('PUT')
@@ -132,7 +133,7 @@
                                                                     </div>
                                                                     <div class="card-body">
                                                                         <form role="form text-left" method="POST"
-                                                                            action="{{ route('project.planning_criteria.Edit', $criteria->id_criteria) }}">
+                                                                            action="{{ route('project.planning.criteria.edit', ['projectId' => $project->id_project, 'criterion' => $criteria]) }}">
                                                                             @csrf
                                                                             @method('PUT')
                                                                             <label for="example-text-input"
@@ -176,7 +177,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <form
-                                                action="{{ route('project.planning_criteria.Destroy', $criteria->id_criteria) }}"
+                                                action="{{ route('project.planning.criteria.destroy', ['projectId' => $project->id_project, 'criterion' => $criteria]) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')

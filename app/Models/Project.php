@@ -44,10 +44,25 @@ class Project extends Model
                     ->select('users.*', 'levels.level as level_name');
     }
 
+    public function databases()
+    {
+        return $this->belongsToMany(Database::class, 'project_databases', 'id_project', 'id_database')
+            ->using(ProjectDatabase::class)
+            ->withPivot('id_project_database');
+    }
 
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class, 'project_languages', 'id_project', 'id_language')
+            ->using(ProjectLanguage::class)
+            ->withPivot('id_project_lang');
+    }
 
-    public function databases() {
-        return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
+    public function studyTypes()
+    {
+        return $this->belongsToMany(StudyType::class, 'project_study_types', 'id_project', 'id_study_type')
+            ->using(ProjectStudyType::class)
+            ->withPivot('id_project_study_types');
     }
 
     public function questionExtractions() {

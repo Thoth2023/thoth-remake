@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project\Planning;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Criteria;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
-class PlanningCriteriaController extends Controller
+class CriteriaController extends Controller
 {
     /**
      * Display the initial page of the Criteria about the Planning
@@ -26,7 +27,7 @@ class PlanningCriteriaController extends Controller
      /**
      * Store a newly created Criteria
      */
-    public function add(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'description' =>'required|string',
@@ -63,7 +64,7 @@ class PlanningCriteriaController extends Controller
     /*
     * Update an existing Criteria of the project
     */
-    public function edit(Request $request, string $id)
+    public function edit(Request $request, string $criteriaId)
     {
 
         $this->validate($request, [
@@ -73,7 +74,7 @@ class PlanningCriteriaController extends Controller
             'type' => 'required|string',
         ]);
 
-        $criteria = Criteria::findOrFail($id);
+        $criteria = Criteria::findOrFail($criteriaId);
         $matchThese = ['id_project' =>$request->id_project, 'id' =>$request->id];
         $criteria2 = Criteria::where($matchThese)->first();
 
@@ -100,9 +101,9 @@ class PlanningCriteriaController extends Controller
     /*
     * Remove the specified Criteria from the project
     */
-    public function destroy(string $id)
+    public function destroy(string $criteriaId)
     {
-        $criteria = Criteria::findOrFail($id);
+        $criteria = Criteria::findOrFail($criteriaId);
         $id_project = $criteria->id_project;
         $activity = "Deleted criteria ". $criteria->id;
 
