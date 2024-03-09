@@ -24,8 +24,12 @@
                                         @csrf
                                         @method('post')
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="{{ __('auth/reset-password.email') }}" value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
-                                            @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
+                                            <input type="email" name="email" class="form-control form-control-lg"
+                                                placeholder="{{ __('auth/reset-password.email') }}"
+                                                value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
+                                            @error('email')
+                                                <p class="text-danger text-xs pt-1"> {{ $message }} </p>
+                                            @enderror
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">
@@ -45,7 +49,8 @@
                                 style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
                                         background-size: cover;">
                                 <span class="mask bg-gradient-primary opacity-6"></span>
-                                <h4 class="mt-5 text-white font-weight-bolder position-relative">{{ __('auth/reset-password.quote.title') }}</h4>
+                                <h4 class="mt-5 text-white font-weight-bolder position-relative">
+                                    {{ __('auth/reset-password.quote.title') }}</h4>
                                 <p class="text-white position-relative">{{ __('auth/reset-password.quote.content') }}</p>
                             </div>
                         </div>
@@ -55,4 +60,3 @@
         </section>
     </main>
 @endsection
-

@@ -65,8 +65,7 @@
             </div>
 
             <div class="w-100 text-center">
-                <a href="https://github.com/Thoth2023/thoth2.0"
-                    class="btn btn-dark mb-0 me-2" target="_blank">
+                <a href="https://github.com/Thoth2023/thoth2.0" class="btn btn-dark mb-0 me-2" target="_blank">
                     {{-- &amp;url2=https%3A%2F%2Fwww.updivision.com --}}
                     <i class="fab fa-github me-1" aria-hidden="true"></i> Thoth
                 </a>

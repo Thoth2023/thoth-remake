@@ -31,12 +31,12 @@
                 </div>
 
                 <div class="card-group">
-                    @foreach([
-                        'questions' => 'ni ni-bullet-list-67',
-                        'relevant_data' => 'ni ni-single-copy-04',
-                        'quality' => 'ni ni-like-2',
-                        'analyse_data' => 'ni ni-chart-bar-32',
-                    ] as $key => $icon)
+                    @foreach ([
+            'questions' => 'ni ni-bullet-list-67',
+            'relevant_data' => 'ni ni-single-copy-04',
+            'quality' => 'ni ni-like-2',
+            'analyse_data' => 'ni ni-chart-bar-32',
+        ] as $key => $icon)
                         <div class="card p-3">
                             <div class="card-body pt-2">
                                 <a href="javascript:" class="card-title h5 d-block text-darker">
@@ -53,6 +53,4 @@
             </div>
         </div>
     </div>
-
 @endsection
-
