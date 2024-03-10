@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStates\HasStates;
+use App\States\DatabaseState;
 
-class DataBase extends Model
+class Database extends Model
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name
@@ -23,10 +25,15 @@ class DataBase extends Model
     public $timestamps = false;
 
     use HasFactory;
+    use HasStates;
 
     protected $fillable = [
         'link',
         'name'
+    ];
+
+    protected $states = [
+        'state' => DatabaseState::class
     ];
 
     public function projects()
