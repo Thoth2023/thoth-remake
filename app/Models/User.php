@@ -27,10 +27,11 @@ class User extends Authenticatable
         'postal',
         'about',
         'institution',
-        'lattes_link'
+        'lattes_link',
     ];
 
-    public function projects() {   
+    public function projects()
+    {
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
     }
 

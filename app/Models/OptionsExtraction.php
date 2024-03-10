@@ -25,6 +25,6 @@ class OptionsExtraction extends Model
 
     protected $fillable = [
         'description',
-        'id_de'
+        'id_de',
     ];
 }

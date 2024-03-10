@@ -11,7 +11,6 @@ use App\Models\SearchString;
 use App\Models\ProjectDatabases;
 use Illuminate\Support\Collection;
 
-
 class Project extends Model
 {
     // since the table was named in the singular and not plural,
@@ -37,7 +36,8 @@ class Project extends Model
         'created_by',
     ];
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
                     ->withPivot('level')
                     ->join('levels', 'members.level', '=', 'levels.id_level')
@@ -65,23 +65,28 @@ class Project extends Model
             ->withPivot('id_project_study_types');
     }
 
-    public function questionExtractions() {
+    public function questionExtractions()
+    {
         return $this->hasMany(QuestionExtraction::class, 'id_project');
     }
 
-    public function criterias() {
+    public function criterias()
+    {
         return $this->hasMany(Criteria::class, 'id_project');
     }
 
-    public function inclusionCriterias() {
+    public function inclusionCriterias()
+    {
         return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Inclusion');
     }
 
-    public function exclusionCriterias() {
+    public function exclusionCriterias()
+    {
         return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Exclusion');
     }
 
-    public function researchQuestions() {
+    public function researchQuestions()
+    {
         return $this->hasMany(ResearchQuestion::class, 'id_project');
     }
 
@@ -109,7 +114,7 @@ class Project extends Model
         $terms = $project->terms;
         $data = array();
 
-        foreach($terms as $term) {
+        foreach ($terms as $term) {
             $termData = array(
                 'term' => $term->description,
                 'synonyms' => $term->synonyms->pluck('description')->toArray(),

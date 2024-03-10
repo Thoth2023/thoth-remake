@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\DataBase;
 
-
 class SearchString extends Model
 {
     use HasFactory;
@@ -30,7 +29,8 @@ class SearchString extends Model
         return $this->hasOne(Database::class);
     }
 
-    public function databases() {
+    public function databases()
+    {
         return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
     }
 
@@ -47,5 +47,4 @@ class SearchString extends Model
                 ->value('id_project_database')
             : null;
     }
-
 }

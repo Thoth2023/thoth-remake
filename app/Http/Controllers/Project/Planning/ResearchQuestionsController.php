@@ -22,8 +22,7 @@ class ResearchQuestionsController extends Controller
     public function store(Request $request, string $projectId): RedirectResponse
     {
         // Checkt if the request has a valid project ID
-        if ($request->id_project != $projectId)
-        {
+        if ($request->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Project not found');
@@ -33,8 +32,7 @@ class ResearchQuestionsController extends Controller
 
         // Check if another research question with the same ID already exists
         // in the same project
-        if ($project->researchQuestions->contains('id', $request->id))
-        {
+        if ($project->researchQuestions->contains('id', $request->id)) {
             return redirect()
                 ->back()
                 ->withErrors([
@@ -67,8 +65,7 @@ class ResearchQuestionsController extends Controller
      */
     public function update(Request $request, string $projectId, ResearchQuestion $researchQuestion): RedirectResponse
     {
-        if ($researchQuestion->id_project != $projectId)
-        {
+        if ($researchQuestion->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Research question not found');
@@ -100,8 +97,7 @@ class ResearchQuestionsController extends Controller
      */
     public function destroy(string $projectId, ResearchQuestion $researchQuestion): RedirectResponse
     {
-        if ($researchQuestion->id_project != $projectId)
-        {
+        if ($researchQuestion->id_project != $projectId) {
             return redirect()->back()->with('error', 'Domain not found');
         }
 

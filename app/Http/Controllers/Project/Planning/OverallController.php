@@ -10,7 +10,6 @@ use App\Models\Language;
 use App\Models\StudyType;
 use App\Http\Controllers\Controller;
 
-
 class OverallController extends Controller
 {
 

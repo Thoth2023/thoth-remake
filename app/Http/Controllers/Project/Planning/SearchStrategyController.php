@@ -59,4 +59,3 @@ class SearchStrategyController extends Controller
         ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
     }
 }
-

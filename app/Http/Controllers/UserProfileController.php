@@ -21,14 +21,14 @@ class UserProfileController extends Controller
             'username' => ['required','max:255', 'min:2'],
             'firstname' => ['max:100'],
             'lastname' => ['max:100'],
-            'email' => ['required', 'email', 'max:255',  Rule::unique('users')->ignore(auth()->user()->id),],
+            'email' => ['required', 'email', 'max:255',  Rule::unique('users')->ignore(auth()->user()->id)],
             'address' => ['max:100'],
             'city' => ['max:100'],
             'country' => ['max:100'],
             'postal' => ['max:100'],
             'about' => ['max:255'],
-            'intitution' =>['max:255'],
-            'lattes_link' =>['max:255']
+            'intitution' => ['max:255'],
+            'lattes_link' => ['max:255'],
         ]);
         // Update the authenticated user's profile with the validated data
         auth()->user()->update([
@@ -42,7 +42,7 @@ class UserProfileController extends Controller
             'postal' => $request->get('postal'),
             'about' => $request->get('about'),
             'institution' => $request->get('institution'),
-            'lattes_link' => $request->get('lattes_link')
+            'lattes_link' => $request->get('lattes_link'),
         ]);
         // Redirect back to the previous page with a success message
         return back()->with('succes', 'Profile succesfully updated');

@@ -27,14 +27,16 @@ class QuestionExtraction extends Model
         'description',
         'id',
         'id_project',
-        'type'
+        'type',
     ];
 
-    public function question_type() {
+    public function question_type()
+    {
         return $this->belongsTo(TypesQuestion::class, 'type');
     }
 
-    public function options() {
+    public function options()
+    {
         return $this->hasMany(OptionsExtraction::class, 'id_de');
     }
 }

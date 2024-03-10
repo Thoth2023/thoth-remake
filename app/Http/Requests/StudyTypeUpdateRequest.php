@@ -29,4 +29,3 @@ class StudyTypeUpdateRequest extends FormRequest
         ];
     }
 }
-

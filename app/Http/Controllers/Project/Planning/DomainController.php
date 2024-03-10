@@ -52,8 +52,7 @@ class DomainController extends Controller
      */
     public function update(DomainUpdateRequest $request, string $projectId, Domain $domain): RedirectResponse
     {
-        if ($domain->id_project != $projectId)
-        {
+        if ($domain->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Domain not found');
@@ -85,8 +84,7 @@ class DomainController extends Controller
      */
     public function destroy(string $projectId, Domain $domain)
     {
-        if ($domain->id_project != $projectId)
-        {
+        if ($domain->id_project != $projectId) {
             return redirect()->back()->with('error', 'Domain not found');
         }
 

@@ -23,8 +23,7 @@ class CriteriaController extends Controller
     public function store(Request $request, string $projectId): RedirectResponse
     {
         // Check if the request has a valid project ID
-        if ($request->id_project != $projectId)
-        {
+        if ($request->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Project not found');
@@ -33,8 +32,7 @@ class CriteriaController extends Controller
         $project = Project::findOrFail($projectId);
 
         // Check if another criteria with the same ID already exists in the same project
-        if ($project->criterias->contains('id', $request->id))
-        {
+        if ($project->criterias->contains('id', $request->id)) {
             return redirect()
                 ->back()
                 ->withErrors([
@@ -75,8 +73,7 @@ class CriteriaController extends Controller
             'id' => $request->id,
         ])->first();
 
-        if ($existingCriteria)
-        {
+        if ($existingCriteria) {
             return back()->withErrors([
                 'duplicate' => 'The provided ID already exists in this project.',
             ]);
@@ -101,8 +98,7 @@ class CriteriaController extends Controller
     public function destroy(string $projectId, Criteria $criterion): RedirectResponse
     {
 
-        if ($criterion->id_project != $projectId)
-        {
+        if ($criterion->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Criteria not found');

@@ -19,8 +19,7 @@ use App\Http\Controllers\LocalizationController;
 |
 */
 
-Route::middleware(Localization::class)->get('/', function ()
-{
+Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
 });
 
@@ -124,14 +123,12 @@ Route::resource('/project/{projectId}/planning/keywords', KeywordController::cla
     ]);
 
 // Date routes
-Route::prefix('/projects/{projectId}/planning/dates')->group(function ()
-{
+Route::prefix('/projects/{projectId}/planning/dates')->group(function () {
     Route::post('/add', [DateController::class, 'addDate'])->name('project.planning.dates.add');
 });
 
 // Database Routes
-Route::prefix('projects/{projectId}/planning')->group(function ()
-{
+Route::prefix('projects/{projectId}/planning')->group(function () {
     Route::resource('/databases', DatabaseController::class)
         ->only(['store'])
         ->names([
@@ -177,8 +174,7 @@ Route::put('/project/{projectId}/planning/criteria/{criteriaId}/change-preselect
     ->name('project.planning.criteria.change-preselected');
 
 // Data Extraction Routes
-Route::prefix('/projects/{projectId}/planning')->group(function ()
-{
+Route::prefix('/projects/{projectId}/planning')->group(function () {
     Route::resource('data-extraction', DataExtractionController::class)
         ->names([
             'index' => 'project.planning.data-extraction.index',
@@ -208,8 +204,7 @@ Route::prefix('/projects/{projectId}/planning')->group(function ()
 Route::get('/projects/{projectId}/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-Route::middleware(['locale', 'guest'])->group(function ()
-{
+Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/', [HomeController::class, 'guest_home'])->name('home');
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
@@ -222,8 +217,7 @@ Route::middleware(['locale', 'guest'])->group(function ()
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 });
 
-Route::group(['middleware' => 'auth'], function ()
-{
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

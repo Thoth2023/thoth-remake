@@ -9,4 +9,3 @@ class Proposed extends DatabaseState
         return 'proposed';
     }
 }
-

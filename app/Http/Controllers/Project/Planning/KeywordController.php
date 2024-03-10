@@ -54,8 +54,7 @@ class KeywordController extends Controller
      */
     public function update(KeywordUpdateRequest $request, string $projectId, Keyword $keyword): RedirectResponse
     {
-        if ($keyword->id_project != $projectId)
-        {
+        if ($keyword->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Keyword not found');
@@ -87,8 +86,7 @@ class KeywordController extends Controller
      */
     public function destroy(string $projectId, Keyword $keyword): RedirectResponse
     {
-        if ($keyword->id_project != $projectId)
-        {
+        if ($keyword->id_project != $projectId) {
             return redirect()
                 ->back()
                 ->with('error', 'Keyword not found');

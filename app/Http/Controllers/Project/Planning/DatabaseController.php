@@ -54,8 +54,7 @@ class DatabaseController extends Controller
 
         $databaseId = $request->databaseId;
 
-        if ($project->databases->contains($databaseId))
-        {
+        if ($project->databases->contains($databaseId)) {
             return redirect()
                 ->back()
                 ->with('error', 'Database already added to the project');
@@ -85,8 +84,7 @@ class DatabaseController extends Controller
 
         $databaseId = $request->query('databaseId');
 
-        if (!$project->databases->contains($databaseId))
-        {
+        if (!$project->databases->contains($databaseId)) {
             return redirect()
                 ->back()
                 ->with('error', 'Database not found in the project');

@@ -29,11 +29,11 @@ class Database extends Model
 
     protected $fillable = [
         'link',
-        'name'
+        'name',
     ];
 
     protected $states = [
-        'state' => DatabaseState::class
+        'state' => DatabaseState::class,
     ];
 
     public function projects()

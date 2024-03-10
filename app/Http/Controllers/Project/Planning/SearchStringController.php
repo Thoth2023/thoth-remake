@@ -231,5 +231,4 @@ class SearchStringController extends Controller
 
         return $sss;
     }
-
 }

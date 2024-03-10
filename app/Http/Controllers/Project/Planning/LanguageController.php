@@ -91,4 +91,3 @@ class LanguageController extends Controller
         ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
     }
 }
-
