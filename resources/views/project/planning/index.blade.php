@@ -59,7 +59,7 @@
 
 
                         <div class="tab-pane fade" id="data-extraction">
-                            @include('project.planning.data-extraction')
+                            @include('project.planning.data-extraction.index')
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
                             @include('project.planning.search-strategy')

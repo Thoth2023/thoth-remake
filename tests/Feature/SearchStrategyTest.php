@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Project;
@@ -33,14 +33,6 @@ class SearchStrategyTest extends TestCase
         $response = $this->post(route('project.search-strategy.update', ['projectId' => $project->id_project]), [
             'search_strategy' => $newDescription,
         ]);
-
-        /* In theory this should be true, but it's not working
-         * the redirect is being done to the base localhost on the test
-         * but using in the real frontend seems to be working fine
-         *  so this will be commented out for now
-         * $response->assertStatus(302)
-         *     ->assertRedirect(route('project.search-strategy.edit', ['projectId' => $project->id_project]));
-         */
 
         $updatedSearchStrategy = SearchStrategy::find($searchStrategy->id_search_strategy);
         $this->assertEquals($newDescription, $updatedSearchStrategy->description);

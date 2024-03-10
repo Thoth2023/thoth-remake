@@ -13,15 +13,15 @@
  * @see Language, Project, ProjectLanguage
  */
 
-namespace App\Http\Controllers\Project\Planning;
+namespace App\Http\Controllers\Project\Planning\Overall;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LanguageUpdateRequest;
 use App\Models\Language;
 use App\Models\ProjectLanguage;
 use App\Utils\ActivityLogHelper;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class LanguageController extends Controller
 {

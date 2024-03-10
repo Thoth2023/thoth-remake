@@ -10,6 +10,7 @@ use App\Models\SearchStrategy;
 use App\Models\SearchString;
 use App\Models\ProjectDatabases;
 use Illuminate\Support\Collection;
+use App\Models\Project\Planning\DataExtraction\Question;
 
 class Project extends Model
 {
@@ -39,9 +40,9 @@ class Project extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
-                    ->withPivot('level')
-                    ->join('levels', 'members.level', '=', 'levels.id_level')
-                    ->select('users.*', 'levels.level as level_name');
+            ->withPivot('level')
+            ->join('levels', 'members.level', '=', 'levels.id_level')
+            ->select('users.*', 'levels.level as level_name');
     }
 
     public function databases()
@@ -65,9 +66,9 @@ class Project extends Model
             ->withPivot('id_project_study_types');
     }
 
-    public function questionExtractions()
+    public function questions()
     {
-        return $this->hasMany(QuestionExtraction::class, 'id_project');
+        return $this->hasMany(Question::class, 'id_project');
     }
 
     public function criterias()

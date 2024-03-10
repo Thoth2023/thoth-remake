@@ -13,14 +13,14 @@
  * @see Domain, Project
  */
 
-namespace App\Http\Controllers\Project\Planning;
+namespace App\Http\Controllers\Project\Planning\Overall;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DomainUpdateRequest;
 use App\Models\Domain;
 use App\Utils\ActivityLogHelper;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class DomainController extends Controller
 {
@@ -108,6 +108,11 @@ class DomainController extends Controller
     private function logActivity(string $action, string $description, string $projectId): void
     {
         $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $projectId,
+            id_user: Auth::user()->id
+        );
     }
 }

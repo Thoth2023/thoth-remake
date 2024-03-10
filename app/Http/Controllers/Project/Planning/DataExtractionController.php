@@ -8,16 +8,10 @@ use App\Models\TypesQuestion;
 use App\Models\OptionsExtraction;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class DataExtractionController extends Controller
 {
-    public function index($id)
-    {
-        $project = Project::find($id);
-        $types = TypesQuestion::all();
-
-        return view('project.planning.data_extraction', compact('project', 'types'));
-    }
 
     public function add_extraction(Request $request, string $id_project)
     {

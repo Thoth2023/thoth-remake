@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Project\Planning;
+namespace App\Http\Controllers\Project\Planning\Overall;
 
-use App\Models\Project;
+use App\Http\Controllers\Controller;
+use App\Models\Database;
 use App\Models\Domain;
 use App\Models\Keyword;
-use App\Models\Database;
 use App\Models\Language;
+use App\Models\Project;
+use App\Models\Project\Planning\DataExtraction\QuestionTypes;
 use App\Models\StudyType;
-use App\Http\Controllers\Controller;
 
 class OverallController extends Controller
 {
@@ -30,6 +31,7 @@ class OverallController extends Controller
         $databases = Database::all();
         $languages = Language::all();
         $studyTypes = StudyType::all();
+        $questionTypes = QuestionTypes::all();
 
         // Retrieve project-specific language, database, study type, domains and keywords records
         $projectDomains = Domain::where('id_project', $id_project)->get();
@@ -44,6 +46,7 @@ class OverallController extends Controller
             'databases',
             'languages',
             'studyTypes',
+            'questionTypes',
             'usersRelation',
             'activeTab'
         ));

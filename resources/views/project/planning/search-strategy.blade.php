@@ -41,7 +41,7 @@
                             </div>
                         @endif
                         <form method="POST"
-                            action="{{ route('project.planning.search-strategy.update', ['projectId' => $project->id_project, 'search_strategy' => $project->searchStrategy]) }}">
+                            action="{{ route('project.planning.search-strategy.update', ['projectId' => $project->id_project]) }}">
                             @csrf
                             @method('PUT')
                             <div class="form-group">

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Project\Planning\DataExtraction;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OptionsExtraction extends Model
+class Option extends Model
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name
@@ -24,7 +24,12 @@ class OptionsExtraction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'description',
         'id_de',
+        'description',
     ];
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'id_de');
+    }
 }

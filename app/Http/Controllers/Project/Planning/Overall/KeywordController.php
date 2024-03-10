@@ -13,14 +13,14 @@
  * @see Keyword, Project
  */
 
-namespace App\Http\Controllers\Project\Planning;
+namespace App\Http\Controllers\Project\Planning\Overall;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\KeywordUpdateRequest;
 use App\Models\Keyword;
 use App\Utils\ActivityLogHelper;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class KeywordController extends Controller
 {

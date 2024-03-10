@@ -1,12 +1,34 @@
 <?php
 
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\HelpController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\Project\Planning\CriteriaController;
+use App\Http\Controllers\Project\Planning\DatabaseController;
+use App\Http\Controllers\Project\Planning\Overall\DateController;
+use App\Http\Controllers\Project\Planning\Overall\DomainController;
+use App\Http\Controllers\Project\Planning\Overall\KeywordController;
+use App\Http\Controllers\Project\Planning\Overall\LanguageController;
+use App\Http\Controllers\Project\Planning\Overall\OverallController;
+use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
+use App\Http\Controllers\Project\Planning\SearchStrategyController;
+use App\Http\Controllers\Project\Planning\StudyTypeController;
+use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
+use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Project\ReportingController;
+use App\Http\Controllers\ResetPassword;
+use App\Http\Controllers\SearchProjectController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-// Localization
-use App\Http\Middleware\Localization;
-use App\Http\Controllers\LocalizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,34 +50,8 @@ Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Pages controllers
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\HelpController;
 
 // Auth Controllers
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\ResetPassword;
-use App\Http\Controllers\ChangePassword;
-
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SearchProjectController;
-
-use App\Http\Controllers\Project\Planning\OverallController;
-use App\Http\Controllers\Project\Planning\DomainController;
-use App\Http\Controllers\Project\Planning\LanguageController;
-use App\Http\Controllers\Project\Planning\DatabaseController;
-use App\Http\Controllers\Project\Planning\DateController;
-use App\Http\Controllers\Project\Planning\StudyTypeController;
-use App\Http\Controllers\Project\Planning\KeywordController;
-use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
-use App\Http\Controllers\Project\Planning\CriteriaController;
-use App\Http\Controllers\Project\Planning\SearchStrategyController;
-use App\Http\Controllers\Project\Planning\DataExtractionController;
-
-use App\Http\Controllers\ReportingController;
 
 Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
@@ -80,128 +76,119 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 // End of the Projects Routes
 
 // Project Routes
+Route::prefix('/project/{projectId}')->group(function () {
+    // Planning Routes
+    Route::prefix('/planning')->group(function () {
+        // Overall Route
+        Route::get('/', [OverallController::class, 'index'])
+            ->name('project.planning.index')
+            ->middleware('auth');
 
-// Planning Routes
+        // Domain Routes
+        Route::resource('/domains', DomainController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names([
+                'store' => 'project.planning.domains.store',
+                'update' => 'project.planning.domains.update',
+                'destroy' => 'project.planning.domains.destroy',
+            ]);
 
-// Overall Route
-Route::get('/project/{projectId}/planning', [OverallController::class, 'index'])
-    ->name('project.planning.index')
-    ->middleware('auth');
+        // Language Routes
+        Route::resource('/languages', LanguageController::class)
+            ->only(['store', 'destroy'])
+            ->names([
+                'store' => 'project.planning.languages.store',
+                'destroy' => 'project.planning.languages.destroy',
+            ]);
 
-// Domain Routes
-Route::resource('/project/{projectId}/planning/domains', DomainController::class)
-    ->except(['show', 'index'])
-    ->names([
-        'store' => 'project.planning.domains.store',
-        'edit' => 'project.planning.domains.edit',
-        'update' => 'project.planning.domains.update',
-        'destroy' => 'project.planning.domains.destroy',
-    ]);
+        // Study Type Routes
+        Route::resource('/study-types', StudyTypeController::class)
+            ->only(['store', 'destroy'])
+            ->names([
+                'store' => 'project.planning.studyTypes.store',
+                'destroy' => 'project.planning.studyTypes.destroy',
+            ]);
 
-// Language Routes
-Route::resource('/project/{projectId}/planning/languages', LanguageController::class)
-    ->names([
-        'store' => 'project.planning.languages.store',
-        'destroy' => 'project.planning.languages.destroy',
-    ]);
+        // Keyword Routes
+        Route::resource('/keywords', KeywordController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names([
+                'store' => 'project.planning.keywords.store',
+                'update' => 'project.planning.keywords.update',
+                'destroy' => 'project.planning.keywords.destroy',
+            ]);
 
-// Study Type Routes
-Route::resource('/project/{projectId}/planning/study-types', StudyTypeController::class)
-    ->names([
-        'store' => 'project.planning.studyTypes.store',
-        'destroy' => 'project.planning.studyTypes.destroy',
-    ]);
+        // Date routes
+        Route::prefix('/dates')->group(function () {
+            Route::post('/add', [DateController::class, 'addDate'])->name('project.planning.dates.add');
+        });
 
-// Keyword Routes
-Route::resource('/project/{projectId}/planning/keywords', KeywordController::class)
-    ->except(['show', 'index'])
-    ->names([
-        'store' => 'project.planning.keywords.store',
-        'edit' => 'project.planning.keywords.edit',
-        'update' => 'project.planning.keywords.update',
-        'destroy' => 'project.planning.keywords.destroy',
-    ]);
+        // Database Routes
+        Route::resource('/databases', DatabaseController::class)
+            ->only(['store'])
+            ->names([
+                'store' => 'project.planning.databases.store',
+            ]);
 
-// Date routes
-Route::prefix('/projects/{projectId}/planning/dates')->group(function () {
-    Route::post('/add', [DateController::class, 'addDate'])->name('project.planning.dates.add');
+        // Add a database to the project
+        Route::post('/databases/add/', [DatabaseController::class, 'addDatabase'])
+            ->name('projects.planning.databases.add');
+
+        // Remove a database from the project
+        Route::post('/databases/remove/', [DatabaseController::class, 'removeDatabase'])
+            ->name('projects.planning.databases.remove');
+
+        // Search Strategy Route
+        Route::put('/search-strategy', [SearchStrategyController::class, 'update'])
+            ->name('project.planning.search-strategy.update');
+
+        // Research Questions Routes
+        Route::resource('/research-questions', ResearchQuestionsController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names([
+                'store' => 'project.planning.research-questions.store',
+                'update' => 'project.planning.research-questions.update',
+                'destroy' => 'project.planning.research-questions.destroy',
+            ]);
+
+        // Criteria Routes
+        Route::resource('/criteria', CriteriaController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names([
+                'store' => 'project.planning.criteria.store',
+                'update' => 'project.planning.criteria.update',
+                'destroy' => 'project.planning.criteria.destroy',
+            ]);
+
+        Route::put('/criteria/{criteriaId}/change-preselected', [CriteriaController::class, 'change_preselected'])
+            ->name('project.planning.criteria.change-preselected');
+
+        // Data Extraction Routes
+        Route::prefix('/data-extraction/')->group(function () {
+
+            Route::resource('/question', QuestionController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.data-extraction.question.store',
+                    'update' => 'project.planning.data-extraction.question.update',
+                    'destroy' => 'project.planning.data-extraction.question.destroy',
+                ]);
+
+            Route::resource('/option', OptionController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.data-extraction.option.store',
+                    'update' => 'project.planning.data-extraction.option.update',
+                    'destroy' => 'project.planning.data-extraction.option.destroy',
+                ]);
+        });
+    });
+    // End of the Planning Routes
+
+    // start of the reporting routes
+    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 });
 
-// Database Routes
-Route::prefix('projects/{projectId}/planning')->group(function () {
-    Route::resource('/databases', DatabaseController::class)
-        ->only(['store'])
-        ->names([
-            'store' => 'project.planning.databases.store',
-        ]);
-
-    // Add a database to the project
-    Route::post('/databases/add/', [DatabaseController::class, 'addDatabase'])
-        ->name('projects.planning.databases.add');
-
-    // Remove a database from the project
-    Route::post('/databases/remove/', [DatabaseController::class, 'removeDatabase'])
-        ->name('projects.planning.databases.remove');
-});
-
-// Search Strategy Route
-Route::resource('/project/{projectId}/planning/search-strategy', SearchStrategyController::class)
-    ->only(['update'])
-    ->names([
-        'update' => 'project.planning.search-strategy.update',
-    ]);
-
-
-// Research Questions Routes
-Route::resource('/project/{projectId}/planning/research-questions', ResearchQuestionsController::class)
-    ->only(['store', 'update', 'destroy'])
-    ->names([
-        'store' => 'project.planning.research-questions.store',
-        'update' => 'project.planning.research-questions.update',
-        'destroy' => 'project.planning.research-questions.destroy',
-    ]);
-
-// Criteria Routes
-Route::resource('/project/{projectId}/planning/criteria', CriteriaController::class)
-    ->only(['store', 'update', 'destroy'])
-    ->names([
-        'store' => 'project.planning.criteria.store',
-        'update' => 'project.planning.criteria.update',
-        'destroy' => 'project.planning.criteria.destroy',
-    ]);
-
-Route::put('/project/{projectId}/planning/criteria/{criteriaId}/change-preselected', [CriteriaController::class, 'change_preselected'])
-    ->name('project.planning.criteria.change-preselected');
-
-// Data Extraction Routes
-Route::prefix('/projects/{projectId}/planning')->group(function () {
-    Route::resource('data-extraction', DataExtractionController::class)
-        ->names([
-            'index' => 'project.planning.data-extraction.index',
-            'store' => 'project.planning.data-extraction.store',
-            'create' => 'project.planning.data-extraction.create',
-            'destroy' => 'project.planning.data-extraction.destroy',
-        ]);
-
-    Route::post('data-extraction/{questionId}/create-option', [DataExtractionController::class, 'createOption'])
-        ->name('project.planning.data-extraction.create-option');
-
-    Route::delete('data-extraction/{questionId}/delete-question', [DataExtractionController::class, 'deleteQuestion'])
-        ->name('project.planning.data-extraction.delete-question');
-
-    Route::delete('data-extraction/{questionId}/delete-option', [DataExtractionController::class, 'deleteOption'])
-        ->name('project.planning.data-extraction.delete-option');
-
-    Route::put('data-extraction/{questionId}/edit-question', [DataExtractionController::class, 'editQuestion'])
-        ->name('project.planning.data-extraction.edit-question');
-
-    Route::put('data-extraction/{questionId}/edit-option', [DataExtractionController::class, 'editOption'])
-        ->name('project.planning.data-extraction.edit-option');
-});
-// End of the Planning Routes
-
-// start of the reporting routes
-Route::get('/projects/{projectId}/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {
