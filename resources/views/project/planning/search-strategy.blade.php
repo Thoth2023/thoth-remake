@@ -41,9 +41,9 @@
                             </div>
                         @endif
                         <form method="POST"
-                            action="{{ route('project.planning.search-strategy.update', ['projectId' => $project->id_project]) }}">
+                            action="{{ route('project.planning.search-strategy.update', ['projectId' => $project->id_project, 'search_strategy' => $project->searchStrategy]) }}">
                             @csrf
-                            @method('post')
+                            @method('PUT')
                             <div class="form-group">
 
                                 <textarea name="search_strategy" class="form-control @error('search_strategy') is-invalid @enderror"

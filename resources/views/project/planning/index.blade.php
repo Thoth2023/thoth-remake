@@ -59,16 +59,16 @@
 
 
                         <div class="tab-pane fade" id="data-extraction">
-                            @include('project.planning.data_extraction')
+                            @include('project.planning.data-extraction')
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
                             @include('project.planning.search-strategy')
                         </div>
                         <div class="tab-pane fade" id="research-questions">
-                            @include('project.planning.research_questions')
+                            @include('project.planning.research-questions')
                         </div>
                         <div class="tab-pane fade" id="criteria">
-                            @include('project.planning.criteria')
+                            @include('project.planning.criteria.index')
                         </div>
 
                     </div>

@@ -22,4 +22,8 @@ class ResearchQuestion extends Model
         'description',
         'id',
     ];
+
+    public function project() {
+        return $this->belongsTo(Project::class, 'id_project', 'id_project');
+    }
 }

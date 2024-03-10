@@ -1,8 +1,12 @@
 <?php
 
-use App\Http\Middleware\Localization;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+// Localization
+use App\Http\Middleware\Localization;
+use App\Http\Controllers\LocalizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,31 +28,35 @@ Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Pages controllers
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\HelpController;
+
+// Auth Controllers
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
+
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\Project\Planning\OverallController;
-use App\Http\Controllers\ResearchQuestionsController;
-use App\Http\Controllers\CriteriaController;
-use App\Http\Controllers\SearchStrategyController;
-use App\Http\Controllers\DataExtractionController;
-use App\Http\Controllers\HelpController;
 use App\Http\Controllers\SearchProjectController;
-use App\Http\Controllers\ReportingController;
-use App\Http\Controllers\LocalizationController;
+
+use App\Http\Controllers\Project\Planning\OverallController;
 use App\Http\Controllers\Project\Planning\DomainController;
 use App\Http\Controllers\Project\Planning\LanguageController;
 use App\Http\Controllers\Project\Planning\DatabaseController;
 use App\Http\Controllers\Project\Planning\DateController;
 use App\Http\Controllers\Project\Planning\StudyTypeController;
 use App\Http\Controllers\Project\Planning\KeywordController;
+use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
+use App\Http\Controllers\Project\Planning\CriteriaController;
+use App\Http\Controllers\Project\Planning\SearchStrategyController;
+use App\Http\Controllers\Project\Planning\DataExtractionController;
 
+use App\Http\Controllers\ReportingController;
 
 Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
@@ -58,7 +66,7 @@ Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
-// projects routes
+// Projects Routes
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
@@ -70,10 +78,13 @@ Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member']
 Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_project'])->name('projects.add_member');
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
-// end of the projects routes
+// End of the Projects Routes
+
+// Project Routes
 
 // Planning Routes
-// Project Planning Overview
+
+// Overall Route
 Route::get('/project/{projectId}/planning', [OverallController::class, 'index'])
     ->name('project.planning.index')
     ->middleware('auth');
@@ -88,7 +99,7 @@ Route::resource('/project/{projectId}/planning/domains', DomainController::class
         'destroy' => 'project.planning.domains.destroy',
     ]);
 
-// Language Routes (Note: Adjust the controller name and routes accordingly)
+// Language Routes
 Route::resource('/project/{projectId}/planning/languages', LanguageController::class)
     ->names([
         'store' => 'project.planning.languages.store',
@@ -136,33 +147,32 @@ Route::prefix('projects/{projectId}/planning')->group(function ()
         ->name('projects.planning.databases.remove');
 });
 
-// Search Strategy Routes
-Route::get('/project/{projectId}/planning/search-strategy', [SearchStrategyController::class, 'index'])
-    ->name('project.planning.search-strategy.index');
-
-Route::post('/project/{projectId}/planning/search-strategy/update', [SearchStrategyController::class, 'update'])
-    ->name('project.planning.search-strategy.update');
+// Search Strategy Route
+Route::resource('/project/{projectId}/planning/search-strategy', SearchStrategyController::class)
+    ->only(['update'])
+    ->names([
+        'update' => 'project.planning.search-strategy.update',
+    ]);
 
 
 // Research Questions Routes
 Route::resource('/project/{projectId}/planning/research-questions', ResearchQuestionsController::class)
+    ->only(['store', 'update', 'destroy'])
     ->names([
-        'index' => 'project.planning.research-questions.index',
         'store' => 'project.planning.research-questions.store',
-        'edit' => 'project.planning.research-questions.edit',
         'update' => 'project.planning.research-questions.update',
         'destroy' => 'project.planning.research-questions.destroy',
     ]);
 
 // Criteria Routes
 Route::resource('/project/{projectId}/planning/criteria', CriteriaController::class)
+    ->only(['store', 'update', 'destroy'])
     ->names([
-        'index' => 'project.planning.criteria.index',
         'store' => 'project.planning.criteria.store',
-        'edit' => 'project.planning.criteria.edit',
         'update' => 'project.planning.criteria.update',
         'destroy' => 'project.planning.criteria.destroy',
     ]);
+
 Route::put('/project/{projectId}/planning/criteria/{criteriaId}/change-preselected', [CriteriaController::class, 'change_preselected'])
     ->name('project.planning.criteria.change-preselected');
 

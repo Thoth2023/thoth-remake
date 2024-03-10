@@ -104,12 +104,12 @@ class DomainController extends Controller
      *
      * @param  string  $action
      * @param  string  $description
-     * @param  string  $id_project
+     * @param  string  $projectId
      * @return void
      */
-    private function logActivity(string $action, string $description, string $id_project): void
+    private function logActivity(string $action, string $description, string $projectId): void
     {
         $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
     }
 }

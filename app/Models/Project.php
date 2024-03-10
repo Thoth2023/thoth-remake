@@ -69,11 +69,15 @@ class Project extends Model
         return $this->hasMany(QuestionExtraction::class, 'id_project');
     }
 
-    public function inclusion_criterias() {
+    public function criterias() {
+        return $this->hasMany(Criteria::class, 'id_project');
+    }
+
+    public function inclusionCriterias() {
         return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Inclusion');
     }
 
-    public function exclusion_criterias() {
+    public function exclusionCriterias() {
         return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Exclusion');
     }
 

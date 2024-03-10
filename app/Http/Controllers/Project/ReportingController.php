@@ -11,7 +11,7 @@
  *
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project;
 
 use Illuminate\Http\Request;
 use App\Models\Project;

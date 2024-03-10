@@ -8,101 +8,123 @@ use App\Models\ResearchQuestion;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
 class ResearchQuestionsController extends Controller
 {
     /**
-     * Display the initial page of the Research Questions about the Planning
-     */
-    public function index(string $id_project)
-    {
-        $project = Project::findOrFail($id_project);
-        $researchQuestions = ResearchQuestion::where('id_project', $id_project)->get();
-        return view('project.planning.research_questions', compact('id_project', 'project', 'researchQuestions'));
-    }
-
-     /**
      * Store a newly created Research Question
+     *
+     * @param  ResearchQuestionUpdateRequest  $request
+     * @param  string  $projectId
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function add(Request $request)
+    public function store(Request $request, string $projectId): RedirectResponse
     {
-        $this->validate($request, [
-            'description' =>'required|string',
-            'id' => 'required|alpha_num',
-        ]);
-        $matchThese = ['id_project' => $request->id_project, 'id' => $request->id];
-        $researchQuestion = ResearchQuestion::where($matchThese)->first();
-
-        if($researchQuestion){
-            return back()->withErrors([
-                'duplicate' => 'The provided ID already exists in this project.',
-            ]);;
+        // Checkt if the request has a valid project ID
+        if ($request->id_project != $projectId)
+        {
+            return redirect()
+                ->back()
+                ->with('error', 'Project not found');
         }
-        else{
-            $research_question = ResearchQuestion::create([
-                'id_project' => $request->id_project,
-                'id' => $request->id,
-                'description' => $request->description,
-            ]);
 
-            $id_project = $request->id_project;
+        $project = Project::findOrFail($projectId);
 
-            $activity = "Added the research question ". $research_question->id;
-            ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-
-            return redirect("/planning/".$id_project);
+        // Check if another research question with the same ID already exists
+        // in the same project
+        if ($project->researchQuestions->contains('id', $request->id))
+        {
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'duplicate' => 'The provided ID already exists in this project.',
+                ]);
         }
-    }
 
-    /*
-    * Update an existing Research Question of the project
-    */
-    public function edit(Request $request, string $id)
-    {
-
-        $this->validate($request, [
-            'description' =>'required|string',
-            'id' => 'required|alpha_num',
+        $researchQuestion = ResearchQuestion::create([
+            'id_project' => $request->id_project,
+            'id' => $request->id,
+            'description' => $request->description,
         ]);
 
-        $researchQuestion = ResearchQuestion::findOrFail($id);
-        $matchThese = ['id_project' =>$request->id_project, 'id' =>$request->id];
-        $researchQuestion2 = ResearchQuestion::where($matchThese)->first();
+        $activity = "Added the research question " . $researchQuestion->id;
+        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
 
-        if($researchQuestion2){
-            return back()->withErrors([
-                'duplicate' => 'The provided ID already exists in this project.',
-            ]);
-        }
-        else{
-            $researchQuestion->update($request->all());
-        }
-        $id_project = $researchQuestion->id_project;
-
-        $activity = "Edited the research question ". $researchQuestion->id;
-        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-
-        $activity = "Edited the research question ". $researchQuestion->id;
-        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
-
-        return redirect("/planning/".$id_project);
-
+        return redirect()
+            ->back()
+            ->with('success', 'Research question added successfully');
     }
 
-    /*
-    * Remove the specified Research Question from the project
-    */
-    public function destroy(string $id)
+    /**
+     * Update an existing Research Question
+     *
+     * @param  DomainUpdateRequest  $request
+     * @param  string  $projectId
+     * @param  ResearchQuestion  $researchQuestion
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, string $projectId, ResearchQuestion $researchQuestion): RedirectResponse
     {
-        $researchQuestion = ResearchQuestion::findOrFail($id);
-        $id_project = $researchQuestion->id_project;
+        if ($researchQuestion->id_project != $projectId)
+        {
+            return redirect()
+                ->back()
+                ->with('error', 'Research question not found');
+        }
 
-        $activity = "Deleted the research question ". $researchQuestion->id;
+        $request->validate([
+            'description' => 'required|string',
+        ]);
+
+        $description_old = $researchQuestion->description;
+
+        $researchQuestion->update([
+            'description' => $request->input('description'),
+        ]);
+
+        $this->logActivity('Edited the research question', $description_old . " to " . $researchQuestion->description, $researchQuestion->id_project);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Research question updated successfully');
+    }
+
+    /**
+     * Remove the specified domain from the project.
+     *
+     * @param  string $projectId
+     * @param  ResearchQuestion $researchQuestion
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(string $projectId, ResearchQuestion $researchQuestion): RedirectResponse
+    {
+        if ($researchQuestion->id_project != $projectId)
+        {
+            return redirect()->back()->with('error', 'Domain not found');
+        }
 
         $researchQuestion->delete();
 
-        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+        $this->logActivity('Deleted the research question', $researchQuestion->description, $researchQuestion->id_project);
 
-         return redirect("/planning/".$id_project);
+        return redirect()
+            ->route('project.planning.index', ['projectId' => $projectId])
+            ->with('success', 'Research question deleted successfully');
+    }
+
+    /**
+     * Log activity for the specified ResearchQuestion.
+     *
+     * @param  string  $action
+     * @param  string  $description
+     * @param  string  $projectId
+     * @return void
+     */
+    private function logActivity(string $action, string $description, string $projectId): void
+    {
+        $activity = $action . " " . $description;
+        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
     }
 }

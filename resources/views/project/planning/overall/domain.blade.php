@@ -1,25 +1,24 @@
 <div class="card-body col-md-6 pt-3">
     <div class="card">
-
-        <form role="form" method="POST"
-            action="{{ route('project.planning.domains.store', ['projectId' => $project->id_project]) }}"
-            enctype="multipart/form-data">
-            @csrf
-            <div>
-                <div class="card-header">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p class="mb-0">{{ __('project/planning.overall.domain.title') }}</p>
-                        @include ('components.help-button', ['dataTarget' => 'DomainModal'])
-                        <!-- Help Button Description -->
-                        @include('components.help-modal', [
-                            'modalId' => 'DomainModal',
-                            'modalLabel' => 'exampleModalLabel',
-                            'modalTitle' => __('project/planning.overall.domain.help.title'),
-                            'modalContent' => __('project/planning.overall.domain.help.content'),
-                        ])
-                    </div>
+        <div>
+            <div class="card-header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0">{{ __('project/planning.overall.domain.title') }}</p>
+                    @include ('components.help-button', ['dataTarget' => 'DomainModal'])
+                    <!-- Help Button Description -->
+                    @include('components.help-modal', [
+                        'modalId' => 'DomainModal',
+                        'modalLabel' => 'exampleModalLabel',
+                        'modalTitle' => __('project/planning.overall.domain.help.title'),
+                        'modalContent' => __('project/planning.overall.domain.help.content'),
+                    ])
                 </div>
-                <div class="card-body">
+            </div>
+            <div class="card-body">
+                <form role="form" method="POST"
+                    action="{{ route('project.planning.domains.store', ['projectId' => $project->id_project]) }}"
+                    enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -35,8 +34,8 @@
                             </button>
                         </div>
                     </div>
-                </div>
             </div>
+        </div>
         </form>
         <div class="table-responsive p-0">
             <table class="table align-items-center justify-content-center mb-0">
