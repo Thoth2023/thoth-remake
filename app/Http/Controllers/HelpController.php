@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 class HelpController extends Controller
 {
     /**
-     *
+     * Show the help page.
      */
     public function index()
     {

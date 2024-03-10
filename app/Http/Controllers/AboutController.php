@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 class AboutController extends Controller
 {
     /**
-     *
+     * Show the about page.
      */
     public function index()
     {
