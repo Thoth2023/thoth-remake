@@ -56,7 +56,10 @@
                             </td>
                             <td class="align-middle">
                                 <form
-                                    action="{{ route('project.planning.languages.destroy', ['language' => $projectLanguage, 'projectId' => $project->id_project]) }}"
+                                    action="{{ route('project.planning.languages.destroy', [
+                                        'language' => $projectLanguage,
+                                        'projectId' => $project->id_project,
+                                    ]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')

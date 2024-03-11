@@ -38,10 +38,15 @@ class SearchStrategyController extends Controller
         $project->searchStrategy()
                 ->updateOrCreate([], ['description' => $request->search_strategy]);
 
-        $this->logActivity('Updated the search strategy', $project->searchStrategy->description, $projectId);
+        $this->logActivity(
+            action: 'Updated the search strategy',
+            description: $request->search_strategy,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'search-strategy')
             ->with('success', 'Search Strategy updated successfully');
     }
 
@@ -56,6 +61,11 @@ class SearchStrategyController extends Controller
     private function logActivity(string $action, string $description, string $projectId): void
     {
         $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $projectId,
+            id_user: Auth::user()->id
+        );
     }
 }

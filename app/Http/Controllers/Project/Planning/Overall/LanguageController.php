@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: LanguageController.php
  * Author: Auri Gabriel
@@ -18,6 +19,7 @@ namespace App\Http\Controllers\Project\Planning\Overall;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LanguageUpdateRequest;
 use App\Models\Language;
+use App\Models\Project;
 use App\Models\ProjectLanguage;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Http\RedirectResponse;
@@ -39,9 +41,11 @@ class LanguageController extends Controller
         ]);
 
         if ($projectLanguage->exists) {
-            return back()->withErrors([
-                'duplicate' => 'The provided language already exists in this project.',
-            ]);
+            return back()
+                ->with('activePlanningTab', 'overall-info')
+                ->withErrors([
+                    'duplicate' => 'The provided language already exists in this project.',
+                ]);
         }
 
         $projectLanguage->save();
@@ -49,31 +53,42 @@ class LanguageController extends Controller
         $language = Language::findOrFail($request->id_language);
         $id_project = $request->id_project;
 
-        $this->logActivity('Added the language', $language->description, $id_project);
+        $this->logActivity(
+            action: 'Added a language',
+            description: $language->description,
+            id_project: $id_project
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Language added to the project');
     }
 
     /**
      * Remove the specified language from the project.
      *
-     * @param  string  $id
+     * @param string $projectId
+     * @param string $languageId
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(string $projectId, string $languageId): RedirectResponse
     {
-        $projectLanguage = ProjectLanguage::where('id_language', $id)->firstOrFail();
-        $language = Language::findOrFail($projectLanguage->id_language);
-        $id_project = $projectLanguage->id_project;
+        $projectLanguage = ProjectLanguage::where('id_project', $projectId)
+            ->where('id_language', $languageId)
+            ->first();
 
         $projectLanguage->delete();
 
-        $this->logActivity('Deleted the language', $language->description, $id_project);
+        $this->logActivity(
+            action: 'Removed the language',
+            description: Language::findOrFail($languageId)->description,
+            id_project: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Language removed from the project');
     }
 

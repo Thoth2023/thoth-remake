@@ -25,9 +25,6 @@ class OverallController extends Controller
         // Eager load users relation for better performance
         $usersRelation = $project->users()->get();
 
-        // Set the active tab
-        $activeTab = 'overall-info';
-
         $databases = Database::all();
         $languages = Language::all();
         $studyTypes = StudyType::all();
@@ -37,7 +34,6 @@ class OverallController extends Controller
         $projectDomains = Domain::where('id_project', $id_project)->get();
         $projectKeywords = Keyword::where('id_project', $id_project)->get();
 
-        // Compact and pass variables to the view
         return view('project.planning.index', compact(
             'id_project',
             'project',
@@ -48,7 +44,6 @@ class OverallController extends Controller
             'studyTypes',
             'questionTypes',
             'usersRelation',
-            'activeTab'
         ));
     }
 }

@@ -49,6 +49,7 @@ class QuestionController extends Controller
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-extraction')
             ->with('success', 'Question added successfully');
     }
 
@@ -77,7 +78,10 @@ class QuestionController extends Controller
             projectId: $projectId
         );
 
-        return redirect()->back()->with('success', 'Question updated successfully');
+        return redirect()
+            ->back()
+            ->with('activePlanningTab', 'data-extraction')
+            ->with('success', 'Question updated successfully');
     }
 
     /**
@@ -100,6 +104,7 @@ class QuestionController extends Controller
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-extraction')
             ->with('success', 'Question deleted successfully');
     }
 

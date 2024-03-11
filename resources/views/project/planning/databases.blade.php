@@ -19,7 +19,7 @@
                         </div>
                         <div class="card-body">
                             <form role="form" method="POST"
-                                action="{{ route('projects.planning.databases.add', ['projectId' => $project->id_project]) }}"
+                                action="{{ route('project.planning.databases.add', ['projectId' => $project->id_project]) }}"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -27,8 +27,11 @@
                                         <div class="form-group">
                                             <select class="form-control" name="databaseId">
                                                 @forelse ($databases as $database)
-                                                    <option value="{{ $database->id_database }}">{{ $database->name }}
-                                                    </option>
+                                                    @if ($database->state == 'approved')
+                                                        <option value="{{ $database->id_database }}">
+                                                            {{ $database->name }}
+                                                        </option>
+                                                    @endif
                                                 @empty
                                                     <option>No data bases in database.</option>
                                                 @endforelse
@@ -59,10 +62,10 @@
                                             </td>
                                             <td class="align-middle">
                                                 <form
-                                                    action="{{ route('projects.planning.databases.remove', ['projectId' => $project->id_project, 'databaseId' => $projectDatabase->id_database]) }}"
+                                                    action="{{ route('project.planning.databases.remove', ['database' => $projectDatabase, 'projectId' => $project->id_project]) }}"
                                                     method="POST">
                                                     @csrf
-                                                    @method('POST')
+                                                    @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                                 </form>
                                             </td>
@@ -79,19 +82,25 @@
                             </table>
                         </div>
                         <div class="container-fluid py-4">
-                            <p class="mb-0">Suggest a new Data Base:</p>
+                            <p class="mb-0">Suggest a new Database:</p>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Data Base name:</label>
-                                    <input class="form-control" type="text" name="description">
+                                <form
+                                    action="{{ route('project.planning.databases.store', ['projectId' => $project->id_project]) }}"
+                                    method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="db_name" class="form-control-label">Database Name:</label>
+                                        <input class="form-control" type="text" name="db_name" id="db_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="db_link" class="form-control-label">Database Link:</label>
+                                        <input class="form-control" type="text" name="db_link" id="db_link">
+                                    </div>
                                     <input class="form-control" type="hidden" name="id_project"
                                         value="{{ $id_project }}">
-                                    <label for="example-text-input" class="form-control-label">Data Base Link:</label>
-                                    <input class="form-control" type="text" name="description">
-                                    <input class="form-control" type="hidden" name="id_project"
-                                        value="{{ $id_project }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Send suggestion</button>
+                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Send
+                                        suggestion</button>
+                                </form>
                             </div>
                         </div>
                     </div>

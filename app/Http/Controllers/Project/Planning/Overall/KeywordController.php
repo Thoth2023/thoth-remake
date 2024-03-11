@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: KeywordController.php
  * Author: Auri Gabriel
@@ -37,10 +38,15 @@ class KeywordController extends Controller
             'description' => $request->description,
         ]);
 
-        $this->logActivity('Added the keyword', $keyword->description, $request->id_project);
+        $this->logActivity(
+            action: 'Added a keyword',
+            description: $keyword->description,
+            id_project: $request->id_project
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Keyword added successfully');
     }
 
@@ -57,6 +63,7 @@ class KeywordController extends Controller
         if ($keyword->id_project != $projectId) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'overall-info')
                 ->with('error', 'Keyword not found');
         }
 
@@ -70,10 +77,15 @@ class KeywordController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        $this->logActivity('Edited the keyword', $description_old . " to " . $keyword->description, $keyword->id_project);
+        $this->logActivity(
+            action: 'Updated the keyword',
+            description: $description_old . ' to ' . $keyword->description,
+            id_project: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Keyword updated successfully');
     }
 
@@ -89,15 +101,21 @@ class KeywordController extends Controller
         if ($keyword->id_project != $projectId) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'overall-info')
                 ->with('error', 'Keyword not found');
         }
 
         $keyword->delete();
 
-        $this->logActivity('Deleted the keyword', $keyword->description, $projectId);
+        $this->logActivity(
+            action: 'Deleted the keyword',
+            description: $keyword->description,
+            id_project: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Keyword deleted successfully');
     }
 

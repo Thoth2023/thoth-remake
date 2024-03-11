@@ -53,22 +53,26 @@
                         <div class="tab-pane fade show active" id="overall-info">
                             @include('project.planning.overall')
                         </div>
+                        <div class="tab-pane fade" id="research-questions">
+                            @include('project.planning.research-questions')
+                        </div>
                         <div class="tab-pane fade" id="data-bases">
                             @include('project.planning.databases')
                         </div>
-
-
-                        <div class="tab-pane fade" id="data-extraction">
-                            @include('project.planning.data-extraction.index')
+                        <div class="tab-pane fade" id="search-string">
+                            [wip]
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
                             @include('project.planning.search-strategy')
                         </div>
-                        <div class="tab-pane fade" id="research-questions">
-                            @include('project.planning.research-questions')
-                        </div>
                         <div class="tab-pane fade" id="criteria">
                             @include('project.planning.criteria.index')
+                        </div>
+                        <div class="tab-pane fade" id="quality-assessment">
+                            [wip]
+                        </div>
+                        <div class="tab-pane fade" id="data-extraction">
+                            @include('project.planning.data-extraction.index')
                         </div>
 
                     </div>
@@ -78,11 +82,24 @@
             </div>
         </div>
     </div>
-@endsection
 
-<script>
-    // Function to store the active tab in a cookie
-    function storeActiveTab(tabId) {
-        document.cookie = "activePlanningTab=" + tabId + ";path=/";
-    }
-</script>
+
+    @if (session()->has('activePlanningTab'))
+        <script>
+            window.onload = function() {
+                // Remove active class from overall-info tab
+                document.getElementById('overall-info-tab').classList.remove('active');
+                // Remove active class from overall-info content
+                document.getElementById('overall-info').classList.remove('show', 'active');
+
+                // Get the tab ID stored in the session
+                var activeTabId = '{{ session('activePlanningTab') }}';
+
+                // Add active class to the tab stored in the session
+                document.getElementById(activeTabId + '-tab').classList.add('active');
+                // Add active show class to the tab content stored in the session
+                document.getElementById(activeTabId).classList.add('show', 'active');
+            }
+        </script>
+    @endif
+@endsection

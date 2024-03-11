@@ -25,6 +25,7 @@ class ResearchQuestionsController extends Controller
         if ($request->id_project != $projectId) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'research-questions')
                 ->with('error', 'Project not found');
         }
 
@@ -35,6 +36,7 @@ class ResearchQuestionsController extends Controller
         if ($project->researchQuestions->contains('id', $request->id)) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'research-questions')
                 ->withErrors([
                     'duplicate' => 'The provided ID already exists in this project.',
                 ]);
@@ -46,11 +48,15 @@ class ResearchQuestionsController extends Controller
             'description' => $request->description,
         ]);
 
-        $activity = "Added the research question " . $researchQuestion->id;
-        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
+        $this->logActivity(
+            action: 'Added a research question',
+            description: $researchQuestion->description,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'research-questions')
             ->with('success', 'Research question added successfully');
     }
 
@@ -68,6 +74,7 @@ class ResearchQuestionsController extends Controller
         if ($researchQuestion->id_project != $projectId) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'research-questions')
                 ->with('error', 'Research question not found');
         }
 
@@ -81,10 +88,15 @@ class ResearchQuestionsController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        $this->logActivity('Edited the research question', $description_old . " to " . $researchQuestion->description, $researchQuestion->id_project);
+        $this->logActivity(
+            action: 'Updated the research question',
+            description: $description_old . ' to ' . $researchQuestion->description,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'research-questions')
             ->with('success', 'Research question updated successfully');
     }
 
@@ -103,10 +115,15 @@ class ResearchQuestionsController extends Controller
 
         $researchQuestion->delete();
 
-        $this->logActivity('Deleted the research question', $researchQuestion->description, $researchQuestion->id_project);
+        $this->logActivity(
+            action: 'Deleted the research question',
+            description: $researchQuestion->description,
+            projectId: $projectId
+        );
 
         return redirect()
-            ->route('project.planning.index', ['projectId' => $projectId])
+            ->back()
+            ->with('activePlanningTab', 'research-questions')
             ->with('success', 'Research question deleted successfully');
     }
 
@@ -121,6 +138,11 @@ class ResearchQuestionsController extends Controller
     private function logActivity(string $action, string $description, string $projectId): void
     {
         $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $projectId,
+            id_user: Auth::user()->id
+        );
     }
 }

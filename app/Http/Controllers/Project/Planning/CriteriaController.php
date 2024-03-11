@@ -26,6 +26,7 @@ class CriteriaController extends Controller
         if ($request->id_project != $projectId) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'criteria')
                 ->with('error', 'Project not found');
         }
 
@@ -35,6 +36,7 @@ class CriteriaController extends Controller
         if ($project->criterias->contains('id', $request->id)) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'criteria')
                 ->withErrors([
                     'duplicate' => 'The provided ID already exists in this project.',
                 ]);
@@ -48,11 +50,15 @@ class CriteriaController extends Controller
             'pre_selected' => $request->pre_selected,
         ]);
 
-        $activity = "Added the " . $request->type . " criteria " . $criterion->id;
-        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
+        $this->logActivity(
+            action: 'Added the ' . $criterion->type . ' criteria',
+            description: $criterion->description,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'criteria')
             ->with('success', 'Criteria added successfully');
     }
 
@@ -81,10 +87,15 @@ class CriteriaController extends Controller
 
         $criterion->update($request->all());
 
-        $this->logActivity('Edited the ' . $criterion->type . ' criteria', $criterion->description, $projectId);
+        $this->logActivity(
+            action: 'Updated the ' . $criterion->type . ' criteria',
+            description: $criterion->description,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'criteria')
             ->with('success', 'Criteria updated successfully');
     }
 
@@ -109,11 +120,15 @@ class CriteriaController extends Controller
 
         $criterion->delete();
 
-        /* ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id); */
-        $this->logActivity('Deleted the ' . $criterion->type . ' criteria', $criterion->description, $projectId);
+        $this->logActivity(
+            action: $activity,
+            description: $criterion->description,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'criteria')
             ->with('success', 'Criteria deleted successfully');
     }
 
@@ -136,8 +151,15 @@ class CriteriaController extends Controller
 
         $projectId = $criterion->id_project;
 
+        $this->logActivity(
+            action: 'Updated the pre-selected value of the ' . $criterion->type . ' criteria',
+            description: $criterion->description,
+            projectId: $projectId
+        );
+
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'criteria')
             ->with('success', 'Pre-selected value updated successfully');
     }
 
@@ -152,6 +174,12 @@ class CriteriaController extends Controller
     private function logActivity(string $action, string $description, string $projectId): void
     {
         $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog($activity, 1, $projectId, Auth::user()->id);
+
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $projectId,
+            id_user: Auth::user()->id
+        );
     }
 }

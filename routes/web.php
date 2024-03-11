@@ -15,9 +15,9 @@ use App\Http\Controllers\Project\Planning\Overall\DomainController;
 use App\Http\Controllers\Project\Planning\Overall\KeywordController;
 use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
+use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
-use App\Http\Controllers\Project\Planning\StudyTypeController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
 use App\Http\Controllers\ProjectController;
@@ -132,11 +132,11 @@ Route::prefix('/project/{projectId}')->group(function () {
 
         // Add a database to the project
         Route::post('/databases/add/', [DatabaseController::class, 'addDatabase'])
-            ->name('projects.planning.databases.add');
+            ->name('project.planning.databases.add');
 
         // Remove a database from the project
-        Route::post('/databases/remove/', [DatabaseController::class, 'removeDatabase'])
-            ->name('projects.planning.databases.remove');
+        Route::delete('/databases/remove/{database}', [DatabaseController::class, 'removeDatabase'])
+            ->name('project.planning.databases.remove');
 
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])

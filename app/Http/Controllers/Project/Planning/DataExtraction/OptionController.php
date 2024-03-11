@@ -36,6 +36,7 @@ class OptionController extends Controller
         if (!$request) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'data-extraction')
                 ->with('error', 'Question not found');
         }
         $question = Question::find($request->questionId);
@@ -43,6 +44,7 @@ class OptionController extends Controller
         if (!$question) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'data-extraction')
                 ->with('error', 'Question not found');
         }
 
@@ -61,6 +63,7 @@ class OptionController extends Controller
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-extraction')
             ->with('success', 'Option added successfully');
     }
 
@@ -89,6 +92,7 @@ class OptionController extends Controller
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-extraction')
             ->with('success', 'Option updated successfully');
     }
 
@@ -112,6 +116,7 @@ class OptionController extends Controller
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-extraction')
             ->with('success', 'Question deleted successfully');
     }
 

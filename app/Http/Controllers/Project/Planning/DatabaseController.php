@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: DatabaseController.php
  * Author: gpmatheus,
@@ -22,24 +23,11 @@ use App\Models\Database;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\ProjectDatabase;
 use Illuminate\Http\RedirectResponse;
 
 class DatabaseController extends Controller
 {
-    /**
-     * Display a listing of databases for a specific project.
-     *
-     * @param  int  $projectId
-     * @return \Illuminate\View\View
-     */
-    public function index($projectId)
-    {
-        $project = Project::findOrFail($projectId);
-        $databases = Database::all();
-
-        return view('project.planning.databases.index', compact('project', 'databases'));
-    }
-
     /**
      * Add a database to the project.
      *
@@ -57,47 +45,64 @@ class DatabaseController extends Controller
         if ($project->databases->contains($databaseId)) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'databases')
                 ->with('error', 'Database already added to the project');
         }
 
         $database = Database::findOrFail($databaseId);
 
+        if ($database->state !== 'approved') {
+            return redirect()
+                ->back()
+                ->with('activePlanningTab', 'databases')
+                ->with('error', 'Database not approved yet');
+        }
+
         $project->databases()->attach($databaseId);
 
-        $this->logActivity('Added the database', $database->name, $projectId);
+        $this->logActivity(
+            action: 'Added the database',
+            description: $database->name,
+            id_project: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-bases')
             ->with('success', 'Database added to the project');
     }
 
     /**
      * Remove the specified database from the project.
      *
-     * @param Request $request
      * @param  string $projectId
+     * @param  string $databaseId
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function removeDatabase(Request $request, string $projectId)
+    public function removeDatabase(string $projectId, string $databaseId): RedirectResponse
     {
-        $project = Project::findOrFail($projectId);
+        $projectDatabase = ProjectDatabase::where('id_project', $projectId)
+            ->where('id_database', $databaseId)
+            ->first();
 
-        $databaseId = $request->query('databaseId');
-
-        if (!$project->databases->contains($databaseId)) {
+        if (!$projectDatabase) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'data-bases')
                 ->with('error', 'Database not found in the project');
         }
 
-        $project->databases()->detach($databaseId);
+        $projectDatabase->delete();
 
-        $database = Database::findOrFail($databaseId);
-
-        $this->logActivity('Removed the database', $database->name, $projectId);
+        $this->logActivity(
+            action: 'Removed the database',
+            description: Database::findOrFail($databaseId)->name,
+            id_project: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'data-bases')
             ->with('success', 'Database removed from the project');
     }
 
@@ -105,27 +110,31 @@ class DatabaseController extends Controller
      * Store a newly created database in the project.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $projectId
+     * @param  string $projectId
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, $projectId)
+    public function store(Request $request, string $projectId)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'link' => 'required|string',
+            'db_name' => 'required|string',
+            'db_link' => 'required|string',
         ]);
 
         $database = Database::create([
-            'name' => $request->name,
-            'link' => $request->link,
+            'name' => $request->db_name,
+            'link' => $request->db_link,
         ]);
 
-        $project = Project::findOrFail($projectId);
-        $project->databases()->attach($database->id);
+        $this->logActivity(
+            action: 'Suggested the database',
+            description: $database->name,
+            id_project: $projectId
+        );
 
-        $this->logActivity('Added the database', $database->name, $projectId);
-
-        return redirect()->route('projects.databases.index', $projectId);
+        return redirect()
+            ->back()
+            ->with('activePlanningTab', 'data-bases')
+            ->with('success', 'Database Suggested successfully');
     }
 
     /**
@@ -140,6 +149,11 @@ class DatabaseController extends Controller
     private function logActivity(string $action, string $description, string $id_project): void
     {
         $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $id_project,
+            id_user: Auth::user()->id,
+        );
     }
 }

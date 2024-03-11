@@ -39,6 +39,7 @@ class DateController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()
                 ->back()
+                ->with('activePlanningTab', 'overall-info')
                 ->with('error', 'Project not found');
         }
 
@@ -50,10 +51,15 @@ class DateController extends Controller
         $project->addDate($startDate, $endDate);
 
         $activity = "Added the start date " . $project->start_date . " and end date " . $project->end_date;
-        $this->logActivity($activity, $project->id_project);
+
+        $this->logActivity(
+            activity: $activity,
+            id_project: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Date added successfully');
     }
 

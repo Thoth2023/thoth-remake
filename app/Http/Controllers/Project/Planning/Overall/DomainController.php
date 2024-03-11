@@ -37,9 +37,16 @@ class DomainController extends Controller
             'description' => $request->description,
         ]);
 
-        $this->logActivity('Added the domain', $domain->description, $request->id_project);
+        $this->logActivity(
+            action: 'Added a domain',
+            description: $domain->description,
+            projectId: $request->id_project
+        );
 
-        return redirect()->back()->with('success', 'Domain added successfully');
+        return redirect()
+            ->back()
+            ->with('activePlanningTab', 'overall-info')
+            ->with('success', 'Domain added successfully');
     }
 
     /**
@@ -68,10 +75,15 @@ class DomainController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        $this->logActivity('Edited the domain', $description_old . " to " . $domain->description, $domain->id_project);
+        $this->logActivity(
+            action: 'Updated the domain',
+            description: $description_old,
+            projectId: $projectId
+        );
 
         return redirect()
             ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Domain updated successfully');
     }
 
@@ -90,10 +102,15 @@ class DomainController extends Controller
 
         $domain->delete();
 
-        $this->logActivity('Deleted the domain', $domain->description, $projectId);
+        $this->logActivity(
+            action: 'Deleted the domain',
+            description: $domain->description,
+            projectId: $projectId
+        );
 
         return redirect()
-            ->route('project.planning.index', ['projectId' => $projectId])
+            ->back()
+            ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Domain deleted successfully');
     }
 
