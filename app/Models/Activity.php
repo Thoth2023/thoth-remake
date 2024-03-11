@@ -17,14 +17,16 @@ class Activity extends Model
         'activity',
         'id_module',
         'id_project',
-        'id_user'
+        'id_user',
     ];
 
-    public function user() {
+    public function user()
+    {
 
         return $this->belongsTo(User::class, 'id_user');
     }
-    public function project() {
+    public function project()
+    {
         return $this->belongsTo(Project::class, 'id_project');
     }
 }

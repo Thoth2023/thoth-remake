@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('id_database', true);
             $table->string('name');
             $table->string('link');
+
+            $table->string('state')->default('proposed');
         });
     }
 

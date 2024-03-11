@@ -16,14 +16,15 @@ class ResetPassword extends Controller
         return view('auth.reset-password');
     }
 
-    public function routeNotificationForMail() {
+    public function routeNotificationForMail()
+    {
         return request()->email;
     }
 
     public function send(Request $request)
     {
         $email = $request->validate([
-            'email' => ['required']
+            'email' => ['required'],
         ]);
         $user = User::where('email', $email)->first();
 

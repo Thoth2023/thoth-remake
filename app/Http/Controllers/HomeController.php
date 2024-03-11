@@ -27,7 +27,8 @@ class HomeController extends Controller
         return view('pages.dashboard');
     }
 
-    public function guest_home() {
+    public function guest_home()
+    {
         return view('pages.home');
     }
 }

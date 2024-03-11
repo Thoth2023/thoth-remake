@@ -1,23 +1,24 @@
 <div class="card-body col-md-6 pt-3">
     <div class="card">
-        <form role="form" method="POST" action="{{ route('project.planning_overall.keywordAdd') }}"
-            enctype="multipart/form-data">
-            @csrf
-            <div>
-                <div class="card-header pb-0">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p class="mb-0">Keywords</p>
-                        @include ('components.help-button', ['dataTarget' => 'KeywordModal'])
-                        <!-- Help Button Description -->
-                        @include('components.help-modal', [
-                            'modalId' => 'KeywordModal',
-                            'modalLabel' => 'exampleModalLabel',
-                            'modalTitle' => 'Help for Keywords',
-                            'modalContent' => 'test',
-                        ])
-                    </div>
+        <div>
+            <div class="card-header pb-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0">{{ __('project/planning.overall.keyword.title') }}</p>
+                    @include ('components.help-button', ['dataTarget' => 'KeywordModal'])
+                    <!-- Help Button Description -->
+                    @include('components.help-modal', [
+                        'modalId' => 'KeywordModal',
+                        'modalLabel' => 'exampleModalLabel',
+                        'modalTitle' => __('project/planning.overall.keyword.help.title'),
+                        'modalContent' => __('project/planning.overall.keyword.help.content'),
+                    ])
                 </div>
-                <div class="card-body">
+            </div>
+            <div class="card-body">
+                <form role="form"
+                    action="{{ route('project.planning.keywords.store', ['projectId' => $project->id_project]) }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -25,22 +26,23 @@
                                 <input class="form-control" type="hidden" name="id_project"
                                     value="{{ $id_project }}">
                             </div>
-                            <button type="submit" class="btn btn-success mt-1">Add</button>
+                            <button type="submit"
+                                class="btn btn-success mt-1">{{ __('project/planning.overall.keyword.add') }}</button>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive p-0">
                     <table class="table align-items-center justify-content-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keywords
-                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    {{ __('project/planning.overall.keyword.description') }}</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($keywords as $keyword)
+                            @forelse ($projectKeywords as $keyword)
                                 <tr>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $keyword->description }}</p>
@@ -49,7 +51,9 @@
                                         <button style="border:0; background: none; padding: 0px;" type="button"
                                             class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal"
                                             data-bs-target="#modal-form{{ $keyword->id_keyword }}"
-                                            data-original-title="Edit keyword">Edit</button>
+                                            data-original-title="{{ __('project/planning.overall.keyword.list.actions.edit.button') }}">
+                                            {{ __('project/planning.overall.keyword.list.actions.edit.button') }}
+                                        </button>
                                         <!-- Modal for Editing -->
                                         <div class="col-md-4">
                                             <div class="modal fade" id="modal-form{{ $keyword->id_keyword }}"
@@ -61,14 +65,18 @@
                                                         <div class="modal-body p-0">
                                                             <div class="card card-plain">
                                                                 <div class="card-header pb-0 text-left">
-                                                                    <h3>Keyword Update</h3>
+                                                                    <h3>
+                                                                        {{ __('project/planning.overall.keyword.list.actions.edit.modal.title') }}
+                                                                    </h3>
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <form role="form text-left" method="POST"
-                                                                        action="{{ route('project.planning_overall.keywordEdit', $keyword->id_keyword) }}">
+                                                                        action="{{ route('project.planning.keywords.update', ['keyword' => $keyword, 'projectId' => $project->id_project]) }}">
                                                                         @csrf
-                                                                        @method('POST')
-                                                                        <label>Keyword</label>
+                                                                        @method('PUT')
+                                                                        <label>
+                                                                            {{ __('project/planning.overall.keyword.list.actions.edit.modal.description') }}
+                                                                        </label>
                                                                         <div class="input-group mb-3">
                                                                             <input class="form-control" type="text"
                                                                                 name="description"
@@ -76,7 +84,9 @@
                                                                         </div>
                                                                         <div class="text-center">
                                                                             <button type="submit"
-                                                                                class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
+                                                                                class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">
+                                                                                {{ __('project/planning.overall.keyword.list.actions.edit.modal.save') }}
+                                                                            </button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -90,25 +100,29 @@
                                     </td>
                                     <td class="align-middle">
                                         <form
-                                            action="{{ route('project.planning_overall.keywordDestroy', $keyword->id_keyword) }}"
-                                            method="POST">
+                                            action="{{ route('project.planning.keywords.destroy', ['keyword' => $keyword, 'projectId' => $project->id_project]) }}"
+                                            + method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button style="border:0; background: none; padding: 0px;" type="submit"
                                                 class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                                data-original-title="Delete keyword">Delete</button>
+                                                data-original-title="{{ __('project/planning.overall.keyword.list.actions.delete.button') }}">
+                                                {{ __('project/planning.overall.keyword.list.actions.delete.button') }}
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No keywords found.</td>
+                                    <td colspan="5" class="text-center">
+                                        {{ __('project/planning.overall.keyword.list.empty') }}
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

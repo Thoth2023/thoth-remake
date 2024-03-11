@@ -7,7 +7,7 @@ use App\Models\Project;
 
 class SearchProjectController extends Controller
 {
-    public function searchByTitleOrCreated(Request $request) 
+    public function searchByTitleOrCreated(Request $request)
     {
         $searchProject = $request->searchProject;
         $projects = Project::where('title', 'like', '%' . $searchProject . '%')

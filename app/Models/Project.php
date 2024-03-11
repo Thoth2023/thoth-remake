@@ -10,7 +10,7 @@ use App\Models\SearchStrategy;
 use App\Models\SearchString;
 use App\Models\ProjectDatabases;
 use Illuminate\Support\Collection;
-
+use App\Models\Project\Planning\DataExtraction\Question;
 
 class Project extends Model
 {
@@ -37,32 +37,57 @@ class Project extends Model
         'created_by',
     ];
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class, 'members', 'id_project', 'id_user')
-                    ->withPivot('level')
-                    ->join('levels', 'members.level', '=', 'levels.id_level')
-                    ->select('users.*', 'levels.level as level_name');
+            ->withPivot('level')
+            ->join('levels', 'members.level', '=', 'levels.id_level')
+            ->select('users.*', 'levels.level as level_name');
     }
 
-
-
-    public function databases() {
-        return $this->belongsToMany(DataBase::class, 'project_databases', 'id_project', 'id_database');
+    public function databases()
+    {
+        return $this->belongsToMany(Database::class, 'project_databases', 'id_project', 'id_database')
+            ->using(ProjectDatabase::class)
+            ->withPivot('id_project_database');
     }
 
-    public function questionExtractions() {
-        return $this->hasMany(QuestionExtraction::class, 'id_project');
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class, 'project_languages', 'id_project', 'id_language')
+            ->using(ProjectLanguage::class)
+            ->withPivot('id_project_lang');
     }
 
-    public function inclusion_criterias() {
+    public function studyTypes()
+    {
+        return $this->belongsToMany(StudyType::class, 'project_study_types', 'id_project', 'id_study_type')
+            ->using(ProjectStudyType::class)
+            ->withPivot('id_project_study_types');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'id_project');
+    }
+
+    public function criterias()
+    {
+        return $this->hasMany(Criteria::class, 'id_project');
+    }
+
+    public function inclusionCriterias()
+    {
         return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Inclusion');
     }
 
-    public function exclusion_criterias() {
+    public function exclusionCriterias()
+    {
         return $this->hasMany(Criteria::class, 'id_project')->where('Type', 'Exclusion');
     }
 
-    public function researchQuestions() {
+    public function researchQuestions()
+    {
         return $this->hasMany(ResearchQuestion::class, 'id_project');
     }
 
@@ -90,7 +115,7 @@ class Project extends Model
         $terms = $project->terms;
         $data = array();
 
-        foreach($terms as $term) {
+        foreach ($terms as $term) {
             $termData = array(
                 'term' => $term->description,
                 'synonyms' => $term->synonyms->pluck('description')->toArray(),

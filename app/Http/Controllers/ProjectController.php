@@ -72,7 +72,7 @@ class ProjectController extends Controller
     public function show(string $idProject)
     {
         $project = Project::findOrFail($idProject);
-        $users_relation = $project->users()->get(); 
+        $users_relation = $project->users()->get();
         $activities = Activity::where('id_project', $idProject)
             ->orderBy('created_at', 'DESC')
             ->get();
@@ -118,6 +118,7 @@ class ProjectController extends Controller
 
     /**
      * Remove a member from a project.
+     *
      * @param string $idProject The ID of the project.
      * @param mixed $idMember The ID of the member.
      * @return \Illuminate\Http\RedirectResponse
@@ -129,34 +130,36 @@ class ProjectController extends Controller
         $project->users()->detach($idMember);
         $name_member = User::findOrFail($idMember);
         
-        $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";    
+        $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
         return redirect()->back();
     }
 
     /**
      * Display the form to add a member to a project.
+     *
      * @param string $idProject The ID of the project.
      * @return \Illuminate\Contracts\View\View
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function add_member(string $idProject) 
+    public function add_member(string $idProject)
     {
-        $project = Project::findOrFail($idProject); 
-        $users_relation = $project->users()->get(); 
+        $project = Project::findOrFail($idProject);
+        $users_relation = $project->users()->get();
 
-        return view('projects.add_member', compact('project','users_relation')); 
+        return view('projects.add_member', compact('project', 'users_relation'));
     }
     
     /**
      * Add a member to a project based on the submitted form data.
+     *
      * @param \App\Http\Requests\ProjectAddMemberRequest $request The validated request object.
      * @param string $idProject The ID of the project.
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
-    {   
+    {
         $request->validated();
         $project = Project::findOrFail($idProject);
         $email_member = $request->get('email_member');
@@ -165,7 +168,7 @@ class ProjectController extends Controller
         $level_member = $request->get('level_member');
 
         if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
-            return redirect()->back()->with('error','The user is already associated with the project.');
+            return redirect()->back()->with('error', 'The user is already associated with the project.');
         }
 
         $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
@@ -174,11 +177,12 @@ class ProjectController extends Controller
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
 
         $project->update($request->all());
-        return redirect()->back()->with('succes',$name_member->username.' has been added to the current project.');
+        return redirect()->back()->with('succes', $name_member->username.' has been added to the current project.');
     }
 
     /**
      * Update the level of a project member.
+     *
      * @param \App\Http\Requests\UpdateMemberLevelRequest $request The validated request object.
      * @param mixed $idProject The ID of the project.
      * @param mixed $idMember The ID of the member.
@@ -193,7 +197,7 @@ class ProjectController extends Controller
         $name_member = User::findOrFail($idMember);
 
         $member->pivot->level = $validatedData['level_member'];
-        $member->pivot->save(); 
+        $member->pivot->save();
 
         $activity = "The admin updated ".$name_member->username." level to ".$validatedData['level_member'].".";
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
@@ -203,11 +207,12 @@ class ProjectController extends Controller
 
     /**
      * Find the ID of a user based on their email.
+     *
      * @param string $email The email of the user.
      * @return mixed The ID of the user.
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findIdByEmail($email)   
+    public function findIdByEmail($email)
     {
         $user = User::where('email', $email)->firstOrFail();
         $userId = $user->id;
