@@ -6,7 +6,6 @@
  * Description: This is the model class for the project search strategy
  *
  * Date: 2023-06-02
- *
  */
 
 namespace App\Models;

@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(BasesSearchSeeder::class);
+
         DB::table('users')->insert([
             'username' => 'admin',
             'firstname' => 'Admin',
@@ -76,5 +78,6 @@ class DatabaseSeeder extends Seeder
             ['id_type' => 2, 'type' => 'Multiple Choice List'],
             ['id_type' => 3, 'type' => 'Pick One List'],
         ]);
+
     }
 }

@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStates\HasStates;
+use App\States\DatabaseState;
 
-class DataBase extends Model
+class Database extends Model
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name
@@ -23,17 +25,26 @@ class DataBase extends Model
     public $timestamps = false;
 
     use HasFactory;
+    use HasStates;
 
     protected $fillable = [
         'link',
-        'name'
+        'name',
     ];
 
+    protected $states = [
+        'state' => DatabaseState::class,
+    ];
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_databases', 'id_database', 'id_project')
+            ->using(ProjectDatabase::class)
+            ->withPivot('id_project_database');
+    }
+
     public function searchString()
-        {
-            return $this->belongsTo(SearchString::class);
-        }
-
+    {
+        return $this->belongsTo(SearchString::class);
+    }
 }
-
-

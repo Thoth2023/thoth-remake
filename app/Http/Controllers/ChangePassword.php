@@ -29,13 +29,13 @@ class ChangePassword extends Controller
         $attributes = $request->validate([
             'email' => ['required'],
             'password' => ['required', 'min:5'],
-            'confirm-password' => ['same:password']
+            'confirm-password' => ['same:password'],
         ]);
 
         $existingUser = User::where('email', $attributes['email'])->first();
         if ($existingUser) {
             $existingUser->update([
-                'password' => $attributes['password']
+                'password' => $attributes['password'],
             ]);
             return redirect('login');
         } else {

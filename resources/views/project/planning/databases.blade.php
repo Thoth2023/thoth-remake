@@ -3,127 +3,110 @@
         <div class="card-body">
             <div class="card-group card-frame mt-1">
                 <div class="card">
-                    <form role="form" method="POST" action={{ route('project.planning_overall.databaseAdd') }}
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div>
-                            <div class="card-header pb-0">
-                                <div class="d-flex align-items-center">
-                                    <p class="mb-0">Databases</p>
-                                    <button type="button" class="help-thoth-button" data-bs-toggle="modal"
-                                        data-bs-target="#DatabaseModal">
-                                        ?
-                                    </button>
-                                    <!-- Help Button Description -->
-                                    <div class="modal fade" id="DatabaseModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Help for Data
-                                                        Bases</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ...
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn bg-gradient-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Help Description Ends Here -->
-                                </div>
+                    <div>
+                        <div class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="mb-0">{{ __('project/planning.databases.title') }}</p>
+                                @include ('components.help-button', ['dataTarget' => 'DatabasesModal'])
+                                <!-- Help Button Description -->
+                                @include('components.help-modal', [
+                                    'modalId' => 'DatabasesModal',
+                                    'modalLabel' => 'exampleModalLabel',
+                                    'modalTitle' => __('project/planning.databases.help.title'),
+                                    'modalContent' => __('project/planning.databases.help.content'),
+                                ])
                             </div>
-                            <div class="card-body">
+                        </div>
+                        <div class="card-body">
+                            <form role="form" method="POST"
+                                action="{{ route('project.planning.databases.add', ['projectId' => $project->id_project]) }}"
+                                enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <select class="form-control" name="id_database">
+                                            <select class="form-control" name="databaseId">
+                                                <option value="" disabled selected>{{ __('project/planning.databases.form.select-placeholder') }}</option>
                                                 @forelse ($databases as $database)
-                                                    <option value="{{ $database->id_database }}">{{ $database->name }}
-                                                    </option>
+                                                    @if ($database->state == 'approved')
+                                                        <option value="{{ $database->id_database }}">
+                                                            {{ $database->name }}
+                                                        </option>
+                                                    @endif
                                                 @empty
-                                                    <option>No data bases in database.</option>
+                                                    <option>{{ __('project/planning.databases.form.no-databases') }}</option>
                                                 @endforelse
                                             </select>
-                                            <input clas="form-control" type="hidden" name="id_project"
-                                                value="{{ $id_project }}">
-
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">Add
-                                            Database</button>
+                                        <button type="submit" class="btn btn-success mt-3">{{ __('project/planning.databases.form.add-button') }}</button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Data Bases
+                                            {{ __('project/planning.databases.table.header') }}
                                         </th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($projectDatabases as $projectDatabase)
+                                    @forelse ($project->databases as $projectDatabase)
                                         <tr>
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">
-                                                    <?= convert_databases_name($projectDatabase->id_database) ?></p>
+                                                    {{ $projectDatabase->name }}
+                                                </p>
                                             </td>
                                             <td class="align-middle">
                                                 <form
-                                                    action="{{ route('project.planning_overall.databaseDestroy', $projectDatabase->id_database) }}"
+                                                    action="{{ route('project.planning.databases.remove', ['database' => $projectDatabase, 'projectId' => $project->id_project]) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm">{{ __('project/planning.databases.table.remove-button') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
                                         @error('name')
-                                            <p>{{ $message }}</p>
+                                            <p>{{ __('project/planning.databases.errors.name') }}</p>
                                         @enderror
                                     @empty
                                         <tr>
-                                            <td colspan="5" class="text-center">No
-                                                databases found.</td>
+                                            <td colspan="5" class="text-center">{{ __('project/planning.databases.table.no-databases') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
-
                             </table>
                         </div>
                         <div class="container-fluid py-4">
-                            <p class="mb-0">Suggest a new Data Base:</p>
+                            <p class="mb-0">{{ __('project/planning.databases.suggest-new.title') }}</p>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Data Base name:</label>
-                                    <input class="form-control" type="text" name="description">
-                                    <input clas="form-control" type="hidden" name="id_project"
+                                <form
+                                    action="{{ route('project.planning.databases.store', ['projectId' => $project->id_project]) }}"
+                                    method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="db_name" class="form-control-label">{{ __('project/planning.databases.suggest-new.name-label') }}</label>
+                                        <input class="form-control" type="text" name="db_name" id="db_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="db_link" class="form-control-label">{{ __('project/planning.databases.suggest-new.link-label') }}</label>
+                                        <input class="form-control" type="text" name="db_link" id="db_link">
+                                    </div>
+                                    <input class="form-control" type="hidden" name="id_project"
                                         value="{{ $id_project }}">
-
-                                    <label for="example-text-input" class="form-control-label">Data Base Link:</label>
-                                    <input class="form-control" type="text" name="description">
-                                    <input clas="form-control" type="hidden" name="id_project"
-                                        value="{{ $id_project }}">
-
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Send
-                                    suggestion</button>
+                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/planning.databases.suggest-new.submit-button') }}</button>
+                                </form>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
