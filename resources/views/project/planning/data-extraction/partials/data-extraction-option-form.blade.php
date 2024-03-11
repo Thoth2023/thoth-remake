@@ -6,7 +6,9 @@
             <h5>Create Data Extraction Question Option</h5>
         </div>
         <div class="card-body">
-            <form role="form" method="POST" action="{{ route('project.planning.data-extraction.option.store', ['projectId' => $project->id_project]) }}" enctype="multipart/form-data">
+            <form role="form" method="POST"
+                action="{{ route('project.planning.data-extraction.option.store', ['projectId' => $project->id_project]) }}"
+                enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">
@@ -30,4 +32,3 @@
         </div>
     </div>
 </div>
-

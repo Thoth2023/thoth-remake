@@ -40,21 +40,28 @@ class QuestionController extends Controller
             'type' => $request->type,
         ]);
 
-        $this->logActivity('Added a question', $question->description, $question->id, $projectId);
+        $this->logActivity(
+            action: 'Added a question',
+            description: $question->description,
+            questionId: $question->id,
+            projectId: $projectId
+        );
 
-        return redirect()->back()->with('success', 'Question added successfully');
+        return redirect()
+            ->back()
+            ->with('success', 'Question added successfully');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  UpdateQuestionRequest  $request
+     * @param string projectId
      * @param  Question  $question
      * @return RedirectResponse
      */
-    public function update(UpdateQuestionRequest $request, Question $question): RedirectResponse
+    public function update(UpdateQuestionRequest $request, string $projectId, Question $question): RedirectResponse
     {
-        dd([$request, $question]);
         $description_old = $question->description;
 
         $question->update([
@@ -63,7 +70,12 @@ class QuestionController extends Controller
             'type' => $request->type,
         ]);
 
-        $this->logActivity('Edited a question', $description_old . " to " . $question->description, $question->id, $question->id_project);
+        $this->logActivity(
+            action: 'Edited a question',
+            description: $description_old . " to " . $question->description,
+            questionId: $question->id,
+            projectId: $projectId
+        );
 
         return redirect()->back()->with('success', 'Question updated successfully');
     }
@@ -76,11 +88,19 @@ class QuestionController extends Controller
      */
     public function destroy(string $projectId, Question $question): RedirectResponse
     {
+
+        $this->logActivity(
+            action: 'Deleted a question',
+            description: $question->description,
+            questionId: $question->id,
+            projectId: $projectId
+        );
+
         $question->delete();
 
-        $this->logActivity('Deleted a question', $question->description, $question->id, $projectId);
-
-        return redirect()->back()->with('success', 'Question deleted successfully');
+        return redirect()
+            ->back()
+            ->with('success', 'Question deleted successfully');
     }
 
     /**

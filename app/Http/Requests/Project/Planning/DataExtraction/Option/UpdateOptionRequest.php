@@ -11,7 +11,7 @@ class UpdateOptionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // Adjust authorization logic based on your requirements
+        return true;
     }
 
     /**
@@ -22,8 +22,7 @@ class UpdateOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_de' => 'required|string',
-            'description' => 'required|string',
+            'option' => 'required|string',
         ];
     }
 }

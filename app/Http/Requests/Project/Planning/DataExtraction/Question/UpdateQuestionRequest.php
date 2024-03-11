@@ -11,7 +11,7 @@ class UpdateQuestionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // Adjust authorization logic based on your requirements
+        return true;
     }
 
     /**

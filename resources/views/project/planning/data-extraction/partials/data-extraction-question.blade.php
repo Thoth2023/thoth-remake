@@ -1,7 +1,7 @@
 <!-- data-extraction-question.blade.php -->
 
 
-<li class="list-group-item m-1">
+<li class="list-group-item">
     <div class="row">
         <div class="col-1">
             <span>{{ $question->id }}</span>
@@ -28,7 +28,6 @@
                 'types' => $types,
                 'project' => $project,
             ])
-            {{ get_class($question) }}
             <form class="m-1" role="form" method="POST"
                 action="{{ route('project.planning.data-extraction.question.destroy', ['projectId' => $project->id_project, 'question' => $question]) }}">
                 @csrf

@@ -1,7 +1,7 @@
 <!-- edit-option-modal.blade.php -->
 
 <form class="m-1" role="form" method="POST"
-    action="{{ route('project.planning.dataExtractionUpdateOption', [$project->id_project, $option->id_option]) }}"
+    action="{{ route('project.planning.data-extraction.option.update', [$project->id_project, $option->id_option]) }}"
     enctype="multipart/form-data">
     @csrf
     @method('PUT')

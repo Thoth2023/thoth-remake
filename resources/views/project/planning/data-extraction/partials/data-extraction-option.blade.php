@@ -1,6 +1,6 @@
 <!-- data-extraction-option.blade.php -->
 
-<li class="list-group-item m-1">
+<li class="list-group-item">
     <div class="row">
         <div class="col">
             <span>{{ $option->description }}</span>
@@ -11,7 +11,7 @@
                 'project' => $project,
             ])
             <form class="m-1" role="form" method="POST"
-                action="{{ route('project.planning.data-extraction.destroy', [$project->id_project, $option->id_option]) }}">
+                action="{{ route('project.planning.data-extraction.option.destroy', [$project->id_project, $option->id_option]) }}">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>

@@ -166,20 +166,20 @@ Route::prefix('/project/{projectId}')->group(function () {
         // Data Extraction Routes
         Route::prefix('/data-extraction/')->group(function () {
 
-            Route::resource('/question', QuestionController::class)
-                ->only(['store', 'update', 'destroy'])
-                ->names([
-                    'store' => 'project.planning.data-extraction.question.store',
-                    'update' => 'project.planning.data-extraction.question.update',
-                    'destroy' => 'project.planning.data-extraction.question.destroy',
-                ]);
-
             Route::resource('/option', OptionController::class)
                 ->only(['store', 'update', 'destroy'])
                 ->names([
                     'store' => 'project.planning.data-extraction.option.store',
                     'update' => 'project.planning.data-extraction.option.update',
                     'destroy' => 'project.planning.data-extraction.option.destroy',
+                ]);
+
+            Route::resource('/question', QuestionController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.data-extraction.question.store',
+                    'update' => 'project.planning.data-extraction.question.update',
+                    'destroy' => 'project.planning.data-extraction.question.destroy',
                 ]);
         });
     });

@@ -22,8 +22,8 @@ class StoreOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_de' => 'required|string',
-            'description' => 'required|string',
+            'questionId' => 'required|string',
+            'option' => 'required|string',
         ];
     }
 }

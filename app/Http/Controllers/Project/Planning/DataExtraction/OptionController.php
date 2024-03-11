@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: OptionController.php
  * Author: Auri Gabriel
@@ -30,44 +31,65 @@ class OptionController extends Controller
      * @param  string  $projectId
      * @return RedirectResponse
      */
-    public function store(string $projectId, StoreOptionRequest $request): RedirectResponse
+    public function store(StoreOptionRequest $request, string $projectId): RedirectResponse
     {
-        dd($request->all());
-        /* if (!$request) { */
-        /*     return redirect() */
-        /*         ->back() */
-        /*         ->with('error', 'Question not found'); */
-        /* } */
-        /* $question = Question::find($request->questionId); */
+        if (!$request) {
+            return redirect()
+                ->back()
+                ->with('error', 'Question not found');
+        }
+        $question = Question::find($request->questionId);
 
-        /* if (!$question) { */
-        /*     return redirect() */
-        /*         ->back() */
-        /*         ->with('error', 'Question not found'); */
-        /* } */
+        if (!$question) {
+            return redirect()
+                ->back()
+                ->with('error', 'Question not found');
+        }
 
-        /* $option = Option::create([ */
-        /*     'id_de' => $question->id_de, */
-        /*     'description' => $request->option, */
-        /* ]); */
+        $option = Option::create([
+            'id_de' => $question->id_de,
+            'description' => $request->option,
+        ]);
 
 
-        /* $this->logActivity('Added a option', $option->description, $option->id, $projectId); */
+        $this->logActivity(
+            action: 'Added a option',
+            description: $option->description,
+            optionId: $option->id_option,
+            projectId: $projectId
+        );
 
-        /* return redirect() */
-        /*     ->back() */
-        /*     ->with('success', 'Option added successfully'); */
+        return redirect()
+            ->back()
+            ->with('success', 'Option added successfully');
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  UpdateOptionRequest  $request
+     * @param string projectId
+     * @param  Option  $option
+     * @return RedirectResponse
      */
-    public function update(UpdateOptionRequest $request, Option $option)
+    public function update(UpdateOptionRequest $request, string $projectId, Option $option): RedirectResponse
     {
-        dd([
-            $request,
-            $option,
+        $description_old = $option->description;
+
+        $option->update([
+            'description' => $request->option,
         ]);
+
+        $this->logActivity(
+            action: 'Edited a option',
+            description: $description_old . " to " . $option->description,
+            optionId: $option->id_option,
+            projectId: $projectId
+        );
+
+        return redirect()
+            ->back()
+            ->with('success', 'Option updated successfully');
     }
 
     /**
@@ -78,11 +100,19 @@ class OptionController extends Controller
      */
     public function destroy(string $projectId, Option $option): RedirectResponse
     {
+
+        $this->logActivity(
+            action: 'Deleted a option',
+            description: $option->description,
+            optionId: $option->id_option,
+            projectId: $projectId
+        );
+
         $option->delete();
 
-        $this->logActivity('Deleted a option', $option->description, $option->id, $projectId);
-
-        return redirect()->back()->with('success', 'Question deleted successfully');
+        return redirect()
+            ->back()
+            ->with('success', 'Question deleted successfully');
     }
 
     /**
@@ -90,10 +120,10 @@ class OptionController extends Controller
      *
      * @param  string  $action
      * @param  string  $description
-     * @param  int  $questionId
+     * @param  int  $optionId
      * @return void
      */
-    private function logActivity(string $action, string $description, string $questionId, string $projectId): void
+    private function logActivity(string $action, string $description, string $optionId, string $projectId): void
     {
         $activity = $action . " " . $description;
         ActivityLogHelper::insertActivityLog(
