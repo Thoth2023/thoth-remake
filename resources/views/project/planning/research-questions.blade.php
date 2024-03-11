@@ -6,7 +6,7 @@
                     <div>
                         <div class="card-header">
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="mb-0">{{ __('project/planning.overall.domain.title') }}</p>
+                                <p class="mb-0">{{ __('project/planning.research-questions.title') }}</p>
                                 @include ('components.help-button', [
                                     'dataTarget' => 'ResearchQuestionModal',
                                 ])
@@ -27,15 +27,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">ID</label>
+                                            <label for="example-text-input" class="form-control-label">{{ __('project/planning.research-questions.form.id') }}</label>
                                             <input class="form-control" type="text" name="id" required>
-                                            <label for="example-text-input"
-                                                class="form-control-label">Description</label>
+                                            <label for="example-text-input" class="form-control-label">{{ __('project/planning.research-questions.form.description') }}</label>
                                             <input class="form-control" type="text" name="description" required>
                                             <input class="form-control" type="hidden" name="id_project"
                                                 value="{{ $id_project }}">
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">Add</button>
+                                        <button type="submit" class="btn btn-success mt-3">{{ __('project/planning.research-questions.form.add') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -45,11 +44,11 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ID
+                                                {{ __('project/planning.research-questions.table.id') }}
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Description
+                                                {{ __('project/planning.research-questions.table.description') }}
                                             </th>
                                             <th></th>
                                             <th></th>
@@ -71,7 +70,7 @@
                                                         type="button" class="text-secondary font-weight-bold text-xs"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-form{{ $researchQuestion->id_research_question }}"
-                                                        data-original-title="Edit research">Edit</button>
+                                                        data-original-title="{{ __('project/planning.research-questions.table.edit') }}">{{ __('project/planning.research-questions.table.edit') }}</button>
                                                     <!-- Modal Here Edition -->
                                                     <div class="col-md-4">
                                                         <div class="modal fade"
@@ -84,7 +83,7 @@
                                                                     <div class="modal-body p-0">
                                                                         <div class="card card-plain">
                                                                             <div class="card-header pb-0 text-left">
-                                                                                <h3>Research Question Update</h3>
+                                                                                <h3>{{ __('project/planning.research-questions.edit-modal.title') }}</h3>
                                                                             </div>
                                                                             <div class="card-body">
                                                                                 <form role="form text-left"
@@ -92,7 +91,7 @@
                                                                                     action="{{ route('project.planning.research-questions.update', ['research_question' => $researchQuestion, 'projectId' => $project->id_project]) }}">
                                                                                     @csrf
                                                                                     @method('PUT')
-                                                                                    <label>ID</label>
+                                                                                    <label>{{ __('project/planning.research-questions.edit-modal.id') }}</label>
                                                                                     <div class="input-group mb-3">
                                                                                         <input class="form-control"
                                                                                             type="text"
@@ -100,7 +99,7 @@
                                                                                             value="{{ $researchQuestion->id }}"
                                                                                             required>
                                                                                     </div>
-                                                                                    <label>Description</label>
+                                                                                    <label>{{ __('project/planning.research-questions.edit-modal.description') }}</label>
                                                                                     <div class="input-group mb-3">
                                                                                         <input class="form-control"
                                                                                             type="text"
@@ -113,7 +112,7 @@
                                                                                         value="{{ $researchQuestion->id_project }}">
                                                                                     <div class="text-center">
                                                                                         <button type="submit"
-                                                                                            class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Update</button>
+                                                                                            class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('project/planning.research-questions.edit-modal.update') }}</button>
                                                                                     </div>
                                                                                 </form>
                                                                             </div>
@@ -135,13 +134,13 @@
                                                             type="submit"
                                                             class="text-secondary font-weight-bold text-xs"
                                                             data-toggle="tooltip"
-                                                            data-original-title="Delete Research">Delete</button>
+                                                            data-original-title="{{ __('project/planning.research-questions.table.delete') }}">{{ __('project/planning.research-questions.table.delete') }}</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4" class="text-center">No research questions found.</td>
+                                                <td colspan="4" class="text-center">{{ __('project/planning.research-questions.table.no-questions') }}</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -155,3 +154,4 @@
         </div>
     </div>
 </div>
+

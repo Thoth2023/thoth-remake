@@ -1,12 +1,12 @@
 <hr>
-<h6>Exclusion Criterias</h6>
+<h6>{{ __('project/planning.criteria.exclusion-table.title') }}</h6>
 <div class="table-responsive p-0" id="exclusion_criteria">
     <table class="table align-items-center justify-content-center mb-0">
         <thead>
             <tr>
-                <th>Select</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                <th>{{ __('project/planning.criteria.exclusion-table.select') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('project/planning.criteria.exclusion-table.id') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('project/planning.criteria.exclusion-table.description') }}</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -46,7 +46,7 @@
                         <button style="border:0; background: none; padding: 0px;" type="button"
                             class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal"
                             data-bs-target="#modal-form{{ $criterion->id_criteria }}"
-                            data-original-title="Edit criteria">Edit</button>
+                            data-original-title="{{ __('project/planning.criteria.exclusion-table.edit') }}">{{ __('project/planning.criteria.exclusion-table.edit') }}</button>
                         <!-- Modal Here Edition -->
                         @include('project.planning.criteria.partials.edit-modal')
                         <!-- Modal Ends Here -->
@@ -59,25 +59,26 @@
                             @method('DELETE')
                             <button style="border:0; background: none; padding: 0px;" type="submit"
                                 class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                data-original-title="Delete Criteria">Delete</button>
+                                data-original-title="{{ __('project/planning.criteria.exclusion-table.delete') }}">{{ __('project/planning.criteria.exclusion-table.delete') }}</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">No criteria found.</td>
+                    <td colspan="5" class="text-center">{{ __('project/planning.criteria.exclusion-table.no-criteria') }}</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
     <div class="col-md-2">
         <br>
-        <label class="form-control-label">Exclusion Rule</label>
+        <label class="form-control-label">{{ __('project/planning.criteria.exclusion-table.rule') }}</label>
         <select class="form-control" name="exclusion_rule">
-            <option value="all">All</option>
-            <option value="any">Any</option>
-            <option value="at_least">At Least</option>
+            <option value="all">{{ __('project/planning.criteria.exclusion-table.all') }}</option>
+            <option value="any">{{ __('project/planning.criteria.exclusion-table.any') }}</option>
+            <option value="at_least">{{ __('project/planning.criteria.exclusion-table.at-least') }}</option>
         </select>
         <br>
     </div>
 </div>
+

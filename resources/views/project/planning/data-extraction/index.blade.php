@@ -12,19 +12,19 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-1">
-                                    <b>ID</b>
+                                    <b>{{ __('project/planning.data-extraction.table.header.id') }}</b>
                                 </div>
                                 <div class="col">
-                                    <b>Description</b>
+                                    <b>{{ __('project/planning.data-extraction.table.header.description') }}</b>
                                 </div>
                                 <div class="col">
-                                    <b>Question Type</b>
+                                    <b>{{ __('project/planning.data-extraction.table.header.question-type') }}</b>
                                 </div>
                                 <div class="col-5">
-                                    <b>Options</b>
+                                    <b>{{ __('project/planning.data-extraction.table.header.options') }}</b>
                                 </div>
                                 <div class="col-md-auto">
-                                    <b>Actions</b>
+                                    <b>{{ __('project/planning.data-extraction.table.header.actions') }}</b>
                                 </div>
                             </div>
                         </li>
@@ -41,3 +41,4 @@
         </div>
     </div>
 </div>
+
