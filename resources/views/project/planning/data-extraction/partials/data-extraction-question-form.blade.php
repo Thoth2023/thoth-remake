@@ -1,7 +1,7 @@
 <!-- data-extraction-question-form.blade.php -->
 
 <div class="card-body col-md-6">
-    <div class="card">
+    <div class="card ">
         <div class="card-header">
             <div class="d-flex align-items-center justify-content-between">
                 <h5>{{ __('project/planning.data-extraction.question-form.title') }}</h5>

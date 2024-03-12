@@ -34,8 +34,8 @@
                             </button>
                         </div>
                     </div>
-            </div>
-        </div>
+
+
         </form>
         <div class="table-responsive p-0">
             <table class="table align-items-center justify-content-center mb-0">
@@ -55,8 +55,8 @@
                                 <p class="text-sm font-weight-bold mb-0">{{ $domain->description }}</p>
                             </td>
                             <td class="align-middle">
-                                <button style="border:0; background: none; padding: 0px;" type="button"
-                                    class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal"
+                                <button  type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm"
+                                    class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#modal-domain-{{ $domain->id_domain }}"
                                     data-original-title="{{ __('project/planning.overall.domain.list.actions.edit.button') }}">
                                     {{ __('project/planning.overall.domain.list.actions.edit.button') }}
@@ -101,6 +101,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- Modal Ends Here -->
                             </td>
                             <td class="align-middle">
@@ -109,7 +110,7 @@
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" style="border:0; background: none; padding: 0px;"
+                                    <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm"
                                         class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                         data-original-title="{{ __('project/planning.overall.domain.list.actions.delete.button') }}">
                                         {{ __('project/planning.overall.domain.list.actions.delete.button') }}
@@ -129,3 +130,4 @@
         </div>
     </div>
 </div>
+    </div></div>
