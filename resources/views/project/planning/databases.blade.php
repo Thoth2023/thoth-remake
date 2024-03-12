@@ -26,7 +26,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <select class="form-control" name="databaseId">
-                                                <option value="" disabled selected>{{ __('project/planning.databases.form.select-placeholder') }}</option>
+                                                <option value="" disabled selected>
+                                                    {{ __('project/planning.databases.form.select-placeholder') }}
+                                                </option>
                                                 @forelse ($databases as $database)
                                                     @if ($database->state == 'approved')
                                                         <option value="{{ $database->id_database }}">
@@ -34,11 +36,13 @@
                                                         </option>
                                                     @endif
                                                 @empty
-                                                    <option>{{ __('project/planning.databases.form.no-databases') }}</option>
+                                                    <option>{{ __('project/planning.databases.form.no-databases') }}
+                                                    </option>
                                                 @endforelse
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">{{ __('project/planning.databases.form.add-button') }}</button>
+                                        <button type="submit"
+                                            class="btn btn-success mt-3">{{ __('project/planning.databases.form.add-button') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -67,7 +71,8 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">{{ __('project/planning.databases.table.remove-button') }}</button>
+                                                    <button type="submit"
+                                                        class="btn btn-danger btn-sm">{{ __('project/planning.databases.table.remove-button') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -76,7 +81,8 @@
                                         @enderror
                                     @empty
                                         <tr>
-                                            <td colspan="5" class="text-center">{{ __('project/planning.databases.table.no-databases') }}</td>
+                                            <td colspan="5" class="text-center">
+                                                {{ __('project/planning.databases.table.no-databases') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -90,16 +96,19 @@
                                     method="post">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="db_name" class="form-control-label">{{ __('project/planning.databases.suggest-new.name-label') }}</label>
+                                        <label for="db_name"
+                                            class="form-control-label">{{ __('project/planning.databases.suggest-new.name-label') }}</label>
                                         <input class="form-control" type="text" name="db_name" id="db_name">
                                     </div>
                                     <div class="form-group">
-                                        <label for="db_link" class="form-control-label">{{ __('project/planning.databases.suggest-new.link-label') }}</label>
+                                        <label for="db_link"
+                                            class="form-control-label">{{ __('project/planning.databases.suggest-new.link-label') }}</label>
                                         <input class="form-control" type="text" name="db_link" id="db_link">
                                     </div>
                                     <input class="form-control" type="hidden" name="id_project"
                                         value="{{ $id_project }}">
-                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/planning.databases.suggest-new.submit-button') }}</button>
+                                    <button type="submit"
+                                        class="btn btn-primary btn-sm ms-auto">{{ __('project/planning.databases.suggest-new.submit-button') }}</button>
                                 </form>
                             </div>
                         </div>
@@ -109,4 +118,3 @@
         </div>
     </div>
 </div>
-
