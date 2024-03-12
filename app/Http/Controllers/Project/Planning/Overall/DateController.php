@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: DateController.php
  * Author: Auri Gabriel
@@ -19,7 +20,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DateUpdateRequest;
 use App\Models\Project;
 use App\Utils\ActivityLogHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,26 +34,29 @@ class DateController extends Controller
      */
     public function addDate(DateUpdateRequest $request, string $projectId): RedirectResponse
     {
-        try {
-            $project = Project::findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
+        $project = Project::findOrFail($projectId);
+
+        if (!$project) {
             return redirect()
                 ->back()
                 ->with('activePlanningTab', 'overall-info')
                 ->with('error', 'Project not found');
         }
 
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        if ($request->start_date > $request->end_date) {
+            return redirect()
+                ->back()
+                ->with('activePlanningTab', 'overall-info')
+                ->with('error', 'Start date cannot be greater than end date');
+        }
 
-        $this->validateDateRange($startDate, $endDate);
-
-        $project->addDate($startDate, $endDate);
-
-        $activity = "Added the start date " . $project->start_date . " and end date " . $project->end_date;
+        $project->addDate(
+            startDate: $request->start_date,
+            endDate: $request->end_date
+        );
 
         $this->logActivity(
-            activity: $activity,
+            activity: 'Project date added: ' . $request->start_date . ' - ' . $request->end_date,
             id_project: $projectId
         );
 
@@ -61,27 +64,6 @@ class DateController extends Controller
             ->back()
             ->with('activePlanningTab', 'overall-info')
             ->with('success', 'Date added successfully');
-    }
-
-    /**
-     * Validate the date range.
-     *
-     * @param  string  $startDate
-     * @param  string  $endDate
-     * @return void
-     */
-    private function validateDateRange($startDate, $endDate): void
-    {
-        $rules = [
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-        ];
-
-        $customMessages = [
-            'end_date.after' => 'The end date must be after the start date.',
-        ];
-
-        $this->validate(request(), $rules, $customMessages);
     }
 
     /**
@@ -93,6 +75,11 @@ class DateController extends Controller
      */
     private function logActivity(string $activity, string $id_project)
     {
-        ActivityLogHelper::insertActivityLog($activity, 1, $id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $id_project,
+            id_user: Auth::id()
+        );
     }
 }

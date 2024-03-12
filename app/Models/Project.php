@@ -152,7 +152,15 @@ class Project extends Model
         // Insert logic for members table
     }
 
-    public function addDate($startDate, $endDate)
+    /*
+     * Add the start and end date to the project
+     *
+     * @param $startDate
+     * @param $endDate
+     * @return void
+     *
+     */
+    public function addDate($startDate, $endDate): void
     {
         $this->start_date = $startDate;
         $this->end_date = $endDate;

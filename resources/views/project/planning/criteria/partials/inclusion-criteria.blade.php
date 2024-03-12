@@ -5,8 +5,10 @@
         <thead>
             <tr>
                 <th>{{ __('project/planning.criteria.inclusion-table.select') }}</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('project/planning.criteria.inclusion-table.id') }}</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('project/planning.criteria.inclusion-table.description') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {{ __('project/planning.criteria.inclusion-table.id') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {{ __('project/planning.criteria.inclusion-table.description') }}</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -65,7 +67,8 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">{{ __('project/planning.criteria.inclusion-table.no-criteria') }}</td>
+                    <td colspan="5" class="text-center">
+                        {{ __('project/planning.criteria.inclusion-table.no-criteria') }}</td>
                 </tr>
             @endforelse
         </tbody>
@@ -81,4 +84,3 @@
         <br>
     </div>
 </div>
-

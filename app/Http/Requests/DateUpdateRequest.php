@@ -24,8 +24,8 @@ class DateUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_project' => 'required|string',
-            'id_database' => 'required|string|unique:project_databases,id_database,NULL,id_project,id_project,' . $this->id_project,
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date'
         ];
     }
 }

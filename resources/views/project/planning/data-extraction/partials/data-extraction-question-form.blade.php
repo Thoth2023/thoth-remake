@@ -22,17 +22,20 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="id" class="form-control-label">{{ __('project/planning.data-extraction.question-form.id') }}</label>
+                    <label for="id"
+                        class="form-control-label">{{ __('project/planning.data-extraction.question-form.id') }}</label>
                     <input type="text" class="form-control" id="id" name="id" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="description" class="form-control-label">{{ __('project/planning.data-extraction.question-form.description') }}</label>
+                    <label for="description"
+                        class="form-control-label">{{ __('project/planning.data-extraction.question-form.description') }}</label>
                     <input type="text" class="form-control" id="description" name="description" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="type" class="form-control-label">{{ __('project/planning.data-extraction.question-form.type') }}</label>
+                    <label for="type"
+                        class="form-control-label">{{ __('project/planning.data-extraction.question-form.type') }}</label>
                     <select class="form-control" name="type" id="type" required>
                         @foreach ($questionTypes as $type)
                             <option value="{{ $type->id_type }}">{{ $type->type }}</option>
@@ -40,9 +43,9 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-success mt-3">{{ __('project/planning.data-extraction.question-form.add-question') }}</button>
+                <button type="submit"
+                    class="btn btn-success mt-3">{{ __('project/planning.data-extraction.question-form.add-question') }}</button>
             </form>
         </div>
     </div>
 </div>
-
