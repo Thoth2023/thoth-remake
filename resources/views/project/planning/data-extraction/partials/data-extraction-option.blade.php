@@ -14,7 +14,8 @@
                 action="{{ route('project.planning.data-extraction.option.destroy', [$project->id_project, $option->id_option]) }}">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                <button type="submit" style="padding: 7px;"
+                        class="btn btn-outline-danger btn-group-sm btn-sm">Delete</button>
             </form>
         </div>
     </div>

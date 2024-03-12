@@ -1,7 +1,8 @@
 <div class="col-12">
     <div class="card bg-secondary-overview">
-        <div class="card-body">
-            <div class="card-group card-frame mt-1">
+
+            <div class="card-group card-frame mt-0">
+
                 <!-- create data extraction -->
                 @include('project.planning.data-extraction.partials.data-extraction-question-form')
                 @include('project.planning.data-extraction.partials.data-extraction-option-form', [
@@ -40,4 +41,6 @@
             </div>
         </div>
     </div>
-</div>
+
+
+
