@@ -46,7 +46,7 @@
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $keyword->description }}</p>
                                     </td>
-                                    <td class="col-md-auto d-flex m-1">
+                                    <td class="col-md-auto d-flex ">
                                         <button type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                             class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal"
                                             data-bs-target="#modal-form{{ $keyword->id_keyword }}"

@@ -63,7 +63,7 @@
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm"
+                                    <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                         class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                         data-original-title="{{ __('project/planning.overall.study_type.list.actions.delete.button') }}">
                                         {{ __('project/planning.overall.study_type.list.actions.delete.button') }}
