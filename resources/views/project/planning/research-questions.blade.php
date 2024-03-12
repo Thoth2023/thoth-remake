@@ -67,14 +67,14 @@
                                                     <p class="text-sm font-weight-bold mb-0">
                                                         {{ $researchQuestion->description }}</p>
                                                 </td>
-                                                <td class="col-md-auto d-flex m-1">
+                                                <td class="col-md-auto d-flex ">
                                                     <button
                                                         type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-form{{ $researchQuestion->id_research_question }}"
                                                         data-original-title="{{ __('project/planning.research-questions.table.edit') }}">{{ __('project/planning.research-questions.table.edit') }}</button>
                                                     <!-- Modal Here Edition -->
-                                                    <div class="col-md-auto d-flex">
+                                                    <div >
                                                         <div class="modal fade"
                                                             id="modal-form{{ $researchQuestion->id_research_question }}"
                                                             tabindex="-1" role="dialog" aria-labelledby="modal-form"

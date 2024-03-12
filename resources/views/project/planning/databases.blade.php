@@ -72,7 +72,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" style="padding: 7px;"
-                                                        class="btn btn-outline-danger btn-group-sm btn-sm">{{ __('project/planning.databases.table.remove-button') }}</button>
+                                                        class="btn btn-outline-danger btn-group-sm btn-sm m-1">{{ __('project/planning.databases.table.remove-button') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
