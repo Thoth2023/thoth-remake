@@ -53,8 +53,7 @@
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 {{ __('project/planning.research-questions.table.description') }}
                                             </th>
-                                            <th></th>
-                                            <th></th>
+                                            <th colspan="2"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,14 +67,14 @@
                                                     <p class="text-sm font-weight-bold mb-0">
                                                         {{ $researchQuestion->description }}</p>
                                                 </td>
-                                                <td class="align-middle">
+                                                <td class="col-md-auto d-flex m-1">
                                                     <button
-                                                        type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm"
+                                                        type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-form{{ $researchQuestion->id_research_question }}"
                                                         data-original-title="{{ __('project/planning.research-questions.table.edit') }}">{{ __('project/planning.research-questions.table.edit') }}</button>
                                                     <!-- Modal Here Edition -->
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-auto d-flex">
                                                         <div class="modal fade"
                                                             id="modal-form{{ $researchQuestion->id_research_question }}"
                                                             tabindex="-1" role="dialog" aria-labelledby="modal-form"
@@ -127,8 +126,7 @@
                                                         </div>
                                                         <!-- Modal Ends Here -->
                                                     </div>
-                                                </td>
-                                                <td class="align-middle">
+
                                                     <form
                                                         action="{{ route('project.planning.research-questions.destroy', ['research_question' => $researchQuestion, 'projectId' => $project->id_project]) }}"
                                                         method="POST">
@@ -136,7 +134,7 @@
                                                         @method('DELETE')
                                                         <button
                                                             type="submit" style="padding: 7px;"
-                                                            class="btn btn-outline-danger btn-group-sm btn-sm"
+                                                            class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                                             data-toggle="tooltip"
                                                             data-original-title="{{ __('project/planning.research-questions.table.delete') }}">{{ __('project/planning.research-questions.table.delete') }}</button>
                                                     </form>

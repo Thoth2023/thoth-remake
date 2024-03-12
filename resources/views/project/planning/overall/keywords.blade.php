@@ -37,8 +37,7 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     {{ __('project/planning.overall.keyword.description') }}</th>
-                                <th></th>
-                                <th></th>
+                                <th colspan="2"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,15 +46,15 @@
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $keyword->description }}</p>
                                     </td>
-                                    <td class="align-middle">
-                                        <button type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm"
+                                    <td class="col-md-auto d-flex m-1">
+                                        <button type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                             class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal"
                                             data-bs-target="#modal-form{{ $keyword->id_keyword }}"
                                             data-original-title="{{ __('project/planning.overall.keyword.list.actions.edit.button') }}">
                                             {{ __('project/planning.overall.keyword.list.actions.edit.button') }}
                                         </button>
                                         <!-- Modal for Editing -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-auto d-flex">
                                             <div class="modal fade" id="modal-form{{ $keyword->id_keyword }}"
                                                 tabindex="-1" role="dialog" aria-labelledby="modal-form"
                                                 aria-hidden="true">
@@ -97,14 +96,14 @@
                                             </div>
                                         </div>
                                         <!-- Modal Ends Here -->
-                                    </td>
-                                    <td class="align-middle">
+
+
                                         <form
                                             action="{{ route('project.planning.keywords.destroy', ['keyword' => $keyword, 'projectId' => $project->id_project]) }}"
                                             + method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm"
+                                            <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                                 class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                                 data-original-title="{{ __('project/planning.overall.keyword.list.actions.delete.button') }}">
                                                 {{ __('project/planning.overall.keyword.list.actions.delete.button') }}

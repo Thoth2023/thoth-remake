@@ -44,8 +44,8 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                             {{ __('project/planning.overall.domain.description') }}
                         </th>
-                        <th></th>
-                        <th></th>
+                        <th colspan="2"></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -54,15 +54,15 @@
                             <td>
                                 <p class="text-sm font-weight-bold mb-0">{{ $domain->description }}</p>
                             </td>
-                            <td class="align-middle">
-                                <button  type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm"
+                            <td class="col-md-auto d-flex ">
+                                <button  type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                     class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#modal-domain-{{ $domain->id_domain }}"
                                     data-original-title="{{ __('project/planning.overall.domain.list.actions.edit.button') }}">
                                     {{ __('project/planning.overall.domain.list.actions.edit.button') }}
                                 </button>
                                 <!-- Modal for Editing -->
-                                <div class="col-md-4">
+                                <div class="col-md-auto d-flex">
                                     <div class="modal fade" id="modal-domain-{{ $domain->id_domain }}" tabindex="-1"
                                         role="dialog" aria-labelledby="modal-form" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
@@ -103,14 +103,13 @@
                                 </div>
 
                                 <!-- Modal Ends Here -->
-                            </td>
-                            <td class="align-middle">
+
                                 <form
                                     action="{{ route('project.planning.domains.destroy', ['domain' => $domain, 'projectId' => $project->id_project]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm"
+                                    <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                         class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                         data-original-title="{{ __('project/planning.overall.domain.list.actions.delete.button') }}">
                                         {{ __('project/planning.overall.domain.list.actions.delete.button') }}
