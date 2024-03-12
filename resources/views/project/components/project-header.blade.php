@@ -43,12 +43,12 @@
                     @foreach ($tabs as $page => $pageDetails)
                         <li class="nav-item">
                             @if ($pageDetails['route'])
-                                <a class="btn mb-0 {{ $activePage === $page ? 'bg-gradient-dark' : 'bg-gradient-faded-white' }}"
+                                <a class="btn btn-lg mb-0 {{ $activePage === $page ? 'bg-gradient-dark' : 'bg-gradient-faded-white' }}"
                                     href="{{ route($pageDetails['route'], $project->id_project) }}">
                                     <i class="{{ $pageDetails['icon'] }}"></i> {{ $pageDetails['label'] }}
                                 </a>
                             @else
-                                <button type="button" class="btn bg-gradient-default">
+                                <button type="button" class="btn-lg btn bg-gradient-default">
                                     <i class="{{ $pageDetails['icon'] }}"></i> {{ $pageDetails['label'] }}
                                 </button>
                             @endif

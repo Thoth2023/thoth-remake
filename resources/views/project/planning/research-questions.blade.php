@@ -67,14 +67,14 @@
                                                     <p class="text-sm font-weight-bold mb-0">
                                                         {{ $researchQuestion->description }}</p>
                                                 </td>
-                                                <td class="col-md-auto d-flex ">
+                                                <td class="col-md-auto d-flex">
                                                     <button
                                                         type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-form{{ $researchQuestion->id_research_question }}"
                                                         data-original-title="{{ __('project/planning.research-questions.table.edit') }}">{{ __('project/planning.research-questions.table.edit') }}</button>
                                                     <!-- Modal Here Edition -->
-                                                    <div >
+                                                    <div class="col-md-auto d-flex">
                                                         <div class="modal fade"
                                                             id="modal-form{{ $researchQuestion->id_research_question }}"
                                                             tabindex="-1" role="dialog" aria-labelledby="modal-form"
@@ -142,7 +142,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4" class="text-center">
+                                                <td colspan="5" class="text-center">
                                                     {{ __('project/planning.research-questions.table.no-questions') }}
                                                 </td>
                                             </tr>
