@@ -19,6 +19,9 @@
                         </div>
                         <div class="card-body">
                             @include('project.planning.criteria.partials.criteria-form')
+                        </div>
+
+                        <div class="card-group">
                             @include('project.planning.criteria.partials.inclusion-criteria')
                             @include('project.planning.criteria.partials.exclusion-criteria')
                         </div>

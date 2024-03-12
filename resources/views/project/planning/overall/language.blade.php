@@ -35,8 +35,7 @@
                         <button type="submit"
                             class="btn btn-success mt-1">{{ __('project/planning.overall.language.add') }}</button>
                     </div>
-                </div>
-            </div>
+
         </form>
         <div class="table-responsive p-0">
             <table class="table align-items-center justify-content-center mb-0">
@@ -63,7 +62,7 @@
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button style="border:0; background: none; padding: 0px;" type="submit"
+                                    <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm"
                                         class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                         data-original-title="{{ __('project/planning.overall.language.list.actions.delete.button') }}">
                                         {{ __('project/planning.overall.language.list.actions.delete.button') }}
@@ -81,4 +80,6 @@
             </table>
         </div>
     </div>
+</div>
+</div>
 </div>

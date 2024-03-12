@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
@@ -71,8 +71,8 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-sm">{{ __('project/planning.databases.table.remove-button') }}</button>
+                                                    <button type="submit" style="padding: 7px;"
+                                                        class="btn btn-outline-danger btn-group-sm btn-sm">{{ __('project/planning.databases.table.remove-button') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -117,4 +117,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
