@@ -13,8 +13,7 @@
                     {{ __('project/planning.criteria.inclusion-table.id') }}</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     {{ __('project/planning.criteria.inclusion-table.description') }}</th>
-                <th></th>
-                <th></th>
+                <th colspan="2"></th>
             </tr>
         </thead>
         <tbody>
@@ -48,23 +47,22 @@
                     <td>
                         <p class="text-sm font-weight-bold mb-0">{{ $criterion->description }}</p>
                     </td>
-                    <td class="align-middle">
+                    <td class="col-md-auto d-flex m-1">
                         <button  type="button" style="padding: 7px;"
-                                 class="btn btn-outline-secondary btn-group-sm btn-sm" data-bs-toggle="modal"
+                                 class="btn btn-outline-secondary btn-group-sm btn-sm m-1" data-bs-toggle="modal"
                             data-bs-target="#modal-form{{ $criterion->id_criteria }}"
                             data-original-title="{{ __('project/planning.criteria.inclusion-table.edit') }}">{{ __('project/planning.criteria.inclusion-table.edit') }}</button>
                         <!-- Modal Here Edition -->
                         @include('project.planning.criteria.partials.edit-modal')
                         <!-- Modal Ends Here -->
-                    </td>
-                    <td class="align-middle">
+
                         <form
                             action="{{ route('project.planning.criteria.destroy', ['projectId' => $project->id_project, 'criterion' => $criterion]) }}"
                             method="POST">
                             @csrf
                             @method('DELETE')
                             <button  type="submit" style="padding: 7px;"
-                                     class="btn btn-outline-danger btn-group-sm btn-sm" data-toggle="tooltip"
+                                     class="btn btn-outline-danger btn-group-sm btn-sm m-1" data-toggle="tooltip"
                                 data-original-title="{{ __('project/planning.criteria.inclusion-table.delete') }}">{{ __('project/planning.criteria.inclusion-table.delete') }}</button>
                         </form>
                     </td>
