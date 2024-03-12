@@ -1,5 +1,5 @@
 
-# Thoth  2.0
+# Thoth  Remake 
 [![Latest Stable Version](https://badgen.net/packagist/lang/monolog/monolog)](https://badgen.net/packagist/lang/monolog/monolog)
 [![PHP Version Require](https://badgen.net/badge/php/%3E8.1/green)](https://badgen.net/badge/php/%3E8.1/green)
 
