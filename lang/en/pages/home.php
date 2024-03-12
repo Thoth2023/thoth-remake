@@ -5,7 +5,7 @@ return [
     'welcome' => 'Welcome!',
     'project_description' => 'Use these awesome forms to login or create a new account in your project for free.',
     'thoth' => 'Thoth',
-    'thoth_description' => 'Systematic reviews are a type of literature review that uses systematic methods to collect secondary data, critically appraise research studies, and synthesize studies. Systematic reviews formulate research questions that are broad or narrow in scope, and identify and synthesize studies that directly relate to the systematic review question. They are designed to provide a complete, exhaustive summary of current evidence relevant to a research question. Systematic reviews of randomized controlled trials are key to the practice of evidence-based medicine, and a review of existing studies is often quicker and cheaper than embarking on a new study.',
+    'thoth_description' => 'Is a powerful tool to support collaborative systematic reviews. It is a multi-platform solution developed to automate important parts of the systematic review process, facilitating and streamlining the work of researchers and professionals involved in this type of study.',
     'questions' => 'Questions',
     'questions_description' => 'Defining a question and agreeing on an objective method.',
     'relevant_data' => 'Relevant data',
