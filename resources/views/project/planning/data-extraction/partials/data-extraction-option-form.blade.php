@@ -22,7 +22,8 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="question-id" class="form-control-label">{{ __('project/planning.data-extraction.option-form.question') }}</label>
+                    <label for="question-id"
+                        class="form-control-label">{{ __('project/planning.data-extraction.option-form.question') }}</label>
                     <select class="form-control" name="questionId" id="question-id">
                         @foreach ($project->questions as $question)
                             @if ($question->question_type->type === 'Multiple Choice List' || $question->question_type->type === 'Pick One List')
@@ -33,13 +34,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="option" class="form-control-label">{{ __('project/planning.data-extraction.option-form.option') }}</label>
+                    <label for="option"
+                        class="form-control-label">{{ __('project/planning.data-extraction.option-form.option') }}</label>
                     <input class="form-control" id="option" type="text" name="option">
                 </div>
 
-                <button type="submit" class="btn btn-success mt-3">{{ __('project/planning.data-extraction.option-form.add-option') }}</button>
+                <button type="submit"
+                    class="btn btn-success mt-3">{{ __('project/planning.data-extraction.option-form.add-option') }}</button>
             </form>
         </div>
     </div>
 </div>
-

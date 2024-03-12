@@ -27,14 +27,17 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">{{ __('project/planning.research-questions.form.id') }}</label>
+                                            <label for="example-text-input"
+                                                class="form-control-label">{{ __('project/planning.research-questions.form.id') }}</label>
                                             <input class="form-control" type="text" name="id" required>
-                                            <label for="example-text-input" class="form-control-label">{{ __('project/planning.research-questions.form.description') }}</label>
+                                            <label for="example-text-input"
+                                                class="form-control-label">{{ __('project/planning.research-questions.form.description') }}</label>
                                             <input class="form-control" type="text" name="description" required>
                                             <input class="form-control" type="hidden" name="id_project"
                                                 value="{{ $id_project }}">
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">{{ __('project/planning.research-questions.form.add') }}</button>
+                                        <button type="submit"
+                                            class="btn btn-success mt-3">{{ __('project/planning.research-questions.form.add') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -83,7 +86,8 @@
                                                                     <div class="modal-body p-0">
                                                                         <div class="card card-plain">
                                                                             <div class="card-header pb-0 text-left">
-                                                                                <h3>{{ __('project/planning.research-questions.edit-modal.title') }}</h3>
+                                                                                <h3>{{ __('project/planning.research-questions.edit-modal.title') }}
+                                                                                </h3>
                                                                             </div>
                                                                             <div class="card-body">
                                                                                 <form role="form text-left"
@@ -140,7 +144,9 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4" class="text-center">{{ __('project/planning.research-questions.table.no-questions') }}</td>
+                                                <td colspan="4" class="text-center">
+                                                    {{ __('project/planning.research-questions.table.no-questions') }}
+                                                </td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -154,4 +160,3 @@
         </div>
     </div>
 </div>
-

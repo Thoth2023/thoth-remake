@@ -7,7 +7,9 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center justify-content-between">
                                 <p class="mb-0">{{ __('project/planning.search-strategy.title') }}</p>
-                                @include ('components.help-button', ['dataTarget' => 'SearchStrategyHelpModal'])
+                                @include ('components.help-button', [
+                                    'dataTarget' => 'SearchStrategyHelpModal',
+                                ])
                                 <!-- Help Button Description -->
                                 @include('components.help-modal', [
                                     'modalId' => 'SearchStrategyHelpModal',
@@ -55,4 +57,3 @@
         </div>
     </div>
 </div>
-

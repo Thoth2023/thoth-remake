@@ -133,7 +133,14 @@
                 showToast(errorMessage, 'Error');
             } else if (successMessage) {
                 showToast(successMessage, 'Success');
+            } else {
+                // Check for validation errors
+                @if ($errors->any())
+                    const validationErrors = @json($errors->all());
+                    showToast(validationErrors.join(', '), 'Error');
+                @endif
             }
+
         });
     </script>
 </body>
