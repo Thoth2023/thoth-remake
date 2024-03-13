@@ -130,7 +130,7 @@ return [
             'title' => 'Datas do Projeto',
             'start_date' => 'Data de Início',
             'end_date' => 'Data de Término',
-            'add_date' => 'Adicionar Data',
+            'add_date' => 'Salvar Data',
             'help' => [
                 'title' => 'Datas do Projeto',
                 'content' => 'Defina as datas de início e término do seu projeto para definir o período durante o qual você ' .
