@@ -10,35 +10,39 @@
                 @include('components.help-modal', [
                     'modalId' => 'DatesModal',
                     'modalLabel' => 'exampleModalLabel',
-                    'modalTitle' => __('project/planning.overall.dates.help.title'),
+                    'modalTitle' => __('project/planning.ovesrall.dates.help.title'),
                     'modalContent' => __('project/planning.overall.dates.help.content'),
                 ])
             </div>
         </div>
         <div class="card-body">
+
             <form action="{{ route('project.planning.dates.add', ['projectId' => $project->id_project]) }}"
                 method="POST">
                 @csrf
-                <div class="form-group">
-                    <label for="start_date">
-                        {{ __('project/planning.overall.dates.start_date') }}:
-                    </label>
-                    <input type="date" name="start_date" id="start_date" class="form-control"
-                        value="{{ $project->start_date ?? '' }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="end_date">
-                        {{ __('project/planning.overall.dates.end_date') }}:
-                    </label>
-                    <input type="date" name="end_date" id="end_date" class="form-control"
-                        value="{{ $project->end_date ?? '' }}" required>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-success mt-1">
-                        {{ __('project/planning.overall.dates.add_date') }}
-                    </button>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label for="start_date">
+                            {{ __('project/planning.overall.dates.start_date') }}:
+                        </label>
+                        <input type="date" name="start_date" id="start_date" class="form-control"
+                            value="{{ $project->start_date ?? '' }}" required>
+                    </div>
+                    <div class="col-sm-5">
+                        <label for="end_date">
+                            {{ __('project/planning.overall.dates.end_date') }}:
+                        </label>
+                        <input type="date" name="end_date" id="end_date" class="form-control"
+                            value="{{ $project->end_date ?? '' }}" required>
+                    </div>
+                    <div class="col-sm-2 pt-4">
+                        <button type="submit" class="btn btn-success mt-2">
+                            {{ __('project/planning.overall.dates.add_date') }}
+                        </button>
+                    </div>
                 </div>
             </form>
+
         </div>
     </div>
 </div>
