@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\GeneralScoreController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -162,6 +163,18 @@ Route::prefix('/project/{projectId}')->group(function () {
 
         Route::put('/criteria/{criteriaId}/change-preselected', [CriteriaController::class, 'change_preselected'])
             ->name('project.planning.criteria.change-preselected');
+
+        // Quality Assessment Routes
+        Route::prefix('/quality-assessment')->group(function () {
+            Route::resource('/general-score', GeneralScoreController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.quality-assessment.general-score.store',
+                    'update' => 'project.planning.quality-assessment.general-score.update',
+                    'destroy' => 'project.planning.quality-assessment.general-score.destroy',
+                ]);
+        });
+
 
         // Data Extraction Routes
         Route::prefix('/data-extraction/')->group(function () {

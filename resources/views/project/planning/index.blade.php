@@ -69,7 +69,7 @@
                             @include('project.planning.criteria.index')
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
-                            [wip]
+                            @include('project.planning.quality-assessment.index')
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
                             @include('project.planning.data-extraction.index')

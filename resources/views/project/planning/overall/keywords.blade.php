@@ -47,7 +47,8 @@
                                         <p class="text-sm font-weight-bold mb-0">{{ $keyword->description }}</p>
                                     </td>
                                     <td class="col-md-auto d-flex ">
-                                        <button type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
+                                        <button type="button" style="padding: 7px;"
+                                            class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                             class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal"
                                             data-bs-target="#modal-form{{ $keyword->id_keyword }}"
                                             data-original-title="{{ __('project/planning.overall.keyword.list.actions.edit.button') }}">
@@ -103,7 +104,8 @@
                                             + method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" style="padding: 7px;" class="btn btn-outline-danger btn-group-sm btn-sm m-1"
+                                            <button type="submit" style="padding: 7px;"
+                                                class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                                 class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                                 data-original-title="{{ __('project/planning.overall.keyword.list.actions.delete.button') }}">
                                                 {{ __('project/planning.overall.keyword.list.actions.delete.button') }}

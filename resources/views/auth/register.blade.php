@@ -4,7 +4,7 @@
     @include('layouts.navbars.guest.navbar')
     <main class="main-content  mt-0">
         <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
-             <span class="mask bg-gradient-faded-dark opacity-5"></span>
+            <span class="mask bg-gradient-faded-dark opacity-5"></span>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
@@ -129,7 +129,7 @@
                                         {{ __('auth/register.sign_in', ['login_link' => route('login')]) }}
                                     </a>
                                 </p>
-                                <br/><br/>
+                                <br /><br />
                             </form>
                         </div>
                     </div>

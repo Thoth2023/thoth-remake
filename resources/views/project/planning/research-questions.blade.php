@@ -68,8 +68,8 @@
                                                         {{ $researchQuestion->description }}</p>
                                                 </td>
                                                 <td class="col-md-auto d-flex">
-                                                    <button
-                                                        type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
+                                                    <button type="button" style="padding: 7px;"
+                                                        class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-form{{ $researchQuestion->id_research_question }}"
                                                         data-original-title="{{ __('project/planning.research-questions.table.edit') }}">{{ __('project/planning.research-questions.table.edit') }}</button>
@@ -132,8 +132,7 @@
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button
-                                                            type="submit" style="padding: 7px;"
+                                                        <button type="submit" style="padding: 7px;"
                                                             class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                                             data-toggle="tooltip"
                                                             data-original-title="{{ __('project/planning.research-questions.table.delete') }}">{{ __('project/planning.research-questions.table.delete') }}</button>

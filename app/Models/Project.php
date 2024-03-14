@@ -166,4 +166,9 @@ class Project extends Model
         $this->end_date = $endDate;
         $this->save();
     }
+
+    public function generalScores()
+    {
+        return $this->hasMany(GeneralScore::class, 'id_project');
+    }
 }
