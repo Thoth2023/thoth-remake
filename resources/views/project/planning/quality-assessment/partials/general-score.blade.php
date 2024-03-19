@@ -12,11 +12,11 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">Min</span>
-                        <input name="start" min="0.0" step="5" max="100" type="number"
+                        <input name="start" min="0.0" step="1" max="100" type="number"
                             class="form-control" placeholder="minScore" aria-label="minScore"
                             aria-describedby="basic-addon1">
                         <span class="input-group-text" id="maxScore">Max</span>
-                        <input name="end" min="0.0" step="5" max="100" type="number"
+                        <input name="end" min="0.0" step="1" max="100" type="number"
                             class="form-control" placeholder="maxScore" aria-label="maxScore"
                             aria-describedby="maxScore">
                     </div>
