@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project\Planning\QualityAssessment;
 
 use App\Http\Requests\Project\Planning\QualityAssessment\GeneralScore\StoreGeneralScoreRequest;
 use App\Http\Requests\Project\Planning\QualityAssessment\GeneralScore\UpdateGeneralScoreRequest;
 use App\Models\GeneralScore;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Project;
+use App\Http\Controllers\Controller;
 
 class GeneralScoreController extends Controller
 {

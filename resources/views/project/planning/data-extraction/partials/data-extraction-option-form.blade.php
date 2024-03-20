@@ -25,7 +25,7 @@
                     <label for="question-id"
                         class="form-control-label">{{ __('project/planning.data-extraction.option-form.question') }}</label>
                     <select class="form-control" name="questionId" id="question-id">
-                        @foreach ($project->questions as $question)
+                        @foreach ($project->dataExtractionQuestions as $question)
                             @if ($question->question_type->type === 'Multiple Choice List' || $question->question_type->type === 'Pick One List')
                                 <option value="{{ $question->id_de }}">{{ $question->id }}</option>
                             @endif

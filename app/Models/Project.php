@@ -10,7 +10,8 @@ use App\Models\SearchStrategy;
 use App\Models\SearchString;
 use App\Models\ProjectDatabases;
 use Illuminate\Support\Collection;
-use App\Models\Project\Planning\DataExtraction\Question;
+use App\Models\Project\Planning\DataExtraction\Question as DataExtractionQuestion;
+use App\Models\Project\Planning\QualityAssessment\Question as QualityAssessmentQuestion;
 
 class Project extends Model
 {
@@ -66,9 +67,9 @@ class Project extends Model
             ->withPivot('id_project_study_types');
     }
 
-    public function questions()
+    public function dataExtractionQuestions()
     {
-        return $this->hasMany(Question::class, 'id_project');
+        return $this->hasMany(DataExtractionQuestion::class, 'id_project');
     }
 
     public function criterias()
@@ -170,5 +171,10 @@ class Project extends Model
     public function generalScores()
     {
         return $this->hasMany(GeneralScore::class, 'id_project');
+    }
+
+    public function qualityAssessmentQuestions()
+    {
+        return $this->hasMany(QualityAssessmentQuestion::class, 'id_project');
     }
 }

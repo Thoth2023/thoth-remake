@@ -3,7 +3,8 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
-use App\Http\Controllers\GeneralScoreController;
+use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
+use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -172,6 +173,13 @@ Route::prefix('/project/{projectId}')->group(function () {
                     'store' => 'project.planning.quality-assessment.general-score.store',
                     'update' => 'project.planning.quality-assessment.general-score.update',
                     'destroy' => 'project.planning.quality-assessment.general-score.destroy',
+                ]);
+            Route::resource('/question', QualityAssessmentQuestionController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.quality-assessment.question.store',
+                    'update' => 'project.planning.quality-assessment.question.update',
+                    'destroy' => 'project.planning.quality-assessment.question.destroy',
                 ]);
         });
 
