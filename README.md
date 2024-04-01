@@ -19,6 +19,12 @@ https://www.creative-tim.com/product/argon-dashboard-laravel
 
 
 ## Passo a passo para Configuração inicial
+
+-Ter o Docker Desktop instalado:
+https://www.docker.com/products/docker-desktop/
+
+- Na sua IDE de desenvolvimento (PHP Storm, VSCode ou outra de sua preferência)
+
 Clone Repositório 
 ```sh
 git clone -b https://github.com/Thoth2023/thoth-remake.git
