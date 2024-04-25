@@ -57,7 +57,7 @@ php artisan key:generate
 
 Para popular o Banco de Dados
 ```sh
-php artisan migrate
+php artisan migrate --seed
 ```
 Para desenvolvimento, crie uma nova branche a partir de "Develop"
 ```
