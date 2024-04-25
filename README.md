@@ -13,9 +13,8 @@ Ferramenta de Revisão Sistemática da Literatura
 2. Entendendo a estrutura - https://www.youtube.com/watch?v=zN0gAqOcxsk
 
 ### Template Bootstrap Sugerido
-Esse quesito ainda pode ser alterado em conjunto com a equipe responsável pelo projeto.
-
-https://www.creative-tim.com/product/argon-dashboard-laravel
+Informações de como usar os elementos do template
+https://argon-dashboard-laravel.creative-tim.com/docs/bootstrap/overview/argon-dashboard/
 
 
 ## Passo a passo para Configuração inicial
