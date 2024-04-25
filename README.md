@@ -62,6 +62,9 @@ php artisan migrate --seed
 Para desenvolvimento, crie uma nova branche a partir de "Develop"
 ```
 
+## Acesse o projeto
+[http://localhost:8989](http://localhost:8989)
+
 
 
 ## Atalhos com Make
