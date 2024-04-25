@@ -106,7 +106,7 @@ Exemplo: Para listar os containers  execute
 ```bash
 make ps 
 ```
-Para instalar as dependecias do projeto você pode acessar o container com 
+Para instalar as dependências do projeto você pode acessar o container com 
 ```bash
 docker-compose exec app bash
 ```
