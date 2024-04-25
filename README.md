@@ -59,8 +59,61 @@ Para popular o Banco de Dados
 ```sh
 php artisan migrate --seed
 ```
+```sh
 Para desenvolvimento, crie uma nova branche a partir de "Develop"
 ```
 
-Acesse o projeto
+
+
+## Atalhos com Make
+```bash
+#Iniciar o Docker em segundo plano
+up:
+    docker-compose up -d
+
+# Desliga os containers
+down:
+	docker-compose down
+
+# Reinicia os containers
+restart:
+	docker-compose restart
+
+# Mostra logs
+logs:
+	docker-compose logs -f
+
+# Mostra status dos containers e todos os containers
+ps:
+	docker-compose ps -a
+
+# Dentro do container, instala as dependências do composer e gera a chave(Para acessar o container use o comando: docker-compose exec app bash)
+setup:
+	composer install || composer update
+	php artisan key:generate
+	php artisan migrate --seed
+```
+
+Se preciso, acesse https://www.gnu.org/software/make/ para mais detalhes
+
+Para utilizar o make: 
+1. Acesse o diretório do projeto
+2. Abra o terminal/console
+3. Digite make (comando)
+
+Exemplo: Para listar os containers  execute 
+
+```bash
+make ps 
+```
+Para instalar as dependecias do projeto você pode acessar o container com 
+```bash
+docker-compose exec app bash
+```
+E dentro do container execute
+```bash
+make setup
+```
+
+## Acesse o projeto
 [http://localhost:8989](http://localhost:8989)
