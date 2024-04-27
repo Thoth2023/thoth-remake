@@ -27,6 +27,7 @@ use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreControll
 use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Project\ExportController;
 use App\Http\Controllers\Project\ReportingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
@@ -170,7 +171,7 @@ Route::prefix('/project/{projectId}')->group(function () {
             Route::resource('/option', OptionController::class)
                 ->only(['store', 'update', 'destroy'])
                 ->names([
-                    'store' => 'project.planning.data-extraction.option.store',
+                    'store' => 'project.planning.data-extraction.option.store.Report',
                     'update' => 'project.planning.data-extraction.option.update',
                     'destroy' => 'project.planning.data-extraction.option.destroy',
                 ]);
@@ -185,6 +186,11 @@ Route::prefix('/project/{projectId}')->group(function () {
         });
     });
     // End of the Planning Routes
+
+    // Export Routes
+    Route::get('/export', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth');
+    
+
 
     // Start of the conducting routes
     Route::prefix('/conducting')->group(function () {
