@@ -27,7 +27,7 @@
         'export' => [
             'icon' => 'fas fa-file-export',
             'label' => 'Export',
-            'route' => null,
+            'route' => 'project.export.index',
         ],
     ];
 @endphp

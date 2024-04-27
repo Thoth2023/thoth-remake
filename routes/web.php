@@ -22,6 +22,7 @@ use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Project\ExportController;
 use App\Http\Controllers\Project\ReportingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
@@ -169,7 +170,7 @@ Route::prefix('/project/{projectId}')->group(function () {
             Route::resource('/option', OptionController::class)
                 ->only(['store', 'update', 'destroy'])
                 ->names([
-                    'store' => 'project.planning.data-extraction.option.store',
+                    'store' => 'project.planning.data-extraction.option.store.Report',
                     'update' => 'project.planning.data-extraction.option.update',
                     'destroy' => 'project.planning.data-extraction.option.destroy',
                 ]);
@@ -184,6 +185,11 @@ Route::prefix('/project/{projectId}')->group(function () {
         });
     });
     // End of the Planning Routes
+
+    // Export Routes
+    Route::get('/export', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth');
+    
+
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
