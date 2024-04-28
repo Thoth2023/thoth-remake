@@ -23,7 +23,7 @@
 
 
     @include('layouts.navbars.auth.topnav', ['title' => 'Export'])
-
+    @include('project.components.project-header', ['project' => $project, 'activePage' => 'export'])
     <div class="row mt-4 mx-4">
 
         @include('project.components.project-header', ['project' => $project, 'activePage' => 'Export'])
