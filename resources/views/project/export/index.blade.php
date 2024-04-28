@@ -95,7 +95,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-success mt-3">
+                                        <button type="submit" class="btn btn-success mt-3" onclick="generateBibTex()">
                                             Gerar Exportação
                                         </button>
                                     </div>
@@ -111,7 +111,12 @@
                             <div class="col-8" style="position: relative;">
                                 <h3 class="card-title">BibTex</h3>
                                 <div style="position: relative;">
-                                    <textarea name="bibTex-generated" class="form-control" id="bibTex-generated" rows="8" data-lt-tmp-id="lt-532503" spellcheck="false" data-gramm="false"></textarea>
+
+                                  
+
+                                    <textarea name="bibTex-generated" class="form-control" id="bibTex-generated" rows="8" data-lt-tmp-id="lt-532503" spellcheck="false" data-gramm="false"> </textarea>
+
+
                                     <div class="copy-icon-container">
                                         <i class="fas fa-copy copy-icon" onclick="copyToClipboard()"></i>
                                     </div>
@@ -126,6 +131,10 @@
                                 </button>
                             </div>
                             </div> <!-- Fechamento da div .col-8 -->
+
+
+
+
                 
                             
                         </div> <!-- Fechamento da div .row -->
@@ -166,6 +175,79 @@
                 document.execCommand('copy');
                 alert('Texto copiado para a área de transferência!');
             }
+
+
+            function generateBibTex() {
+    var bibTex = '';
+
+    // Verificar qual checkbox está marcada
+    if (document.getElementById('flexCheckDefault1').checked) {
+        // Conteúdo para o checkbox 1 (Planning)
+        bibTex = `@article{planning,
+            author = {author1},
+            title = {title1},
+            journal = {journal1},
+            year = {year1},
+            volume = {volume1},
+            number = {number1},
+            pages = {pages1},
+            month = {month1},
+            doi = {doi1},
+            url = {url1},
+        }`;
+    } else if (document.getElementById('flexCheckDefault2').checked) {
+        // Conteúdo para o checkbox 2 (Import Study)
+        bibTex = `@article{import_study,
+            author = {author2},
+            title = {title2},
+            journal = {journal2},
+            year = {year2},
+            volume = {volume2},
+            number = {number2},
+            pages = {pages2},
+            month = {month2},
+            doi = {doi2},
+            url = {url2},
+        }`;
+    } else if (document.getElementById('flexCheckDefault3').checked) {
+        // Conteúdo para o checkbox 3 (Study Selection)
+        bibTex = `@article{study_selection,
+            author = {author3},
+            title = {title3},
+            journal = {journal3},
+            year = {year3},
+            volume = {volume3},
+            number = {number3},
+            pages = {pages3},
+            month = {month3},
+            doi = {doi3},
+            url = {url3},
+        }`;
+    } else if (document.getElementById('flexCheckDefault4').checked) {
+        // Conteúdo para o checkbox 4 (Quality Assessment)
+        bibTex = `@article{quality_assessment,
+            author = {author4},
+            title = {title4},
+            journal = {journal4},
+            year = {year4},
+            volume = {volume4},
+            number = {number4},
+            pages = {pages4},
+            month = {month4},
+            doi = {doi4},
+            url = {url4},
+        }`;
+    } else {
+        // Se nenhum checkbox estiver marcado
+        bibTex = '@article{default,}';
+    }
+
+    document.getElementById('bibTex-generated').value = bibTex;
+}
+
+
+
+
         </script>
     @endpush
 @endsection
