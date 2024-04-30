@@ -1,6 +1,6 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
-@section('content') 
+@section('content')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-EW1W7Jea6l9mZq7r8w4g+Lj/h5gPflAPeR4x6WVNOe4atK8OeGWeR7hQYdj4k8ntQF6ZfXKgKJVlWGfTNvCHhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -112,7 +112,7 @@
                                 <h3 class="card-title">BibTex</h3>
                                 <div style="position: relative;">
 
-                                  
+
 
                                     <textarea name="bibTex-generated" class="form-control" id="bibTex-generated" rows="8" data-lt-tmp-id="lt-532503" spellcheck="false" data-gramm="false"> </textarea>
 
@@ -123,7 +123,7 @@
                                 </div>
                                  <!-- Botão "Baixar" movido para dentro da div .col-8 -->
                             <div class="col-4">
-                                <button type="submit" class="btn btn-success mt-3">
+                                <button type="submit" class="btn btn-success mt-3" onclick="downloadAsLatex()" >
                                     Baixar
                                 </button>
                                 <button type="submit" class="btn btn-success mt-3">
@@ -135,8 +135,8 @@
 
 
 
-                
-                            
+
+
                         </div> <!-- Fechamento da div .row -->
                     </div> <!-- Fechamento da div .card-body -->
                 </div> <!-- Fechamento da div .card -->
@@ -156,6 +156,8 @@
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script> --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
         <script>
             // Function to store the active tab in a cookie
             function storeActiveTab(tabId) {
@@ -244,6 +246,16 @@
 
     document.getElementById('bibTex-generated').value = bibTex;
 }
+
+
+            function downloadAsLatex() {
+                var text = document.getElementById('bibTex-generated').value;
+                var filename = "export.bib";
+                var blob = new Blob([text], {
+                    type: "text/plain;charset=utf-8"
+                });
+                saveAs(blob, filename);
+            }
 
 
 
