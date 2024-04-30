@@ -1,8 +1,9 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-EW1W7Jea6l9mZq7r8w4g+Lj/h5gPflAPeR4x6WVNOe4atK8OeGWeR7hQYdj4k8ntQF6ZfXKgKJVlWGfTNvCHhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-EW1W7Jea6l9mZq7r8w4g+Lj/h5gPflAPeR4x6WVNOe4atK8OeGWeR7hQYdj4k8ntQF6ZfXKgKJVlWGfTNvCHhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <style>
@@ -25,24 +26,24 @@
         }
 
         .copy-icon-container {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-        width: 40px;
-        height: 40px;
-        background-color: #007bff;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .copy-icon {
-        color: white;
-        font-size: 24px; /* Tamanho do ícone */
-        cursor: pointer;
-    }
-
+        .copy-icon {
+            color: white;
+            font-size: 24px;
+            /* Tamanho do ícone */
+            cursor: pointer;
+        }
     </style>
     @stack('styles')
 
@@ -114,23 +115,27 @@
 
 
 
-                                    <textarea name="bibTex-generated" class="form-control" id="bibTex-generated" rows="8" data-lt-tmp-id="lt-532503" spellcheck="false" data-gramm="false"> </textarea>
+                                    <textarea name="bibTex-generated" class="form-control" id="bibTex-generated" rows="8" data-lt-tmp-id="lt-532503"
+                                        spellcheck="false" data-gramm="false"> </textarea>
 
 
                                     <div class="copy-icon-container">
                                         <i class="fas fa-copy copy-icon" onclick="copyToClipboard()"></i>
                                     </div>
                                 </div>
-                                 <!-- Botão "Baixar" movido para dentro da div .col-8 -->
-                            <div class="col-4">
-                            <div id="error-message" style="color: red;"></div>
-                                <button type="submit" class="btn btn-success mt-3" onclick="downloadAsLatex()" >
-                                    Baixar
-                                </button>
-                                <button type="submit" class="btn btn-success mt-3">
-                                    Criar Projeto no Overleaf
-                                </button>
-                            </div>
+                                <!-- Botão "Baixar" movido para dentro da div .col-8 -->
+                                <div class="col-4">
+                                    <div id="error-message" style="color: red;"></div>
+                                    <button type="submit" class="btn btn-success mt-3" onclick="downloadAsLatex()">
+                                        Baixar
+                                    </button>
+                                    <form action="https://www.overleaf.com/docs" method="post" target="_blank">
+                                        <button type="submit" class="btn btn-success mt-3">
+                                            Criar Projeto no Overleaf
+                                        </button>
+                                    </form>
+
+                                </div>
                             </div> <!-- Fechamento da div .col-8 -->
 
 
@@ -142,9 +147,9 @@
                     </div> <!-- Fechamento da div .card-body -->
                 </div> <!-- Fechamento da div .card -->
 
+            </div>
         </div>
-    </div>
-    @include('layouts.footers.auth.footer')
+        @include('layouts.footers.auth.footer')
     </div>
     </div>
 @endsection
@@ -181,12 +186,12 @@
 
 
             function generateBibTex() {
-    var bibTex = '';
+                var bibTex = '';
 
-    // Verificar qual checkbox está marcada
-    if (document.getElementById('flexCheckDefault1').checked) {
-        // Conteúdo para o checkbox 1 (Planning)
-        bibTex = `@article{planning,
+                // Verificar qual checkbox está marcada
+                if (document.getElementById('flexCheckDefault1').checked) {
+                    // Conteúdo para o checkbox 1 (Planning)
+                    bibTex = `@article{planning,
             author = {author1},
             title = {title1},
             journal = {journal1},
@@ -198,9 +203,9 @@
             doi = {doi1},
             url = {url1},
         }`;
-    } else if (document.getElementById('flexCheckDefault2').checked) {
-        // Conteúdo para o checkbox 2 (Import Study)
-        bibTex = `@article{import_study,
+                } else if (document.getElementById('flexCheckDefault2').checked) {
+                    // Conteúdo para o checkbox 2 (Import Study)
+                    bibTex = `@article{import_study,
             author = {author2},
             title = {title2},
             journal = {journal2},
@@ -212,9 +217,9 @@
             doi = {doi2},
             url = {url2},
         }`;
-    } else if (document.getElementById('flexCheckDefault3').checked) {
-        // Conteúdo para o checkbox 3 (Study Selection)
-        bibTex = `@article{study_selection,
+                } else if (document.getElementById('flexCheckDefault3').checked) {
+                    // Conteúdo para o checkbox 3 (Study Selection)
+                    bibTex = `@article{study_selection,
             author = {author3},
             title = {title3},
             journal = {journal3},
@@ -226,9 +231,9 @@
             doi = {doi3},
             url = {url3},
         }`;
-    } else if (document.getElementById('flexCheckDefault4').checked) {
-        // Conteúdo para o checkbox 4 (Quality Assessment)
-        bibTex = `@article{quality_assessment,
+                } else if (document.getElementById('flexCheckDefault4').checked) {
+                    // Conteúdo para o checkbox 4 (Quality Assessment)
+                    bibTex = `@article{quality_assessment,
             author = {author4},
             title = {title4},
             journal = {journal4},
@@ -240,41 +245,36 @@
             doi = {doi4},
             url = {url4},
         }`;
-    } else {
-        // Se nenhum checkbox estiver marcado
-        bibTex = '@article{default,}';
-    }
+                } else {
+                    // Se nenhum checkbox estiver marcado
+                    bibTex = '@article{default,}';
+                }
 
-    document.getElementById('bibTex-generated').value = bibTex;
-}
-
-
-function downloadAsLatex() {
-    console.log('Função downloadAsLatex() chamada.');
-
-    var text = document.getElementById('bibTex-generated').value;
-
-    // Verifica se o campo está vazio
-    if (text.trim() === '') {
-        document.getElementById('error-message').innerText = 'O campo não pode estar vazio!';
-        return;
-    } else {
-        // Se o campo não estiver vazio, limpa a mensagem de erro
-        document.getElementById('error-message').innerText = '';
-    }
-
-    var filename = "export.bib";
-    var blob = new Blob([text], {
-        type: "text/plain;charset=utf-8"
-    });
-    saveAs(blob, filename);
-    console.log('Download realizado com sucesso.');
-}
+                document.getElementById('bibTex-generated').value = bibTex;
+            }
 
 
+            function downloadAsLatex() {
+                console.log('Função downloadAsLatex() chamada.');
 
+                var text = document.getElementById('bibTex-generated').value;
 
+                // Verifica se o campo está vazio
+                if (text.trim() === '') {
+                    document.getElementById('error-message').innerText = 'O campo não pode estar vazio!';
+                    return;
+                } else {
+                    // Se o campo não estiver vazio, limpa a mensagem de erro
+                    document.getElementById('error-message').innerText = '';
+                }
 
+                var filename = "export.bib";
+                var blob = new Blob([text], {
+                    type: "text/plain;charset=utf-8"
+                });
+                saveAs(blob, filename);
+                console.log('Download realizado com sucesso.');
+            }
         </script>
     @endpush
 @endsection
