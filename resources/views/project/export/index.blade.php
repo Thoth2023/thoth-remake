@@ -123,6 +123,7 @@
                                 </div>
                                  <!-- Botão "Baixar" movido para dentro da div .col-8 -->
                             <div class="col-4">
+                            <div id="error-message" style="color: red;"></div>
                                 <button type="submit" class="btn btn-success mt-3" onclick="downloadAsLatex()" >
                                     Baixar
                                 </button>
@@ -248,14 +249,28 @@
 }
 
 
-            function downloadAsLatex() {
-                var text = document.getElementById('bibTex-generated').value;
-                var filename = "export.bib";
-                var blob = new Blob([text], {
-                    type: "text/plain;charset=utf-8"
-                });
-                saveAs(blob, filename);
-            }
+function downloadAsLatex() {
+    console.log('Função downloadAsLatex() chamada.');
+
+    var text = document.getElementById('bibTex-generated').value;
+
+    // Verifica se o campo está vazio
+    if (text.trim() === '') {
+        document.getElementById('error-message').innerText = 'O campo não pode estar vazio!';
+        return;
+    } else {
+        // Se o campo não estiver vazio, limpa a mensagem de erro
+        document.getElementById('error-message').innerText = '';
+    }
+
+    var filename = "export.bib";
+    var blob = new Blob([text], {
+        type: "text/plain;charset=utf-8"
+    });
+    saveAs(blob, filename);
+    console.log('Download realizado com sucesso.');
+}
+
 
 
 
