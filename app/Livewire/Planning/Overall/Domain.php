@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Livewire\Planning\Overall;
+
+use Livewire\Component;
+use App\Models\Database;
+use App\Models\Keyword;
+use App\Models\Language;
+use App\Models\Project;
+use App\Models\StudyType;
+use App\Models\Domain as DomainModel;
+use App\Models\Project\Planning\DataExtraction\QuestionTypes;
+
+class Domain extends Component
+{
+    public $currentProject;
+    public $currentDomain;
+    public $domains = [];
+
+    /**
+     * Fields to be filled by the form.
+     */
+    public $description;
+
+    /**
+     * Form state.
+     */
+    public $form = [
+        'isEditing' => false,
+    ];
+
+    /**
+     * Validation rules.
+     */
+    protected $rules = [
+        'currentProject' => 'required',
+        'description' => 'required|string|max:255',
+    ];
+
+    /**
+     * Executed when the component is mounted. It sets the
+     * project id and retrieves the domains.
+     */
+    public function mount()
+    {
+        $projectId = request()->segment(2);
+        $this->currentProject = Project::findOrFail($projectId);
+        $this->currentDomain = null;
+        $this->domains = DomainModel::where(
+            'id_project', $this->currentProject->id_project
+        )->get();
+    }
+
+    /**
+     * Reset the fields to the default values.
+     */
+    public function resetFields()
+    {
+        $this->description = '';
+        $this->currentDomain = null;
+        $this->form['isEditing'] = false;
+    }
+
+    /**
+     * Update domains list.
+     */
+    public function updateDomains()
+    {
+        $this->domains = DomainModel::where(
+            'id_project', $this->currentProject->id_project
+        )->get();
+    }
+
+    /**
+     * Submit the form. It validates the input fields
+     * and creates or updates a domain.
+     */
+    public function submit()
+    {
+        $this->validate();
+
+        $updateIf = [
+            'id_domain' => $this->currentDomain?->id_domain,
+        ];
+
+        try {
+            DomainModel::updateOrCreate($updateIf, [
+                'id_project' => $this->currentProject->id_project,
+                'description' => $this->description,
+            ]);
+
+            $this->updateDomains();
+        } catch (\Exception $e) {
+            $this->addError('description', $e->getMessage());
+        } finally {
+            $this->resetFields();
+        }
+    }
+
+    /**
+     * Fill the form fields with the domain data.
+     */
+    public function edit(string $domainId)
+    {
+        $this->currentDomain = DomainModel::findOrFail($domainId);
+        $this->description = $this->currentDomain->description;
+        $this->form['isEditing'] = true;
+    }
+
+    /**
+     * Delete a domain.
+     */
+    public function delete(string $domainId)
+    {
+        $currentDomain = DomainModel::findOrFail($domainId);
+        $currentDomain->delete();
+        $this->updateDomains();
+    }
+
+    /**
+     * Render the component.
+     */
+    public function render()
+    {
+        $project = $this->currentProject;
+
+        return view('livewire.planning.overall.domain', compact(
+            'project',
+        ))->extends('layouts.app');
+    }
+}

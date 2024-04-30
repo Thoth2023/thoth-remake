@@ -7,6 +7,7 @@ return [
             'title' => 'Domains',
             'description' => 'Description',
             'add' => 'Add Domain',
+            'update' => 'Update Domain',
             'list' => [
                 'headers' => [
                     'name' => 'Name',
@@ -34,6 +35,7 @@ return [
                     ],
                 ],
                 'empty' => 'No domains have been added yet.',
+                'no-results' => 'No results found.',
             ],
             'help' => [
                 'title' => 'Domains',
