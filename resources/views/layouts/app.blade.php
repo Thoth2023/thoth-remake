@@ -51,6 +51,8 @@
             href="{{ asset("assets/css/argon-dashboard.css") }}"
             rel="stylesheet"
         />
+        <link rel="stylesheet" href="{{ asset("assets/css/select.css") }}" />
+        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
     </head>
 
     <body class="{{ $class ?? "" }}">

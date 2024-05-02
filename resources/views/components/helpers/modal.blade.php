@@ -1,5 +1,5 @@
 @props([
-    "target",
+    "target" => "modal",
     "modalTitle",
     "modalContent",
 ])
