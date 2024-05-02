@@ -1,5 +1,5 @@
 @props([
-    "isEditing" => "false",
+    "isEditing" => false,
 ])
 
 <button

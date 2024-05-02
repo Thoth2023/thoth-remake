@@ -2,19 +2,25 @@
 
 @props([
     "search" => "false",
+    "label" => "",
 ])
 
-<select
-    {{
-        $attributes->merge([
-            "class" => "form-control",
-        ])
-    }}
-    date-type="select-multiple"
-    data-select="{{ $target }}"
->
-    {{ $slot }}
-</select>
+<div class="d-flex flex-column">
+    <label class="form-control-label mx-0 mb-1" for="{{ $target }}">
+        {{ $label }}
+    </label>
+    <select
+        id="{{ $target }}"
+        {{
+            $attributes->merge([
+                "class" => "form-control",
+            ])
+        }}
+        data-select="{{ $target }}"
+    >
+        {{ $slot }}
+    </select>
+</div>
 
 <script>
     const select = document.querySelector('[data-select="{{ $target }}"]');
