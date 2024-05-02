@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
-                target="asda-modal"
+                target="search-domains"
                 modalTitle="{{ __('project/planning.overall.domain.help.title') }}"
                 modalContent="{{ __('project/planning.overall.domain.help.content') }}"
             />

@@ -11,7 +11,7 @@ use App\Models\StudyType;
 use App\Models\Domain as DomainModel;
 use App\Models\Project\Planning\DataExtraction\QuestionTypes;
 
-class Domain extends Component
+class Domains extends Component
 {
     public $currentProject;
     public $currentDomain;
@@ -124,7 +124,7 @@ class Domain extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.domain', compact(
+        return view('livewire.planning.overall.domains', compact(
             'project',
         ))->extends('layouts.app');
     }
