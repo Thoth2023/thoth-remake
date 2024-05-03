@@ -48,6 +48,10 @@ return [
             'title' => 'Idiomas',
             'add' => 'Adicionar Idioma',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Selecione um Idioma',
+                    'validation' => 'O campo de idioma é obrigatório.'
+                ],
                 'headers' => [
                     'languages' => 'Idiomas',
                     'actions' => 'Ações',

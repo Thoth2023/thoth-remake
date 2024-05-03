@@ -48,6 +48,10 @@ return [
             'title' => 'Languages',
             'add' => 'Add Language',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Select a Language',
+                    'validation' => 'The language field is required.',
+                ],
                 'headers' => [
                     'languages' => 'Languages',
                     'actions' => 'Actions',

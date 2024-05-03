@@ -201,5 +201,7 @@
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>
+
+        @stack("scripts")
     </body>
 </html>
