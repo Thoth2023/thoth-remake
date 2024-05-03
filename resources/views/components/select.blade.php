@@ -1,35 +1,42 @@
 <?php $target = "select-" . rand(); ?>
 
 @props([
+    "sorted" => "false",
     "search" => "false",
     "label" => "",
 ])
 
-<div class="d-flex flex-column">
+<div
+    wire:ignore
+    class="d-flex flex-column"
+>
     <label class="form-control-label mx-0 mb-1" for="{{ $target }}">
         {{ $label }}
     </label>
     <select
-        id="{{ $target }}"
         {{
             $attributes->merge([
                 "class" => "form-control",
             ])
         }}
-        data-select="{{ $target }}"
+        data-ref="{{ $target }}"
     >
         {{ $slot }}
     </select>
 </div>
 
-<script>
-    const select = document.querySelector('[data-select="{{ $target }}"]');
-    const hasSearch = {{ $search }};
+@push("scripts")
+    <script>
+        const select = document.querySelector('[data-ref=\'{{ $target }}\']');
+        const hasSearch = {{ $search }};
+        const isSorted = {{ $sorted }};
 
-    new Choices(select, {
-        noResultsText: 'Nenhum resultado encontrado',
-        noChoicesText: 'Nenhuma opção selecionada',
-        itemSelectText: 'Clique para selecionar',
-        searchEnabled: hasSearch,
-    });
-</script>
+        new Choices(select, {
+            noResultsText: 'Nenhum resultado encontrado',
+            noChoicesText: 'Nenhuma opção selecionada',
+            itemSelectText: 'Clique para selecionar',
+            searchEnabled: hasSearch,
+            shouldSort: isSorted,
+        });
+    </script>
+@endpush
