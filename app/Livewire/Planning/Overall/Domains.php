@@ -3,13 +3,8 @@
 namespace App\Livewire\Planning\Overall;
 
 use Livewire\Component;
-use App\Models\Database;
-use App\Models\Keyword;
-use App\Models\Language;
-use App\Models\Project;
-use App\Models\StudyType;
+use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
-use App\Models\Project\Planning\DataExtraction\QuestionTypes;
 
 class Domains extends Component
 {
@@ -38,13 +33,20 @@ class Domains extends Component
     ];
 
     /**
+     * Custom error messages for the validation rules.
+     */
+    protected $messages = [
+        'description.required' => 'The description field is required.',
+    ];
+
+    /**
      * Executed when the component is mounted. It sets the
      * project id and retrieves the domains.
      */
     public function mount()
     {
         $projectId = request()->segment(2);
-        $this->currentProject = Project::findOrFail($projectId);
+        $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentDomain = null;
         $this->domains = DomainModel::where(
             'id_project', $this->currentProject->id_project
