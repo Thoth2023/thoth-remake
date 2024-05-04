@@ -1,5 +1,7 @@
+<?php $randomId = rand(); ?>
+
 @props([
-    "id",
+    "id" => "input-{{ $randomId }}",
     "label" => "",
 ])
 
@@ -9,8 +11,6 @@
     </label>
     <input
         id="{{ $id }}"
-        class="form-control"
-        type="text"
-        {{ $attributes->merge(["class" => "form-control"]) }}
+        {{ $attributes->merge(["class" => "form-control", "type" => "text"]) }}
     />
 </div>

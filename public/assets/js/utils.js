@@ -36,25 +36,36 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('input', function () {
             const searchTerm = this.value.trim().toLowerCase()
             const targetId = this.getAttribute('data-target')
+            const isTable = this.getAttribute('data-is-table')
 
-            filterItems(searchTerm, targetId)
+            filterItems(searchTerm, targetId, isTable ? 'table-row' : 'block')
         })
     }
 
-    function filterItems(searchTerm, targetId) {
-        const items = Array.from(document.querySelectorAll(`[data-item="${targetId}"]`))
-        const filteredItems = items.filter(item => item.textContent.trim().toLowerCase().includes(
-            searchTerm))
+    function filterItems(searchTerm, targetId, displayType = 'block') {
+        const items = document.querySelectorAll(`[data-item="${targetId}"]`);
+        const filteredItems = Array.from(items).filter(
+            (item) => item.textContent.trim().toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        const childrenDataSearch = [];
 
-        if (searchTerm.length > 0 && filteredItems.length === 0) {
-            document.querySelector(`[data-empty="${targetId}"]`).style.display = 'block'
-        } else {
-            document.querySelector(`[data-empty="${targetId}"]`).style.display = 'none'
+        for (const item of filteredItems) {
+            const elementsWithSearch = item.querySelectorAll('[data-search]');
+            childrenDataSearch.push(...elementsWithSearch);
+        }
+        const empty = document.querySelector(`[data-empty="${targetId}"]`)
+
+        if (empty) {
+            if (searchTerm.length > 0 && childrenDataSearch.length === 0) {
+                empty.style.display = 'block'
+            } else {
+                empty.style.display = 'none'
+            }
         }
 
         for (const item of items) {
             if (filteredItems.includes(item)) {
-                item.style.display = 'block'
+                item.style.display = displayType
             } else {
                 item.style.cssText = 'display: none !important'
             }
