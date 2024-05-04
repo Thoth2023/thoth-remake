@@ -37,19 +37,19 @@
         <div class="card-header">
             <h4>{{ $project->title }}</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body pt-0">
             <div class="nav-wrapper position-relative end-0">
-                <ul class="nav nav-pills nav-fill p-1" id="myTabs">
+                <ul class="d-flex gap-2 nav nav-fill p-1" id="myTabs">
                     @foreach ($tabs as $page => $pageDetails)
-                        <li class="nav-item">
+                        <li class="nav-item" style="flex-grow: 1;">
                             @if ($pageDetails['route'])
-                                <a class="btn btn-lg mb-0 {{ $activePage === $page ? 'bg-gradient-dark' : 'bg-gradient-faded-white' }}"
+                                <a class="w-100 btn btn-md mb-0 {{ $activePage === $page ? 'bg-gradient-dark' : '' }}"
                                     href="{{ route($pageDetails['route'], $project->id_project) }}">
-                                    <i class="{{ $pageDetails['icon'] }}"></i> {{ $pageDetails['label'] }}
+                                    <i class="{{ $pageDetails['icon'] }}" style="width: 20px;"></i> {{ $pageDetails['label'] }}
                                 </a>
                             @else
-                                <button type="button" class="btn-lg btn bg-gradient-default">
-                                    <i class="{{ $pageDetails['icon'] }}"></i> {{ $pageDetails['label'] }}
+                                <button type="button" class="w-100 btn btn-md mb-0">
+                                    <i class="{{ $pageDetails['icon'] }}" style="width: 20px;"></i> {{ $pageDetails['label'] }}
                                 </button>
                             @endif
                         </li>
