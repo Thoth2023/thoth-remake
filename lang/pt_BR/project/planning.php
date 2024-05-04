@@ -75,6 +75,10 @@ return [
             'types' => 'Tipos',
             'add' => 'Adicionar Tipo de Estudo',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Selecione um Tipo de Estudo',
+                    'validation' => 'O campo de tipo de estudo é obrigatório.',
+                ],
                 'headers' => [
                     'types' => 'Tipos',
                     'actions' => 'Ações',

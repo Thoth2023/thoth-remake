@@ -3,34 +3,34 @@
 namespace App\Livewire\Planning\Overall;
 
 use Livewire\Component;
-use App\Models\Language as LanguageModel;
+use App\Models\StudyType as StudyTypeModel;
 use App\Models\Project as ProjectModel;
-use App\Models\ProjectLanguage as ProjectLanguageModel;
+use App\Models\ProjectStudyType as ProjectStudyTypeModel;
 
-class Languages extends Component
+class Studies extends Component
 {
     public $currentProject;
-    public $languages = [];
+    public $studies = [];
 
     /**
      * Fields to be filled by the form.
      */
-    public $language;
+    public $studyType;
 
     /**
      * Validation rules.
      */
     protected $rules = [
         'currentProject' => 'required',
-        'language' => 'required|array',
-        'language.*.value' => 'number|exists:languages,id_language',
+        'studyType' => 'required|array',
+        'studyType.*.value' => 'number|exists:studies,id_language',
     ];
 
     /**
      * Custom error messages for the validation rules.
      */
     protected $messages = [
-        'language.required' => 'The language field is required.',
+        'studyType.required' => 'The study type field is required.',
     ];
 
     /**
@@ -41,7 +41,7 @@ class Languages extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
-        $this->languages = LanguageModel::all();
+        $this->studies = StudyTypeModel::all();
     }
 
     /**
@@ -52,32 +52,32 @@ class Languages extends Component
         $this->validate();
 
         try {
-            $projectLanguage = ProjectLanguageModel::firstOrNew([
+            $projectStudyType = ProjectStudyTypeModel::firstOrNew([
                 'id_project' => $this->currentProject->id_project,
-                'id_language' => $this->language["value"],
+                'id_study_type' => $this->studyType["value"],
             ]);
 
-            if ($projectLanguage->exists) {
-                $this->addError('language', 'The provided language already exists in this project.');
+            if ($projectStudyType->exists) {
+                $this->addError('studyType', 'The provided study type already exists in this project.');
                 return;
             }
 
-            $projectLanguage->save();
+            $projectStudyType->save();
         } catch (\Exception $e) {
-            $this->addError('language', $e->getMessage());
+            $this->addError('studyType', $e->getMessage());
         }
     }
 
     /**
      * Delete an item.
      */
-    public function delete(string $languageId)
+    public function delete(string $studyTypeId)
     {
-        $language = ProjectLanguageModel::where('id_project', $this->currentProject->id_project)
-            ->where('id_language', $languageId)
+        $studyType = ProjectStudyTypeModel::where('id_project', $this->currentProject->id_project)
+            ->where('id_study_type', $studyTypeId)
             ->first();
 
-        $language?->delete();
+        $studyType?->delete();
     }
 
     /**
@@ -87,7 +87,7 @@ class Languages extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.languages', compact(
+        return view('livewire.planning.overall.studies', compact(
             'project',
         ))->extends('layouts.app');
     }

@@ -75,6 +75,10 @@ return [
             'types' => 'Types',
             'add' => 'Add Study Type',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Select a Study Type',
+                    'validation' => 'The study type field is required.',
+                ],
                 'headers' => [
                     'types' => 'Types',
                     'actions' => 'Actions',

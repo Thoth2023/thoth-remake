@@ -41,7 +41,7 @@ class Domains extends Component
 
     /**
      * Executed when the component is mounted. It sets the
-     * project id and retrieves the domains.
+     * project id and retrieves the items.
      */
     public function mount()
     {
@@ -64,7 +64,7 @@ class Domains extends Component
     }
 
     /**
-     * Update domains list.
+     * Update the items.
      */
     public function updateDomains()
     {
@@ -75,7 +75,7 @@ class Domains extends Component
 
     /**
      * Submit the form. It validates the input fields
-     * and creates or updates a domain.
+     * and creates or updates an item.
      */
     public function submit()
     {
@@ -100,7 +100,7 @@ class Domains extends Component
     }
 
     /**
-     * Fill the form fields with the domain data.
+     * Fill the form fields with the given data.
      */
     public function edit(string $domainId)
     {
@@ -110,7 +110,7 @@ class Domains extends Component
     }
 
     /**
-     * Delete a domain.
+     * Delete an item.
      */
     public function delete(string $domainId)
     {
