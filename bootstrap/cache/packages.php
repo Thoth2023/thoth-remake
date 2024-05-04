@@ -28,20 +28,6 @@
       'LaravelPwa' => 'Ladumor\\LaravelPwa\\LaravelPwa',
     ),
   ),
-  'laravel-frontend-presets/argon' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'LaravelFrontendPresets\\ArgonPreset\\ArgonPresetServiceProvider',
-    ),
-  ),
-  'laravel/legacy-factories' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Illuminate\\Database\\Eloquent\\LegacyFactoryServiceProvider',
-    ),
-  ),
   'laravel/sail' => 
   array (
     'providers' => 
