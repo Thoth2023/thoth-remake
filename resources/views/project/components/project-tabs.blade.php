@@ -1,9 +1,11 @@
 <div class="card pb-2" style="overflow: hidden">
     <div class="card-header pb-0">
         <h6 class="text-lg mb-0 pb-0">{{ $header }}</h6>
-        <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0;">
+        <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
     </div>
-    <ul class="override px-4 container d-flex gap-2 justify-content-center nav nav-tabs">
+    <ul
+        class="override px-4 container d-flex gap-2 justify-content-center nav nav-tabs"
+    >
         @foreach ($tabs as $tab)
             <li class="nav-item">
                 <a
@@ -50,6 +52,6 @@
                 );
                 if (activeTab) activeTab.click();
             }
-        })();
+        });
     })();
 </script>

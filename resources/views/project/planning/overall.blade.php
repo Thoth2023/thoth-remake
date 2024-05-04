@@ -3,5 +3,6 @@
         @livewire("planning.overall.domains")
         @livewire("planning.overall.languages")
         @livewire("planning.overall.studies")
+        @livewire("planning.overall.keywords")
     </div>
 </div>
