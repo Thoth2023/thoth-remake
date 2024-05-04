@@ -22,9 +22,7 @@
                 @enderror
             </div>
             <div>
-                <x-helpers.submit-button
-                    isEditing="{{ $form['isEditing'] }}"
-                >
+                <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
                     {{
                         $form["isEditing"]
                             ? __("project/planning.overall.domain.update")
@@ -67,7 +65,7 @@
                 </x-helpers.description>
             @endforelse
             <x-search.empty target="search-domains">
-                {{ __("project/planning.overall.domain.list.no-results") }}
+                {{ __("project/planning.overall.no-results") }}
             </x-search.empty>
         </div>
     </div>

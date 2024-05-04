@@ -3,6 +3,7 @@
 return [
     'overall' => [
         'title' => 'Overall Planning',
+        'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domains',
             'description' => 'Description',
