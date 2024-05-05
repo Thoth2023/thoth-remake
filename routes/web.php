@@ -83,49 +83,9 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 Route::prefix('/project/{projectId}')->group(function () {
     // Planning Routes
     Route::prefix('/planning')->group(function () {
-        // Overall Route
         Route::get('/', [OverallController::class, 'index'])
             ->name('project.planning.index')
             ->middleware('auth');
-
-        // Domain Routes
-        Route::resource('/domains', DomainController::class)
-            ->only(['store', 'update', 'destroy'])
-            ->names([
-                'store' => 'project.planning.domains.store',
-                'update' => 'project.planning.domains.update',
-                'destroy' => 'project.planning.domains.destroy',
-            ]);
-
-        // Language Routes
-        Route::resource('/languages', LanguageController::class)
-            ->only(['store', 'destroy'])
-            ->names([
-                'store' => 'project.planning.languages.store',
-                'destroy' => 'project.planning.languages.destroy',
-            ]);
-
-        // Study Type Routes
-        Route::resource('/study-types', StudyTypeController::class)
-            ->only(['store', 'destroy'])
-            ->names([
-                'store' => 'project.planning.studyTypes.store',
-                'destroy' => 'project.planning.studyTypes.destroy',
-            ]);
-
-        // Keyword Routes
-        Route::resource('/keywords', KeywordController::class)
-            ->only(['store', 'update', 'destroy'])
-            ->names([
-                'store' => 'project.planning.keywords.store',
-                'update' => 'project.planning.keywords.update',
-                'destroy' => 'project.planning.keywords.destroy',
-            ]);
-
-        // Date routes
-        Route::prefix('/dates')->group(function () {
-            Route::post('/add', [DateController::class, 'addDate'])->name('project.planning.dates.add');
-        });
 
         // Database Routes
         Route::resource('/databases', DatabaseController::class)
