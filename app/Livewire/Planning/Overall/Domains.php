@@ -5,6 +5,7 @@ namespace App\Livewire\Planning\Overall;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class Domains extends Component
 {
@@ -93,7 +94,7 @@ class Domains extends Component
                 'description' => $this->description,
             ]);
 
-            $this->logActivity(
+            Log::logActivity(
                 action: $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain',
                 description: $updatedOrCreated->description,
                 projectId: $this->currentProject->id_project
@@ -125,7 +126,7 @@ class Domains extends Component
         $currentDomain = DomainModel::findOrFail($domainId);
         $currentDomain->delete();
 
-        $this->logActivity(
+        Log::logActivity(
             action: 'Deleted the domain',
             description: $currentDomain->description,
             projectId: $this->currentProject->id_project
@@ -141,9 +142,11 @@ class Domains extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.domains', compact(
-            'project',
-        )
+        return view(
+            'livewire.planning.overall.domains',
+            compact(
+                'project',
+            )
         )->extends('layouts.app');
     }
 }
