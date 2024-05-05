@@ -3,6 +3,7 @@
 namespace App\Livewire\Planning\Overall;
 
 use Livewire\Component;
+use App\Utils\ActivityLogHelper;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
 
@@ -86,10 +87,16 @@ class Domains extends Component
         ];
 
         try {
-            DomainModel::updateOrCreate($updateIf, [
+            $updatedOrCreated = DomainModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'description' => $this->description,
             ]);
+
+            $this->logActivity(
+                action: $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain',
+                description: $updatedOrCreated->description,
+                projectId: $this->currentProject->id_project
+            );
 
             $this->updateDomains();
         } catch (\Exception $e) {
@@ -116,6 +123,13 @@ class Domains extends Component
     {
         $currentDomain = DomainModel::findOrFail($domainId);
         $currentDomain->delete();
+
+        $this->logActivity(
+            action: 'Deleted the domain',
+            description: $currentDomain->description,
+            projectId: $this->currentProject->id_project
+        );
+
         $this->updateDomains();
     }
 
@@ -129,5 +143,23 @@ class Domains extends Component
         return view('livewire.planning.overall.domains', compact(
             'project',
         ))->extends('layouts.app');
+    }
+
+    /**
+     * Log activity for the specified domain.
+     *
+     * @param  string  $action
+     * @param  string  $description
+     * @param  string  $projectId
+     * @return void
+     */
+    private function logActivity(string $action, string $description, string $projectId): void
+    {
+        $activity = $action . " " . $description;
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $projectId
+        );
     }
 }
