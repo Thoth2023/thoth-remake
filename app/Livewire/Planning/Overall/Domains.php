@@ -3,7 +3,6 @@
 namespace App\Livewire\Planning\Overall;
 
 use Livewire\Component;
-use App\Utils\ActivityLogHelper;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
 
@@ -50,7 +49,8 @@ class Domains extends Component
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentDomain = null;
         $this->domains = DomainModel::where(
-            'id_project', $this->currentProject->id_project
+            'id_project',
+            $this->currentProject->id_project
         )->get();
     }
 
@@ -70,7 +70,8 @@ class Domains extends Component
     public function updateDomains()
     {
         $this->domains = DomainModel::where(
-            'id_project', $this->currentProject->id_project
+            'id_project',
+            $this->currentProject->id_project
         )->get();
     }
 
@@ -142,24 +143,7 @@ class Domains extends Component
 
         return view('livewire.planning.overall.domains', compact(
             'project',
-        ))->extends('layouts.app');
-    }
-
-    /**
-     * Log activity for the specified domain.
-     *
-     * @param  string  $action
-     * @param  string  $description
-     * @param  string  $projectId
-     * @return void
-     */
-    private function logActivity(string $action, string $description, string $projectId): void
-    {
-        $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog(
-            activity: $activity,
-            id_module: 1,
-            id_project: $projectId
-        );
+        )
+        )->extends('layouts.app');
     }
 }
