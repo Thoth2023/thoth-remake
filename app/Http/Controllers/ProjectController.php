@@ -95,10 +95,15 @@ class ProjectController extends Controller
     public function update(Request $request, string $id)
     {
         $project = Project::findOrFail($id);
-        $project->update($request->all());
+        $user_id = Auth::user()->id;
 
+        if ($project->users()->wherePivot('id_user', $user_id)->wherePivot('level', 1)->doesntExist()) {
+            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+        }
+
+        $project->update($request->all());
         $activity = "Edited project";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user_id);
 
         return redirect('/projects');
     }
@@ -166,15 +171,20 @@ class ProjectController extends Controller
         $member_id = $this->findIdByEmail($email_member);
         $name_member = User::findOrFail($member_id);
         $level_member = $request->get('level_member');
+        $user_id = Auth::user()->id;
 
         if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
             return redirect()->back()->with('error', 'The user is already associated with the project.');
         }
 
+        if ($project->users()->wherePivot('id_user', $user_id)->wherePivot('level', 1)->doesntExist()) {
+            return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+        }
+
         $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
 
         $activity = "Added a new member: ".$name_member->username;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user_id);
 
         $project->update($request->all());
         return redirect()->back()->with('succes', $name_member->username.' has been added to the current project.');
