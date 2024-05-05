@@ -29,7 +29,7 @@
                                         <div class="form-group">
                                             <label for="example-text-input"
                                                 class="form-control-label">{{ __('project/planning.research-questions.form.id') }}</label>
-                                            <input class="form-control" type="text" name="id" required>
+                                                <input class="form-control" type="text" name="id" required pattern="[a-zA-Z0-9]+" placeholder="Não utilize caracteres especiais.">
                                             <label for="example-text-input"
                                                 class="form-control-label">{{ __('project/planning.research-questions.form.description') }}</label>
                                             <input class="form-control" type="text" name="description" required>
