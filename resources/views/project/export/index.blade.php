@@ -109,11 +109,14 @@
                                     <button type="submit" class="btn btn-success mt-3" onclick="downloadAsLatex()">
                                         Baixar
                                     </button>
-                                    <form action="https://www.overleaf.com/docs" method="post" target="_blank">
-                                        <button type="submit" class="btn btn-success mt-3">
+                                    <form id="overleafForm" action="https://www.overleaf.com/docs" method="post" target="_blank">
+                                        <input type="hidden" name="snip_uri" id="snip_uri">
+                                        <button type="button" class="btn btn-success mt-3" onclick="createProjectOnOverleaf()">
                                             Criar Projeto no Overleaf
                                         </button>
                                     </form>
+
+
                                 </div>
                             </div> <!-- Fechamento da div .col-8 -->
                         </div> <!-- Fechamento da div .row -->
@@ -231,6 +234,18 @@
                 saveAs(blob, filename);
                 console.log('Download realizado com sucesso.');
             }
+            function createProjectOnOverleaf() {
+    generateBibTex(); // Gera o conteúdo LaTeX
+    openInOverleaf(); // Envia o formulário para o Overleaf
+}
+
+function openInOverleaf() {
+    var latexContent = document.getElementById('bibTex-generated').value;
+    document.getElementById('snip_uri').value = 'data:text/plain;charset=utf-8,' + encodeURIComponent(latexContent);
+    document.getElementById('overleafForm').submit(); // Envio do formulário
+}
+
+
         </script>
     @endpush
 @endsection
