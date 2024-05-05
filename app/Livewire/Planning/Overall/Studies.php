@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\StudyType as StudyTypeModel;
 use App\Models\Project as ProjectModel;
 use App\Models\ProjectStudyType as ProjectStudyTypeModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class Studies extends Component
 {
@@ -64,7 +65,7 @@ class Studies extends Component
 
             $studyType = StudyTypeModel::findOrFail($this->studyType["value"]);
 
-            $this->logActivity(
+            Log::logActivity(
                 action: 'Added the study',
                 description: $studyType->description,
                 projectId: $this->currentProject->id_project,
@@ -88,7 +89,7 @@ class Studies extends Component
         $deleted = StudyTypeModel::findOrFail($studyTypeId);
         $studyType?->delete();
 
-        $this->logActivity(
+        Log::logActivity(
             action: 'Deleted the study',
             description: $deleted->description,
             projectId: $this->currentProject->id_project,

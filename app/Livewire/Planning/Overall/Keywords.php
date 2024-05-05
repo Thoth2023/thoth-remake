@@ -5,6 +5,7 @@ namespace App\Livewire\Planning\Overall;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Keyword as KeywordModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class Keywords extends Component
 {
@@ -93,7 +94,7 @@ class Keywords extends Component
                 'description' => $this->description,
             ]);
 
-            $this->logActivity(
+            Log::logActivity(
                 action: $this->form['isEditing'] ? 'Updated the keyword' : 'Added a keyword',
                 description: $updatedOrCreated->description,
                 projectId: $this->currentProject->id_project
@@ -125,7 +126,7 @@ class Keywords extends Component
         $currentKeyword = KeywordModel::findOrFail($keywordId);
         $currentKeyword->delete();
 
-        $this->logActivity(
+        Log::logActivity(
             action: 'Deleted the keyword',
             description: $currentKeyword->description,
             projectId: $this->currentProject->id_project

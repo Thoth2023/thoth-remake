@@ -16,4 +16,16 @@ class ActivityLogHelper
             'id_user' => $id_user ?? Auth::user()->id,
         ]);
     }
+
+    public static function logActivity(string $action, string $description, string $projectId, string $userId = null): void
+    {
+        $activity = $action . " " . $description;
+
+        ActivityLogHelper::insertActivityLog(
+            activity: $activity,
+            id_module: 1,
+            id_project: $projectId,
+            id_user: $userId ?? Auth::user()->id
+        );
+    }
 }

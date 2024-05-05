@@ -4,6 +4,7 @@ namespace App\Livewire\Planning\Overall;
 
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class Dates extends Component
 {
@@ -60,7 +61,7 @@ class Dates extends Component
             endDate: $this->endDate
         );
 
-        $this->logActivity(
+        Log::logActivity(
             action: $dates === null ? 'Added project dates: ' : 'Updated project dates: ',
             description: $this->startDate . ' - ' . $this->endDate,
             projectId: $this->currentProject->id_project,

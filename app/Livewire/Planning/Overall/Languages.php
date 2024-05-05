@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Language as LanguageModel;
 use App\Models\Project as ProjectModel;
 use App\Models\ProjectLanguage as ProjectLanguageModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class Languages extends Component
 {
@@ -64,7 +65,7 @@ class Languages extends Component
 
             $language = LanguageModel::findOrFail($this->language["value"]);
 
-            $this->logActivity(
+            Log::logActivity(
                 action: 'Added the language',
                 description: $language->description,
                 projectId: $this->currentProject->id_project,
@@ -88,7 +89,7 @@ class Languages extends Component
         $deleted = LanguageModel::findOrFail($languageId);
         $language->delete();
 
-        $this->logActivity(
+        Log::logActivity(
             action: 'Deleted the language',
             description: $deleted->description,
             projectId: $this->currentProject->id_project,
