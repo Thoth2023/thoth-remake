@@ -10,6 +10,7 @@
         "blade-formatter": "^1.41.1",
         "bootstrap": "^5.2.3",
         "laravel-vite-plugin": "^0.7.2",
+        "prettier-plugin-blade": "^2.1.12",
         "sass": "^1.56.1",
         "vite": "^4.0.0"
     },

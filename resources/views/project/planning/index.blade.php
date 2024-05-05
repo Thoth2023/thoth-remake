@@ -49,7 +49,7 @@
                         'activeTab' => 'overall-info-tab',
                     ])
 
-                    <div class="tab-content">
+                    <div class="tab-content mt-4">
                         <div class="tab-pane fade show active" id="overall-info">
                             @include('project.planning.overall')
                         </div>

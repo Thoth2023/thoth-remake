@@ -3,10 +3,12 @@
 return [
     'overall' => [
         'title' => 'Planejamento Geral',
+        'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domínios',
             'description' => 'Descrição',
             'add' => 'Adicionar Domínio',
+            'update' => 'Atualizar Domínio',
             'list' => [
                 'headers' => [
                     'name' => 'Nome',
@@ -34,6 +36,7 @@ return [
                     ],
                 ],
                 'empty' => 'Nenhum domínio foi adicionado ainda.',
+                'no-results' => 'Nenhum resultado encontrado.',
             ],
             'help' => [
                 'title' => 'Domínios',
@@ -46,6 +49,10 @@ return [
             'title' => 'Idiomas',
             'add' => 'Adicionar Idioma',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Selecione um Idioma',
+                    'validation' => 'O campo de idioma é obrigatório.'
+                ],
                 'headers' => [
                     'languages' => 'Idiomas',
                     'actions' => 'Ações',
@@ -69,6 +76,10 @@ return [
             'types' => 'Tipos',
             'add' => 'Adicionar Tipo de Estudo',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Selecione um Tipo de Estudo',
+                    'validation' => 'O campo de tipo de estudo é obrigatório.',
+                ],
                 'headers' => [
                     'types' => 'Tipos',
                     'actions' => 'Ações',

@@ -1,26 +1,11 @@
 <div class="col-12">
-    <div class="card bg-secondary-overview">
-        <div class="card-group justify-content-center">
-            <!-- Domain Section starts here -->
-            @include('project.planning.overall.domain')
-            <!-- Domain Section ends here -->
-
-            <!-- Language Section starts here -->
-            @include('project.planning.overall.language')
-            <!-- Language Section ends here -->
-
-            <!-- Study Type Section starts here -->
-            @include('project.planning.overall.study-type')
-            <!-- Study Type Section ends here -->
-
-            <!-- Keywords Section starts here -->
-            @include('project.planning.overall.keywords')
-            <!-- Keywords Section ends here -->
-
-            <!-- Date Section starts here -->
-            @include('project.planning.overall.dates')
-            <!-- Date Section ends here -->
-
-        </div>
+    <div class="grid-items-2 gap-4">
+        @livewire("planning.overall.domains")
+        @livewire("planning.overall.languages")
+        @livewire("planning.overall.studies")
+        @livewire("planning.overall.keywords")
+    </div>
+    <div class="grid-items-1 gap-4 my-4">
+        @livewire("planning.overall.dates")
     </div>
 </div>

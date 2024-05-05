@@ -1,0 +1,51 @@
+.override.nav-tabs {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+.override.nav-tabs .nav-item {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.override.nav-tabs .nav-link:hover {
+    border-radius: 10px;
+}
+
+.override.nav-tabs .nav-link:focus {
+    border: 1px solid #dee2e6 !important;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.override.nav-tabs .nav-link.active {
+    border: 1px solid #212229 !important;
+    background-color: #212229;
+    border-radius: 10px;
+    color: white !important;
+}
+
+.grid-items-1 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-items-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-items-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+    .grid-items-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-items-3 {
+        grid-template-columns: 1fr;
+    }
+}

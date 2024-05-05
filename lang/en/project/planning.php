@@ -3,10 +3,12 @@
 return [
     'overall' => [
         'title' => 'Overall Planning',
+        'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domains',
             'description' => 'Description',
             'add' => 'Add Domain',
+            'update' => 'Update Domain',
             'list' => [
                 'headers' => [
                     'name' => 'Name',
@@ -34,6 +36,7 @@ return [
                     ],
                 ],
                 'empty' => 'No domains have been added yet.',
+                'no-results' => 'No results found.',
             ],
             'help' => [
                 'title' => 'Domains',
@@ -46,6 +49,10 @@ return [
             'title' => 'Languages',
             'add' => 'Add Language',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Select a Language',
+                    'validation' => 'The language field is required.',
+                ],
                 'headers' => [
                     'languages' => 'Languages',
                     'actions' => 'Actions',
@@ -69,6 +76,10 @@ return [
             'types' => 'Types',
             'add' => 'Add Study Type',
             'list' => [
+                'select' => [
+                    'placeholder' => 'Select a Study Type',
+                    'validation' => 'The study type field is required.',
+                ],
                 'headers' => [
                     'types' => 'Types',
                     'actions' => 'Actions',
