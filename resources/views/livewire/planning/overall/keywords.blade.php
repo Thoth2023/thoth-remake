@@ -43,7 +43,9 @@
                     target="search-keywords"
                     class="d-flex justify-content-between"
                 >
-                    <span data-search>{{ $keyword->description }}</span>
+                    <span class="text-break" data-search>
+                        {{ $keyword->description }}
+                    </span>
                     <div>
                         <button
                             class="btn py-1 px-3 btn-outline-secondary"

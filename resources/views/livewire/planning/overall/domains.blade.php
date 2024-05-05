@@ -14,6 +14,7 @@
                     label="{{ __('project/planning.overall.domain.description') }}"
                     wire:model="description"
                     placeholder="Digite a descrição do domínio"
+                    maxlength="255"
                 />
                 @error("description")
                     <span class="text-xs text-danger">
@@ -41,10 +42,12 @@
                 <x-search.item
                     wire:key="{{ $domain->id_domain }}"
                     target="search-domains"
-                    class="d-flex justify-content-between"
+                    class="d-flex justify-content-between gap-2"
                 >
-                    <span data-search>{{ $domain->description }}</span>
-                    <div>
+                    <span class="text-break" data-search>
+                        {{ $domain->description }}
+                    </span>
+                    <div style="min-width: fit-content">
                         <button
                             class="btn py-1 px-3 btn-outline-secondary"
                             wire:click="edit({{ $domain->id_domain }})"
