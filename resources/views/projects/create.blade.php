@@ -39,12 +39,15 @@
                 </div>
                 <div class="form-group">
                     <label for="copyPlanningSelect">Copy Planning</label>
-                    <select class="form-control" id="copyPlanningSelect">
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
-                        <option>Option 4</option>
-                        <option>Option 5</option>
+                    <select class="form-control" id="copyPlanningSelect" name="copy_planning">
+                        @if(count($projects) > 0)
+                            <option>Nenhum</option>
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}">{{ $project->title }}</option>
+                            @endforeach
+                        @else
+                            <option disabled selected>Usuário ainda não tem projetos criados</option>
+                        @endif
                     </select>
                 </div>
                 <div class="d-flex align-items-center">

@@ -39,7 +39,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $userProjects = Auth::user()->projects;
+        return view('projects.create', ['projects' => $userProjects]);
     }
 
     /**
