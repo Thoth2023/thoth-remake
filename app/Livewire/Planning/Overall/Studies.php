@@ -62,6 +62,14 @@ class Studies extends Component
                 return;
             }
 
+            $studyType = StudyTypeModel::findOrFail($this->studyType["value"]);
+
+            $this->logActivity(
+                action: 'Added the study',
+                description: $studyType->description,
+                projectId: $this->currentProject->id_project,
+            );
+
             $projectStudyType->save();
         } catch (\Exception $e) {
             $this->addError('studyType', $e->getMessage());
@@ -77,7 +85,14 @@ class Studies extends Component
             ->where('id_study_type', $studyTypeId)
             ->first();
 
+        $deleted = StudyTypeModel::findOrFail($studyTypeId);
         $studyType?->delete();
+
+        $this->logActivity(
+            action: 'Deleted the study',
+            description: $deleted->description,
+            projectId: $this->currentProject->id_project,
+        );
     }
 
     /**
@@ -87,8 +102,11 @@ class Studies extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.studies', compact(
-            'project',
-        ))->extends('layouts.app');
+        return view(
+            'livewire.planning.overall.studies',
+            compact(
+                'project',
+            )
+        )->extends('layouts.app');
     }
 }

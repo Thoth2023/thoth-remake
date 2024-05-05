@@ -49,7 +49,8 @@ class Keywords extends Component
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentKeyword = null;
         $this->keywords = KeywordModel::where(
-            'id_project', $this->currentProject->id_project
+            'id_project',
+            $this->currentProject->id_project
         )->get();
     }
 
@@ -69,7 +70,8 @@ class Keywords extends Component
     public function updateKeywords()
     {
         $this->keywords = KeywordModel::where(
-            'id_project', $this->currentProject->id_project
+            'id_project',
+            $this->currentProject->id_project
         )->get();
     }
 
@@ -86,10 +88,16 @@ class Keywords extends Component
         ];
 
         try {
-            KeywordModel::updateOrCreate($updateIf, [
+            $updatedOrCreated = KeywordModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'description' => $this->description,
             ]);
+
+            $this->logActivity(
+                action: $this->form['isEditing'] ? 'Updated the keyword' : 'Added a keyword',
+                description: $updatedOrCreated->description,
+                projectId: $this->currentProject->id_project
+            );
 
             $this->updateKeywords();
         } catch (\Exception $e) {
@@ -116,6 +124,13 @@ class Keywords extends Component
     {
         $currentKeyword = KeywordModel::findOrFail($keywordId);
         $currentKeyword->delete();
+
+        $this->logActivity(
+            action: 'Deleted the keyword',
+            description: $currentKeyword->description,
+            projectId: $this->currentProject->id_project
+        );
+
         $this->updateKeywords();
     }
 
@@ -126,8 +141,11 @@ class Keywords extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.keywords', compact(
-            'project',
-        ))->extends('layouts.app');
+        return view(
+            'livewire.planning.overall.keywords',
+            compact(
+                'project',
+            )
+        )->extends('layouts.app');
     }
 }

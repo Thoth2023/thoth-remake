@@ -62,6 +62,14 @@ class Languages extends Component
                 return;
             }
 
+            $language = LanguageModel::findOrFail($this->language["value"]);
+
+            $this->logActivity(
+                action: 'Added the language',
+                description: $language->description,
+                projectId: $this->currentProject->id_project,
+            );
+
             $projectLanguage->save();
         } catch (\Exception $e) {
             $this->addError('language', $e->getMessage());
@@ -77,7 +85,14 @@ class Languages extends Component
             ->where('id_language', $languageId)
             ->first();
 
-        $language?->delete();
+        $deleted = LanguageModel::findOrFail($languageId);
+        $language->delete();
+
+        $this->logActivity(
+            action: 'Deleted the language',
+            description: $deleted->description,
+            projectId: $this->currentProject->id_project,
+        );
     }
 
     /**
@@ -87,8 +102,11 @@ class Languages extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.languages', compact(
-            'project',
-        ))->extends('layouts.app');
+        return view(
+            'livewire.planning.overall.languages',
+            compact(
+                'project',
+            )
+        )->extends('layouts.app');
     }
 }

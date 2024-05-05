@@ -51,10 +51,19 @@ class Dates extends Component
     public function submit()
     {
         $this->validate();
-        
+
+        $dates = ProjectModel::first(['start_date', 'end_date'])
+            ->where('id_project', $this->currentProject->id);
+
         $this->currentProject->addDate(
             startDate: $this->startDate,
             endDate: $this->endDate
+        );
+
+        $this->logActivity(
+            action: $dates === null ? 'Added project dates: ' : 'Updated project dates: ',
+            description: $this->startDate . ' - ' . $this->endDate,
+            projectId: $this->currentProject->id_project,
         );
     }
 
@@ -65,8 +74,11 @@ class Dates extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.overall.dates', compact(
-            'project',
-        ))->extends('layouts.app');
+        return view(
+            'livewire.planning.overall.dates',
+            compact(
+                'project',
+            )
+        )->extends('layouts.app');
     }
 }
