@@ -14,9 +14,29 @@
         </div>
         <hr class="horizontal dark my-1">
         <div class="card-body pt-sm-3 pt-0 overflow-auto">
+            <div>
+                <h6 class="mb-1">Language Selection</h6>
+            </div>
+            <!-- Language Selector Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown"
+                    id="navbarDropdownMenuLink2">
+                    {{ __('nav/nav.language') }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                    @foreach (config('localization.locales') as $locale)
+                        <li>
+                            <a class="dropdown-item" href="{{ route('localization', $locale) }}">
+                                {{ $locale }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            <!-- End Language Selector Dropdown -->
             <!-- Sidebar Backgrounds -->
             <div>
-                <h6 class="mb-0">Sidebar Colors</h6>
+                <h6 class="mb-0 mt-3">Sidebar Colors</h6>
             </div>
             <a href="javascript:void(0)" class="switch-trigger background-color">
                 <div class="badge-colors my-2 text-start">
