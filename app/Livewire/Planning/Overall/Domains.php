@@ -138,6 +138,7 @@ class Domains extends Component
         );
 
         $this->updateDomains();
+        $this->resetFields();
     }
 
     /**

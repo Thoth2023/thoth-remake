@@ -138,6 +138,7 @@ class Keywords extends Component
         );
 
         $this->updateKeywords();
+        $this->resetFields();
     }
 
     /**

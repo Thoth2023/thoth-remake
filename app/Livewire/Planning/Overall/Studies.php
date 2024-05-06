@@ -99,6 +99,7 @@ class Studies extends Component
             description: $deleted->description,
             projectId: $this->currentProject->id_project,
         );
+        $this->resetFields();
     }
 
     /**
