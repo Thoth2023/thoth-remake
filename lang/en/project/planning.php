@@ -247,11 +247,12 @@ return [
             'header' => 'Databases',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
+            'empty' => 'No database registered in the project.',
         ],
         'suggest-new' => [
             'title' => 'Suggest a New Database',
-            'name-label' => 'Database Name:',
-            'link-label' => 'Database Link:',
+            'name-label' => 'Database Name',
+            'link-label' => 'Database Link',
             'submit-button' => 'Send suggestion',
         ],
         'errors' => [
