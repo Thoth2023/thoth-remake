@@ -45,6 +45,11 @@ return [
                     'um aspecto específico ou tópico relacionado à sua pergunta de pesquisa ou área de interesse.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Domínio adicionado',
+                    'updated' => 'Domínio atualizado',
+                    'deleted' => 'Domínio excluído',
+                ],
                 'description' => [
                     'required' => 'O campo de descrição é obrigatório.',
                 ]
@@ -76,8 +81,14 @@ return [
                     'Você pode adicionar e gerenciar idiomas para categorizar as fontes com base em sua língua de origem.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Idioma adicionado',
+                    'updated' => 'Idioma atualizado',
+                    'deleted' => 'Idioma excluído',
+                ],
                 'language' => [
                     'required' => 'O campo de idioma é obrigatório.',
+                    'already_exists' => 'O idioma selecionado já existe neste projeto.',
                 ]
             ]
         ],
@@ -111,6 +122,7 @@ return [
             'livewire' => [
                 'study_type' => [
                     'required' => 'O campo de tipo de estudo é obrigatório.',
+                    'already_exists' => 'O tipo de estudo selecionado já existe neste projeto.',
                 ],
             ]
         ],
@@ -152,6 +164,11 @@ return [
                     'a identificação de informações relevantes para o seu projeto.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Palavra-chave adicionada',
+                    'updated' => 'Palavra-chave atualizada',
+                    'deleted' => 'Palavra-chave excluída',
+                ],
                 'description' => [
                     'required' => 'O campo de descrição é obrigatório.',
                 ],
@@ -169,6 +186,13 @@ return [
                     'agendar seu trabalho de maneira eficaz.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Datas do projeto adicionadas',
+                    'updated' => 'Datas do projeto atualizadas',
+                ],
+                'date' => [
+                    'invalid' => 'A data inválida. Por favor, insira uma data válida.',
+                ],
                 'start_date' => [
                     'required' => 'O campo de data de início é obrigatório.',
                 ],

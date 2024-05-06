@@ -33,7 +33,8 @@ class Dates extends Component
     {
         return [
             'startDate.required' => __($this->translationPath . '.start_date.required'),
-            'startDate.invalid' => __($this->translationPath . '.start_date.invalid'),
+            'startDate.date' => __($this->translationPath . '.date.invalid'),
+            'endDate.date' => __($this->translationPath . '.date.invalid'),
             'endDate.required' => __($this->translationPath . '.end_date.required'),
             'endDate.after' => __($this->translationPath . '.end_date.after'),
         ];

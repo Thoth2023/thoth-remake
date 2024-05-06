@@ -45,6 +45,11 @@ return [
                     'a specific aspect or topic related to your research question or area of interest.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Domain added',
+                    'updated' => 'Domain updated',
+                    'deleted' => 'Domain deleted',
+                ],
                 'description' => [
                     'required' => 'The description field is required.'
                 ],
@@ -76,8 +81,14 @@ return [
                     'You can add and manage languages to categorize the sources based on their language of origin.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Language added',
+                    'updated' => 'Language updated',
+                    'deleted' => 'Language deleted',
+                ],
                 'language' => [
-                    'required' => 'The language field is required.'
+                    'required' => 'The language field is required.',
+                    'already_exists' => 'The selected language already exists in this project.'
                 ],
             ]
         ],
@@ -109,8 +120,14 @@ return [
                     'the sources based on the nature of the studies conducted.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Study type added',
+                    'updated' => 'Study type updated',
+                    'deleted' => 'Study type deleted',
+                ],
                 'studyType' => [
-                    'required' => 'The study type field is required.'
+                    'required' => 'The study type field is required.',
+                    'already_exists' => 'The selected study type already exists in this project.'
                 ],
             ]
         ],
@@ -152,6 +169,11 @@ return [
                     'it easier to identify relevant information for your project.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Keyword added',
+                    'updated' => 'Keyword updated',
+                    'deleted' => 'Keyword deleted',
+                ],
                 'description' => [
                     'required' => 'The description field is required.'
                 ],
@@ -169,6 +191,13 @@ return [
                     'schedule your work effectively.',
             ],
             'livewire' => [
+                'logs' => [
+                    'added' => 'Date added',
+                    'updated' => 'Date updated',
+                ],
+                'date' => [
+                    'invalid' => 'The date field is invalid. Please enter a valid date.',
+                ],
                 'start_date' => [
                     'required' => 'The start date field is required.',
                 ],

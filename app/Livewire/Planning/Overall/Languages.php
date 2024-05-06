@@ -64,7 +64,7 @@ class Languages extends Component
             ]);
 
             if ($projectLanguage->exists) {
-                $this->addError('language', 'The provided language already exists in this project.');
+                $this->addError('language', __($this->translationPath . '.language.already_exists'));
                 return;
             }
 

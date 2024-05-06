@@ -26,7 +26,7 @@ class Studies extends Component
     protected $rules = [
         'currentProject' => 'required',
         'studyType' => 'required|array',
-        'studyType.*.value' => 'number|exists:studies,id_language',
+        'studyType.*.value' => 'number',
     ];
 
     /**
@@ -64,7 +64,7 @@ class Studies extends Component
             ]);
 
             if ($projectStudyType->exists) {
-                $this->addError('studyType', 'The provided study type already exists in this project.');
+                $this->addError('studyType', __($this->translationPath . '.study_type.already_exists'));
                 return;
             }
 
