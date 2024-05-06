@@ -30,7 +30,7 @@ class ResearchQuestions extends Component
      */
     protected $rules = [
         'currentProject' => 'required',
-        'questionId'=> 'required|string|max:20',
+        'questionId' => 'required|string|max:20',
         'description' => 'required|string|max:255',
     ];
 
@@ -39,7 +39,7 @@ class ResearchQuestions extends Component
      */
     protected $messages = [
         'description.required' => 'The description field is required.',
-        'questionId.required'=> 'The ID field is required.'
+        'questionId.required' => 'The ID field is required.'
     ];
 
     /**
@@ -52,7 +52,8 @@ class ResearchQuestions extends Component
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentQuestion = null;
         $this->questions = ResearchQuestionModel::where(
-            'id_project', $this->currentProject->id_project
+            'id_project',
+            $this->currentProject->id_project
         )->get();
     }
 
@@ -73,7 +74,8 @@ class ResearchQuestions extends Component
     public function updateQuestions()
     {
         $this->questions = ResearchQuestionModel::where(
-            'id_project', $this->currentProject->id_project
+            'id_project',
+            $this->currentProject->id_project
         )->get();
     }
 
@@ -123,6 +125,7 @@ class ResearchQuestions extends Component
         $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
         $currentQuestion->delete();
         $this->updateQuestions();
+        $this->resetFields();
     }
 
     /**

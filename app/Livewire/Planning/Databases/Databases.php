@@ -114,6 +114,7 @@ class Databases extends Component
 
         return view('livewire.planning.databases.databases', compact(
             'project',
-        ))->extends('layouts.app');
+        )
+        )->extends('layouts.app');
     }
 }

@@ -82,7 +82,10 @@
                         <tr class="px-4" data-item="search-questions">
                             <td>{{ $question->id }}</td>
                             <td>
-                                <span class="text-wrap" data-search>
+                                <span
+                                    class="block text-wrap text-break"
+                                    data-search
+                                >
                                     {{ $question->description }}
                                 </span>
                             </td>
