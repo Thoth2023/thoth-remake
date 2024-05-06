@@ -55,10 +55,14 @@ Auth::routes();
 
 Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
-// about and help routes
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/help', [HelpController::class, 'index'])->name('help');
+// About routes
+Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')->middleware(Localization::class);
+
+// Help routes
+Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);
+// Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
+
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // Projects Routes
