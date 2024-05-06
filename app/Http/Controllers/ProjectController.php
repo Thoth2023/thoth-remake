@@ -26,7 +26,7 @@ class ProjectController extends Controller
 
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
-
+           
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
         }
@@ -55,6 +55,7 @@ class ProjectController extends Controller
             'description' => $request->description,
             'objectives' => $request->objectives,
             'created_by' => $user->username,
+            'feature_review' => $request->feature_review
             //'copy_planning'
         ]);
 

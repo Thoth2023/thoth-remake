@@ -33,6 +33,25 @@
                         <option>Option 5</option>
                     </select>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="systematicreview" id="systematicreviewId">
+                    <label class="form-check-label" for="systematicreviewId">
+                        Systematic review
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="srs" id="srsId">
+                    <label class="form-check-label" for="srsId">
+                        Systematic review and Snowballing
+                    </label>
+                </div> 
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="snowballing" id="snowballingId">
+                    <label class="form-check-label" for="snowballingId">
+                         Snowballing
+                    </label>
+                </div> 
+                
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Edit</button>
                 </div>
