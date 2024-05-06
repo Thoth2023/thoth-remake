@@ -8,6 +8,7 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Dates extends Component
 {
+    private $translationPath = 'project/planning.overall.dates.livewire';
     public $currentProject;
 
     /**
@@ -28,11 +29,16 @@ class Dates extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'startDate.required' => 'The start date field is required.',
-        'endDate.required' => 'The end date field is required.',
-        'endDate.after' => 'The end date must be greater than the start date.',
-    ];
+    protected function messages()
+    {
+        return [
+            'startDate.required' => __($this->translationPath . '.start_date.required'),
+            'startDate.date' => __($this->translationPath . '.date.invalid'),
+            'endDate.date' => __($this->translationPath . '.date.invalid'),
+            'endDate.required' => __($this->translationPath . '.end_date.required'),
+            'endDate.after' => __($this->translationPath . '.end_date.after'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the

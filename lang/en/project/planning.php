@@ -44,6 +44,16 @@ return [
                     'the diverse set of literature sources you encounter during your review. Each domain represents ' .
                     'a specific aspect or topic related to your research question or area of interest.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Domain added',
+                    'updated' => 'Domain updated',
+                    'deleted' => 'Domain deleted',
+                ],
+                'description' => [
+                    'required' => 'The description field is required.'
+                ],
+            ]
         ],
         'language' => [
             'title' => 'Languages',
@@ -70,6 +80,17 @@ return [
                 'content' => 'Languages represent different languages in which literature sources are written. ' .
                     'You can add and manage languages to categorize the sources based on their language of origin.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Language added',
+                    'updated' => 'Language updated',
+                    'deleted' => 'Language deleted',
+                ],
+                'language' => [
+                    'required' => 'The language field is required.',
+                    'already_exists' => 'The selected language already exists in this project.'
+                ],
+            ]
         ],
         'study_type' => [
             'title' => 'Study Types',
@@ -98,6 +119,17 @@ return [
                     'included in your literature review. You can add and manage study types to categorize ' .
                     'the sources based on the nature of the studies conducted.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Study type added',
+                    'updated' => 'Study type updated',
+                    'deleted' => 'Study type deleted',
+                ],
+                'studyType' => [
+                    'required' => 'The study type field is required.',
+                    'already_exists' => 'The selected study type already exists in this project.'
+                ],
+            ]
         ],
         'keyword' => [
             'title' => 'Keywords',
@@ -136,6 +168,16 @@ return [
                     'You can use keywords to categorize and organize your literature sources, making ' .
                     'it easier to identify relevant information for your project.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Keyword added',
+                    'updated' => 'Keyword updated',
+                    'deleted' => 'Keyword deleted',
+                ],
+                'description' => [
+                    'required' => 'The description field is required.'
+                ],
+            ]
         ],
         'dates' => [
             'title' => 'Project Dates',
@@ -148,6 +190,22 @@ return [
                     'conduct your literature review. This will help you to keep track of your progress and to ' .
                     'schedule your work effectively.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Date added',
+                    'updated' => 'Date updated',
+                ],
+                'date' => [
+                    'invalid' => 'The date field is invalid. Please enter a valid date.',
+                ],
+                'start_date' => [
+                    'required' => 'The start date field is required.',
+                ],
+                'end_date' => [
+                    'required' => 'The end date field is required.',
+                    'after' => 'The end date must be greater than the start date.',
+                ],
+            ]
         ],
     ],
     'research-questions' => [
