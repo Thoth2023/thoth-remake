@@ -56,7 +56,7 @@
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
     </head>
 
-    <body class="g-sidenav-show bg-gray-300">
+    <body class="g-sidenav-show {{ in_array(request()->route()->getName(),["login", "register", "recover-password"]) ? 'bg-white' : 'bg-gray-300' }}">
         @guest
             @yield("content")
         @endguest
