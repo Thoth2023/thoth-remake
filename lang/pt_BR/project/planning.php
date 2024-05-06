@@ -151,22 +151,24 @@ return [
         ],
     ],
     'research-questions' => [
-        'title' => 'Perguntas de Pesquisa',
+        'title' => 'Questões de Pesquisa',
         'help' => [
-            'title' => 'Ajuda para Perguntas de Pesquisa',
-            'content' => 'Perguntas de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.',
+            'title' => 'Ajuda para Questões de Pesquisa',
+            'content' => 'Questões de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.',
         ],
         'form' => [
             'id' => 'ID',
             'description' => 'Descrição',
             'add' => 'Adicionar',
+            'update' => 'Atualizar'
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Descrição',
             'edit' => 'Editar',
             'delete' => 'Excluir',
-            'no-questions' => 'Nenhuma pergunta de pesquisa encontrada.',
+            'no-questions' => 'Nenhuma questão de pesquisa encontrada.',
+            'empty' => 'Este projeto ainda não possui questões de pesquisa'
         ],
         'edit-modal' => [
             'title' => 'Atualização de Pergunta de Pesquisa',
@@ -176,24 +178,25 @@ return [
         ],
     ],
     'databases' => [
-        'title' => 'Bancos de Dados',
+        'title' => 'Bases de Dados',
         'help' => [
-            'title' => 'Ajuda para Bancos de Dados',
-            'content' => 'Bancos de dados são repositórios de artigos e publicações acadêmicas. Selecione os bancos de dados que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bancos de dados com base na relevância para o tópico de sua pesquisa.',
+            'title' => 'Bases de Dados',
+            'content' => 'Bases de dados são repositórios de artigos e publicações acadêmicas. Selecione as bases que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bases de acordo com a relevância para o tópico de sua pesquisa.',
         ],
         'form' => [
-            'select-placeholder' => 'Selecione um Banco de Dados',
-            'add-button' => 'Adicionar Banco de Dados',
+            'select-placeholder' => 'Selecione uma Base de Dados',
+            'add-button' => 'Adicionar Base de Dados',
         ],
         'table' => [
-            'header' => 'Bancos de Dados',
+            'header' => 'Bases de Dados',
             'remove-button' => 'Remover',
-            'no-databases' => 'Nenhum banco de dados encontrado.',
+            'no-databases' => 'Nenhuma base de dados encontrado.',
+            'empty' => 'Este projeto ainda não possui bases de dados registradas'
         ],
         'suggest-new' => [
-            'title' => 'Sugerir um Novo Banco de Dados',
-            'name-label' => 'Nome do Banco de Dados:',
-            'link-label' => 'Link do Banco de Dados:',
+            'title' => 'Sugira uma nova Base de Dados',
+            'name-label' => 'Nome da Base de Dados',
+            'link-label' => 'Link da Base de Dados',
             'submit-button' => 'Enviar sugestão',
         ],
         'errors' => [
