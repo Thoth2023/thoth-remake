@@ -9,6 +9,8 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Domains extends Component
 {
+    private $translationPath = 'project/planning.overall.domain.livewire';
+
     public $currentProject;
     public $currentDomain;
     public $domains = [];
@@ -36,9 +38,12 @@ class Domains extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'description.required' => 'The description field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'description.required' => __($this->translationPath . '.description.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the

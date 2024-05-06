@@ -10,6 +10,8 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Studies extends Component
 {
+    private $translationPath = 'project/planning.overall.study_type.livewire';
+
     public $currentProject;
     public $studies = [];
 
@@ -30,9 +32,12 @@ class Studies extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'studyType.required' => 'The study type field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'studyType.required' => __($this->translationPath . '.study_type.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
