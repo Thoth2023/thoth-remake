@@ -10,6 +10,8 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Studies extends Component
 {
+    private $translationPath = 'project/planning.overall.study_type.livewire';
+
     public $currentProject;
     public $studies = [];
 
@@ -24,15 +26,18 @@ class Studies extends Component
     protected $rules = [
         'currentProject' => 'required',
         'studyType' => 'required|array',
-        'studyType.*.value' => 'number|exists:studies,id_language',
+        'studyType.*.value' => 'number',
     ];
 
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'studyType.required' => 'The study type field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'studyType.required' => __($this->translationPath . '.study_type.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -59,7 +64,7 @@ class Studies extends Component
             ]);
 
             if ($projectStudyType->exists) {
-                $this->addError('studyType', 'The provided study type already exists in this project.');
+                $this->addError('studyType', __($this->translationPath . '.study_type.already_exists'));
                 return;
             }
 

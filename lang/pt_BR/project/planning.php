@@ -44,6 +44,16 @@ return [
                     'o conjunto diversificado de fontes de literatura que você encontra durante sua revisão. Cada domínio representa ' .
                     'um aspecto específico ou tópico relacionado à sua pergunta de pesquisa ou área de interesse.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Domínio adicionado',
+                    'updated' => 'Domínio atualizado',
+                    'deleted' => 'Domínio excluído',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição é obrigatório.',
+                ]
+            ]
         ],
         'language' => [
             'title' => 'Idiomas',
@@ -70,6 +80,17 @@ return [
                 'content' => 'Idiomas representam diferentes idiomas nos quais as fontes de literatura são escritas. ' .
                     'Você pode adicionar e gerenciar idiomas para categorizar as fontes com base em sua língua de origem.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Idioma adicionado',
+                    'updated' => 'Idioma atualizado',
+                    'deleted' => 'Idioma excluído',
+                ],
+                'language' => [
+                    'required' => 'O campo de idioma é obrigatório.',
+                    'already_exists' => 'O idioma selecionado já existe neste projeto.',
+                ]
+            ]
         ],
         'study_type' => [
             'title' => 'Tipos de Estudo',
@@ -98,6 +119,12 @@ return [
                     'incluídos em sua revisão de literatura. Você pode adicionar e gerenciar tipos de estudo para categorizar ' .
                     'as fontes com base na natureza dos estudos realizados.',
             ],
+            'livewire' => [
+                'study_type' => [
+                    'required' => 'O campo de tipo de estudo é obrigatório.',
+                    'already_exists' => 'O tipo de estudo selecionado já existe neste projeto.',
+                ],
+            ]
         ],
         'keyword' => [
             'title' => 'Palavras-chave',
@@ -136,6 +163,16 @@ return [
                     'Você pode usar palavras-chave para categorizar e organizar suas fontes de literatura, facilitando ' .
                     'a identificação de informações relevantes para o seu projeto.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Palavra-chave adicionada',
+                    'updated' => 'Palavra-chave atualizada',
+                    'deleted' => 'Palavra-chave excluída',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição é obrigatório.',
+                ],
+            ]
         ],
         'dates' => [
             'title' => 'Datas do Projeto',
@@ -148,6 +185,22 @@ return [
                     'realizará sua revisão de literatura. Isso ajudará a acompanhar seu progresso e a ' .
                     'agendar seu trabalho de maneira eficaz.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Datas do projeto adicionadas',
+                    'updated' => 'Datas do projeto atualizadas',
+                ],
+                'date' => [
+                    'invalid' => 'A data inválida. Por favor, insira uma data válida.',
+                ],
+                'start_date' => [
+                    'required' => 'O campo de data de início é obrigatório.',
+                ],
+                'end_date' => [
+                    'required' => 'O campo de data de término é obrigatório.',
+                    'after' => 'A data de término deve ser posterior à data de início.',
+                ],
+            ]
         ],
     ],
     'research-questions' => [

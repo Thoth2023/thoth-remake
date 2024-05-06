@@ -10,6 +10,8 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Languages extends Component
 {
+    private $translationPath = 'project/planning.overall.language.livewire';
+
     public $currentProject;
     public $languages = [];
 
@@ -30,9 +32,12 @@ class Languages extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'language.required' => 'The language field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'language.required' => __($this->translationPath . '.language.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -59,7 +64,7 @@ class Languages extends Component
             ]);
 
             if ($projectLanguage->exists) {
-                $this->addError('language', 'The provided language already exists in this project.');
+                $this->addError('language', __($this->translationPath . '.language.already_exists'));
                 return;
             }
 
