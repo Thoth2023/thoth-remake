@@ -85,8 +85,8 @@ class Dates extends Component
         );
 
         $this->toast(
-            'success',
-            __($this->toastMessages . '.updated'),
+            message: __($this->toastMessages . '.updated'),
+            type: 'success',
         );
     }
 

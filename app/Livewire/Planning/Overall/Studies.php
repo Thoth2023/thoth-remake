@@ -75,7 +75,10 @@ class Studies extends Component
             ]);
 
             if ($projectStudyType->exists) {
-                $this->toast(__($this->translationPath . '.study_type.already_exists'), 'info');
+                $this->toast(
+                    message: __($this->translationPath . '.study_type.already_exists'),
+                    type: 'info'
+                );
                 return;
             }
 
@@ -88,7 +91,10 @@ class Studies extends Component
             );
 
             $projectStudyType->save();
-            $this->toast(__($this->toastMessages . '.added'), 'success');
+            $this->toast(
+                message: __($this->toastMessages . '.added'),
+                type: 'success'
+            );
         } catch (\Exception $e) {
             $this->addError('studyType', $e->getMessage());
         }
@@ -112,7 +118,10 @@ class Studies extends Component
             projectId: $this->currentProject->id_project,
         );
 
-        $this->toast(__($this->toastMessages . '.deleted'), 'success');
+        $this->toast(
+            message: __($this->toastMessages . '.deleted'),
+            type: 'success'
+        );
     }
 
     /**

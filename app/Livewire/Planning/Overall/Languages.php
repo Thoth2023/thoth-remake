@@ -75,8 +75,8 @@ class Languages extends Component
 
             if ($projectLanguage->exists) {
                 $this->toast(
-                    __($this->translationPath . '.language.already_exists'),
-                    'info',
+                    message: __($this->translationPath . '.language.already_exists'),
+                    type: 'info',
                 );
                 return;
             }
@@ -92,8 +92,8 @@ class Languages extends Component
             $projectLanguage->save();
 
             $this->toast(
-                __($this->toastMessages . '.added'),
-                'success',
+                message: __($this->toastMessages . '.added'),
+                type: 'success',
             );
         } catch (\Exception $e) {
             $this->addError('language', $e->getMessage());
@@ -119,8 +119,8 @@ class Languages extends Component
         );
 
         $this->toast(
-            __($this->toastMessages . '.deleted'),
-            'success',
+            message: __($this->toastMessages . '.deleted'),
+            type: 'success',
         );
     }
 

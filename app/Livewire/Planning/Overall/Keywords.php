@@ -119,7 +119,10 @@ class Keywords extends Component
             );
 
             $this->updateKeywords();
-            $this->toast($toastMessage, 'success');
+            $this->toast(
+                message: $toastMessage,
+                type: 'success'
+            );
         } catch (\Exception $e) {
             $this->addError('description', $e->getMessage());
         } finally {
@@ -153,7 +156,10 @@ class Keywords extends Component
 
         $this->updateKeywords();
         $this->resetFields();
-        $this->toast($this->toastMessages . '.deleted', 'success');
+        $this->toast(
+            message: $this->toastMessages . '.deleted',
+            type: 'success'
+        );
     }
 
     /**

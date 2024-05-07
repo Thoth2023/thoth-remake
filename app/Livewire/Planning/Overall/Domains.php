@@ -120,9 +120,15 @@ class Domains extends Component
             );
 
             $this->updateDomains();
-            $this->toast($toastMessage, 'success');
+            $this->toast(
+                message: $toastMessage,
+                type: 'success'
+            );
         } catch (\Exception $e) {
-            $this->toast($e->getMessage(), 'error');
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         } finally {
             $this->resetFields();
         }
@@ -153,10 +159,16 @@ class Domains extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->toast(__($this->toastMessages . '.deleted'), 'success');
+            $this->toast(
+                message: __($this->toastMessages . '.deleted'),
+                type: 'success'
+            );
             $this->updateDomains();
         } catch (\Exception $e) {
-            $this->toast($e->getMessage(), 'error');
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         } finally {
             $this->resetFields();
         }
