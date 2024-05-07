@@ -52,7 +52,12 @@ return [
                 ],
                 'description' => [
                     'required' => 'O campo de descrição é obrigatório.',
-                ]
+                ],
+                'toasts' => [
+                    'added' => 'Domínio adicionado com sucesso.',
+                    'updated' => 'Domínio atualizado com sucesso.',
+                    'deleted' => 'Domínio deletado com sucesso.',
+                ],
             ]
         ],
         'language' => [

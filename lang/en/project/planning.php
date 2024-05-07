@@ -53,6 +53,11 @@ return [
                 'description' => [
                     'required' => 'The description field is required.'
                 ],
+                'toasts' => [
+                    'added' => 'Domain added successfully.',
+                    'updated' => 'Domain updated successfully.',
+                    'deleted' => 'Domain deleted successfully.',
+                ],
             ]
         ],
         'language' => [
