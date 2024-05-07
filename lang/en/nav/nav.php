@@ -18,5 +18,7 @@ return [
     'sign_up' => 'Sign Up',
     'sign_in' => 'Sign In',
     'language' => 'Language',
-
+    'profile' => 'Profile',
+    'logout' => 'Logout',
+    'projects' => 'Projects',
 ];

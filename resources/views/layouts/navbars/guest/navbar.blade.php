@@ -34,10 +34,12 @@
                         </span>
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
-                        <ul class="navbar-nav mx-auto">
+                        <ul
+                            class="navbar-nav mx-auto d-flex align-items-center justify-content-center"
+                        >
                             <li class="nav-item">
                                 <a
-                                    class="nav-link d-flex align-items-center me-2 active"
+                                    class="nav-link d-flex align-items-center me-1 active"
                                     aria-current="page"
                                     href="{{ route("home") }}"
                                 >
@@ -49,7 +51,7 @@
                             </li>
                             <li class="nav-item">
                                 <a
-                                    class="nav-link d-flex align-items-center me-2 active"
+                                    class="nav-link d-flex align-items-center me-1 active"
                                     href="{{ route("about") }}"
                                 >
                                     <i
@@ -60,7 +62,7 @@
                             </li>
                             <li class="nav-item">
                                 <a
-                                    class="nav-link d-flex align-items-center me-2 active"
+                                    class="nav-link d-flex align-items-center me-1 active"
                                     href="{{ route("help") }}"
                                 >
                                     <i
@@ -72,7 +74,7 @@
                             @guest
                                 <li class="nav-item">
                                     <a
-                                        class="nav-link me-2"
+                                        class="nav-link d-flex align-items-center justify-content-center me-1"
                                         href="{{ route("register") }}"
                                     >
                                         <i
@@ -83,7 +85,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a
-                                        class="nav-link me-2"
+                                        class="nav-link d-flex align-items-center justify-content-center me-1"
                                         href="{{ route("login") }}"
                                     >
                                         <i
@@ -93,6 +95,53 @@
                                     </a>
                                 </li>
                             @endguest
+
+                            @auth
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link d-flex align-items-center justify-content-center"
+                                        href="{{ route("profile") }}"
+                                    >
+                                        <i
+                                            class="fas fa-user-circle opacity-6 text-dark me-1"
+                                        ></i>
+                                        {{ __("nav/nav.profile") }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link d-flex align-items-center justify-content-center"
+                                        href="{{ route("projects.index") }}"
+                                    >
+                                        <i
+                                            class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"
+                                        ></i>
+                                        {{ __("nav/nav.projects") }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <form
+                                        role="form"
+                                        method="post"
+                                        action="{{ route("logout") }}"
+                                        id="logout-form"
+                                    >
+                                        @csrf
+                                        <a
+                                            href="{{ route("logout") }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            class="nav-link d-flex align-items-center justify-content-center me-1"
+                                        >
+                                            <i
+                                                class="fa fa-user opacity-6 me-1"
+                                            ></i>
+                                            <span class="d-sm-inline d-none">
+                                                Log out
+                                            </span>
+                                        </a>
+                                    </form>
+                                </li>
+                            @endauth
                         </ul>
                         <!-- Language Selector Dropdown -->
                         <div class="dropdown">
