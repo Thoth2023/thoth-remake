@@ -171,7 +171,7 @@ Route::prefix('/project/{projectId}')->group(function () {
             Route::resource('/option', OptionController::class)
                 ->only(['store', 'update', 'destroy'])
                 ->names([
-                    'store' => 'project.planning.data-extraction.option.store.Report',
+                    'store' => 'project.planning.data-extraction.option.store',
                     'update' => 'project.planning.data-extraction.option.update',
                     'destroy' => 'project.planning.data-extraction.option.destroy',
                 ]);
@@ -189,7 +189,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // Export Routes
     Route::get('/export', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth');
-    
+
 
 
     // Start of the conducting routes
