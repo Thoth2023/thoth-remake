@@ -86,7 +86,9 @@
                 @endif
                 @include("layouts.navbars.auth.sidenav")
                 <main class="main-content">
-                    @yield("content")
+                    <div class="container">
+                        @yield("content")
+                    </div>
                 </main>
                 @include("components.fixed-plugin")
             @endif
