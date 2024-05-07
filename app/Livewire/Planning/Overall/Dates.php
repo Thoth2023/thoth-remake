@@ -9,6 +9,8 @@ use App\Utils\ActivityLogHelper as Log;
 class Dates extends Component
 {
     private $translationPath = 'project/planning.overall.dates.livewire';
+    private $toastMessages = 'project/planning.overall.dates.livewire.toasts';
+
     public $currentProject;
 
     /**
@@ -72,6 +74,11 @@ class Dates extends Component
             description: $this->startDate . ' - ' . $this->endDate,
             projectId: $this->currentProject->id_project,
         );
+
+        $this->dispatch('toasty', [
+            'type' => 'success',
+            'message' => __($this->toastMessages . '.updated'),
+        ]);
     }
 
     /**

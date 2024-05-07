@@ -210,6 +210,9 @@ return [
                     'required' => 'The end date field is required.',
                     'after' => 'The end date must be greater than the start date.',
                 ],
+                'toasts' => [
+                    'updated' => 'Dates updated successfully.',
+                ],
             ]
         ],
     ],
