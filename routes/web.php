@@ -30,6 +30,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Livewire\Planning\Databases\Databases;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,10 +57,14 @@ Auth::routes();
 
 Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
-// about and help routes
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/help', [HelpController::class, 'index'])->name('help');
+// About routes
+Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')->middleware(Localization::class);
+
+// Help routes
+Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);
+// Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
+
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // Projects Routes
@@ -80,64 +85,13 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 Route::prefix('/project/{projectId}')->group(function () {
     // Planning Routes
     Route::prefix('/planning')->group(function () {
-        // Overall Route
         Route::get('/', [OverallController::class, 'index'])
             ->name('project.planning.index')
             ->middleware('auth');
 
-        // Domain Routes
-        Route::resource('/domains', DomainController::class)
-            ->only(['store', 'update', 'destroy'])
-            ->names([
-                'store' => 'project.planning.domains.store',
-                'update' => 'project.planning.domains.update',
-                'destroy' => 'project.planning.domains.destroy',
-            ]);
+        // Database Route
+        Route::get('/databases', [Databases::class, 'render']);
 
-        // Language Routes
-        Route::resource('/languages', LanguageController::class)
-            ->only(['store', 'destroy'])
-            ->names([
-                'store' => 'project.planning.languages.store',
-                'destroy' => 'project.planning.languages.destroy',
-            ]);
-
-        // Study Type Routes
-        Route::resource('/study-types', StudyTypeController::class)
-            ->only(['store', 'destroy'])
-            ->names([
-                'store' => 'project.planning.studyTypes.store',
-                'destroy' => 'project.planning.studyTypes.destroy',
-            ]);
-
-        // Keyword Routes
-        Route::resource('/keywords', KeywordController::class)
-            ->only(['store', 'update', 'destroy'])
-            ->names([
-                'store' => 'project.planning.keywords.store',
-                'update' => 'project.planning.keywords.update',
-                'destroy' => 'project.planning.keywords.destroy',
-            ]);
-
-        // Date routes
-        Route::prefix('/dates')->group(function () {
-            Route::post('/add', [DateController::class, 'addDate'])->name('project.planning.dates.add');
-        });
-
-        // Database Routes
-        Route::resource('/databases', DatabaseController::class)
-            ->only(['store'])
-            ->names([
-                'store' => 'project.planning.databases.store',
-            ]);
-
-        // Add a database to the project
-        Route::post('/databases/add/', [DatabaseController::class, 'addDatabase'])
-            ->name('project.planning.databases.add');
-
-        // Remove a database from the project
-        Route::delete('/databases/remove/{database}', [DatabaseController::class, 'removeDatabase'])
-            ->name('project.planning.databases.remove');
 
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])

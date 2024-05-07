@@ -27,6 +27,7 @@ class User extends Authenticatable
         'postal',
         'about',
         'institution',
+        'occupation',
         'lattes_link',
     ];
 
