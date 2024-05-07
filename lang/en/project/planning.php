@@ -95,6 +95,10 @@ return [
                     'required' => 'The language field is required.',
                     'already_exists' => 'The selected language already exists in this project.'
                 ],
+                'toasts' => [
+                    'added' => 'Language added successfully.',
+                    'deleted' => 'Language deleted successfully.',
+                ],
             ]
         ],
         'study_type' => [
@@ -133,6 +137,10 @@ return [
                 'studyType' => [
                     'required' => 'The study type field is required.',
                     'already_exists' => 'The selected study type already exists in this project.'
+                ],
+                'toasts' => [
+                    'added' => 'Study type added successfully.',
+                    'deleted' => 'Study type deleted successfully.',
                 ],
             ]
         ],
@@ -181,6 +189,11 @@ return [
                 ],
                 'description' => [
                     'required' => 'The description field is required.'
+                ],
+                'toasts' => [
+                    'added' => 'Keyword added successfully.',
+                    'updated' => 'Keyword updated successfully.',
+                    'deleted' => 'Keyword deleted successfully.',
                 ],
             ]
         ],

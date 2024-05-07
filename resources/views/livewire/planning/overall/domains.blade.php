@@ -78,7 +78,7 @@
 
 @script
     <script>
-        $wire.on('toasty', ([{ message, type }]) => {
+        $wire.on('domains', ([{ message, type }]) => {
             toasty({ message, type });
         });
     </script>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Language as LanguageModel;
 use App\Models\Project as ProjectModel;
@@ -11,6 +12,7 @@ use App\Utils\ActivityLogHelper as Log;
 class Languages extends Component
 {
     private $translationPath = 'project/planning.overall.language.livewire';
+    private $toastMessages = 'project/planning.overall.language.livewire.toasts';
 
     public $currentProject;
     public $languages = [];
@@ -51,6 +53,14 @@ class Languages extends Component
     }
 
     /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('languages', ToastHelper::dispatch($type, $message));
+    }
+
+    /**
      * Submit the form. It also validates the input fields.
      */
     public function submit()
@@ -64,7 +74,10 @@ class Languages extends Component
             ]);
 
             if ($projectLanguage->exists) {
-                $this->addError('language', __($this->translationPath . '.language.already_exists'));
+                $this->toast(
+                    __($this->translationPath . '.language.already_exists'),
+                    'info',
+                );
                 return;
             }
 
@@ -77,6 +90,11 @@ class Languages extends Component
             );
 
             $projectLanguage->save();
+
+            $this->toast(
+                __($this->toastMessages . '.added'),
+                'success',
+            );
         } catch (\Exception $e) {
             $this->addError('language', $e->getMessage());
         }
@@ -99,7 +117,11 @@ class Languages extends Component
             description: $deleted->description,
             projectId: $this->currentProject->id_project,
         );
-        $this->resetFields();
+
+        $this->toast(
+            __($this->toastMessages . '.deleted'),
+            'success',
+        );
     }
 
     /**

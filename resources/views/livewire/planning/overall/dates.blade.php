@@ -46,7 +46,7 @@
 
 @script
     <script>
-        $wire.on('toasty', ([{ message, type }]) => {
+        $wire.on('dates', ([{ message, type }]) => {
             toasty({ message, type });
         });
     </script>

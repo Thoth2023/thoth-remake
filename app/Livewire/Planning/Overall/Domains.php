@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Utils\ToastHelper;
 
 class Domains extends Component
 {
@@ -83,14 +84,11 @@ class Domains extends Component
     }
 
     /**
-     * Dispatch messages to the view.
+     * Dispatch a toast message to the view.
      */
-    public function dispatchMessage(string $message, string $type)
+    public function toast(string $message, string $type)
     {
-        $this->dispatch('toasty', [
-            'type' => $type ?? 'success',
-            'message' => $message,
-        ]);
+        $this->dispatch('domains', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -122,9 +120,9 @@ class Domains extends Component
             );
 
             $this->updateDomains();
-            $this->dispatchMessage($toastMessage, 'success');
+            $this->toast($toastMessage, 'success');
         } catch (\Exception $e) {
-            $this->dispatchMessage($e->getMessage(), 'error');
+            $this->toast($e->getMessage(), 'error');
         } finally {
             $this->resetFields();
         }
@@ -155,10 +153,10 @@ class Domains extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->dispatchMessage(__($this->toastMessages . '.deleted'), 'success');
+            $this->toast(__($this->toastMessages . '.deleted'), 'success');
             $this->updateDomains();
         } catch (\Exception $e) {
-            $this->dispatchMessage($e->getMessage(), 'error');
+            $this->toast($e->getMessage(), 'error');
         } finally {
             $this->resetFields();
         }

@@ -48,6 +48,8 @@
                         <button
                             class="btn py-1 px-3 btn-outline-danger"
                             wire:click="delete({{ $projectStudyType->id_study_type }})"
+                            wire:target="delete({{ $projectStudyType->id_study_type }})"
+                            wire:loading.attr="disabled"
                         >
                             <i class="fas fa-trash"></i>
                         </button>
@@ -61,3 +63,11 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('studies', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript

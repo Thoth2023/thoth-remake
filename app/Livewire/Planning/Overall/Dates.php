@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Utils\ActivityLogHelper as Log;
@@ -55,6 +56,14 @@ class Dates extends Component
     }
 
     /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('dates', ToastHelper::dispatch($type, $message));
+    }
+
+    /**
      * Submit the form. It also validates the input fields.
      */
     public function submit()
@@ -75,10 +84,10 @@ class Dates extends Component
             projectId: $this->currentProject->id_project,
         );
 
-        $this->dispatch('toasty', [
-            'type' => 'success',
-            'message' => __($this->toastMessages . '.updated'),
-        ]);
+        $this->toast(
+            'success',
+            __($this->toastMessages . '.updated'),
+        );
     }
 
     /**

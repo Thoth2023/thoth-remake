@@ -94,7 +94,11 @@ return [
                 'language' => [
                     'required' => 'O campo de idioma é obrigatório.',
                     'already_exists' => 'O idioma selecionado já existe neste projeto.',
-                ]
+                ],
+                'toasts' => [
+                    'added' => 'Idioma adicionado com sucesso.',
+                    'deleted' => 'Idioma deletado com sucesso.',
+                ],
             ]
         ],
         'study_type' => [
@@ -128,6 +132,14 @@ return [
                 'study_type' => [
                     'required' => 'O campo de tipo de estudo é obrigatório.',
                     'already_exists' => 'O tipo de estudo selecionado já existe neste projeto.',
+                ],
+                'logs' => [
+                    'added' => 'Tipo de estudo adicionado',
+                    'deleted' => 'Tipo de estudo excluído',
+                ],
+                'toasts' => [
+                    'added' => 'Tipo de estudo adicionado com sucesso.',
+                    'deleted' => 'Tipo de estudo deletado com sucesso.',
                 ],
             ]
         ],
@@ -177,6 +189,11 @@ return [
                 'description' => [
                     'required' => 'O campo de descrição é obrigatório.',
                 ],
+                'toasts' => [
+                    'added' => 'Palavra-chave adicionada com sucesso.',
+                    'updated' => 'Palavra-chave atualizada com sucesso.',
+                    'deleted' => 'Palavra-chave deletada com sucesso.',
+                ],
             ]
         ],
         'dates' => [
@@ -204,6 +221,10 @@ return [
                 'end_date' => [
                     'required' => 'O campo de data de término é obrigatório.',
                     'after' => 'A data de término deve ser posterior à data de início.',
+                ],
+                'toasts' => [
+                    'added' => 'Datas do projeto adicionadas com sucesso.',
+                    'updated' => 'Datas do projeto atualizadas com sucesso.',
                 ],
             ]
         ],
