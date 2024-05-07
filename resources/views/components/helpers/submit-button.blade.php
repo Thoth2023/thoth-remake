@@ -12,6 +12,9 @@
         ])
     }}
 >
-    <i class="fa {{ $isEditing ? "fa-edit" : "fa-plus" }}"></i>
+    <i
+        wire:loading.remove
+        class="fa {{ $isEditing ? "fa-edit" : "fa-plus" }}"
+    ></i>
     {{ $slot }}
 </button>

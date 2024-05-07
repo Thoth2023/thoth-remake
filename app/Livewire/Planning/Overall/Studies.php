@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\StudyType as StudyTypeModel;
 use App\Models\Project as ProjectModel;
@@ -11,6 +12,7 @@ use App\Utils\ActivityLogHelper as Log;
 class Studies extends Component
 {
     private $translationPath = 'project/planning.overall.study_type.livewire';
+    private $toastMessages = 'project/planning.overall.study_type.livewire.toasts';
 
     public $currentProject;
     public $studies = [];
@@ -40,6 +42,15 @@ class Studies extends Component
     }
 
     /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('studies', ToastHelper::dispatch($type, $message));
+    }
+
+
+    /**
      * Executed when the component is mounted. It sets the
      * project id and retrieves the items.
      */
@@ -64,7 +75,10 @@ class Studies extends Component
             ]);
 
             if ($projectStudyType->exists) {
-                $this->addError('studyType', __($this->translationPath . '.study_type.already_exists'));
+                $this->toast(
+                    message: __($this->translationPath . '.study_type.already_exists'),
+                    type: 'info'
+                );
                 return;
             }
 
@@ -77,6 +91,10 @@ class Studies extends Component
             );
 
             $projectStudyType->save();
+            $this->toast(
+                message: __($this->toastMessages . '.added'),
+                type: 'success'
+            );
         } catch (\Exception $e) {
             $this->addError('studyType', $e->getMessage());
         }
@@ -99,7 +117,11 @@ class Studies extends Component
             description: $deleted->description,
             projectId: $this->currentProject->id_project,
         );
-        $this->resetFields();
+
+        $this->toast(
+            message: __($this->toastMessages . '.deleted'),
+            type: 'success'
+        );
     }
 
     /**

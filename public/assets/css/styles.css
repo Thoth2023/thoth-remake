@@ -49,3 +49,8 @@
         grid-template-columns: 1fr;
     }
 }
+
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+    background: rgba(0,0,0,.025) !important;
+    z-index: 9999;
+}
