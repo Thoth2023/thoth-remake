@@ -157,6 +157,10 @@ return [
     'url' => 'The :attribute field must be a valid URL.',
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
+    'deleting' => 'Deleting...',
+    'saving' => 'Saving...',
+    'updating' => 'Updating...',
+    'loading' => 'Loading...',
 
     /*
     |--------------------------------------------------------------------------

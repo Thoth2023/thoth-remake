@@ -15,11 +15,11 @@
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                             <div class="card card-plain">
-                                <div class="card-header pb-0 text-start">
+                                <div class="pb-3 text-start">
                                     <h4 class="font-weight-bolder">{{ __('auth/login.sign_in') }}</h4>
                                     <p class="mb-0">{{ __('auth/login.enter_email_password') }}</p>
                                 </div>
-                                <div class="card-body">
+                                <div class="pb-4">
                                     <form role="form" method="POST" action="{{ route('login.perform') }}">
                                         @csrf
                                         @method('post')
@@ -49,7 +49,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                <div class="text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-1 text-sm mx-auto">
                                         {{ __('auth/login.forgot_password') }} <a href="{{ route('reset-password') }}"
                                             class="text-primary text-gradient font-weight-bold">{{ __('auth/login.reset_password_link') }}</a>

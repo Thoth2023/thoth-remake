@@ -27,7 +27,8 @@ class UserProfileController extends Controller
             'country' => ['max:100'],
             'postal' => ['max:100'],
             'about' => ['max:255'],
-            'intitution' => ['max:255'],
+            'occupation' => ['max:255'],
+            'institution' => ['max:255'],
             'lattes_link' => ['max:255'],
         ]);
         // Update the authenticated user's profile with the validated data
@@ -41,10 +42,11 @@ class UserProfileController extends Controller
             'country' => $request->get('country'),
             'postal' => $request->get('postal'),
             'about' => $request->get('about'),
+            'occupation' => $request->get('occupation'),
             'institution' => $request->get('institution'),
             'lattes_link' => $request->get('lattes_link'),
         ]);
         // Redirect back to the previous page with a success message
-        return back()->with('succes', 'Profile succesfully updated');
+        return back()->with('success', 'Profile succesfully updated');
     }
 }

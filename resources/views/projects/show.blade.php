@@ -6,7 +6,7 @@
     <div class="row mt-4 mx-4">
         @include('project.components.project-header', ['project' => $project, 'activePage' => 'overview'])
 
-        <div class="row mx-4 mx-auto mt-5">
+        <div class="row px-0 mx-auto mt-4 pb-4">
             <div class="col-12">
                 <div class="card bg-secondary-overview">
                     <div class="card-header bg-secondary-overview">
