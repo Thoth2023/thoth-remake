@@ -8,6 +8,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="selectDatabase">Selecione a Database:</label>
+                            @forelse ($project->databases as $projectDatabase)
                         <select class="form-control" name="databaseId">
                             <option value="" disabled selected>
                                 {{ __('project/planning.databases.form.select-placeholder') }}
