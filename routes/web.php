@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Project\Conducting\ImportStudies\ImportStudiesController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\DatabaseController;
 use App\Http\Controllers\Project\Planning\Overall\DateController;
@@ -187,6 +188,17 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
+
+    // Start of the Conducting Routes
+	Route::prefix('/conducting')->group(function () {
+		// Import Studies
+        Route::get('/', [ImportStudiesController::class,'index'])
+        ->name('project.conducting.index')
+        ->middleware('auth');
+
+	});
+	// End of the Conducting Routes
+
 });
 
 

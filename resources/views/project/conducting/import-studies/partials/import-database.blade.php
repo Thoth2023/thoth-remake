@@ -4,7 +4,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive p-0" id="import_studies">
-                <form action="{{ route('import.studies') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('import.studies') }}" method="POST" enctype="multipart/form-data"> //A rota ta errada aqui?
                     @csrf
                     <div class="form-group">
                         <label for="selectDatabase">Selecione a Database:</label>
