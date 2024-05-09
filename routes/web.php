@@ -191,7 +191,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // Start of the Conducting Routes
 	Route::prefix('/conducting')->group(function () {
-		// Import Studies
+		// Import Studies page
         Route::get('/', [ImportStudiesController::class,'index'])
         ->name('project.conducting.index')
         ->middleware('auth');

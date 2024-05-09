@@ -17,7 +17,7 @@ class ImportStudiesController extends Controller
      * Display para a aba de Import Studies.
      */
     public function index(){
-		return view('index');
+		return view('project.conducting.import-studies');
     }
 
 }
