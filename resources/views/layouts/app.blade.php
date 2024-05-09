@@ -199,7 +199,7 @@
                     // Check for validation errors
                     @if ($errors->any())
                         const validationErrors = @json($errors->all());
-                        showToast(validationErrors.join(', '), 'Error');
+                        showToast(validationErrors.join(' '), 'Error');
                     @endif
                 }
 
