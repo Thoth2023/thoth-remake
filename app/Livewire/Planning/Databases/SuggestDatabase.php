@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Planning\Databases;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Database as DatabaseModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class SuggestDatabase extends Component
 {
@@ -23,17 +25,26 @@ class SuggestDatabase extends Component
     protected $rules = [
         'currentProject' => 'required',
         'suggest' => 'required|max:100',
-        'link' => 'required|max:255'
+        'link' => 'required|max:255|regex:/^(?:https?:\/\/)?(?:[^@\s\/]+@)?(?:[^\s\/]+\.)+[^\s\/]+\/?(?:[^\s\/]+(?:\/[^\s\/]+)*)?$/
+        '
     ];
 
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'suggeset.required' => 'The database name is required.',
-        'link.required' => 'The database link is required.'
-    ];
+    protected function messages()
+    {
+        return [
+            'suggest.required' => $this->translate(key: 'database', message: 'required'),
+            'link.required' => $this->translate(key: 'database', message: 'required_link'),
+            'link.regex' => $this->translate(key: 'database', message: 'invalid_link'),
+        ];
+    }
 
+    private function translate(string $message, string $key = 'toasts')
+    {
+        return __('project/planning.databases.livewire.' . $key . '.' . $message);
+    }
     /**
      * Executed when the component is mounted. It sets the
      * project id and retrieves the items.
@@ -42,6 +53,14 @@ class SuggestDatabase extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
+    }
+
+    /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('suggest-database', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -61,13 +80,25 @@ class SuggestDatabase extends Component
         $this->validate();
 
         try {
-            $database = DatabaseModel::create([
-                'suggest' => $this->name,
+            $suggestion = DatabaseModel::create([
+                'name' => $this->suggest,
                 'link' => $this->link,
             ]);
-            dd($database);
+
+            Log::logActivity(
+                action: 'Database suggested',
+                description: $suggestion->name,
+                projectId: $this->currentProject->id_project,
+            );
+
+            $this->toast(
+                message: $this->translate('suggested'),
+                type: 'success',
+            );
+
+            $this->resetFields();
         } catch (\Exception $e) {
-            $this->addError('database', $e->getMessage());
+            $this->addError('suggest', $e->getMessage());
         }
     }
 
