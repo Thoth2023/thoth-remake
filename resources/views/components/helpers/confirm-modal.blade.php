@@ -3,6 +3,9 @@
     "modalTitle",
     "modalContent",
     "onConfirm" => "() => {}",
+    "onConfirmNativeClick" => "() => {}",
+    "textClose" => "Close",
+    "textConfirm" => "Confirm",
 ])
 
 <?php $randomId = rand(); ?>
@@ -48,15 +51,16 @@
                         class="btn text-white bg-secondary"
                         data-bs-dismiss="modal"
                     >
-                        Close
+                        {{ $textClose }}
                     </button>
                     <button
                         type="button"
                         class="btn text-white bg-danger"
                         data-bs-dismiss="modal"
                         wire:click="{{ $onConfirm }}"
+                        onclick="{{ $onConfirmNativeClick }}"
                     >
-                        Confirm
+                        {{ $textConfirm }}
                     </button>
                 </div>
             </div>
