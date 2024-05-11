@@ -5,6 +5,9 @@ namespace App\Livewire\Planning\Questions;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\ResearchQuestion as ResearchQuestionModel;
+use App\Utils\ActivityLogHelper as Log;
+use App\Utils\ToastHelper;
+
 
 class ResearchQuestions extends Component
 {
@@ -30,7 +33,7 @@ class ResearchQuestions extends Component
      */
     protected $rules = [
         'currentProject' => 'required',
-        'questionId' => 'required|string|max:20',
+        'questionId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
         'description' => 'required|string|max:255',
     ];
 
@@ -39,7 +42,8 @@ class ResearchQuestions extends Component
      */
     protected $messages = [
         'description.required' => 'The description field is required.',
-        'questionId.required' => 'The ID field is required.'
+        'questionId.required' => 'The ID field is required.',
+        'questionId.regex' => 'The ID field must contain only letters and numbers.',
     ];
 
     /**
@@ -80,6 +84,19 @@ class ResearchQuestions extends Component
     }
 
     /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('research-questions', ToastHelper::dispatch($type, $message));
+    }
+
+    private function message(string $message)
+    {
+        return __('project/planning.research-questions.livewire.toasts' . $message);
+    }
+
+    /**
      * Submit the form. It validates the input fields
      * and creates or updates an item.
      */
@@ -92,15 +109,51 @@ class ResearchQuestions extends Component
         ];
 
         try {
-            ResearchQuestionModel::updateOrCreate($updateIf, [
+            $value = $this->form['isEditing'] ? 'Updated the research question' : 'Added a research question';
+            $toastMessage = $this->message($this->form['isEditing'] ? '.updated' : '.added');
+
+            if (!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('id', $this->questionId)) {
+                $this->toast(
+                    message: 'This ID is already in use. Please choose a unique ID for the question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+            if (
+                $this->form['isEditing']
+                && $this->currentQuestion->id != $this->questionId
+                && $this->currentProject->researchQuestions->contains('id', $this->questionId)
+            ) {
+                $this->toast(
+                    message: 'This ID is already in use. Please choose a unique ID for the question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+            $updatedOrCreated = ResearchQuestionModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'id' => $this->questionId,
                 'description' => $this->description,
             ]);
 
+            Log::logActivity(
+                action: $value,
+                description: $updatedOrCreated->description,
+                projectId: $this->currentProject->id_project
+            );
+
             $this->updateQuestions();
+            $this->toast(
+                message: $toastMessage,
+                type: 'success'
+            );
         } catch (\Exception $e) {
-            $this->addError('description', $e->getMessage());
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         } finally {
             $this->resetFields();
         }
@@ -122,10 +175,28 @@ class ResearchQuestions extends Component
      */
     public function delete(string $questionId)
     {
-        $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
-        $currentQuestion->delete();
-        $this->updateQuestions();
-        $this->resetFields();
+        try {
+            $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
+            $currentQuestion->delete();
+            Log::logActivity(
+                action: 'Deleted the question',
+                description: $currentQuestion->description,
+                projectId: $this->currentProject->id_project
+            );
+
+            $this->toast(
+                message: $this->message('.deleted'),
+                type: 'success'
+            );
+            $this->updateQuestions();
+        } catch (\Exception $e) {
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
+        } finally {
+            $this->resetFields();
+        }
     }
 
     /**

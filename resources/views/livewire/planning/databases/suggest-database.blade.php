@@ -42,3 +42,12 @@
         </form>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('suggest-database', ([{ message, type }]) => {
+            toasty({ message, type });
+            console.log(message, type);
+        });
+    </script>
+@endscript
