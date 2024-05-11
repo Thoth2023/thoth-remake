@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit"
-                                                class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ __('auth/login.sign_in_button') }}</button>
+                                                class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ __('auth/login.sign_in_button') }}</button> 
                                         </div>
                                     </form>
                                 </div>
