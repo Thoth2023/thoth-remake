@@ -253,6 +253,21 @@ return [
             'description' => 'Description',
             'update' => 'Update',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Research Question added',
+                'updated' => 'Research Question updated',
+                'deleted' => 'Research Question deleted',
+            ],
+            'description' => [
+                'required' => 'The description field is required.'
+            ],
+            'toasts' => [
+                'added' => 'Research Question added successfully.',
+                'updated' => 'Research Question updated successfully.',
+                'deleted' => 'Research Question deleted successfully.',
+            ],
+        ]
     ],
     'databases' => [
         'title' => 'Databases',
@@ -279,6 +294,23 @@ return [
         'errors' => [
             'name' => 'Error message for name field, if needed.',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Database added',
+                'deleted' => 'Database deleted',
+            ],
+            'database' => [
+                'required' => 'The database field is required.',
+                'required_link' => 'The link field is required.',
+                'already_exists' => 'The selected database already exists in this project.',
+                'invalid_link' => 'The link field must be a valid URL.',
+            ],
+            'toasts' => [
+                'added' => 'Database added successfully.',
+                'deleted' => 'Database deleted successfully.',
+                'suggested' => 'Database suggestion sent successfully.',
+            ],
+        ]
     ],
     'search-string' => [],
     'search-strategy' => [

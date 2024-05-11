@@ -250,11 +250,26 @@ return [
             'empty' => 'Este projeto ainda não possui questões de pesquisa'
         ],
         'edit-modal' => [
-            'title' => 'Atualização de Pergunta de Pesquisa',
+            'title' => 'Atualização de Questão de Pesquisa',
             'id' => 'ID',
             'description' => 'Descrição',
             'update' => 'Atualizar',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Questão de Pesquisa adicionada',
+                'updated' => 'Questão de Pesquisa atualizada',
+                'deleted' => 'Questão de Pesquisa excluída',
+            ],
+            'description' => [
+                'required' => 'O campo de descrição é obrigatório.',
+            ],
+            'toasts' => [
+                'added' => 'Questão de Pesquisa adicionada com sucesso.',
+                'updated' => 'Questão de Pesquisa atualizada com sucesso.',
+                'deleted' => 'Questão de Pesquisa deletada com sucesso.',
+            ],
+        ]
     ],
     'databases' => [
         'title' => 'Bases de Dados',
@@ -281,6 +296,24 @@ return [
         'errors' => [
             'name' => 'Mensagem de erro para o campo de nome, se necessário.',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Base de Dados adicionada',
+                'suggestion' => 'Base de Dados sugerida.',
+                'deleted' => 'Base de Dados excluída',
+            ],
+            'database' => [
+                'required' => 'O campo de base de dados é obrigatório.',
+                'required_link' => 'O campo de link é obrigatório.',
+                'already_exists' => 'A base de dados selecionada já existe neste projeto.',
+                'invalid_link' => 'O link da base de dados é inválido.',
+            ],
+            'toasts' => [
+                'added' => 'Base de Dados adicionada com sucesso.',
+                'deleted' => 'Base de Dados deletada com sucesso.',
+                'suggested' => 'Sua sugestão foi enviada com sucesso.',
+            ],
+        ]
     ],
     'search-string' => [],
     'search-strategy' => [

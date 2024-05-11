@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Planning\Databases;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Database as DatabaseModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
+use App\Utils\ActivityLogHelper as Log;
 
 class Databases extends Component
 {
@@ -39,9 +41,18 @@ class Databases extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'database.required' => 'The description field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'description.required' => $this->translate(key: 'database', message: 'required'),
+        ];
+    }
+
+    private function translate(string $message, string $key = 'toasts')
+    {
+        return __('project/planning.databases.livewire.' . $key . '.' . $message);
+    }
+
 
     /**
      * Executed when the component is mounted. It sets the
@@ -53,6 +64,14 @@ class Databases extends Component
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentDatabase = null;
         $this->databases = DatabaseModel::all();
+    }
+
+    /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('databases', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -79,11 +98,27 @@ class Databases extends Component
             ]);
 
             if ($projectDatabase->exists) {
-                $this->addError('database', 'The provided database already exists in this project.');
+                $this->toast(
+                    message: $this->translate(key: 'database', message: 'already_exists'),
+                    type: 'info',
+                );
                 return;
             }
 
+            $database = DatabaseModel::findOrFail($this->database["value"]);
+
+            Log::logActivity(
+                action: 'Added database',
+                description: $database->name,
+                projectId: $this->currentProject->id_project,
+            );
+
             $projectDatabase->save();
+
+            $this->toast(
+                message: $this->translate('added'),
+                type: 'success',
+            );
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
         }
@@ -98,11 +133,19 @@ class Databases extends Component
             ->where('id_database', $databaseId)
             ->first();
 
-        if (!$projectDatabase->exists) {
-            return;
-        }
-
+        $deleted = DatabaseModel::findOrFail($databaseId);
         $projectDatabase->delete();
+
+        Log::logActivity(
+            action: 'Deleted database',
+            description: $deleted->name,
+            projectId: $this->currentProject->id_project,
+        );
+
+        $this->toast(
+            message: $this->translate('deleted'),
+            type: 'success',
+        );
     }
 
     /**
@@ -112,9 +155,11 @@ class Databases extends Component
     {
         $project = $this->currentProject;
 
-        return view('livewire.planning.databases.databases', compact(
-            'project',
-        )
+        return view(
+            'livewire.planning.databases.databases',
+            compact(
+                'project',
+            )
         )->extends('layouts.app');
     }
 }
