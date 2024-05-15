@@ -35,20 +35,20 @@
             sessionStorage.setItem('activeTabId', tabId);
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.nav-link');
-            const activeTabId = sessionStorage.getItem('activeTabId');
+        const tabs = document.querySelectorAll('.nav-link');
+        const activeTabId = sessionStorage.getItem('activeTabId');
 
-            tabs.forEach((tab) => {
-                tab.addEventListener('click', () => setActiveTab(tab, tabs));
-            });
-
-            if (activeTabId) {
-                const activeTab = document.querySelector(`[data-tab="${activeTabId}"]`);
-                if (activeTab) {
-                    setActiveTab(activeTab, tabs); // Aplica o estilo quando a página é carregada
-                }
-            }
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => setActiveTab(tab, tabs));
         });
+
+        if (activeTabId) {
+            const activeTab = document.querySelector(
+                `[data-tab="${activeTabId}"]`,
+            );
+            if (activeTab) {
+                setActiveTab(activeTab, tabs); // Aplica o estilo quando a página é carregada
+            }
+        }
     })();
 </script>
