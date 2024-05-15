@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProjectDatabase;
 use Illuminate\Http\RedirectResponse;
 
-class DatabasesController extends Controller
+class ImportDatabaseController extends Controller
 {
     /**
      * Display a form to select a database for the project.
