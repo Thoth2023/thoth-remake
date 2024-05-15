@@ -43,7 +43,16 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="import-studies">
-                            @include('project.conducting.import-studies')
+                            <!-- Conteúdo da aba "Import Studies" -->
+                            <div class="col-12">
+                                <div class="card bg-secondary-overview">
+                                    <div class="card-body">
+                                        <h3>Import Studies Content</h3>
+                                        <!-- Aqui você pode adicionar o conteúdo da aba Import Studies -->
+                                        <p>Este é um exemplo de conteúdo para a aba "Import Studies".</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="study-selection">
                             @include('project.conducting.study-selection')
