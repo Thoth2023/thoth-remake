@@ -5,7 +5,6 @@
     </div>
     <ul class="override px-4 container d-flex gap-2 justify-content-center nav nav-tabs">
         @foreach ($tabs as $tab)
-
             <li class="nav-item">
                 <a class="nav-link text-secondary {{ $tab["id"] === $activeTab ? "active" : "" }}"
                    id="{{ $tab["id"] }}"
@@ -35,20 +34,21 @@
             sessionStorage.setItem('activeTabId', tabId);
         };
 
-        const tabs = document.querySelectorAll('.nav-link');
-        const activeTabId = sessionStorage.getItem('activeTabId');
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.nav-link');
+            const activeTabId = sessionStorage.getItem('activeTabId');
 
-        tabs.forEach((tab) => {
-            tab.addEventListener('click', () => setActiveTab(tab, tabs));
-        });
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', () => setActiveTab(tab, tabs));
+            });
 
-        if (activeTabId) {
-            const activeTab = document.querySelector(
-                `[data-tab="${activeTabId}"]`,
-            );
-            if (activeTab) {
-                setActiveTab(activeTab, tabs); // Aplica o estilo quando a página é carregada
+            if (activeTabId) {
+                const activeTab = document.querySelector(`[data-tab="${activeTabId}"]`);
+                if (activeTab) {
+                    setActiveTab(activeTab, tabs); // Aplica o estilo quando a página é carregada
+                }
             }
-        }
+        });
     })();
+
 </script>

@@ -24895,12 +24895,12 @@ pre[class*=language-] {
 }
 
 .active-tab {
-    font-size: 0.85em; /* Define o tamanho da fonte para a aba ativa */
+    font-size: 0.875em; /* Define o tamanho da fonte para a aba ativa */
     font-weight: bold; /* Define a aba ativa em negrito */
 }
 
 .inactive-tab {
-    font-size: 0.75em; /* Define o tamanho da fonte para as abas inativas */
-    font-weight: normal; /* Define a aba ativa em negrito */
+    font-size: 0.875em; /* Define o tamanho da fonte para as abas inativas */
+    font-weight: normal; /* Define a aba inativa em normal */
 }
 
