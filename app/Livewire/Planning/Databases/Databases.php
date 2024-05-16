@@ -63,7 +63,7 @@ class Databases extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentDatabase = null;
-        $this->databases = DatabaseModel::all();
+        $this->databases = DatabaseModel::where('state', '=', 'approved')->get();
     }
 
     /**
