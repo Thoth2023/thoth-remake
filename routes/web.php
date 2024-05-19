@@ -30,6 +30,7 @@ use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
+use App\Http\Controllers\Project\Conducting\ImportStudiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +143,11 @@ Route::prefix('/project/{projectId}')->group(function () {
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
     
+    // Start of the Conducting Routes
+    Route::get('/import-studies', [ImportStudiesController::class, 'index'])->name('import-studies.index');
+    Route::post('/import-studies/import', [ImportStudiesController::class, 'import'])->name('import-studies.import');
+    Route::delete('/import-studies/{id}', [ImportStudiesController::class, 'delete'])->name('import-studies.delete');
+    // End of the Conducting Routes
 });
 
 

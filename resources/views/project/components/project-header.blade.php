@@ -17,7 +17,7 @@
         'conducting' => [
             'icon' => 'fas fa-tasks',
             'label' => 'Conducting',
-            'route' => null,
+            'route' => null, //'livewire.conducting.import-studies'
         ],
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
