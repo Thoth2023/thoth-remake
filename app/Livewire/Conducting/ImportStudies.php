@@ -145,7 +145,7 @@ class ImportStudies extends Component
     {
         return view('livewire.conducting.import-studies')
             ->extends('layouts.app')
-            ->with([
+            ->with([ //o método está passando dados adicionais para a view.
                 'databases' => $this->databases,
                 'importstudies' => $this->importstudies,
             ]);
