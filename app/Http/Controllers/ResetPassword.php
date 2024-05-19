@@ -30,7 +30,12 @@ class ResetPassword extends Controller
 
         if ($user) {
             $this->notify(new ForgotPassword($user->id));
-            return back()->with('succes', 'An email was send to your email address');
+            return back()->with(['success' => __('passwords.success')]);
+
+        } else {
+            return back()->withErrors([
+                'email' => __('auth.failed'),
+            ]);
         }
     }
 }
