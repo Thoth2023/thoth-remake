@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Conducting\ImportStudies;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Project as ProjectModel;
 use App\Models\ImportStudy as ImportStudyModel;
+use App\Models\ProjectDatabase as ProjectDatabaseModel;
 use App\Utils\ActivityLogHelper as Log;
-use App\Utils\ToastHelper;
+
 
 class ImportStudies extends Component
 {
@@ -85,7 +87,7 @@ class ImportStudies extends Component
 
             // Lógica real de processamento de arquivos  (talvez precise atualizar) -> chama a função de processamento de arquivo.
             $importedStudiesCount = $this->processFile($filePath);
-            $failedImportsCount = 0; 
+            $failedImportsCount = 0;
 
             // Log the import activity
             Log::logActivity(
@@ -119,7 +121,7 @@ class ImportStudies extends Component
         // Retorna o número de estudos importados com sucesso
         $importedStudiesCount = 0;
 
-        // lógica.. 
+        // lógica..
         return $importedStudiesCount;
     }
 
@@ -154,13 +156,15 @@ class ImportStudies extends Component
     /**
      * Render the component.
      */
-    public function render(){
-        return view('livewire.conducting.import-studies')
-            ->extends('layouts.app')
-            ->with([
-                'databases' => $this->databases,
-                'conducting' => $this->conducting,
-            ]);
-    }
+    public function render()
+    {
+        $project = $this->currentProject;
 
+        return view(
+            'livewire.conducting.import-studies',
+            compact(
+                'project',
+            )
+        )->extends('layouts.app');
+    }
 }

@@ -9,13 +9,7 @@ use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
-use App\Http\Controllers\Project\Planning\DatabaseController;
-use App\Http\Controllers\Project\Planning\Overall\DateController;
-use App\Http\Controllers\Project\Planning\Overall\DomainController;
-use App\Http\Controllers\Project\Planning\Overall\KeywordController;
-use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
-use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
@@ -29,8 +23,9 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Livewire\Planning\Databases\Databases;
-use App\Http\Controllers\Project\Conducting\ImportStudiesController;
+use App\Livewire\Planning\Databases\Databases;
+use App\Livewire\Conducting\ImportStudies\ImportStudies;
+use App\Http\Controllers\Project\ConductingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,12 +137,10 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
-    
-    // Start of the Conducting Routes
-    Route::get('/import-studies', [ImportStudiesController::class, 'index'])->name('import-studies.index');
-    Route::post('/import-studies/import', [ImportStudiesController::class, 'import'])->name('import-studies.import');
-    Route::delete('/import-studies/{id}', [ImportStudiesController::class, 'delete'])->name('import-studies.delete');
-    // End of the Conducting Routes
+
+    Route::get('/importStudies', [ImportStudies::class, 'render']);
+
+    Route::get('/conducting', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
 });
 
 
