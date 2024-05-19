@@ -83,10 +83,9 @@ class ImportStudies extends Component
         try {
             $filePath = $this->file->store('uploads');
 
-            // Process the file and import studies
-            // This is a placeholder, replace with actual import logic
-            $importedStudiesCount = 0;
-            $failedImportsCount = 0;
+            // Lógica real de processamento de arquivos  (talvez precise atualizar) -> chama a função de processamento de arquivo.
+            $importedStudiesCount = $this->processFile($filePath);
+            $failedImportsCount = 0; 
 
             // Log the import activity
             Log::logActivity(
@@ -108,6 +107,20 @@ class ImportStudies extends Component
         } finally {
             $this->resetFields();
         }
+    }
+
+    /**
+     * Para o processamento de arquivos.
+     */
+    protected function processFile($filePath)
+    {
+        // colocar a lógica real aq
+        // Ex:  CSV ou BIB e inserir dados no banco de dados
+        // Retorna o número de estudos importados com sucesso
+        $importedStudiesCount = 0;
+
+        // lógica.. 
+        return $importedStudiesCount;
     }
 
     /**
