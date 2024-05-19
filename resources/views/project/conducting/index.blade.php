@@ -63,7 +63,9 @@
                                 id="papers_per_database"
                                 style="height: 400px"
                                 class="card my-2 p-2"
-                            ></div>
+                            >
+                            @livewire("conducting.import-studies")
+                        </div>
                         </div>
                         <div class="tab-pane fade" id="study-selection">
                             <!-- Content for Study Selection tab -->
