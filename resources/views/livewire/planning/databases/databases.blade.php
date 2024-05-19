@@ -103,3 +103,11 @@
     </div>
     @livewire("planning.databases.suggest-database")
 </div>
+
+@script
+    <script>
+        $wire.on('databases', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript
