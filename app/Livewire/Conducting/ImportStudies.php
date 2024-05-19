@@ -154,13 +154,13 @@ class ImportStudies extends Component
     /**
      * Render the component.
      */
-    public function render()
-    {
+    public function render(){
         return view('livewire.conducting.import-studies')
             ->extends('layouts.app')
-            ->with([ //o método está passando dados adicionais para a view.
+            ->with([
                 'databases' => $this->databases,
-                'importstudies' => $this->importstudies,
+                'conducting' => $this->conducting,
             ]);
     }
+
 }
