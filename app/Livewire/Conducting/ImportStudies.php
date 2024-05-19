@@ -54,7 +54,7 @@ class ImportStudies extends Component
     public function resetFields()
     {
         $this->selectedDatabase = '';
-        $this->chooseFile = null;
+        $this->file = null;
     }
 
     /**
