@@ -16,7 +16,6 @@
     <div>
         <label for="file">Choose file:</label>
         <input type="file" id="file" wire:model="file">
-        @error('file') <span class="error">{{ $message }}</span> @enderror
     </div>
 
     <!-- Botão de adicionar -->
@@ -29,6 +28,7 @@
         @if (session()->has('message'))
             <p>{{ session('message') }}</p>
         @endif
+        @error('file') <span class="error">{{ $message }}</span> @enderror
     </div>
 
     <!-- Lista de estudos importados -->
