@@ -20,42 +20,42 @@
                             "tabs" => [
                                 [
                                     "id" => "overall-info-tab",
-                                    "label" => "Overall Information",
+                                    "label" => "1|Overall Information", // Ícone e texto
                                     "href" => "#overall-info",
                                 ],
                                 [
                                     "id" => "research-questions-tab",
-                                    "label" => "Research Questions",
+                                    "label" => "2|Research Questions",
                                     "href" => "#research-questions",
                                 ],
                                 [
                                     "id" => "data-bases-tab",
-                                    "label" => "Data Bases",
+                                    "label" => "3|Data Bases",
                                     "href" => "#data-bases",
                                 ],
                                 [
                                     "id" => "search-string-tab",
-                                    "label" => "Search String",
+                                    "label" => "4|Search String",
                                     "href" => "#search-string",
                                 ],
                                 [
                                     "id" => "search-strategy-tab",
-                                    "label" => "Search Strategy",
+                                    "label" => "5|Search Strategy",
                                     "href" => "#search-strategy",
                                 ],
                                 [
                                     "id" => "criteria-tab",
-                                    "label" => "Criteria",
+                                    "label" => "6|Criteria",
                                     "href" => "#criteria",
                                 ],
                                 [
                                     "id" => "quality-assessment-tab",
-                                    "label" => "Quality Assessment",
+                                    "label" => "7|Quality Assessment",
                                     "href" => "#quality-assessment",
                                 ],
                                 [
                                     "id" => "data-extraction-tab",
-                                    "label" => "Data Extraction",
+                                    "label" => "8|Data Extraction",
                                     "href" => "#data-extraction",
                                 ],
                             ],

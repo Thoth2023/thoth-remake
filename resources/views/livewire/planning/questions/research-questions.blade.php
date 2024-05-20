@@ -8,8 +8,10 @@
     </div>
     <div class="card-body">
         <form wire:submit="submit" class="d-flex flex-column">
-            <div class="d-flex flex-column gap-2 form-group w-md-50 w-100">
+            <div class="d-flex flex-column gap-2 form-group">
                 <x-input
+                    class="w-md-25 w-100"
+                    maxlength="20"
                     id="questionId"
                     label="{{ __('project/planning.research-questions.form.id') }}"
                     wire:model="questionId"
@@ -21,12 +23,23 @@
                     </span>
                 @enderror
 
-                <x-input
-                    id="description"
-                    label="{{ __('project/planning.research-questions.form.description') }}"
-                    wire:model="description"
-                    placeholder="Digite sua questão de pesquisa"
-                />
+                <div class="d-flex flex-column">
+                    <label
+                        for="description"
+                        class="form-control-label mx-0 mb-1"
+                    >
+                        {{ __("project/planning.research-questions.form.description") }}
+                    </label>
+                    <textarea
+                        class="form-control"
+                        maxlength="255"
+                        rows="4"
+                        id="description"
+                        label="{{ __("project/planning.research-questions.form.description") }}"
+                        wire:model="description"
+                        placeholder="Digite sua questão de pesquisa"
+                    ></textarea>
+                </div>
                 @error("description")
                     <span class="text-xs text-danger">
                         {{ $message }}
@@ -79,7 +92,11 @@
                 </thead>
                 <tbody>
                     @forelse ($questions as $question)
-                        <tr class="px-4" data-item="search-questions">
+                        <tr
+                            class="px-4"
+                            data-item="search-questions"
+                            wire:key="{{ $question->id_research_question }}"
+                        >
                             <td>{{ $question->id }}</td>
                             <td>
                                 <span
@@ -99,6 +116,8 @@
                                 <button
                                     class="btn py-1 px-3 btn-outline-danger"
                                     wire:click="delete('{{ $question->id_research_question }}')"
+                                    wire:target="delete('{{ $question->id_research_question }}')"
+                                    wire:loading.attr="disabled"
                                 >
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -125,3 +144,11 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('research-questions', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript
