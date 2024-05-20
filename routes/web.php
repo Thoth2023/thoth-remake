@@ -138,7 +138,7 @@ Route::prefix('/project/{projectId}')->group(function () {
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
-    Route::get('/importStudies', [ImportStudies::class, 'render']);
+    Route::get('/import-studies', [ImportStudies::class, 'render']);
 
     Route::get('/conducting', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
 });
