@@ -64,11 +64,17 @@ Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->mi
 // Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 
+// Profile routes
+// Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
+// Route::get('/' . __('profile'), [UserProfileController::class, 'index'])->name('profile')->middleware(Localization::class);
+
+
+
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // Projects Routes
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth');
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth')->middleware(Localization::class);
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth')->middleware(Localization::class);
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth');
@@ -86,7 +92,8 @@ Route::prefix('/project/{projectId}')->group(function () {
     Route::prefix('/planning')->group(function () {
         Route::get('/', [OverallController::class, 'index'])
             ->name('project.planning.index')
-            ->middleware('auth');
+            ->middleware('auth')
+            ->middleware(Localization::class);
 
         // Database Route
         Route::get('/databases', [Databases::class, 'render']);
@@ -161,8 +168,8 @@ Route::middleware(['locale', 'guest'])->group(function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
-    Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
+    Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update')->middleware(Localization::class);
     Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
     Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
     Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
