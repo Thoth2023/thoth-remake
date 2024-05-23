@@ -51,7 +51,7 @@
                                 <div class="row">
                                     <div class="col-8">
                                         <h3 class="card-title>">Export</h3>
-                                        <p> Que etapa você gostaria de exportar?</p>
+                                        <p>What stage of the Review you</p>
                                         <div class="checkbox-group">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value=""
@@ -83,7 +83,7 @@
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-success mt-3" onclick="generateBibTex()">
-                                            Gerar Exportação
+                                           Generate BibTex
                                         </button>
                                     </div>
                                 </div>
@@ -107,14 +107,14 @@
                                 <div class="col-4">
                                     <div id="error-message" style="color: red;"></div>
                                     <button type="submit" class="btn btn-success mt-3" onclick="downloadAsLatex()">
-                                        Baixar
+                                       Download
                                     </button>
                                     <form id="overleafForm" action="https://www.overleaf.com/docs" method="post" target="_blank">
                                         <input type="hidden" name="snip_uri" id="snip_uri">
                                         <button type="button" class="btn btn-success mt-3" onclick="createProjectOnOverleaf()">
-                                            Criar Projeto no Overleaf
+                                          Create Project on Overleaf
                                         </button>
-                                    </form>
+                                   </form>
 
 
                                 </div>
@@ -238,7 +238,7 @@
     generateBibTex(); // Gera o conteúdo LaTeX
     openInOverleaf(); // Envia o formulário para o Overleaf
 }
-
+// Verify here
 function openInOverleaf() {
     var latexContent = document.getElementById('bibTex-generated').value;
     document.getElementById('snip_uri').value = 'data:text/plain;charset=utf-8,' + encodeURIComponent(latexContent);
