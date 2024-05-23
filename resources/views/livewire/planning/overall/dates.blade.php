@@ -43,3 +43,11 @@
         <div id="message"></div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('dates', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript

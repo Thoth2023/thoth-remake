@@ -6,9 +6,13 @@ use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Utils\ToastHelper;
 
 class Domains extends Component
 {
+    private $translationPath = 'project/planning.overall.domain.livewire';
+    private $toastMessages = 'project/planning.overall.domain.livewire.toasts';
+
     public $currentProject;
     public $currentDomain;
     public $domains = [];
@@ -36,9 +40,12 @@ class Domains extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'description.required' => 'The description field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'description.required' => __($this->translationPath . '.description.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -77,6 +84,14 @@ class Domains extends Component
     }
 
     /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('domains', ToastHelper::dispatch($type, $message));
+    }
+
+    /**
      * Submit the form. It validates the input fields
      * and creates or updates an item.
      */
@@ -89,20 +104,31 @@ class Domains extends Component
         ];
 
         try {
+            $value = $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain';
+            $toastMessage = __($this->toastMessages . ($this->form['isEditing']
+                ? '.updated' : '.added'));
+
             $updatedOrCreated = DomainModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'description' => $this->description,
             ]);
 
             Log::logActivity(
-                action: $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain',
+                action: $value,
                 description: $updatedOrCreated->description,
                 projectId: $this->currentProject->id_project
             );
 
             $this->updateDomains();
+            $this->toast(
+                message: $toastMessage,
+                type: 'success'
+            );
         } catch (\Exception $e) {
-            $this->addError('description', $e->getMessage());
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         } finally {
             $this->resetFields();
         }
@@ -123,16 +149,29 @@ class Domains extends Component
      */
     public function delete(string $domainId)
     {
-        $currentDomain = DomainModel::findOrFail($domainId);
-        $currentDomain->delete();
+        try {
+            $currentDomain = DomainModel::findOrFail($domainId);
+            $currentDomain->delete();
 
-        Log::logActivity(
-            action: 'Deleted the domain',
-            description: $currentDomain->description,
-            projectId: $this->currentProject->id_project
-        );
+            Log::logActivity(
+                action: 'Deleted the domain',
+                description: $currentDomain->description,
+                projectId: $this->currentProject->id_project
+            );
 
-        $this->updateDomains();
+            $this->toast(
+                message: __($this->toastMessages . '.deleted'),
+                type: 'success'
+            );
+            $this->updateDomains();
+        } catch (\Exception $e) {
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
+        } finally {
+            $this->resetFields();
+        }
     }
 
     /**

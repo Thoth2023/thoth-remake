@@ -29,6 +29,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Livewire\Planning\Databases\Databases;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,10 +56,14 @@ Auth::routes();
 
 Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
-// about and help routes
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/help', [HelpController::class, 'index'])->name('help');
+// About routes
+Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')->middleware(Localization::class);
+
+// Help routes
+Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);
+// Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
+
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // Projects Routes
@@ -83,20 +88,9 @@ Route::prefix('/project/{projectId}')->group(function () {
             ->name('project.planning.index')
             ->middleware('auth');
 
-        // Database Routes
-        Route::resource('/databases', DatabaseController::class)
-            ->only(['store'])
-            ->names([
-                'store' => 'project.planning.databases.store',
-            ]);
+        // Database Route
+        Route::get('/databases', [Databases::class, 'render']);
 
-        // Add a database to the project
-        Route::post('/databases/add/', [DatabaseController::class, 'addDatabase'])
-            ->name('project.planning.databases.add');
-
-        // Remove a database from the project
-        Route::delete('/databases/remove/{database}', [DatabaseController::class, 'removeDatabase'])
-            ->name('project.planning.databases.remove');
 
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])

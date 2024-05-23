@@ -47,4 +47,9 @@ class Database extends Model
     {
         return $this->belongsTo(SearchString::class);
     }
+
+    public static function getOnlyApproved()
+    {
+        return Database::where('state', 'approved')->get();
+    }
 }

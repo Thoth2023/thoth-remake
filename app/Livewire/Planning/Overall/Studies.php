@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\StudyType as StudyTypeModel;
 use App\Models\Project as ProjectModel;
@@ -10,6 +11,9 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Studies extends Component
 {
+    private $translationPath = 'project/planning.overall.study_type.livewire';
+    private $toastMessages = 'project/planning.overall.study_type.livewire.toasts';
+
     public $currentProject;
     public $studies = [];
 
@@ -24,15 +28,27 @@ class Studies extends Component
     protected $rules = [
         'currentProject' => 'required',
         'studyType' => 'required|array',
-        'studyType.*.value' => 'number|exists:studies,id_language',
+        'studyType.*.value' => 'number',
     ];
 
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'studyType.required' => 'The study type field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'studyType.required' => __($this->translationPath . '.study_type.required'),
+        ];
+    }
+
+    /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('studies', ToastHelper::dispatch($type, $message));
+    }
+
 
     /**
      * Executed when the component is mounted. It sets the
@@ -59,7 +75,10 @@ class Studies extends Component
             ]);
 
             if ($projectStudyType->exists) {
-                $this->addError('studyType', 'The provided study type already exists in this project.');
+                $this->toast(
+                    message: __($this->translationPath . '.study_type.already_exists'),
+                    type: 'info'
+                );
                 return;
             }
 
@@ -72,6 +91,10 @@ class Studies extends Component
             );
 
             $projectStudyType->save();
+            $this->toast(
+                message: __($this->toastMessages . '.added'),
+                type: 'success'
+            );
         } catch (\Exception $e) {
             $this->addError('studyType', $e->getMessage());
         }
@@ -93,6 +116,11 @@ class Studies extends Component
             action: 'Deleted the study',
             description: $deleted->description,
             projectId: $this->currentProject->id_project,
+        );
+
+        $this->toast(
+            message: __($this->toastMessages . '.deleted'),
+            type: 'success'
         );
     }
 

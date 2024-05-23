@@ -44,6 +44,21 @@ return [
                     'the diverse set of literature sources you encounter during your review. Each domain represents ' .
                     'a specific aspect or topic related to your research question or area of interest.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Domain added',
+                    'updated' => 'Domain updated',
+                    'deleted' => 'Domain deleted',
+                ],
+                'description' => [
+                    'required' => 'The description field is required.'
+                ],
+                'toasts' => [
+                    'added' => 'Domain added successfully.',
+                    'updated' => 'Domain updated successfully.',
+                    'deleted' => 'Domain deleted successfully.',
+                ],
+            ]
         ],
         'language' => [
             'title' => 'Languages',
@@ -70,6 +85,21 @@ return [
                 'content' => 'Languages represent different languages in which literature sources are written. ' .
                     'You can add and manage languages to categorize the sources based on their language of origin.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Language added',
+                    'updated' => 'Language updated',
+                    'deleted' => 'Language deleted',
+                ],
+                'language' => [
+                    'required' => 'The language field is required.',
+                    'already_exists' => 'The selected language already exists in this project.'
+                ],
+                'toasts' => [
+                    'added' => 'Language added successfully.',
+                    'deleted' => 'Language deleted successfully.',
+                ],
+            ]
         ],
         'study_type' => [
             'title' => 'Study Types',
@@ -98,6 +128,21 @@ return [
                     'included in your literature review. You can add and manage study types to categorize ' .
                     'the sources based on the nature of the studies conducted.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Study type added',
+                    'updated' => 'Study type updated',
+                    'deleted' => 'Study type deleted',
+                ],
+                'studyType' => [
+                    'required' => 'The study type field is required.',
+                    'already_exists' => 'The selected study type already exists in this project.'
+                ],
+                'toasts' => [
+                    'added' => 'Study type added successfully.',
+                    'deleted' => 'Study type deleted successfully.',
+                ],
+            ]
         ],
         'keyword' => [
             'title' => 'Keywords',
@@ -136,6 +181,21 @@ return [
                     'You can use keywords to categorize and organize your literature sources, making ' .
                     'it easier to identify relevant information for your project.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Keyword added',
+                    'updated' => 'Keyword updated',
+                    'deleted' => 'Keyword deleted',
+                ],
+                'description' => [
+                    'required' => 'The description field is required.'
+                ],
+                'toasts' => [
+                    'added' => 'Keyword added successfully.',
+                    'updated' => 'Keyword updated successfully.',
+                    'deleted' => 'Keyword deleted successfully.',
+                ],
+            ]
         ],
         'dates' => [
             'title' => 'Project Dates',
@@ -148,6 +208,25 @@ return [
                     'conduct your literature review. This will help you to keep track of your progress and to ' .
                     'schedule your work effectively.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Date added',
+                    'updated' => 'Date updated',
+                ],
+                'date' => [
+                    'invalid' => 'The date field is invalid. Please enter a valid date.',
+                ],
+                'start_date' => [
+                    'required' => 'The start date field is required.',
+                ],
+                'end_date' => [
+                    'required' => 'The end date field is required.',
+                    'after' => 'The end date must be greater than the start date.',
+                ],
+                'toasts' => [
+                    'updated' => 'Dates updated successfully.',
+                ],
+            ]
         ],
     ],
     'research-questions' => [
@@ -174,6 +253,21 @@ return [
             'description' => 'Description',
             'update' => 'Update',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Research Question added',
+                'updated' => 'Research Question updated',
+                'deleted' => 'Research Question deleted',
+            ],
+            'description' => [
+                'required' => 'The description field is required.'
+            ],
+            'toasts' => [
+                'added' => 'Research Question added successfully.',
+                'updated' => 'Research Question updated successfully.',
+                'deleted' => 'Research Question deleted successfully.',
+            ],
+        ]
     ],
     'databases' => [
         'title' => 'Databases',
@@ -189,16 +283,34 @@ return [
             'header' => 'Databases',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
+            'empty' => 'No database registered in the project.',
         ],
         'suggest-new' => [
             'title' => 'Suggest a New Database',
-            'name-label' => 'Database Name:',
-            'link-label' => 'Database Link:',
+            'name-label' => 'Database Name',
+            'link-label' => 'Database Link',
             'submit-button' => 'Send suggestion',
         ],
         'errors' => [
             'name' => 'Error message for name field, if needed.',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Database added',
+                'deleted' => 'Database deleted',
+            ],
+            'database' => [
+                'required' => 'The database field is required.',
+                'required_link' => 'The link field is required.',
+                'already_exists' => 'The selected database already exists in this project.',
+                'invalid_link' => 'The link field must be a valid URL.',
+            ],
+            'toasts' => [
+                'added' => 'Database added successfully.',
+                'deleted' => 'Database deleted successfully.',
+                'suggested' => 'Database suggestion sent successfully.',
+            ],
+        ]
     ],
     'search-string' => [],
     'search-strategy' => [

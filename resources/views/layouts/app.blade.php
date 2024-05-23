@@ -54,9 +54,12 @@
         <link rel="stylesheet" href="{{ asset("assets/css/select.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
-    <body class="g-sidenav-show bg-gray-300">
+    <body
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "register", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
+    >
         @guest
             @yield("content")
         @endguest
@@ -68,7 +71,7 @@
                 @if (! in_array(request()->route()->getName(),["profile", "home"]))
                     <div
                         class="bg-primary position-absolute w-100"
-                        style="min-height: 140px;"
+                        style="min-height: 140px"
                     ></div>
                 @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
                     <div
@@ -83,7 +86,9 @@
                 @endif
                 @include("layouts.navbars.auth.sidenav")
                 <main class="main-content">
-                    @yield("content")
+                    <div class="container">
+                        @yield("content")
+                    </div>
                 </main>
                 @include("components.fixed-plugin")
             @endif
