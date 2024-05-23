@@ -35,6 +35,7 @@ class Project extends Model
         'description',
         'objectives',
         'created_by',
+        'feature_review',
     ];
 
     public function users()

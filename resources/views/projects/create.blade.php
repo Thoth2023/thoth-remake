@@ -49,18 +49,21 @@
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review1" value = "Systematic review">
+                    {{ old('feature_review') == 'Systematic review' ? 'checked' : '' }}</input>
                     <label class="form-check-label" for="feature_review1" >
                         Systematic review
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review2"  value = "Systematic review and Snowballing">
+                    {{ old('feature_review') == 'Systematic review and Snowballing' ? 'checked' : '' }}</input>
                     <label class="form-check-label" for="feature_review2">
                         Systematic review and Snowballing
                     </label>
                 </div> 
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review3"  value= "Snowballing">
+                    {{ old('feature_review') == 'Snowballing' ? 'checked' : '' }}</input>
                     <label class="form-check-label" for="feature_review3">
                          Snowballing
                     </label>
