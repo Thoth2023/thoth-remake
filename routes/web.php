@@ -24,7 +24,6 @@ use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Planning\Databases\Databases;
-use App\Livewire\Conducting\ImportStudies\ImportStudies;
 use App\Http\Controllers\Project\ConductingController;
 
 /*
@@ -139,7 +138,6 @@ Route::prefix('/project/{projectId}')->group(function () {
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
     // Star of Conducting routes
-    Route::get('/import-studies', [ImportStudies::class, 'render']);
     Route::get('/conducting', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
     // End of Conducting routes
 
