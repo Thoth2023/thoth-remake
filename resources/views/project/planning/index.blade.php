@@ -4,11 +4,8 @@
     @include("layouts.navbars.auth.topnav", ["title" => "Planning"])
 
     <div class="row mt-4 mx-4">
-        @include(
-            "project.components.project-header",
-            ["activePage" => "planning"],
-            ["project" => $project]
-        )
+
+        @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
 
         <div class="container-fluid py-4">
             <div class="row">
@@ -16,7 +13,7 @@
                     @include(
                         "project.components.project-tabs",
                         [
-                            "header" => "Planning",
+                            "header" => __("project/planning.planning"),
                             "tabs" => [
                                 [
                                     "id" => "overall-info-tab",

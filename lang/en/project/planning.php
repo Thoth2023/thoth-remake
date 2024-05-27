@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'planning' => 'Planning',
     'overall' => [
         'title' => 'Overall Planning',
         'no-results' => 'No results found.',

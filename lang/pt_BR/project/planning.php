@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'planning' => 'Planejamento',
     'overall' => [
         'title' => 'Planejamento Geral',
         'no-results' => 'No results found.',
