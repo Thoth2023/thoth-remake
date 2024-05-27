@@ -14,6 +14,7 @@ return [
                 'headers' => [
                     'name' => 'Nome',
                     'description' => 'Descrição',
+                    'enter_description' => 'Digite a descrição do domínio',
                     'actions' => 'Ações',
                 ],
                 'actions' => [
@@ -147,6 +148,7 @@ return [
         'keyword' => [
             'title' => 'Palavras-chave',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
             'list' => [
                 'headers' => [
@@ -239,12 +241,14 @@ return [
         'form' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da questão de pesquisa',
             'add' => 'Adicionar',
             'update' => 'Atualizar'
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'actions' => 'Ações',
             'edit' => 'Editar',
             'delete' => 'Excluir',
             'no-questions' => 'Nenhuma questão de pesquisa encontrada.',
@@ -283,6 +287,8 @@ return [
             'add-button' => 'Adicionar Base de Dados',
         ],
         'table' => [
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'header' => 'Bases de Dados',
             'remove-button' => 'Remover',
             'no-databases' => 'Nenhuma base de dados encontrado.',
@@ -291,7 +297,9 @@ return [
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
+            'enter-name' => 'Digite o nome da Base de Dados',
             'link-label' => 'Link da Base de Dados',
+            'enter-link' => 'Digite o link da Base de Dados',
             'submit-button' => 'Enviar sugestão',
         ],
         'errors' => [
@@ -347,6 +355,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
@@ -389,6 +398,7 @@ return [
                 'content' => 'Use o formulário de pergunta de extração de dados para criar perguntas que orientem a extração de informações específicas de estudos selecionados. Defina o ID da pergunta, descrição, tipo e adicione opções, se necessário. Esta etapa garante uma extração de dados estruturada e abrangente.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'add-question' => 'Adicionar Pergunta',
