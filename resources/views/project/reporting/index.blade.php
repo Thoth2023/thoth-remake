@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-12">
                     @include('project.components.project-tabs', [
-                        'header' => 'Reporting',
+                        'header' => __('project/reporting.reporting'),
                         'tabs' => [
                             ['id' => 'overview-tab', 'label' => 'Overview', 'href' => '#overview'],
                             [
