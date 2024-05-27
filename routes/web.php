@@ -153,7 +153,7 @@ Route::prefix('/project/{projectId}')->group(function () {
     // End of the Planning Routes
 
     // start of the reporting routes
-    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
+    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
 });
 
 
