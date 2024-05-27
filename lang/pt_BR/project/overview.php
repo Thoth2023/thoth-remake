@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'overview' => 'Visão Geral',
+
     'project' => 'Projeto',
     'description' => 'Descrição',
     'objectives' => 'Objetivos',
