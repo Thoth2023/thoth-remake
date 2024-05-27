@@ -32,8 +32,9 @@
                 action="{{ route('project.planning.data-extraction.question.destroy', ['projectId' => $project->id_project, 'question' => $question]) }}">
                 @csrf
                 @method('DELETE')
-                <button type="submit" style="padding: 7px;"
-                        class="btn btn-outline-danger btn-group-sm btn-sm">Delete</button>
+                <button type="submit" class="btn btn-outline-danger py-1 px-3">
+                    <i class="fas fa-trash"></i> 
+                </button>
             </form>
         </div>
     </div>
