@@ -64,6 +64,9 @@ Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->mi
 // Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 
+// Sidenav routes
+Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class);
+
 // Profile routes
 // Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
 // Route::get('/' . __('profile'), [UserProfileController::class, 'index'])->name('profile')->middleware(Localization::class);
