@@ -73,7 +73,7 @@ Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class
 
 
 
-Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
+Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project')->middleware(Localization::class);
 
 // Projects Routes
 Route::get('/projects/{id}' . __('header'))->name('header')->middleware(Localization::class);
