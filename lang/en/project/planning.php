@@ -2,8 +2,14 @@
 
 return [
     'planning' => 'Planning',
+    'button' => [
+        'close' => 'Close',
+    ],
+    'placeholder' => [
+        'search' => 'Search...',
+    ],
     'overall' => [
-        'title' => 'Overall Planning',
+        'title' => 'Overall Information',
         'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domains',
@@ -322,7 +328,9 @@ return [
             ],
         ]
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'Search String',
+    ],
     'search-strategy' => [
         'title' => 'Search Strategy',
         'help' => [
@@ -387,8 +395,11 @@ return [
             'at-least' => 'At Least',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title' => 'Quality Assessment',
+    ],
     'data-extraction' => [
+        'title' => 'Data Extraction',
         'question-form' => [
             'title' => 'Create Data Extraction Question',
             'help' => [

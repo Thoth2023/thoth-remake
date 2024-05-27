@@ -2,9 +2,15 @@
 
 return [
     'planning' => 'Planejamento',
+    'button' => [
+        'close' => 'Fechar',
+    ],
+    'placeholder' => [
+        'search' => 'Pesquisar...',
+    ],
     'overall' => [
-        'title' => 'Planejamento Geral',
-        'no-results' => 'No results found.',
+        'title' => 'Informações Gerais',
+        'no-results' => 'Nenhum resultado encontrado.',
         'domain' => [
             'title' => 'Domínios',
             'description' => 'Descrição',
@@ -277,7 +283,7 @@ return [
         ]
     ],
     'databases' => [
-        'title' => 'Bases de Dados',
+        'title' => 'Base de Dados',
         'help' => [
             'title' => 'Bases de Dados',
             'content' => 'Bases de dados são repositórios de artigos e publicações acadêmicas. Selecione as bases que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bases de acordo com a relevância para o tópico de sua pesquisa.',
@@ -324,7 +330,9 @@ return [
             ],
         ]
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'String de Busca',
+    ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
         'help' => [
@@ -389,8 +397,11 @@ return [
             'at-least' => 'Pelo Menos',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title' => 'Avaliação de Qualidade',
+    ],
     'data-extraction' => [
+        'title' => 'Extração de Dados',
         'question-form' => [
             'title' => 'Criar Pergunta de Extração de Dados',
             'help' => [
