@@ -6,7 +6,7 @@
         <div class="col-1">
             <span>{{ $question->id }}</span>
         </div>
-        <div class="col">
+        <div class="col" style="max-width: 220px">
             <span>{{ $question->description }}</span>
         </div>
         <div class="col">
