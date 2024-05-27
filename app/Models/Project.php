@@ -12,7 +12,7 @@ use App\Models\ProjectDatabases;
 use Illuminate\Support\Collection;
 use App\Models\Project\Planning\DataExtraction\Question;
 
-class Project extends Model
+class Project extends Model 
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name

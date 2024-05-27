@@ -98,9 +98,6 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $user_id = Auth::user()->id;
 
-        if ($project->users()->wherePivot('id_user', $user_id)->wherePivot('level', 1)->doesntExist()) {
-            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
-        }
 
         $project->update($request->all());
         $activity = "Edited project";
