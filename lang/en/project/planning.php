@@ -1,8 +1,15 @@
 <?php
 
 return [
+    'planning' => 'Planning',
+    'button' => [
+        'close' => 'Close',
+    ],
+    'placeholder' => [
+        'search' => 'Search...',
+    ],
     'overall' => [
-        'title' => 'Overall Planning',
+        'title' => 'Overall Information',
         'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domains',
@@ -13,6 +20,7 @@ return [
                 'headers' => [
                     'name' => 'Name',
                     'description' => 'Description',
+                    'enter_description' => 'Enter domain description',
                     'actions' => 'Actions',
                 ],
                 'actions' => [
@@ -147,6 +155,7 @@ return [
         'keyword' => [
             'title' => 'Keywords',
             'description' => 'Description',
+            'enter_description' => 'Enter keyword description',
             'add' => 'Add Keyword',
             'list' => [
                 'headers' => [
@@ -238,14 +247,17 @@ return [
         'form' => [
             'id' => 'ID',
             'description' => 'Description',
+            'enter_description' => 'Enter research question description',
             'add' => 'Add',
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Description',
+            'actions' => 'Actions',
             'edit' => 'Edit',
             'delete' => 'Delete',
             'no-questions' => 'No research questions found.',
+            'empty' => 'No research questions registered in the project.'
         ],
         'edit-modal' => [
             'title' => 'Research Question Update',
@@ -280,6 +292,8 @@ return [
             'add-button' => 'Add Database',
         ],
         'table' => [
+            'name' => 'Name',
+            'actions' => 'Actions',
             'header' => 'Databases',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
@@ -288,7 +302,9 @@ return [
         'suggest-new' => [
             'title' => 'Suggest a New Database',
             'name-label' => 'Database Name',
+            'enter-name' => 'Enter database name',
             'link-label' => 'Database Link',
+            'enter-link' => 'Enter database link',
             'submit-button' => 'Send suggestion',
         ],
         'errors' => [
@@ -312,7 +328,9 @@ return [
             ],
         ]
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'Search String',
+    ],
     'search-strategy' => [
         'title' => 'Search Strategy',
         'help' => [
@@ -343,6 +361,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Do not use special characters',
             'description' => 'Description',
             'type' => 'Type',
             'inclusion' => 'Inclusion',
@@ -376,8 +395,11 @@ return [
             'at-least' => 'At Least',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title' => 'Quality Assessment',
+    ],
     'data-extraction' => [
+        'title' => 'Data Extraction',
         'question-form' => [
             'title' => 'Create Data Extraction Question',
             'help' => [
@@ -385,6 +407,7 @@ return [
                 'content' => 'Use the data extraction question form to create questions that guide the extraction of specific information from selected studies. Define the question ID, description, type, and add options if needed. This step ensures structured and comprehensive data extraction.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Do not use special characters',
             'description' => 'Description',
             'type' => 'Type',
             'add-question' => 'Add Question',
