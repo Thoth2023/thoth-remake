@@ -396,6 +396,7 @@ return [
         ],
     ],
     'quality-assessment' => [
+        'title'=>'Quality Assessment',
         'general-score' => [
             'title' => 'General Score',
             'help' => [
