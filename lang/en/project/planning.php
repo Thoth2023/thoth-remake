@@ -1,8 +1,15 @@
 <?php
 
 return [
+    'planning' => 'Planning',
+    'button' => [
+        'close' => 'Close',
+    ],
+    'placeholder' => [
+        'search' => 'Search...',
+    ],
     'overall' => [
-        'title' => 'Overall Planning',
+        'title' => 'Overall Information',
         'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domains',
@@ -13,6 +20,7 @@ return [
                 'headers' => [
                     'name' => 'Name',
                     'description' => 'Description',
+                    'enter_description' => 'Enter domain description',
                     'actions' => 'Actions',
                 ],
                 'actions' => [
@@ -147,6 +155,7 @@ return [
         'keyword' => [
             'title' => 'Keywords',
             'description' => 'Description',
+            'enter_description' => 'Enter keyword description',
             'add' => 'Add Keyword',
             'list' => [
                 'headers' => [
@@ -238,14 +247,17 @@ return [
         'form' => [
             'id' => 'ID',
             'description' => 'Description',
+            'enter_description' => 'Enter research question description',
             'add' => 'Add',
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Description',
+            'actions' => 'Actions',
             'edit' => 'Edit',
             'delete' => 'Delete',
             'no-questions' => 'No research questions found.',
+            'empty' => 'No research questions registered in the project.'
         ],
         'edit-modal' => [
             'title' => 'Research Question Update',
@@ -280,6 +292,8 @@ return [
             'add-button' => 'Add Database',
         ],
         'table' => [
+            'name' => 'Name',
+            'actions' => 'Actions',
             'header' => 'Databases',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
@@ -288,7 +302,9 @@ return [
         'suggest-new' => [
             'title' => 'Suggest a New Database',
             'name-label' => 'Database Name',
+            'enter-name' => 'Enter database name',
             'link-label' => 'Database Link',
+            'enter-link' => 'Enter database link',
             'submit-button' => 'Send suggestion',
         ],
         'errors' => [
@@ -312,7 +328,9 @@ return [
             ],
         ]
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'Search String',
+    ],
     'search-strategy' => [
         'title' => 'Search Strategy',
         'help' => [
@@ -343,6 +361,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Do not use special characters',
             'description' => 'Description',
             'type' => 'Type',
             'inclusion' => 'Inclusion',
@@ -377,132 +396,10 @@ return [
         ],
     ],
     'quality-assessment' => [
-        'general-score' => [
-            'title' => 'General Score',
-            'help' => [
-                'title' => 'General Score',
-                'content' => '',
-                ],
-            'start' => 'Enter the Minimum Score',
-            'end' => 'Enter the Max Score',
-            'description' => 'Description',
-            'placeholder-start' => 'Min Score (0.0)',
-            'placeholder-end' => 'Max Score (0.0)',
-            'add' => 'Add General Score',
-            'update' => 'Update General Score',
-            'table' => [
-                'min' => 'Min Score',
-                'max' => 'Max Score',
-                'description' => 'Description',
-                'action' => 'Actions',
-                'no-results' => 'No general score found.',
-                'empty' => 'No general score registered in the project.',
-                 ],
-            'livewire' => [
-                    'logs' => [
-                        'added' => 'General Score added',
-                        'updated' => 'General Score updated',
-                    ],
-                    'start' => [
-                        'invalid' => 'The general score field is invalid. Please enter a valid general score.',
-                        'required' => 'The general score field is invalid. Please enter a valid general score.',
-                    ],
-                    'end' => [
-                        'required' => 'The end general score field is required.',
-                        'after' => 'The end general score must be greater than the start general score.',
-                    ],
-                    'description' => [
-                        'required' => 'The description general score field is required.',
-                    ],
-                    'toasts' => [
-                        'added' => 'General Score added successfully.',
-                        'updated' => 'General Score updated successfully.',
-                        'deleted' => 'General Score deleted successfully.',
-                    ],
-                ],
-
-            ],
-        'question-quality' => [
-            'title'=> 'Question Quality',
-            'help' => [
-                    'title' => 'Question Quality',
-                    'content' => '',
-                    ],
-            'id'=> 'ID',
-            'description'=> 'Description',
-            'weight'=> 'Weight',
-            'add' => 'Add Question Quality',
-            'update' => 'Update Question Quality',
-             'livewire' => [
-                'logs' => [
-                    'added' => 'Question Quality added',
-                    'updated' => 'Question Quality updated',
-                ],
-                'id' => [
-                    'required' => 'The question quality field is invalid. Please enter a valid question quality.',
-                ],
-                'weight' => [
-                    'required' => 'The end question quality field is required.',
-                ],
-                'description' => [
-                    'required' => 'The description question quality field is required.',
-                ],
-                'toasts' => [
-                     'added' => 'Question Quality added successfully.',
-                     'updated' => 'Question Quality updated successfully.',
-                     'deleted' => 'Question Quality deleted successfully.',
-                ],
-            ],
-
-        ],
-        'quality-score' => [
-            'title'=> 'Quality Score',
-            'help' => [
-                'title' => 'Quality Score',
-                'content' => '',
-            ],
-            'description'=> [
-                'title' => 'Description',
-                'placeholder' => 'Enter description',
-            ],
-            'id_qa'=> [
-                'title' => 'Question Quality',
-                'placeholder' => 'Select Question Quality',
-            ],
-            'score_rule'=> [
-                'title' => 'Score Rule',
-                'placeholder' => 'Enter Score Rule',
-            ],
-            'form' => [
-                'select-qa-placeholder' => 'Select a Question Quality',
-                'add' => 'Add Quality Score',
-                'update' => 'Upate Quality Score',
-            ],
-
-            'livewire' => [
-                'logs' => [
-                    'added' => 'Quality Score added',
-                    'updated' => 'Quality Score updated',
-                ],
-                'id' => [
-                    'required' => 'The quality score field is invalid. Please enter a valid quality score.',
-                ],
-                'weight' => [
-                    'required' => 'The end quality score field is required.',
-                ],
-                'description' => [
-                    'required' => 'The description quality score field is required.',
-                ],
-            ],
-            'toasts' => [
-                'added' => 'Quality Score added successfully.',
-                'updated' => 'Quality Score updated successfully.',
-                'deleted' => 'Quality Score deleted successfully.',
-            ],
-        ],
-
+        'title' => 'Quality Assessment',
     ],
     'data-extraction' => [
+        'title' => 'Data Extraction',
         'question-form' => [
             'title' => 'Create Data Extraction Question',
             'help' => [
@@ -510,6 +407,7 @@ return [
                 'content' => 'Use the data extraction question form to create questions that guide the extraction of specific information from selected studies. Define the question ID, description, type, and add options if needed. This step ensures structured and comprehensive data extraction.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Do not use special characters',
             'description' => 'Description',
             'type' => 'Type',
             'add-question' => 'Add Question',
