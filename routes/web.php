@@ -20,6 +20,8 @@ use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
+use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
+use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
@@ -116,6 +118,24 @@ Route::prefix('/project/{projectId}')->group(function () {
 
         Route::put('/criteria/{criteriaId}/change-preselected', [CriteriaController::class, 'change_preselected'])
             ->name('project.planning.criteria.change-preselected');
+
+        // Quality Assessment Routes
+        Route::prefix('/quality-assessment')->group(function () {
+            Route::resource('/general-score', GeneralScoreController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.quality-assessment.general-score.store',
+                    'update' => 'project.planning.quality-assessment.general-score.update',
+                    'destroy' => 'project.planning.quality-assessment.general-score.destroy',
+                ]);
+            Route::resource('/question', QualityAssessmentQuestionController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.quality-assessment.question.store',
+                    'update' => 'project.planning.quality-assessment.question.update',
+                    'destroy' => 'project.planning.quality-assessment.question.destroy',
+                ]);
+        });
 
         // Data Extraction Routes
         Route::prefix('/data-extraction/')->group(function () {
