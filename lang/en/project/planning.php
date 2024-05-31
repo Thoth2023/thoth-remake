@@ -521,6 +521,31 @@ return [
             ],
         ],
 
+        'min-general-score' => [
+            'title'=> 'Minimal General Score to Approve',
+            'form' => [
+                'select-placeholder' => 'Select Minimal General Score to Approve',
+                'add' => 'Add Minimal General Score',
+                'update' => 'Upate Minimal General Score',
+            ],
+
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Minimal General Score to Approve added',
+                    'updated' => 'Minimal General Score to Approve updated',
+                ],
+                'toasts' => [
+                    'added' => 'Minimal General Score to Approve added successfully.',
+                    'updated' => 'Minimal General Score to Approve updated successfully.',
+                ],
+                'min-general-score' => [
+                    'required' => 'Minimal General Score to Approve field is required.',
+                ],
+            ],
+
+        ],
+
+
     ],
     'data-extraction' => [
         'title' => 'Data Extraction',

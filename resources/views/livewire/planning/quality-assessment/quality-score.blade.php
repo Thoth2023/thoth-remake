@@ -10,9 +10,8 @@
     <div class="card-body">
         <form wire:submit="submit">
             <div class="form-group">
-            <!-- Question Selector -->
-                <div class="input-group">
-
+                <!-- Question Selector -->
+                <div class="d-flex gap-3 flex-column w-200 w-md-100">
                     <x-select
                         wire:model="id_qa"
                         label="{{ __('project/planning.quality-assessment.quality-score.id_qa.title') }}"
@@ -20,11 +19,15 @@
                         <option selected disabled>
                             {{ __("project/planning.quality-assessment.quality-score.form.select-qa-placeholder") }}
                         </option>
-                        @foreach ($qualityscore as $score)
-                            <option value="{{ $score->id_qa }}">
-                                {{ $score->description }}
-                            </option>
-                        @endforeach
+                        @if(!empty($currentQuestion))
+                            @foreach ($currentQuestion as $question)
+                                <option value="{{ $question['id_qa'] }}">
+                                    {{ $question['id'] }} - {{ $question['description'] }}
+                                </option>
+                            @endforeach
+                        @else
+                            <option disabled>{{ __('No questions available') }}</option>
+                        @endif
                     </x-select>
                     @error("id_qa")
                     <span class="text-xs text-danger">

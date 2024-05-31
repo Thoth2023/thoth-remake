@@ -1,86 +1,6 @@
 <!-- General Score Management -->
 <div class="card">
-    <div class="card-header mb-0 pb-0">
-        <x-helpers.modal
-            target="general-score"
-            modalTitle="{{ __('project/planning.quality-assessment.general-score.help.title') }}"
-            modalContent="{{ __('project/planning.quality-assessment.general-score.help.content') }}"
-        />
-    </div>
-    <div class="card-body">
-        <form wire:submit="submit">
-            @csrf
-
-            <div class="form-group">
-                <div class="input-group">
-
-                    <x-input
-                        class="input-group-text"
-                        id="start"
-                        label="{{ __('project/planning.quality-assessment.general-score.start') }}"
-                        wire:model="start"
-                        placeholder="{{ __('project/planning.quality-assessment.general-score.placeholder-start') }}"
-                        maxlength="4"
-
-                    />
-                    @error("start")
-                    <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
-                    @enderror
-
-                    <x-input
-                        class="input-group-text"
-                        id="end"
-                        label="{{ __('project/planning.quality-assessment.general-score.end') }}"
-                        wire:model="end"
-                        placeholder="{{ __('project/planning.quality-assessment.general-score.placeholder-end') }}"
-                        maxlength="4"
-
-                    />
-                    @error("end")
-                    <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="form-group">
-                <x-input
-                    id="description"
-                    label="{{ __('project/planning.quality-assessment.general-score.description') }}"
-                    wire:model="description"
-                    placeholder="{{ __('project/planning.quality-assessment.general-score.description') }}"
-                    maxlength="25"
-                />
-                @error("description")
-                <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
-            </div>
-
-            <div>
-                <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
-                    {{
-                        $form["isEditing"]
-                            ? __("project/planning.quality-assessment.general-score.update")
-                            : __("project/planning.quality-assessment.general-score.add")
-                    }}
-                    <div wire:loading>
-                        <i class="fas fa-spinner fa-spin"></i>
-                    </div>
-                </x-helpers.submit-button>
-            </div>
-        </form>
-
-
-        <!-- Ajustar aqui o minimo general Score para aprovar -->
-        <!-- Include MinGeneralScore Component -->
-        @livewire("planning.quality-assessment.min-general-score")
-
-        <hr>
+       <hr>
         <x-search.input
             class="mt-3 w-md-50 w-100"
             target="search-questions"
@@ -154,7 +74,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 @script
 <script>

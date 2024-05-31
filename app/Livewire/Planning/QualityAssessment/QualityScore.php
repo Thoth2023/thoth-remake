@@ -64,13 +64,28 @@ class QualityScore extends Component
      */
     public function mount()
     {
-        $projectId = request()->segment(2);
-        $this->currentQuestion = QuestionsModel::findOrFail($projectId);
+        //$projectId = request()->segment(2);
+        //$this->currentQuestion = QuestionsModel::findOrFail($projectId);
+        //$this->currentQualityScore = null;
+        //$this->qualityscore = QualityScoreModel::where(
+        //    'id_qa',
+        //    $this->currentQuestion->id_qa
+        //)->get();
+        $this->projectId = request()->segment(2);
+        // Obtém todas as perguntas relacionadas ao projectId
+        $this->currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get()->toArray();
         $this->currentQualityScore = null;
-        $this->qualityscore = QualityScoreModel::where(
-            'id_qa',
-            $this->currentQuestion->id_qa
-        )->get();
+
+        if (!empty($this->currentQuestion)) {
+            $firstQuestion = $this->currentQuestion[0];
+            $this->qualityscore = QualityScoreModel::where(
+                'id_qa',
+                $firstQuestion['id_qa']
+            )->get();
+        } else {
+            $this->qualityscore = collect(); // Garante que $qualityscore seja uma coleção vazia
+        }
+
     }
 
     /**
@@ -111,6 +126,9 @@ class QualityScore extends Component
     public function submit()
     {
         $this->validate();
+
+        $projectId = request()->segment(2);
+        $this->currentQuestion = QuestionsModel::findOrFail($projectId);
 
         $updateIf = [
             'id_score' => $this->currentQualityScore?->id_score,
