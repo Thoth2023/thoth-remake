@@ -13,7 +13,7 @@
                     id="description"
                     label="{{ __('project/planning.overall.keyword.description') }}"
                     wire:model="description"
-                    placeholder="Digite a descrição da palavra-chave"
+                    placeholder="{{ __('project/planning.overall.keyword.enter_description') }}"
                 />
                 @error("description")
                     <span class="text-xs text-danger">
@@ -25,8 +25,8 @@
                 <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.overall.domain.update")
-                            : __("project/planning.overall.domain.add")
+                            ? __("project/planning.overall.keyword.update")
+                            : __("project/planning.overall.keyword.add")
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>

@@ -13,7 +13,7 @@
                     id="description"
                     label="{{ __('project/planning.overall.domain.description') }}"
                     wire:model="description"
-                    placeholder="Digite a descrição do domínio"
+                    placeholder="{{ __('project/planning.overall.domain.list.headers.enter_description') }}"
                     maxlength="255"
                 />
                 @error("description")

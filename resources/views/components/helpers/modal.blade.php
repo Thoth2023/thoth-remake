@@ -50,7 +50,7 @@
                         class="btn bg-gradient-primary"
                         data-bs-dismiss="modal"
                     >
-                        Close
+                        {{ __("project/planning.button.close") }}
                     </button>
                 </div>
             </div>

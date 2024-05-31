@@ -40,7 +40,7 @@
                             class="{{ Route::currentRouteName() == "page" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-tv-2"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">Home</span>
+                    <span class="nav-link-text ms-1">{{ __("nav/side.home") }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -55,7 +55,7 @@
                             class="{{ Route::currentRouteName() == "projects.index" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-single-copy-04"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">My Projects</span>
+                    <span class="nav-link-text ms-1">{{ __("nav/side.my_projects") }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -70,7 +70,7 @@
                             class="{{ Route::currentRouteName() == "profile" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-single-02"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">{{ __("nav/side.profile") }}</span>
                 </a>
             </li>
 
@@ -86,7 +86,7 @@
                             class="{{ Route::currentRouteName() == "about" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-bulb-61"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">About Us</span>
+                    <span class="nav-link-text ms-1">{{ __("nav/side.about_us") }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -101,7 +101,7 @@
                             class="{{ Route::currentRouteName() == "help" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-satisfied"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">Help</span>
+                    <span class="nav-link-text ms-1">{{ __("nav/side.help") }}</span>
                 </a>
             </li>
         </ul>

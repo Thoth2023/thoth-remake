@@ -8,5 +8,5 @@
     {{ $attributes->merge(["class" => "form-control search-input"]) }}
     data-target="{{ $target }}"
     data-is-table="{{ $isTable }}"
-    placeholder="Search..."
+    placeholder="{{ __("project/planning.placeholder.search") }}"
 />
