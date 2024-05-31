@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Project\Planning\DataExtraction\Question as DataExtractionQuestion;
+use App\Models\Project\Planning\QualityAssessment\GeneralScore;
+use App\Models\Project\Planning\QualityAssessment\Question as QualityAssessmentQuestion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Term;
-use App\Models\SearchStrategy;
-use App\Models\SearchString;
-use App\Models\ProjectDatabases;
-use Illuminate\Support\Collection;
-use App\Models\Project\Planning\DataExtraction\Question;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -66,11 +63,14 @@ class Project extends Model
             ->withPivot('id_project_study_types');
     }
 
-    public function questions()
+    public function dataExtractionQuestions()
     {
-        return $this->hasMany(Question::class, 'id_project');
+        return $this->hasMany(DataExtractionQuestion::class, 'id_project');
     }
-
+    public function qualityAssessmentQuestions()
+    {
+        return $this->hasMany(QualityAssessmentQuestion::class, 'id_project');
+    }
     public function criterias()
     {
         return $this->hasMany(Criteria::class, 'id_project');
@@ -123,6 +123,10 @@ class Project extends Model
             array_push($data, $termData);
         }
         return $data;
+    }
+    public function generalScores(): HasMany
+    {
+        return $this->hasMany(GeneralScore::class, 'id_project');
     }
 
     public function setUserLevel(User $user)
