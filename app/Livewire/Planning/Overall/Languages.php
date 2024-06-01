@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Language as LanguageModel;
 use App\Models\Project as ProjectModel;
@@ -10,6 +11,9 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Languages extends Component
 {
+    private $translationPath = 'project/planning.overall.language.livewire';
+    private $toastMessages = 'project/planning.overall.language.livewire.toasts';
+
     public $currentProject;
     public $languages = [];
 
@@ -30,9 +34,12 @@ class Languages extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'language.required' => 'The language field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'language.required' => __($this->translationPath . '.language.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -43,6 +50,14 @@ class Languages extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->languages = LanguageModel::all();
+    }
+
+    /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('languages', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -59,7 +74,10 @@ class Languages extends Component
             ]);
 
             if ($projectLanguage->exists) {
-                $this->addError('language', 'The provided language already exists in this project.');
+                $this->toast(
+                    message: __($this->translationPath . '.language.already_exists'),
+                    type: 'info',
+                );
                 return;
             }
 
@@ -72,6 +90,11 @@ class Languages extends Component
             );
 
             $projectLanguage->save();
+
+            $this->toast(
+                message: __($this->toastMessages . '.added'),
+                type: 'success',
+            );
         } catch (\Exception $e) {
             $this->addError('language', $e->getMessage());
         }
@@ -93,6 +116,11 @@ class Languages extends Component
             action: 'Deleted the language',
             description: $deleted->description,
             projectId: $this->currentProject->id_project,
+        );
+
+        $this->toast(
+            message: __($this->toastMessages . '.deleted'),
+            type: 'success',
         );
     }
 

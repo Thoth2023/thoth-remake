@@ -2,12 +2,16 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Utils\ActivityLogHelper as Log;
 
 class Dates extends Component
 {
+    private $translationPath = 'project/planning.overall.dates.livewire';
+    private $toastMessages = 'project/planning.overall.dates.livewire.toasts';
+
     public $currentProject;
 
     /**
@@ -28,11 +32,16 @@ class Dates extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'startDate.required' => 'The start date field is required.',
-        'endDate.required' => 'The end date field is required.',
-        'endDate.after' => 'The end date must be greater than the start date.',
-    ];
+    protected function messages()
+    {
+        return [
+            'startDate.required' => __($this->translationPath . '.start_date.required'),
+            'startDate.date' => __($this->translationPath . '.date.invalid'),
+            'endDate.date' => __($this->translationPath . '.date.invalid'),
+            'endDate.required' => __($this->translationPath . '.end_date.required'),
+            'endDate.after' => __($this->translationPath . '.end_date.after'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -44,6 +53,14 @@ class Dates extends Component
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->startDate = $this->currentProject->start_date;
         $this->endDate = $this->currentProject->end_date;
+    }
+
+    /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('dates', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -65,6 +82,11 @@ class Dates extends Component
             action: $dates === null ? 'Added project dates: ' : 'Updated project dates: ',
             description: $this->startDate . ' - ' . $this->endDate,
             projectId: $this->currentProject->id_project,
+        );
+
+        $this->toast(
+            message: __($this->toastMessages . '.updated'),
+            type: 'success',
         );
     }
 

@@ -7,7 +7,7 @@
                 @csrf
                 <label for="example-text-input"
                     class="form-control-label">{{ __('project/planning.criteria.form.id') }}</label>
-                <input class="form-control" type="text" name="id" required>
+                    <input class="form-control" type="text" name="id" required pattern="[a-zA-Z0-9]+" placeholder="{{ __('project/planning.criteria.form.dont-use') }}">
 
                 <label for="example-text-input"
                     class="form-control-label">{{ __('project/planning.criteria.form.description') }}</label>

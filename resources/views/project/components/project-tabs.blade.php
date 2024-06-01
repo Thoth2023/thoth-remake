@@ -9,7 +9,7 @@
         @foreach ($tabs as $tab)
             <li class="nav-item">
                 <a
-                    class="nav-link text-secondary {{ $tab["id"] === $activeTab ? "active" : "" }}"
+                    class="nav-link text-secondary inactive-tab"
                     id="{{ $tab["id"] }}"
                     data-tab="{{ str_replace("-tab", "", $tab["id"]) }}"
                     data-bs-toggle="tab"
@@ -23,35 +23,41 @@
 </div>
 <script>
     (function () {
-        const setActiveTab = (tabs, activeTabId) => {
-            tabs.forEach((t) =>
-                t.classList.toggle(
-                    'active',
-                    t.getAttribute('data-tab') === activeTabId,
-                ),
-            );
-        };
-
-        const handleTabClick = (tab, tabs) => {
-            const tabId = tab.getAttribute('data-tab');
-            setActiveTab(tabs, tabId);
-            sessionStorage.setItem('activeTabId', tabId);
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.nav-link');
-            const activeTabId = sessionStorage.getItem('activeTabId');
-
-            tabs.forEach((tab) => {
-                tab.addEventListener('click', () => handleTabClick(tab, tabs));
+        const applyTabStyles = (tab, tabs, activeTabId) => {
+            tabs.forEach((t) => {
+                const tabId = t.getAttribute('data-tab');
+                t.classList.toggle('active', tabId === activeTabId);
+                t.classList.toggle('inactive-tab', tabId !== activeTabId);
+                t.classList.toggle('active-tab', tabId === activeTabId);
             });
+        };
 
-            if (activeTabId) {
-                const activeTab = document.querySelector(
-                    `[data-tab="${activeTabId}"]`,
-                );
-                if (activeTab) activeTab.click();
-            }
+        const setActiveTab = (tab, tabs) => {
+            const tabId = tab.getAttribute('data-tab');
+            sessionStorage.setItem('activeTabId', tabId);
+            applyTabStyles(tab, tabs, tabId);
+        };
+
+        const tabs = document.querySelectorAll('.nav-link');
+        let activeTabId = sessionStorage.getItem('activeTabId');
+
+        if (!activeTabId) {
+            activeTabId = 'overall-info';
+        }
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => setActiveTab(tab, tabs));
+        });
+
+        /**
+         * Simular um click com um atraso de 50ms na tab ativa
+         * para mudar os cards da página.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const activeTab = document.querySelector(
+                `[data-tab="${activeTabId}"]`,
+            );
+            activeTab.click();
         });
     })();
 </script>

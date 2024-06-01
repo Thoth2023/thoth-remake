@@ -2,8 +2,8 @@
     <div class="card shadow-lg">
         <div class="card-header pb-0 pt-3 ">
             <div class="float-start">
-                <h5 class="mt-3 mb-0">Thoth Configurator</h5>
-                <p>See our dashboard options.</p>
+                <h5 class="mt-3 mb-0">{{ __('nav/side.thoth_configurator') }}</h5>
+                <p>{{ __('nav/side.dashboard_options') }}</p>
             </div>
             <div class="float-end mt-4">
                 <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
@@ -15,7 +15,7 @@
         <hr class="horizontal dark my-1">
         <div class="card-body pt-sm-3 pt-0 overflow-auto">
             <div>
-                <h6 class="mb-1">Language Selection</h6>
+                <h6 class="mb-1">{{ __('nav/side.language_selection') }}</h6>
             </div>
             <!-- Language Selector Dropdown -->
             <div class="dropdown">
@@ -36,7 +36,7 @@
             <!-- End Language Selector Dropdown -->
             <!-- Sidebar Backgrounds -->
             <div>
-                <h6 class="mb-0 mt-3">Sidebar Colors</h6>
+                <h6 class="mb-0 mt-3">{{ __('nav/side.sidebar_color') }}</h6>
             </div>
             <a href="javascript:void(0)" class="switch-trigger background-color">
                 <div class="badge-colors my-2 text-start">
@@ -54,19 +54,19 @@
             </a>
             <!-- Sidenav Type -->
             <div class="mt-3">
-                <h6 class="mb-0">Sidenav Type</h6>
-                <p class="text-sm">Choose between 2 different sidenav types.</p>
+                <h6 class="mb-0">{{ __('nav/side.sidenav_type') }}</h6>
+                <p class="text-sm">{{ __('nav/side.sidenav_choose') }}</p>
             </div>
             <div class="d-flex">
                 <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white"
-                    onclick="sidebarType(this)">White</button>
+                    onclick="sidebarType(this)">{{ __('nav/side.white') }}</button>
                 <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default"
-                    onclick="sidebarType(this)">Dark</button>
+                    onclick="sidebarType(this)">{{ __('nav/side.dark') }}</button>
             </div>
-            <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+            <p class="text-sm d-xl-none d-block mt-2">{{ __('nav/side.sidenav_warning') }}</p>
             <!-- Navbar Fixed -->
             <div class="d-flex my-3">
-                <h6 class="mb-0">Navbar Fixed</h6>
+                <h6 class="mb-0">{{ __('nav/side.navbar_fixed') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
                         onclick="navbarFixed(this)">
@@ -74,7 +74,7 @@
             </div>
             <hr class="horizontal dark my-sm-4">
             <div class="mt-2 mb-5 d-flex">
-                <h6 class="mb-0">Light / Dark</h6>
+                <h6 class="mb-0">{{ __('nav/side.light_dark') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version"
                         onclick="darkMode(this)">

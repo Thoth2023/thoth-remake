@@ -1,9 +1,16 @@
 <?php
 
 return [
+    'planning' => 'Planejamento',
+    'button' => [
+        'close' => 'Fechar',
+    ],
+    'placeholder' => [
+        'search' => 'Pesquisar...',
+    ],
     'overall' => [
-        'title' => 'Planejamento Geral',
-        'no-results' => 'No results found.',
+        'title' => 'Informações Gerais',
+        'no-results' => 'Nenhum resultado encontrado.',
         'domain' => [
             'title' => 'Domínios',
             'description' => 'Descrição',
@@ -13,6 +20,7 @@ return [
                 'headers' => [
                     'name' => 'Nome',
                     'description' => 'Descrição',
+                    'enter_description' => 'Digite a descrição do domínio',
                     'actions' => 'Ações',
                 ],
                 'actions' => [
@@ -44,6 +52,21 @@ return [
                     'o conjunto diversificado de fontes de literatura que você encontra durante sua revisão. Cada domínio representa ' .
                     'um aspecto específico ou tópico relacionado à sua pergunta de pesquisa ou área de interesse.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Domínio adicionado',
+                    'updated' => 'Domínio atualizado',
+                    'deleted' => 'Domínio excluído',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Domínio adicionado com sucesso.',
+                    'updated' => 'Domínio atualizado com sucesso.',
+                    'deleted' => 'Domínio deletado com sucesso.',
+                ],
+            ]
         ],
         'language' => [
             'title' => 'Idiomas',
@@ -70,6 +93,21 @@ return [
                 'content' => 'Idiomas representam diferentes idiomas nos quais as fontes de literatura são escritas. ' .
                     'Você pode adicionar e gerenciar idiomas para categorizar as fontes com base em sua língua de origem.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Idioma adicionado',
+                    'updated' => 'Idioma atualizado',
+                    'deleted' => 'Idioma excluído',
+                ],
+                'language' => [
+                    'required' => 'O campo de idioma é obrigatório.',
+                    'already_exists' => 'O idioma selecionado já existe neste projeto.',
+                ],
+                'toasts' => [
+                    'added' => 'Idioma adicionado com sucesso.',
+                    'deleted' => 'Idioma deletado com sucesso.',
+                ],
+            ]
         ],
         'study_type' => [
             'title' => 'Tipos de Estudo',
@@ -98,10 +136,25 @@ return [
                     'incluídos em sua revisão de literatura. Você pode adicionar e gerenciar tipos de estudo para categorizar ' .
                     'as fontes com base na natureza dos estudos realizados.',
             ],
+            'livewire' => [
+                'study_type' => [
+                    'required' => 'O campo de tipo de estudo é obrigatório.',
+                    'already_exists' => 'O tipo de estudo selecionado já existe neste projeto.',
+                ],
+                'logs' => [
+                    'added' => 'Tipo de estudo adicionado',
+                    'deleted' => 'Tipo de estudo excluído',
+                ],
+                'toasts' => [
+                    'added' => 'Tipo de estudo adicionado com sucesso.',
+                    'deleted' => 'Tipo de estudo deletado com sucesso.',
+                ],
+            ]
         ],
         'keyword' => [
             'title' => 'Palavras-chave',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
             'list' => [
                 'headers' => [
@@ -136,6 +189,21 @@ return [
                     'Você pode usar palavras-chave para categorizar e organizar suas fontes de literatura, facilitando ' .
                     'a identificação de informações relevantes para o seu projeto.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Palavra-chave adicionada',
+                    'updated' => 'Palavra-chave atualizada',
+                    'deleted' => 'Palavra-chave excluída',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Palavra-chave adicionada com sucesso.',
+                    'updated' => 'Palavra-chave atualizada com sucesso.',
+                    'deleted' => 'Palavra-chave deletada com sucesso.',
+                ],
+            ]
         ],
         'dates' => [
             'title' => 'Datas do Projeto',
@@ -148,59 +216,123 @@ return [
                     'realizará sua revisão de literatura. Isso ajudará a acompanhar seu progresso e a ' .
                     'agendar seu trabalho de maneira eficaz.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Datas do projeto adicionadas',
+                    'updated' => 'Datas do projeto atualizadas',
+                ],
+                'date' => [
+                    'invalid' => 'A data inválida. Por favor, insira uma data válida.',
+                ],
+                'start_date' => [
+                    'required' => 'O campo de data de início é obrigatório.',
+                ],
+                'end_date' => [
+                    'required' => 'O campo de data de término é obrigatório.',
+                    'after' => 'A data de término deve ser posterior à data de início.',
+                ],
+                'toasts' => [
+                    'added' => 'Datas do projeto adicionadas com sucesso.',
+                    'updated' => 'Datas do projeto atualizadas com sucesso.',
+                ],
+            ]
         ],
     ],
     'research-questions' => [
-        'title' => 'Perguntas de Pesquisa',
+        'title' => 'Questões de Pesquisa',
         'help' => [
-            'title' => 'Ajuda para Perguntas de Pesquisa',
-            'content' => 'Perguntas de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.',
+            'title' => 'Ajuda para Questões de Pesquisa',
+            'content' => 'Questões de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.',
         ],
         'form' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da questão de pesquisa',
             'add' => 'Adicionar',
+            'update' => 'Atualizar'
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'actions' => 'Ações',
             'edit' => 'Editar',
             'delete' => 'Excluir',
-            'no-questions' => 'Nenhuma pergunta de pesquisa encontrada.',
+            'no-questions' => 'Nenhuma questão de pesquisa encontrada.',
+            'empty' => 'Este projeto ainda não possui questões de pesquisa'
         ],
         'edit-modal' => [
-            'title' => 'Atualização de Pergunta de Pesquisa',
+            'title' => 'Atualização de Questão de Pesquisa',
             'id' => 'ID',
             'description' => 'Descrição',
             'update' => 'Atualizar',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Questão de Pesquisa adicionada',
+                'updated' => 'Questão de Pesquisa atualizada',
+                'deleted' => 'Questão de Pesquisa excluída',
+            ],
+            'description' => [
+                'required' => 'O campo de descrição é obrigatório.',
+            ],
+            'toasts' => [
+                'added' => 'Questão de Pesquisa adicionada com sucesso.',
+                'updated' => 'Questão de Pesquisa atualizada com sucesso.',
+                'deleted' => 'Questão de Pesquisa deletada com sucesso.',
+            ],
+        ]
     ],
     'databases' => [
-        'title' => 'Bancos de Dados',
+        'title' => 'Base de Dados',
         'help' => [
-            'title' => 'Ajuda para Bancos de Dados',
-            'content' => 'Bancos de dados são repositórios de artigos e publicações acadêmicas. Selecione os bancos de dados que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bancos de dados com base na relevância para o tópico de sua pesquisa.',
+            'title' => 'Bases de Dados',
+            'content' => 'Bases de dados são repositórios de artigos e publicações acadêmicas. Selecione as bases que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bases de acordo com a relevância para o tópico de sua pesquisa.',
         ],
         'form' => [
-            'select-placeholder' => 'Selecione um Banco de Dados',
-            'add-button' => 'Adicionar Banco de Dados',
+            'select-placeholder' => 'Selecione uma Base de Dados',
+            'add-button' => 'Adicionar Base de Dados',
         ],
         'table' => [
-            'header' => 'Bancos de Dados',
+            'name' => 'Nome',
+            'actions' => 'Ações',
+            'header' => 'Bases de Dados',
             'remove-button' => 'Remover',
-            'no-databases' => 'Nenhum banco de dados encontrado.',
+            'no-databases' => 'Nenhuma base de dados encontrado.',
+            'empty' => 'Este projeto ainda não possui bases de dados registradas'
         ],
         'suggest-new' => [
-            'title' => 'Sugerir um Novo Banco de Dados',
-            'name-label' => 'Nome do Banco de Dados:',
-            'link-label' => 'Link do Banco de Dados:',
+            'title' => 'Sugira uma nova Base de Dados',
+            'name-label' => 'Nome da Base de Dados',
+            'enter-name' => 'Digite o nome da Base de Dados',
+            'link-label' => 'Link da Base de Dados',
+            'enter-link' => 'Digite o link da Base de Dados',
             'submit-button' => 'Enviar sugestão',
         ],
         'errors' => [
             'name' => 'Mensagem de erro para o campo de nome, se necessário.',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Base de Dados adicionada',
+                'suggestion' => 'Base de Dados sugerida.',
+                'deleted' => 'Base de Dados excluída',
+            ],
+            'database' => [
+                'required' => 'O campo de base de dados é obrigatório.',
+                'required_link' => 'O campo de link é obrigatório.',
+                'already_exists' => 'A base de dados selecionada já existe neste projeto.',
+                'invalid_link' => 'O link da base de dados é inválido.',
+            ],
+            'toasts' => [
+                'added' => 'Base de Dados adicionada com sucesso.',
+                'deleted' => 'Base de Dados deletada com sucesso.',
+                'suggested' => 'Sua sugestão foi enviada com sucesso.',
+            ],
+        ]
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'String de Busca',
+    ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
         'help' => [
@@ -231,6 +363,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
@@ -264,8 +397,11 @@ return [
             'at-least' => 'Pelo Menos',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title' => 'Avaliação de Qualidade',
+    ],
     'data-extraction' => [
+        'title' => 'Extração de Dados',
         'question-form' => [
             'title' => 'Criar Pergunta de Extração de Dados',
             'help' => [
@@ -273,6 +409,7 @@ return [
                 'content' => 'Use o formulário de pergunta de extração de dados para criar perguntas que orientem a extração de informações específicas de estudos selecionados. Defina o ID da pergunta, descrição, tipo e adicione opções, se necessário. Esta etapa garante uma extração de dados estruturada e abrangente.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'add-question' => 'Adicionar Pergunta',

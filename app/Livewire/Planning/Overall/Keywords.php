@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Keyword as KeywordModel;
@@ -9,6 +10,9 @@ use App\Utils\ActivityLogHelper as Log;
 
 class Keywords extends Component
 {
+    private $translationPath = 'project/planning.overall.keyword.livewire';
+    private $toastMessages = 'project/planning.overall.keyword.livewire.toasts';
+
     public $currentProject;
     public $currentKeyword;
     public $keywords = [];
@@ -36,9 +40,12 @@ class Keywords extends Component
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'description.required' => 'The description field is required.',
-    ];
+    protected function messages()
+    {
+        return [
+            'description.required' => __($this->translationPath . '.description.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -53,6 +60,14 @@ class Keywords extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
+    }
+
+    /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('keywords', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -87,6 +102,9 @@ class Keywords extends Component
         $updateIf = [
             'id_keyword' => $this->currentKeyword?->id_keyword,
         ];
+        $toastMessage = $this->form['isEditing']
+            ? $this->toastMessages . '.updated'
+            : $this->toastMessages . '.added';
 
         try {
             $updatedOrCreated = KeywordModel::updateOrCreate($updateIf, [
@@ -101,6 +119,10 @@ class Keywords extends Component
             );
 
             $this->updateKeywords();
+            $this->toast(
+                message: $toastMessage,
+                type: 'success'
+            );
         } catch (\Exception $e) {
             $this->addError('description', $e->getMessage());
         } finally {
@@ -133,6 +155,11 @@ class Keywords extends Component
         );
 
         $this->updateKeywords();
+        $this->resetFields();
+        $this->toast(
+            message: $this->toastMessages . '.deleted',
+            type: 'success'
+        );
     }
 
     /**

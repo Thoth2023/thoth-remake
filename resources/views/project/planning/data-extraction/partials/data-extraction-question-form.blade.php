@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="id"
                         class="form-control-label">{{ __('project/planning.data-extraction.question-form.id') }}</label>
-                    <input type="text" class="form-control" id="id" name="id" required>
+                    <input type="text" class="form-control" id="id" name="id" required pattern="[a-zA-Z0-9]+" placeholder="{{ __('project/planning.data-extraction.question-form.dont-use') }}">
                 </div>
 
                 <div class="form-group">

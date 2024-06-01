@@ -1,5 +1,6 @@
 @props([
     "isEditing" => false,
+    "fitContent" => false,
 ])
 
 <button
@@ -7,9 +8,13 @@
     {{
         $attributes->merge([
             "class" => "d-flex gap-2 align-items-center btn " . ($isEditing ? "btn-secondary" : "btn-success"),
+            "style" => $fitContent ? "max-width: fit-content;" : "",
         ])
     }}
 >
-    <i class="fa {{ $isEditing ? "fa-edit" : "fa-plus" }}"></i>
+    <i
+        wire:loading.remove
+        class="fa {{ $isEditing ? "fa-edit" : "fa-plus" }}"
+    ></i>
     {{ $slot }}
 </button>

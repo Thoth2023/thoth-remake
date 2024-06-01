@@ -13,7 +13,7 @@
                     id="description"
                     label="{{ __('project/planning.overall.domain.description') }}"
                     wire:model="description"
-                    placeholder="Digite a descrição do domínio"
+                    placeholder="{{ __('project/planning.overall.domain.list.headers.enter_description') }}"
                     maxlength="255"
                 />
                 @error("description")
@@ -57,6 +57,8 @@
                         <button
                             class="btn py-1 px-3 btn-outline-danger"
                             wire:click="delete({{ $domain->id_domain }})"
+                            wire:target="delete({{ $domain->id_domain }})"
+                            wire:loading.attr="disabled"
                         >
                             <i class="fas fa-trash"></i>
                         </button>
@@ -73,3 +75,11 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('domains', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript

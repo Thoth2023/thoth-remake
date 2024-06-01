@@ -73,31 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-function _showToast({ title, message, type = 'success' }) {
-    const toast = document.querySelector('[data-toast]')
-    const toastTitle = document.querySelector('[data-toast-title]')
-    const toastMessage = document.querySelector('[data-toast-message]')
-
-    const colors = {
-        success: 'text-success',
-        danger: 'text-danger',
-        warning: 'text-warning',
-        info: 'text-info'
-    }
-
-    toastTitle.classList.remove('text-danger', 'text-warning', 'text-info', 'text-success')
-    toastTitle.classList.add(colors[type])
-
-    toastTitle.innerHTML = title
-    toastMessage.innerHTML = message
-
-    const element = new bootstrap.Toast(toast)
-    element.show()
-}
-
-const toast = {
-    success: (message, { title }) => _showToast({ title, message, type: 'success' }),
-    error: (message, { title }) => _showToast({ title, message, type: 'danger' }),
-    warning: (message, { title }) => _showToast({ title, message, type: 'warning' }),
-    info: (message, { title }) => _showToast({ title, message, type: 'info' })
+/**
+ * Toast notification using SweetAlert2.
+ */
+function toasty({ message, type, toast = true, ...props }) {
+    Swal.fire({
+        toast,
+        html: message,
+        icon: type,
+        showConfirmButton: false,
+        showCloseButton: true,
+        timerProgressBar: true,
+        timer: 2_500, // 2.5 seconds
+        position: !toast ? 'center' : 'bottom-end',
+        customClass: {
+            container: 'sweet-toast-container w-100',
+            popup: 'z-3 px-3 py-2 rounded-3 w-100 w-sm-25',
+        },
+        ...props,
+    });
 }

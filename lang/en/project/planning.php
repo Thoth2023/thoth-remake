@@ -1,8 +1,15 @@
 <?php
 
 return [
+    'planning' => 'Planning',
+    'button' => [
+        'close' => 'Close',
+    ],
+    'placeholder' => [
+        'search' => 'Search...',
+    ],
     'overall' => [
-        'title' => 'Overall Planning',
+        'title' => 'Overall Information',
         'no-results' => 'No results found.',
         'domain' => [
             'title' => 'Domains',
@@ -13,6 +20,7 @@ return [
                 'headers' => [
                     'name' => 'Name',
                     'description' => 'Description',
+                    'enter_description' => 'Enter domain description',
                     'actions' => 'Actions',
                 ],
                 'actions' => [
@@ -44,6 +52,21 @@ return [
                     'the diverse set of literature sources you encounter during your review. Each domain represents ' .
                     'a specific aspect or topic related to your research question or area of interest.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Domain added',
+                    'updated' => 'Domain updated',
+                    'deleted' => 'Domain deleted',
+                ],
+                'description' => [
+                    'required' => 'The description field is required.'
+                ],
+                'toasts' => [
+                    'added' => 'Domain added successfully.',
+                    'updated' => 'Domain updated successfully.',
+                    'deleted' => 'Domain deleted successfully.',
+                ],
+            ]
         ],
         'language' => [
             'title' => 'Languages',
@@ -70,6 +93,21 @@ return [
                 'content' => 'Languages represent different languages in which literature sources are written. ' .
                     'You can add and manage languages to categorize the sources based on their language of origin.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Language added',
+                    'updated' => 'Language updated',
+                    'deleted' => 'Language deleted',
+                ],
+                'language' => [
+                    'required' => 'The language field is required.',
+                    'already_exists' => 'The selected language already exists in this project.'
+                ],
+                'toasts' => [
+                    'added' => 'Language added successfully.',
+                    'deleted' => 'Language deleted successfully.',
+                ],
+            ]
         ],
         'study_type' => [
             'title' => 'Study Types',
@@ -98,10 +136,26 @@ return [
                     'included in your literature review. You can add and manage study types to categorize ' .
                     'the sources based on the nature of the studies conducted.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Study type added',
+                    'updated' => 'Study type updated',
+                    'deleted' => 'Study type deleted',
+                ],
+                'studyType' => [
+                    'required' => 'The study type field is required.',
+                    'already_exists' => 'The selected study type already exists in this project.'
+                ],
+                'toasts' => [
+                    'added' => 'Study type added successfully.',
+                    'deleted' => 'Study type deleted successfully.',
+                ],
+            ]
         ],
         'keyword' => [
             'title' => 'Keywords',
             'description' => 'Description',
+            'enter_description' => 'Enter keyword description',
             'add' => 'Add Keyword',
             'list' => [
                 'headers' => [
@@ -136,6 +190,21 @@ return [
                     'You can use keywords to categorize and organize your literature sources, making ' .
                     'it easier to identify relevant information for your project.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Keyword added',
+                    'updated' => 'Keyword updated',
+                    'deleted' => 'Keyword deleted',
+                ],
+                'description' => [
+                    'required' => 'The description field is required.'
+                ],
+                'toasts' => [
+                    'added' => 'Keyword added successfully.',
+                    'updated' => 'Keyword updated successfully.',
+                    'deleted' => 'Keyword deleted successfully.',
+                ],
+            ]
         ],
         'dates' => [
             'title' => 'Project Dates',
@@ -148,6 +217,25 @@ return [
                     'conduct your literature review. This will help you to keep track of your progress and to ' .
                     'schedule your work effectively.',
             ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Date added',
+                    'updated' => 'Date updated',
+                ],
+                'date' => [
+                    'invalid' => 'The date field is invalid. Please enter a valid date.',
+                ],
+                'start_date' => [
+                    'required' => 'The start date field is required.',
+                ],
+                'end_date' => [
+                    'required' => 'The end date field is required.',
+                    'after' => 'The end date must be greater than the start date.',
+                ],
+                'toasts' => [
+                    'updated' => 'Dates updated successfully.',
+                ],
+            ]
         ],
     ],
     'research-questions' => [
@@ -159,14 +247,17 @@ return [
         'form' => [
             'id' => 'ID',
             'description' => 'Description',
+            'enter_description' => 'Enter research question description',
             'add' => 'Add',
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Description',
+            'actions' => 'Actions',
             'edit' => 'Edit',
             'delete' => 'Delete',
             'no-questions' => 'No research questions found.',
+            'empty' => 'No research questions registered in the project.'
         ],
         'edit-modal' => [
             'title' => 'Research Question Update',
@@ -174,6 +265,21 @@ return [
             'description' => 'Description',
             'update' => 'Update',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Research Question added',
+                'updated' => 'Research Question updated',
+                'deleted' => 'Research Question deleted',
+            ],
+            'description' => [
+                'required' => 'The description field is required.'
+            ],
+            'toasts' => [
+                'added' => 'Research Question added successfully.',
+                'updated' => 'Research Question updated successfully.',
+                'deleted' => 'Research Question deleted successfully.',
+            ],
+        ]
     ],
     'databases' => [
         'title' => 'Databases',
@@ -186,21 +292,45 @@ return [
             'add-button' => 'Add Database',
         ],
         'table' => [
+            'name' => 'Name',
+            'actions' => 'Actions',
             'header' => 'Databases',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
+            'empty' => 'No database registered in the project.',
         ],
         'suggest-new' => [
             'title' => 'Suggest a New Database',
-            'name-label' => 'Database Name:',
-            'link-label' => 'Database Link:',
+            'name-label' => 'Database Name',
+            'enter-name' => 'Enter database name',
+            'link-label' => 'Database Link',
+            'enter-link' => 'Enter database link',
             'submit-button' => 'Send suggestion',
         ],
         'errors' => [
             'name' => 'Error message for name field, if needed.',
         ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Database added',
+                'deleted' => 'Database deleted',
+            ],
+            'database' => [
+                'required' => 'The database field is required.',
+                'required_link' => 'The link field is required.',
+                'already_exists' => 'The selected database already exists in this project.',
+                'invalid_link' => 'The link field must be a valid URL.',
+            ],
+            'toasts' => [
+                'added' => 'Database added successfully.',
+                'deleted' => 'Database deleted successfully.',
+                'suggested' => 'Database suggestion sent successfully.',
+            ],
+        ]
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'Search String',
+    ],
     'search-strategy' => [
         'title' => 'Search Strategy',
         'help' => [
@@ -231,6 +361,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Do not use special characters',
             'description' => 'Description',
             'type' => 'Type',
             'inclusion' => 'Inclusion',
@@ -264,8 +395,160 @@ return [
             'at-least' => 'At Least',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title'=>'Quality Assessment',
+        'general-score' => [
+            'title' => 'General Score',
+            'help' => [
+                'title' => 'General Score',
+                'content' => '',
+            ],
+            'start' => 'Enter the Minimum Score',
+            'end' => 'Enter the Max Score',
+            'description' => 'Description',
+            'placeholder-start' => 'Min Score (0.0)',
+            'placeholder-end' => 'Max Score (0.0)',
+            'add' => 'Add General Score',
+            'update' => 'Update General Score',
+            'table' => [
+                'min' => 'Min Score',
+                'max' => 'Max Score',
+                'description' => 'Description',
+                'action' => 'Actions',
+                'no-results' => 'No general score found.',
+                'empty' => 'No general score registered in the project.',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'General Score added',
+                    'updated' => 'General Score updated',
+                ],
+                'start' => [
+                    'invalid' => 'The general score field is invalid. Please enter a valid general score.',
+                    'required' => 'The general score field is invalid. Please enter a valid general score.',
+                ],
+                'end' => [
+                    'required' => 'The end general score field is required.',
+                    'after' => 'The end general score must be greater than the start general score.',
+                ],
+                'description' => [
+                    'required' => 'The description general score field is required.',
+                ],
+                'toasts' => [
+                    'added' => 'General Score added successfully.',
+                    'updated' => 'General Score updated successfully.',
+                    'deleted' => 'General Score deleted successfully.',
+                ],
+            ],
+
+        ],
+        'question-quality' => [
+            'title'=> 'Question Quality',
+            'help' => [
+                'title' => 'Question Quality',
+                'content' => '',
+            ],
+            'id'=> 'ID',
+            'description'=> 'Description',
+            'weight'=> 'Weight',
+            'add' => 'Add Question Quality',
+            'update' => 'Update Question Quality',
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Question Quality added',
+                    'updated' => 'Question Quality updated',
+                ],
+                'id' => [
+                    'required' => 'The question quality field is invalid. Please enter a valid question quality.',
+                ],
+                'weight' => [
+                    'required' => 'The end question quality field is required.',
+                ],
+                'description' => [
+                    'required' => 'The description question quality field is required.',
+                ],
+                'toasts' => [
+                    'added' => 'Question Quality added successfully.',
+                    'updated' => 'Question Quality updated successfully.',
+                    'deleted' => 'Question Quality deleted successfully.',
+                ],
+            ],
+
+        ],
+        'quality-score' => [
+            'title'=> 'Quality Score',
+            'help' => [
+                'title' => 'Quality Score',
+                'content' => '',
+            ],
+            'description'=> [
+                'title' => 'Description',
+                'placeholder' => 'Enter description',
+            ],
+            'id_qa'=> [
+                'title' => 'Question Quality',
+                'placeholder' => 'Select Question Quality',
+            ],
+            'score_rule'=> [
+                'title' => 'Score Rule',
+                'placeholder' => 'Enter Score Rule',
+            ],
+            'form' => [
+                'select-qa-placeholder' => 'Select a Question Quality',
+                'add' => 'Add Quality Score',
+                'update' => 'Upate Quality Score',
+            ],
+
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Quality Score added',
+                    'updated' => 'Quality Score updated',
+                ],
+                'id' => [
+                    'required' => 'The quality score field is invalid. Please enter a valid quality score.',
+                ],
+                'weight' => [
+                    'required' => 'The end quality score field is required.',
+                ],
+                'description' => [
+                    'required' => 'The description quality score field is required.',
+                ],
+            ],
+            'toasts' => [
+                'added' => 'Quality Score added successfully.',
+                'updated' => 'Quality Score updated successfully.',
+                'deleted' => 'Quality Score deleted successfully.',
+            ],
+        ],
+
+        'min-general-score' => [
+            'title'=> 'Minimal General Score to Approve',
+            'form' => [
+                'select-placeholder' => 'Select Minimal General Score to Approve',
+                'add' => 'Add Minimal General Score',
+                'update' => 'Upate Minimal General Score',
+            ],
+
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Minimal General Score to Approve added',
+                    'updated' => 'Minimal General Score to Approve updated',
+                ],
+                'toasts' => [
+                    'added' => 'Minimal General Score to Approve added successfully.',
+                    'updated' => 'Minimal General Score to Approve updated successfully.',
+                ],
+                'min-general-score' => [
+                    'required' => 'Minimal General Score to Approve field is required.',
+                ],
+            ],
+
+        ],
+
+
+    ],
     'data-extraction' => [
+        'title' => 'Data Extraction',
         'question-form' => [
             'title' => 'Create Data Extraction Question',
             'help' => [
@@ -273,6 +556,7 @@ return [
                 'content' => 'Use the data extraction question form to create questions that guide the extraction of specific information from selected studies. Define the question ID, description, type, and add options if needed. This step ensures structured and comprehensive data extraction.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Do not use special characters',
             'description' => 'Description',
             'type' => 'Type',
             'add-question' => 'Add Question',

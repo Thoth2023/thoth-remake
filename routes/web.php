@@ -20,6 +20,8 @@ use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
+use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
+use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
@@ -29,6 +31,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Livewire\Planning\Databases\Databases;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,19 +58,35 @@ Auth::routes();
 
 Route::get('/localization/{locale}', LocalizationController::class)->name('localization');
 
-// about and help routes
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/help', [HelpController::class, 'index'])->name('help');
+// About routes
+Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')->middleware(Localization::class);
+
+// Help routes
+Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);
+// Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
-Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
+
+// Sidenav routes
+Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class);
+
+// Profile routes
+// Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
+// Route::get('/' . __('profile'), [UserProfileController::class, 'index'])->name('profile')->middleware(Localization::class);
+
+
+
+Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project')->middleware(Localization::class);
 
 // Projects Routes
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth');
+Route::get('/projects/{id}' . __('header'))->name('header')->middleware(Localization::class);
+
+
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth')->middleware(Localization::class);
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth')->middleware(Localization::class);
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show')->middleware(Localization::class);
 Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth');
-Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
+Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware(Localization::class);
 Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth');
 Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add');
 Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_project'])->name('projects.add_member');
@@ -81,22 +100,12 @@ Route::prefix('/project/{projectId}')->group(function () {
     Route::prefix('/planning')->group(function () {
         Route::get('/', [OverallController::class, 'index'])
             ->name('project.planning.index')
-            ->middleware('auth');
+            ->middleware('auth')
+            ->middleware(Localization::class);
 
-        // Database Routes
-        Route::resource('/databases', DatabaseController::class)
-            ->only(['store'])
-            ->names([
-                'store' => 'project.planning.databases.store',
-            ]);
+        // Database Route
+        Route::get('/databases', [Databases::class, 'render']);
 
-        // Add a database to the project
-        Route::post('/databases/add/', [DatabaseController::class, 'addDatabase'])
-            ->name('project.planning.databases.add');
-
-        // Remove a database from the project
-        Route::delete('/databases/remove/{database}', [DatabaseController::class, 'removeDatabase'])
-            ->name('project.planning.databases.remove');
 
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])
@@ -123,6 +132,24 @@ Route::prefix('/project/{projectId}')->group(function () {
         Route::put('/criteria/{criteriaId}/change-preselected', [CriteriaController::class, 'change_preselected'])
             ->name('project.planning.criteria.change-preselected');
 
+        // Quality Assessment Routes
+        Route::prefix('/quality-assessment')->group(function () {
+            Route::resource('/general-score', GeneralScoreController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.quality-assessment.general-score.store',
+                    'update' => 'project.planning.quality-assessment.general-score.update',
+                    'destroy' => 'project.planning.quality-assessment.general-score.destroy',
+                ]);
+            Route::resource('/question', QualityAssessmentQuestionController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->names([
+                    'store' => 'project.planning.quality-assessment.question.store',
+                    'update' => 'project.planning.quality-assessment.question.update',
+                    'destroy' => 'project.planning.quality-assessment.question.destroy',
+                ]);
+        });
+
         // Data Extraction Routes
         Route::prefix('/data-extraction/')->group(function () {
 
@@ -146,7 +173,7 @@ Route::prefix('/project/{projectId}')->group(function () {
     // End of the Planning Routes
 
     // start of the reporting routes
-    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
+    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
 });
 
 
@@ -167,8 +194,8 @@ Route::middleware(['locale', 'guest'])->group(function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
-    Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
+    Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update')->middleware(Localization::class);
     Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
     Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
     Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
