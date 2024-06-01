@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                         </li>
-                        @foreach ($project->questions as $question)
+                        @foreach ($project->dataExtractionQuestions  as $question)
                             @include('project.planning.data-extraction.partials.data-extraction-question', [
                                 'question' => $question,
                                 'project' => $project,

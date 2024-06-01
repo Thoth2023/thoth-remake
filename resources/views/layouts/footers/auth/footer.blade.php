@@ -16,7 +16,7 @@
                         <a href="{{ route('help') }}" class="nav-link text-muted">FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('about') }}" class="nav-link text-muted">About Us</a>
+                        <a href="{{ route('about') }}" class="nav-link text-muted">{{ __('nav/footer.about_us') }}</a>
                     </li>
                     <li class="nav-item">
                         <a href="https://github.com/Thoth2023/thoth2.0" class="nav-link pe-0 text-muted"
