@@ -659,7 +659,23 @@ progress {
   margin-left: auto;
 }
 
-@media (min-width: 576px) {
+/* Adicione esta regra para telas menores */
+@media (max-width: 600px) {
+  .container,
+  .container-fluid,
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    max-width: none; /* Remove a restrição de largura máxima */
+    padding-right: 0.5rem; /* Define o padding direito para 0.5rem */
+    padding-left: 0.5rem; /* Define o padding esquerdo para 0.5rem */
+  }
+}
+
+
+@media (min-width: 768px) {
   .container-sm, .container {
     max-width: 540px;
   }
@@ -19638,10 +19654,24 @@ textarea.form-control-lg {
 .card .card-header {
   padding: 1.5rem;
 }
-.card .card-body {
+/* Aumentar a especificidade das regras */
+.card.bg-secondary-overview .card-body {
   font-family: "Open Sans", sans-serif;
-  padding: 1.5rem;
+  padding: 1.5rem 0.7rem 1.5rem 0.7rem;
 }
+
+@media (max-width: 768px) {
+  .navbar .input-group {
+      width: 100%;
+      padding: 1.5rem 0.7rem 1.5rem 0.7rem !important; /* Adicionado !important */
+  }
+  .navbar .input-group .form-control {
+      flex-grow: 1;
+  }
+}
+
+
+
 .card.card-plain {
   background-color: transparent;
   box-shadow: none !important;
@@ -24893,3 +24923,5 @@ pre[class*=language-] {
     overflow: auto !important;
   }
 }
+
+
