@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
+
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController a
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
+use App\Http\Controllers\Project\ConductingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\UserProfileController;
@@ -171,6 +173,11 @@ Route::prefix('/project/{projectId}')->group(function () {
         });
     });
     // End of the Planning Routes
+
+    // Start of the conducting routes
+    Route::prefix('/conducting')->group(function () {
+        Route::get('/', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
+    });
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
