@@ -41,8 +41,10 @@
                         'activeTab' => 'overview-tab',
                     ])
 
-                    <div class="tab-content">
-                        
+                    <div class="tab-content mt-4" >
+                        <div id="study-selection" class="tab-pane fade">
+                            @include("project.conducting.study-selection")
+                        </div>
                     </div>
 
                 </div>
