@@ -3,9 +3,12 @@
 return [
 
         'import-studies' => [
-            'title' => 'Import',
+            'title' => 'Importação de estudos',
              'form' => [
-                'add' =>  'Adicionar alguma coisa',
+                'database' => 'Base de dados',
+                'selected-database' => 'Selecionar a base de dados',
+                'upload' => 'Escolher arquivo',
+                'add' =>  'Adicionar arquivo',
                 'delete' => 'Deletar'
              ]
         ]
