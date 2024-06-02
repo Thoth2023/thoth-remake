@@ -6,7 +6,7 @@ return [
     
     'pages' => 'Pages',
     'project' => 'Project',
-    'projects' => 'Projetos',
+    'projects' => 'Projects',
     'planning' => 'Planning',
     'conducting' => 'Conducting',
     'reporting' => 'Reporting',
