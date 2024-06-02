@@ -39,7 +39,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $userProjects = Auth::user()->projects;
+        return view('projects.create', ['projects' => $userProjects]);
     }
 
     /**
@@ -55,12 +56,18 @@ class ProjectController extends Controller
             'description' => $request->description,
             'objectives' => $request->objectives,
             'created_by' => $user->username,
-            //'copy_planning'
         ]);
-
+        
+        if ($request->copy_planning !== 'none') {
+            $sourceProject = Project::findOrFail($request->copy_planning);
+            $project->copyPlanningFrom($sourceProject);
+        } else {
+            $project->save();
+        }
+        
         $activity = "Created the project ".$project->title;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-
+        
         $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
         
         return redirect('/projects');
