@@ -64,7 +64,7 @@
                                 style="height: 400px"
                                 class="card my-2 p-2"
                             >
-                                @Livewire("project.conducting.import-studies")
+                                @livewire("conducting.import-studies")
                         </div>
                         </div>
                         <div class="tab-pane fade" id="study-selection">
