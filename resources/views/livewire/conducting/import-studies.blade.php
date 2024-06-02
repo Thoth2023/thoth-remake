@@ -1,4 +1,3 @@
-@extends("layouts.app")
 <div class="card">
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
@@ -16,12 +15,16 @@
                     label="{{ __('project/conducting.import-studies.form.database') }}"
                     wire:model="selectedDatabase"
                 >
-                    <option value="">{{ __('project/conducting.import-studies.form.select-database') }}</option>
-                    @foreach($databases as $database)
-                        <option value="{{ $database->id }}">{{ $database->name }}</option>
+                    <option value="">
+                        {{ __("project/conducting.import-studies.form.select-database") }}
+                    </option>
+                    @foreach ($databases as $database)
+                        <option value="{{ $database->id }}">
+                            {{ $database->name }}
+                        </option>
                     @endforeach
                 </x-select>
-                @error('selectedDatabase')
+                @error("selectedDatabase")
                     <span class="text-xs text-danger">
                         {{ $message }}
                     </span>
@@ -42,7 +45,7 @@
                         accept=".bib,.csv"
                     />
                 </div>
-                @error('file')
+                @error("file")
                     <span class="text-xs text-danger">
                         {{ $message }}
                     </span>
@@ -57,14 +60,15 @@
         </form>
 
         <div class="mt-3">
-            @if(session()->has('message'))
+            @if (session()->has("message"))
                 <div class="alert alert-success">
-                    {{ session('message') }}
+                    {{ session("message") }}
                 </div>
             @endif
-            @if(session()->has('error'))
+
+            @if (session()->has("error"))
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+                    {{ session("error") }}
                 </div>
             @endif
         </div>
@@ -77,13 +81,23 @@
                     class="table-light sticky-top custom-gray-text"
                     style="color: #676a72"
                 >
-                    <th style="border-radius: 0.75rem 0 0 0; padding: 0.5rem 1rem;">
+                    <th
+                        style="
+                            border-radius: 0.75rem 0 0 0;
+                            padding: 0.5rem 1rem;
+                        "
+                    >
                         {{ __("project/conducting.import-studies.table.database") }}
                     </th>
                     <th style="padding: 0.5rem 0.75rem">
                         {{ __("project/conducting.import-studies.table.studies-imported") }}
                     </th>
-                    <th style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 1rem;">
+                    <th
+                        style="
+                            border-radius: 0 0.75rem 0 0;
+                            padding: 0.5rem 1rem;
+                        "
+                    >
                         {{ __("project/conducting.import-studies.table.actions") }}
                     </th>
                 </thead>
@@ -105,23 +119,13 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Modal de confirmação de exclusão -->
-        <x-helpers.confirmation-modal
-            wire:model="confirmingDelete"
-            title="{{ __('project/conducting.import-studies.modal.title') }}"
-            content="{{ __('project/conducting.import-studies.modal.content') }}"
-            wire:click="deleteDatabase"
-            actionLabel="{{ __('project/conducting.import-studies.modal.confirm') }}"
-            cancelLabel="{{ __('project/conducting.import-studies.modal.cancel') }}"
-        />
     </div>
 </div>
 
 @script
-<script>
-    $wire.on('import-studies', ([{ message, type }]) => {
-        toasty({ message, type });
-    });
-</script>
+    <script>
+        $wire.on('import-studies', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
 @endscript
