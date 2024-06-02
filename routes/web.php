@@ -189,8 +189,8 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/', [HomeController::class, 'guest_home'])->name('home');
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
-    Route::get('/login', [LoginController::class, 'show'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    Route::get('/login', [LoginController::class, 'show'])->name('login')->middleware(Localization::class);
+    Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
     Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
