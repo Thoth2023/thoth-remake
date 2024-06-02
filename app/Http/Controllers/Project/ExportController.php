@@ -18,5 +18,11 @@ class ExportController extends Controller
         $project = Project::findOrFail($id_project);
         return view('project.export.index', compact('project'));
     }
+
+
+    
+
+
+    
 }
 
