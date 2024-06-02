@@ -90,7 +90,7 @@ Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects
 Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth')->middleware(Localization::class);
 Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware(Localization::class);
 Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth');
-Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add');
+Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add')->middleware('auth')->middleware(Localization::class);
 Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_project'])->name('projects.add_member');
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');

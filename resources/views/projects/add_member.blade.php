@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Add Member'])
+    @include('layouts.navbars.auth.topnav', ['title' => __('pages/add_member.add_member')])
     <style>
         .levelMemberSelect2 {
             width: 120px;
@@ -11,13 +11,13 @@
         @include('components.alert')
         <div class="container-fluid py-4">
             <p class="card-header pb-0">
-            <h5>Add Member</h5>
+            <h5>{{__('pages/add_member.add_member')}}</h5>
             </p>
             <form method="POST" action="{{ route('projects.add_member', $project->id_project) }}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="emailMemberInput">E-mail</label>
+                    <label for="emailMemberInput">Email</label>
                     <button type="button" class="bg-gradient-warning mb-3 help-thoth-button" data-bs-toggle="modal"
                         data-bs-target="#modal-notification">?</button>
                     <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog"
@@ -25,7 +25,7 @@
                         <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h6 class="modal-title" id="modal-title-notification">Instruction help for enter e-mail
+                                    <h6 class="modal-title" id="modal-title-notification">{{__('pages/add_member.instruction_email')}}
                                     </h6>
                                     <button type="button" class="btn btn-danger small-button" data-bs-dismiss="modal"
                                         aria-label="Close">
@@ -35,18 +35,18 @@
                                 <div class="modal-body">
                                     <div class="py-3 text-center">
                                         <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i>
-                                            Enter a user e-mail already registered in Thoth</h4>
+                                            {{__('pages/add_member.user_registered')}}</h4>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-white" data-bs-dismiss="modal">Ok, Got it</button>
+                                    <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <input name="email_member" type="text"
                         class="form-control @error('email_member') is-invalid @enderror" id="emailMemberInput"
-                        placeholder="Enter the email">
+                        placeholder="{{__('pages/add_member.enter_email')}}">
                     @error('email_member')
                         <span class="invalid-feedback" role="alert">
                             {{ $message }}
@@ -54,7 +54,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="levelMemberSelect">Level</label>
+                    <label for="levelMemberSelect">{{__('pages/add_member.level')}}</label>
                     <button type="button" class="bg-gradient-warning mb-3 help-thoth-button" data-bs-toggle="modal"
                         data-bs-target="#modal-notification-2">?</button>
                     <div class="modal fade" id="modal-notification-2" tabindex="-1" role="dialog"
@@ -62,8 +62,7 @@
                         <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h6 class="modal-title" id="modal-title-notification">Instruction help for level
-                                        selection</h6>
+                                    <h6 class="modal-title" id="modal-title-notification">{{__('pages/add_member.instruction_level')}}</h6>
                                     <button type="button" class="btn btn-danger small-button" data-bs-dismiss="modal"
                                         aria-label="Close">
                                         <span aria-hidden="true">x</span>
@@ -72,35 +71,31 @@
                                 <div class="modal-body">
                                     <div class="py-3 text-center">
                                         <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i>
-                                            Select a level</h4>
+                                            {{__('pages/add_member.select_level')}}</h4>
                                         <p>
-                                            <strong>Level Administrator: </strong>Administrator level has permissions to
-                                            edit, delete, view and add members through the project correlated to it<br />
-                                            <strong>Level Viewer: </strong>Viewer level has permissions for views of the
-                                            entered data<br />
-                                            <strong>Level Researcher: </strong>Researcher level has permissions to views and
-                                            edit data<br />
-                                            <strong>Level Reviser: </strong>Reviser level has permissions to views and edit
-                                            data<br />
+                                            <strong>{{__('pages/add_member.level_administrator')}} </strong>{{__('pages/add_member.level_administrator_description')}}<br />
+                                            <strong>{{__('pages/add_member.level_viewer')}}</strong>{{__('pages/add_member.level_viewer_description')}}<br />
+                                            <strong>{{__('pages/add_member.level_researcher')}} </strong>{{__('pages/add_member.level_researcher_description')}}<br />
+                                            <strong>{{__('pages/add_member.level_reviser')}} </strong>{{__('pages/add_member.level_reviser_description')}}<br />
                                         <p></p>
                                         </p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-white" data-bs-dismiss="modal">Ok, Got it</button>
+                                    <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <select class="form-select" id="levelMemberSelect" name="level_member">
-                        <option value="" disabled selected>Select a Level</option>
-                        <option value=2>Viewer</option>
-                        <option value=3>Researcher</option>
-                        <option value=4>Reviser</option>
+                        <option value="" disabled selected>{{__('pages/add_member.level_select')}}</option>
+                        <option value=2>{{__('pages/add_member.viewer')}}</option>
+                        <option value=3>{{__('pages/add_member.researcher')}}</option>
+                        <option value=4>{{__('pages/add_member.reviser')}}</option>
                     </select>
                 </div>
                 <div class="d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary btn ms-auto" name="add">Add</button>
+                    <button type="submit" class="btn btn-primary btn ms-auto" name="add">{{__('pages/add_member.add')}}</button>
                 </div>
             </form>
 
@@ -108,13 +103,13 @@
                 <thead>
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Name</th>
+                            {{__('pages/add_member.name')}}</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                             Email</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Level</th>
+                            {{__('pages/add_member.level')}}</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            Delete</th>
+                            {{__('pages/add_member.delete')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,7 +127,7 @@
                             </td>
                             @if ($member->pivot->level == 1)
                                 <td>
-                                    <p class="text-sm font-weight-bold mb-0">Administrator</p>
+                                    <p class="text-sm font-weight-bold mb-0">{{__('pages/add_member.admin')}}</p>
                                 </td>
                                 <td></td>
                             @else
