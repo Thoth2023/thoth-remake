@@ -668,12 +668,11 @@ progress {
   .container-lg,
   .container-md,
   .container-sm {
-    max-width: none; /* Remove a restrição de largura máxima */
-    padding-right: 0.5rem; /* Define o padding direito para 0.5rem */
-    padding-left: 0.5rem; /* Define o padding esquerdo para 0.5rem */
+    max-width: none; 
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
 }
-
 
 @media (min-width: 768px) {
   .container-sm, .container {
@@ -8202,8 +8201,10 @@ textarea.form-control-lg {
 
 .mx-4 {
   margin-right: 1.5rem !important;
-  margin-left: 1.5rem !important;
+  margin-left: 0.5rem !important;
 }
+
+
 
 .mx-5 {
   margin-right: 3rem !important;
