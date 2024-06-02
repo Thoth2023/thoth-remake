@@ -310,7 +310,39 @@ return [
                 'deleted' => 'Database deleted successfully.',
                 'suggested' => 'Database suggestion sent successfully.',
             ],
-        ]
+        ],
+        'database-manager' => [
+            'title' => 'Database Manager',
+            'description' => 'Here you can manage the suggested databases. You can approve or reject them.',
+            'table' => [
+                'title' => 'Suggested Databases',
+                'headers' => [
+                    'name' => 'Name',
+                    'link' => 'Link',
+                    'status' => 'Status',
+                    'actions' => 'Actions',
+                ],
+                'actions' => [
+                    'approve' => 'Approve',
+                    'reject' => 'Reject',
+                ],
+                'empty' => 'No suggested databases found.',
+            ],
+            'modal' => [
+                'approve' => [
+                    'title' => 'Approve Database',
+                    'description' => 'Are you sure you want to approve this database?',
+                    'cancel' => 'Cancel',
+                    'approve' => 'Approve',
+                ],
+                'reject' => [
+                    'title' => 'Reject Database',
+                    'description' => 'Are you sure you want to reject this database?',
+                    'cancel' => 'Cancel',
+                    'reject' => 'Reject',
+                ],
+            ],
+        ],
     ],
     'search-string' => [],
     'search-strategy' => [

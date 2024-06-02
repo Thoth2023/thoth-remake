@@ -313,7 +313,38 @@ return [
                 'deleted' => 'Base de Dados deletada com sucesso.',
                 'suggested' => 'Sua sugestão foi enviada com sucesso.',
             ],
-        ]
+        ],
+        'database-manager' => [
+            'title' => 'Gerenciador de Bases de Dados',
+            'description' => 'Aqui você pode gerenciar as sugestões de bases de dados enviadas pelos usuários. Você pode aceitar ou rejeitar sugestões.',
+            'table' => [
+                'title' => 'Sugestões de Base de Dados',
+                'headers' => [
+                    'name' => 'Nome',
+                    'link' => 'Link',
+                    'actions' => 'Ações',
+                ],
+                'actions' => [
+                    'accept' => 'Aceitar',
+                    'reject' => 'Rejeitar',
+                ],
+                'empty' => 'Nenhuma sugestão de base de dados encontrada.',
+            ],
+            'modal' => [
+                'approve' => [
+                    'title' => 'Aceitar Sugestão',
+                    'description' => 'Tem certeza de que deseja aprovar esta sugestão? A sugestão será adicionada a lista de bases de dados',
+                    'cancel' => 'Cancelar',
+                    'accept' => 'Aceitar',
+                ],
+                'reject' => [
+                    'title' => 'Rejeitar Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja rejeitar esta sugestão? Esta sugestão será removida da lista.',
+                    'cancel' => 'Cancelar',
+                    'reject' => 'Rejeitar',
+                ],
+            ],
+        ],
     ],
     'search-string' => [],
     'search-strategy' => [

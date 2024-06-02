@@ -27,6 +27,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
+use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
@@ -64,6 +65,8 @@ Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->mi
 // Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 
+Route::get('/database-manager', [DatabaseManager::class, 'render'])->name('database-manager');
+
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // Projects Routes
@@ -90,7 +93,6 @@ Route::prefix('/project/{projectId}')->group(function () {
 
         // Database Route
         Route::get('/databases', [Databases::class, 'render']);
-
 
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])

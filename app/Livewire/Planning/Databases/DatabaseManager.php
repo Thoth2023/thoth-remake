@@ -48,7 +48,13 @@ class DatabaseManager extends Component
     public function mount()
     {
         $this->currentDatabase = null;
-        $this->databases = DatabaseModel::all();
+        $this->databases = $this->fetchDatabases();
+    }
+
+    public function fetchDatabases()
+    {
+        return DatabaseModel::all();
+
     }
 
     /**
@@ -93,11 +99,13 @@ class DatabaseManager extends Component
      */
     public function render()
     {
-        $databases = $this->databases;
+        $databases = $this->fetchDatabases();
 
         return view(
-            'livewire.planning.databases.approve-database',
-            compact('databases')
+            'livewire.planning.databases.database-manager',
+            compact(
+                'databases'
+            )
         )->extends('layouts.app');
     }
 }
