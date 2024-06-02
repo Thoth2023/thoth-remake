@@ -16,7 +16,7 @@
                     <div class="input-group">
                         <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
                         <input type="text" name="searchProject" class="form-control"
-                            placeholder="Search in Thoth...">
+                            placeholder="{{ __("nav/topnav.search_in_thoth_placeholder") }}">
                     </div>
                 </form>
             </div>
