@@ -38,13 +38,16 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="copyPlanningSelect">{{ __('project/create.copy_planning') }}</label>
-                    <select class="form-control" id="copyPlanningSelect">
-                        <option>{{ __('project/create.option1') }}</option>
-                        <option>{{ __('project/create.option2') }}</option>
-                        <option>{{ __('project/create.option3') }}</option>
-                        <option>{{ __('project/create.option4') }}</option>
-                        <option>{{ __('project/create.option5') }}</option>
+                    <label for="copy_planning">{{ __('project/create.copy_planning') }}</label>
+                    <select class="form-control" id="copy_planning" name="copy_planning">
+                        @if(count($projects) > 0)
+                            <option value="none">{{ __('project/create.none') }}</option>
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id_project }}">{{ $project->title }}</option>
+                            @endforeach
+                        @else
+                            <option disabled selected>{{ __('project/create.noProjects') }}</option>
+                        @endif
                     </select>
                 </div>
                 <div class="d-flex align-items-center">
