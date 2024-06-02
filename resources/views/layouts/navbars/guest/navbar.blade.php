@@ -83,13 +83,12 @@
                                 {{ __("nav/nav.language") }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                                @foreach (config("localization.locales") as $locale)
                                 <li>
-                                    <a class="dropdown-item" href="{{ route("localization", $locale) }}">
-                                        {{ $locale }}
-                                    </a>
+                                    <a class="dropdown-item" href="{{ route('localization', 'en') }}">English</a>
                                 </li>
-                                @endforeach
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('localization', 'pt_BR') }}">Português (Brasil)</a>
+                                </li>
                             </ul>
                         </div>
                         <!-- End Language Selector Dropdown -->
