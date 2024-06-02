@@ -2,7 +2,7 @@
 
 return [
     'locales' => [
-        'English',
-        'Português (Brasil)',
+        'en',
+        'pt_BR',
     ],
 ];
