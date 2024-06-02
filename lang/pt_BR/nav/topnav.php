@@ -10,5 +10,6 @@ return [
     'planning' => 'Planejamento',
     'conducting' => 'Condução',
     'reporting' => 'Relatório',
+    'edit' => 'Editar Projeto',
     
 ];

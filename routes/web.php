@@ -87,7 +87,7 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects.ind
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth')->middleware(Localization::class);
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show')->middleware(Localization::class);
-Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth');
+Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth')->middleware(Localization::class);
 Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware(Localization::class);
 Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth');
 Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add');
