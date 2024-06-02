@@ -16,6 +16,7 @@ use App\Http\Controllers\Project\Planning\Overall\DomainController;
 use App\Http\Controllers\Project\Planning\Overall\KeywordController;
 use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
+use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
@@ -26,7 +27,6 @@ use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController a
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
-use App\Http\Controllers\Project\ConductingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\UserProfileController;
@@ -176,7 +176,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // Start of the conducting routes
     Route::prefix('/conducting')->group(function () {
-        Route::get('/', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
+        Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
     });
 
     // start of the reporting routes

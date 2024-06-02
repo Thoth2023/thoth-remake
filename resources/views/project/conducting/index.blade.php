@@ -38,15 +38,22 @@
                                 'href' => '#data-extraction',
                             ],
                         ],
-                        'activeTab' => 'overview-tab',
+                        'activeTab' => 'import-studies-tab',
                     ])
 
                     <div class="tab-content mt-4" >
+                        <div id="import-studies" class="tab-pane fade">
+                            @include("project.conducting.import-studies")
+                        </div>
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection")
                         </div>
+                        <div id="quality-assessment" class="tab-pane fade">
+                            @include("project.conducting.quality-assessment")
+                        </div>
+                        <div id="data-extraction" class="tab-pane fade">
+                            @include("project.conducting.data-extraction")
                     </div>
-
                 </div>
                 @include('layouts.footers.auth.footer')
             </div>
