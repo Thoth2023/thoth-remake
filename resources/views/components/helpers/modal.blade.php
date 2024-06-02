@@ -43,6 +43,7 @@
                 </div>
                 <div class="modal-body">
                     {!! $modalContent !!}
+          
                 </div>
                 <div class="modal-footer">
                     <button
