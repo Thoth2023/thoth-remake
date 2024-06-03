@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
+
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Project\Planning\Overall\DomainController;
 use App\Http\Controllers\Project\Planning\Overall\KeywordController;
 use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
+use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
@@ -171,6 +173,11 @@ Route::prefix('/project/{projectId}')->group(function () {
         });
     });
     // End of the Planning Routes
+
+    // Start of the conducting routes
+    Route::prefix('/conducting')->group(function () {
+        Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
+    });
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);

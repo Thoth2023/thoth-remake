@@ -67,10 +67,12 @@ class Project extends Model
     {
         return $this->hasMany(DataExtractionQuestion::class, 'id_project');
     }
+
     public function qualityAssessmentQuestions()
     {
         return $this->hasMany(QualityAssessmentQuestion::class, 'id_project');
     }
+
     public function criterias()
     {
         return $this->hasMany(Criteria::class, 'id_project');
@@ -124,7 +126,17 @@ class Project extends Model
         }
         return $data;
     }
-    public function generalScores(): HasMany
+    public function keywords()
+    {
+        return $this->hasMany(Keyword::class, 'id_project');
+    }
+
+    public function domains()
+    {
+        return $this->hasMany(Domain::class, 'id_project');
+    }
+
+    public function generalScores()
     {
         return $this->hasMany(GeneralScore::class, 'id_project');
     }
@@ -168,6 +180,59 @@ class Project extends Model
     {
         $this->start_date = $startDate;
         $this->end_date = $endDate;
+        $this->save();
+    }
+
+    public function copyPlanningFrom(Project $sourceProject)
+    {
+        $this->start_date = $sourceProject->start_date;
+        $this->end_date = $sourceProject->end_date;
+
+        $this->save();
+
+        $this->databases()->attach($sourceProject->databases->pluck('id_database')->toArray());
+        $this->languages()->attach($sourceProject->languages->pluck('id_language')->toArray());
+        $this->studyTypes()->attach($sourceProject->studyTypes->pluck('id_study_type')->toArray());
+
+        foreach ($sourceProject->dataExtractionQuestions as $question) {
+            $this->dataExtractionQuestions()->create($question->toArray());
+        }
+
+        foreach ($sourceProject->qualityAssessmentQuestions as $question) {
+            $this->qualityAssessmentQuestions()->create($question->toArray());
+        }
+
+        foreach ($sourceProject->criterias as $criteria) {
+            $this->criterias()->create($criteria->toArray());
+        }
+
+        foreach ($sourceProject->researchQuestions as $question) {
+            $this->researchQuestions()->create($question->toArray());
+        }
+
+        if ($sourceProject->searchStrategy) {
+            $this->searchStrategy()->create($sourceProject->searchStrategy->toArray());
+        }
+
+        foreach ($sourceProject->terms as $term) {
+            $newTerm = $this->terms()->create($term->toArray());
+            foreach ($term->synonyms as $synonym) {
+                $newTerm->synonyms()->create($synonym->toArray());
+            }
+        }
+
+        foreach ($sourceProject->generalScores as $score) {
+            $this->generalScores()->create($score->toArray());
+        }
+
+        foreach ($sourceProject->keywords as $keyword) {
+            $this->keywords()->create($keyword->toArray());
+        }
+
+        foreach ($sourceProject->domains as $domain) {
+            $this->domains()->create($domain->toArray());
+        }
+        
         $this->save();
     }
 }

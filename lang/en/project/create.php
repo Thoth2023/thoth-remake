@@ -14,11 +14,13 @@ return [
     'enter_objectives' => 'Enter the objectives',
     
     'copy_planning' => 'Copy Planning',
+    'none' => 'None',
     'option1' => 'Option 1',
     'option2' => 'Option 2',
     'option3' => 'Option 3',
     'option4' => 'Option 4',
     'option5' => 'Option 5',
+    'noProjects' => 'User does not have any created projects yet',
 
     'create' => 'Create'
 ];

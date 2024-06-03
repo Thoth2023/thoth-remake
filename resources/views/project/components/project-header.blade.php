@@ -11,13 +11,13 @@
         ],
         'planning' => [
             'icon' => 'fas fa-calendar-alt',
-            'label' => __("project/header.planning"),
+            'label' => __("project/header.planning" ),
             'route' => 'project.planning.index',
         ],
         'conducting' => [
             'icon' => 'fas fa-tasks',
             'label' => __("project/header.conducting"),
-            'route' => null,
+            'route' => 'conducting.index',
         ],
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
