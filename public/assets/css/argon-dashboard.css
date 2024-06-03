@@ -647,6 +647,7 @@ progress {
 
 .container,
 .container-fluid,
+.container-fluid-mobile,
 .container-xxl,
 .container-xl,
 .container-lg,
@@ -661,16 +662,10 @@ progress {
 
 /* Adicione esta regra para telas menores */
 @media (max-width: 600px) {
-  .container,
-  .container-fluid,
-  .container-xxl,
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm {
-    max-width: none; 
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+  .container-fluid-mobile
+   {
+    padding-right: 0rem;
+    padding-left: 0rem;
   }
 }
 
@@ -8200,14 +8195,14 @@ textarea.form-control-lg {
 }
 
 .mx-4 {
-  margin-right: 0.5rem;
+  margin-right: 0rem;
   margin-left: 0.5rem;
 }
 
-@media (min-width: 576px) {
+@media (max-width: 600px) {
   .mx-4 {
-    margin-right: 0.5rem !important;
-    margin-left: 0.5rem !important;
+    margin-right: 0rem !important;
+    margin-left: 0rem !important;
   }
 }
 
@@ -9042,6 +9037,13 @@ textarea.form-control-lg {
   padding-bottom: 0.5rem !important;
 }
 
+@media (max-width: 600px) {
+  .py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
 .py-3 {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
@@ -9093,7 +9095,7 @@ textarea.form-control-lg {
 }
 
 .pt-0 {
-  padding-top: 0 !important;
+  padding-top: 1rem !important;
 }
 
 .pt-1 {
@@ -19660,7 +19662,6 @@ textarea.form-control-lg {
 .card .card-header {
   padding: 1.5rem;
 }
-/* Aumentar a especificidade das regras */
 .card.bg-secondary-overview .card-body {
   font-family: "Open Sans", sans-serif;
   padding: 1.5rem 0.7rem 1.5rem 0.7rem;
@@ -19669,7 +19670,6 @@ textarea.form-control-lg {
 @media (max-width: 768px) {
   .navbar .input-group {
       width: 100%;
-      padding: 1.5rem 0.7rem 1.5rem 0.7rem !important; /* Adicionado !important */
   }
   .navbar .input-group .form-control {
       flex-grow: 1;
@@ -22830,6 +22830,16 @@ hr.horizontal.gray-light {
   letter-spacing: 0px;
   border-bottom: 1px solid #e9ecef;
 }
+
+@media (max-width: 600px) {
+  .table thead th {
+    padding: 0.75rem 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0px;
+  border-bottom: 1px solid #e9ecef;
+  }
+}
+
 .table th {
   font-weight: 600;
 }
