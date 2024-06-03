@@ -6,6 +6,16 @@
         .levelMemberSelect2 {
             width: 120px;
         }
+        
+        /* Add styles for table responsiveness */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-responsive table {
+            width: 100%;
+            max-width: 100%;
+        }
     </style>
     <div class="card shadow-lg mx-4">
         @include('components.alert')
@@ -104,112 +114,114 @@
                 </div>
             </form>
 
-            <table class="table align-items-center justify-content-center mb-0">
-                <thead>
-                    <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Name</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Email</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Level</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users_relation as $member)
+            <div class="table-responsive">
+                <table class="table align-items-center justify-content-center mb-0">
+                    <thead>
                         <tr>
-                            <td>
-                                <div class="d-flex px-2">
-                                    <div class="my-auto">
-                                        <h6 class="mb-0 text-sm">{{ $member->username }}</h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="text-sm font-weight-bold mb-0">{{ $member->email }}</p>
-                            </td>
-                            @if ($member->pivot->level == 1)
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Name</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Email</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Level</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users_relation as $member)
+                            <tr>
                                 <td>
-                                    <p class="text-sm font-weight-bold mb-0">Administrator</p>
-                                </td>
-                                <td></td>
-                            @else
-                                <td>
-                                    <form class="update-member-level-form selectpicker"
-                                        action="{{ route('projects.update_member_level', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="row">
-                                            <div class="col-auto">
-                                                <select class="form-select levelMemberSelect2" name="level_member" required>
-                                                    <option value="2"
-                                                        {{ $member->level_name == 'Viewer' ? 'selected' : '' }}>Viewer
-                                                    </option>
-                                                    <option value="3"
-                                                        {{ $member->level_name == 'Researcher' ? 'selected' : '' }}>
-                                                        Researcher</option>
-                                                    <option value="4"
-                                                        {{ $member->level_name == 'Reviser' ? 'selected' : '' }}>Reviser
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="btn btn-success btn-sm ms-auto"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right"
-                                                    title="Confirm member level change">Confirm</button>
-                                            </div>
+                                    <div class="d-flex px-2">
+                                        <div class="my-auto">
+                                            <h6 class="mb-0 text-sm">{{ $member->username }}</h6>
                                         </div>
-                                    </form>
+                                    </div>
                                 </td>
-                                <td class="text-center col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="button" class="btn btn-danger btn-sm ms-auto mr-0"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modal-delete-{{ $member->id }}">Delete</button>
-                                            <div class="modal fade" id="modal-delete-{{ $member->id }}" tabindex="-1"
-                                                role="dialog" aria-labelledby="modal-delete-{{ $member->id }}"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h6 class="modal-title"
-                                                                id="modal-title-delete-{{ $member->id }}">Confirm
-                                                                Deletion</h6>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure you want to delete this member?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form
-                                                                action="{{ route('projects.destroy_member', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}"
-                                                                method="post">
-                                                                @method('delete')
-                                                                @csrf
-                                                                <button type="submit"
-                                                                    class="btn btn-danger">Delete</button>
-                                                            </form>
-                                                            <button type="button" class="btn btn-link ml-auto"
-                                                                data-bs-dismiss="modal">Cancel</button>
+                                <td>
+                                    <p class="text-sm font-weight-bold mb-0">{{ $member->email }}</p>
+                                </td>
+                                @if ($member->pivot->level == 1)
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">Administrator</p>
+                                    </td>
+                                    <td></td>
+                                @else
+                                    <td>
+                                        <form class="update-member-level-form selectpicker"
+                                            action="{{ route('projects.update_member_level', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <select class="form-select levelMemberSelect2" name="level_member" required>
+                                                        <option value="2"
+                                                            {{ $member->level_name == 'Viewer' ? 'selected' : '' }}>Viewer
+                                                        </option>
+                                                        <option value="3"
+                                                            {{ $member->level_name == 'Researcher' ? 'selected' : '' }}>
+                                                            Researcher</option>
+                                                        <option value="4"
+                                                            {{ $member->level_name == 'Reviser' ? 'selected' : '' }}>Reviser
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button type="submit" class="btn btn-success btn-sm ms-auto"
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        title="Confirm member level change">Confirm</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td class="text-center col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-danger btn-sm ms-auto mr-0"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-delete-{{ $member->id }}">Delete</button>
+                                                <div class="modal fade" id="modal-delete-{{ $member->id }}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="modal-delete-{{ $member->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title"
+                                                                    id="modal-title-delete-{{ $member->id }}">Confirm
+                                                                    Deletion</h6>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure you want to delete this member?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <form
+                                                                    action="{{ route('projects.destroy_member', ['idProject' => $project->id_project, 'idMember' => $member->id]) }}"
+                                                                    method="post">
+                                                                    @method('delete')
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Delete</button>
+                                                                </form>
+                                                                <button type="button" class="btn btn-link ml-auto"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     @include('layouts.footers.auth.footer')

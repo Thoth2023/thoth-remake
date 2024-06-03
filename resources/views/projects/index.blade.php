@@ -3,28 +3,22 @@
 @section("content")
     @include("layouts.navbars.auth.topnav", ["title" => "Projects"])
 
-    <div class="container-fluid py-2">
-        <div class="container-fluid py-2">
+    <div class="container-fluid-project py-2">
+        
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-0">
-                            <div class="col-12 text-end">
-                                <a
-                                    class="btn bg-gradient-dark mb-0"
-                                    href="{{ route("projects.create") }}"
-                                >
+                         <div class="card-header pb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
+                                    {{ __("project/projects.project.table.title") }}
+                                </h6>
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('projects.create') }}">
                                     <i class="fas fa-plus"></i>
                                     &nbsp;&nbsp;{{ __("project/projects.project.new") }}
                                 </a>
                             </div>
-
-                            <h6>
-                                <i
-                                    class="ni ni-single-copy-04 text-primary text-sm opacity-10"
-                                ></i>
-                                {{ __("project/projects.project.table.title") }}
-                            </h6>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
@@ -176,7 +170,7 @@
                                                     colspan="5"
                                                     class="text-center"
                                                 >
-                                                    {{ __("project/projects.project.table.empty") }}
+                                                    {{ __("project/projects.project.table.empty") tr
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -187,7 +181,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         @include("layouts.footers.auth.footer")
     </div>
 @endsection
