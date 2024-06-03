@@ -27,19 +27,20 @@ class ChangePassword extends Controller
     public function update(Request $request)
     {
         $attributes = $request->validate([
-            'email' => ['required'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'min:5'],
             'confirm-password' => ['same:password'],
         ]);
 
-        $existingUser = User::where('email', $attributes['email'])->first();
-        if ($existingUser) {
-            $existingUser->update([
-                'password' => $attributes['password'],
+        if ($this->user && $this->user->email === $attributes['email']) {
+            $this->user->update([
+                'password' => Hash::make($attributes['password']),
             ]);
-            return redirect('login');
+            return redirect('login')->with('success', 'Password changed successfully');
         } else {
             return back()->with('error', 'Your email does not match the email who requested the password change');
         }
     }
 }
+
+
