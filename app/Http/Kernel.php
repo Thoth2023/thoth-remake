@@ -65,4 +65,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'locale' => \App\Http\Middleware\Localization::class,
     ];
+
+    protected $routeMiddleware = [
+        
+        'superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+    ];
+    
 }

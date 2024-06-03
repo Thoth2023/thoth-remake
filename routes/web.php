@@ -20,6 +20,7 @@ use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
+use App\Http\Controllers\AdminPanelController; ////////////////
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
@@ -174,4 +175,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    
+});
+
+
+
+Route::group(['middleware' => ['auth', 'superadmin']], function () {
+    Route::get('/admin-panel', [AdminPanelController::class, 'index'])->name('admin.panel');
+    Route::get('/admin/edit-texts', [AdminPanelController::class, 'editTexts'])->name('admin.edit_texts');
+    Route::post('/admin/update-texts', [AdminPanelController::class, 'updateTexts'])->name('admin.update_texts');
 });
