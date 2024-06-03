@@ -647,7 +647,7 @@ progress {
 
 .container,
 .container-fluid,
-.container-fluid-mobile,
+.container-fluid-project,
 .container-xxl,
 .container-xl,
 .container-lg,
@@ -662,7 +662,7 @@ progress {
 
 /* Adicione esta regra para telas menores */
 @media (max-width: 600px) {
-  .container-fluid-mobile
+  .container-fluid-project
    {
     padding-right: 0rem;
     padding-left: 0rem;

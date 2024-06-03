@@ -3,7 +3,7 @@
 @section("content")
     @include("layouts.navbars.auth.topnav", ["title" => "Projects"])
 
-    <div class="container-fluid-mobile py-2">
+    <div class="container-fluid-project py-2">
         
             <div class="row">
                 <div class="col-12">
