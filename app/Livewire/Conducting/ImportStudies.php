@@ -13,7 +13,6 @@ use App\Utils\ActivityLogHelper as Log;
 
 class ImportStudies extends Component
 {
-
     use WithFileUploads;
 
     public $currentProject;
@@ -86,8 +85,9 @@ class ImportStudies extends Component
         try {
             $filePath = $this->file->store('uploads');
 
-            // Chama a função de processamento de arquivo.
-            list($importedStudiesCount, $failedImportsCount) = $this->processFile($filePath);
+            // Lógica real de processamento de arquivos  (talvez precise atualizar) -> chama a função de processamento de arquivo.
+            $importedStudiesCount = $this->processFile($filePath);
+            $failedImportsCount = 0;
 
             // Log the import activity
             Log::logActivity(
@@ -111,74 +111,19 @@ class ImportStudies extends Component
         }
     }
 
-
     /**
      * Para o processamento de arquivos.
      */
     protected function processFile($filePath)
     {
+        // colocar a lógica real aq
+        // Ex:  CSV ou BIB e inserir dados no banco de dados
+        // Retorna o número de estudos importados com sucesso
         $importedStudiesCount = 0;
-        $failedImportsCount = 0;
 
-        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-
-        if ($fileExtension === 'csv') {
-            $file = fopen(storage_path('app/' . $filePath), 'r');
-            while (($data = fgetcsv($file, 1000, ',')) !== FALSE) {
-                // Supondo que o CSV tem colunas: title, authors, journal, year
-                $importStudy = new ImportStudyModel();
-                $importStudy->title = $data[0];
-                $importStudy->authors = $data[1];
-                $importStudy->journal = $data[2];
-                $importStudy->year = $data[3];
-                $importStudy->project_id = $this->currentProject->id_project;
-
-                if ($importStudy->save()) {
-                    $importedStudiesCount++;
-                } else {
-                    $failedImportsCount++;
-                }
-            }
-            fclose($file);
-        } elseif ($fileExtension === 'bib') {
-            // Processar arquivo BIB
-            $bibFileContents = file_get_contents(storage_path('app/' . $filePath));
-            $bibParser = new \RenanBr\BibTexParser\Parser();
-            $listener = new \RenanBr\BibTexParser\Listener();
-            $bibParser->addListener($listener);
-            $bibParser->parseString($bibFileContents);
-            $bibEntries = $listener->export();
-
-            foreach ($bibEntries as $entry) {
-                $importStudy = new ImportStudyModel();
-                $importStudy->authors = $entry['author'] ?? '';
-                $importStudy->title = $entry['title'] ?? '';
-                $importStudy->year = $entry['year'] ?? '';
-                $importStudy->isbn = $entry['year'] ?? '';
-                $importStudy->publisher = $entry['publisher'] ?? '';
-                $importStudy->address = $entry['address'] ?? '';
-                $importStudy->url = $entry['url'] ?? '';
-                $importStudy->doi = $entry['doi'] ?? '';
-                $importStudy->abstract = $entry['abstract'] ?? '';
-                $importStudy->book_title = $entry['book_title'] ?? '';
-                $importStudy->pages = $entry['pages'] ?? '';
-                $importStudy->num_pages = $entry['num_pages'] ?? '';
-                $importStudy->keywords = $entry['keywords'] ?? '';
-                $importStudy->location = $entry['location'] ?? '';
-                $importStudy->series = $entry['series'] ?? '';
-                $importStudy->project_id = $this->currentProject->id_project;
-
-                if ($importStudy->save()) {
-                    $importedStudiesCount++;
-                } else {
-                    $failedImportsCount++;
-                }
-            }
-        }
-
-        return [$importedStudiesCount, $failedImportsCount];
+        // lógica..
+        return $importedStudiesCount;
     }
-
 
     /**
      * Delete a study.
@@ -186,8 +131,8 @@ class ImportStudies extends Component
     public function delete(int $studyId)
     {
         try {
-              $conducting = ImportStudyModel::findOrFail($studyId);
-              $conducting->delete();
+            $conducting = ImportStudyModel::findOrFail($studyId);
+            $conducting->delete();
 
             Log::logActivity(
                 action: 'Deleted a study',
@@ -207,6 +152,10 @@ class ImportStudies extends Component
             );
         }
     }
+
+    /**
+     * Render the component.
+     */
     public function render()
     {
         $project = $this->currentProject;
