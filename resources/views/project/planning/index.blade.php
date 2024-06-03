@@ -80,7 +80,7 @@
                             [wip]
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
-                            @include("project.planning.search-strategy")
+                            @livewire("planning.search-strategy.strategy")
                         </div>
                         <div class="tab-pane fade" id="criteria">
                             @include("project.planning.criteria.index")
