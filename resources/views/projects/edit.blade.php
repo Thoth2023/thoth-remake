@@ -37,7 +37,7 @@
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Edit</button>
                 </div>
             </form>
-            @include('layouts.footers.auth.footer')
         </div>
     </div>
+    @include('layouts.footers.auth.footer')
 @endsection
