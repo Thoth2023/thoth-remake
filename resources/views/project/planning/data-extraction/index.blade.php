@@ -1,6 +1,5 @@
 <div class="col-12">
     <div class="card bg-secondary-overview">
-
             <div class="card-group card-frame mt-0">
 
                 <!-- create data extraction -->
