@@ -76,7 +76,7 @@
                             @include("project.planning.search-string")
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
-                            @include("project.planning.search-strategy")
+                            @livewire("planning.search-strategy.strategy")
                         </div>
                         <div class="tab-pane fade" id="criteria">
                             @livewire("planning.criteria.criteria")
