@@ -16,8 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
-
-                <div class="card d-inline-flex p-3 mt-8">
+                <div class="card d-inline-flex p-3 mt-8 mb-5">
                     <div class="card-body pt-2">
                         <a href="javascript:;" class="card-title h4 d-block text-darker">
                             Thoth 2.0
@@ -192,11 +191,7 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
-
                 </div>
             </div>
         @endsection

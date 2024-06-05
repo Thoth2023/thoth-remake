@@ -6,6 +6,16 @@
         .levelMemberSelect2 {
             width: 120px;
         }
+        
+        /* Add styles for table responsiveness */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-responsive table {
+            width: 100%;
+            max-width: 100%;
+        }
     </style>
     <div class="card shadow-lg mx-4">
         @include('components.alert')
