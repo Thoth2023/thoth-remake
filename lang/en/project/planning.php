@@ -281,6 +281,8 @@ return [
         ],
         'table' => [
             'header' => 'Databases',
+            'name' => 'Name',
+            'actions' => 'Actions',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
             'empty' => 'No database registered in the project.',
@@ -321,6 +323,12 @@ return [
                     'link' => 'Link',
                     'status' => 'Status',
                     'actions' => 'Actions',
+                ],
+                'states' => [
+                    'approved' => 'Approved',
+                    'rejected' => 'Rejected',
+                    'pending' => 'Pending',
+                    'proposed' => 'Proposed',
                 ],
                 'actions' => [
                     'approve' => 'Approve',

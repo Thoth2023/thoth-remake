@@ -283,6 +283,8 @@ return [
         ],
         'table' => [
             'header' => 'Bases de Dados',
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'remove-button' => 'Remover',
             'no-databases' => 'Nenhuma base de dados encontrado.',
             'empty' => 'Este projeto ainda não possui bases de dados registradas'
@@ -323,6 +325,12 @@ return [
                     'name' => 'Nome',
                     'link' => 'Link',
                     'actions' => 'Ações',
+                ],
+                'states' => [
+                    'approved' => 'Aprovada',
+                    'rejected' => 'Recusada',
+                    'pending' => 'Pendente',
+                    'proposed' => 'Proposta',
                 ],
                 'actions' => [
                     'accept' => 'Aceitar',

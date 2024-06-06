@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -140,6 +141,8 @@ Route::prefix('/project/{projectId}')->group(function () {
         });
     });
     // End of the Planning Routes
+
+    Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager');
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');

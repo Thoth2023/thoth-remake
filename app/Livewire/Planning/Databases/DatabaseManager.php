@@ -68,10 +68,13 @@ class DatabaseManager extends Component
             $database->state = 'approved';
             $database->save();
 
+            $this->dispatch('databaseStateUpdated', $databaseId, 'approved');
+
             $this->toast(
                 message: $this->translate('database_approved'),
                 type: 'success',
             );
+
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
         }
@@ -85,28 +88,36 @@ class DatabaseManager extends Component
             $database->state = 'rejected';
             $database->save();
 
+            $this->dispatch('databaseStateUpdated', $databaseId, 'rejected');
+
             $this->toast(
                 message: $this->translate('database_rejected'),
                 type: 'success',
             );
+
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
         }
     }
 
+
+    public $listeners = ['databaseStateUpdated' => 'updateDatabaseState'];
+
+    public function updateDatabaseState($databaseId, $state)
+    {
+        $database = collect($this->databases)->firstWhere('id_database', $databaseId);
+
+        if ($database) {
+            $database['state'] = $state;
+        }
+    }
     /**
      * Render the component.
      */
     public function render()
     {
-        $databases = $this->fetchDatabases();
-
         return view(
             'livewire.planning.databases.database-manager',
-            compact(
-                'databases'
-            )
-        )->extends('layouts.app');
+        );
     }
 }
-
