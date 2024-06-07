@@ -74,7 +74,7 @@
                             @livewire("planning.databases.databases")
                         </div>
                         <div class="tab-pane fade" id="search-string">
-                            [wip]
+                            @//include("project.planning.search-string")
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
                             @include("project.planning.search-strategy")

@@ -1,20 +1,41 @@
 <?php
 
-namespace App\Http\Controllers;
+/**
+ * File: SearchStringController.php
+ * Author: Diego Comis
+ *
+ * Description: This is the controller class for the SearchString
+ *
+ * Date: 2024-02-02
+ *
+ * @see SearchString, Project
+ */
+
+namespace App\Http\Controllers\Project\Planning;
 
 use App\Models\SearchString;
 use App\Models\SearchStringGeneric;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use App\Models\Project;
 use App\Models\Term;
 use App\Models\Synonym;
 use App\Models\DataBase;
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Utils\ActivityLogHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+
 class SearchStringController extends Controller
 {
+    /**
+     * Update the search strategy of the project.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id_project
+     * @return \Illuminate\Http\Response
+     */
     /**
      * Display a listing of the resource.
      */
@@ -25,13 +46,12 @@ class SearchStringController extends Controller
         $synonyms = $project->synonyms;
 
         $searchStrings = $this->getSearchStrings($id_project);
-        dd($searchStrings);
 
-        return view('planning.search-string', compact('project', 'terms', 'synonyms', 'searchStrings'));
+        return view('search-string', compact('project', 'terms', 'synonyms', 'searchStrings'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created term in storage.
      */
     public function store_term(Request $request, $id_project)
     {
@@ -45,12 +65,13 @@ class SearchStringController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created synonym in storage.
      */
     public function store_synonym(Request $request, $id_project)
     {
         $id_term = $request->input('termSelect');
         $term = Term::findOrFail($id_term);
+
         $term->synonyms()->create([
             'description' => $request->input('description_synonym'),
         ]);
@@ -59,7 +80,7 @@ class SearchStringController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified term in storage.
      */
     public function update_term(Request $request, $id_term)
     {
@@ -71,17 +92,18 @@ class SearchStringController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified term from storage.
      */
     public function destroy_term($id_term)
     {
         $term = Term::findOrFail($id_term);
         $term->delete();
+
         return redirect()->back();
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified synonym in storage.
      */
     public function update_synonym(Request $request, $id_synonym)
     {
@@ -93,15 +115,19 @@ class SearchStringController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified synonym from storage.
      */
     public function destroy_synonym($id_synonym)
     {
         $synonym = Synonym::findOrFail($id_synonym);
         $synonym->delete();
+
         return redirect()->back();
     }
 
+    /**
+     * Generate search strings for the specified project.
+     */
     public function generate_string($id_project)
     {
         $project = Project::findOrFail($id_project);
@@ -139,7 +165,7 @@ class SearchStringController extends Controller
                 if ($count > 0) {
                     $string .= " AND ";
                 }
-                if ($database == "ENGINEERING VILLAGE") {
+                if ($database->name == "ENGINEERING VILLAGE") {
                     $string .= '(';
                 }
                 $string .= "(";
@@ -151,7 +177,7 @@ class SearchStringController extends Controller
                 }
 
                 foreach ($term['synonyms'] as $synonym) {
-                    if ($database == "ACM") {
+                    if ($database->name == "ACM") {
                         $string .= " ";
                     } else {
                         $string .= " OR ";
@@ -163,16 +189,14 @@ class SearchStringController extends Controller
                     }
                 }
                 $string .= ")";
-                if ($database == "ENGINEERING VILLAGE") {
+                if ($database->name == "ENGINEERING VILLAGE") {
                     $string .= ' WN KY)';
                 }
                 $count++;
             }
-            if ($database == "ENGINEERING VILLAGE") {
+            if ($database->name == "ENGINEERING VILLAGE") {
                 $string .= ' AND ({english} WN LA)';
             }
-
-            // Verifique se $database não é "Generic" antes de executar o código apropriado
 
             if ($database->name != "Generic") {
                 $search_string = new SearchString();
@@ -188,14 +212,19 @@ class SearchStringController extends Controller
         }
     }
 
+    /**
+     * Wrapper function to generate search strings and redirect back.
+     */
     public function generateString($id_project)
     {
-
         $this->generate_string($id_project);
 
         return redirect()->back();
     }
 
+    /**
+     * Get search strings for the specified project.
+     */
     public function getSearchStrings($id_project): array
     {
         $sss = [];
@@ -204,9 +233,9 @@ class SearchStringController extends Controller
 
         foreach ($genericSearchStrings as $row) {
             $ss = new SearchString();
-            $ss->description($row->description);
+            $ss->description = $row->description;
 
-            $db = new Database();
+            $db = new DataBase();
             $db->name = "Generic";
             $db->link = "#";
             $ss->database = $db;
@@ -216,10 +245,9 @@ class SearchStringController extends Controller
         $searchStrings = SearchString::select('search_string.description', 'data_base.name', 'data_base.link')
             ->join('project_databases', 'project_databases.id_project_database', '=', 'search_string.id_project_database')
             ->join('data_base', 'data_base.id_database', '=', 'project_databases.id_database')
-            ->where('id_project', $id_project)
+            ->where('project_databases.id_project', $id_project)
             ->with('data_base')
             ->get();
-
 
         foreach ($searchStrings as $row) {
             $ss = new SearchString();
