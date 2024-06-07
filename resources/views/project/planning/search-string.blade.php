@@ -118,7 +118,7 @@
                                                             <td>
                                                                 <div class="d-flex justify-content-end">
                                                                     <a href="#"
-                                                                        class="btn btn-link text-secondary mt-2 pt-1 pb-1 mt-3"
+                                                                        class="btn btn-link text-secondary mt-2 pt-1 pb-1"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#exampleModalMessage{{ $term->id_term }}_{{ $synonym->id_synonym }}"
                                                                         data-original-title="Edit Synonym">Edit</a>
@@ -127,7 +127,7 @@
                                                                     @endcomponent
 
                                                                     <a href="#"
-                                                                        class="btn btn-link text-danger mt-2 pt-1 pb-1 mt-3"
+                                                                        class="btn btn-link text-danger mt-2 pt-1 pb-1"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#modal-delete-{{ $term->id_term }}_{{ $synonym->id_synonym }}">Delete</a>
                                                                     <!-- Synonym Delete Modal -->
@@ -148,7 +148,7 @@
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <a href="#"
-                                                    class="btn btn-link text-secondary mt-2 pt-1 pb-1 mt-3"
+                                                    class="btn btn-link text-secondary mt-2 pt-1 pb-1"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#exampleModalMessage{{ $term->id_term }}"
                                                     data-original-title="Edit Term">Edit</a>
@@ -156,7 +156,7 @@
                                                 @component('partials.term-modal', ['term' => $term])
                                                 @endcomponent
 
-                                                <a href="#" class="btn btn-link text-danger mt-2 pt-1 pb-1 mt-3"
+                                                <a href="#" class="btn btn-link text-danger mt-2 pt-1 pb-1"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#modal-delete-{{ $term->id_term }}">Delete</a>
                                                 <!-- Term Delete Modal -->
