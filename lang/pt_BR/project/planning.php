@@ -296,6 +296,8 @@ return [
             'name' => 'Nome',
             'actions' => 'Ações',
             'header' => 'Bases de Dados',
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'remove-button' => 'Remover',
             'no-databases' => 'Nenhuma base de dados encontrado.',
             'empty' => 'Este projeto ainda não possui bases de dados registradas'
@@ -328,7 +330,50 @@ return [
                 'deleted' => 'Base de Dados deletada com sucesso.',
                 'suggested' => 'Sua sugestão foi enviada com sucesso.',
             ],
-        ]
+        ],
+        'database-manager' => [
+            'title' => 'Gerenciador de Bases de Dados',
+            'description' => 'Aqui você pode gerenciar as sugestões de bases de dados enviadas pelos usuários. Você pode aceitar ou rejeitar sugestões.',
+            'table' => [
+                'title' => 'Sugestões de Base de Dados',
+                'headers' => [
+                    'name' => 'Nome',
+                    'link' => 'Link',
+                    'actions' => 'Ações',
+                ],
+                'states' => [
+                    'approved' => 'Aprovada',
+                    'rejected' => 'Recusada',
+                    'pending' => 'Pendente',
+                    'proposed' => 'Proposta',
+                ],
+                'actions' => [
+                    'accept' => 'Aceitar',
+                    'reject' => 'Rejeitar',
+                ],
+                'empty' => 'Nenhuma sugestão de base de dados encontrada.',
+            ],
+            'modal' => [
+                'approve' => [
+                    'title' => 'Aceitar Sugestão',
+                    'description' => 'Tem certeza de que deseja aprovar esta sugestão? A sugestão será adicionada a lista de bases de dados',
+                    'cancel' => 'Cancelar',
+                    'approve' => 'Aprovar',
+                ],
+                'reject' => [
+                    'title' => 'Rejeitar Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja rejeitar esta sugestão?',
+                    'cancel' => 'Cancelar',
+                    'reject' => 'Rejeitar',
+                ],
+                'delete' => [
+                    'title' => 'Excluir Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja excluir esta sugestão? Esta ação não pode ser desfeita.',
+                    'cancel' => 'Cancelar',
+                    'delete' => 'Excluir',
+                ],
+            ],
+        ],
     ],
     'search-string' => [
         'title' => 'String de Busca',

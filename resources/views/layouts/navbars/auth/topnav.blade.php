@@ -11,16 +11,15 @@
             <h6 class="font-weight-bolder text-white mb-0">{{ $title }}</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-            <div class="ms-md-auto pe-md-3 d-flex align-items-center ">
-                <form action="/search-project" method="get">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <form action="/search-project" method="get" class="w-100">
                     <div class="input-group">
                         <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                        <input type="text" name="searchProject" class="form-control"
-                            placeholder="Search in Thoth...">
+                        <input type="text" name="searchProject" class="form-control" placeholder="Search in Thoth...">
                     </div>
                 </form>
             </div>
-            <ul class="navbar-nav  justify-content-end">
+            <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex align-items-center">
                     <form role="form" method="post" action="{{ route('logout') }}" id="logout-form">
                         @csrf
@@ -51,13 +50,13 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-bell cursor-pointer"></i>
                     </a>
-                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="./img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                                        <img src="./img/team-2.jpg" class="avatar avatar-sm me-3 ">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -76,7 +75,7 @@
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
                                         <img src="./img/small-logos/logo-spotify.svg"
-                                            class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                                            class="avatar avatar-sm bg-gradient-dark me-3 ">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -93,7 +92,7 @@
                         <li>
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                                    <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
                                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
                                             xmlns="http://www.w3.org/2000/svg"
                                             xmlns:xlink="http://www.w3.org/1999/xlink">
