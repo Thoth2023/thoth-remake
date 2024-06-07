@@ -29,6 +29,7 @@ class User extends Authenticatable
         'institution',
         'occupation',
         'lattes_link',
+        'role',
     ];
 
     public function projects()
@@ -39,6 +40,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $roles = [
+        'user' => 'USER',
+        'super_user' => 'SUPER_USER',
+    ];
+
+    protected $attributes = [
+        'role' => 'USER',
     ];
 
     protected $casts = [
