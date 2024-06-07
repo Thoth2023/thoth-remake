@@ -41,10 +41,12 @@
                             {{ __("project/planning.databases.database-manager.table.states." . $database->state) }}
                         </td>
                         <td class="px-3">
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-2">
                                 <x-helpers.confirm-modal
-                                    modalTitle="kk"
-                                    modalContent="Tem certeza que deseja recusar essa sugestão? A sugestão será removida."
+                                    modalTitle="{{ __('project/planning.databases.database-manager.modal.reject.title') }}"
+                                    modalContent="{{ __('project/planning.databases.database-manager.modal.reject.description') }}"
+                                    textClose="{{ __('project/planning.databases.database-manager.modal.reject.cancel') }}"
+                                    textConfirm="{{ __('project/planning.databases.database-manager.modal.reject.reject') }}"
                                     class="btn py-1 px-3 btn-danger"
                                     onConfirm="rejectDatabase({{ $database->id_database }})"
                                     wire:key="reject-{{ $database->id_database }}"
@@ -52,15 +54,29 @@
                                     <i class="fa fa-minus"></i>
                                     {{ __("project/planning.databases.database-manager.table.actions.reject") }}
                                 </x-helpers.confirm-modal>
+
                                 <x-helpers.confirm-modal
-                                    modalTitle="Aceitar sugestão"
-                                    modalContent="Tem certeza que deseja aceitar essa sugestão? A sugestão será adicionada a lista de bases de dados."
+                                    modalTitle="{{ __('project/planning.databases.database-manager.modal.approve.title') }}"
+                                    modalContent="{{ __('project/planning.databases.database-manager.modal.approve.description') }}"
+                                    textClose="{{ __('project/planning.databases.database-manager.modal.approve.cancel') }}"
+                                    textConfirm="{{ __('project/planning.databases.database-manager.modal.approve.approve') }}"
                                     class="btn py-1 px-3 btn-success"
                                     onConfirm="approveDatabase({{ $database->id_database }})"
                                     wire:key="approve-{{ $database->id_database }}"
                                 >
                                     <i class="fa fa-plus"></i>
                                     {{ __("project/planning.databases.database-manager.table.actions.approve") }}
+                                </x-helpers.confirm-modal>
+
+                                <x-helpers.confirm-modal
+                                    modalTitle="{{ __('project/planning.databases.database-manager.modal.delete.title') }}"
+                                    modalContent="{{ __('project/planning.databases.database-manager.modal.delete.description') }}"
+                                    textClose="{{ __('project/planning.databases.database-manager.modal.delete.cancel') }}"
+                                    textConfirm="{{ __('project/planning.databases.database-manager.modal.delete.delete') }}"
+                                    class="btn py-1 px-3 btn-outline-danger"
+                                    onConfirm="deleteSuggestion({{ $database->id_database }})"
+                                >
+                                    <i class="fas fa-trash"></i>
                                 </x-helpers.confirm-modal>
                             </div>
                         </td>

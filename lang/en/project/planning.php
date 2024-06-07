@@ -323,6 +323,7 @@ return [
                     'link' => 'Link',
                     'status' => 'Status',
                     'actions' => 'Actions',
+                    'delete' => 'Delete',
                 ],
                 'states' => [
                     'approved' => 'Approved',
@@ -339,7 +340,7 @@ return [
             'modal' => [
                 'approve' => [
                     'title' => 'Approve Database',
-                    'description' => 'Are you sure you want to approve this database?',
+                    'description' => 'Are you sure you want to approve this database? The suggestion will be added to the list od databases.',
                     'cancel' => 'Cancel',
                     'approve' => 'Approve',
                 ],
@@ -348,6 +349,12 @@ return [
                     'description' => 'Are you sure you want to reject this database?',
                     'cancel' => 'Cancel',
                     'reject' => 'Reject',
+                ],
+                'delete' => [
+                    'title' => 'Delete Suggestion',
+                    'description' => 'This action <strong>cannot</strong> be undone. This will remove the suggestion permanently.',
+                    'cancel' => 'Cancel',
+                    'delete' => 'Delete',
                 ],
             ],
         ],

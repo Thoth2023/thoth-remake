@@ -100,6 +100,24 @@ class DatabaseManager extends Component
         }
     }
 
+    public function deleteSuggestion($databaseId)
+    {
+        try {
+            $database = DatabaseModel::findOrFail($databaseId);
+
+            $database->delete();
+
+            $this->databases = $this->fetchDatabases();
+
+            $this->toast(
+                message: $this->translate('database_deleted'),
+                type: 'success',
+            );
+
+        } catch (\Exception $e) {
+            $this->addError('database', $e->getMessage());
+        }
+    }
 
     public $listeners = ['databaseStateUpdated' => 'updateDatabaseState'];
 

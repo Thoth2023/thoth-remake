@@ -66,8 +66,6 @@ Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->mi
 // Route::get('/help', [HelpController::class, 'index'])->name('help');
 // end of about and help routes
 
-Route::get('/database-manager', [DatabaseManager::class, 'render'])->name('database-manager');
-
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
 
 // Projects Routes
@@ -142,11 +140,12 @@ Route::prefix('/project/{projectId}')->group(function () {
     });
     // End of the Planning Routes
 
-    Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager');
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 });
+
+Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
