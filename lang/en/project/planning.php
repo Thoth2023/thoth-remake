@@ -295,6 +295,8 @@ return [
             'name' => 'Name',
             'actions' => 'Actions',
             'header' => 'Databases',
+            'name' => 'Name',
+            'actions' => 'Actions',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
             'empty' => 'No database registered in the project.',
@@ -326,7 +328,52 @@ return [
                 'deleted' => 'Database deleted successfully.',
                 'suggested' => 'Database suggestion sent successfully.',
             ],
-        ]
+        ],
+        'database-manager' => [
+            'title' => 'Database Manager',
+            'description' => 'Here you can manage the suggested databases. You can approve or reject them.',
+            'table' => [
+                'title' => 'Suggested Databases',
+                'headers' => [
+                    'name' => 'Name',
+                    'link' => 'Link',
+                    'status' => 'Status',
+                    'actions' => 'Actions',
+                    'delete' => 'Delete',
+                ],
+                'states' => [
+                    'approved' => 'Approved',
+                    'rejected' => 'Rejected',
+                    'pending' => 'Pending',
+                    'proposed' => 'Proposed',
+                ],
+                'actions' => [
+                    'approve' => 'Approve',
+                    'reject' => 'Reject',
+                ],
+                'empty' => 'No suggested databases found.',
+            ],
+            'modal' => [
+                'approve' => [
+                    'title' => 'Approve Database',
+                    'description' => 'Are you sure you want to approve this database? The suggestion will be added to the list od databases.',
+                    'cancel' => 'Cancel',
+                    'approve' => 'Approve',
+                ],
+                'reject' => [
+                    'title' => 'Reject Database',
+                    'description' => 'Are you sure you want to reject this database?',
+                    'cancel' => 'Cancel',
+                    'reject' => 'Reject',
+                ],
+                'delete' => [
+                    'title' => 'Delete Suggestion',
+                    'description' => 'This action <strong>cannot</strong> be undone. This will remove the suggestion permanently.',
+                    'cancel' => 'Cancel',
+                    'delete' => 'Delete',
+                ],
+            ],
+        ],
     ],
     'search-string' => [
         'title' => 'Search String',

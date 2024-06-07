@@ -3,7 +3,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
-
+use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -31,6 +31,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
+use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
@@ -108,7 +109,6 @@ Route::prefix('/project/{projectId}')->group(function () {
         // Database Route
         Route::get('/databases', [Databases::class, 'render']);
 
-
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])
             ->name('project.planning.search-strategy.update');
@@ -182,6 +182,8 @@ Route::prefix('/project/{projectId}')->group(function () {
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
 });
+
+Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
