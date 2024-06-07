@@ -444,6 +444,156 @@ return [
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
+        'general-score' => [
+            'title' => 'Pontuação Geral',
+            'help' => [
+                'title' => 'Pontuação Geral',
+                'content' => '',
+            ],
+            'start' => 'Digite a Pontuação Mínima',
+            'end' => 'Digite a Pontuação Máxima',
+            'description' => 'Descrição',
+            'placeholder-start' => 'Pontuação Mínima (0.0)',
+            'placeholder-end' => 'Pontuação Máxima (0.0)',
+            'add' => 'Adicionar Pontuação Geral',
+            'update' => 'Atualizar Pontuação Geral',
+            'table' => [
+                'min' => 'Pontuação Mínima',
+                'max' => 'Pontuação Máxima',
+                'description' => 'Descrição',
+                'action' => 'Ações',
+                'no-results' => 'Nenhuma pontuação geral encontrada.',
+                'empty' => 'Nenhuma pontuação geral registrada neste projeto.',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação Geral adicionada',
+                    'updated' => 'Pontuação Geral atualizada',
+                ],
+                'start' => [
+                    'invalid' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                    'required' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                ],
+                'end' => [
+                    'required' => 'O campo de pontuação geral é obrigatório.',
+                    'after' => 'A pontuação máxima deve ser maior que a pontuação mínima.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da pontuação geral é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Pontuação Geral adicionada com sucesso.',
+                    'updated' => 'Pontuação Geral atualizada com sucesso.',
+                    'deleted' => 'Pontuação Geral deletada com sucesso.',
+                ],
+            ],
+
+        ],
+        'question-quality' => [
+            'title'=> 'Qualidade da Questão',
+            'help' => [
+                'title' => 'Qualidade da Questão',
+                'content' => '',
+            ],
+            'id'=> 'ID',
+            'description'=> 'Descrição',
+            'weight'=> 'Peso',
+            'add' => 'Adicionar Questão de Qualidade',
+            'update' => 'Atualizar Questão de Qualidade',
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Questão de Qualidade adicionada',
+                    'updated' => 'Questão de Qualidade atualizada',
+                ],
+                'id' => [
+                    'required' => 'O campo de questão de qualidade é inválido. Por favor, insira uma questão de qualidade válida.',
+                ],
+                'weight' => [
+                    'required' => 'O campo de questão de qualidade é obrigatório.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da questão de qualidade é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Questão de Qualidade adicionada com sucesso.',
+                    'updated' => 'Questão de Qualidade atualizada com sucesso.',
+                    'deleted' => 'Questão de Qualidade deletada com sucesso.',
+                ],
+            ],
+
+        ],
+        'quality-score' => [
+            'title'=> 'Pontuação de Qualidade',
+            'help' => [
+                'title' => 'Pontuação de Qualidade',
+                'content' => '',
+            ],
+            'description'=> [
+                'title' => 'Descrição',
+                'placeholder' => 'Insira a descrição',
+            ],
+            'id_qa'=> [
+                'title' => 'Questão de Qualidade',
+                'placeholder' => 'Selecione a Questão de Qualidade',
+                'no-question-available' => 'Nenhuma questão disponível',
+            ],
+            'score_rule'=> [
+                'title' => 'Regra de Pontuação',
+                'placeholder' => 'Insira a Regra de Pontuação',
+            ],
+            'form' => [
+                'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
+                'add' => 'Adicionar Pontuação de Qualidade',
+                'update' => 'Atualizar Pontuação de Qualidade',
+            ],
+            'range' => [
+                'score' => 'Pontuação',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação de Qualidade adicionada',
+                    'updated' => 'Pontuação de Qualidade atualizada',
+                ],
+                'id' => [
+                    'required' => 'Pontuação de Qualidade inválida. Por favor, insira uma pontuação de qualidade válida.',
+                ],
+                'weight' => [
+                    'required' => 'O campo de pontuação de qualidade é obrigatório.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da pontuação de qualidade é obrigatório.',
+                ],
+            ],
+            'toasts' => [
+                'added' => 'Pontuação de Qualidade adicionada com sucesso.',
+                'updated' => 'Pontuação de Qualidade atualizada com sucesso.',
+                'deleted' => 'Pontuação de Qualidade deletada com sucesso.',
+            ],
+        ],
+
+        'min-general-score' => [
+            'title'=> 'Pontuação Geral Mínima para Aprovação',
+            'form' => [
+                'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
+                'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
+                'update' => 'Atualizar Pontuação Geral Mínima para Aprovação',
+            ],
+
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada',
+                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada',
+                ],
+                'toasts' => [
+                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada com sucesso.',
+                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada com sucesso.',
+                ],
+                'min-general-score' => [
+                    'required' => 'O campo de pontuação geral mínima é obrigatório.',
+                ],
+            ],
+
+        ],
     ],
     'data-extraction' => [
         'title' => 'Extração de Dados',

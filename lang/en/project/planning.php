@@ -535,6 +535,7 @@ return [
             'id_qa'=> [
                 'title' => 'Question Quality',
                 'placeholder' => 'Select Question Quality',
+                'no-question-available' => 'No questions available',
             ],
             'score_rule'=> [
                 'title' => 'Score Rule',
@@ -543,9 +544,11 @@ return [
             'form' => [
                 'select-qa-placeholder' => 'Select a Question Quality',
                 'add' => 'Add Quality Score',
-                'update' => 'Upate Quality Score',
+                'update' => 'Update Quality Score',
             ],
-
+            'range' => [
+                'score' => 'Score',
+            ],
             'livewire' => [
                 'logs' => [
                     'added' => 'Quality Score added',
@@ -573,7 +576,7 @@ return [
             'form' => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
                 'add' => 'Add Minimal General Score',
-                'update' => 'Upate Minimal General Score',
+                'update' => 'Update Minimal General Score',
             ],
 
             'livewire' => [

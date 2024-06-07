@@ -5,7 +5,7 @@
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">{{ __("nav/topnav.pages") }}</a></li>
                 <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
             </ol>
             <h6 class="font-weight-bolder text-white mb-0">{{ $title }}</h6>
@@ -15,7 +15,8 @@
                 <form action="/search-project" method="get" class="w-100">
                     <div class="input-group">
                         <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                        <input type="text" name="searchProject" class="form-control" placeholder="Search in Thoth...">
+                        <input type="text" name="searchProject" class="form-control"
+                            placeholder="{{ __("nav/topnav.search_in_thoth_placeholder") }}">
                     </div>
                 </form>
             </div>
