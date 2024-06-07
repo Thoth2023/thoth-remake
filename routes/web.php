@@ -3,7 +3,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
-
+use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -32,6 +32,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
+use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
@@ -53,7 +54,7 @@ Route::middleware(Localization::class)->get('/', function () {
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(Localization::class);
 
 // Pages controllers
 
@@ -88,10 +89,10 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects.ind
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth')->middleware(Localization::class);
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show')->middleware(Localization::class);
-Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth');
+Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('auth')->middleware(Localization::class);
 Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware(Localization::class);
 Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth');
-Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add');
+Route::get('/projects/{id}/add-member', [ProjectController::class, 'add_member'])->name('projects.add')->middleware('auth')->middleware(Localization::class);
 Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_project'])->name('projects.add_member');
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
@@ -108,7 +109,6 @@ Route::prefix('/project/{projectId}')->group(function () {
 
         // Database Route
         Route::get('/databases', [Databases::class, 'render']);
-
 
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])
@@ -195,14 +195,16 @@ Route::prefix('/project/{projectId}')->group(function () {
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
 });
 
+Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/', [HomeController::class, 'guest_home'])->name('home');
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
-    Route::get('/login', [LoginController::class, 'show'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    Route::get('/login', [LoginController::class, 'show'])->name('login')->middleware(Localization::class);
+    Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
     Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
