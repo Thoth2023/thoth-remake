@@ -68,12 +68,12 @@ COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 
 
-# Use a imagem base desejada, por exemplo:
-    FROM php:7.4
+## Use a imagem base desejada, por exemplo:
+    # FROM php:7.4
 
-    # Copie o Makefile para o diretório /app do contêiner
-    COPY Makefile /app/Makefile
-    
-    # Defina o diretório de trabalho como /app
-    WORKDIR /app
-    
+    ## Copie o Makefile para o diretório /app do contêiner
+    # COPY Makefile /app/Makefile
+
+    ## Defina o diretório de trabalho como /app
+    #WORKDIR /app
+

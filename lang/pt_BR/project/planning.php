@@ -1,9 +1,16 @@
 <?php
 
 return [
+    'planning' => 'Planejamento',
+    'button' => [
+        'close' => 'Fechar',
+    ],
+    'placeholder' => [
+        'search' => 'Pesquisar...',
+    ],
     'overall' => [
-        'title' => 'Planejamento Geral',
-        'no-results' => 'No results found.',
+        'title' => 'Informações Gerais',
+        'no-results' => 'Nenhum resultado encontrado.',
         'domain' => [
             'title' => 'Domínios',
             'description' => 'Descrição',
@@ -13,6 +20,7 @@ return [
                 'headers' => [
                     'name' => 'Nome',
                     'description' => 'Descrição',
+                    'enter_description' => 'Digite a descrição do domínio',
                     'actions' => 'Ações',
                 ],
                 'actions' => [
@@ -146,6 +154,7 @@ return [
         'keyword' => [
             'title' => 'Palavras-chave',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
             'list' => [
                 'headers' => [
@@ -238,12 +247,14 @@ return [
         'form' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da questão de pesquisa',
             'add' => 'Adicionar',
             'update' => 'Atualizar'
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'actions' => 'Ações',
             'edit' => 'Editar',
             'delete' => 'Excluir',
             'no-questions' => 'Nenhuma questão de pesquisa encontrada.',
@@ -272,7 +283,7 @@ return [
         ]
     ],
     'databases' => [
-        'title' => 'Bases de Dados',
+        'title' => 'Base de Dados',
         'help' => [
             'title' => 'Bases de Dados',
             'content' => 'Bases de dados são repositórios de artigos e publicações acadêmicas. Selecione as bases que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bases de acordo com a relevância para o tópico de sua pesquisa.',
@@ -282,6 +293,8 @@ return [
             'add-button' => 'Adicionar Base de Dados',
         ],
         'table' => [
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'header' => 'Bases de Dados',
             'name' => 'Nome',
             'actions' => 'Ações',
@@ -292,7 +305,9 @@ return [
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
+            'enter-name' => 'Digite o nome da Base de Dados',
             'link-label' => 'Link da Base de Dados',
+            'enter-link' => 'Digite o link da Base de Dados',
             'submit-button' => 'Enviar sugestão',
         ],
         'errors' => [
@@ -360,7 +375,9 @@ return [
             ],
         ],
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'String de Busca',
+    ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
         'help' => [
@@ -391,6 +408,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
@@ -424,8 +442,11 @@ return [
             'at-least' => 'Pelo Menos',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title' => 'Avaliação de Qualidade',
+    ],
     'data-extraction' => [
+        'title' => 'Extração de Dados',
         'question-form' => [
             'title' => 'Criar Pergunta de Extração de Dados',
             'help' => [
@@ -433,6 +454,7 @@ return [
                 'content' => 'Use o formulário de pergunta de extração de dados para criar perguntas que orientem a extração de informações específicas de estudos selecionados. Defina o ID da pergunta, descrição, tipo e adicione opções, se necessário. Esta etapa garante uma extração de dados estruturada e abrangente.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'add-question' => 'Adicionar Pergunta',

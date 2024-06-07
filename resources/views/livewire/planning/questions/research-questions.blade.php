@@ -37,7 +37,7 @@
                         id="description"
                         label="{{ __("project/planning.research-questions.form.description") }}"
                         wire:model="description"
-                        placeholder="Digite sua questão de pesquisa"
+                        placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
                     ></textarea>
                 </div>
                 @error("description")
@@ -80,14 +80,14 @@
                     >
                         ID
                     </th>
-                    <th style="padding: 0.5rem 0.75rem">Descrição</th>
+                    <th style="padding: 0.5rem 0.75rem">{{ __("project/planning.research-questions.table.description") }}</th>
                     <th
                         style="
                             border-radius: 0 0.75rem 0 0;
                             padding: 0.5rem 1rem;
                         "
                     >
-                        Ações
+                    {{ __("project/planning.research-questions.table.actions") }}
                     </th>
                 </thead>
                 <tbody>

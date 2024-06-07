@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card bg-secondary-overview">
                     <div class="card-header bg-secondary-overview">
-                        <h4>Overview</h4>
+                        <h4> {{ __('project/overview.overview') }}</h4>
                     </div>
                     <div class="card-body">
                         @include('projects.project-overview', [
@@ -20,5 +20,6 @@
                     </div>
                 </div>
             </div>
+            @include("layouts.footers.auth.footer")
         </div>
     @endsection
