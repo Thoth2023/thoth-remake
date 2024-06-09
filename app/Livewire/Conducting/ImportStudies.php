@@ -26,7 +26,7 @@ class ImportStudies extends Component
      * Validation rules.
      */
     protected $rules = [
-        'selectedDatabase' => 'required|exists:databases,id',
+        'selectedDatabase' => 'required|exists:project_databases,id',
         'file' => 'required|file|mimes:bib,csv|max:10240', // 10MB max
     ];
 
@@ -82,6 +82,14 @@ class ImportStudies extends Component
     public function import()
     {
         //$this->validate();
+
+        if (!$this->file) {
+            $this->toast(
+                message: 'No file uploaded.',
+                type: 'error'
+            );
+            return;
+        }
 
         try {
             $filePath = $this->file->store('uploads');
@@ -170,7 +178,7 @@ class ImportStudies extends Component
     /**
      * Delete a study.
      */
-    public function delete(int $studyId)
+public function delete(int $studyId)
     {
         try {
             $conducting = ImportStudyModel::findOrFail($studyId);
@@ -194,6 +202,7 @@ class ImportStudies extends Component
             );
         }
     }
+
 
     /**
      * Render the component.
