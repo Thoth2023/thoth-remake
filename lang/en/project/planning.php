@@ -563,6 +563,9 @@ return [
                 'description' => [
                     'required' => 'The description quality score field is required.',
                 ],
+                'rule' => [
+                    'required' => 'The score rule field is required.',
+                ],
             ],
             'toasts' => [
                 'added' => 'Quality Score added successfully.',
