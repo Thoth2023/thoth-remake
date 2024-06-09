@@ -9,7 +9,8 @@ use App\Models\Project as ProjectModel;
 use App\Models\ImportStudy as ImportStudyModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
 use App\Utils\ActivityLogHelper as Log;
-
+use RenanBr\BibTexParser\Listener;
+use RenanBr\BibTexParser\Parser;
 
 class ImportStudies extends Component
 {
@@ -47,7 +48,7 @@ class ImportStudies extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
-        $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project )->get();
+        $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
     /**
@@ -85,7 +86,7 @@ class ImportStudies extends Component
         try {
             $filePath = $this->file->store('uploads');
 
-            // Lógica real de processamento de arquivos  (talvez precise atualizar) -> chama a função de processamento de arquivo.
+            // Lógica real de processamento de arquivos (talvez precise atualizar) -> chama a função de processamento de arquivo.
             $importedStudiesCount = $this->processFile($filePath);
             $failedImportsCount = 0;
 
@@ -96,7 +97,7 @@ class ImportStudies extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->updateStudies();
+            $this->updateImportStudies();
             $this->toast(
                 message: "Successfully imported {$importedStudiesCount} studies. Failed to import {$failedImportsCount} studies.",
                 type: 'success'
@@ -116,12 +117,53 @@ class ImportStudies extends Component
      */
     protected function processFile($filePath)
     {
-        // colocar a lógica real aq
-        // Ex:  CSV ou BIB e inserir dados no banco de dados
-        // Retorna o número de estudos importados com sucesso
         $importedStudiesCount = 0;
 
-        // lógica..
+        // Determine o tipo de arquivo pelo seu formato
+        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+        if ($fileExtension === 'csv') {
+            // Processamento de arquivos CSV
+            if (($handle = fopen(storage_path('app/' . $filePath), 'r')) !== false) {
+                $headers = fgetcsv($handle, 1000, ',');
+
+                while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                    $studyData = array_combine($headers, $data);
+
+                    ImportStudyModel::create([
+                        'project_id' => $this->currentProject->id_project,
+                        'database_id' => $this->selectedDatabase,
+                        'title' => $studyData['title'] ?? null,
+                        'author' => $studyData['author'] ?? null,
+                        'year' => $studyData['year'] ?? null,
+                    ]);
+
+                    $importedStudiesCount++;
+                }
+
+                fclose($handle);
+            }
+        } elseif ($fileExtension === 'bib') {
+            // Processamento de arquivos BIB
+            $parser = new Parser();
+            $listener = new Listener();
+
+            $parser->addListener($listener);
+            $parser->parseFile(storage_path('app/' . $filePath));
+
+            foreach ($listener->export() as $entry) {
+                ImportStudyModel::create([
+                    'project_id' => $this->currentProject->id_project,
+                    'database_id' => $this->selectedDatabase,
+                    'title' => $entry['title'] ?? null,
+                    'author' => $entry['author'] ?? null,
+                    'year' => $entry['year'] ?? null,
+                ]);
+
+                $importedStudiesCount++;
+            }
+        }
+
         return $importedStudiesCount;
     }
 
@@ -144,7 +186,7 @@ class ImportStudies extends Component
                 message: 'Study deleted successfully.',
                 type: 'success'
             );
-            $this->updateStudies();
+            $this->updateImportStudies();
         } catch (\Exception $e) {
             $this->toast(
                 message: $e->getMessage(),
@@ -165,6 +207,6 @@ class ImportStudies extends Component
             compact(
                 'project',
             )
-            );
+        );
     }
 }
