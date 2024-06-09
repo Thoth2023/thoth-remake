@@ -32,13 +32,17 @@ class ChangePassword extends Controller
             'confirm-password' => ['same:password'],
         ]);
 
+        if (!password_verify($attributes['password'], $this->user->password)) {
+            return back()->with('error', __('auth/change-password.messages.same_password'));
+        }
+
         if ($this->user && $this->user->email === $attributes['email']) {
             $this->user->update([
-                'password' => Hash::make($attributes['password']),
+                'password' => bcrypt($attributes['password']),
             ]);
-            return redirect('login')->with('success', 'Password changed successfully');
+            return redirect('login')->with('success', __('auth/change-password.messages.success'));
         } else {
-            return back()->with('error', 'Your email does not match the email who requested the password change');
+            return back()->with('error', __('auth/change-password.messages.error'));
         }
     }
 }
