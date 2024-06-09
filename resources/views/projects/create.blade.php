@@ -46,7 +46,7 @@
                                 <option value="{{ $project->id_project }}">{{ $project->title }}</option>
                             @endforeach
                         @else
-                            <option disabled selected>{{ __('project/create.noProjects') }}</option>
+                            <option value="none">{{ __('project/create.noProjects') }}</option>
                         @endif
                     </select>
                 </div>
