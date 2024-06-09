@@ -2,7 +2,7 @@
 
 return [
         'welcome' => 'Bem-vindo!',
-        'description' => 'Use esses formulários incríveis para fazer login ou criar uma nova conta em seu projeto gratuitamente.',
+        'description' => 'Use esses formulários incríveis para fazer login ou criar uma nova conta gratuitamente.',
         'register_with' => 'Registrar com',
         'google' => 'Google',
         'facebook' => 'Facebook',
