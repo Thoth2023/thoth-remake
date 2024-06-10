@@ -7,7 +7,6 @@
 ])
 
 <div
-    wire:ignore
     class="d-flex flex-column"
     x-init="() => {
         const select = document.querySelector('[data-ref=\'{{ $target }}\']');

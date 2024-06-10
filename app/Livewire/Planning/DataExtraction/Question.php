@@ -18,20 +18,20 @@ class Question extends Component
     public $type;
     public $questionTypes = [];
 
-     /**
+    /**
      * Fields to be filled by the form.
      */
     public $description;
 
 
-      /**
+    /**
      * Form state.
      */
     public $form = [
         'isEditing' => false,
     ];
 
-     /**
+    /**
      * Validation rules.
      */
     protected $rules = [
@@ -39,7 +39,7 @@ class Question extends Component
         'type' => 'required|array',
     ];
 
-     /**
+    /**
      * Custom error messages for the validation rules.
      */
     protected function messages()
@@ -62,10 +62,10 @@ class Question extends Component
         $this->questions = QuestionModel::where(
             'id_project',
             $this->currentProject->id_project
-            )->get();
-            $this->questionTypes = QuestionTypesModel::all();
-        }
-        
+        )->get();
+        $this->questionTypes = QuestionTypesModel::all();
+    }
+
     /**
      * Reset the fields to the default values.
      */
@@ -77,7 +77,7 @@ class Question extends Component
         $this->form['isEditing'] = false;
     }
 
-     /**
+    /**
      * Update the items.
      */
     public function updateQuestions()
@@ -86,9 +86,10 @@ class Question extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
+        $this->dispatch('update-question-select');
     }
 
-     /**
+    /**
      * Dispatch a toast message to the view.
      */
     public function toast(string $message, string $type)
@@ -96,7 +97,7 @@ class Question extends Component
         $this->dispatch('questions', ToastHelper::dispatch($type, $message));
     }
 
-     /**
+    /**
      * Submit the form. It validates the input fields
      * and creates or updates an item.
      */
@@ -153,7 +154,7 @@ class Question extends Component
         $this->form['isEditing'] = true;
     }
 
-     /**
+    /**
      * Delete an item.
      */
     public function delete(string $questionId)
@@ -169,7 +170,7 @@ class Question extends Component
             );
 
             $this->toast(
-                message:'Questão deletada com sucesso',
+                message: 'Questão deletada com sucesso',
                 type: 'success'
             );
             $this->updateQuestions();
@@ -198,8 +199,8 @@ class Question extends Component
         )->extends('layouts.app');
     }
 }
-   
-    
+
+
 //     public function render()
 //     {
 //         return view('livewire.planning.data-extraction.data-extraction');

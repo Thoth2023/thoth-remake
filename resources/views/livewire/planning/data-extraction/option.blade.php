@@ -7,7 +7,7 @@
         />
     </div>
     <div class="card-body">
-        <form wire:submit.prevent="submit" class="d-flex flex-column">
+        <form wire:submit="submit" class="d-flex flex-column">
             <div class="form-group mt-3 d-flex flex-column gap-4">
                 <x-select
                     id="questionId"
@@ -18,8 +18,8 @@
                         {{ __("Selecione uma pergunta") }}
                     </option>
                     @foreach ($project->questions as $question)
-                        @if (in_array($question->question_type->type, ['Multiple Choice List', 'Pick One List']))
-                            <option value="{{ $question->id }}">
+                        @if (in_array($question->question_type->type, ["Multiple Choice List", "Pick One List"]))
+                            <option value="{{ $question->id_de }}">
                                 {{ $question->id }}
                             </option>
                         @endif
@@ -58,82 +58,84 @@
             </div>
         </form>
 
-        {{-- <div class="mt-2 mx-0" style="border-radius: 20px">
+        {{--
+            <div class="mt-2 mx-0" style="border-radius: 20px">
             <div class="table-container">
-                <table class="table table-custom-hover">
-                    <thead class="table-light">
-                        <tr class="p-0 m-0">
-                            <th
-                                class="p-1 rounded-l-sm"
-                                style="width: 20px"
-                            ></th>
-                            <th scope="col" class="p-1">
-                                {{ __("project/planning.data-extraction.table.header.id") }}
-                            </th>
-                            <th scope="col" class="p-1">
-                                {{ __("project/planning.data-extraction.table.header.description") }}
-                            </th>
-                            <th scope="col" class="p-1">
-                                {{ __("project/planning.data-extraction.table.header.actions") }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($options as $option)
-                            <tr>
-                                <td>
-                                    <x-table.accordion-button />
-                                </td>
-                                <td>{{ $option->id }}</td>
-                                <td>{{ $option->description }}</td>
-                                <td>
-                                    <div style="min-width: fit-content">
-                                        <button wire:click="edit({{ $option->id_option }})"
-                                            class="btn btn-outline-secondary py-1 px-3 m-0">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button wire:click="delete({{ $option->id_option }})"
-                                            class="btn btn-outline-danger py-1 px-3 m-0">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <x-table.accordion-content>
-                                <td colspan="4">
-                                    <div class="d-grid gap-3">
-                                        @foreach ($option->subOptions as $subOption)
-                                            <div class="table-accordion-item">
-                                                <span class="d-flex text-break">
-                                                    {{ $subOption->description }}
-                                                </span>
-                                                <div>
-                                                    <button wire:click="editSubOption({{ $subOption->id }})"
-                                                        class="btn btn-outline-secondary py-0 px-3 m-0">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button wire:click="deleteSubOption({{ $subOption->id }})"
-                                                        class="btn btn-outline-danger py-0 px-3 m-0">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </td>
-                            </x-table.accordion-content>
-                        @endforeach
-                    </tbody>
-                </table>
+            <table class="table table-custom-hover">
+            <thead class="table-light">
+            <tr class="p-0 m-0">
+            <th
+            class="p-1 rounded-l-sm"
+            style="width: 20px"
+            ></th>
+            <th scope="col" class="p-1">
+            {{ __("project/planning.data-extraction.table.header.id") }}
+            </th>
+            <th scope="col" class="p-1">
+            {{ __("project/planning.data-extraction.table.header.description") }}
+            </th>
+            <th scope="col" class="p-1">
+            {{ __("project/planning.data-extraction.table.header.actions") }}
+            </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($options as $option)
+            <tr>
+            <td>
+            <x-table.accordion-button />
+            </td>
+            <td>{{ $option->id }}</td>
+            <td>{{ $option->description }}</td>
+            <td>
+            <div style="min-width: fit-content">
+            <button wire:click="edit({{ $option->id_option }})"
+            class="btn btn-outline-secondary py-1 px-3 m-0">
+            <i class="fas fa-edit"></i>
+            </button>
+            <button wire:click="delete({{ $option->id_option }})"
+            class="btn btn-outline-danger py-1 px-3 m-0">
+            <i class="fas fa-trash"></i>
+            </button>
             </div>
-        </div> --}}
+            </td>
+            </tr>
+            <x-table.accordion-content>
+            <td colspan="4">
+            <div class="d-grid gap-3">
+            @foreach ($option->subOptions as $subOption)
+            <div class="table-accordion-item">
+            <span class="d-flex text-break">
+            {{ $subOption->description }}
+            </span>
+            <div>
+            <button wire:click="editSubOption({{ $subOption->id }})"
+            class="btn btn-outline-secondary py-0 px-3 m-0">
+            <i class="fas fa-edit"></i>
+            </button>
+            <button wire:click="deleteSubOption({{ $subOption->id }})"
+            class="btn btn-outline-danger py-0 px-3 m-0">
+            <i class="fas fa-trash"></i>
+            </button>
+            </div>
+            </div>
+            @endforeach
+            </div>
+            </td>
+            </x-table.accordion-content>
+            @endforeach
+            </tbody>
+            </table>
+            </div>
+            </div>
+        --}}
     </div>
 </div>
 
 @script
-<script>
-    $wire.on('options', ([{ message, type }]) => {
-        toasty({ message, type });
-    });
-</script>
+    <script>
+        $wire.on('options', ([{ message, type }]) => {
+            toasty({ message, type, timer: 50000 });
+        });
+    </script>
 @endscript
