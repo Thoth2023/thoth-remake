@@ -208,7 +208,8 @@
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>
-
+        <script src="https://maps.googleapis.com/maps/api/js?key={{env("GOOGLE_API_KEY")}}&libraries=places"></script>
+        <script src="{{ asset("assets/js/cep_autocomplete.js") }}"></script>
         @stack("scripts")
     </body>
 </html>
