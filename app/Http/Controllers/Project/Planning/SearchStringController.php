@@ -47,7 +47,7 @@ class SearchStringController extends Controller
 
         $searchStrings = $this->getSearchStrings($id_project);
 
-        return view('search-string', compact('project', 'terms', 'synonyms', 'searchStrings'));
+        return view('project.planning.search-string', compact('project', 'terms', 'synonyms', 'searchStrings'));
     }
 
     /**
