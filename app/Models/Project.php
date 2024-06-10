@@ -235,4 +235,13 @@ class Project extends Model
         
         $this->save();
     }
+
+    public function userHasAdministratorPermission(User $user): bool
+    {
+        return $this->users()
+            ->wherePivot('id_user', $user->id)
+            ->wherePivot('level', '1')
+            ->exists();
+    }
+
 }
