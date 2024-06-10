@@ -36,6 +36,8 @@ class User extends Model implements AuthenticatableContract
         'occupation',
         'lattes_link',
         'role',
+        'google_id',
+        'avatar',
     ];
 
     public function projects()

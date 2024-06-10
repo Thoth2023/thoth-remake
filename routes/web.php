@@ -209,6 +209,8 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
     Route::get('/login', [LoginController::class, 'show'])->name('login')->middleware(Localization::class);
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
+    Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google'); //login com google
+    Route::get('login/google/callback', [LoginController::class, 'handleGoogleCallback']); //login com google
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
     Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
