@@ -138,7 +138,7 @@ class ImportStudies extends Component
                 while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                     $studyData = array_combine($headers, $data);
 
-                    ImportStudyModel::create([
+                    ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
                         'project_id' => $this->currentProject->id_project,
                         'database_id' => $this->selectedDatabase,
                         'title' => $studyData['title'] ?? null,
