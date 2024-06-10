@@ -54,3 +54,57 @@
     background: rgba(0,0,0,.025) !important;
     z-index: 9999;
 }
+
+.rounded-l-sm {
+    border-top-left-radius: 0.5rem !important;
+}
+
+.rounded-r-sm {
+    border-top-right-radius: 0.5rem !important;
+}
+
+.table-container {
+    min-width: 280px;
+    overflow-x: auto;
+}
+
+.table-custom-hover tr:hover {
+    background: #F8F8F8;
+}
+
+.table-custom-hover tr[data-accordion="accordion-child"]:hover {
+    background: transparent;
+}
+
+.table-accordion-button {
+    background: #FB6340;
+    border-radius: 100%;
+    border: 1px solid #000;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    user-select: none;
+    vertical-align: middle;
+}
+
+.table-accordion-button:hover {
+    background: #b3371c;
+}
+
+.table-accordion-content {
+    background: rgb(248, 248, 248);
+}
+
+.table-accordion-item {
+    display: flex;
+    align-items: center !important;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+.table-accordion-item:hover {
+    background: #F8F8F8;
+    border-radius: 10px;
+}
