@@ -55,6 +55,10 @@
                             @include("project.conducting.data-extraction")
                     </div>
                 </div>
+
+              
+            
+
                 @include('layouts.footers.auth.footer')
             </div>
         </div>
