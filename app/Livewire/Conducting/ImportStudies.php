@@ -139,8 +139,8 @@ class ImportStudies extends Component
                     $studyData = array_combine($headers, $data);
 
                     ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
-                        'project_id' => $this->currentProject->id_project,
-                        'database_id' => $this->selectedDatabase,
+                        'id_project' => $this->currentProject->id_project,
+                        'id_database' => $this->selectedDatabase,
                         'title' => $studyData['title'] ?? null,
                         'author' => $studyData['author'] ?? null,
                         'year' => $studyData['year'] ?? null,
