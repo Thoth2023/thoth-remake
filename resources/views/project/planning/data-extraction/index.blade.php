@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </li>
-                        @foreach ($project->dataExtractionQuestions  as $question)
+                         @foreach ($project->questions as $question)
                             @include('project.planning.data-extraction.partials.data-extraction-question', [
                                 'question' => $question,
                                 'project' => $project,
@@ -43,3 +43,13 @@
 
 
 
+
+ <div class="col-12">
+    <div class="grid-items-2 gap-4">
+        @livewire("planning.data-extraction.question")
+        @livewire("planning.data-extraction.option")
+    </div>
+    <div class="grid-items-1">
+        @livewire("planning.data-extraction.data-extraction")
+    </div>
+ </div>

@@ -1,8 +1,75 @@
-<div class="card mt-4">
-    {{-- <div class="card-body"> --}}
-        <div class="mt-0 mx-0" style="border-radius: 20px">
+<div class="card">
+    <div class="card-header mb-0 pb-0">
+        <x-helpers.modal
+            target="data-extraction.question-form"
+            modalTitle="{{ __('project/planning.data-extraction.question-form.title') }}"
+            modalContent="{{ __('project/planning.data-extraction.question-form.help.content') }}"
+        />
+    </div>
+    <div class="card-body">
+        <form wire:submit="submit" class="d-flex flex-column">
+            <div class="form-group mt-3 d-flex flex-column gap-4">
+                <x-input
+                    id="questionId"
+                    label="{{ __('project/planning.data-extraction.question-form.id') }}"
+                    wire:model="questionId"
+                    placeholder="Não utilize caracteres especiais"
+                    maxlength="255"
+                />
+                @error("questionId")
+                    <span class="text-xs text-danger">
+                        {{ $message }}
+                    </span>
+                @enderror
+
+                <x-input
+                    id="description"
+                    label="{{ __('project/planning.data-extraction.question-form.description') }}"
+                    wire:model="description"
+                    placeholder=""
+                    maxlength="255"
+                />
+                @error("description")
+                    <span class="text-xs text-danger">
+                        {{ $message }}
+                    </span>
+                @enderror
+
+                <x-select
+                    wire:model="type"
+                    label="{{ __('project/planning.data-extraction.question-form.type') }}"
+                >
+                    <option selected disabled>
+                        {{ __("Selecione um tipo") }}
+                    </option>
+                    @foreach ($questionTypes as $type)
+                        <option value="{{ $type->id_type }}">
+                            {{ $type->type }}
+                        </option>
+                    @endforeach
+                </x-select>
+                @error("type")
+                    <span class="text-xs text-danger">
+                        {{ $message }}
+                    </span>
+                @enderror
+            </div>
+            <div>
+                <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
+                    {{
+                        $form["isEditing"]
+                            ? __("project/planning.data-extraction.question-form.update")
+                            : __("project/planning.data-extraction.question-form.add-question")
+                    }}
+                    <div wire:loading>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </x-helpers.submit-button>
+            </div>
+        </form>
+        {{-- <div class="mt-2 mx-0" style="border-radius: 20px">
             <div class="table-container">
-                <table class="table table-custom-hover m-0">
+                <table class="table table-custom-hover">
                     <thead class="table-light">
                         <tr class="p-0 m-0">
                             <th
@@ -32,7 +99,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $question->id }}</td>
-                                <td class="text-wrap">{{ $question->description }}</td>
+                                <td>{{ $question->description }}</td>
                                 <td>
                                     {{ $question->question_type->type }}
                                 </td>
@@ -84,6 +151,14 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    {{-- </div> --}}
+        </div> --}}
+    </div>
 </div>
+
+@script
+    <script>
+        $wire.on('questions', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript
