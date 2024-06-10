@@ -33,12 +33,8 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             return redirect()->intended('about');
-        } else if (!$user) {
-            return back()->withErrors([
-                'email' => __('auth.failed'),
-            ]);
-        } else { return back()->withErrors([
-            'password' => __('auth.password'),
+        } else  { return back()->withErrors([
+            'password' => __('auth.failed'),
         ]);
     }
     
