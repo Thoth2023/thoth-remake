@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\Project\ConductingController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -138,7 +139,7 @@ Route::prefix('/project/{projectId}')->group(function () {
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth');
 
     // Star of Conducting routes
-    Route::get('/conducting', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
+    Route::get('/conducting/', [ConductingController::class, 'index'])->name('project.conducting.index')->middleware('auth');
     // End of Conducting routes
 
 });
