@@ -116,8 +116,8 @@ Route::prefix('/project/{projectId}')->group(function () {
 
         // Search String
         Route::get('/search-string', [SearchStringController::class, 'index'])->name('search_string');
-        Route::post('/search-string/term/add', [SearchStringController::class, 'store_term'])->name('planning_search_string.add_term');
-        Route::post('/search-string/synonym/add', [SearchStringController::class, 'store_synonym'])->name('planning_search_string.add_synonym');
+        Route::post('/search-string/term', [SearchStringController::class, 'store_term'])->name('planning_search_string.add_term');
+        Route::post('/search-string/synonym', [SearchStringController::class, 'store_synonym'])->name('planning_search_string.add_synonym');
         Route::post('/generate-string/{id_project}/{database_id}', [SearchStringController::class, 'generateString'])->name('generate-string');
 
         Route::put('/search-string/term/{id}', [SearchStringController::class, 'update_term'])->name('planning_search_string.update_term');
