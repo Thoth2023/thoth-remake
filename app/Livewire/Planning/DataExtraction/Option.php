@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\DataExtraction;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Planning\DataExtraction\Option as OptionModel;
@@ -17,20 +18,20 @@ class Option extends Component
     public $optionId;
     public $questionId;
 
-     /**
+    /**
      * Fields to be filled by the form.
      */
     public $description;
-    
 
-      /**
+
+    /**
      * Form state.
      */
     public $form = [
         'isEditing' => false,
     ];
 
-     /**
+    /**
      * Validation rules.
      */
     protected $rules = [
@@ -39,7 +40,7 @@ class Option extends Component
         'questionId.*.value' => 'exists:question_extraction,id',
     ];
 
-     /**
+    /**
      * Custom error messages for the validation rules.
      */
     protected function messages()
@@ -60,11 +61,11 @@ class Option extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentOption = null;
-        $this->options = OptionModel::whereHas('question', function($query) {
+        $this->options = OptionModel::whereHas('question', function ($query) {
             $query->where('id_project', $this->currentProject->id_project);
         })->get();
-        }
-        
+    }
+
     /**
      * Reset the fields to the default values.
      */
@@ -76,17 +77,19 @@ class Option extends Component
         $this->form['isEditing'] = false;
     }
 
-     /**
+    /**
      * Update the items.
      */
-    public function updateQuestions()
+    #[On('update-question-select')]
+    public function updateOptions()
     {
-        $this->options = OptionModel::whereHas('question', function($query) {
+        $this->options = OptionModel::whereHas('question', function ($query) {
             $query->where('id_project', $this->currentProject->id_project);
         })->get();
+        $this->dispatch('update-table');
     }
 
-     /**
+    /**
      * Dispatch a toast message to the view.
      */
     public function toast(string $message, string $type)
@@ -94,7 +97,7 @@ class Option extends Component
         $this->dispatch('options', ToastHelper::dispatch($type, $message));
     }
 
-     /**
+    /**
      * Submit the form. It validates the input fields
      * and creates or updates an item.
      */
@@ -150,7 +153,7 @@ class Option extends Component
         $this->form['isEditing'] = true;
     }
 
-     /**
+    /**
      * Delete an item.
      */
     public function delete(string $optionId)
@@ -166,7 +169,7 @@ class Option extends Component
             );
 
             $this->toast(
-                message:'Opção deletada com sucesso',
+                message: 'Opção deletada com sucesso',
                 type: 'success'
             );
             $this->updateOptions();
@@ -195,5 +198,5 @@ class Option extends Component
         )->extends('layouts.app');
     }
 }
-   
+
 
