@@ -7,6 +7,7 @@ use App\Models\Database;
 use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
+use App\Models\StatusSelection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -28,7 +29,7 @@ class Table extends Component
      */
     public array $sorts = [];
 
-    public array $statuses = ['Duplicado', 'Removido', 'Unclassified']; 
+    public array $statuses = [];
 
     public array $editingStatus = []; 
 
@@ -39,6 +40,14 @@ class Table extends Component
      */
     public function mount()
     {
+        $this->statuses    = [
+            __('project.conducting.study-selection.status.duplicated'), 
+            __('project.conducting.study-selection.status.removed'), 
+            __('project.conducting.study-selection.status.unclassifield'),
+            __('project.conducting.study-selection.status.included'),
+            __('project.conducting.study-selection.status.approved'),
+        ];
+
         $projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($projectId);
 
@@ -51,7 +60,7 @@ class Table extends Component
         }
 
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
-
+        
         $this->papers = $this->setupDatabase($this->papers);
         // $this->papers = $this->setupCriteria($this->papers);
         $this->papers = $this->setupStatus($this->papers);
@@ -90,7 +99,7 @@ class Table extends Component
     public function updateStatus(string $papersId, $status)
     {
         $paper = Papers::findOrFail($papersId);
-
+        $status = StatusSelection::where('description', $status)->first()->id_status;
         $paper->status_selection = $status;
         $paper->save();
 

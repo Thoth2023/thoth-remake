@@ -179,8 +179,9 @@ Route::prefix('/project/{projectId}')->group(function () {
     Route::prefix('/conducting')->group(function () {
         Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
         Route::prefix('/study-selection')->group(function () {
-            Route::get('/search', [StudySelectionController::class, 'search'])->name('study-selection.search')->middleware('auth');
-
+            Route::get('export-csv', [StudySelectionController::class, 'exportCsv'])->name('export.csv');
+            Route::get('/export-xml', [StudySelectionController::class, 'exportXml'])->name('export.xml');
+            Route::get('/export-pdf', [StudySelectionController::class, 'exportPdf'])->name('export.pdf');
         });
     });
 

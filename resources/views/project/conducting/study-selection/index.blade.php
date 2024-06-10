@@ -1,9 +1,14 @@
-@props(['$studies', '$project'])
+@props(['$papers'])
 
 <div class='card card-body col-md-12 mt-3'>
-    @livewire("conducting.study-selection.search", ['projectId' => $project->id])
-    <div class='progress mt-4'>
-        <div  class="progress-bar col-md-6" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <button class="btn btn-secondary" wire:click="exportCsv">Exportar CSV</button>
+            <button class="btn btn-secondary" wire:click="exportXml">Exportar XML</button>
+            <button class="btn btn-secondary" wire:click="exportPdf">Exportar PDF</button>
+            <button class="btn btn-secondary" wire:click="printStudies">Imprimir</button>
+            <button class="btn btn-danger" wire:click="removeDuplicates">Remover Duplicados</button>
+        </div>
     </div>
     @livewire("conducting.study-selection.table")
 </div>
