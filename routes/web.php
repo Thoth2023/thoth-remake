@@ -37,6 +37,7 @@ use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
+use App\Http\Controllers\ThemeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,9 @@ Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class
 Route::get('/' . __('terms'), [TermsController::class, 'index'])->name('terms')->middleware(Localization::class);
 
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project')->middleware(Localization::class);
+
+//Theme routes
+Route::get('/themes', [ThemeController::class, 'readCookie']);
 
 // Projects Routes
 Route::get('/projects/{id}' . __('header'))->name('header')->middleware(Localization::class);
