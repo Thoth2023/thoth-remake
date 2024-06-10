@@ -33,8 +33,6 @@ class Table extends Component
 
     public array $editingStatus = []; 
 
-    public bool $filterDuplicates = false;
-
    /**
      * Executed when the component is mounted. It sets the
      * project id and retrieves the items.
@@ -67,9 +65,7 @@ class Table extends Component
         // $this->papers = $this->setupCriteria($this->papers);
         $this->papers = $this->setupStatus($this->papers);
         
-        if ($this->filterDuplicates) {
-            $this->papers = $this->filterDuplicates($this->papers);
-        }
+        
     }
 
     private function setupCriteria($papers)
@@ -141,28 +137,20 @@ class Table extends Component
         ])->extends('layouts.app');
     }
 
-    public function filterDuplicates($papers){
+    public function removeDuplicates()
+    {
+        $uniqueTitles = [];
+        $uniquePapers = [];
 
-        $uniquePapers = collect();
-
-        foreach($papers as $paper){
-            if(!$uniquePapers->contains('title', $paper->title)){
-                $uniquePapers->push($paper);
+        foreach ($this->papers as $paper) {
+            if (!in_array($paper->title, $uniqueTitles)) {
+                $uniqueTitles[] = $paper->title;
+                $uniquePapers[] = $paper;
+            } else {
+                Papers::destroy($paper->id);
             }
         }
-
-        return $uniquePapers;
-    }
-
-    public function toggleFilterDuplicates()
-    {
-        $this->filterDuplicates = !$this->filterDuplicates;
-
-        if ($this->filterDuplicates) {
-            $this->papers = $this->filterDuplicates($this->papers);
-        } else {
-            $this->mount(); 
-        }
+        $this->papers = $uniquePapers;
     }
 
 }
