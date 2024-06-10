@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+
 class ProjectController extends Controller
 {
     /**
@@ -39,7 +40,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $userProjects = Auth::user()->projects;
+        return view('projects.create', ['projects' => $userProjects]);
     }
 
     /**
@@ -59,9 +61,17 @@ class ProjectController extends Controller
             //'copy_planning'
         ]);
 
+        
+        if ($request->copy_planning !== 'none') {
+            $sourceProject = Project::findOrFail($request->copy_planning);
+            $project->copyPlanningFrom($sourceProject);
+        } else {
+            $project->save();
+        }
+        
         $activity = "Created the project ".$project->title;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-
+        
         $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
         
         return redirect('/projects');
@@ -71,15 +81,19 @@ class ProjectController extends Controller
      * Display the specified project.
      */
     public function show(string $idProject)
-    {
-        $project = Project::findOrFail($idProject);
-        $users_relation = $project->users()->get();
-        $activities = Activity::where('id_project', $idProject)
-            ->orderBy('created_at', 'DESC')
-            ->get();
-        
-        return view('projects.show', compact('project'), compact('users_relation'))->with('activities', $activities);
-    }
+{
+    $project = Project::findOrFail($idProject);
+    $users_relation = $project->users()->get();
+    $activities = Activity::where('id_project', $idProject)
+        ->orderBy('created_at', 'DESC')
+        ->get();
+
+    // Consulta para obter os projetos que têm a feature review snowballing
+    $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
+
+    return view('project.conducting.index', compact('project', 'users_relation', 'activities', 'snowballing_projects'));
+}
+
 
     /**
      * Show the form for editing the specified project.

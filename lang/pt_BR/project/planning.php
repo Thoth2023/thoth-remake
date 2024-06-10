@@ -1,9 +1,16 @@
 <?php
 
 return [
+    'planning' => 'Planejamento',
+    'button' => [
+        'close' => 'Fechar',
+    ],
+    'placeholder' => [
+        'search' => 'Pesquisar...',
+    ],
     'overall' => [
-        'title' => 'Planejamento Geral',
-        'no-results' => 'No results found.',
+        'title' => 'Informações Gerais',
+        'no-results' => 'Nenhum resultado encontrado.',
         'domain' => [
             'title' => 'Domínios',
             'description' => 'Descrição',
@@ -13,6 +20,7 @@ return [
                 'headers' => [
                     'name' => 'Nome',
                     'description' => 'Descrição',
+                    'enter_description' => 'Digite a descrição do domínio',
                     'actions' => 'Ações',
                 ],
                 'actions' => [
@@ -146,6 +154,7 @@ return [
         'keyword' => [
             'title' => 'Palavras-chave',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
             'list' => [
                 'headers' => [
@@ -238,12 +247,14 @@ return [
         'form' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição da questão de pesquisa',
             'add' => 'Adicionar',
             'update' => 'Atualizar'
         ],
         'table' => [
             'id' => 'ID',
             'description' => 'Descrição',
+            'actions' => 'Ações',
             'edit' => 'Editar',
             'delete' => 'Excluir',
             'no-questions' => 'Nenhuma questão de pesquisa encontrada.',
@@ -272,7 +283,7 @@ return [
         ]
     ],
     'databases' => [
-        'title' => 'Bases de Dados',
+        'title' => 'Base de Dados',
         'help' => [
             'title' => 'Bases de Dados',
             'content' => 'Bases de dados são repositórios de artigos e publicações acadêmicas. Selecione as bases que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bases de acordo com a relevância para o tópico de sua pesquisa.',
@@ -282,7 +293,11 @@ return [
             'add-button' => 'Adicionar Base de Dados',
         ],
         'table' => [
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'header' => 'Bases de Dados',
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'remove-button' => 'Remover',
             'no-databases' => 'Nenhuma base de dados encontrado.',
             'empty' => 'Este projeto ainda não possui bases de dados registradas'
@@ -290,7 +305,9 @@ return [
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
+            'enter-name' => 'Digite o nome da Base de Dados',
             'link-label' => 'Link da Base de Dados',
+            'enter-link' => 'Digite o link da Base de Dados',
             'submit-button' => 'Enviar sugestão',
         ],
         'errors' => [
@@ -313,9 +330,54 @@ return [
                 'deleted' => 'Base de Dados deletada com sucesso.',
                 'suggested' => 'Sua sugestão foi enviada com sucesso.',
             ],
-        ]
+        ],
+        'database-manager' => [
+            'title' => 'Gerenciador de Bases de Dados',
+            'description' => 'Aqui você pode gerenciar as sugestões de bases de dados enviadas pelos usuários. Você pode aceitar ou rejeitar sugestões.',
+            'table' => [
+                'title' => 'Sugestões de Base de Dados',
+                'headers' => [
+                    'name' => 'Nome',
+                    'link' => 'Link',
+                    'actions' => 'Ações',
+                ],
+                'states' => [
+                    'approved' => 'Aprovada',
+                    'rejected' => 'Recusada',
+                    'pending' => 'Pendente',
+                    'proposed' => 'Proposta',
+                ],
+                'actions' => [
+                    'accept' => 'Aceitar',
+                    'reject' => 'Rejeitar',
+                ],
+                'empty' => 'Nenhuma sugestão de base de dados encontrada.',
+            ],
+            'modal' => [
+                'approve' => [
+                    'title' => 'Aceitar Sugestão',
+                    'description' => 'Tem certeza de que deseja aprovar esta sugestão? A sugestão será adicionada a lista de bases de dados',
+                    'cancel' => 'Cancelar',
+                    'approve' => 'Aprovar',
+                ],
+                'reject' => [
+                    'title' => 'Rejeitar Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja rejeitar esta sugestão?',
+                    'cancel' => 'Cancelar',
+                    'reject' => 'Rejeitar',
+                ],
+                'delete' => [
+                    'title' => 'Excluir Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja excluir esta sugestão? Esta ação não pode ser desfeita.',
+                    'cancel' => 'Cancelar',
+                    'delete' => 'Excluir',
+                ],
+            ],
+        ],
     ],
-    'search-string' => [],
+    'search-string' => [
+        'title' => 'String de Busca',
+    ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
         'help' => [
@@ -346,6 +408,7 @@ return [
         ],
         'form' => [
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
@@ -379,8 +442,161 @@ return [
             'at-least' => 'Pelo Menos',
         ],
     ],
-    'quality-assessment' => [],
+    'quality-assessment' => [
+        'title' => 'Avaliação de Qualidade',
+        'general-score' => [
+            'title' => 'Pontuação Geral',
+            'help' => [
+                'title' => 'Pontuação Geral',
+                'content' => '',
+            ],
+            'start' => 'Digite a Pontuação Mínima',
+            'end' => 'Digite a Pontuação Máxima',
+            'description' => 'Descrição',
+            'placeholder-start' => 'Pontuação Mínima (0.0)',
+            'placeholder-end' => 'Pontuação Máxima (0.0)',
+            'add' => 'Adicionar Pontuação Geral',
+            'update' => 'Atualizar Pontuação Geral',
+            'table' => [
+                'min' => 'Pontuação Mínima',
+                'max' => 'Pontuação Máxima',
+                'description' => 'Descrição',
+                'action' => 'Ações',
+                'no-results' => 'Nenhuma pontuação geral encontrada.',
+                'empty' => 'Nenhuma pontuação geral registrada neste projeto.',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação Geral adicionada',
+                    'updated' => 'Pontuação Geral atualizada',
+                ],
+                'start' => [
+                    'invalid' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                    'required' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                ],
+                'end' => [
+                    'required' => 'O campo de pontuação geral é obrigatório.',
+                    'after' => 'A pontuação máxima deve ser maior que a pontuação mínima.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da pontuação geral é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Pontuação Geral adicionada com sucesso.',
+                    'updated' => 'Pontuação Geral atualizada com sucesso.',
+                    'deleted' => 'Pontuação Geral deletada com sucesso.',
+                ],
+            ],
+
+        ],
+        'question-quality' => [
+            'title'=> 'Qualidade da Questão',
+            'help' => [
+                'title' => 'Qualidade da Questão',
+                'content' => '',
+            ],
+            'id'=> 'ID',
+            'description'=> 'Descrição',
+            'weight'=> 'Peso',
+            'add' => 'Adicionar Questão de Qualidade',
+            'update' => 'Atualizar Questão de Qualidade',
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Questão de Qualidade adicionada',
+                    'updated' => 'Questão de Qualidade atualizada',
+                ],
+                'id' => [
+                    'required' => 'O campo de questão de qualidade é inválido. Por favor, insira uma questão de qualidade válida.',
+                ],
+                'weight' => [
+                    'required' => 'O campo de questão de qualidade é obrigatório.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da questão de qualidade é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Questão de Qualidade adicionada com sucesso.',
+                    'updated' => 'Questão de Qualidade atualizada com sucesso.',
+                    'deleted' => 'Questão de Qualidade deletada com sucesso.',
+                ],
+            ],
+
+        ],
+        'quality-score' => [
+            'title'=> 'Pontuação de Qualidade',
+            'help' => [
+                'title' => 'Pontuação de Qualidade',
+                'content' => '',
+            ],
+            'description'=> [
+                'title' => 'Descrição',
+                'placeholder' => 'Insira a descrição',
+            ],
+            'id_qa'=> [
+                'title' => 'Questão de Qualidade',
+                'placeholder' => 'Selecione a Questão de Qualidade',
+                'no-question-available' => 'Nenhuma questão disponível',
+            ],
+            'score_rule'=> [
+                'title' => 'Regra de Pontuação',
+                'placeholder' => 'Insira a Regra de Pontuação',
+            ],
+            'form' => [
+                'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
+                'add' => 'Adicionar Pontuação de Qualidade',
+                'update' => 'Atualizar Pontuação de Qualidade',
+            ],
+            'range' => [
+                'score' => 'Pontuação',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação de Qualidade adicionada',
+                    'updated' => 'Pontuação de Qualidade atualizada',
+                ],
+                'id' => [
+                    'required' => 'Pontuação de Qualidade inválida. Por favor, insira uma pontuação de qualidade válida.',
+                ],
+                'weight' => [
+                    'required' => 'O campo de pontuação de qualidade é obrigatório.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da pontuação de qualidade é obrigatório.',
+                ],
+            ],
+            'toasts' => [
+                'added' => 'Pontuação de Qualidade adicionada com sucesso.',
+                'updated' => 'Pontuação de Qualidade atualizada com sucesso.',
+                'deleted' => 'Pontuação de Qualidade deletada com sucesso.',
+            ],
+        ],
+
+        'min-general-score' => [
+            'title'=> 'Pontuação Geral Mínima para Aprovação',
+            'form' => [
+                'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
+                'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
+                'update' => 'Atualizar Pontuação Geral Mínima para Aprovação',
+            ],
+
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada',
+                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada',
+                ],
+                'toasts' => [
+                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada com sucesso.',
+                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada com sucesso.',
+                ],
+                'min-general-score' => [
+                    'required' => 'O campo de pontuação geral mínima é obrigatório.',
+                ],
+            ],
+
+        ],
+    ],
     'data-extraction' => [
+        'title' => 'Extração de Dados',
         'question-form' => [
             'title' => 'Criar Pergunta de Extração de Dados',
             'help' => [
@@ -388,6 +604,7 @@ return [
                 'content' => 'Use o formulário de pergunta de extração de dados para criar perguntas que orientem a extração de informações específicas de estudos selecionados. Defina o ID da pergunta, descrição, tipo e adicione opções, se necessário. Esta etapa garante uma extração de dados estruturada e abrangente.',
             ],
             'id' => 'ID',
+            'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
             'type' => 'Tipo',
             'add-question' => 'Adicionar Pergunta',

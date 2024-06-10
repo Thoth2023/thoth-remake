@@ -51,7 +51,7 @@
                             padding: 0.5rem 1rem;
                         "
                     >
-                        Nome
+                        {{ __("project/planning.databases.table.name") }}
                     </th>
                     <th style="padding: 0.5rem 0.75rem">Link</th>
                     <th
@@ -60,7 +60,7 @@
                             padding: 0.5rem 1rem;
                         "
                     >
-                        Ações
+                        {{ __("project/planning.databases.table.actions") }}
                     </th>
                 </thead>
                 <tbody>

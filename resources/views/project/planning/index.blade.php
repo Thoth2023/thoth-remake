@@ -1,14 +1,11 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => "Planning"])
+    @include("layouts.navbars.auth.topnav", ["title" => __("nav/topnav.planning")])
 
     <div class="row mt-4 mx-4">
-        @include(
-            "project.components.project-header",
-            ["activePage" => "planning"],
-            ["project" => $project]
-        )
+
+        @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
 
         <div class="container-fluid py-4">
             <div class="row">
@@ -16,46 +13,46 @@
                     @include(
                         "project.components.project-tabs",
                         [
-                            "header" => "Planning",
+                            "header" => __("project/planning.planning"),
                             "tabs" => [
                                 [
                                     "id" => "overall-info-tab",
-                                    "label" => "1|Overall Information", // Ícone e texto
+                                    "label" => __("project/planning.overall.title"),
                                     "href" => "#overall-info",
                                 ],
                                 [
                                     "id" => "research-questions-tab",
-                                    "label" => "2|Research Questions",
+                                    "label" => __("project/planning.research-questions.title"),
                                     "href" => "#research-questions",
                                 ],
                                 [
                                     "id" => "data-bases-tab",
-                                    "label" => "3|Data Bases",
+                                    "label" => __("project/planning.databases.title"),
                                     "href" => "#data-bases",
                                 ],
                                 [
                                     "id" => "search-string-tab",
-                                    "label" => "4|Search String",
+                                    "label" => __("project/planning.search-string.title"),
                                     "href" => "#search-string",
                                 ],
                                 [
                                     "id" => "search-strategy-tab",
-                                    "label" => "5|Search Strategy",
+                                    "label" => __("project/planning.search-strategy.title"),
                                     "href" => "#search-strategy",
                                 ],
                                 [
                                     "id" => "criteria-tab",
-                                    "label" => "6|Criteria",
+                                    "label" => __("project/planning.criteria.title"),
                                     "href" => "#criteria",
                                 ],
                                 [
                                     "id" => "quality-assessment-tab",
-                                    "label" => "7|Quality Assessment",
+                                    "label" => __("project/planning.quality-assessment.title"),
                                     "href" => "#quality-assessment",
                                 ],
                                 [
                                     "id" => "data-extraction-tab",
-                                    "label" => "8|Data Extraction",
+                                    "label" => __("project/planning.data-extraction.title"),
                                     "href" => "#data-extraction",
                                 ],
                             ],
@@ -86,7 +83,7 @@
                             @include("project.planning.criteria.index")
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
-                            [wip]
+                            @include("project.planning.quality-assessment")
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
                             @include("project.planning.data-extraction.index")
