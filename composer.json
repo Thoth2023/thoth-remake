@@ -14,7 +14,7 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.4",
         "spatie/laravel-model-states": "^2.7",
-        "spatie/laravel-permission": "^5.10"
+        "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
