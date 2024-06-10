@@ -27,5 +27,14 @@ return [
         ],
     ],
 
+    'table' => [
+        'id' => 'ID',
+        'title' => 'Titulo',
+        'author' => 'Autor',
+        'year' => 'Ano',
+        'data_base' => 'Banco de Dados',
+        'status' => 'Status',
+    ],
+
 
 ];

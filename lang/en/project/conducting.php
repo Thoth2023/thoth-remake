@@ -26,4 +26,13 @@ return [
         ],
     ],
 
+    'table' => [
+        'id' => 'ID',
+        'title' => 'Title',
+        'author' => 'Author',
+        'year' => 'Year',
+        'data_base' => 'Data Base',
+        'status' => 'Status',
+    ],
+
 ];

@@ -1,3 +1,4 @@
+<body>
     <div class="col-12">
         <div class="card card-frame mt-5">
             <div class="card">
@@ -23,8 +24,7 @@
 
         <div class="card mb-0 mt-5">
             <div class="card-header mb-0 pb-0">
-                <x-helpers.modal target="search-domains"
-                    modalTitle="{{ __('project/conducting.search.help.title') }}"
+                <x-helpers.modal target="search-domains" modalTitle="{{ __('project/conducting.search.help.title') }}"
                     modalContent="{{ __('project/conducting.search.help.content') }}" />
             </div>
             <div class="card-body">
@@ -57,11 +57,14 @@
                     <div class="d-flex justify-content-between">
                         <span data-search>Estudo 3</span>
                         <div>
-                            <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia CSV"><i class="fas fa-file-csv"></i></a>
-                            <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia XML"><i class="fas fa-file-code"></i></a>
+                            <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia CSV"><i
+                                    class="fas fa-file-csv"></i></a>
+                            <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia XML"><i
+                                    class="fas fa-file-code"></i></a>
                             <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Exportar para PDF"><i
                                     class="fas fa-file-pdf"></i></a>
-                            <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Imprimir"><i class="fas fa-print"></i></a>
+                            <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Imprimir"><i
+                                    class="fas fa-print"></i></a>
                             <button class="btn py-1 px-3 btn-outline-danger" wire:click="delete(3)"
                                 wire:target="delete(3)" wire:loading.attr="disabled">
                                 <i class="fas fa-trash"></i>
@@ -71,4 +74,64 @@
                 </div>
             </div>
         </div>
+
+        <div class="card mb-0 mt-5">
+            <div class="container-fluid py-4">
+                <div class="table-responsive">
+                    <table class="table align-items-center justify-content-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary">
+                                    {{ __('project/conducting.table.id') }}
+                                </th>
+                                <th class="text-uppercase text-secondary">
+                                    {{ __('project/conducting.table.title') }}
+                                </th>
+                                <th class="text-uppercase text-secondary">
+                                    {{ __('project/conducting.table.author') }}
+                                </th>
+                                <th class="text-uppercase text-secondary">
+                                    {{ __('project/conducting.table.year') }}
+                                </th>
+                                <th class="text-uppercase text-secondary">
+                                    {{ __('project/conducting.table.data_base') }}
+                                </th>
+                                <th class="text-uppercase text-secondary">
+                                    {{ __('project/conducting.table.status') }}
+                                </th>
+                            </tr>
+                        </thead>
+                        {{-- <tbody>
+                            <!-- Aqui você deve iterar sobre os dados da sua tabela e exibi-los -->
+                            @foreach ($seusDados as $item)
+                                <tr>
+                                    <td>
+                                        {{ $item->id }}
+                                    </td>
+                                    <td>
+                                        {{ $item->title }}
+                                    </td>
+                                    <td>
+                                        {{ $item->author }}
+                                    </td>
+                                    <td>
+                                        {{ $item->year }}
+                                    </td>
+                                    <td>
+                                        {{ $item->database }}
+                                    </td>
+                                    <td>
+                                        {{ $item->status }}
+                                    </td>
+                                </tr>
+                            @endforeach --}}
+                        {{-- </tbody> --}}
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
+</body>
+
+</html>
