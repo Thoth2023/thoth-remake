@@ -20,5 +20,8 @@ return [
     'profile' => 'Perfil',
     'logout' => 'Deslogar',
     'projects' => 'Projetos',
+    'my_projects' => 'Meus Projetos',
+    'pages' => 'Páginas',
+    'search_in_thoth' => 'Pesquisar no Thoth...',
 ];
 
