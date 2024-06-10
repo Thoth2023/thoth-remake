@@ -1,122 +1,156 @@
-    <!-- resources/views/livewire/study-selection-table.blade.php -->
-    <div>
-        <div class="card border">
-            <!-- Caixa de pesquisa -->
-            <div class="p-3">
-                <input type="text" id="search-input" class="form-control" placeholder="Pesquisar...">
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-hover" id="study-selection-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID <i class="fas fa-sort"></i></th>
-                            <th scope="col">Quality Questions Code <i class="fas fa-sort"></i></th>
-                            <th scope="col">General Score <i class="fas fa-sort"></i></th>
-                            <th scope="col">Descrição <i class="fas fa-sort"></i></th>
-                            <th scope="col">Status <i class="fas fa-sort"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($generalscore as $index => $score)
-                        <tr wire:key="{{ $score->id_general_score }}">
-                            <td>{{ $score->id_general_score }}</td>
-                            <td>
-                                @isset($currentQuestion[$index])
-                                    {{ $currentQuestion[$index]->id}}
-                                @endisset
-                            </td>
-                            <td>{{ $score->start }} - {{ $score->end }}</td>
-                            <td>{{ $score->description }}</td>
-                            <td>
-                                <button
-                                class="btn py-1 px-3 btn-outline-secondary"
-                                wire:click="edit('{{ $score->id_general_score }}')"
-                            >
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button
-                                class="btn py-1 px-3 btn-outline-danger"
-                                wire:click="delete('{{ $score->id_general_score }}')"
-                                wire:target="delete('{{ $score->id_general_score }}')"
-                                wire:loading.attr="disabled"
-                            >
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="text-center py-4">
-                                <x-helpers.description>
-                                    {{ __("project/planning.quality-assessment.general-score.table.empty") }}
-                                </x-helpers.description>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+<!-- resources/views/livewire/study-selection-table.blade.php -->
+<div>
+    <div class="card border">
+        <div class="table-responsive">
+            <table class="table table-hover" id="study-selection-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Quality Questions Code</th>
+                        <th scope="col">General Score</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($generalscore as $index => $score)
+                    <tr wire:key="{{ $score->id_general_score }}">
+                        <td>{{ $score->id_general_score }}</td>
+                        <td>
+                            @isset($currentQuestion[$index])
+                                {{ $currentQuestion[$index]->id}}
+                            @endisset
+                        </td>
+                        <td>{{ $score->start }} - {{ $score->end }}</td>
+                        <td>{{ $score->description }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <x-helpers.description>
+                                {{ __("project/planning.quality-assessment.general-score.table.empty") }}
+                            </x-helpers.description>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <!-- Incluindo Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            new Tablesort(document.getElementById('study-selection-table'));
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
-            // Filtragem da tabela
-            const searchInput = document.getElementById('search-input');
-            const table = document.getElementById('study-selection-table').getElementsByTagName('tbody')[0];
-            const rows = table.getElementsByTagName('tr');
+<script>
+    $(document).ready(function() {
+        $('#study-selection-table').DataTable();
+    });
+</script>
 
-            searchInput.addEventListener('keyup', function() {
-                const filter = searchInput.value.toLowerCase();
-
-                for (let i = 0; i < rows.length; i++) {
-                    const cells = rows[i].getElementsByTagName('td');
-                    let display = false;
-                    for (let j = 0; j < cells.length; j++) {
-                        if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
-                            display = true;
-                            break;
-                        }
-                    }
-                    rows[i].style.display = display ? '' : 'none';
-                }
-            });
-        });
-    </script>
-
-    <style>
-        /* Estilo para o cabeçalho da tabela para indicar que é clicável */
-        #study-selection-table thead th {
-            cursor: pointer;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        /* Estilo para o cabeçalho da tabela quando o mouse estiver sobre ele */
-        #study-selection-table thead th:hover {
-            color: #000; /* Texto mais escuro */
-        }
-
-        /* Estilo para os ícones de ordenação */
-        #study-selection-table thead th i {
-            margin-left: 5px;
-            font-size: 0.8em;
-            color: #999;
-        }
-
-        /* Estilo para a caixa de pesquisa */
-        #search-input {
-            margin-bottom: 15px;
-        }
-
-         /* Estilo para as células da tabela */
-    #study-selection-table tbody td {
-        padding-left: 23px; /* Adiciona 20px de padding à esquerda */
+<style>
+    /* Estilo para a caixa de pesquisa */
+    .dataTables_filter input {
+        border-radius: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        box-shadow: none;
     }
-    </style>
+
+    /* Estilo para o botão de pesquisa */
+    .dataTables_filter label {
+        margin-bottom: 0;
+    }
+
+    /* Estilo para o botão de paginação */
+    .dataTables_paginate .paginate_button {
+        border-radius: 20px !important;
+        margin: 0 5px;
+    }
+
+    /* Estilo para o botão de página ativa */
+    .dataTables_paginate .paginate_button.current {
+        background-color: #007bff !important;
+        color: #fff !important;
+    }
+
+
+    /* Estilo para a caixa de seleção de quantidade de registros */
+    .dataTables_length select {
+        border-radius: 5px;
+        padding: 5px;
+        width: 10px
+    }
+
+    /* Estilo para a mensagem de "Nenhum dado encontrado" */
+    .dataTables_empty {
+        text-align: center;
+    }
+
+    /* Estilizando o campo de pesquisa */
+    .dataTables_filter {
+        text-align: center; /* Centraliza o campo de pesquisa */
+    }
+
+    .dataTables_filter input {
+        width: 70%; /* Define a largura do campo de pesquisa */
+        max-width: 400px; /* Defina um comprimento máximo para evitar que ele se estenda muito */
+        border-radius: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f5f5f5;
+        color: #333;
+        margin-right: 5px;
+        margin-top: 2px;
+    }
+
+    .dataTables_paginate .paginate_button {
+        /* border-radius: 20px !important;
+        margin: 0 5px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer; */
+  
+    }
+
+    /* Estilizando o botão "Anterior" quando desativado */
+    .dataTables_paginate .paginate_button.previous.disabled  {
+        /* background-color: #ccc;
+        color: #666;
+        cursor: not-allowed; */
+        font-size: 10px;
+    }
+
+    /* Estilizando o botão "Próximo" quando desativado */
+    .dataTables_paginate .paginate_button.next.disabled {
+        /* background-color: #ccc;
+        color: #666;
+        cursor: not-allowed; */
+    }
+
+    /* Estilizando o botão "Próximo" quando desativado */
+    .dataTables_paginate .paginate_button.next.disabled .page-link {
+        /* background-color: #ccc;
+        color: #666;
+        cursor: not-allowed; */
+        font-size: 10px;
+    }
+
+   
+    .dataTables_paginate .paginate_button.previous.disabled .page-link {
+        /* background-color: #ccc;
+        color: #666;
+        cursor: not-allowed; */
+        font-size: 10px;
+    }
+  
+
+
+</style>
+
+
+
+</div>
