@@ -47,7 +47,7 @@ class Question extends Component
     protected function messages()
     {
         return [
-            'questionId.required' => __($this->translationPath . '.questionId.required'),
+            'questionId.required' => __($this->translationPath . '.id.required'),
             'description.required' => __($this->translationPath . '.description.required'),
             'weight.required' => __($this->translationPath . '.weight.required'),
         ];

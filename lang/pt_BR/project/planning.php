@@ -563,6 +563,9 @@ return [
                 'description' => [
                     'required' => 'O campo de descrição da pontuação de qualidade é obrigatório.',
                 ],
+                'rule' => [
+                    'required' => 'O campo de regra de pontuação é obrigatório.',
+                ]
             ],
             'toasts' => [
                 'added' => 'Pontuação de Qualidade adicionada com sucesso.',
