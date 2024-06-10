@@ -30,20 +30,18 @@ class OverallController extends Controller
     public $currentQuestion;
 
     public $qualityscore;
-
+    public $progress;
 
     public function index(string $id_project) {
-        
+    
         $project = Project::findOrFail($id_project);
         
-
         $generalscore = GeneralScoreModel::where('id_project', $project->id_project)->get();
         
         $this->projectId = request()->segment(2);
-        // Obtém todas as perguntas relacionadas ao projectId
         $this->currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get()->toArray();
         $this->currentQualityScore = null;
-
+    
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentGeneralScore = null;
@@ -51,15 +49,14 @@ class OverallController extends Controller
             'id_project',
             $this->currentProject->id_project
         )->get();
-
+    
         $currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get();
-        
-        
-
-        return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion'));
-
-
+        $progress = 20;
+    
+        // Pass $progress to the view
+        return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion', 'progress'));
     }
+    
 
 
     public function mount()
