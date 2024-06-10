@@ -89,7 +89,7 @@
                             [wip]
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
-                            @livewire("planning.data-extraction.data-extraction")
+                            {{-- @livewire("planning.data-extraction.data-extraction") --}}
                             @include("project.planning.data-extraction.index")
                         </div>
                     </div>
