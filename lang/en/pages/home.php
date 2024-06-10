@@ -3,7 +3,7 @@
 return [
     'home' => 'Home',
     'welcome' => 'Welcome!',
-    'project_description' => 'Use these awesome forms to login or create a new account in your project for free.',
+    'project_description' => 'Thoth was created by undergraduate students in Software Engineering, maintained and updated by students and professors of the Graduate Program in Software Engineering - PPGES of the Federal University of Pampa (UNIPAMPA).',
     'thoth' => 'Thoth',
     'thoth_description' => 'Is a powerful tool to support collaborative systematic reviews. It is a multi-platform solution developed to automate important parts of the systematic review process, facilitating and streamlining the work of researchers and professionals involved in this type of study.',
     'questions' => 'Questions',

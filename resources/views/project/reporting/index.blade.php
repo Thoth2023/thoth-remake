@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Reporting'])
+    @include('layouts.navbars.auth.topnav', ['title' => __('nav/topnav.reporting')])
 
     <div class="row mt-4 mx-4">
 
@@ -11,27 +11,31 @@
             <div class="row">
                 <div class="col-12">
                     @include('project.components.project-tabs', [
-                        'header' => 'Reporting',
+                        'header' => __('project/reporting.reporting'),
                         'tabs' => [
-                            ['id' => 'overview-tab', 'label' => 'Overview', 'href' => '#overview'],
+                            [
+                                'id' => 'overview-tab',
+                                'label' => __('project/reporting.header.overview'),
+                                'href' => '#overview'
+                            ],
                             [
                                 'id' => 'import-studies-tab',
-                                'label' => 'Import Studies',
+                                'label' => __('project/reporting.header.import_studies'),
                                 'href' => '#import-studies',
                             ],
                             [
                                 'id' => 'study-selection-tab',
-                                'label' => 'Study Selection',
+                                'label' => __('project/reporting.header.study_selection'),
                                 'href' => '#study-selection',
                             ],
                             [
                                 'id' => 'quality-assessment-tab',
-                                'label' => 'Quality Assessment',
+                                'label' => __('project/reporting.header.quality_assessment'),
                                 'href' => '#quality-assessment',
                             ],
                             [
                                 'id' => 'data-extraction-tab',
-                                'label' => 'Data Extraction',
+                                'label' => __('project/reporting.header.data_extraction'),
                                 'href' => '#data-extraction',
                             ],
                         ],

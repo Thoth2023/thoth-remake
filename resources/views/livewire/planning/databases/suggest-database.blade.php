@@ -11,7 +11,7 @@
                             label="{{ __('project/planning.databases.suggest-new.name-label') }}"
                             id="suggest"
                             wire:model="suggest"
-                            placeholder="Digite o nome da base de dados"
+                            placeholder="{{ __('project/planning.databases.suggest-new.enter-name') }}"
                         />
                         @error("suggest")
                             <span class="text-xs text-danger">
@@ -24,7 +24,7 @@
                             label="{{ __('project/planning.databases.suggest-new.link-label')}}"
                             id="link"
                             wire:model="link"
-                            placeholder="Digite o link da base de dados"
+                            placeholder="{{ __('project/planning.databases.suggest-new.enter-link') }}"
                         />
                         @error("link")
                             <span class="text-xs text-danger">

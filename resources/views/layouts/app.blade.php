@@ -55,10 +55,11 @@
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @livewireStyles
     </head>
 
     <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "register", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
     >
         @guest
             @yield("content")
@@ -210,5 +211,6 @@
         <script src="{{ asset("assets/js/utils.js") }}"></script>
 
         @stack("scripts")
+        @livewireScripts
     </body>
 </html>

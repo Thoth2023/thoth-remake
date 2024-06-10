@@ -25,7 +25,7 @@
                                         @method('post')
                                         <div class="flex flex-col mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg"
-                                                placeholder="{{ __('auth/login.email') }}" aria-label="Email">
+                                                placeholder="{{ __('auth/login.email') }}" aria-label="Email"  value="{{ session('user_email') }}">
                                             @error('email')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
                                             @enderror
@@ -39,9 +39,9 @@
                                             @enderror
                                         </div>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" name="remember" type="checkbox" id="rememberMe">
+                                            <input class="form-check-input" name="remember" type="checkbox" id="remember">
                                             <label class="form-check-label"
-                                                for="rememberMe">{{ __('auth/login.remember_me') }}</label>
+                                                for="remember">{{ __('auth/login.remember_me') }}</label>
                                         </div>
                                         <div class="text-center">
                                             <button type="submit"
