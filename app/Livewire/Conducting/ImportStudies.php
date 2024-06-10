@@ -65,7 +65,7 @@ class ImportStudies extends Component
      */
     public function updateImportStudies()
     {
-        $this->studies = ImportStudyModel::where('project_id', $this->currentProject->id_project)->get();
+        $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
     /**
@@ -141,9 +141,10 @@ class ImportStudies extends Component
                     ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
                         'id_project' => $this->currentProject->id_project,
                         'id_database' => $this->selectedDatabase,
-                        'title' => $studyData['title'] ?? null,
-                        'author' => $studyData['author'] ?? null,
-                        'year' => $studyData['year'] ?? null,
+                        'file' => $this->file,
+                        'description' => $this->description,
+                        'imported_studies_count' => $this->imported_studies_count,
+                        'failed_imports_count' => $this->failed_imports_count,
                     ]);
 
                     $importedStudiesCount++;
@@ -161,11 +162,12 @@ class ImportStudies extends Component
 
             foreach ($listener->export() as $entry) {
                 ImportStudyModel::create([
-                    'project_id' => $this->currentProject->id_project,
-                    'database_id' => $this->selectedDatabase,
-                    'title' => $entry['title'] ?? null,
-                    'author' => $entry['author'] ?? null,
-                    'year' => $entry['year'] ?? null,
+                    'id_project' => $this->currentProject->id_project,
+                    'id_database' => $this->selectedDatabase,
+                    'file' => $this->file,
+                    'description' => $this->description,
+                    'imported_studies_count' => $this->imported_studies_count,
+                    'failed_imports_count' => $this->failed_imports_count,
                 ]);
 
                 $importedStudiesCount++;
