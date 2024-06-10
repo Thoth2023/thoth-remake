@@ -398,7 +398,7 @@ return [
     'criteria' => [
         'title' => 'Inclusion/Exclusion Criteria',
         'help' => [
-            'title' => 'Inclusion/Exclusion Criteria Help',
+            'title' => 'Inclusion/Exclusion Criteria',
             'content' => '
                 <p>In the criteria section, you define the criteria for selecting or excluding studies in your research project.</p>
                 <p><strong>Inclusion Criteria:</strong> Specify the criteria that studies must meet to be included in your research.</p>
@@ -410,40 +410,51 @@ return [
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
             'description' => 'Description',
+            'enter_description' => 'Type the criteria description',
             'type' => 'Type',
             'inclusion' => 'Inclusion',
             'exclusion' => 'Exclusion',
-            'add' => 'Add Criteria',
+            'add' => 'Add criteria',
+            'update' => 'Update criteria',
+            'select-placeholder' => 'Select the type of criteria',
+            'select-inclusion' => 'Inclusion',
+            'select-exclusion' => 'Exclusion',
         ],
         'inclusion-table' => [
-            'title' => 'Inclusion Criterias',
+            'title' => 'Inclusion Criteri',
             'select' => 'Select',
             'id' => 'ID',
             'description' => 'Description',
-            'edit' => 'Edit',
-            'delete' => 'Delete Criteria',
-            'no-criteria' => 'No criteria found.',
             'rule' => 'Inclusion Rule',
-            'all' => 'All',
-            'any' => 'Any',
-            'at-least' => 'At Least',
         ],
         'exclusion-table' => [
-            'title' => 'Exclusion Criterias',
+            'title' => 'Exclusion Criteria',
             'select' => 'Select',
             'id' => 'ID',
             'description' => 'Description',
-            'edit' => 'Edit',
-            'delete' => 'Delete Criteria',
-            'no-criteria' => 'No criteria found.',
             'rule' => 'Exclusion Rule',
+        ],
+        'table' => [
             'all' => 'All',
             'any' => 'Any',
             'at-least' => 'At Least',
+            'empty' => 'No criteria found'
+        ],
+        'livewire' => [
+            'logs' => [
+                'added' => 'Criteria added',
+                'updated' => 'Criteria updated',
+                'deleted' => 'Criteria deleted',
+            ],
+            'toasts' => [
+                'added' => 'Criteria added successfully',
+                'deleted' => 'Criteria deleted successfully',
+                'updated' => 'Criteria updated successfully',
+            ],
         ],
     ],
     'quality-assessment' => [
-        'title'=>'Quality Assessment',
+        'title' => 'Quality Assessment',
         'general-score' => [
             'title' => 'General Score',
             'help' => [
@@ -490,14 +501,14 @@ return [
 
         ],
         'question-quality' => [
-            'title'=> 'Question Quality',
+            'title' => 'Question Quality',
             'help' => [
                 'title' => 'Question Quality',
                 'content' => '',
             ],
-            'id'=> 'ID',
-            'description'=> 'Description',
-            'weight'=> 'Weight',
+            'id' => 'ID',
+            'description' => 'Description',
+            'weight' => 'Weight',
             'add' => 'Add Question Quality',
             'update' => 'Update Question Quality',
             'livewire' => [
@@ -523,21 +534,21 @@ return [
 
         ],
         'quality-score' => [
-            'title'=> 'Quality Score',
+            'title' => 'Quality Score',
             'help' => [
                 'title' => 'Quality Score',
                 'content' => '',
             ],
-            'description'=> [
+            'description' => [
                 'title' => 'Description',
                 'placeholder' => 'Enter description',
             ],
-            'id_qa'=> [
+            'id_qa' => [
                 'title' => 'Question Quality',
                 'placeholder' => 'Select Question Quality',
                 'no-question-available' => 'No questions available',
             ],
-            'score_rule'=> [
+            'score_rule' => [
                 'title' => 'Score Rule',
                 'placeholder' => 'Enter Score Rule',
             ],
@@ -575,7 +586,7 @@ return [
         ],
 
         'min-general-score' => [
-            'title'=> 'Minimal General Score to Approve',
+            'title' => 'Minimal General Score to Approve',
             'form' => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
                 'add' => 'Add Minimal General Score',
