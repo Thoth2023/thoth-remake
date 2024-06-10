@@ -152,7 +152,7 @@
         </script>
 
         <div
-            class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3"
+            class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999;"
         >
             <div
                 id="liveToast"
@@ -200,7 +200,7 @@
                     // Check for validation errors
                     @if ($errors->any())
                         const validationErrors = @json($errors->all());
-                        showToast(validationErrors.join(', '), 'Error');
+                        showToast(validationErrors.join(' '), 'Error');
                     @endif
                 }
 

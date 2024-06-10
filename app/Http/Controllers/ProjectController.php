@@ -92,6 +92,7 @@ class ProjectController extends Controller
      */
     public function edit(string $idProject)
     {
+        $userProjects = Auth::user()->projects;
         $project = Project::findOrFail($idProject);
         $user = Auth::user();
 
@@ -99,7 +100,7 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'You do not have permission to edit the project.');
         }
 
-        return view('projects.edit', compact('project'));
+        return view('projects.edit', compact('project'), ['projects' => $userProjects]);
     }
 
     /**
@@ -114,7 +115,17 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'You do not have permission to edit the project.');
         }
 
-        $project->update($request->all());
+        $project->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'objectives' => $request->objectives,
+        ]);
+
+        if ($request->copy_planning !== 'none') {
+            $sourceProject = Project::findOrFail($request->copy_planning);
+            $project->copyPlanningFrom($sourceProject);
+        }
+
         $activity = "Edited project";
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 

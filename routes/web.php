@@ -36,6 +36,7 @@ use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
+use App\Http\Controllers\ThemeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,9 @@ Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class
 
 
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project')->middleware(Localization::class);
+
+//Theme routes
+Route::get('/themes', [ThemeController::class, 'readCookie']);
 
 // Projects Routes
 Route::get('/projects/{id}' . __('header'))->name('header')->middleware(Localization::class);
@@ -207,8 +211,8 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
-    Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
-    Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
+    Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
+    Route::post('/change-password/{id}', [ChangePassword::class, 'update'])->name('change.perform');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 });
 
