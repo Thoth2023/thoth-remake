@@ -17,6 +17,7 @@ use App\Http\Controllers\Project\Planning\Overall\KeywordController;
 use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
 use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
+use App\Http\Controllers\Project\Conducting\StudySelectionController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
@@ -177,6 +178,10 @@ Route::prefix('/project/{projectId}')->group(function () {
     // Start of the conducting routes
     Route::prefix('/conducting')->group(function () {
         Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
+        Route::prefix('/study-selection')->group(function () {
+            Route::get('/search', [StudySelectionController::class, 'search'])->name('study-selection.search')->middleware('auth');
+
+        });
     });
 
     // start of the reporting routes

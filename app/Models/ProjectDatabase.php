@@ -25,4 +25,6 @@ class ProjectDatabase extends Pivot
         'id_project',
         'id_database',
     ];
+
+    
 }

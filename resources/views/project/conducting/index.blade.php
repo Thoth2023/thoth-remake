@@ -46,7 +46,7 @@
                             @include("project.conducting.import-studies")
                         </div>
                         <div id="study-selection" class="tab-pane fade">
-                            @include("project.conducting.study-selection")
+                            @include("project.conducting.study-selection.index", ["project" => $project])
                         </div>
                         <div id="quality-assessment" class="tab-pane fade">
                             @include("project.conducting.quality-assessment")
