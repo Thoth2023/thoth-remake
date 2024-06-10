@@ -21,4 +21,7 @@ return [
     'profile' => 'Profile',
     'logout' => 'Logout',
     'projects' => 'Projects',
+    'my_projects' => 'My Projects',
+    'pages' => 'Pages',
+    'search_in_thoth' => 'Search in Thoth...',
 ];

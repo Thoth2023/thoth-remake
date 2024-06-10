@@ -65,101 +65,101 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Edit Profile</p>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Save</button>
+                                <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('pages/profile.save') }}</button>
                             </div>
                         </div>
                         <div class="card-body">
-                            <p class="text-uppercase text-sm">User Information</p>
+                            <p class="text-uppercase text-sm">{{ __('pages/profile.user_information') }}</p>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Username</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.username') }}</label>
                                         <input class="form-control" type="text" name="username"
                                             value="{{ old('username', auth()->user()->username) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Email address</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.email') }}</label>
                                         <input class="form-control" type="email" name="email"
                                             value="{{ old('email', auth()->user()->email) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">First name</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.first_name') }}<label>
                                         <input class="form-control" type="text" name="firstname"
                                             value="{{ old('firstname', auth()->user()->firstname) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Last name</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.last_name') }}</label>
                                         <input class="form-control" type="text" name="lastname"
                                             value="{{ old('lastname', auth()->user()->lastname) }}">
                                     </div>
                                 </div>
                             </div>
                             <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Contact Information</p>
+                            <p class="text-uppercase text-sm">{{ __('pages/profile.contact_information') }}</p>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Address</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.address') }}</label>
                                         <input class="form-control" type="text" name="address"
                                             value="{{ old('address', auth()->user()->address) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">City</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.city') }}</label>
                                         <input class="form-control" type="text" name="city"
                                             value="{{ old('city', auth()->user()->city) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Country</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.country') }}</label>
                                         <input class="form-control" type="text" name="country"
                                             value="{{ old('country', auth()->user()->country) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Postal code</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.postal_code') }}</label>
                                         <input class="form-control" type="text" name="postal"
                                             value="{{ old('postal', auth()->user()->postal) }}">
                                     </div>
                                 </div>
                             </div>
                             <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">About me</p>
+                            <p class="text-uppercase text-sm">{{ __('pages/profile.about_me') }}</p>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">About me</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.about_me') }}</label>
                                         <input class="form-control" type="text" name="about"
                                             value="{{ old('about', auth()->user()->about) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Occupation</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.ocupation') }}</label>
                                         <input class="form-control" type="text" name="occupation"
                                             value="{{ old('occupation', auth()->user()->occupation) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Institution</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.institution') }}</label>
                                         <input class="form-control" type="text" name="institution"
                                             value="{{ old('institution', auth()->user()->institution) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Lattes Link</label>
+                                        <label for="example-text-input" class="form-control-label">{{ __('pages/profile.lattes_link') }}</label>
                                         <input class="form-control" type="text" name="lattes_link"
                                             value="{{ old('lattes_link', auth()->user()->lattes_link) }}">
                                     </div>

@@ -30,6 +30,7 @@ use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
+use App\Http\Controllers\ThemeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,9 @@ Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->mi
 // end of about and help routes
 
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project');
+
+//Theme routes
+Route::get('/themes', [ThemeController::class, 'readCookie']);
 
 // Projects Routes
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');

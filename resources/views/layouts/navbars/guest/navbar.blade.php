@@ -136,7 +136,7 @@
                                                 class="fa fa-user opacity-6 me-1"
                                             ></i>
                                             <span class="d-sm-inline d-none">
-                                                Log out
+                                            {{ __("nav/nav.logout") }}
                                             </span>
                                         </a>
                                     </form>

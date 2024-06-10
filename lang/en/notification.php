@@ -9,4 +9,10 @@ return [
         'line_2' => "If you didn't request this, please ignore this email.",
         'thanks' => 'Thank you!',
     ],
+
+    'new_message' => 'New message from',
+    'new_album' => 'New album of',
+    'pyment_success' => 'Payment successfully completed',
+    'pyment_failed' => 'Payment failed',
+
 ];
