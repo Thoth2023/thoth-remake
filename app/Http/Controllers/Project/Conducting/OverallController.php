@@ -55,6 +55,7 @@ class OverallController extends Controller
     
         $currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get();
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         
 
@@ -64,6 +65,9 @@ class OverallController extends Controller
 
 =======
         $progress = 20;
+=======
+        $progress = 1;
+>>>>>>> 61a0335e (style: :lipstick: serapação em card e maior quantidade de cores para barra de progoresso)
     
         // Pass $progress to the view
         return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion', 'progress'));
