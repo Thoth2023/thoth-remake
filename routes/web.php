@@ -20,6 +20,7 @@ use App\Http\Controllers\Project\conducting\OverallController as OverallConducti
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
+use App\Http\Controllers\Project\Planning\SearchStringController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
 use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
@@ -112,6 +113,17 @@ Route::prefix('/project/{projectId}')->group(function () {
         // Search Strategy Route
         Route::put('/search-strategy', [SearchStrategyController::class, 'update'])
             ->name('project.planning.search-strategy.update');
+
+        // Search String
+        Route::get('/search-string', [SearchStringController::class, 'index'])->name('search_string');
+        Route::post('/search-string/term', [SearchStringController::class, 'store_term'])->name('planning_search_string.add_term');
+        Route::post('/search-string/synonym', [SearchStringController::class, 'store_synonym'])->name('planning_search_string.add_synonym');
+        Route::post('/generate-string/{id_project}/{database_id}', [SearchStringController::class, 'generateString'])->name('generate-string');
+
+        Route::put('/search-string/term/{id}', [SearchStringController::class, 'update_term'])->name('planning_search_string.update_term');
+        Route::put('/search-string/synonym/{id}', [SearchStringController::class, 'update_synonym'])->name('planning_search_string.update_synonym');
+        Route::delete('/search-string/term/{id}', [SearchStringController::class, 'destroy_term'])->name('planning_search_string.destroy_term');
+        Route::delete('/search-string/synonym/{id}', [SearchStringController::class, 'destroy_synonym'])->name('planning_search_string.destroy_synonym');
 
         // Research Questions Routes
         Route::resource('/research-questions', ResearchQuestionsController::class)

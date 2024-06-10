@@ -170,7 +170,7 @@
                                                     colspan="5"
                                                     class="text-center"
                                                 >
-                                                    {{ __("project/projects.project.table.empty") tr
+                                                    {{ __("project/projects.project.table.empty") }}
                                                 </td>
                                             </tr>
                                         @endforelse

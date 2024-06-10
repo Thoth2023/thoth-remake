@@ -2,7 +2,7 @@
 
 return [
     'welcome' => 'Welcome!',
-    'description' => 'Use these awesome forms to login or create a new account in your project for free.',
+    'description' => 'Use these awesome forms to login or create a new account for free.',
     'register_with' => 'Register with',
     'google' => 'Google',
     'facebook' => 'Facebook',

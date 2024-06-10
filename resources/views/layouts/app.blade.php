@@ -59,7 +59,7 @@
     </head>
 
     <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "register", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
     >
         @guest
             @yield("content")
