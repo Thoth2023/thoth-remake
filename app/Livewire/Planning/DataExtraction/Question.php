@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\DataExtraction;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Planning\DataExtraction\Question as QuestionModel;
@@ -73,7 +74,7 @@ class Question extends Component
     {
         $this->questionId = null;
         $this->description = '';
-        $this->type = '';
+        $this->type['value'] = '';
         $this->form['isEditing'] = false;
     }
 
@@ -145,12 +146,13 @@ class Question extends Component
     /**
      * Fill the form fields with the given data.
      */
-    public function edit(string $domainId)
+    #[On('data-extraction-table')]
+    public function edit(string $questionId)
     {
-        $this->currentQuestion = QuestionModel::findOrFail($domainId);
-        $this->questionId = $this->currentDomain->id;
-        $this->description = $this->currentDomain->description;
-        $this->type = $this->currentDomain->type;
+        $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id', $questionId)->first();
+        $this->questionId = $this->currentQuestion->id;
+        $this->description = $this->currentQuestion->description;
+        $this->type['value'] = $this->currentQuestion->type;
         $this->form['isEditing'] = true;
     }
 
