@@ -38,6 +38,8 @@
                             <td>
                                 <div style="min-width: fit-content">
                                     <button
+                                        type="button"
+                                        wire:click="sendEditDataToAnotherComponent({{ $question }})"
                                         class="btn btn-outline-secondary py-1 px-3 m-0"
                                     >
                                         <i class="fas fa-edit"></i>

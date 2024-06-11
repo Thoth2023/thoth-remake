@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\DataExtraction;
 
+use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
@@ -23,6 +24,11 @@ class DataExtraction extends Component
     public function update()
     {
         $this->questions = QuestionModel::where('id_project', $this->currentProject->id_project)->get();
+    }
+
+    public function sendEditDataToAnotherComponent($data)
+    {
+        $this->dispatch('data-extraction-table', $data['id']);
     }
 
     public function render()

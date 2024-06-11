@@ -7,7 +7,7 @@
         />
     </div>
     <div class="card-body">
-        <form wire:submit="submit" class="d-flex flex-column">
+        <form wire:submit.prevent="submit" class="d-flex flex-column">
             <div class="form-group mt-3 d-flex flex-column gap-4">
                 <x-select
                     id="questionId"
