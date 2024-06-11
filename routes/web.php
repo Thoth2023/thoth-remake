@@ -184,4 +184,5 @@ Route::group(['middleware' => ['auth', 'superadmin']], function () {
     Route::get('/admin-panel', [AdminPanelController::class, 'index'])->name('admin.panel');
     Route::get('/admin/edit-texts', [AdminPanelController::class, 'editTexts'])->name('admin.edit_texts');
     Route::post('/admin/update-texts', [AdminPanelController::class, 'updateTexts'])->name('admin.update_texts');
+    Route::resource('faq', 'FaqController');
 });
