@@ -11,7 +11,6 @@
     class="d-flex flex-grow flex-column"
     x-init="() => {
         const select = document.querySelector('[data-ref=\'{{ $target }}\']');
-        const defaultValue = select.getAttribute('data-selected');
         const hasSearch = {{ $search }};
         const isSorted = {{ $sorted }};
 
@@ -21,11 +20,7 @@
             itemSelectText: 'Clique para selecionar',
             searchEnabled: hasSearch,
             shouldSort: isSorted,
-        });
-
-        if (defaultValue) {
-            test.setChoiceByValue(defaultValue);
-        }
+        });  
     }"
 >
     <label class="form-control-label mx-0 mb-1" for="{{ $target }}">

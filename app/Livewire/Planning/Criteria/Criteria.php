@@ -44,7 +44,7 @@ class Criteria extends Component
             'criteriaId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
             'description' => 'required|string|max:255',
             'type' => 'required|array',
-            'type.*.value' => ['string', Rule::notIn(['-1'])],
+            'type.*.value' => 'string'
         ];
     }
 
