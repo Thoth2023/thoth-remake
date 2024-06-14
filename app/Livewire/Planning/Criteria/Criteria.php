@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Criteria;
 
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Criteria as CriteriaModel;
@@ -10,6 +11,8 @@ use App\Utils\ToastHelper;
 
 class Criteria extends Component
 {
+    private $toastMessages = 'project/planning.criteria.livewire.toasts';
+
     public $currentProject;
     public $currentCriteria;
     public $criterias = [];
@@ -17,7 +20,9 @@ class Criteria extends Component
     /**
      * Fields to be filled by the form.
      */
-    public $pre_selected;
+    public $pre_selected_inclusion;
+    public $pre_selected_exclusion;
+
     public $type;
     public $description;
     public $criteriaId;
@@ -32,22 +37,49 @@ class Criteria extends Component
     /**
      * Validation rules.
      */
-    protected $rules = [
-        'currentProject' => 'required',
-        'criteriaId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|max:255',
-        'type' => 'required'
-    ];
+    protected function rules()
+    {
+        return [
+            'currentProject' => 'required',
+            'criteriaId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
+            'description' => 'required|string|max:255',
+            'type' => 'required|array',
+            'type.*.value' => ['string', Rule::notIn(['-1'])],
+        ];
+    }
+
+    /**
+     * Custom translation messages for the validation rules.
+     */
+    public function translate()
+    {
+        $toasts = 'project/planning.criteria.livewire.toasts';
+
+        return [
+            'type.required' => __($toasts . '.type.required'),
+            'updated' => __($toasts . '.updated'),
+            'added' => __($toasts . '.added'),
+            'deleted' => __($toasts . '.deleted'),
+            'updated-inclusion' => __($toasts . '.updated-inclusion'),
+            'updated-exclusion' => __($toasts . '.updated-exclusion'),
+            'unique-id' => __($toasts . '.unique-id')
+        ];
+    }
 
     /**
      * Custom error messages for the validation rules.
      */
-    protected $messages = [
-        'description.required' => 'The description field is required.',
-        'criteriaId.required' => 'The ID field is required.',
-        'criteriaId.regex' => 'The ID field must contain only letters and numbers.',
-        'type.required' => 'The type field is required'
-    ];
+    protected function messages()
+    {
+        $tpath = 'project/planning.criteria.livewire';
+
+        return [
+            'description.required' => __($tpath . '.description.required'),
+            'criteriaId.required' => __($tpath . '.criteriaId.required'),
+            'criteriaId.regex' => __($tpath . '.criteriaId.regex'),
+            'type.required' => __($tpath . '.type.required'),
+        ];
+    }
 
     /**
      * Executed when the component is mounted. It sets the
@@ -62,7 +94,15 @@ class Criteria extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
-        $this->pre_selected = session('pre_selected');
+        $this->pre_selected_inclusion['value'] = CriteriaModel::where(
+            'id_project',
+            $this->currentProject->id_project
+        )->where('type', 'Inclusion')->first()->pre_selected ?? 0;
+        $this->pre_selected_exclusion['value'] = CriteriaModel::where(
+            'id_project',
+            $this->currentProject->id_project
+        )->where('type', 'Exclusion')->first()->pre_selected ?? 0;
+        $this->type['value'] = '-1';
     }
 
     /**
@@ -72,7 +112,7 @@ class Criteria extends Component
     {
         $this->criteriaId = '';
         $this->description = '';
-        $this->type = [];
+        $this->type['value'] = '-1';
         $this->currentCriteria = null;
         $this->form['isEditing'] = false;
     }
@@ -86,6 +126,16 @@ class Criteria extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
+
+        $this->pre_selected_inclusion['value'] = CriteriaModel::where(
+            'id_project',
+            $this->currentProject->id_project
+        )->where('type', 'Inclusion')->first()->pre_selected ?? 0;
+
+        $this->pre_selected_exclusion['value'] = CriteriaModel::where(
+            'id_project',
+            $this->currentProject->id_project,
+        )->where('type', 'Exclusion')->first()->pre_selected ?? 0;
     }
 
     /**
@@ -96,11 +146,6 @@ class Criteria extends Component
         $this->dispatch('criteria', ToastHelper::dispatch($type, $message));
     }
 
-    private function message(string $message)
-    {
-        return __('project/planning.criteria.livewire.toasts' . $message);
-    }
-
     /**
      * Submit the form. It validates the input fields
      * and creates or updates an item.
@@ -109,17 +154,26 @@ class Criteria extends Component
     {
         $this->validate();
 
+        if ($this->type['value'] == '-1') {
+            $this->toast(
+                message: $this->translate()['type.required'],
+                type: 'info'
+            );
+            return;
+        }
+
         $updateIf = [
             'id_criteria' => $this->currentCriteria?->id_criteria,
         ];
 
         try {
             $value = $this->form['isEditing'] ? 'Updated the criteria' : 'Added a criteria';
-            $toastMessage = $this->message($this->form['isEditing'] ? '.updated' : '.added');
+
+            $toastMessage = $this->translate()[$this->form['isEditing'] ? 'updated' : 'added'];
 
             if (!$this->form['isEditing'] && $this->currentProject->criterias->contains('id', $this->criteriaId)) {
                 $this->toast(
-                    message: 'This ID is already in use. Please choose a unique ID for the criteria.',
+                    message: $this->translate()['unique-id'],
                     type: 'error'
                 );
                 return;
@@ -131,7 +185,7 @@ class Criteria extends Component
                 && $this->currentProject->criterias->contains('id', $this->criteriaId)
             ) {
                 $this->toast(
-                    message: 'This ID is already in use. Please choose a unique ID for the criteria.',
+                    message: $this->translate()['unique-id'],
                     type: 'error'
                 );
                 return;
@@ -141,7 +195,8 @@ class Criteria extends Component
                 'id_project' => $this->currentProject->id_project,
                 'id' => $this->criteriaId,
                 'description' => $this->description,
-                'type' => $this->type['value']
+                'type' => $this->type['value'],
+                'pre_selected' => 0
             ]);
 
             Log::logActivity(
@@ -192,7 +247,7 @@ class Criteria extends Component
             );
 
             $this->toast(
-                message: $this->message('.deleted'),
+                message: $this->translate()['deleted'],
                 type: 'success'
             );
             $this->updateCriterias();
@@ -209,28 +264,33 @@ class Criteria extends Component
     /**
      * Update the value of the inclusion criteria rule.
      */
-    public function updateInclusionCriteriaRule()
+    public function updateCriteriaRule($type)
     {
-        foreach ($this->criteria as $criterion) {
-            if ($criterion['type'] === 'Inclusion') {
-                $this->pre_selected['value'] = $this->currentCriteria->pre_selected;
-            }
-            $this->updateCriterias();
-        }
-    }
+        $this->pre_selected_exclusion['value'] = CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type' => 'Exclusion'
+        ])->update(['pre_selected' => $this->pre_selected_exclusion['value']]);
 
-    /**
-     * Update the value of the exclusion criteria rule.
-     */
-    public function updateExclusionCriteriaRule()
-    {
-        foreach ($this->criteria as $criterion) {
-            if ($criterion['type'] === 'Exclusion') {
-                session(['pre_selected' => $this->pre_selected]);
-                $this->pre_selected['value'] = $this->currentCriteria->pre_selected;
-            }
-            $this->updateCriterias();
+        $this->pre_selected_inclusion['value'] = CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type' => 'Inclusion'
+        ])->update(['pre_selected' => $this->pre_selected_inclusion['value']]);
+
+        if ($type == 'Inclusion') {
+            $this->toast(
+                message: $this->translate()['updated-inclusion'],
+                type: 'success'
+            );
         }
+
+        if ($type == 'Exclusion') {
+            $this->toast(
+                message: $this->translate()['updated-exclusion'],
+                type: 'success'
+            );
+        }
+
+        $this->updateCriterias();
     }
 
     /**
