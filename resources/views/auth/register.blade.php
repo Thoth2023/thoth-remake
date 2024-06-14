@@ -115,12 +115,12 @@
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
                                         {{ __('auth/register.i_agree') }}
-                                        <a href="javascript:;" class="text-dark font-weight-bolder">
+                                        <a href="{{ route('terms') }}" class="text-dark font-weight-bolder">
                                             {{ __('auth/register.terms_and_conditions') }}
                                         </a>
                                     </label>
                                     @error('terms')
-                                        <p class='text-danger text-xs'> {{ $message }} </p>
+                                        <p class='text-danger text-xs'> {{ $message     }} </p>
                                     @enderror
                                 </div>
                                 <div class="text-center">
