@@ -26,7 +26,7 @@
                                 </option>
                             @endforeach
                         @else
-                            <option disabled>{{ __('No questions available') }}</option>
+                            <option disabled>{{ __("project/planning.quality-assessment.quality-score.id_qa.no-question-available") }}</option>
                         @endif
                     </x-select>
                     @error("id_qa")
@@ -52,16 +52,17 @@
 
                     <!-- Score Range Selector -->
                     <div class="form-group">
-                        <label for="scoreRange" class="form-label">Score</label>
+                        <label for="scoreRange" id="scoreLabel" class="form-label">{{ __('project/planning.quality-assessment.quality-score.range.score') }}</label>
                         <input type="range" class="form-range" id="scoreRange" min="0" max="100" step="5"
                                oninput="updateRangeValue(this.value)">
                         <div class="d-flex justify-content-center">
-                            <span id="currentScore">Score: 50%</span>
+                            <span id="currentScore">{{ __('project/planning.quality-assessment.quality-score.range.score') }}: 50%</span>
                         </div>
                     </div>
                     <script>
                         function updateRangeValue(value) {
-                            document.getElementById("currentScore").textContent = "Score: " + value + "%";
+                            const labelText = document.getElementById("scoreLabel").textContent;
+                            document.getElementById("currentScore").textContent = labelText + ": " + value + "%";
                         }
                     </script>
 

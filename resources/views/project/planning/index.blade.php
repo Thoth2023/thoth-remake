@@ -1,7 +1,7 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => "Planning"])
+    @include("layouts.navbars.auth.topnav", ["title" => __("nav/topnav.planning")])
 
     <div class="row mt-4 mx-4">
 
@@ -74,7 +74,7 @@
                             @livewire("planning.databases.databases")
                         </div>
                         <div class="tab-pane fade" id="search-string">
-                            [wip]
+                            @include("project.planning.search-string")
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
                             @include("project.planning.search-strategy")

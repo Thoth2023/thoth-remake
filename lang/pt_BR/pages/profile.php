@@ -1,25 +1,22 @@
 <?php
-
-return [
-    'your_profile' => 'Seu Perfil',
-    'edit_profile' => 'Editar Perfil',
-    'save' => 'Salvar',
-    'user_information' => 'INFORMAÇÕES DO USUÁRIO',
-    'user_name' => 'Nome de usuário',
-    'email' => 'Endereço de e-mail',
+return[
+    'profile' => 'Perfil',
+    'username' => 'Nome de Usuário',
+    'email' => 'Email',
+    'institution' => 'Instituição',
     'first_name' => 'Nome',
     'last_name' => 'Sobrenome',
-
-    'contact_information' => 'INFORMAÇÕES DE CONTATO',
     'address' => 'Endereço',
     'city' => 'Cidade',
     'country' => 'País',
-    'postal_code' => 'Código postal',
-
-    'about_me' => 'SOBRE MIM',
-    'about_me2' => 'Sobre mim',
-    'occupation' => 'Ocupação',
-    'institution' => 'Instituição',
+    'postal_code' => 'CEP',
+    'about_me' => 'Sobre mim',
+    'ocupation' => 'Ocupação',
     'lattes_link' => 'Link do Lattes',
+    'edit_profile' => 'Editar Perfil',
+    'user_information' => 'Informações do Usuário',
+    'contact_information' => 'Informações de Contato',
+    'save' => 'Salvar',
+    'your_profile' => 'Seu Perfil',
 
 ];

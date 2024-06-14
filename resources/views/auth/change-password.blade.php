@@ -24,9 +24,9 @@
                                     </p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form" method="POST" action="{{ route('change.perform') }}">
+                                <form role="form" method="POST" action="{{ route('change.perform', ['id' => request()->id]) }}">
                                         @csrf
-
+                                        <input type="hidden" name="id" value="{{ request()->id }}">
                                         <div class="flex flex-col mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg"
                                                 placeholder="{{ __('auth/change-password.email') }}"

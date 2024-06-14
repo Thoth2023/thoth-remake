@@ -55,10 +55,11 @@
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @livewireStyles
     </head>
 
     <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "register", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
     >
         @guest
             @yield("content")
@@ -151,7 +152,7 @@
         </script>
 
         <div
-            class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3"
+            class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999;"
         >
             <div
                 id="liveToast"
@@ -199,7 +200,7 @@
                     // Check for validation errors
                     @if ($errors->any())
                         const validationErrors = @json($errors->all());
-                        showToast(validationErrors.join(', '), 'Error');
+                        showToast(validationErrors.join(' '), 'Error');
                     @endif
                 }
 
@@ -208,7 +209,9 @@
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>
-
+        <script src="https://maps.googleapis.com/maps/api/js?key={{env("GOOGLE_API_KEY")}}&libraries=places"></script>
+        <script src="{{ asset("assets/js/cep_autocomplete.js") }}"></script>
         @stack("scripts")
+        @livewireScripts
     </body>
 </html>
