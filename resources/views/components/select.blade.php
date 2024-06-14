@@ -4,23 +4,28 @@
     "sorted" => "false",
     "search" => "false",
     "label" => "",
+    "defaultSelected" => "",
 ])
 
 <div
-    wire:ignore
-    class="d-flex flex-column"
+    class="d-flex flex-grow flex-column"
     x-init="() => {
         const select = document.querySelector('[data-ref=\'{{ $target }}\']');
+        const defaultValue = select.getAttribute('data-selected');
         const hasSearch = {{ $search }};
         const isSorted = {{ $sorted }};
 
-        new Choices(select, {
+        const test = new Choices(select, {
             noResultsText: 'Nenhum resultado encontrado',
             noChoicesText: 'Nenhuma opção selecionada',
             itemSelectText: 'Clique para selecionar',
             searchEnabled: hasSearch,
             shouldSort: isSorted,
         });
+
+        if (defaultValue) {
+            test.setChoiceByValue(defaultValue);
+        }
     }"
 >
     <label class="form-control-label mx-0 mb-1" for="{{ $target }}">
@@ -32,6 +37,7 @@
                 "class" => "form-control",
             ])
         }}
+        data-selected="{{ $defaultSelected }}"
         data-ref="{{ $target }}"
     >
         {{ $slot }}

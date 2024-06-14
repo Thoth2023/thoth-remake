@@ -441,6 +441,16 @@ return [
             'empty' => 'No criteria found'
         ],
         'livewire' => [
+            'description' => [
+                'required' => 'The description field is required.'
+            ],
+            'criteriaId' => [
+                'required' => 'The ID field is required.',
+                'regex' => 'The ID field must contain only letters and numbers.',
+            ],
+            'type' => [
+                'required' => 'The type field is required.',
+            ],
             'logs' => [
                 'added' => 'Criteria added',
                 'updated' => 'Criteria updated',
@@ -450,6 +460,12 @@ return [
                 'added' => 'Criteria added successfully',
                 'deleted' => 'Criteria deleted successfully',
                 'updated' => 'Criteria updated successfully',
+                'updated-inclusion' => 'Inclusion criteria rule updated',
+                'updated-exclusion' => 'Exclusion criteria rule updated',
+                'unique-id' => 'This ID is already in use. Please choose another an unique ID.',
+                'type' => [
+                    'required' => 'The type field is required.',
+                ],
             ],
         ],
     ],

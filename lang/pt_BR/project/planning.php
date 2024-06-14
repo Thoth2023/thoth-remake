@@ -444,6 +444,16 @@ return [
             'actions' => 'Ações',
         ],
         'livewire' => [
+            'description' => [
+                'required' => 'O campo de descrição é obrigatório.',
+            ],
+            'criteriaId' => [
+                'required' => 'O campo de ID é obrigatório.',
+                'regex' => 'O campo de ID deve conter apenas letras e números.',
+            ],
+            'type' => [
+                'required' => 'Selecionar um tipo é obrigatório.',
+            ],
             'logs' => [
                 'added' => 'Critério adicionado',
                 'updated' => 'Critério atualizado.',
@@ -453,6 +463,9 @@ return [
                 'added' => 'Critério adicionado com sucesso.',
                 'deleted' => 'Critério deletado com sucesso.',
                 'updated' => 'Critério atualizado com sucesso.',
+                'updated-inclusion' => 'Regra do critério de inclusão atualizada',
+                'updated-exclusion' => 'Regra do critério de exclusão atualizada',
+                'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
             ],
         ],
     ],
