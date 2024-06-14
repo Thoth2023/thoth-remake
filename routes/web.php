@@ -30,6 +30,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
+use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
@@ -78,7 +79,8 @@ Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class
 // Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
 // Route::get('/' . __('profile'), [UserProfileController::class, 'index'])->name('profile')->middleware(Localization::class);
 
-
+// Terms routes
+Route::get('/' . __('terms'), [TermsController::class, 'index'])->name('terms')->middleware(Localization::class);
 
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project')->middleware(Localization::class);
 
@@ -214,6 +216,7 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
     Route::post('/change-password/{id}', [ChangePassword::class, 'update'])->name('change.perform');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
