@@ -147,7 +147,7 @@
                                 <tr>
                                     <td colspan="4" class="text-center py-4">
                                         <x-helpers.description>
-                                            {{ __("project/planning.criterias.table.empty") }}
+                                            {{ __("project/planning.criteria.table.empty") }}
                                         </x-helpers.description>
                                     </td>
                                 </tr>
