@@ -2,20 +2,14 @@
 
 @section('content')
     @include('layouts.navbars.guest.navbar')
-    <main class="main-content  mt-0">
+    <main class="main-content mt-0">
         <div class="container mt-8 mb-3">
             <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
-                <div
-                    class="row justify-content-center rounded-3 py-4"
-                    style="background-color: rgba(85, 101, 128, 1); width: 100%"
-                >
+                <div class="row justify-content-center rounded-3 py-4"
+                    style="background-color: rgba(85, 101, 128, 1); width: 100%">
                     <div class="col-lg-6 text-center mx-auto">
-                        <h1 class="text-white">
-                            {{ __("auth/register.welcome") }}
-                        </h1>
-                        <p class="text-lead text-white">
-                            {{ __("auth/register.description") }}
-                        </p>
+                        <h1 class="text-white">{{ __("auth/register.welcome") }}</h1>
+                        <p class="text-lead text-white">{{ __("auth/register.description") }}</p>
                     </div>
                 </div>
             </div>
@@ -31,8 +25,7 @@
                                     <svg width="24px" height="32px" viewBox="0 0 64 64" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <g transform="translate(3.000000, 3.000000)" fill-rule="nonzero">
-                                                <circle fill="#3C5A9A" cx="29.5091719" cy="29.4927506" r="29.4882047">
-                                                </circle>
+                                                <circle fill="#3C5A9A" cx="29.5091719" cy="29.4927506" r="29.4882047"></circle>
                                                 <path
                                                     d="M39.0974944,9.05587273 L32.5651312,9.05587273 C28.6886088,9.05587273 24.3768224,10.6862851 24.3768224,16.3054653 C24.395747,18.2634019 24.3768224,20.1385313 24.3768224,22.2488655 L19.8922122,22.2488655 L19.8922122,29.3852113 L24.5156022,29.3852113 L24.5156022,49.9295284 L33.0113092,49.9295284 L33.0113092,29.2496356 L38.6187742,29.2496356 L39.1261316,22.2288395 L32.8649196,22.2288395 C32.8649196,22.2288395 32.8789377,19.1056932 32.8649196,18.1987181 C32.8649196,15.9781412 35.1755132,16.1053059 35.3144932,16.1053059 C36.4140178,16.1053059 38.5518876,16.1085101 39.1006986,16.1053059 L39.1006986,9.05587273 L39.0974944,9.05587273 L39.0974944,9.05587273 Z"
                                                     fill="#FFFFFF"></path>
@@ -55,7 +48,7 @@
                                 </a>
                             </div>
                             <div class="col-3 me-auto px-1">
-                                <a class="btn btn-outline-light w-100" href="javascript:;">
+                                <a class="btn btn-outline-light w-100" href="{{ route('auth.google') }}">
                                     <svg width="24px" height="32px" viewBox="0 0 64 64" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <g transform="translate(3.000000, 2.000000)" fill-rule="nonzero">
@@ -77,8 +70,7 @@
                                 </a>
                             </div>
                             <div class="mt-2 position-relative text-center">
-                                <p
-                                    class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                                <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
                                     {{ __('auth/register.or') }}
                                 </p>
                             </div>
@@ -91,7 +83,7 @@
                                         placeholder="{{ __('auth/register.username') }}"
                                         aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
                                     @error('username')
-                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                        <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
@@ -99,7 +91,7 @@
                                         placeholder="{{ __('auth/register.email') }}"
                                         aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}">
                                     @error('email')
-                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                        <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
@@ -107,7 +99,7 @@
                                         placeholder="{{ __('auth/register.password') }}"
                                         aria-label="{{ __('auth.register.password') }}">
                                     @error('password')
-                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                        <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-check form-check-info text-start col-xl-6 col-lg-5 col-md-6 mx-auto">
@@ -120,12 +112,13 @@
                                         </a>
                                     </label>
                                     @error('terms')
-                                        <p class='text-danger text-xs'> {{ $message }} </p>
+                                        <p class='text-danger text-xs'>{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit"
-                                        class="btn bg-gradient-dark w-50 my-4 mb-2 ">{{ __('auth/register.sign_up') }}</button>
+                                    <button type="submit" class="btn bg-gradient-dark w-50 my-4 mb-2">
+                                        {{ __('auth/register.sign_up') }}
+                                    </button>
                                 </div>
                                 <p class="text-sm mt-3 mb-0 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     {{ __('auth/register.already_have_account') }}
@@ -140,7 +133,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </main>
     @include('layouts.footers.guest.footer')
 @endsection

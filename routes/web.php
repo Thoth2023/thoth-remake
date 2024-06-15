@@ -38,6 +38,8 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 
+//use App\Http\Controllers\Auth\LoginController;
+//use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -227,3 +229,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('auth/google', [Auth\RegisterController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [Auth\RegisterController::class, 'handleGoogleCallback']);
