@@ -14,5 +14,10 @@ return [
     'quality_description' => 'Assess the quality of the data by judging it against criteria identified at the first stage.',
     'analyse_data' => 'Analyze the data',
     'analyse_data_description' => 'Analyze and combine the data (using complex statistical methods) which give an overall result from all of the data. Once these stages are complete, the review may be published, disseminated and translated into practice after being adopted as evidence.',
+    'total_projects' => 'Total Projects',
+    'total_users' => 'Total Users',
+    'completed_projects' => 'Completed Projects',
+    'ongoing_projects' => 'Ongoing Projects',
+
 ];
 
