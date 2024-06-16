@@ -81,7 +81,7 @@ class ImportStudies extends Component
      */
     public function import()
     {
-        //$this->validate();
+        $this->validate();
 
         if (!$this->file) {
             $this->toast(
@@ -142,9 +142,9 @@ class ImportStudies extends Component
                         'id_project' => $this->currentProject->id_project,
                         'id_database' => $this->selectedDatabase,
                         'file' => $this->file,
-                        'description' => $this->description,
-                        'imported_studies_count' => $this->imported_studies_count,
-                        'failed_imports_count' => $this->failed_imports_count,
+                        //'description' => $this->description,
+                        //'imported_studies_count' => $this->imported_studies_count,
+                        //'failed_imports_count' => $this->failed_imports_count,
                     ]);
 
                     $importedStudiesCount++;
@@ -165,9 +165,9 @@ class ImportStudies extends Component
                     'id_project' => $this->currentProject->id_project,
                     'id_database' => $this->selectedDatabase,
                     'file' => $this->file,
-                    'description' => $this->description,
-                    'imported_studies_count' => $this->imported_studies_count,
-                    'failed_imports_count' => $this->failed_imports_count,
+                    //'description' => $this->description,
+                    //'imported_studies_count' => $this->imported_studies_count,
+                    //'failed_imports_count' => $this->failed_imports_count,
                 ]);
 
                 $importedStudiesCount++;
