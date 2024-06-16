@@ -14,8 +14,8 @@ return [
     'quality_description' => 'Avalie a qualidade dos dados julgando-os em relação aos critérios identificados na primeira etapa.',
     'analyse_data' => 'Analisar os Dados',
     'analyse_data_description' => 'Analisar e combinar os dados (usando métodos estatísticos complexos) que fornecem um resultado geral de todos os dados. Uma vez que essas etapas são concluídas, a revisão pode ser publicada, divulgada e traduzida para a prática após ser adotada como evidência.',
-    'total_projects' => 'Total de Projetos',
-    'total_users' => 'Total de Usuários',
+    'total_projects' => 'Projetos',
+    'total_users' => 'Usuários',
     'completed_projects' => 'Projetos Finalizados',
     'ongoing_projects' => 'Projetos em Andamento',
 
