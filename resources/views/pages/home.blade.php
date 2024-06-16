@@ -59,36 +59,46 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <i class="fas fa-project-diagram fa-2x mb-2"></i>
-                    <h4 class="card-title mt-auto">123</h4>
-                    <h6 class="card-text">{{ __("pages/home.total_projects") }}</h6>
+                    <a href="javascript:">
+                        <i class="fas fa-project-diagram fa-2x mb-2"></i>
+                        <h2 class="h2 card-title mt-auto">123</h2>
+                        <h6 class="h6 card-text">{{ __("pages/home.total_projects") }} </h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column">
+                    <a href="javascript:">
+                        <i class="fas fa-users fa-2x mb-2"></i>
+                        <h2 class="card-title mt-auto hover-text">456</h2>
+                        <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column">
+                    <a href="javascript:">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <h2 class="card-title mt-auto">78</h2>
+                        <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <i class="fas fa-users fa-2x mb-2"></i>
-                    <h4 class="card-title mt-auto">456</h4>
-                    <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card text-center h-100">
-                <div class="card-body d-flex flex-column">
-                    <i class="fas fa-check-circle fa-2x mb-2"></i>
-                    <h4 class="card-title mt-auto">78</h4>
-                    <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card text-center h-100">
-                <div class="card-body d-flex flex-column">
-                    <i class="fas fa-spinner fa-2x mb-2"></i>
-                    <h4 class="card-title mt-auto">34</h4>
-                    <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>
+                    <a href="javascript:">
+                        <i class="fas fa-spinner fa-2x mb-2"></i>
+                        <h2 class="card-title mt-auto">34</h2>
+                        <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>
+                    </a>
                 </div>
             </div>
         </div>
