@@ -60,7 +60,7 @@
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
                     <i class="fas fa-project-diagram fa-2x mb-2"></i>
-                    <h4 class="card-title mt-auto">123</h4>
+                    <h4 class="card-title mt-auto">{{ $total_projects }}</h4>
                     <h6 class="card-text">{{ __("pages/home.total_projects") }}</h6>
                 </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
                     <i class="fas fa-users fa-2x mb-2"></i>
-                    <h4 class="card-title mt-auto">456</h4>
+                    <h4 class="card-title mt-auto">{{ $total_users }}</h4>
                     <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
                 </div>
             </div>

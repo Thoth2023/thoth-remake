@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Project;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -24,11 +26,17 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('pages.home');
+        $total_projects = Project::count();
+        $total_users = User::count();
+
+        return view('pages.home', compact('total_projects', 'total_users'));
     }
 
     public function guest_home()
     {
-        return view('pages.home');
+        $total_projects = Project::count();
+        $total_users = User::count();
+
+        return view('pages.home', compact('total_projects', 'total_users'));
     }
 }
