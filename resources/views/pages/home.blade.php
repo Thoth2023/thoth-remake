@@ -85,7 +85,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-check-circle fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto">78</h2>
+                        <h2 class="card-title mt-auto">{{$total_finished_projects}}</h2>
                         <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
                     </a>
                 </div>
@@ -96,7 +96,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-spinner fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto">34</h2>
+                        <h2 class="card-title mt-auto">{{$total_ongoing_projects}}</h2>
                         <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>
                     </a>
                 </div>

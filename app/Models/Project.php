@@ -32,7 +32,10 @@ class Project extends Model
         'description',
         'objectives',
         'created_by',
+         'finished',
     ];
+
+   
 
     public function users()
     {
@@ -243,5 +246,28 @@ class Project extends Model
             ->wherePivot('level', '1')
             ->exists();
     }
+
+    public function markAsFinished()
+    {
+        $this->finished = true;
+        $this->save();
+    }
+    
+    public function isFinished(): bool
+    {
+        return $this->finished;
+    }
+
+
+    public static function countFinishedProjects()
+    {
+        return self::where('is_finished', 1)->count();
+    }
+
+    public static function countOngoingProjects()
+    {
+        return self::where('is_finished', 0)->count();
+    }
+   
 
 }

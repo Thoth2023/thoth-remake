@@ -28,15 +28,34 @@ class HomeController extends Controller
     {
         $total_projects = Project::count();
         $total_users = User::count();
-
-        return view('pages.home', compact('total_projects', 'total_users'));
+        $total_finished_projects = Project::countFinishedProjects();
+        $total_ongoing_projects = Project::countOngoingProjects();
+        return view('pages.home', compact('total_projects', 'total_users', 'total_finished_projects', 'total_ongoing_projects'));
     }
 
     public function guest_home()
     {
         $total_projects = Project::count();
         $total_users = User::count();
+        $total_finished_projects = Project::countFinishedProjects();
+        $total_ongoing_projects = Project::countOngoingProjects();
 
-        return view('pages.home', compact('total_projects', 'total_users'));
+        return view('pages.home', compact('total_projects', 'total_users', 'total_finished_projects', 'total_ongoing_projects'));
     }
+
+   
+
+    // public function ongoing_projects()
+    // {
+    //     $projects = Project::where('isFinished', '0')->get();
+    //     return view('pages.ongoing_projects', compact('projects'));
+    // }
+
+    // public function finished_projects()
+    // {
+    //     $projects = Project::where('isFinished', 1)->get();
+    //     return view('pages.finished_projects', compact('projects'));
+    // }
+    
+    
 }
