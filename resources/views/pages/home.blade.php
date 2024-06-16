@@ -61,7 +61,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-project-diagram fa-2x mb-2"></i>
-                        <h2 class="h2 card-title mt-auto">{{ $total_projects }}</h2>
+                        <h2 class="h2 card-title mt-auto"><span id="project-count">0</span></h2>
                         <h6 class="h6 card-text">{{ __("pages/home.total_projects") }} </h6>
                     </a>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-users fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto hover-text">{{ $total_users }}</h2>
+                        <h2 class="card-title mt-auto hover-text"><span id="user-count">0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
                     </a>
                 </div>
@@ -105,3 +105,60 @@
     </div>
 </div>
 @endsection
+
+@push("js")
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+        const totalUsers = {{ $total_users }};
+        const totalProjects = {{ $total_projects }};
+        
+        function animateValue(id, start, end, duration) {
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            const startTime = new Date().getTime();
+            const endTime = startTime + duration;
+            const stepTime = Math.abs(Math.floor(duration / range));
+
+            const timer = setInterval(function() {
+                const now = new Date().getTime();
+                const remaining = Math.max((endTime - now) / duration, 0);
+                current = Math.round(end - (remaining * range));
+                $('#' + id).text(current);
+
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+        
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+        
+        function animateIfVisible(id, value) {
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        animateValue(id, 0, value, 2000);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const target = document.getElementById(id);
+            observer.observe(target);
+        }
+    
+        animateIfVisible('user-count', totalUsers);
+        animateIfVisible('project-count', totalProjects);
+    });
+    </script>
+@endpush
