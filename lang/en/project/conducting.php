@@ -9,7 +9,7 @@ return [
         'study_selection' => 'Study Selection',
         'quality_assessment' => 'Quality Assessment',
         'data_extraction' => 'Data Extraction',
-        'snowbaling' => 'Snowballing',
+        'snowballing' => 'Snowballing',
 
     ]
 

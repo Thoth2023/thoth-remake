@@ -11,26 +11,33 @@
                 <div class="form-group">
                     <label for="titleInput"> {{ __('project/edit.title')}}</label>
                     <input name="title" value="{{ $project->title }}" type="text" class="form-control" id="titleInput"
-                        placeholder="Enter the title">
+                        placeholder="{{ __('project/edit.enter_title') }}">
                 </div>
                 <div class="form-group">
                     <label for="descriptionTextarea">{{ __('project/edit.description')}}</label>
                     <textarea name="description" class="form-control" id="descriptionTextarea" rows="3"
-                        placeholder="Enter the description">{{ $project->description }}</textarea>
+                        placeholder="{{ __('project/edit.enter_description') }}">{{ $project->description }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="objectivesTextarea">{{ __('project/edit.objectives')}}</label>
                     <textarea name="objectives" class="form-control" id="objectivesTextarea" rows="3"
-                        placeholder="Enter the objectives">{{ $project->objectives }}</textarea>
+                        placeholder="{{ __('project/edit.enter_objectives') }}">{{ $project->objectives }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="copyPlanningSelect">{{ __('project/edit.copy_planning')}}</label>
-                    <select class="form-control" id="copyPlanningSelect" disabled>
-                        <option>{{ __('project/edit.option_1')}}</option>
-                        <option>{{ __('project/edit.option_2')}}</option>
-                        <option>{{ __('project/edit.option_3')}}</option>
-                        <option>{{ __('project/edit.option_4')}}</option>
-                        <option>{{ __('project/edit.option_5')}}</option>
+                    <label for="copy_planning">{{ __('project/edit.copy_planning') }}</label>
+                    <select class="form-control" id="copy_planning" name="copy_planning">
+                        @if(count($projects) > 1)
+                            <option value="none">{{ __('project/edit.none') }}</option>
+                            @foreach($projects as $project_option)
+                                @if (!($project_option->id_project == $project->id_project))
+                                    <option value="{{ $project_option->id_project }}">{{ $project_option->title }}</option>
+                                @endif
+                            @endforeach
+                        @else
+                            @foreach($projects as $project_option)
+                                <option value="none">{{ $project_option->title }}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
                 <div class="form-check">
