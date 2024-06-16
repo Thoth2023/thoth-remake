@@ -61,7 +61,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-project-diagram fa-2x mb-2"></i>
-                        <h2 class="h2 card-title mt-auto">123</h2>
+                        <h2 class="h2 card-title mt-auto">{{ $total_projects }}</h2>
                         <h6 class="h6 card-text">{{ __("pages/home.total_projects") }} </h6>
                     </a>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-users fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto hover-text">456</h2>
+                        <h2 class="card-title mt-auto hover-text">{{ $total_users }}</h2>
                         <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
                     </a>
                 </div>
