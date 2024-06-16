@@ -51,7 +51,7 @@ class OverallController extends Controller
         )->get();
     
         $currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get();
-        $progress = 1;
+        $progress = 50;
     
         // Pass $progress to the view
         return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion', 'progress'));
