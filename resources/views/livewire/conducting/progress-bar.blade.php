@@ -1,8 +1,8 @@
-<div>
+<div class="pt-3 pb-3">
     <div style="text-align: center; margin-bottom: 10px;">
         <span style="font-weight: bold; font-size: 16px;">Progresso da Avaliação de Qualidade</span>
     </div>
-    <div class="progress" style="height: 30px; background-color: #f3f3f3; border-radius: 15px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); position: relative;">
+    <div class="progress" style="height: 30px; background-color: #f3f3f3; border-radius: 15px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); position: relative; margin-left: 1%; margin-right: 1%;">
         <div class="progress-bar" role="progressbar" style="width: {{$progress}}%; 
             background-image: linear-gradient(to right, 
                 {{$progress >= 90 ? '#4caf50, #4caf50' : 
