@@ -30,10 +30,6 @@ return [
             'studies-imported' => 'Total imported studies',
             'actions' => 'Actions',
         ],
-    ]
-
-];
-
     ],
 
     'progress_bar' => [
@@ -75,6 +71,5 @@ return [
     'questions_table' => [
         'title' => 'Study Details',
     ],
-
 
 ];

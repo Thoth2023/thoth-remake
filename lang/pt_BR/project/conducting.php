@@ -52,11 +52,8 @@ return [
         'title' => 'Detalhes do Estudo',
     ],
 
+    'snowballing' => 'Snowballing',
 
-
-
-        'snowballing' => 'Snowballing'
-    ],
     'import-studies' => [
         'title' => 'Importação de estudos',
         'form' => [
