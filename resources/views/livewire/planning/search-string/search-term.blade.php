@@ -64,24 +64,32 @@
                     wire:submit="addSynonyms"
                     class="d-flex flex-column w-md-25 w-100"
                 >
-                    <div class="d-flex gap-2">
-                        <div class="d-flex flex-column gap-2 form-group w-100">
-                            <x-input
-                                maxlength="50"
-                                id="synonym"
-                                label="{{ __('project/planning.search-string.synonym.form.title') }}"
-                                wire:model="synonym"
-                                placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
-                            />
-                            @error("synonym")
-                                <span class="text-xs text-danger">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="d-flex justify-content-end">
+                    <div class="d-flex gap-2 form-group w-100">
+                        <x-input
+                            maxlength="50"
+                            id="synonym"
+                            label="{{ __('project/planning.search-string.synonym.form.title') }}"
+                            wire:model="synonym"
+                            placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                        />
+                        @error("synonym")
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+
+                        <div style="display: flex; align-items: end">
                             <x-helpers.submit-button
                                 isEditing="{{ $form['isEditing'] }}"
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 38px;
+                                    height: 38px;
+                                    padding: 5px;
+                                    margin-bottom: 0;
+                                "
                             >
                                 <div wire:loading>
                                     <i class="fas fa-spinner fa-spin"></i>
@@ -97,6 +105,7 @@
                         class="table-light sticky-top custom-gray-text"
                         style="color: #676a72"
                     >
+                        <th></th>
                         <th
                             style="
                                 padding: 0.5rem 0.75rem;
@@ -117,6 +126,11 @@
                     <tbody>
                         @forelse ($terms as $term)
                             <tr class="px-4" data-item="search-terms">
+                                <td>
+                                    @if ($term->synonyms->isNotEmpty())
+                                        <x-table.accordion-button />
+                                    @endif
+                                </td>
                                 <td>
                                     <span
                                         class="block text-wrap text-break"
@@ -142,6 +156,35 @@
                                     </button>
                                 </td>
                             </tr>
+                            <x-table.accordion-content>
+                                <td colspan="5">
+                                    <div class="d-grid gap-3">
+                                        @foreach ($term->synonyms as $synonym)
+                                            <div class="table-accordion-item">
+                                                <span class="d-flex text-break">
+                                                    {{ $synonym->description }}
+                                                </span>
+                                                <div>
+                                                    <button
+                                                        class="btn btn-outline-secondary py-0 px-3 m-0"
+                                                    >
+                                                        <i
+                                                            class="fas fa-edit"
+                                                        ></i>
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-outline-danger py-0 px-3 m-0"
+                                                    >
+                                                        <i
+                                                            class="fas fa-trash"
+                                                        ></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </td>
+                            </x-table.accordion-content>
                         @empty
                             <tr>
                                 <td colspan="3" class="text-center py-4">
