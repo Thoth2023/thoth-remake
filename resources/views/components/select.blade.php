@@ -15,9 +15,9 @@
         const isSorted = {{ $sorted }};
 
         const test = new Choices(select, {
-            noResultsText: 'Nenhum resultado encontrado',
-            noChoicesText: 'Nenhuma opção selecionada',
-            itemSelectText: 'Clique para selecionar',
+            noResultsText: 'No results found',
+            noChoicesText: 'No choices available',
+            itemSelectText: 'Click to select',
             searchEnabled: hasSearch,
             shouldSort: isSorted,
         });  
