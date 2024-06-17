@@ -94,14 +94,20 @@ class ProjectController extends Controller
     return view('project.conducting.index', compact('project', 'users_relation', 'activities', 'snowballing_projects'));
 }
 
-
     /**
      * Show the form for editing the specified project.
      */
     public function edit(string $idProject)
     {
+        $userProjects = Auth::user()->projects;
         $project = Project::findOrFail($idProject);
-        return view('projects.edit', compact('project'));
+        $user = Auth::user();
+
+        if (!$project->userHasAdministratorPermission($user)) {
+            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+        }
+
+        return view('projects.edit', compact('project'), ['projects' => $userProjects]);
     }
 
     /**
@@ -110,12 +116,25 @@ class ProjectController extends Controller
     public function update(Request $request, string $id)
     {
         $project = Project::findOrFail($id);
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
 
+        if (!$project->userHasAdministratorPermission($user)) {
+            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+        }
 
-        $project->update($request->all());
+        $project->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'objectives' => $request->objectives,
+        ]);
+
+        if ($request->copy_planning !== 'none') {
+            $sourceProject = Project::findOrFail($request->copy_planning);
+            $project->copyPlanningFrom($sourceProject);
+        }
+
         $activity = "Edited project";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user_id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         return redirect('/projects');
     }
@@ -127,8 +146,14 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $activity = "Deleted project ".$project->id_;
+        $user = Auth::user();
+
+        if (!$project->userHasAdministratorPermission($user)) {
+            return redirect()->back()->with('error', 'You do not have permission to delete the project.');
+        }
+
         $project->delete();
-        ActivityLogHelper::insertActivityLog($activity, 1, null, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog($activity, 1, null, $user->id);
 
         return redirect('/projects');
     }
@@ -146,9 +171,14 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
         $project->users()->detach($idMember);
         $name_member = User::findOrFail($idMember);
+        $user = Auth::user();
+
+        if (!$project->userHasAdministratorPermission($user)) {
+            return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
+        }
         
         $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
         return redirect()->back();
     }
 
@@ -163,6 +193,11 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($idProject);
         $users_relation = $project->users()->get();
+        $user = Auth::user();
+
+        if (!$project->userHasAdministratorPermission($user)) {
+            return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+        }
 
         return view('projects.add_member', compact('project', 'users_relation'));
     }
@@ -183,20 +218,20 @@ class ProjectController extends Controller
         $member_id = $this->findIdByEmail($email_member);
         $name_member = User::findOrFail($member_id);
         $level_member = $request->get('level_member');
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
 
         if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
             return redirect()->back()->with('error', 'The user is already associated with the project.');
         }
 
-        if ($project->users()->wherePivot('id_user', $user_id)->wherePivot('level', 1)->doesntExist()) {
+        if (!$project->userHasAdministratorPermission($user)) {
             return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
         }
 
         $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
 
         $activity = "Added a new member: ".$name_member->username;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user_id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         $project->update($request->all());
         return redirect()->back()->with('succes', $name_member->username.' has been added to the current project.');
@@ -217,12 +252,17 @@ class ProjectController extends Controller
         $member = $project->users()->findOrFail($idMember);
         $validatedData = $request->validated();
         $name_member = User::findOrFail($idMember);
+        $user = Auth::user();
+
+        if (!$project->userHasAdministratorPermission($user)) {
+            return redirect()->back()->with('error', 'You do not have permission to update the member level.');
+        }
 
         $member->pivot->level = $validatedData['level_member'];
         $member->pivot->save();
 
         $activity = "The admin updated ".$name_member->username." level to ".$validatedData['level_member'].".";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, Auth::user()->id);
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         return redirect()->back()->with('succes', 'The member level has been changed successfully.');
     }

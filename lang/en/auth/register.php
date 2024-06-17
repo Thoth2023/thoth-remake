@@ -2,7 +2,7 @@
 
 return [
     'welcome' => 'Welcome!',
-    'description' => 'Use these awesome forms to login or create a new account in your project for free.',
+    'description' => 'Use these awesome forms to login or create a new account for free.',
     'register_with' => 'Register with',
     'google' => 'Google',
     'facebook' => 'Facebook',
@@ -14,6 +14,9 @@ return [
     'already_have_account' => 'Already have an account?',
     'sign_in' => 'Sign in',
     'username' => 'Username',
+    'firstname' => 'Firstname',
+    'lastname' => 'Lastname',
+    'institution' => 'Institution',
     'email' => 'Email',
     'password' => 'Password',
     'terms_error' => 'You must agree to the Terms and Conditions.',
