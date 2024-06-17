@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -70,8 +71,8 @@ class Table extends Component
         
     }
 
-    private function setupDuplicates() {
-        $papers = $this->papers;
+    private function setupDuplicates($papers): Collection
+    {
         $uniquePapers = [];
         $titles = [];
 
@@ -90,7 +91,7 @@ class Table extends Component
             }
         }
 
-        return $uniquePapers;
+        return Collection::make($uniquePapers);
     }
 
 

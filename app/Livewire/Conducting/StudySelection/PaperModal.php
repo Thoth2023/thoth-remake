@@ -16,6 +16,7 @@ class PaperModal extends Component
     public function showPaper($paper)
     {
         $this->paper = $paper;
+        
         $this->dispatch('openModal');
     }
 

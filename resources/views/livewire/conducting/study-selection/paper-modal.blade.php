@@ -22,12 +22,11 @@
     </div>
 </div>
 
-<script>
-    Livewire.on('openModal', () => {
-        const options = {
-            backdrop: 'static',
-            keyboard: false
-        };
-        $('#paperModal').modal(options);
-    });
-</script>
+
+@script
+    <script>
+        $wire.on('openModal', () => {
+            $('#paperModal').modal('show');
+        });
+    </script>
+@endscript

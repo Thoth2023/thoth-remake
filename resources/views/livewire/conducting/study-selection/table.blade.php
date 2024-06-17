@@ -95,7 +95,7 @@
                 <div class='w-5 pl-2'>
                     <b data-search>{{ $paper['id_paper'] }}</b>
                 </div>
-                <div class='w-20' role='button' wire:click.prevent="openPaper({{ $paper['id_paper'] }})">
+                <div class='w-20' role='button' wire:click.prevent="openPaper({{ $paper }})">
                     <b data-search>{{ $paper['title'] }}</b>
                 </div>
                 <div class='w-20'>
