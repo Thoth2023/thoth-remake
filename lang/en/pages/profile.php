@@ -1,6 +1,6 @@
 <?php
-
 return [
+    'profile' => 'Profile',
     'your_profile' => 'Your Profile',
     'edit_profile' => 'Edit Profile',
     'save' => 'Save',

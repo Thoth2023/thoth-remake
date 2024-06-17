@@ -11,7 +11,7 @@ return[
     'country' => 'País',
     'postal_code' => 'CEP',
     'about_me' => 'Sobre mim',
-    'ocupation' => 'Ocupação',
+    'occupation' => 'Ocupação',
     'lattes_link' => 'Link do Lattes',
     'edit_profile' => 'Editar Perfil',
     'user_information' => 'Informações do Usuário',
