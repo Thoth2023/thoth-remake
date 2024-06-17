@@ -40,12 +40,8 @@
                                     </p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
-                                    <a href="{{ route('permissions.edit', $user->id) }}" class="text-sm font-weight-bold mb-0">Editar</a>
-                                    <form action="{{ route('permissions.destroy', $user->id) }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-sm font-weight-bold mb-0 btn btn-link">Excluir</button>
-                                    </form>
+                                    <a href="{{ route('edit-permissions', $user->profile->id) }}" class="btn btn-warning" >Editar</a>
+                                    <button type="button" class="btn btn-link text-sm font-weight-bold mb-0 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-action="{{ route('permissions.destroy', $user->profile->id) }}">Excluir</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -56,4 +52,37 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza de que deseja excluir este perfil?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST" style="display:inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const action = button.getAttribute('data-action');
+            document.getElementById('deleteForm').setAttribute('action', action);
+        });
+    });
+</script>
+
 @endsection

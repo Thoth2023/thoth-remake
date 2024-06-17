@@ -206,7 +206,7 @@ Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->na
 Route::get('/permissions', [PermissionManagerController::class, 'index'])->name('permissions.index');
 Route::get('/permissions/create', [PermissionManagerController::class, 'create'])->name('permissions.create');
 Route::post('/permissions', [PermissionManagerController::class, 'store'])->name('permissions.store');
-Route::get('/permissions/{profile}/edit', [PermissionManagerController::class, 'edit'])->name('permissions.edit');
+Route::get('/permissions/{profile}/edit', [PermissionManagerController::class, 'edit'])->name('edit-permissions');
 Route::put('/permissions/{profile}', [PermissionManagerController::class, 'update'])->name('permissions.update');
 Route::delete('/permissions/{profile}', [PermissionManagerController::class, 'destroy'])->name('permissions.destroy');
 
