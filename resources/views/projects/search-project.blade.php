@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Projects'])
+    @include('layouts.navbars.auth.topnav', ['title' => __('nav/topnav.projects')])
 
     <div class="container-fluid py-4">
         <div class="container-fluid py-4">
@@ -9,7 +9,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header pb-0">
-                            <h4><i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i> Results of
+                            <h4><i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i> {{ __('project/search.results_of')}}
                                 {{ $searchProject }}</h4>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -18,19 +18,19 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Title</th>
+                                                {{ __('project/search.project.table.headers.title') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Created By</th>
+                                                {{ __('project/search.project.table.headers.created_by') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Status</th>
+                                                {{ __('project/search.project.table.headers.status') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                                Completion</th>
+                                                {{ __('project/search.project.table.headers.completion') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                                Options</th>
+                                                {{ __('project/search.project.table.headers.options') }}</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -65,21 +65,21 @@
                                                 <td class="align-middle">
                                                     <a href="{{ route('projects.show', $project->id_project) }}"
                                                         class="text-secondary font-weight-bold text-xs"
-                                                        data-toggle="tooltip" data-original-title="View Project">View |
+                                                        data-toggle="tooltip" data-original-title="View Project">{{ __('project/search.project.options.view') }} |
                                                     </a>
                                                     {{-- @if ($project->user_level == 1) --}}
                                                     <a href="{{ route('projects.edit', $project->id_project) }}"
                                                         class="text-secondary font-weight-bold text-xs"
-                                                        data-toggle="tooltip" data-original-title="Edit Project">Edit |
+                                                        data-toggle="tooltip" data-original-title="Edit Project">{{ __('project/search.project.options.edit') }} |
                                                     </a>
                                                     <a href="{{ route('projects.add', $project->id_project) }}"
                                                         class="text-secondary font-weight-bold text-xs "
-                                                        data-toggle="tooltip" data-original-title="Add member">Add Member |
+                                                        data-toggle="tooltip" data-original-title="Add member">{{ __('project/search.project.options.add_member') }} |
                                                     </a>
                                                     <a onclick="event.preventDefault(); document.getElementById('delete-project-{{ $project->id_project }}').submit();"
                                                         href="#"
-                                                        class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-3 mb-0"
-                                                        data-toggle="tooltip" data-original-title="Delete Project">Delete
+                                                        class="font-weight-bold text-xs btn btn-link text-danger text-gradient px-1 mb-0"
+                                                        data-toggle="tooltip" data-original-title="Delete Project">{{ __('project/search.project.options.delete') }}
                                                     </a>
                                                     <form id="delete-project-{{ $project->id_project }}"
                                                         action="{{ route('projects.destroy', $project) }}" method="POST"

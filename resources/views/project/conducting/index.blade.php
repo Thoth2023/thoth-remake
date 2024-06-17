@@ -1,45 +1,54 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => "Conducting"])
+    @include("layouts.navbars.auth.topnav", ["title" => __('nav/topnav.conducting')])
 
     <div class="row mt-4 mx-4">
-        @include("project.components.project-header", ["project" => $project, "activePage" => "conducting"])
+        @include("project.components.project-header", [
+        "project" => $project, 
+        "activePage" => "conducting"
+        ])
 
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
+
                     @include(
                         "project.components.project-tabs",
                         [
-                            "header" => "Conducting",
+                            'header' => __('project/conducting.conducting'),
                             "tabs" => [
-                                [
+                              [
                                     "id" => "overview-tab",
                                     "label" => "Overview",
                                     "href" => "#overview",
-                                ],
-                                [
-                                    "id" => "import-studies-tab",
-                                    "label" => "Import Studies",
-                                    "href" => "#import-studies",
-                                ],
-                                [
-                                    "id" => "study-selection-tab",
-                                    "label" => "Study Selection",
-                                    "href" => "#study-selection",
-                                ],
-                                [
-                                    "id" => "quality-assessment-tab",
-                                    "label" => "Quality Assessment",
-                                    "href" => "#quality-assessment",
-                                ],
-                                [
-                                    "id" => "data-extraction-tab",
-                                    "label" => "Data Extraction",
-                                    "href" => "#data-extraction",
-                                ],
-                            ],
+                              ],
+                              [
+                                  'id' => 'import-studies-tab',
+                                  'label' => __('project/conducting.header.import_studies'),
+                                  'href' => '#import-studies',
+                              ],
+                              [
+                                  'id' => 'snowballing-tab',
+                                  'label' => __('project/conducting.header.snowballing'),
+                                  'href' => '#snowballing',
+                              ],
+                              [
+                                  'id' => 'study-selection-tab',
+                                  'label' => __('project/conducting.header.study_selection'),
+                                  'href' => '#study-selection',
+                              ],
+                              [
+                                  'id' => 'quality-assessment-tab',
+                                  'label' => __('project/conducting.header.quality_assessment'),
+                                  'href' => '#quality-assessment',
+                              ],
+                              [
+                                  'id' => 'data-extraction-tab',
+                                  'label' => __('project/conducting.header.data_extraction'),
+                                  'href' => '#data-extraction',
+                              ],
+                         
                             "activeTab" => "overview-tab",
                         ]
                     )
@@ -67,29 +76,17 @@
                                 @livewire("conducting.import-studies")
                         </div>
                         </div>
-                        <div class="tab-pane fade" id="study-selection">
-                            <!-- Content for Study Selection tab -->
-                            <div
-                                id="papers_per_selection"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
+                        <div id="snowballing" class="tab-pane fade">
+                            @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
                         </div>
-                        <div class="tab-pane fade" id="quality-assessment">
-                            <!-- Content for Quality Assessment tab -->
-                            <div
-                                id="papers_per_quality"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
-                            <div
-                                id="papers_gen_score"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
+                        <div id="study-selection" class="tab-pane fade">
+                            @include("project.conducting.study-selection")
                         </div>
-                        <div class="tab-pane fade" id="data-extraction">
-                            <!-- Content for Data Extraction tab -->
+                        <div id="quality-assessment" class="tab-pane fade">
+                            @include("project.conducting.quality-assessment")
+                        </div>
+                        <div id="data-extraction" class="tab-pane fade">
+                            @include("project.conducting.data-extraction")
                         </div>
                     </div>
                 </div>

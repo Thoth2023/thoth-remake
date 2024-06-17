@@ -4,16 +4,22 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class User extends Authenticatable
+class User extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
     use HasRoles, HasPermissions;
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $rememberTokenName = 'remember_token';
 
     protected $fillable = [
         'username',
@@ -29,6 +35,7 @@ class User extends Authenticatable
         'institution',
         'occupation',
         'lattes_link',
+        'role',
     ];
 
     public function projects()
@@ -39,6 +46,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $roles = [
+        'user' => 'USER',
+        'super_user' => 'SUPER_USER',
+    ];
+
+    protected $attributes = [
+        'role' => 'USER',
     ];
 
     protected $casts = [
