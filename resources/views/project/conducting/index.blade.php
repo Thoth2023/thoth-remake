@@ -4,23 +4,26 @@
     @include('layouts.navbars.auth.topnav', ['title' => __('nav/topnav.conducting')])
 
     <div class="row mt-4 mx-4">
-
-        @include(
-            'project.components.project-header',
-            ['activePage' => 'conducting'],
-            ["project" => $project]
-        )
+        @include('project.components.project-header', [
+            'activePage' => 'conducting',
+            'project' => $project
+        ])
 
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
-                @include('project.components.project-tabs', [
+                    @include('project.components.project-tabs', [
                         'header' => __('project/conducting.conducting'),
                         'tabs' => [
                             [
                                 'id' => 'import-studies-tab',
                                 'label' => __('project/conducting.header.import_studies'),
                                 'href' => '#import-studies',
+                            ],
+                            [
+                                'id' => 'snowballing-tab',
+                                'label' => __('project/conducting.header.snowballing'),
+                                'href' => '#snowballing',
                             ],
                             [
                                 'id' => 'study-selection-tab',
@@ -41,9 +44,12 @@
                         'activeTab' => 'import-studies-tab',
                     ])
 
-                    <div class="tab-content mt-4" >
+                    <div class="tab-content mt-4">
                         <div id="import-studies" class="tab-pane fade">
                             @include("project.conducting.import-studies")
+                        </div>
+                        <div id="snowballing" class="tab-pane fade">
+                            @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
                         </div>
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection")
@@ -53,11 +59,11 @@
                         </div>
                         <div id="data-extraction" class="tab-pane fade">
                             @include("project.conducting.data-extraction")
+                        </div>
                     </div>
                 </div>
                 @include('layouts.footers.auth.footer')
             </div>
         </div>
     </div>
-
 @endsection

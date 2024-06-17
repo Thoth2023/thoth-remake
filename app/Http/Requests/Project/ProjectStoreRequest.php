@@ -32,6 +32,7 @@ class ProjectStoreRequest extends FormRequest
                     }
                 }
             }],
+            'feature_review' => 'required|string',
         ];
     }
 
@@ -45,6 +46,8 @@ class ProjectStoreRequest extends FormRequest
             'description.string' => 'The description field must be a string.',
             'objectives.required' => 'The objectives field is required.',
             'objectives.string' => 'The objectives field must be a string.',
+            'feature_review.required' => 'feature review is required field',
+            'feature_review.string' => 'feature review is must string,'
         ];
     }
 }

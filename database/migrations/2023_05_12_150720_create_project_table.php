@@ -28,6 +28,7 @@ return new class extends Migration
             $table->float('selection', 10, 0)->default(0);
             $table->float('quality', 10, 0)->default(0);
             $table->float('extraction', 10, 0)->default(0);
+            $table->string('feature_review');
         });
     }
 
