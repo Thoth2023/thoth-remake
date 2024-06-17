@@ -1,3 +1,4 @@
+<div class="d-flex flex-column gap-4">
 <div class="card">
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
@@ -16,7 +17,7 @@
                     wire:model="selectedDatabase"
                 >
                     <option value="">
-                        {{ __("project/conducting.import-studies.form.select-database") }}
+                        {{ __("project/conducting.import-studies.form.selected-database") }}
                     </option>
                     @foreach ($databases as $database)
                         <option value="{{ $database->id }}">
@@ -34,6 +35,7 @@
                     <label
                         for="fileUpload"
                         class="form-control-label mx-0 mb-1"
+
                     >
                         {{ __("project/conducting.import-studies.form.upload") }}
                     </label>
@@ -42,7 +44,7 @@
                         class="form-control"
                         id="fileUpload"
                         wire:model="file"
-                        accept=".bib,.csv"
+                        accept=".bib,.csv,.txt"
                     />
                 </div>
                 @error("file")
@@ -121,7 +123,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @script
     <script>
         $wire.on('import-studies', ([{ message, type }]) => {
