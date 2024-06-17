@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.user_name') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.username') }}</label>
                                     <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.about_me2') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.about_me') }}</label>
                                     <input class="form-control" type="text" name="about" value="{{ old('about', auth()->user()->about) }}">
                                 </div>
                             </div>
