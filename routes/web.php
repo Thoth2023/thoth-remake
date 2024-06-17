@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\FaqManagementController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\DatabaseController;
 use App\Http\Controllers\Project\Planning\Overall\DateController;
@@ -202,6 +203,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 });
 
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+Route::get('/faq-management', [FaqManagementController::class, 'index'])->name('faq-management')->middleware('auth');
 
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
