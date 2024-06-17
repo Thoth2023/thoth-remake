@@ -377,6 +377,47 @@ return [
     ],
     'search-string' => [
         'title' => 'Search String',
+        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add, edit, or delete search terms to refine your search string and improve the accuracy of your search results.',
+        'form' => [
+            'description' => 'Generic search string',
+            'enter-description' => 'Enter search string description',
+            'add' => 'Add Search String',
+            'update' => 'Update Search String',
+            'placeholder' => 'Enter the search string',
+        ],
+        'term' => [
+            'form' => [
+                'title' => 'Search Term',
+                'placeholder' => 'Enter the search term',
+                'synonyms' => 'Synonyms',
+                'update' => 'Update Search Term',
+                'add' => 'Add Search Term',
+                'select' => 'Search Tems',
+                'select-placeholder' => 'Select a Search Term',
+            ],
+            'table' => [
+                'description' => 'Search Term',
+                'actions' => 'Actions',
+                'empty' => 'No search terms registered in the project.',
+                'not-found' => 'No search terms found.',
+            ],
+            'livewire' => [
+                'description' => [
+                    'required' => 'The search term field is required.',
+                ],
+                'toasts' => [
+                    'added' => 'Search Term added successfully.',
+                    'updated' => 'Search Term updated successfully.',
+                    'deleted' => 'Search Term deleted successfully.',
+                ],
+            ]
+        ],
+        'synonym' => [
+            'form' => [
+                'title' => 'Synonyms',
+                'placeholder' => 'Enter the synonym',
+            ]
+        ]
     ],
     'search-strategy' => [
         'title' => 'Search Strategy',
@@ -443,7 +484,7 @@ return [
         ],
     ],
     'quality-assessment' => [
-        'title'=>'Quality Assessment',
+        'title' => 'Quality Assessment',
         'general-score' => [
             'title' => 'General Score',
             'help' => [
@@ -490,14 +531,14 @@ return [
 
         ],
         'question-quality' => [
-            'title'=> 'Question Quality',
+            'title' => 'Question Quality',
             'help' => [
                 'title' => 'Question Quality',
                 'content' => '',
             ],
-            'id'=> 'ID',
-            'description'=> 'Description',
-            'weight'=> 'Weight',
+            'id' => 'ID',
+            'description' => 'Description',
+            'weight' => 'Weight',
             'add' => 'Add Question Quality',
             'update' => 'Update Question Quality',
             'livewire' => [
@@ -523,21 +564,21 @@ return [
 
         ],
         'quality-score' => [
-            'title'=> 'Quality Score',
+            'title' => 'Quality Score',
             'help' => [
                 'title' => 'Quality Score',
                 'content' => '',
             ],
-            'description'=> [
+            'description' => [
                 'title' => 'Description',
                 'placeholder' => 'Enter description',
             ],
-            'id_qa'=> [
+            'id_qa' => [
                 'title' => 'Question Quality',
                 'placeholder' => 'Select Question Quality',
                 'no-question-available' => 'No questions available',
             ],
-            'score_rule'=> [
+            'score_rule' => [
                 'title' => 'Score Rule',
                 'placeholder' => 'Enter Score Rule',
             ],
@@ -575,7 +616,7 @@ return [
         ],
 
         'min-general-score' => [
-            'title'=> 'Minimal General Score to Approve',
+            'title' => 'Minimal General Score to Approve',
             'form' => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
                 'add' => 'Add Minimal General Score',

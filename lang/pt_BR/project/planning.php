@@ -377,6 +377,47 @@ return [
     ],
     'search-string' => [
         'title' => 'String de Busca',
+        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione, edite ou exclua strings de pesquisa para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+        'form' => [
+            'description' => 'String de Busca Genérica',
+            'enter-description' => 'Digite a string de busca genérica',
+            'add' => 'Adicionar String de Busca',
+            'update' => 'Atualizar String de Busca',
+            'placeholder' => 'Digite a string de busca',
+        ],
+        'term' => [
+            'form' => [
+                'title' => 'Termos de Busca',
+                'placeholder' => 'Digite o termo de busca',
+                'synonyms' => 'Sinônimos',
+                'update' => 'Atualizar Termo de Busca',
+                'add' => 'Adicionar Termo de Busca',
+                'select' => 'Termos de Busca',
+                'select-placeholder' => 'Selecione um Termo de Busca',
+            ],
+            'table' => [
+                'description' => 'Termo de Busca',
+                'actions' => 'Ações',
+                'empty' => 'Nenhum termo de busca cadastrado',
+                'not-found' => 'Nenhum termo de busca encontrado.',
+            ],
+            'livewire' => [
+                'description' => [
+                    'required' => 'O campo do termo de busca é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Termo de Busca adicionado com sucesso.',
+                    'updated' => 'Termo de Busca atualizado com sucesso.',
+                    'deleted' => 'Termo de Busca deletado com sucesso.',
+                ],
+            ]
+        ],
+        'synonym' => [
+            'form' => [
+                'title' => 'Sinônimos',
+                'placeholder' => 'Digite o sinônimo',
+            ]
+        ]
     ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
@@ -490,14 +531,14 @@ return [
 
         ],
         'question-quality' => [
-            'title'=> 'Qualidade da Questão',
+            'title' => 'Qualidade da Questão',
             'help' => [
                 'title' => 'Qualidade da Questão',
                 'content' => '',
             ],
-            'id'=> 'ID',
-            'description'=> 'Descrição',
-            'weight'=> 'Peso',
+            'id' => 'ID',
+            'description' => 'Descrição',
+            'weight' => 'Peso',
             'add' => 'Adicionar Questão de Qualidade',
             'update' => 'Atualizar Questão de Qualidade',
             'livewire' => [
@@ -523,21 +564,21 @@ return [
 
         ],
         'quality-score' => [
-            'title'=> 'Pontuação de Qualidade',
+            'title' => 'Pontuação de Qualidade',
             'help' => [
                 'title' => 'Pontuação de Qualidade',
                 'content' => '',
             ],
-            'description'=> [
+            'description' => [
                 'title' => 'Descrição',
                 'placeholder' => 'Insira a descrição',
             ],
-            'id_qa'=> [
+            'id_qa' => [
                 'title' => 'Questão de Qualidade',
                 'placeholder' => 'Selecione a Questão de Qualidade',
                 'no-question-available' => 'Nenhuma questão disponível',
             ],
-            'score_rule'=> [
+            'score_rule' => [
                 'title' => 'Regra de Pontuação',
                 'placeholder' => 'Insira a Regra de Pontuação',
             ],
@@ -575,7 +616,7 @@ return [
         ],
 
         'min-general-score' => [
-            'title'=> 'Pontuação Geral Mínima para Aprovação',
+            'title' => 'Pontuação Geral Mínima para Aprovação',
             'form' => [
                 'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
                 'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
