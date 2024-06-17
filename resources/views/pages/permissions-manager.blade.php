@@ -39,10 +39,11 @@
                                         {{ $user->profile->name ?? 'N/A' }}
                                     </p>
                                 </td>
-                                <td class="align-middle text-center text-sm">
-                                    <a href="{{ route('edit-permissions', $user->profile->id) }}" class="btn btn-warning" >Editar</a>
-                                    <button type="button" class="btn btn-link text-sm font-weight-bold mb-0 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-action="{{ route('permissions.destroy', $user->profile->id) }}">Excluir</button>
-                                </td>
+                                @if(auth()->check() && auth()->user()->profile)
+                                    <a href="{{ route('edit-permissions', auth()->user()->profile->id) }}" class="btn btn-warning" >Editar</a>
+                                @else
+                                    <p>Perfil não encontrado.</p>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

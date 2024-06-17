@@ -8,6 +8,7 @@ return [
     'help' => 'Ajuda',
     'database_manager' => 'Gerenciar Banco de Dados',
     'user_manager' => 'Gerenciar de Usuários',
+    'permissions_manager' => 'Gerenciar Permissões',
 
     // Left side navbar
 
