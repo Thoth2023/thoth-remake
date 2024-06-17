@@ -592,10 +592,10 @@ return [
             ],
 
         ],
-        'quality-score' => [
-            'title' => 'Quality Score',
+        'question-score' => [
+            'title' => 'Question Score',
             'help' => [
-                'title' => 'Quality Score',
+                'title' => 'Question Score',
                 'content' => '',
             ],
             'description' => [
