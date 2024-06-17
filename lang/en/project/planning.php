@@ -377,6 +377,47 @@ return [
     ],
     'search-string' => [
         'title' => 'Search String',
+        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add, edit, or delete search terms to refine your search string and improve the accuracy of your search results.',
+        'form' => [
+            'description' => 'Generic search string',
+            'enter-description' => 'Enter search string description',
+            'add' => 'Add Search String',
+            'update' => 'Update Search String',
+            'placeholder' => 'Enter the search string',
+        ],
+        'term' => [
+            'form' => [
+                'title' => 'Search Term',
+                'placeholder' => 'Enter the search term',
+                'synonyms' => 'Synonyms',
+                'update' => 'Update Search Term',
+                'add' => 'Add Search Term',
+                'select' => 'Search Tems',
+                'select-placeholder' => 'Select a Search Term',
+            ],
+            'table' => [
+                'description' => 'Search Term',
+                'actions' => 'Actions',
+                'empty' => 'No search terms registered in the project.',
+                'not-found' => 'No search terms found.',
+            ],
+            'livewire' => [
+                'description' => [
+                    'required' => 'The search term field is required.',
+                ],
+                'toasts' => [
+                    'added' => 'Search Term added successfully.',
+                    'updated' => 'Search Term updated successfully.',
+                    'deleted' => 'Search Term deleted successfully.',
+                ],
+            ]
+        ],
+        'synonym' => [
+            'form' => [
+                'title' => 'Synonyms',
+                'placeholder' => 'Enter the synonym',
+            ]
+        ]
     ],
     'search-strategy' => [
         'title' => 'Search Strategy',

@@ -14,7 +14,7 @@ class Term extends Model
     public $timestamps = false;
     protected $fillable = [
         'description',
-        'project_id',
+        'id_project',
     ];
 
     public function project()
