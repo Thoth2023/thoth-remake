@@ -36,5 +36,24 @@ return [
         'status' => 'Status',
     ],
 
+    'status_extraction' => [
+        'title' => 'Status da Extração',
+        'no_extraction' => 'Não Extraido',
+        'extracted' => 'Extraido',
+        'removed' => 'Removido',
+    ],
+
+    'feedback' => [
+        'done' => 'Status atualizado para Done.',
+        'removed' => 'Estudo removido com sucesso.',
+    ],
+
+    'questions_table' => [
+        'title' => 'Detalhes do Estudo',
+    ],
+
+
+
+
 
 ];

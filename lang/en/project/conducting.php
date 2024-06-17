@@ -35,4 +35,21 @@ return [
         'status' => 'Status',
     ],
 
+    'status_extraction' => [
+        'title' => 'Extraction Status',
+        'no_extraction' => 'Not Extracted',
+        'extracted' => 'Extracted',
+        'removed' => 'Removed',
+    ],
+
+    'feedback' => [
+        'done' => 'Status updated to Completed',
+        'removed' => 'Study successfully removed.',
+    ],
+
+    'questions_table' => [
+        'title' => 'Study Details',
+    ],
+
+
 ];
