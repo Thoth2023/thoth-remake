@@ -4,6 +4,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
+use App\Http\Controllers\PermissionManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -202,7 +203,12 @@ Route::prefix('/project/{projectId}')->group(function () {
 });
 
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
-
+Route::get('/permissions', [PermissionManagerController::class, 'index'])->name('permissions.index');
+Route::get('/permissions/create', [PermissionManagerController::class, 'create'])->name('permissions.create');
+Route::post('/permissions', [PermissionManagerController::class, 'store'])->name('permissions.store');
+Route::get('/permissions/{profile}/edit', [PermissionManagerController::class, 'edit'])->name('permissions.edit');
+Route::put('/permissions/{profile}', [PermissionManagerController::class, 'update'])->name('permissions.update');
+Route::delete('/permissions/{profile}', [PermissionManagerController::class, 'destroy'])->name('permissions.destroy');
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {

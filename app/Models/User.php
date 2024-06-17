@@ -42,6 +42,11 @@ class User extends Model implements AuthenticatableContract
     {
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
     }
+    
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class, 'profile_id');
+    }
 
     protected $hidden = [
         'password',
