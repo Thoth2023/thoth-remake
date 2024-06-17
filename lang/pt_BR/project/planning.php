@@ -65,6 +65,7 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
+                    'duplicate'=> 'Domínio duplicado não é permitido.'
                 ],
             ]
         ],
@@ -156,6 +157,7 @@ return [
             'description' => 'Descrição',
             'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
+            'update' => 'Atualizar Palavra-chave',
             'list' => [
                 'headers' => [
                     'description' => 'Descrição',
@@ -202,6 +204,7 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
+                    'duplicate'=> 'Palavra-chave duplicada não é permitida.'
                 ],
             ]
         ],
@@ -442,7 +445,7 @@ return [
             'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
                 Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
-                Critérios de Inclusão: 
+                Critérios de Inclusão:
                 Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
                 Critérios de Exclusão:
                 Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
