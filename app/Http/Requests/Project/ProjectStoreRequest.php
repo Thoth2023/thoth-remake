@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Project;
 
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectStoreRequest extends FormRequest
@@ -26,10 +27,8 @@ class ProjectStoreRequest extends FormRequest
             'description' => 'required|string',
             'objectives' => 'required|string',
             'copy_planning' => ['nullable', 'string', function ($attribute, $value, $fail) {
-                if ($value !== 'none') {
-                    if (!Project::where('id_project', $value)->exists()) {
-                        $fail('The selected :attribute is invalid.');
-                    }
+                if ($value !== 'none' && !(Project::where('id_project', $value)->exists())) {
+                    $fail('The selected :attribute is invalid.');
                 }
             }],
         ];
