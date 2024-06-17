@@ -5,6 +5,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\PermissionManagerController;
+use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -203,6 +204,14 @@ Route::prefix('/project/{projectId}')->group(function () {
 });
 
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
+Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
+Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
+Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
+Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
+Route::get('/user/{user}', [UserManagerController::class, 'destroy'])->name('user.destroy');
+
 Route::get('/permissions', [PermissionManagerController::class, 'index'])->name('permissions.index');
 Route::get('/permissions/create', [PermissionManagerController::class, 'create'])->name('permissions.create');
 Route::post('/permissions', [PermissionManagerController::class, 'store'])->name('permissions.store');

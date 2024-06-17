@@ -6,6 +6,8 @@ return [
     'profile' => 'Profile',
     'about_us' => 'About Us',
     'help' => 'Help',
+    'database_manager' => 'Database Manager',
+    'user_manager' => 'User Manager',
     
     // Left side navbar
 
