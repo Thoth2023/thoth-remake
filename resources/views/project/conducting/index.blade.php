@@ -1,100 +1,101 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => "Conducting"])
+    @include("layouts.navbars.auth.topnav", ["title" => __('nav/topnav.conducting')])
 
-    <div class="row mt-4 mx-4">
-        @include("project.components.project-header", ["project" => $project, "activePage" => "conducting"])
 
-        <div class="container-fluid py-4">
-            <div class="row">
+ <div class="row mt-4 mx-4">
+        @include("project.components.project-header", [
+        "project" => $project,
+        "activePage" => "conducting"
+        ])
+
+     <div class="container-fluid py-4">
+          <div class="row">
                 <div class="col-12">
                     @include(
-                        "project.components.project-tabs",
-                        [
-                            "header" => "Conducting",
-                            "tabs" => [
-                                [
-                                    "id" => "overview-tab",
-                                    "label" => "Overview",
-                                    "href" => "#overview",
-                                ],
-                                [
-                                    "id" => "import-studies-tab",
-                                    "label" => "Import Studies",
-                                    "href" => "#import-studies",
-                                ],
-                                [
-                                    "id" => "study-selection-tab",
-                                    "label" => "Study Selection",
-                                    "href" => "#study-selection",
-                                ],
-                                [
-                                    "id" => "quality-assessment-tab",
-                                    "label" => "Quality Assessment",
-                                    "href" => "#quality-assessment",
-                                ],
-                                [
-                                    "id" => "data-extraction-tab",
-                                    "label" => "Data Extraction",
-                                    "href" => "#data-extraction",
-                                ],
-                            ],
-                            "activeTab" => "overview-tab",
-                        ]
-                    )
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="overview">
-                            <!-- Content for Overview tab -->
-                            <div
-                                id="overviewFunnelChart"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
-                            <div
-                                id="overviewChart"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
-                        </div>
-                        <div class="tab-pane fade" id="import-studies">
+                           "project.components.project-tabs",
+                           [
+                               'header' => __('project/conducting.conducting.title'),
+                               "tabs" => [
+                                   [
+                                       'id' => 'import-studies-tab',
+                                       'label' => __('project/conducting.header.import_studies'),
+                                       'href' => '#import-studies',
+                                   ],
+                                   [
+                                       'id' => 'study-selection-tab',
+                                       'label' => __('project/conducting.header.study_selection'),
+                                       'href' => '#study-selection',
+                                   ],
+                                   [
+                                       'id' => 'quality-assessment-tab',
+                                       'label' => __('project/conducting.header.quality_assessment'),
+                                       'href' => '#quality-assessment',
+                                   ],
+                                   [
+                                       'id' => 'snowballing-tab',
+                                       'label' => __('project/conducting.header.snowballing'),
+                                       'href' => '#snowballing',
+                                   ],
+                                   [
+                                       'id' => 'data-extraction-tab',
+                                       'label' => __('project/conducting.header.data_extraction'),
+                                       'href' => '#data-extraction',
+                                   ],
+                               ],
+                               "activeTab" => "import-studies-tab",
+                           ]
+                       )
+                    <div class="tab-content mt-4">
+                        <div class="tab-pane fade show active" id="import-studies">
                             <!-- Content for Import Studies tab -->
-                            <div
-                                id="papers_per_database"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            >
-                                @livewire("conducting.import-studies")
+                            @livewire("conducting.import-studies")
                         </div>
+
+                        <div id="study-selection" class="tab-pane fade">
+                            @include("project.conducting.study-selection")
                         </div>
-                        <div class="tab-pane fade" id="study-selection">
-                            <!-- Content for Study Selection tab -->
-                            <div
-                                id="papers_per_selection"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
+                        <div id="quality-assessment" class="tab-pane fade">
+                            @include("project.conducting.quality-assessment")
                         </div>
-                        <div class="tab-pane fade" id="quality-assessment">
-                            <!-- Content for Quality Assessment tab -->
-                            <div
-                                id="papers_per_quality"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
-                            <div
-                                id="papers_gen_score"
-                                style="height: 400px"
-                                class="card my-2 p-2"
-                            ></div>
+                        <div id="snowballing" class="tab-pane fade">
+                            @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
                         </div>
-                        <div class="tab-pane fade" id="data-extraction">
-                            <!-- Content for Data Extraction tab -->
+                        <div id="data-extraction" class="tab-pane fade">
+                            @include("project.conducting.data-extraction")
                         </div>
                     </div>
                 </div>
-            </div>
+
             @include("layouts.footers.auth.footer")
         </div>
     </div>
+ </div>
+    @if (session()->has("activePlanningTab"))
+        <script>
+            window.onload = function () {
+                // Remove active class from overall-info tab
+                document
+                    .getElementById('import-studies-tab')
+                    .classList.remove('active');
+                // Remove active class from overall-info content
+                document
+                    .getElementById('import-studies')
+                    .classList.remove('show', 'active');
+
+                // Get the tab ID stored in the session
+                var activeTabId = '{{ session("activePlanningTab") }}';
+
+                // Add active class to the tab stored in the session
+                document
+                    .getElementById(activeTabId + '-tab')
+                    .classList.add('active');
+                // Add active show class to the tab content stored in the session
+                document
+                    .getElementById(activeTabId)
+                    .classList.add('show', 'active');
+            };
+        </script>
+    @endif
 @endsection
