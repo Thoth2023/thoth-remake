@@ -1,10 +1,9 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => "Planning"])
+    @include("layouts.navbars.auth.topnav", ["title" => __("nav/topnav.planning")])
 
     <div class="row mt-4 mx-4">
-
         @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
 
         <div class="container-fluid py-4">
@@ -74,13 +73,13 @@
                             @livewire("planning.databases.databases")
                         </div>
                         <div class="tab-pane fade" id="search-string">
-                            [wip]
+                            @include("project.planning.search-string")
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
                             @include("project.planning.search-strategy")
                         </div>
                         <div class="tab-pane fade" id="criteria">
-                            @include("project.planning.criteria.index")
+                            @livewire("planning.criteria.criteria")
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
                             @include("project.planning.quality-assessment")

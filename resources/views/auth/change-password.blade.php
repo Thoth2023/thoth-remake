@@ -24,9 +24,9 @@
                                     </p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form" method="POST" action="{{ route('change.perform') }}">
+                                <form role="form" method="POST" action="{{ route('change.perform', ['id' => request()->id]) }}">
                                         @csrf
-
+                                        <input type="hidden" name="id" value="{{ request()->id }}">
                                         <div class="flex flex-col mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg"
                                                 placeholder="{{ __('auth/change-password.email') }}"
@@ -68,7 +68,7 @@
                             <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
                                 style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
               background-size: cover;">
-                                <span class="mask bg-gradient-primary opacity-6"></span>
+                                <span class="mask bg-gradient-primary opacity-8"></span>
                                 <h4 class="mt-5 text-white font-weight-bolder position-relative">
                                     {{ __('auth/change-password.quote.title') }}
                                 </h4>

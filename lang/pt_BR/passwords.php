@@ -15,6 +15,7 @@ return [
 
     'reset' => 'Sua senha foi redefinida com sucesso.',
     'sent' => 'Enviamos o link de redefinição de senha para o seu e-mail.',
+    'success' => 'Um email foi enviado para seu endereço de email.',
     'throttled' => 'Por favor, aguarde um momento antes de tentar novamente.',
     'token' => 'Este token de redefinição de senha é inválido.',
     'user' => "Não encontramos nenhum usuário com esse endereço de e-mail.",

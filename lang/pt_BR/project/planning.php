@@ -296,6 +296,8 @@ return [
             'name' => 'Nome',
             'actions' => 'Ações',
             'header' => 'Bases de Dados',
+            'name' => 'Nome',
+            'actions' => 'Ações',
             'remove-button' => 'Remover',
             'no-databases' => 'Nenhuma base de dados encontrado.',
             'empty' => 'Este projeto ainda não possui bases de dados registradas'
@@ -328,7 +330,50 @@ return [
                 'deleted' => 'Base de Dados deletada com sucesso.',
                 'suggested' => 'Sua sugestão foi enviada com sucesso.',
             ],
-        ]
+        ],
+        'database-manager' => [
+            'title' => 'Gerenciador de Bases de Dados',
+            'description' => 'Aqui você pode gerenciar as sugestões de bases de dados enviadas pelos usuários. Você pode aceitar ou rejeitar sugestões.',
+            'table' => [
+                'title' => 'Sugestões de Base de Dados',
+                'headers' => [
+                    'name' => 'Nome',
+                    'link' => 'Link',
+                    'actions' => 'Ações',
+                ],
+                'states' => [
+                    'approved' => 'Aprovada',
+                    'rejected' => 'Recusada',
+                    'pending' => 'Pendente',
+                    'proposed' => 'Proposta',
+                ],
+                'actions' => [
+                    'accept' => 'Aceitar',
+                    'reject' => 'Rejeitar',
+                ],
+                'empty' => 'Nenhuma sugestão de base de dados encontrada.',
+            ],
+            'modal' => [
+                'approve' => [
+                    'title' => 'Aceitar Sugestão',
+                    'description' => 'Tem certeza de que deseja aprovar esta sugestão? A sugestão será adicionada a lista de bases de dados',
+                    'cancel' => 'Cancelar',
+                    'approve' => 'Aprovar',
+                ],
+                'reject' => [
+                    'title' => 'Rejeitar Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja rejeitar esta sugestão?',
+                    'cancel' => 'Cancelar',
+                    'reject' => 'Rejeitar',
+                ],
+                'delete' => [
+                    'title' => 'Excluir Sugestão de Base de Dados',
+                    'description' => 'Tem certeza de que deseja excluir esta sugestão? Esta ação não pode ser desfeita.',
+                    'cancel' => 'Cancelar',
+                    'delete' => 'Excluir',
+                ],
+            ],
+        ],
     ],
     'search-string' => [
         'title' => 'String de Busca',
@@ -353,52 +398,232 @@ return [
     'criteria' => [
         'title' => 'Critérios de Inclusão/Exclusão',
         'help' => [
-            'title' => 'Ajuda para Critérios de Inclusão/Exclusão',
+            'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
-                <p>Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.</p>
-                <p><strong>Critérios de Inclusão:</strong> Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.</p>
-                <p><strong>Critérios de Exclusão:</strong> Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.</p>
-                <p>Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.</p>
+                Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
+                Critérios de Inclusão: 
+                Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
+                Critérios de Exclusão:
+                Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
+                Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.
             ',
         ],
         'form' => [
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição do critério',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
             'exclusion' => 'Exclusão',
             'add' => 'Adicionar Critério',
+            'update' => 'Atualizar Critério',
+            'select-placeholder' => 'Selecione o Tipo de Critério',
+            'select-inclusion' => 'Inclusão',
+            'select-exclusion' => 'Exclusão',
         ],
         'inclusion-table' => [
             'title' => 'Critérios de Inclusão',
             'select' => '',
             'id' => 'ID',
             'description' => 'Descrição',
-            'edit' => 'Editar',
-            'delete' => 'Excluir',
-            'no-criteria' => 'Nenhum critério encontrado.',
             'rule' => 'Regra de Inclusão',
-            'all' => 'Todos',
-            'any' => 'Qualquer',
-            'at-least' => 'Pelo Menos',
         ],
         'exclusion-table' => [
             'title' => 'Critérios de Exclusão',
             'select' => '',
             'id' => 'ID',
             'description' => 'Descrição',
-            'edit' => 'Editar',
-            'delete' => 'Excluir',
-            'no-criteria' => 'Nenhum critério encontrado.',
             'rule' => 'Regra de Exclusão',
+        ],
+        'table' => [
             'all' => 'Todos',
             'any' => 'Qualquer',
-            'at-least' => 'Pelo Menos',
+            'at-least' => 'Pelo menos',
+            'empty' => 'No criteria found',
+            'actions' => 'Ações',
+        ],
+        'livewire' => [
+            'description' => [
+                'required' => 'O campo de descrição é obrigatório.',
+            ],
+            'criteriaId' => [
+                'required' => 'O campo de ID é obrigatório.',
+                'regex' => 'O campo de ID deve conter apenas letras e números.',
+            ],
+            'type' => [
+                'required' => 'Selecionar um tipo é obrigatório.',
+            ],
+            'logs' => [
+                'added' => 'Critério adicionado',
+                'updated' => 'Critério atualizado.',
+                'deleted' => 'Critério excluído',
+            ],
+            'toasts' => [
+                'added' => 'Critério adicionado com sucesso.',
+                'deleted' => 'Critério deletado com sucesso.',
+                'updated' => 'Critério atualizado com sucesso.',
+                'updated-inclusion' => 'Regra do critério de inclusão atualizada',
+                'updated-exclusion' => 'Regra do critério de exclusão atualizada',
+                'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
+            ],
         ],
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
+        'general-score' => [
+            'title' => 'Pontuação Geral',
+            'help' => [
+                'title' => 'Pontuação Geral',
+                'content' => '',
+            ],
+            'start' => 'Digite a Pontuação Mínima',
+            'end' => 'Digite a Pontuação Máxima',
+            'description' => 'Descrição',
+            'placeholder-start' => 'Pontuação Mínima (0.0)',
+            'placeholder-end' => 'Pontuação Máxima (0.0)',
+            'add' => 'Adicionar Pontuação Geral',
+            'update' => 'Atualizar Pontuação Geral',
+            'table' => [
+                'min' => 'Pontuação Mínima',
+                'max' => 'Pontuação Máxima',
+                'description' => 'Descrição',
+                'action' => 'Ações',
+                'no-results' => 'Nenhuma pontuação geral encontrada.',
+                'empty' => 'Nenhuma pontuação geral registrada neste projeto.',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação Geral adicionada',
+                    'updated' => 'Pontuação Geral atualizada',
+                ],
+                'start' => [
+                    'invalid' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                    'required' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                ],
+                'end' => [
+                    'required' => 'O campo de pontuação geral é obrigatório.',
+                    'after' => 'A pontuação máxima deve ser maior que a pontuação mínima.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da pontuação geral é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Pontuação Geral adicionada com sucesso.',
+                    'updated' => 'Pontuação Geral atualizada com sucesso.',
+                    'deleted' => 'Pontuação Geral deletada com sucesso.',
+                ],
+            ],
+
+        ],
+        'question-quality' => [
+            'title' => 'Qualidade da Questão',
+            'help' => [
+                'title' => 'Qualidade da Questão',
+                'content' => '',
+            ],
+            'id' => 'ID',
+            'description' => 'Descrição',
+            'weight' => 'Peso',
+            'add' => 'Adicionar Questão de Qualidade',
+            'update' => 'Atualizar Questão de Qualidade',
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Questão de Qualidade adicionada',
+                    'updated' => 'Questão de Qualidade atualizada',
+                ],
+                'id' => [
+                    'required' => 'O campo de questão de qualidade é inválido. Por favor, insira uma questão de qualidade válida.',
+                ],
+                'weight' => [
+                    'required' => 'O campo de questão de qualidade é obrigatório.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da questão de qualidade é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Questão de Qualidade adicionada com sucesso.',
+                    'updated' => 'Questão de Qualidade atualizada com sucesso.',
+                    'deleted' => 'Questão de Qualidade deletada com sucesso.',
+                ],
+            ],
+
+        ],
+        'quality-score' => [
+            'title' => 'Pontuação de Qualidade',
+            'help' => [
+                'title' => 'Pontuação de Qualidade',
+                'content' => '',
+            ],
+            'description' => [
+                'title' => 'Descrição',
+                'placeholder' => 'Insira a descrição',
+            ],
+            'id_qa' => [
+                'title' => 'Questão de Qualidade',
+                'placeholder' => 'Selecione a Questão de Qualidade',
+                'no-question-available' => 'Nenhuma questão disponível',
+            ],
+            'score_rule' => [
+                'title' => 'Regra de Pontuação',
+                'placeholder' => 'Insira a Regra de Pontuação',
+            ],
+            'form' => [
+                'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
+                'add' => 'Adicionar Pontuação de Qualidade',
+                'update' => 'Atualizar Pontuação de Qualidade',
+            ],
+            'range' => [
+                'score' => 'Pontuação',
+            ],
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação de Qualidade adicionada',
+                    'updated' => 'Pontuação de Qualidade atualizada',
+                ],
+                'id' => [
+                    'required' => 'Pontuação de Qualidade inválida. Por favor, insira uma pontuação de qualidade válida.',
+                ],
+                'weight' => [
+                    'required' => 'O campo de pontuação de qualidade é obrigatório.',
+                ],
+                'description' => [
+                    'required' => 'O campo de descrição da pontuação de qualidade é obrigatório.',
+                ],
+                'rule' => [
+                    'required' => 'O campo de regra de pontuação é obrigatório.',
+                ]
+            ],
+            'toasts' => [
+                'added' => 'Pontuação de Qualidade adicionada com sucesso.',
+                'updated' => 'Pontuação de Qualidade atualizada com sucesso.',
+                'deleted' => 'Pontuação de Qualidade deletada com sucesso.',
+            ],
+        ],
+
+        'min-general-score' => [
+            'title' => 'Pontuação Geral Mínima para Aprovação',
+            'form' => [
+                'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
+                'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
+                'update' => 'Atualizar Pontuação Geral Mínima para Aprovação',
+            ],
+
+            'livewire' => [
+                'logs' => [
+                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada',
+                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada',
+                ],
+                'toasts' => [
+                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada com sucesso.',
+                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada com sucesso.',
+                ],
+                'min-general-score' => [
+                    'required' => 'O campo de pontuação geral mínima é obrigatório.',
+                ],
+            ],
+
+        ],
     ],
     'data-extraction' => [
         'title' => 'Extração de Dados',

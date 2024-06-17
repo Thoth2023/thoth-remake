@@ -42,18 +42,18 @@ class ForgotPassword extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
 
-    public function toMail($notifiable)
-    {
-        $url = URL::temporarySignedRoute('change-password', now()->addHours(12), ['id' => $this->token]);
-        return (new MailMessage)
-                    ->line('Hi!')
-                    ->subject('Reset Password')
-                    ->line('You are receiving this email so you can reset the password for your account')
-                    ->action('Reset Password', $url)
-                    ->line("If you didn't request this, please ignore this email.")
-                    ->line('Thank you!');
-    }
-
+     public function toMail($notifiable)
+     {
+         $url = URL::temporarySignedRoute('change-password', now()->addHours(12), ['id' => $this->token]);
+         return (new MailMessage)
+                    ->greeting(__('notification.reset_password.greeting'))
+                    ->subject(__('notification.reset_password.subject'))
+                    ->line(__('notification.reset_password.line_1'))
+                    ->action(__('notification.reset_password.action'), $url)
+                    ->line(__('notification.reset_password.line_2'))
+                    ->line(__('notification.reset_password.thanks'));
+     }
+     
     /**
      * Get the array representation of the notification.
      *
