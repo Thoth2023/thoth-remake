@@ -8,6 +8,7 @@ return [
     'help' => 'Help',
     'database_manager' => 'Database Manager',
     'user_manager' => 'User Manager',
+    'permissions_manager' => 'Permissions Manager',
     
     // Left side navbar
 

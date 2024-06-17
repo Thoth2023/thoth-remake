@@ -16,7 +16,7 @@ class PermissionManagerController extends Controller
 
     public function create()
     {
-        return view('permission.create');
+        return view('pages.create-permission');
     }
 
     public function store(Request $request)
@@ -33,7 +33,7 @@ class PermissionManagerController extends Controller
 
     public function edit(Profile $profile)
     {
-        return view('permissions.edit', compact('profile'));
+        return view('pages.edit-permissions', compact('profile'));
     }
 
     public function update(Request $request, Profile $profile)
@@ -55,3 +55,4 @@ class PermissionManagerController extends Controller
         return redirect()->route('permissions.index')->with('success', 'Permission deleted successfully.');
     }
 }
+
