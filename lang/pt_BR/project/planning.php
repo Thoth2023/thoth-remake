@@ -517,10 +517,10 @@ return [
 
         ],
         'question-quality' => [
-            'title' => 'Qualidade da Questão',
+            'title' => 'Questão de Qualidade',
             'help' => [
-                'title' => 'Qualidade da Questão',
-                'content' => '',
+                'title' => 'Questão de Qualidade',
+                'content' => '[WIP]',
             ],
             'id' => 'ID',
             'description' => 'Descrição',
