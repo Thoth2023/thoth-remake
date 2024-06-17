@@ -93,7 +93,7 @@
 }
 
 .table-accordion-content {
-    background: rgb(248, 248, 248);
+    background: rgb(248, 248, 248) !important;
 }
 
 .table-accordion-item {
@@ -101,9 +101,4 @@
     align-items: center !important;
     justify-content: space-between;
     padding: 3px 40px;
-}
-
-.table-accordion-item:hover {
-    background: #F8F8F8;
-    border-radius: 10px;
 }
