@@ -40,6 +40,28 @@
                         @endif
                     </select>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feature_review" id="feature_review1" value = "Systematic review">
+                    {{ old('feature_review') == 'Systematic review'}}</input>
+                    <label class="form-check-label" for="feature_review1" >
+                        Systematic review
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feature_review" id="feature_review2"  value = "Systematic review and Snowballing">
+                    {{ old('feature_review') == 'Systematic review and Snowballing'}}</input>
+                    <label class="form-check-label" for="feature_review2">
+                        Systematic review and Snowballing
+                    </label>
+                </div> 
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feature_review" id="feature_review3"  value= "Snowballing">
+                    {{ old('feature_review') == 'Snowballing'}}</input>
+                    <label class="form-check-label" for="feature_review3">
+                         Snowballing
+                    </label>
+                </div> 
+                
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/edit.edit')}}</button>
                 </div>
