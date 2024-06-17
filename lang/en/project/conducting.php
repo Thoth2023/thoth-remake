@@ -1,7 +1,5 @@
 <?php
 
-return [
-
     'conducting' => 'Conducting',
     'header' => [
         'overview' => 'Overview',
@@ -12,5 +10,12 @@ return [
         'snowbaling' => 'Snowballing',
 
     ]
+      
+    'import-studies' => [
+        'form' => [
+        'add' =>  'Adicionar alguma coisa',
+        'delete' => 'Deletar'
+        ]
+    ]  
 
 ];

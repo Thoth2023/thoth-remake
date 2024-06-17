@@ -10,14 +10,12 @@ use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
-use App\Http\Controllers\Project\Planning\DatabaseController;
-use App\Http\Controllers\Project\Planning\Overall\DateController;
-use App\Http\Controllers\Project\Planning\Overall\DomainController;
-use App\Http\Controllers\Project\Planning\Overall\KeywordController;
-use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
+
+//analisar esta 2 próximas linhas
 use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
+
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\SearchStringController;
@@ -36,8 +34,14 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+//analisar esta 2 próximas linhas
+use App\Livewire\Planning\Databases\Databases;
+use App\Http\Controllers\Project\ConductingController;
+
 use Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -198,7 +202,13 @@ Route::prefix('/project/{projectId}')->group(function () {
     });
 
     // start of the reporting routes
-    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+
+     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class)
+
+    // Star of Conducting routes
+    Route::get('/conducting/', [ConductingController::class, 'index'])->name('project.conducting.index')->middleware('auth')->middleware(Localization::class);
+    // End of Conducting routes
+
 });
 
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
