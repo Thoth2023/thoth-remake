@@ -33,6 +33,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\PageVersionController; /////////
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
@@ -198,8 +199,17 @@ Route::prefix('/project/{projectId}')->group(function () {
         Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
     });
 
+    
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+
+    //version control routes
+    Route::prefix('pages')->group(function () {
+        Route::get('{pageId}/versions', [PageVersionController::class, 'showHistory']);
+        Route::post('{pageId}/restore/{versionId}', [PageVersionController::class, 'restoreVersion']);
+    });
+    Route::delete('versions/{versionId}', [PageVersionController::class, 'deleteVersion']);
+
 });
 
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
