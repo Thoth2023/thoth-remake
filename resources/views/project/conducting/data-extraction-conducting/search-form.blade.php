@@ -27,13 +27,13 @@
             <div class="d-flex justify-content-between">
                 <span data-search>Estudo 3</span>
                 <div>
-                    <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia CSV"><i
+                    <button href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia CSV"><i
                             class="fas fa-file-csv"></i></a>
-                    <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia XML"><i
+                    <button href="#" class="btn py-1 px-3 btn-outline-primary" title="Cópia XML"><i
                             class="fas fa-file-code"></i></a>
-                    <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Exportar para PDF"><i
+                    <button href="#" class="btn py-1 px-3 btn-outline-primary" title="Exportar para PDF"><i
                             class="fas fa-file-pdf"></i></a>
-                    <a href="#" class="btn py-1 px-3 btn-outline-primary" title="Imprimir"><i
+                    <button href="#" class="btn py-1 px-3 btn-outline-primary" title="Imprimir"><i
                             class="fas fa-print"></i></a>
                     <button class="btn py-1 px-3 btn-outline-danger" wire:click="delete(3)" wire:target="delete(3)"
                         wire:loading.attr="disabled">
