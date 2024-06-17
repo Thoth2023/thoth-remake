@@ -14,6 +14,7 @@
                 label="Soma dos Pesos"
                 placeholder="0"
                 pattern="[A-Za-z]{3}"
+                wire:model="sum"
                 disabled
             />
             <x-input
@@ -23,6 +24,8 @@
                 maxlength="3"
                 min="0"
                 placeholder="0"
+                wire:model="cutoff"
+                wire:blur="updateCutoff"
             />
         </div>
     </div>

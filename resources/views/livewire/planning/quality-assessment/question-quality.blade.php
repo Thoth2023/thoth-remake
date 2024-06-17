@@ -8,22 +8,38 @@
             />
         </div>
         <div class="card-body pb-1">
-            <form>
+            <form wire:submit="submit">
                 <div class="d-flex flex-wrap gap-2">
-                    <x-input
-                        id="question-quality-id"
-                        label="ID"
-                        placeholder="QA01"
-                        pattern="[A-Za-z]{3}"
-                    />
-                    <x-input
-                        id="weight"
-                        label="{{ __('project/planning.quality-assessment.question-quality.weight') }}"
-                        type="number"
-                        maxlength="3"
-                        min="0"
-                        placeholder="2"
-                    />
+                    <div class="d-flex flex-column gap-1">
+                        <x-input
+                            id="question-quality-id"
+                            label="ID"
+                            placeholder="QA01"
+                            wire:model="questionId"
+                        />
+                        @error("questionId")
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="d-flex flex-column gap-1">
+                        <x-input
+                            id="weight"
+                            label="{{ __('project/planning.quality-assessment.question-quality.weight') }}"
+                            type="number"
+                            maxlength="3"
+                            min="0"
+                            placeholder="2"
+                            wire:model="weight"
+                        />
+                        @error("weight")
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
                 </div>
                 <div class="d-flex flex-column mt-2">
                     <label for="question" class="mb-1 mx-0">
@@ -31,15 +47,27 @@
                     </label>
                     <textarea
                         id="question"
-                        wire:model="question"
                         class="form-control"
                         maxlength="255"
                         rows="2"
                         placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                        wire:model="description"
                     ></textarea>
+                    @error("description")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
-                <x-helpers.submit-button class="mt-3">
-                    {{ __("project/planning.quality-assessment.question-quality.add") }}
+                <x-helpers.submit-button
+                    isEditing="{{ $form['isEditing'] }}"
+                    class="mt-3"
+                >
+                    {{
+                        $form["isEditing"]
+                            ? __("project/planning.quality-assessment.question-quality.update")
+                            : __("project/planning.quality-assessment.question-quality.add")
+                    }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>
@@ -71,3 +99,11 @@
             limit(this, 10);
         });
 </script>
+
+@script
+    <script>
+        $wire.on('question-quality', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript
