@@ -14,6 +14,9 @@ return [
         'already_have_account' => 'Já tem uma conta?',
         'sign_in' => 'Entrar',
         'username' => 'Nome de usuário',
+        'firstname' => 'Nome',
+        'lastname' => 'Sobrenome',
+        'institution' => 'Instituição',
         'email' => 'E-mail',
         'password' => 'Senha',
         'terms_error' => 'Você deve concordar com os Termos e Condições.'
