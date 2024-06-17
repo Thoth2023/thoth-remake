@@ -5,6 +5,7 @@ namespace App\Livewire\Planning\QualityAssessment;
 use App\Models\Project;
 use App\Models\Project\Planning\QualityAssessment\MinToApp;
 use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -33,14 +34,22 @@ class QuestionCutoff extends Component
     $this->sum = $this->questions->sum('weight');
   }
 
+  /**
+   * Dispatch a toast message to the view.
+   */
+  public function toast(string $message, string $type)
+  {
+    $this->dispatch('question-cutoff', ToastHelper::dispatch($type, $message));
+  }
+
   public function updateCutoff()
   {
     $cutoff = $this->cutoff;
     $projectId = $this->currentProject->id;
-
-    $this->questions->each(function ($question) use ($cutoff, $projectId) {
-      MinToApp::where('id_project', $projectId)->update(['min_to_app' => $cutoff]);
-    });
+    $this->toast(
+      message: 'Minimal score to approve updated successfully',
+      type: 'success',
+    );
   }
 
   public function render()

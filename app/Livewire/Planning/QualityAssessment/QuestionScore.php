@@ -65,6 +65,7 @@ class QuestionScore extends Component
     $this->projectId = request()->segment(2);
     $this->currentProject = ProjectModel::findOrFail($this->projectId);
     $this->questions = Question::where('id_project', $this->projectId)->get();
+    $this->score = 50;
   }
 
   #[On('update-score-questions')]
@@ -72,6 +73,23 @@ class QuestionScore extends Component
   {
     $projectId = $this->currentProject->id_project;
     $this->questions = Question::where('id_project', $projectId)->get();
+  }
+
+  function resetFields()
+  {
+    $this->questionId = '';
+    $this->scoreRule = '';
+    $this->score = 50;
+    $this->description = '';
+    $this->weight = '';
+  }
+
+  /**
+   * Dispatch a toast message to the view.
+   */
+  public function toast(string $message, string $type)
+  {
+    $this->dispatch('question-score', ToastHelper::dispatch($type, $message));
   }
 
   /**
@@ -82,30 +100,21 @@ class QuestionScore extends Component
   {
     $this->validate();
 
-    $projectId = request()->segment(2);
-    $this->currentQuestion = Question::findOrFail($projectId);
-
-
-
-    $updateIf = [
-      'id_score' => $this->currentQualityScore?->id_score,
-    ];
-
     try {
       $value = $this->form['isEditing'] ? 'Updated the quality score ' : 'Added a quality score';
       $toastMessage = __($this->toastMessages . ($this->form['isEditing']
         ? '.updated' : '.added'));
 
-      $updatedOrCreated = QualityScoreModel::updateOrCreate($updateIf, [
+      $create = QualityScoreModel::create([
         'score_rule' => $this->scoreRule,
         'description' => $this->description,
         'score' => $this->score,
-        'id_qa' => $this->currentQuestion->id_qa,
+        'id_qa' => $this->questionId,
       ]);
 
       Log::logActivity(
         action: $value,
-        description: $updatedOrCreated->description,
+        description: $create->description,
         projectId: $this->currentProject->id_project
       );
 

@@ -46,3 +46,11 @@
             limit(this, 10);
         });
 </script>
+
+@script
+    <script>
+        $wire.on('question-cutoff', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript

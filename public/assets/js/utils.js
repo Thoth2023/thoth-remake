@@ -84,7 +84,7 @@ function toasty({ message, type, toast = true, ...props }) {
         showConfirmButton: false,
         showCloseButton: true,
         timerProgressBar: true,
-        timer: 2_500, // 2.5 seconds
+        timer: 3_500, // 3.5 seconds
         position: !toast ? 'center' : 'bottom-end',
         customClass: {
             container: 'sweet-toast-container w-100',
