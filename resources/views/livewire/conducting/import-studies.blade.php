@@ -20,7 +20,7 @@
                         {{ __("project/conducting.import-studies.form.selected-database") }}
                     </option>
                     @foreach ($databases as $database)
-                        <option value="{{ $database->id }}">
+                        <option value="{{ $database->id_database }}">
                             {{ $database->name }}
                         </option>
                     @endforeach
