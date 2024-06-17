@@ -6,6 +6,8 @@ return [
     'profile' => 'Perfil',
     'about_us' => 'Sobre nós',
     'help' => 'Ajuda',
+    'database_manager' => 'Gerenciar Banco de Dados',
+    'user_manager' => 'Gerenciar de Usuários',
 
     // Left side navbar
 
