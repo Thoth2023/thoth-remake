@@ -35,8 +35,6 @@ class Table extends Component
 
     public array $editingStatus = []; 
 
-    public bool $filterDuplicates = false;
-
    /**
      * Executed when the component is mounted. It sets the
      * project id and retrieves the items.
