@@ -19,15 +19,6 @@
                 "destroy": true
             });
 
-            $('#study-selection-table tbody').on('click', 'tr', function () {
-                const studyId = $(this).data('id');
-                $('#studyDetails').removeClass('d-none');
-                $('#question1').val(`Resposta para a pergunta 1 do Estudo ${studyId}`);
-                $('#question2').val(`Resposta para a pergunta 2 do Estudo ${studyId}`);
-                $('#question3').val(`Resposta para a pergunta 3 do Estudo ${studyId}`);
-                $('#question4').val(`Resposta para a pergunta 4 do Estudo ${studyId}`);
-            });
-
             $('#extractionForm').on('submit', function(event) {
                 event.preventDefault();
                 $('#statusFeedback').removeClass('d-none');

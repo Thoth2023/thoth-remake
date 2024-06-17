@@ -17,7 +17,10 @@ class ConductingController extends Controller
         // Consulta para obter os projetos que têm a feature review snowballing
         $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
 
-        return view('project.conducting.index', compact('project',  'snowballing_projects'));
+        //Consulta que possui as Data Extraction Questions
+        $dataExtractionQuestions = $project->dataExtractionQuestions()->get();
+
+        return view('project.conducting.index', compact('project',  'snowballing_projects'), compact('dataExtractionQuestions'));
 
 
     }

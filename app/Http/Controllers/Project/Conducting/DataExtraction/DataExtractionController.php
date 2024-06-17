@@ -10,10 +10,9 @@ class DataExtractionController extends Controller
 {
 
     public function index(string $id_project) {
-
         $project = Project::findOrFail($id_project);
-        return view('project.conducting.data-extraction', compact('project'));
+        $questions = $project->dataExtractionQuestions()->get();
+        return view('project.conducting.data-extraction', compact('project'), compact('questions'));
     }
-
     
 }
