@@ -10,19 +10,19 @@
     <div class="card-body">
         <div class="d-flex flex-wrap gap-2">
             <x-input
-                id="question-quality-id"
+                id="sum"
                 label="Soma dos Pesos"
                 placeholder="0"
                 pattern="[A-Za-z]{3}"
                 disabled
             />
             <x-input
-                id="weight"
+                id="cutoff"
                 label="Cutoff"
                 type="number"
                 maxlength="3"
                 min="0"
-                placeholder="2"
+                placeholder="0"
             />
         </div>
     </div>

@@ -19,11 +19,11 @@
                     </div>
                     <x-input
                         id="weight"
-                        label="Weight"
+                        label="Score Rule"
                         type="number"
                         maxlength="3"
                         min="0"
-                        placeholder="2"
+                        placeholder="Partial"
                     />
                 </div>
                 <div class="d-flex align-items-center flex-wrap gap-3 mt-3">
