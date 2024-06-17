@@ -51,10 +51,10 @@ class QualityScore extends Component
     protected function messages()
     {
         return [
-            'score_rule.required' => __($this->translationPath . '.score_rule.required'),
+            'score_rule.required' => __($this->translationPath . '.rule.required'),
             'description.required' => __($this->translationPath . '.description.required'),
             'score.required' => __($this->translationPath . '.score.required'),
-            'id_qa.required' => __($this->translationPath . '.id_qa.required'),
+            'id_qa.required' => __($this->translationPath . '.id.required'),
         ];
     }
 

@@ -34,16 +34,27 @@ class OverallController extends Controller
         $projectDomains = Domain::where('id_project', $id_project)->get();
         $projectKeywords = Keyword::where('id_project', $id_project)->get();
 
-        return view('project.planning.index', compact(
-            'id_project',
-            'project',
-            'projectDomains',
-            'projectKeywords',
-            'databases',
-            'languages',
-            'studyTypes',
-            'questionTypes',
-            'usersRelation',
-        ));
+        // Retrieve search-string
+        $terms = $project->terms;
+        $synonyms = $project->synonyms;
+        $searchStrings = []; // simulating the search string results
+
+        return view(
+            'project.planning.index',
+            compact(
+                'id_project',
+                'project',
+                'projectDomains',
+                'projectKeywords',
+                'databases',
+                'languages',
+                'studyTypes',
+                'questionTypes',
+                'usersRelation',
+                'terms',
+                'synonyms',
+                'searchStrings',
+            )
+        );
     }
 }

@@ -398,48 +398,75 @@ return [
     'criteria' => [
         'title' => 'Critérios de Inclusão/Exclusão',
         'help' => [
-            'title' => 'Ajuda para Critérios de Inclusão/Exclusão',
+            'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
-                <p>Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.</p>
-                <p><strong>Critérios de Inclusão:</strong> Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.</p>
-                <p><strong>Critérios de Exclusão:</strong> Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.</p>
-                <p>Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.</p>
+                Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
+                Critérios de Inclusão: 
+                Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
+                Critérios de Exclusão:
+                Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
+                Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.
             ',
         ],
         'form' => [
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição do critério',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
             'exclusion' => 'Exclusão',
             'add' => 'Adicionar Critério',
+            'update' => 'Atualizar Critério',
+            'select-placeholder' => 'Selecione o Tipo de Critério',
+            'select-inclusion' => 'Inclusão',
+            'select-exclusion' => 'Exclusão',
         ],
         'inclusion-table' => [
             'title' => 'Critérios de Inclusão',
             'select' => '',
             'id' => 'ID',
             'description' => 'Descrição',
-            'edit' => 'Editar',
-            'delete' => 'Excluir',
-            'no-criteria' => 'Nenhum critério encontrado.',
             'rule' => 'Regra de Inclusão',
-            'all' => 'Todos',
-            'any' => 'Qualquer',
-            'at-least' => 'Pelo Menos',
         ],
         'exclusion-table' => [
             'title' => 'Critérios de Exclusão',
             'select' => '',
             'id' => 'ID',
             'description' => 'Descrição',
-            'edit' => 'Editar',
-            'delete' => 'Excluir',
-            'no-criteria' => 'Nenhum critério encontrado.',
             'rule' => 'Regra de Exclusão',
+        ],
+        'table' => [
             'all' => 'Todos',
             'any' => 'Qualquer',
-            'at-least' => 'Pelo Menos',
+            'at-least' => 'Pelo menos',
+            'empty' => 'No criteria found',
+            'actions' => 'Ações',
+        ],
+        'livewire' => [
+            'description' => [
+                'required' => 'O campo de descrição é obrigatório.',
+            ],
+            'criteriaId' => [
+                'required' => 'O campo de ID é obrigatório.',
+                'regex' => 'O campo de ID deve conter apenas letras e números.',
+            ],
+            'type' => [
+                'required' => 'Selecionar um tipo é obrigatório.',
+            ],
+            'logs' => [
+                'added' => 'Critério adicionado',
+                'updated' => 'Critério atualizado.',
+                'deleted' => 'Critério excluído',
+            ],
+            'toasts' => [
+                'added' => 'Critério adicionado com sucesso.',
+                'deleted' => 'Critério deletado com sucesso.',
+                'updated' => 'Critério atualizado com sucesso.',
+                'updated-inclusion' => 'Regra do critério de inclusão atualizada',
+                'updated-exclusion' => 'Regra do critério de exclusão atualizada',
+                'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
+            ],
         ],
     ],
     'quality-assessment' => [
@@ -490,14 +517,14 @@ return [
 
         ],
         'question-quality' => [
-            'title'=> 'Qualidade da Questão',
+            'title' => 'Qualidade da Questão',
             'help' => [
                 'title' => 'Qualidade da Questão',
                 'content' => '',
             ],
-            'id'=> 'ID',
-            'description'=> 'Descrição',
-            'weight'=> 'Peso',
+            'id' => 'ID',
+            'description' => 'Descrição',
+            'weight' => 'Peso',
             'add' => 'Adicionar Questão de Qualidade',
             'update' => 'Atualizar Questão de Qualidade',
             'livewire' => [
@@ -523,21 +550,21 @@ return [
 
         ],
         'quality-score' => [
-            'title'=> 'Pontuação de Qualidade',
+            'title' => 'Pontuação de Qualidade',
             'help' => [
                 'title' => 'Pontuação de Qualidade',
                 'content' => '',
             ],
-            'description'=> [
+            'description' => [
                 'title' => 'Descrição',
                 'placeholder' => 'Insira a descrição',
             ],
-            'id_qa'=> [
+            'id_qa' => [
                 'title' => 'Questão de Qualidade',
                 'placeholder' => 'Selecione a Questão de Qualidade',
                 'no-question-available' => 'Nenhuma questão disponível',
             ],
-            'score_rule'=> [
+            'score_rule' => [
                 'title' => 'Regra de Pontuação',
                 'placeholder' => 'Insira a Regra de Pontuação',
             ],
@@ -563,6 +590,9 @@ return [
                 'description' => [
                     'required' => 'O campo de descrição da pontuação de qualidade é obrigatório.',
                 ],
+                'rule' => [
+                    'required' => 'O campo de regra de pontuação é obrigatório.',
+                ]
             ],
             'toasts' => [
                 'added' => 'Pontuação de Qualidade adicionada com sucesso.',
@@ -572,7 +602,7 @@ return [
         ],
 
         'min-general-score' => [
-            'title'=> 'Pontuação Geral Mínima para Aprovação',
+            'title' => 'Pontuação Geral Mínima para Aprovação',
             'form' => [
                 'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
                 'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',

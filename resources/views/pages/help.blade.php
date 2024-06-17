@@ -1,19 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.guest.navbar', ['title' => 'Home'])
-    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
-        <span class="mask bg-gradient-faded-dark opacity-5"></span>
-        <div class="container">
-            <div class="row justify-content-center">
+    @include('layouts.navbars.guest.navbar', ['title' => 'Help'])
+    <div class="container mt-8 mb-3">
+        <div class="page-header d-flex flex-column pt-4 pb-9 border-radius-lg">
+            <div
+                class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
+                style="width: 100%"
+            >
                 <div class="col-lg-6 text-center mx-auto">
-                    <h1 class="text-white mb-2 mt-5">FAQ</h1>
-                    <p class="text-lead text-white">{{ __('pages/help.10_questions') }}</p>
+                    <h1 class="text-white">FAQ</h1>
+                    <p class="text-lead text-white">
+                        {{ __('pages/help.10_questions') }}
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-8 mb-5">
@@ -194,4 +196,5 @@
                     </div>
                 </div>
             </div>
+        </div>
         @endsection

@@ -3,18 +3,22 @@
 @section('content')
     @include('layouts.navbars.guest.navbar')
     <main class="main-content  mt-0">
-        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
-             <span class="mask bg-gradient-faded-dark opacity-5"></span>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-5 text-center mx-auto">
-                        <h1 class="text-white mb-2 mt-5">{{ __('auth/register.welcome') }}</h1>
-                        <p class="text-lead text-white">{{ __('auth/register.description') }}</p>
+        <div class="container mt-8 mb-3">
+            <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
+                <div
+                    class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
+                    style="width: 100%"
+                >
+                    <div class="col-lg-6 text-center mx-auto">
+                        <h1 class="text-white">
+                            {{ __("auth/register.welcome") }}
+                        </h1>
+                        <p class="text-lead text-white">
+                            {{ __("auth/register.description") }}
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
                 <div class="col-xl-12 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0">
@@ -111,12 +115,12 @@
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
                                         {{ __('auth/register.i_agree') }}
-                                        <a href="javascript:;" class="text-dark font-weight-bolder">
+                                        <a href="{{ route('terms') }}" class="text-dark font-weight-bolder">
                                             {{ __('auth/register.terms_and_conditions') }}
                                         </a>
                                     </label>
                                     @error('terms')
-                                        <p class='text-danger text-xs'> {{ $message }} </p>
+                                        <p class='text-danger text-xs'> {{ $message     }} </p>
                                     @enderror
                                 </div>
                                 <div class="text-center">
@@ -136,6 +140,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </main>
     @include('layouts.footers.guest.footer')
 @endsection
