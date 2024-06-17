@@ -43,6 +43,7 @@
                 </div>
                 <div class="modal-body">
                     {!! $modalContent !!}
+          
                 </div>
                 <div class="modal-footer">
                     <button
@@ -50,7 +51,7 @@
                         class="btn bg-gradient-primary"
                         data-bs-dismiss="modal"
                     >
-                        Close
+                        {{ __("project/planning.button.close") }}
                     </button>
                 </div>
             </div>

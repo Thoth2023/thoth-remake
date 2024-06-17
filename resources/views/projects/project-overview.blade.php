@@ -1,7 +1,7 @@
 <div class="card-group justify-content-center">
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <h5>Description</h5>
+            <h5>{{ __('project/overview.description') }}</h5>
         </div>
         <div class="card-body pt-2">
             <p>{{ $project->description }}</p>
@@ -9,7 +9,7 @@
     </div>
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <h5>Objectives</h5>
+            <h5>{{ __('project/overview.objectives') }}</h5>
         </div>
         <div class="card-body pt-2">
             <p>{{ $project->objectives }}</p>
@@ -17,7 +17,7 @@
     </div>
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <h5>Members</h5>
+            <h5>{{ __('project/overview.members') }}</h5>
         </div>
         <div class="card-body pt-2">
             <ul>
@@ -35,13 +35,13 @@
     <div class="card-group">
         <div class="card">
             <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                <h5>Progress of Systematic Review</h5>
+                <h5>{{ __('project/overview.progress') }}</h5>
             </div>
             <div class="card-body">
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Planning 60%</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.planning') }}</span>
                         </div>
                     </div>
                     <div class="progress">
@@ -54,7 +54,7 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Import Studies 70%</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.import_studies') }}</span>
                         </div>
                     </div>
                     <div class="progress">
@@ -67,7 +67,7 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Study Selection 50%</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.study_selection') }}</span>
                         </div>
                     </div>
                     <div class="progress">
@@ -80,7 +80,7 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Quality Assessment 20%</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.quality_assessment') }}</span>
                         </div>
                     </div>
                     <div class="progress">
@@ -93,7 +93,7 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Data Extraction 95%</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.data_extraction') }}</span>
                         </div>
                     </div>
                     <div class="progress">
@@ -105,7 +105,7 @@
         </div>
         <div class="card">
             <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                <h5>Activity Record</h5>
+                <h5>{{ __('project/overview.activity_record') }}</h5>
             </div>
             <div style="max-height:390px; overflow-y: auto;">
                 @if (!empty($activities))
