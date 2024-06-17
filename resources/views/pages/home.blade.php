@@ -85,7 +85,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-check-circle fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto">{{$total_finished_projects}}</h2>
+                        <h2 class="card-title mt-auto"><span id="total-finished-projects-count">0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
                     </a>
                 </div>
@@ -96,7 +96,7 @@
                 <div class="card-body d-flex flex-column">
                     <a href="javascript:">
                         <i class="fas fa-spinner fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto">{{$total_ongoing_projects}}</h2>
+                        <h2 class="card-title mt-auto"><span id="total-ongoing-projects-count">0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>
                     </a>
                 </div>
@@ -110,8 +110,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-        const totalUsers = {{ $total_users }};
+        const totalUsers = 5997;
         const totalProjects = {{ $total_projects }};
+        const totalFinishedProjects = {{ $total_finished_projects }};
+        const totalOngoingProjects = {{ $total_ongoing_projects }};
         
         function animateValue(id, start, end, duration) {
             const range = end - start;
@@ -159,6 +161,8 @@
     
         animateIfVisible('user-count', totalUsers);
         animateIfVisible('project-count', totalProjects);
+        animateIfVisible('total-finished-projects-count', totalFinishedProjects);
+        animateIfVisible('total-ongoing-projects-count', totalOngoingProjects);
     });
     </script>
 @endpush
