@@ -26,8 +26,8 @@ class ImportStudies extends Component
      * Validation rules.
      */
     protected $rules = [
-        'selectedDatabase' => 'required|exists:project_databases,id',
-        'file' => 'required|file|mimes:bib,csv|max:10240', // 10MB max
+        'selectedDatabase' => 'required|exists:project_databases,id_database',
+        'file' => 'required|file|mimes:bib,csv,txt|max:10240', // 10MB max
     ];
 
     /**
