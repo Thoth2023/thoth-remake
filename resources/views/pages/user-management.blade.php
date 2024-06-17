@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'User Management'])
+    @include('layouts.navbars.auth.topnav', ['title' => __("nav/side.user_manager")])
     <div class="row mt-4 mx-4">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>{{ __("pages/user-manager.Users") }}</h6>
-                        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">{{ __("pages/user-manager.Add_User") }}</a>
+                        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm" style="background-color:black;">{{ __("pages/user-manager.Add_User") }}</a>
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">

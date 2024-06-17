@@ -37,6 +37,7 @@ class UserManagerController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname' => 'nullable|string|max:255',
             'email' => ['required', 'email', 'max:255'],
+            'institution' => 'nullable|string|max:255',
         ]);
 
         $user->update([
@@ -45,6 +46,7 @@ class UserManagerController extends Controller
             'lastname' => $request->lastname,
             'occupation' => $request->occupation,
             'email' => $request->get('email') ,
+            'institution' => $request->institution,
         ]);
 
         return redirect()->route('user-manager')->with('success', 'Usuário atualizado com sucesso!');
