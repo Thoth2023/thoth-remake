@@ -5,6 +5,7 @@ namespace App\Models\Project\Conducting;
 use App\Models\BibUpload;
 use App\Models\Database;
 use App\Models\ProjectDatabases;
+use App\Models\StatusSelection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,11 @@ class Papers extends Model
     public function database()
     {
         return $this->belongsTo(Database::class, 'data_base', 'id_database');
+    }
+
+    public function status_selection()
+    {
+        return $this->belongsTo(StatusSelection::class, 'status_selection', 'id_status_selection');
     }
 
     public function ScopeFindPapersByIdProject($query, $projectId)

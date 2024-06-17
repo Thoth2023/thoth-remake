@@ -6,7 +6,7 @@
     <ul class='list-group'>
         <li class='list-group-item d-flex'>    
             <div class='w-5 pl-2'>
-                <b wire:click="sortBy('id')" role="button" href="#">
+                <b wire:click.prevent="sortBy('id')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.id' )}}
                     @if(isset($sorts['id']))
                         @if($sorts['id'] === 'asc')
@@ -18,7 +18,7 @@
                 </b>
             </div>
             <div class='w-20 pl-2 pr-2'>
-                <b wire:click="sortBy('title')" role="button" href="#">
+                <b wire:click.prevent="sortBy('title')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.title' )}}
                     @if(isset($sorts['title']))
                         @if($sorts['title'] === 'asc')
@@ -30,7 +30,7 @@
                 </b>
             </div>
             <div class='w-20'>
-                <b wire:click="sortBy('ac')" role="button" href="#">
+                <b wire:click.prevent="sortBy('ac')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.acceptance-criteria' )}}
                     @if(isset($sorts['ac']))
                         @if($sorts['ac'] === 'asc')
@@ -42,7 +42,7 @@
                 </b>
             </div>
             <div class='w-20 pl-2 pr-2'>
-                <b wire:click="sortBy('ec')" role="button" href="#">
+                <b wire:click.prevent="sortBy('ec')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.rejection-criteria' )}}
                     @if(isset($sorts['ec']))
                         @if($sorts['ec'] === 'asc')
@@ -54,7 +54,7 @@
                 </b>
             </div>
             <div class='w-15 pl-2 pr-2'>
-                <b wire:click="sortBy('database')" role="button" href="#">
+                <b wire:click.prevent="sortBy('database')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.database') }}
                     @if(isset($sorts['database']))
                         @if($sorts['database'] === 'asc')
@@ -66,7 +66,7 @@
                 </b>
             </div>
             <div class='pr-5 w-15'>
-                <b wire:click="sortBy('status')" role="button" href="#">
+                <b wire:click.prevent="sortBy('status')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.status') }}
                     @if(isset($sorts['status']))
                         @if($sorts['status'] === 'asc')
@@ -84,27 +84,28 @@
             </div>
         </li>
     </ul>
+    @livewire('conducting.study-selection.paper-modal')
     <ul class='list-group list-group-flush'>
         @forelse ($papers as $paper)
             <x-search.item
-                wire:key="{{ $paper['id_paper'], $paper['title'], $paper['data_base'], $paper['status']}}"
+                wire:key="{{ $paper['title'] }}"
                 target="search-papers"
                 class="list-group-item d-flex row w-100"
             >
                 <div class='w-5 pl-2'>
-                    <b>{{ $paper['id_paper'] }}</b>
+                    <b data-search>{{ $paper['id_paper'] }}</b>
+                </div>
+                <div class='w-20' role='button' wire:click.prevent="openPaper({{ $paper['id_paper'] }})">
+                    <b data-search>{{ $paper['title'] }}</b>
                 </div>
                 <div class='w-20'>
-                    <b>{{ $paper['title'] }}</b>
-                </div>
-                <div class='w-20'>
-                    <b>[wip]</b>
+                    <b data-search>[wip]</b>
                 </div>  
                 <div class='w-20'>
-                    <b>[wip]</b>
+                    <b data-search>[wip]</b>
                 </div>
                 <div class='w-15'>
-                    <b>{{ $paper['data_base'] }}</b>
+                    <b data-search>{{ $paper['data_base'] }}</b>
                 </div>
                 <div class='w-15'>
                     @if(isset($editingStatus[$paper->id]))
@@ -114,14 +115,14 @@
                             @endforeach
                         </select>
                     @else
-                        <b wire:click="$set('editingStatus.{{ $paper->id }}', '{{ $paper->status }}')">
+                        <b wire:click="$set('editingStatus.{{ $paper->id }}', '{{ $paper->status }}')" data-search>
                             {{ $paper->status }}
                         </b>
                     @endif
                 </div>
-                <div class='btn btn-light w-5'>
-                    <i class="fa-solid fa-share"></i>
-                </div>
+                <a class='btn btn-light w-5' href="{{ $paper->url }}" wire:custom-directive>
+                    <i class="fa fa-solid fa-share"></i>
+                </a>
             </x-search.item>
             @empty
             <x-helpers.description>
@@ -134,3 +135,16 @@
         
     </ul>   
 </div>
+
+<script>
+  Livewire.directive('custom-directive', {
+    bind: function (el, binding, vnode) {
+      el.addEventListener('click', function (event) {
+        if (event.ctrlKey || event.metaKey) {
+          event.preventDefault();
+          window.open(binding.value);
+        }
+      });
+    },
+  });
+</script>

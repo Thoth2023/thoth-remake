@@ -25,6 +25,8 @@ return [
             'duplicated' => 'Duplicated',
             'removed' => 'Removed',
             'unclassified' => 'Unclassified',
+            'included' => 'Included',
+            'approved' => 'Approved'
         ],
     ]
 

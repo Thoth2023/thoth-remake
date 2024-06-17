@@ -3,7 +3,9 @@
 namespace App\Livewire\Conducting\StudySelection;
 
 use App\Models\BibUpload;
+use App\Models\Criteria;
 use App\Models\Database;
+use App\Models\EvaluationCriteria;
 use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
@@ -42,12 +44,12 @@ class Table extends Component
      */
     public function mount()
     {
-        $this->statuses    = [
-            __('project.conducting.study-selection.status.duplicated'), 
-            __('project.conducting.study-selection.status.removed'), 
-            __('project.conducting.study-selection.status.unclassifield'),
-            __('project.conducting.study-selection.status.included'),
-            __('project.conducting.study-selection.status.approved'),
+        $this->statuses = [
+            __('project/conducting.study-selection.status.duplicated'), 
+            __('project/conducting.study-selection.status.removed'), 
+            __('project/conducting.study-selection.status.unclassified'),
+            __('project/conducting.study-selection.status.included'),
+            __('project/conducting.study-selection.status.approved'),
         ];
 
         $projectId = request()->segment(2);
@@ -64,19 +66,45 @@ class Table extends Component
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
         
         $this->papers = $this->setupDatabase($this->papers);
-        // $this->papers = $this->setupCriteria($this->papers);
+        $this->papers = $this->setupCriteria($this->papers);
         $this->papers = $this->setupStatus($this->papers);
+        $this->papers = $this->setupDuplicates($this->papers);
         
-        if ($this->filterDuplicates) {
-            $this->papers = $this->filterDuplicates($this->papers);
-        }
     }
+
+    private function setupDuplicates() {
+        $papers = $this->papers;
+        $uniquePapers = [];
+        $titles = [];
+
+        foreach ($papers as $paper) {
+            if (!in_array($paper->title, $titles)) {
+                $uniquePapers[] = $paper;
+                $titles[] = $paper->title;
+            }
+        }
+
+        foreach ($papers as $paper) {
+            if (!in_array($paper, $uniquePapers)) {
+                $status_selection = StatusSelection::where('description', 'Duplicated')->first();
+                $paper['status_selection'] = $status_selection->id_status;
+                $paper['status'] = $status_selection->description;
+            }
+        }
+
+        return $uniquePapers;
+    }
+
+
 
     private function setupCriteria($papers)
     {
-        foreach($papers as $paper) {
-            $criteria = $paper->bib->criteria;
-            $paper['criteria'] = $criteria;
+        $criterias = Criteria::where('id_project', $this->projectId)->get();
+        
+        foreach($criterias as $criteria) {
+            foreach($papers as $paper) {
+                
+            }
         }
 
         return $papers;
@@ -93,11 +121,16 @@ class Table extends Component
         return $papers;
     }   
 
+    public function openPaper($paperId)
+    {
+        $paper = $this->papers->firstWhere('id_paper', $paperId);
+        $this->dispatch('showPaper', paper: $paper);
+    }
+
     private function setupStatus($papers)
     {
         foreach($papers as $paper) {
-            $status_selection = StatusSelection::where('id_status', $paper->status_selection)->first();
-            $paper['status'] = $status_selection->description;
+            $paper['status'] = "Selecionar";
         }
         return $papers;
     }
@@ -111,9 +144,9 @@ class Table extends Component
 
         $value = 'Updated papers status.';
 
-        Log::logActivity(
-            action: $value, 
-            description: $paper, 
+        Log::info(
+            'action: ' + $value + 
+            'description:' + $paper, 
             projectId: $this->currentProject->id_project
         );
     }
@@ -133,36 +166,12 @@ class Table extends Component
         $papers = $this->papers;
 
         foreach ($this->sorts as $field => $direction) {
-            $papers = $papers->sortBy($field, SORT_REGULAR, $direction === 'desc');
+            $papers = $direction === 'asc' ? $papers->sortBy($field) : $papers->sortByDesc($field);
         }
 
         return view('livewire.conducting.study-selection.table', [
             'papers' => $papers,
         ])->extends('layouts.app');
-    }
-
-    public function filterDuplicates($papers){
-
-        $uniquePapers = collect();
-
-        foreach($papers as $paper){
-            if(!$uniquePapers->contains('title', $paper->title)){
-                $uniquePapers->push($paper);
-            }
-        }
-
-        return $uniquePapers;
-    }
-
-    public function toggleFilterDuplicates()
-    {
-        $this->filterDuplicates = !$this->filterDuplicates;
-
-        if ($this->filterDuplicates) {
-            $this->papers = $this->filterDuplicates($this->papers);
-        } else {
-            $this->mount(); 
-        }
     }
 
 }

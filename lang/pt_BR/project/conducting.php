@@ -30,6 +30,8 @@ return [
             'duplicated' => 'Duplicado',
             'removed' => 'Removido',
             'unclassified' => 'Não Classificado',
+            'approved' => 'Aprovado',
+            'included' => 'Incluido'
         ],
     ]
 

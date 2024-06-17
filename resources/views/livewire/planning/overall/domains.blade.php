@@ -64,7 +64,7 @@
                         </button>
                     </div>
                 </x-search.item>
-            @empty
+                @empty
                 <x-helpers.description>
                     {{ __("project/planning.overall.domain.list.empty") }}
                 </x-helpers.description>
