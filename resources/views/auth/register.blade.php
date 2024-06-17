@@ -6,8 +6,8 @@
         <div class="container mt-8 mb-3">
             <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
                 <div
-                    class="row justify-content-center rounded-3 py-4"
-                    style="background-color: rgba(85, 101, 128, 1); width: 100%"
+                    class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
+                    style="width: 100%"
                 >
                     <div class="col-lg-6 text-center mx-auto">
                         <h1 class="text-white">
@@ -139,12 +139,12 @@
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
                                         {{ __('auth/register.i_agree') }}
-                                        <a href="javascript:;" class="text-dark font-weight-bolder">
+                                        <a href="{{ route('terms') }}" class="text-dark font-weight-bolder">
                                             {{ __('auth/register.terms_and_conditions') }}
                                         </a>
                                     </label>
                                     @error('terms')
-                                        <p class='text-danger text-xs'> {{ $message }} </p>
+                                        <p class='text-danger text-xs'> {{ $message     }} </p>
                                     @enderror
                                 </div>
                                 <div class="text-center">

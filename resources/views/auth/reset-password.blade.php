@@ -15,11 +15,11 @@
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                             <div class="card card-plain">
-                                <div class="card-header pb-0 text-start">
+                                <div class="pb-3 text-start">
                                     <h4 class="font-weight-bolder">{{ __('auth/reset-password.title') }}</h4>
                                     <p class="mb-0">{{ __('auth/reset-password.description') }}</p>
                                 </div>
-                                <div class="card-body">
+                                <div class="pb-4">
                                     <form role="form" method="POST" action="{{ route('reset.perform') }}">
                                         @csrf
                                         @method('post')
@@ -47,7 +47,7 @@
                             class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                             <div
                                 class="position-relative bg-gradient-light h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden">
-                                <span class="mask bg-gradient-faded-dark opacity-6"></span>
+                                <span class="mask bg-gradient-faded-dark opacity-8"></span>
                                 <h4 class="mt-5 text-white font-weight-bolder position-relative">
                                     {{ __('auth/login.app_description') }}</h4>
                                 <p class="text-white position-relative">{{ __('auth/login.app_description_long') }}</p>

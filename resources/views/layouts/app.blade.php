@@ -59,30 +59,24 @@
     </head>
 
     <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "recover-password"],) ? "bg-white" : "bg-gray-300" }}"
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password","change-password"],) ? "bg-white" : "bg-gray-300" }}"
     >
         @guest
             @yield("content")
         @endguest
 
         @auth
-            @if (in_array(request()->route()->getName(),["login", "register", "recover-password"]))
+            @if (in_array(request()->route()->getName(),["login", "register", "reset-password","change-password"]))
                 @yield("content")
             @else
-                @if (! in_array(request()->route()->getName(),["profile", "home"]))
+                @if (! in_array(request()->route()->getName(),["profile", "home","about", "help","database-manager"]))
                     <div
-                        class="bg-primary position-absolute w-100"
-                        style="min-height: 140px"
+                        class="bg-gradient-faded-dark opacity-8 position-absolute w-100"
+                        style="min-height: 280px"
                     ></div>
                 @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
-                    <div
-                        class="position-absolute w-100 min-height-300 top-0"
-                        style="
-                            background-image: url('{{ asset("https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg") }}');
-                            background-position-y: 50%;
-                        "
-                    >
-                        <span class="mask bg-primary opacity-6"></span>
+                    <div class="bg-gradient-faded-dark  position-absolute w-100 min-height-300 top-0">                    >
+                        <span class="mask bg-primary opacity-8"></span>
                     </div>
                 @endif
                 @include("layouts.navbars.auth.sidenav")
@@ -209,7 +203,8 @@
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>
-
+        <script src="https://maps.googleapis.com/maps/api/js?key={{env("GOOGLE_API_KEY")}}&libraries=places"></script>
+        <script src="{{ asset("assets/js/cep_autocomplete.js") }}"></script>
         @stack("scripts")
         @livewireScripts
     </body>
