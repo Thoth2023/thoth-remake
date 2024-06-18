@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Livewire\Planning\Overall;
+namespace App\Livewire\Planning\DataExtraction;
 
-
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
-use App\Models\Domain as DomainModel;
+use App\Models\Project\Planning\DataExtraction\Question as QuestionModel;
+use App\Models\Project\Planning\DataExtraction\QuestionTypes as QuestionTypesModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 
-class Domains extends Component
+class Question extends Component
 {
-    private $translationPath = 'project/planning.overall.domain.livewire';
-    private $toastMessages = 'project/planning.overall.domain.livewire.toasts';
-
     public $currentProject;
-    public $currentDomain;
-    public $domains = [];
+    public $currentQuestion;
+    public $questions = [];
+    public $questionId;
+    public $type;
+    public $questionTypes = [];
 
     /**
      * Fields to be filled by the form.
      */
     public $description;
+
 
     /**
      * Form state.
@@ -34,8 +36,8 @@ class Domains extends Component
      * Validation rules.
      */
     protected $rules = [
-        'currentProject' => 'required',
-        'description' => 'required|string|max:255',
+        'description' => 'required|string',
+        'type' => 'required|array',
     ];
 
     /**
@@ -44,7 +46,8 @@ class Domains extends Component
     protected function messages()
     {
         return [
-            'description.required' => __($this->translationPath . '.description.required'),
+            'description.required' => 'Este campo é obrigatório',
+            'type.required' => 'Este campo é obrigatório',
         ];
     }
 
@@ -56,32 +59,35 @@ class Domains extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
-        $this->currentDomain = null;
-        $this->domains = DomainModel::where(
+        $this->currentQuestion = null;
+        $this->questions = QuestionModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
+        $this->questionTypes = QuestionTypesModel::all();
     }
 
     /**
      * Reset the fields to the default values.
      */
-    public function resetFields()
+    private function resetFields()
     {
+        $this->questionId = null;
         $this->description = '';
-        $this->currentDomain = null;
+        $this->type['value'] = '';
         $this->form['isEditing'] = false;
     }
 
     /**
      * Update the items.
      */
-    public function updateDomains()
+    public function updateQuestions()
     {
-        $this->domains = DomainModel::where(
+        $this->questions = QuestionModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
+        $this->dispatch('update-question-select');
     }
 
     /**
@@ -89,7 +95,7 @@ class Domains extends Component
      */
     public function toast(string $message, string $type)
     {
-        $this->dispatch('domains', ToastHelper::dispatch($type, $message));
+        $this->dispatch('questions', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -101,25 +107,18 @@ class Domains extends Component
         $this->validate();
 
         $updateIf = [
-            'id_domain' => $this->currentDomain?->id_domain,
+            'id' => $this->currentQuestion?->id,
         ];
-        $existingKeyword = DomainModel::where('description', $this->description)->first();
 
-        if ($existingKeyword && !$this->form['isEditing']) {
-            $toastMessage = __($this->toastMessages . '.duplicate');
-            $this->toast(
-                message: $toastMessage,
-                type: 'error'
-            );
-            return;
-        }
         try {
-            $value = $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain';
-            $toastMessage = __($this->toastMessages . ($this->form['isEditing']
-                ? '.updated' : '.added'));
+            $value = $this->form['isEditing'] ? 'Updated the question' : 'Added a question';
+            $toastMessage = $this->form['isEditing']
+                ? 'Questão atualizada com sucesso!' : 'Questão adicionada com sucesso!';
 
-            $updatedOrCreated = DomainModel::updateOrCreate($updateIf, [
+            $updatedOrCreated = QuestionModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
+                'type' => $this->type['value'],
+                'id' => $this->questionId,
                 'description' => $this->description,
             ]);
 
@@ -129,7 +128,7 @@ class Domains extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->updateDomains();
+            $this->updateQuestions();
             $this->toast(
                 message: $toastMessage,
                 type: 'success'
@@ -147,33 +146,36 @@ class Domains extends Component
     /**
      * Fill the form fields with the given data.
      */
-    public function edit(string $domainId)
+    #[On('data-extraction-table')]
+    public function edit(string $questionId)
     {
-        $this->currentDomain = DomainModel::findOrFail($domainId);
-        $this->description = $this->currentDomain->description;
+        $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id', $questionId)->first();
+        $this->questionId = $this->currentQuestion->id;
+        $this->description = $this->currentQuestion->description;
+        $this->type['value'] = $this->currentQuestion->type;
         $this->form['isEditing'] = true;
     }
 
     /**
      * Delete an item.
      */
-    public function delete(string $domainId)
+    public function delete(string $questionId)
     {
         try {
-            $currentDomain = DomainModel::findOrFail($domainId);
-            $currentDomain->delete();
+            $currentQuestion = QuestionModel::findOrFail($questionId);
+            $currentQuestion->delete();
 
             Log::logActivity(
-                action: 'Deleted the domain',
-                description: $currentDomain->description,
+                action: 'Deleted the question',
+                description: $currentQuestion->description,
                 projectId: $this->currentProject->id_project
             );
 
             $this->toast(
-                message: __($this->toastMessages . '.deleted'),
+                message: 'Questão deletada com sucesso',
                 type: 'success'
             );
-            $this->updateDomains();
+            $this->updateQuestions();
         } catch (\Exception $e) {
             $this->toast(
                 message: $e->getMessage(),
@@ -192,10 +194,17 @@ class Domains extends Component
         $project = $this->currentProject;
 
         return view(
-            'livewire.planning.overall.domains',
+            'livewire.planning.data-extraction.question',
             compact(
                 'project',
             )
         )->extends('layouts.app');
     }
 }
+
+
+//     public function render()
+//     {
+//         return view('livewire.planning.data-extraction.data-extraction');
+//     }
+// }

@@ -14,7 +14,7 @@ class Synonym extends Model
     public $timestamps = false;
     protected $fillable = [
         'description',
-        'term_id',
+        'id_term',
     ];
 
     public function term()

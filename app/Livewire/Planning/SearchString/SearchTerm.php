@@ -1,27 +1,31 @@
 <?php
 
-namespace App\Livewire\Planning\Overall;
-
+namespace App\Livewire\Planning\SearchString;
 
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 use App\Models\Project as ProjectModel;
-use App\Models\Domain as DomainModel;
+use App\Models\Term as SearchTermModel;
+use App\Models\Synonym as SynonymModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 
-class Domains extends Component
+class SearchTerm extends Component
 {
-    private $translationPath = 'project/planning.overall.domain.livewire';
-    private $toastMessages = 'project/planning.overall.domain.livewire.toasts';
+    private $translationPath = 'project/planning.search-string.term.livewire';
+    private $toastMessages = 'project/planning.search-string.term.livewire.toasts';
 
     public $currentProject;
-    public $currentDomain;
-    public $domains = [];
+    public $currentTerm;
+    public $currentSynonym;
+    public $terms = [];
 
     /**
      * Fields to be filled by the form.
      */
     public $description;
+    public $termId;
+    public $synonym;
 
     /**
      * Form state.
@@ -56,8 +60,8 @@ class Domains extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
-        $this->currentDomain = null;
-        $this->domains = DomainModel::where(
+        $this->currentTerm = null;
+        $this->terms = SearchTermModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
@@ -68,17 +72,18 @@ class Domains extends Component
      */
     public function resetFields()
     {
+        $this->synonym = '';
         $this->description = '';
-        $this->currentDomain = null;
+        $this->currentTerm = null;
         $this->form['isEditing'] = false;
     }
 
     /**
      * Update the items.
      */
-    public function updateDomains()
+    public function updateTerms()
     {
-        $this->domains = DomainModel::where(
+        $this->terms = SearchTermModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
@@ -89,7 +94,7 @@ class Domains extends Component
      */
     public function toast(string $message, string $type)
     {
-        $this->dispatch('domains', ToastHelper::dispatch($type, $message));
+        $this->dispatch('terms', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -101,24 +106,15 @@ class Domains extends Component
         $this->validate();
 
         $updateIf = [
-            'id_domain' => $this->currentDomain?->id_domain,
+            'id_term' => $this->currentTerm?->id_term,
         ];
-        $existingKeyword = DomainModel::where('description', $this->description)->first();
 
-        if ($existingKeyword && !$this->form['isEditing']) {
-            $toastMessage = __($this->toastMessages . '.duplicate');
-            $this->toast(
-                message: $toastMessage,
-                type: 'error'
-            );
-            return;
-        }
         try {
-            $value = $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain';
+            $value = $this->form['isEditing'] ? 'Updated the term' : 'Added a term';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
                 ? '.updated' : '.added'));
 
-            $updatedOrCreated = DomainModel::updateOrCreate($updateIf, [
+            $updatedOrCreated = SearchTermModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'description' => $this->description,
             ]);
@@ -129,7 +125,7 @@ class Domains extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->updateDomains();
+            $this->updateTerms();
             $this->toast(
                 message: $toastMessage,
                 type: 'success'
@@ -147,25 +143,25 @@ class Domains extends Component
     /**
      * Fill the form fields with the given data.
      */
-    public function edit(string $domainId)
+    public function edit(string $termId)
     {
-        $this->currentDomain = DomainModel::findOrFail($domainId);
-        $this->description = $this->currentDomain->description;
+        $this->currentTerm = SearchTermModel::findOrFail($termId);
+        $this->description = $this->currentTerm->description;
         $this->form['isEditing'] = true;
     }
 
     /**
      * Delete an item.
      */
-    public function delete(string $domainId)
+    public function delete(string $termId)
     {
         try {
-            $currentDomain = DomainModel::findOrFail($domainId);
-            $currentDomain->delete();
+            $currentTerm = SearchTermModel::findOrFail($termId);
+            $currentTerm->delete();
 
             Log::logActivity(
-                action: 'Deleted the domain',
-                description: $currentDomain->description,
+                action: 'Deleted the term',
+                description: $currentTerm->description,
                 projectId: $this->currentProject->id_project
             );
 
@@ -173,7 +169,46 @@ class Domains extends Component
                 message: __($this->toastMessages . '.deleted'),
                 type: 'success'
             );
-            $this->updateDomains();
+            $this->updateTerms();
+        } catch (\Exception $e) {
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
+        } finally {
+            $this->resetFields();
+        }
+    }
+
+    public function addSynonyms()
+    {
+        if (!$this->termId || !$this->synonym) {
+            $this->addError('termId', 'The term id is required');
+        }
+
+        $this->currentTerm = SearchTermModel::findOrFail($this->termId)->first();
+
+        try {
+            $value = $this->form['isEditing'] ? 'Updated the synonym' : 'Added a synonym';
+            $toastMessage = __($this->toastMessages . ($this->form['isEditing']
+                ? '.updated' : '.added'));
+
+            $created = SynonymModel::create([
+                'id_term' => $this->currentTerm?->id_term,
+                'description' => $this->synonym,
+            ]);
+
+            Log::logActivity(
+                action: $value,
+                description: $created->description,
+                projectId: $this->currentProject->id_project
+            );
+
+            $this->updateTerms();
+            $this->toast(
+                message: $toastMessage,
+                type: 'success'
+            );
         } catch (\Exception $e) {
             $this->toast(
                 message: $e->getMessage(),
@@ -192,7 +227,7 @@ class Domains extends Component
         $project = $this->currentProject;
 
         return view(
-            'livewire.planning.overall.domains',
+            'livewire.planning.search-string.search-term',
             compact(
                 'project',
             )

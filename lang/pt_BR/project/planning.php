@@ -65,6 +65,7 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
+                    'duplicate'=> 'Domínio duplicado não é permitido.'
                 ],
             ]
         ],
@@ -156,6 +157,7 @@ return [
             'description' => 'Descrição',
             'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
+            'update' => 'Atualizar Palavra-chave',
             'list' => [
                 'headers' => [
                     'description' => 'Descrição',
@@ -202,6 +204,7 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
+                    'duplicate'=> 'Palavra-chave duplicada não é permitida.'
                 ],
             ]
         ],
@@ -377,6 +380,47 @@ return [
     ],
     'search-string' => [
         'title' => 'String de Busca',
+        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione, edite ou exclua strings de pesquisa para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+        'form' => [
+            'description' => 'String de Busca Genérica',
+            'enter-description' => 'Digite a string de busca genérica',
+            'add' => 'Adicionar String de Busca',
+            'update' => 'Atualizar String de Busca',
+            'placeholder' => 'Digite a string de busca',
+        ],
+        'term' => [
+            'form' => [
+                'title' => 'Termos de Busca',
+                'placeholder' => 'Digite o termo de busca',
+                'synonyms' => 'Sinônimos',
+                'update' => 'Atualizar Termo de Busca',
+                'add' => 'Adicionar Termo de Busca',
+                'select' => 'Termos de Busca',
+                'select-placeholder' => 'Selecione um Termo de Busca',
+            ],
+            'table' => [
+                'description' => 'Termo de Busca',
+                'actions' => 'Ações',
+                'empty' => 'Nenhum termo de busca cadastrado',
+                'not-found' => 'Nenhum termo de busca encontrado.',
+            ],
+            'livewire' => [
+                'description' => [
+                    'required' => 'O campo do termo de busca é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Termo de Busca adicionado com sucesso.',
+                    'updated' => 'Termo de Busca atualizado com sucesso.',
+                    'deleted' => 'Termo de Busca deletado com sucesso.',
+                ],
+            ]
+        ],
+        'synonym' => [
+            'form' => [
+                'title' => 'Sinônimos',
+                'placeholder' => 'Digite o sinônimo',
+            ]
+        ]
     ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
@@ -401,7 +445,7 @@ return [
             'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
                 Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
-                Critérios de Inclusão: 
+                Critérios de Inclusão:
                 Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
                 Critérios de Exclusão:
                 Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
