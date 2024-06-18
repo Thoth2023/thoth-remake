@@ -36,6 +36,7 @@ class User extends Model implements AuthenticatableContract
         'occupation',
         'lattes_link',
         'role',
+        'active',
     ];
 
     public function projects()

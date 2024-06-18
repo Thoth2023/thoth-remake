@@ -214,7 +214,7 @@ Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('
 Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
 Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
 Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
-Route::get('/user/{user}', [UserManagerController::class, 'destroy'])->name('user.destroy');
+Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
 
 Route::get('/permissions', [PermissionManagerController::class, 'index'])->name('permissions.index');
 Route::get('/permissions/create', [PermissionManagerController::class, 'create'])->name('permissions.create');
