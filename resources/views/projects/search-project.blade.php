@@ -102,7 +102,7 @@
                                                         onConfirmNativeClick="document.getElementById('delete-project-{{ $project->id_project }}').submit();"
                                                     >
                                                         <a  class="btn py-1 px-3 btn-outline-danger"  >
-                                                            <i class="fas fa-trash"> </i> {{ __("project/projects.project.options.delete") }}
+                                                            <i class="fas fa-trash"> </i>
                                                         </a>
                                                     </x-helpers.confirm-modal>
                                                 </td>
