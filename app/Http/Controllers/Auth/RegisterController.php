@@ -72,4 +72,56 @@ class RegisterController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        $facebookUser = Socialite::driver('facebook')->user();
+
+        $existingUser = User::where('email', $facebookUser->email)->first();
+
+        if ($existingUser) {
+            auth()->login($existingUser, true);
+        } else {
+            $newUser = User::create([
+                'name' => $facebookUser->name,
+                'email' => $facebookUser->email,
+                'password' => Hash::make('random_generated_password'),
+            ]);
+
+            auth()->login($newUser, true);
+        }
+
+        return redirect()->route('home');
+    }
+
+    public function redirectToApple()
+    {
+        return Socialite::driver('apple')->redirect();
+    }
+
+    public function handleAppleCallback()
+    {
+        $appleUser = Socialite::driver('apple')->user();
+
+        $existingUser = User::where('email', $appleUser->email)->first();
+
+        if ($existingUser) {
+            auth()->login($existingUser, true);
+        } else {
+            $newUser = User::create([
+                'name' => $appleUser->name,
+                'email' => $appleUser->email,
+                'password' => Hash::make('random_generated_password'),
+            ]);
+
+            auth()->login($newUser, true);
+        }
+
+        return redirect()->route('home');
+    }
 }

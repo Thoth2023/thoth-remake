@@ -230,9 +230,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-Route::get('auth/google', [Auth\RegisterController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('auth/google/callback', [Auth\RegisterController::class, 'handleGoogleCallback']);
+Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
+Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
+Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
+Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);
