@@ -8,8 +8,17 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-0">
-                            <div class="col-12 text-end">
+                        <div class="card-header ">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <h4>
+                                    <i
+                                        class="ni ni-single-copy-04 text-primary text-sm opacity-10"
+                                    ></i>
+                                    {{ __("project/projects.project.table.title") }}
+                                </h4>
+                            </div>
+                            <div class="col-md-6 text-end">
                                 <a
                                     class="btn bg-gradient-dark mb-0"
                                     href="{{ route("projects.create") }}"
@@ -18,13 +27,7 @@
                                     &nbsp;&nbsp;{{ __("project/projects.project.new") }}
                                 </a>
                             </div>
-
-                            <h4>
-                                <i
-                                    class="ni ni-single-copy-04 text-primary text-sm opacity-10"
-                                ></i>
-                                {{ __("project/projects.project.table.title") }}
-                            </h4>
+                            </div>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
@@ -109,7 +112,7 @@
                                                     </div>
                                                 </td>
                                                 <td
-                                                    class="d-flex mt-3 align-items-center justify-content-center"
+                                                    class="d-flex mt-3 align-items-center justify-content-end"
                                                 >
                                                     <a
                                                         class="btn py-1 px-3 btn-outline-success"
