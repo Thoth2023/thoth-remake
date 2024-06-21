@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
@@ -215,13 +215,7 @@ Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('us
 Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
 Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
 Route::get('/user/{user}', [UserManagerController::class, 'destroy'])->name('user.destroy');
-
-Route::get('/permissions', [PermissionManagerController::class, 'index'])->name('permissions.index');
-Route::get('/permissions/create', [PermissionManagerController::class, 'create'])->name('permissions.create');
-Route::post('/permissions', [PermissionManagerController::class, 'store'])->name('permissions.store');
-Route::get('/permissions/{profile}/edit', [PermissionManagerController::class, 'edit'])->name('edit-permissions');
-Route::put('/permissions/{profile}', [PermissionManagerController::class, 'update'])->name('permissions.update');
-Route::delete('/permissions/{profile}', [PermissionManagerController::class, 'destroy'])->name('permissions.destroy');
+Route::resource('levels', LevelController::class);
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {

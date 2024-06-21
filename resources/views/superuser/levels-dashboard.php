@@ -1,0 +1,53 @@
+@extends('layouts.app')
+
+@section('content')
+@include('layouts.navbars.auth.topnav', ['title' => 'Gerenciar Perfis de Usuários'])
+
+<div class="row mt-4 mx-4">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Permissão de Grupo</h6>
+                <a href="{{ route('levels.create') }}" class="btn btn-success">+ Nova Permissão de Grupo</a>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nome do Usuário</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descrição</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach ($levels as $level)
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-3 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm">{{ $level->id }}</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-sm font-weight-bold mb-0">{{ $level->firstname }} {{ $level->lastname }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-sm font-weight-bold mb-0">
+                                        {{ $level->profile->name ?? 'N/A' }}
+                                    </p>
+                                </td>
+                                
+                                
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

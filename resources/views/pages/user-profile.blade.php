@@ -15,10 +15,10 @@
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        <h5 class="mb-1">
+                       <!-- <h5 class="mb-1">
                             {{ auth()->user()->firstname ? auth()->user()->firstname : auth()->user()->username }}
                             {{ auth()->user()->lastname ? auth()->user()->lastname : '' }}
-                        </h5>
+                        </h5>-->
                         <p class="mb-0 font-weight-bold text-sm">
                             {{ auth()->user()->occupation ? auth()->user()->occupation : 'Occupation' }}
                         </p>
