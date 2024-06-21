@@ -207,6 +207,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 });
 
+//SUPER USER ROUTES
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
@@ -215,7 +216,15 @@ Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('us
 Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
 Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
 Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
-Route::resource('levels', LevelController::class);
+
+Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
+Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
+Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
+Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
+Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
+
+
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {

@@ -22,7 +22,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                           @foreach ($levels as $level)
+                           <!--@foreach ($levels as $level)
                             <tr>
                                 <td>
                                     <div class="d-flex px-3 py-1">
@@ -42,7 +42,7 @@
                                 
                                 
                             </tr>
-                            @endforeach
+                            @endforeach-->
                         </tbody>
                     </table>
                 </div>

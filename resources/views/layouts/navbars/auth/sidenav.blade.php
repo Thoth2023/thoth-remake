@@ -135,13 +135,16 @@
                         </div>
                         <span class="nav-link-text ms-1">{{ __("nav/side.user_manager") }}</span>
                     </a>
+</li>
                     <li class="nav-item">
-                        <<a class="nav-link {{ Route::currentRouteName() == 'levels.index' || Route::currentRouteName() == 'levels.create' || Route::currentRouteName() == 'levels.edit' ? 'active' : '' }}" href="{{ route('levels.index') }}">
-                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="{{ Route::currentRouteName() == 'levels.index' || Route::currentRouteName() == 'levels.create' || Route::currentRouteName() == 'levels.edit' ? 'text-primary' : 'text-dark' }} text-sm opacity-10 fas fa-layer-group"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">{{ __("nav/side.levels_manager") }}</span>
-                        </a>
+                    <a 
+                        class="nav-link {{ Route::currentRouteName() == "levels.index" ? "active" : "" }}" 
+                        href="{{ Route::currentRouteName() != "levels.index" ? route("levels.index") : "#" }}">
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="{{ Route::currentRouteName() == "levels.index" ? "text-primary" : "text-dark" }} text-sm opacity-10 fas fa-layer-group"></i>
+                        </div>
+                    <span class="nav-link-text ms-1">{{ __("nav/side.levels_manager") }}</span>
+                    </a>
                     </li>
             @endif
         </ul>
