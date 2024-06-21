@@ -18,5 +18,6 @@ return[
     'contact_information' => 'Informações de Contato',
     'save' => 'Salvar',
     'your_profile' => 'Seu Perfil',
+    'user_name' => 'Nome de Usuário'
 
 ];

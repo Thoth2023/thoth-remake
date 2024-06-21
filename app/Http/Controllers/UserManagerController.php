@@ -24,10 +24,19 @@ class UserManagerController extends Controller
         return view('pages.user-create');
     }
 
-    public function destroy(User $user)
+    public function deactivate(User $user)
     {
-        $user->delete();
-        return redirect()->route('user-manager')->with('success', 'Usuário deletado com sucesso!');
+        if($user->active == true){
+            $user->active = false;
+            $user->save();
+
+            return redirect()->route('user-manager')->with('success', __('pages/user-manager.deactivated'));
+        } else {
+            $user->active = true;
+            $user->save();
+
+            return redirect()->route('user-manager')->with('success', __('pages/user-manager.activated'));
+        }
     }
 
     public function update(Request $request, User $user)
@@ -37,6 +46,7 @@ class UserManagerController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname' => 'nullable|string|max:255',
             'email' => ['required', 'email', 'max:255'],
+            'institution' => 'nullable|string|max:255',
         ]);
 
         $user->update([
@@ -45,9 +55,10 @@ class UserManagerController extends Controller
             'lastname' => $request->lastname,
             'occupation' => $request->occupation,
             'email' => $request->get('email') ,
+            'institution' => $request->institution,
         ]);
 
-        return redirect()->route('user-manager')->with('success', 'Usuário atualizado com sucesso!');
+        return redirect()->route('user-manager')->with('success', __('pages/user-management.updated'));
     }
 
     public function store()
@@ -59,6 +70,6 @@ class UserManagerController extends Controller
         ]);
         $user = User::create($attributes);
 
-        return redirect()->route('user-manager')->with('success', 'Usuário criado com sucesso!');
+        return redirect()->route('user-manager')->with('success', __('pages/user-management.created'));
     }
 }

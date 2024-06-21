@@ -36,7 +36,7 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
-                            <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('pages/profile.save') }}</button>
+                            <button type="submit" class="btn btn-primary btn-sm ms-auto" style="background-color:black;">{{ __('pages/profile.save') }}</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -64,6 +64,12 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.last_name') }}</label>
                                     <input class="form-control" type="text" name="lastname" value="{{ old('lastname', $user->lastname) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.institution') }}</label>
+                                    <input class="form-control" type="text" name="institution" value="{{ old('institution', $user->institution) }}">
                                 </div>
                             </div>
                         </div>
