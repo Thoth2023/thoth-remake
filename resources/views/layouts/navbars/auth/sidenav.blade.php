@@ -136,7 +136,7 @@
                         <span class="nav-link-text ms-1">{{ __("nav/side.user_manager") }}</span>
                     </a>
 </li>
-                    <li class="nav-item">
+                <li class="nav-item">
                     <a 
                         class="nav-link {{ Route::currentRouteName() == "levels.index" ? "active" : "" }}" 
                         href="{{ Route::currentRouteName() != "levels.index" ? route("levels.index") : "#" }}">
@@ -145,7 +145,7 @@
                         </div>
                     <span class="nav-link-text ms-1">{{ __("nav/side.levels_manager") }}</span>
                     </a>
-                    </li>
+                </li>
             @endif
         </ul>
     </div>
