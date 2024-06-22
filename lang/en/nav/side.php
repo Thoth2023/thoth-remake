@@ -8,7 +8,7 @@ return [
     'help' => 'Help',
     'database_manager' => 'Database Manager',
     'user_manager' => 'User Manager',
-    'levels_manager' => 'Levels Manager',
+    'levels_manager' => 'Profile Manager',
     
     // Left side navbar
 

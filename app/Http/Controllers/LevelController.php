@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Level;   
 
 class LevelController extends Controller
 {
@@ -15,7 +16,7 @@ class LevelController extends Controller
 
     public function create()
     {
-        return view('levels-create');
+        return view('superuser.levels-create');
     }
 
     public function store(Request $request)
@@ -32,7 +33,7 @@ class LevelController extends Controller
 
     public function edit(Level $level)
     {
-        return view('levels-edit', compact('level'));
+        return view('superuser.levels-edit', compact('level'));
     }
 
     public function update(Request $request, Level $level)
