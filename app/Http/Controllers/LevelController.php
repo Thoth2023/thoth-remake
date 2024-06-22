@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Level;
-
+use App\Models\Permission;
 class LevelController extends Controller
 {
     public function index()
@@ -14,6 +14,7 @@ class LevelController extends Controller
 
     public function create()
     {
+        $permissions = Permission::all();
         return view('superuser.levels-create');
     }
 
@@ -23,6 +24,7 @@ class LevelController extends Controller
             'level' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
+        
 
         Level::create($request->all());
 
