@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,7 +6,6 @@ use App\Models\Level;
 
 class LevelController extends Controller
 {
-
     public function index()
     {
         $levels = Level::all();
@@ -29,6 +27,11 @@ class LevelController extends Controller
         Level::create($request->all());
 
         return redirect()->route('levels.index')->with('success', 'Level created successfully.');
+    }
+
+    public function show(Level $level)
+    {
+        return view('superuser.levels-show', compact('level'));
     }
 
     public function edit(Level $level)

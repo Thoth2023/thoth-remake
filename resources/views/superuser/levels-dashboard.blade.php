@@ -16,9 +16,9 @@
                         <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nome do Usuário</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descrição</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ações</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" style="width: 30%;">Nome</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" style="width: 40%;">Descrição</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-end" style="width: 30%;">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,8 +39,15 @@
                                         {{ $level->description ?? 'N/A' }}
                                     </p>
                                 </td>
-                                
-                                
+                                <td class="align-middle text-end">
+                                    <a href="{{ route('levels.show', $level->id_level) }}" class="btn btn-info btn-sm">VER</a>
+                                    <a href="{{ route('levels.edit', $level->id_level) }}" class="btn btn-warning btn-sm">EDITAR</a>
+                                    <form action="{{ route('levels.destroy', $level->id_level) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">EXCLUIR</button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

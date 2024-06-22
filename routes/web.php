@@ -220,10 +220,10 @@ Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('
 Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
 Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
 Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
+Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth');  // Adicionada rota de visualização
 Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
 Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
-
 
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
