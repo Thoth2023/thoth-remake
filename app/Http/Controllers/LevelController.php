@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Level;
 
 class LevelController extends Controller
 {
@@ -21,7 +22,7 @@ class LevelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'level' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
@@ -38,7 +39,7 @@ class LevelController extends Controller
     public function update(Request $request, Level $level)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'level' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 

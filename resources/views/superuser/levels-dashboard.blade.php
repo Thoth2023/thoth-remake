@@ -22,27 +22,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                           <!--@foreach ($levels as $level)
+                           @foreach ($levels as $level)
                             <tr>
                                 <td>
                                     <div class="d-flex px-3 py-1">
                                         <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">{{ $level->id }}</h6>
+                                            <h6 class="mb-0 text-sm">{{ $level->id_level}}</h6>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="text-sm font-weight-bold mb-0">{{ $level->firstname }} {{ $level->lastname }}</p>
+                                    <p class="text-sm font-weight-bold mb-0">{{ $level->level}}</p>
                                 </td>
                                 <td>
                                     <p class="text-sm font-weight-bold mb-0">
-                                        {{ $level->profile->name ?? 'N/A' }}
+                                        {{ $level->description ?? 'N/A' }}
                                     </p>
                                 </td>
                                 
                                 
                             </tr>
-                            @endforeach-->
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

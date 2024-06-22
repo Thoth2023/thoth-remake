@@ -11,7 +11,7 @@ class Level extends Model{
     
 
     protected $fillable = [
-        'name',
+        'level',
         'description',
     ];
 }
