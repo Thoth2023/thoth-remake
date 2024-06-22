@@ -120,9 +120,8 @@ class Table extends Component
         return $papers;
     }   
 
-    public function openPaper($paperId)
+    public function openPaper($paper)
     {
-        $paper = $this->papers->firstWhere('id_paper', $paperId);
         $this->dispatch('showPaper', paper: $paper);
     }
 

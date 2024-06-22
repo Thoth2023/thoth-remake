@@ -1,4 +1,4 @@
-<div wire:ignore.self class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
+<div class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -25,7 +25,7 @@
 
 @script
     <script>
-        $wire.on('openModal', () => {
+        $wire.on('showPaperModal', () => {
             $('#paperModal').modal('show');
         });
     </script>

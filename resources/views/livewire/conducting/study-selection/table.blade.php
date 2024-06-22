@@ -136,6 +136,7 @@
     </ul>   
 </div>
 
+@script
 <script>
   Livewire.directive('custom-directive', {
     bind: function (el, binding, vnode) {
@@ -148,3 +149,4 @@
     },
   });
 </script>
+@endscript

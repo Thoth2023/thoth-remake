@@ -10,14 +10,12 @@ class PaperModal extends Component
 
     public $paper;
 
-    protected $listeners = ['showPaper'];
 
     #[On('showPaper')]
     public function showPaper($paper)
     {
         $this->paper = $paper;
-        
-        $this->dispatch('openModal');
+        $this->dispatch('showPaperModal');
     }
 
     public function render()
