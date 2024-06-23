@@ -14,4 +14,9 @@ class Level extends Model{
         'level',
         'description',
     ];
+
+    protected $primaryKey = 'id_level';
+    public $incrementing = true; 
+    protected $keyType = 'int';
+    public $timestamps = true;
 }
