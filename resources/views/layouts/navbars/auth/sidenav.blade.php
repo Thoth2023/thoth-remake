@@ -134,7 +134,7 @@
                                 class="{{ Route::currentRouteName() == "faq-management" ? "text-primary" : "text-dark" }} text-sm opacity-10 fas fa-users-cog"
                             ></i>
                         </div>
-                        <span class="nav-link-text ms-1">Page Management</span>
+                        <span class="nav-link-text ms-1">Gerenciador de FAQ</span>
                     </a>
                 </li>
             @endif

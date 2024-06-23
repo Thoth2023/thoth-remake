@@ -11,51 +11,81 @@ class FaqManager extends Component
     public $faqId;
     public $question;
     public $response;
+    public $isEditMode = false;
+    public $showCreateModal = false;
 
     public function mount()
     {
         $this->faq = $this->fetchFaq();
-
+        $this->listeners = [
+            'faqDeleted' => 'fetchFaq'
+        ];
     }
 
     public function fetchFaq(){
         return Faq::all();
     }
-    public function editFaq($id)
-    {
-        $faq = Faq::findOrFail($id);
-        $this->faqId = $faq->id;
-        $this->question = $faq->question;
-        $this->response = $faq->response;
-    }
 
-    public function updateFaq()
+    public function store()
     {
         $this->validate([
             'question' => 'required|string',
             'response' => 'required|string',
         ]);
-
+    
         if ($this->faqId) {
-            $faq = Faq::find($this->faqId);
+            
+            $faq = Faq::findOrFail($this->faqId);
             $faq->update([
                 'question' => $this->question,
-                'response' => $this->response,
+                'response' => $this->response
+            ]);
+        } else {
+            Faq::create([
+                'question' => $this->question,
+                'response' => $this->response
             ]);
         }
-
-        $this->fetchFaq();
+        $this->resetForm();
+        $this->faq = $this->fetchFaq();
+        
+        
     }
 
-    public function deleteFaq($id)
+    public function delete($id)
     {
         Faq::find($id)->delete();
         $this->fetchFaq();
+        $this->faq = $this->fetchFaq();
     }
 
-    public function render()//['faqs' => $this->faqs]
+    public function openCreateModal($id = null)
     {
-       return view('livewire.faq.faq-manager',);
+
+        if ($id) {
+            $this->faqId = $id;
+            $faq = Faq::find($id);
+            $this->question = $faq->question;
+            $this->response = $faq->response;
+        }
+
+        $this->isEditMode = true;
+    }
+
+    public function closeCreateModal()
+    {
+        $this->isEditMode = false;
+    }
+    private function resetForm()
+    {
+        $this->faqId = null;
+        $this->question = '';
+        $this->response = '';
+    }
+
+    public function render()
+    {
+       return view('livewire.faq.faq-manager');
     }
 }
 

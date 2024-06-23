@@ -5,7 +5,7 @@
     <div class="container mt-8 mb-3">
         <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
             <div
-                class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
+                class=""
                 style="width: 100%"
             >
                 <div class="col-lg-6 text-center mx-auto">
