@@ -39,7 +39,6 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\Project\ConductingController;
 
-use Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 
 
@@ -203,10 +202,9 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // start of the reporting routes
 
-     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class)
-
+    Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-    Route::get('/conducting/', [ConductingController::class, 'index'])->name('project.conducting.index')->middleware('auth')->middleware(Localization::class);
+    Route::get('/conducting', [ConductingController::class, 'index'])->name('project.conducting.index')->middleware('auth')->middleware(Localization::class);
     // End of Conducting routes
 
 });
