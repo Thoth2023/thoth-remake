@@ -16,7 +16,13 @@ class UserManagerController extends Controller
 
     public function edit(User $user)
     {
-        return view('pages.user-edit', compact('user'));
+        $roles = [
+            'SUPER_USER' => __('pages/user-manager.Administrator'),
+            'USER' => __('pages/user-manager.Viewer'),
+            'RESEARCHER' => __('pages/user-manager.Researcher'),
+            'REVISER' => __('pages/user-manager.Reviser'),
+        ];
+        return view('pages.user-edit', compact('user', 'roles'));
     }
 
     public function create()
@@ -42,12 +48,23 @@ class UserManagerController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'username' => ['required','max:255', 'min:2'],
-            'firstname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|min:2',
+            'firstname' => 'nullable|string|max:255',
             'lastname' => 'nullable|string|max:255',
-            'email' => ['required', 'email', 'max:255'],
+            'email' => 'required|email|max:255',
             'institution' => 'nullable|string|max:255',
+            'function' => 'required|string',
         ]);
+
+        $rolesMapping = [
+            __('pages/user-manager.Administrator') => 'SUPER_USER',
+            __('pages/user-manager.Viewer') => 'USER',
+            __('pages/user-manager.Researcher') => 'RESEARCHER',
+            __('pages/user-manager.Reviser') => 'REVISER',
+        ];
+
+        $role = $request->input('function');
+        $role = $rolesMapping[$role] ?? 'USER';        
 
         $user->update([
             'username' => $request->username,
@@ -56,6 +73,7 @@ class UserManagerController extends Controller
             'occupation' => $request->occupation,
             'email' => $request->get('email') ,
             'institution' => $request->institution,
+            'role' => $role,
         ]);
 
         return redirect()->route('user-manager')->with('success', __('pages/user-management.updated'));

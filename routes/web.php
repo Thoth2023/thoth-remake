@@ -209,7 +209,6 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 //SUPER USER ROUTES
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
-Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
 Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
