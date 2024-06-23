@@ -27,4 +27,11 @@ class Domain extends Model
         'id_project',
         'description',
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project', 'id_project');
+    }
+
+
 }

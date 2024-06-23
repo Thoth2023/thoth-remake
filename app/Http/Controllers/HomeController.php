@@ -30,6 +30,7 @@ class HomeController extends Controller
         $total_users = User::count();
         $total_finished_projects = Project::countFinishedProjects();
         $total_ongoing_projects = Project::countOngoingProjects();
+        
         return view('pages.home', compact('total_projects', 'total_users', 'total_finished_projects', 'total_ongoing_projects'));
     }
 
