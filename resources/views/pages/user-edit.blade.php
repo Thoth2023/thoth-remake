@@ -34,9 +34,12 @@
                 <form role="form" method="POST" action={{ route('user.update', ['user' => $user->id]) }} enctype="multipart/form-data">
                     @csrf
                     <div class="card-header pb-0">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-between">
                             <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
-                            <button type="submit" class="btn btn-primary btn-sm ms-auto" style="background-color:black;">{{ __('pages/profile.save') }}</button>
+                            <div class="d-flex">
+                                <button href="{{ route('user-manager') }}" class="btn btn-primary btn-sm ms-auto" style="background-color:red; margin-right:10px;">{{ __('pages/profile.cancel') }}</button>
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto" style="background-color:black;">{{ __('pages/profile.save') }}</button>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -72,6 +75,18 @@
                                     <input class="form-control" type="text" name="institution" value="{{ old('institution', $user->institution) }}">
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.permissions')}}</label>
+                                    <select class="form-control" name="function">
+                                        @foreach($roles as $key => $value)
+                                            <option value="{{ $value }}" {{ old('function', $user->role) == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </form>

@@ -135,7 +135,7 @@
                         </div>
                         <span class="nav-link-text ms-1">{{ __("nav/side.user_manager") }}</span>
                     </a>
-</li>
+                </li>
                 <li class="nav-item">
                     <a 
                         class="nav-link {{ Route::currentRouteName() == "levels.index" ? "active" : "" }}" 

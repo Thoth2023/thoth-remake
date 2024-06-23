@@ -3,7 +3,11 @@
 return[
     'Users' => 'Usuários',
     'Name' => 'Nome',
-    'Role' => 'Função',
+    'Role' => 'Permissões',
+    'Administrator' => 'Administrador',
+    'Viewer' => 'Visualizador',
+    'Researcher' => 'Pesquisador',
+    'Reviser' => 'Revisor',
     'Institution' => 'Instituição',
     'Country' => 'País',
     'Status' => 'Ativo',
