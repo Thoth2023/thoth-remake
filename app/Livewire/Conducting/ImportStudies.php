@@ -48,6 +48,7 @@ class ImportStudies extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
+        $this->studies = $this->byProjectId($projectId);
         // $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
@@ -120,13 +121,25 @@ class ImportStudies extends Component
         }
     }
 
+    protected function findImportedStudies(){
+
+     return ImportStudyModel::where('id_database', $this->selectedDatabase)->orderBy('created_at', 'desc')->first();
+
+    }
+
+    protected function byProjectId($idProject){
+
+        return ImportStudyModel::where('id_project', $idProject)->orderBy('created_at', 'desc')->first();
+
+       }
+
     /**
      * Para o processamento de arquivos.
      */
     protected function processFile($filePath)
     {
         $importedStudiesCount = 0;
-
+        $importedStudiesFind = $this->findImportedStudies();
         // Determine o tipo de arquivo pelo seu formato
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
@@ -141,13 +154,12 @@ class ImportStudies extends Component
                     ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
                         'id_project' => strval($this->currentProject->id_project),
                         'id_database' => strval($this->selectedDatabase),
-                        // 'file' => $this->file,
+                        'file' => $filePath,
                         //'description' => $this->description,
-                        //'imported_studies_count' => $this->imported_studies_count,
+                        'imported_studies_count' => $importedStudiesFind->imported_studies_count,
                         //'failed_imports_count' => $this->failed_imports_count,
                     ]);
 
-                    $importedStudiesCount++;
                 }
 
                 fclose($handle);
