@@ -19,7 +19,7 @@
                         {{ __("project/conducting.import-studies.form.select-database") }}
                     </option>
                     @foreach ($databases as $database)
-                        <option value="{{ $database->id }}">
+                        <option value="{{ $database->id_database }}">
                             {{ $database->name }}
                         </option>
                     @endforeach
@@ -92,28 +92,61 @@
                     <th style="padding: 0.5rem 0.75rem">
                         {{ __("project/conducting.import-studies.table.studies-imported") }}
                     </th>
-                    <th
-                        style="
-                            border-radius: 0 0.75rem 0 0;
-                            padding: 0.5rem 1rem;
-                        "
-                    >
-                        {{ __("project/conducting.import-studies.table.actions") }}
+                    <th style="padding: 0.5rem 0.75rem">
+                        {{ __("project/conducting.import-studies.table.file-imported") }}
                     </th>
                 </thead>
                 <tbody>
                     @foreach ($databases as $database)
                         <tr>
                             <td>{{ $database->name }}</td>
-                            <td>{{ $database->studies_imported }}</td>
-                            <td>
-                                <button
-                                    class="btn py-1 px-3 btn-outline-danger"
-                                    wire:click="confirmDelete('{{ $database->id }}')"
+                            <td>{{ $database->imported_studies_count }}</td>
+                            @if ($database)
+                            <table class="table table-responsive table-hover">
+                                <thead
+                                    class="table-light sticky-top custom-gray-text"
+                                    style="color: #676a72"
                                 >
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
+                                    <th
+                                        style="
+                                            border-radius: 0.75rem 0 0 0;
+                                            padding: 0.5rem 1rem;
+                                        "
+                                    >
+                                        {{ __("project/conducting.import-studies.table.file") }}
+                                    </th>
+                                    <th
+                                    style="
+                                        border-radius: 0 0.75rem 0 0;
+                                        padding: 0.5rem 1rem;
+                                    "
+                                >
+                                    {{ __("project/conducting.import-studies.table.actions") }}
+                                </th>
+                                </thead>
+                                <tbody>
+                                    @forelse ($files as $file)
+                                    <td>
+                                        {{$file}}
+                                    </td>
+                                    <td>
+                                        <button
+                                            class="btn py-1 px-3 btn-outline-danger"
+                                            wire:click="confirmDelete('{{ $database->id }}')"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+
+                                    @empty
+
+                                    @endforelse
+
+                                </tbody>
+
+                            </table>
+                            @endif
+
                         </tr>
                     @endforeach
                 </tbody>

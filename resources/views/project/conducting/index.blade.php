@@ -5,7 +5,7 @@
 
     <div class="row mt-4 mx-4">
         @include("project.components.project-header", [
-        "project" => $project, 
+        "project" => $project,
         "activePage" => "conducting"
         ])
 
@@ -47,8 +47,9 @@
                                   'id' => 'data-extraction-tab',
                                   'label' => __('project/conducting.header.data_extraction'),
                                   'href' => '#data-extraction',
-                              ],
-                         
+                              ]
+                            ],
+
                             "activeTab" => "overview-tab",
                         ]
                     )
@@ -76,9 +77,9 @@
                                 @livewire("conducting.import-studies")
                         </div>
                         </div>
-                        <div id="snowballing" class="tab-pane fade">
+                        {{-- <div id="snowballing" class="tab-pane fade">
                             @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
-                        </div>
+                        </div> --}}
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection")
                         </div>
