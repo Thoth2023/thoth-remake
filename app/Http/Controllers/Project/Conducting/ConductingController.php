@@ -13,15 +13,16 @@ class ConductingController extends Controller
     {
         $project = Project::findOrFail($id_project);
 
-
         // Consulta para obter os projetos que têm a feature review snowballing
         $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
 
-        //Consulta que possui as Data Extraction Questions
+        // Consulta que possui as Data Extraction Questions
         $dataExtractionQuestions = $project->dataExtractionQuestions()->get();
 
-        return view('project.conducting.index', compact('project',  'snowballing_projects'), compact('dataExtractionQuestions'));
-
-
+        return view('project.conducting.index', [
+            'project' => $project,
+            'snowballing_projects' => $snowballing_projects,
+            'dataExtractionQuestions' => $dataExtractionQuestions,
+        ]);
     }
 }
