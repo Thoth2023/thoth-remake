@@ -18,7 +18,7 @@ class ImportStudies extends Component
 
     public $currentProject;
     public $databases = [];
-    public $selectedDatabase;
+    public $selectedDatabase = '';
     public $file;
     public $studies = [];
 
@@ -26,7 +26,7 @@ class ImportStudies extends Component
      * Validation rules.
      */
     protected $rules = [
-        'selectedDatabase' => 'required|exists:project_databases,id',
+        'selectedDatabase' => 'required|exists:project_databases,id_database',
         'file' => 'required|file|mimes:bib,csv|max:10240', // 10MB max
     ];
 
@@ -48,7 +48,7 @@ class ImportStudies extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
-        $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
+        // $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
     /**
@@ -65,7 +65,7 @@ class ImportStudies extends Component
      */
     public function updateImportStudies()
     {
-        $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
+        // $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
     /**
@@ -139,9 +139,9 @@ class ImportStudies extends Component
                     $studyData = array_combine($headers, $data);
 
                     ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
-                        'id_project' => $this->currentProject->id_project,
-                        'id_database' => $this->selectedDatabase,
-                        'file' => $this->file,
+                        'id_project' => strval($this->currentProject->id_project),
+                        'id_database' => strval($this->selectedDatabase),
+                        // 'file' => $this->file,
                         //'description' => $this->description,
                         //'imported_studies_count' => $this->imported_studies_count,
                         //'failed_imports_count' => $this->failed_imports_count,
@@ -162,8 +162,8 @@ class ImportStudies extends Component
 
             foreach ($listener->export() as $entry) {
                 ImportStudyModel::create([
-                    'id_project' => $this->currentProject->id_project,
-                    'id_database' => $this->selectedDatabase,
+                    'id_project' => strval($this->currentProject->id_project),
+                    'id_database' => strval($this->selectedDatabase),
                     'file' => $this->file,
                     //'description' => $this->description,
                     //'imported_studies_count' => $this->imported_studies_count,

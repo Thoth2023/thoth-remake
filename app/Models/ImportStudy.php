@@ -9,9 +9,8 @@ class ImportStudy extends Model
 {
   use HasFactory;
 
-  protected $table = 'import_study';
+  protected $table = 'import_studies';
 
-  protected $primaryKey = 'id_import_study';
   public $timestamps = true;
 
   protected $fillable = [

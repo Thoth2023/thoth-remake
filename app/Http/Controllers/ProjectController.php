@@ -27,7 +27,7 @@ class ProjectController extends Controller
 
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
-           
+
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
         }
@@ -61,19 +61,19 @@ class ProjectController extends Controller
             //'copy_planning'
         ]);
 
-        
+
         if ($request->copy_planning !== 'none') {
             $sourceProject = Project::findOrFail($request->copy_planning);
             $project->copyPlanningFrom($sourceProject);
         } else {
             $project->save();
         }
-        
+
         $activity = "Created the project ".$project->title;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-        
+
         $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
-        
+
         return redirect('/projects');
     }
 
@@ -88,10 +88,8 @@ class ProjectController extends Controller
         ->orderBy('created_at', 'DESC')
         ->get();
 
-    // Consulta para obter os projetos que têm a feature review snowballing
-    $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
+    return view('projects.show', compact('project'), compact('users_relation'))->with('activities', $activities);
 
-    return view('project.conducting.index', compact('project', 'users_relation', 'activities', 'snowballing_projects'));
 }
 
     /**
@@ -103,7 +101,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to edit the project.');
         }
 
@@ -118,7 +116,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to edit the project.');
         }
 
@@ -148,7 +146,7 @@ class ProjectController extends Controller
         $activity = "Deleted project ".$project->id_;
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to delete the project.');
         }
 
@@ -173,10 +171,10 @@ class ProjectController extends Controller
         $name_member = User::findOrFail($idMember);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
         }
-        
+
         $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
         return redirect()->back();
@@ -195,13 +193,13 @@ class ProjectController extends Controller
         $users_relation = $project->users()->get();
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
         }
 
         return view('projects.add_member', compact('project', 'users_relation'));
     }
-    
+
     /**
      * Add a member to a project based on the submitted form data.
      *
@@ -224,7 +222,7 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'The user is already associated with the project.');
         }
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
         }
 
@@ -254,7 +252,7 @@ class ProjectController extends Controller
         $name_member = User::findOrFail($idMember);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to update the member level.');
         }
 
