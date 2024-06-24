@@ -11,10 +11,11 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="p-3">
-                    <form>
+                    <form action="{{ route('levels.store') }}" method="POST">
+                        @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="level" class="form-label">Nome do Perfil</label>
+                            <input type="text" class="form-control" id="level" name="level" required>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Descrição</label>
@@ -25,12 +26,10 @@
                             <div class="col-md-5">
                                 <label>Permissões do Sistema</label>
                                 <select multiple id="available-permissions" class="form-control" size="10">
-                                    <!-- Exemplo de permissões, substitua conforme necessário -->
                                     <option value="1">admin.users.add</option>
                                     <option value="2">admin.users.view</option>
                                     <option value="3">admin.users.edit</option>
                                     <option value="4">admin.users.delete</option>
-                                    <!-- Adicione outras permissões aqui -->
                                 </select>
                             </div>
                             <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
@@ -42,15 +41,15 @@
                             <div class="col-md-5">
                                 <label>Permissões do Grupo</label>
                                 <select multiple id="assigned-permissions" name="permissions[]" class="form-control" size="10">
-                                    <!-- Este campo será preenchido via JavaScript -->
                                 </select>
                             </div>
                         </div>
 
-                        <div class="mt-4 text-right">
-                            <button type="submit" class="btn btn-success">Salvar</button>
-                            <a href="#" class="btn btn-secondary">Cancelar</a>
-                        </div>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <a href="{{ route('levels.index') }}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
                         
                     </form>
                 </div>

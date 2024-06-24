@@ -4,6 +4,7 @@ return[
     'username' => 'Nome de Usuário',
     'email' => 'Email',
     'institution' => 'Instituição',
+    'permissions' => 'Permissões',
     'first_name' => 'Nome',
     'last_name' => 'Sobrenome',
     'address' => 'Endereço',
@@ -17,6 +18,7 @@ return[
     'user_information' => 'Informações do Usuário',
     'contact_information' => 'Informações de Contato',
     'save' => 'Salvar',
+    'cancel' => 'Cancelar',
     'your_profile' => 'Seu Perfil',
     'user_name' => 'Nome de Usuário'
 

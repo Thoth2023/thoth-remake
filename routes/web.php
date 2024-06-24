@@ -209,7 +209,6 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 //SUPER USER ROUTES
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
-Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
 Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
@@ -220,9 +219,10 @@ Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('
 Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
 Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
 Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
-Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth');  // Adicionada rota de visualização
+Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth'); 
 Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
 Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
 
 
