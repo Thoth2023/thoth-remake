@@ -82,24 +82,27 @@
 			if (question.type == '1') { // Text
 				div.innerHTML = `
                     <div class="form-group">
-                    <label for=${question.id_de}>${question.description}</label>
+                    <label for=${question.id_de}>${question.id} - ${question.description}</label>
                     <textarea id=${question.id_de} class="form-control" required></textarea>
                 </div>
                 `;
 			} else if (question.type == '2') { //Multiple Choice
-				div.innerHTML = `
-                    <div class="form-group">
-                    <label for=${question.id_de}>${question.description}</label>
-                    <option id=${question.id_de} class="form-control" required></textarea>
-                </div>
-                `;
+				let checkboxesHTML = `<label for=${question.id_de}>${question.id} - ${question.description}</label>`
+				checkboxesHTML += question.options.map(option => `
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" name="question_${question.id}" value="${option}">
+					<label class="form-check-label">${option}</label>
+				</div>`).join('');
+
+				div.innerHTML += checkboxesHTML;
 			} else { // Pick One
-				div.innerHTML = `
-                    <div class="form-group">
-                    <label for=${question.id_de}>${question.description}</label>
-                    <option id=${question.id_de} class="form-control" required></textarea>
-                </div>
-                `;
+				let radioHTML = `<label for=${question.id_de}>${question.id} - ${question.description}</label>`
+				radioHTML += question.options.map(option => `
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="question_${question.id}" id="question_${question.id}_${option.replace(/\s/g, '')}" value="${option}">
+                    <label class="form-check-label" for="question_${question.id}_${option.replace(/\s/g, '')}">${option}</label>
+                </div>`).join('');
+				div.innerHTML += radioHTML;
 			}
 
 			container.appendChild(div);

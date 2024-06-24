@@ -91,7 +91,7 @@
                             <td>Author 2</td>
                             <td>2022</td>
                             <td>Database 2</td>
-                            <td>
+                            <td>]
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown_status_1"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
