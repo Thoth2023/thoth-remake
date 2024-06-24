@@ -83,32 +83,27 @@
                     class="table-light sticky-top custom-gray-text"
                     style="color: #676a72"
                 >
-                    <th
-                        style="
-                            border-radius: 0.75rem 0 0 0;
-                            padding: 0.5rem 1rem;
-                        "
-                    >
+                    <th style="border-radius: 0.75rem 0 0 0; padding: 0.5rem 1rem;">
                         {{ __("project/conducting.import-studies.table.database") }}
                     </th>
                     <th style="padding: 0.5rem 0.75rem">
                         {{ __("project/conducting.import-studies.table.studies-imported") }}
                     </th>
-                    <th style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 0.75rem;">
+                    <th class="text-center" style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 0.75rem;">
                         {{ __("project/conducting.import-studies.table.file-imported") }}
                     </th>
                 </thead>
                 <tbody>
                     @foreach ($databases as $database)
                         <tr>
-                            <td>{{ $database->name }}</td>
-                            <td>{{ $database->imported_study_count }}</td>
+                            <td class="align-middle">{{ $database->name }}</td>
+                            <td class="align-middle">{{ $database->imported_study_count }}</td>
                             <td>
                                 <table class="table table-responsive table-hover">
                                     <th style="border-radius: 0.75rem 0 0 0; padding: 0.5rem 1rem;">
                                         {{ __("project/conducting.import-studies.table.file") }}
                                     </th>
-                                    <th style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 1rem;">
+                                    <th class="text-center" style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 1rem;">
                                         {{ __("project/conducting.import-studies.table.delete") }}
                                     </th>
                                     </thead>
