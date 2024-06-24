@@ -5,9 +5,11 @@
     enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <button type="button" style="padding: 7px;"
-            class="btn btn-outline-secondary btn-group-sm btn-sm" data-bs-toggle="modal"
-        data-bs-target="#questionModal_{{ $question->id_de }}">Edit</button>
+    <button type="button" 
+            class="btn btn-outline-secondary py-1 px-3" data-bs-toggle="modal"
+        data-bs-target="#questionModal_{{ $question->id_de }}">
+        <i class="fas fa-edit "></i>
+    </button>
     <div class="modal fade" id="questionModal_{{ $question->id_de }}" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
