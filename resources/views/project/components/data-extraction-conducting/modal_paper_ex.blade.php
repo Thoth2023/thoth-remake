@@ -37,8 +37,9 @@
 						<h6>Status Extraction</h6>
 						<p id="text_ex"></p>
 						<select class="form-control" id="edit_status_ex">
-							<option value="3">Removed</option>
-							<option value="2">To Do</option>
+							<option value="Done">Done</option>
+							<option value="To Do">To Do</option>
+							<option value="Removed">Removed</option>
 						</select>
 					</div>
 					</hr>

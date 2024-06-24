@@ -31,8 +31,7 @@
                     <div class="input-group col-md-2">
                         <label class="text-info">
                             <span class="fas fa-trash-alt fa-lg"></span>
-                            {{ __('project/conducting.data-extraction.status.removed') }}: <span
-                                id="count_rem_ex">10</span>
+                            {{ __('project/conducting.data-extraction.status.removed') }}: <span id="count_rem_ex">10</span>
                         </label>
                     </div>
                     <div class="input-group col-md-2">
@@ -64,20 +63,7 @@
                             <td>Author 1</td>
                             <td>2021</td>
                             <td>Database 1</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown_status_1"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Status
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown_status_1">
-                                        <a class="dropdown-item" href="#" onclick="changeStatus(1, 'Done')">Done</a>
-                                        <a class="dropdown-item" href="#" onclick="changeStatus(1, 'To Do')">To Do</a>
-                                        <a class="dropdown-item" href="#"
-                                            onclick="changeStatus(1, 'Removed')">Removed</a>
-                                    </div>
-                                </div>
-                            </td>
+                            <td id="status_1">Status</td> <!-- Removido o dropdown -->
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm btn-view-paper" data-toggle="modal"
                                     data-target="#modal_paper_ex" data-paper-id="1">
@@ -91,20 +77,7 @@
                             <td>Author 2</td>
                             <td>2022</td>
                             <td>Database 2</td>
-                            <td>]
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown_status_1"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Status
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown_status_1">
-                                        <a class="dropdown-item" href="#" onclick="changeStatus(1, 'Done')">Done</a>
-                                        <a class="dropdown-item" href="#" onclick="changeStatus(1, 'To Do')">To Do</a>
-                                        <a class="dropdown-item" href="#"
-                                            onclick="changeStatus(1, 'Removed')">Removed</a>
-                                    </div>
-                                </div>
-                            </td>
+                            <td id="status_2">Status</td> <!-- Removido o dropdown -->
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm btn-view-paper" data-toggle="modal"
                                     data-target="#modal_paper_ex" data-paper-id="2">
@@ -118,20 +91,7 @@
                             <td>Author 3</td>
                             <td>2023</td>
                             <td>Database 3</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown_status_1"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Status
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown_status_1">
-                                        <a class="dropdown-item" href="#" onclick="changeStatus(1, 'Done')">Done</a>
-                                        <a class="dropdown-item" href="#" onclick="changeStatus(1, 'To Do')">To Do</a>
-                                        <a class="dropdown-item" href="#"
-                                            onclick="changeStatus(1, 'Removed')">Removed</a>
-                                    </div>
-                                </div>
-                            </td>
+                            <td id="status_3">Status</td> <!-- Removido o dropdown -->
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm btn-view-paper" data-toggle="modal"
                                     data-target="#modal_paper_ex" data-paper-id="3">
@@ -178,11 +138,50 @@
                 $('#paper_id_ex').text('ID: ' + paperId);
                 var statusText = $('#status_' + paperId).text();
                 $('#text_ex').text('Status: ' + statusText);
+                $('#edit_status_ex').val(statusText);
                 showQuestions();
                 $('#modal_paper_ex').modal('show');
+
+                $('#edit_status_ex').off('change').on('change', function () {
+                    var newStatus = $(this).val();
+                    $('#status_' + paperId).text(newStatus);
+                    updateProgress();
+                });
             });
         });
+
+        function updateProgress() {
+            var doneCount = 0;
+            var toDoCount = 0;
+            var removedCount = 0;
+            var totalCount = 0;
+
+            $('#table_papers_extraction tbody tr').each(function () {
+                totalCount++;
+                var status = $(this).find('td[id^="status_"]').text().trim();
+                if (status === 'Done') {
+                    doneCount++;
+                } else if (status === 'To Do') {
+                    toDoCount++;
+                } else if (status === 'Removed') {
+                    removedCount++;
+                }
+            });
+
+            var donePercentage = (doneCount / totalCount) * 100;
+            var toDoPercentage = (toDoCount / totalCount) * 100;
+            var removedPercentage = (removedCount / totalCount) * 100;
+
+            $('#prog_done').css('width', donePercentage + '%').attr('aria-valuenow', donePercentage).text(donePercentage.toFixed(0) + '%');
+            $('#prog_to_do').css('width', toDoPercentage + '%').attr('aria-valuenow', toDoPercentage).text(toDoPercentage.toFixed(0) + '%');
+            $('#prog_rem_ex').css('width', removedPercentage + '%').attr('aria-valuenow', removedPercentage).text(removedPercentage.toFixed(0) + '%');
+
+            $('#count_done').text(doneCount);
+            $('#count_to_do').text(toDoCount);
+            $('#count_rem_ex').text(removedCount);
+            $('#count_total_ex').text(totalCount);
+        }
+
     </script>
 </body>
-
 </html>
