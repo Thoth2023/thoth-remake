@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\HomeManager;
 
 class HomeController extends Controller
 {
+    public $homeObjs;
         /**
      * Create a new controller instance.
      *
@@ -24,11 +26,14 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('pages.home');
+        $homeObjs = HomeManager::all();
+
+        return view('pages.home',['homeObjs' => $homeObjs]);
     }
 
     public function guest_home()
     {
-        return view('pages.home');
+        $homeObjs = HomeManager::all();
+        return view('pages.home',['homeObjs' => $homeObjs]);
     }
 }
