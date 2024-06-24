@@ -17,7 +17,7 @@
         'conducting' => [
             'icon' => 'fas fa-tasks',
             'label' => __("project/header.conducting"),
-            'route' => 'conducting.index',
+            'route' => 'project.conducting.index',
         ],
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
