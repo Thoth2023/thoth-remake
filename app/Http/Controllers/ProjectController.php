@@ -101,7 +101,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to edit the project.');
         }
 
@@ -116,7 +116,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to edit the project.');
         }
 
@@ -146,7 +146,7 @@ class ProjectController extends Controller
         $activity = "Deleted project ".$project->id_;
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to delete the project.');
         }
 
@@ -171,7 +171,7 @@ class ProjectController extends Controller
         $name_member = User::findOrFail($idMember);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
         }
 
@@ -193,7 +193,7 @@ class ProjectController extends Controller
         $users_relation = $project->users()->get();
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
         }
 
@@ -222,7 +222,7 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'The user is already associated with the project.');
         }
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
         }
 
@@ -252,7 +252,7 @@ class ProjectController extends Controller
         $name_member = User::findOrFail($idMember);
         $user = Auth::user();
 
-        if (!$project->userHasAdministratorPermission($user)) {
+        if (!$project->userHasLevel($user, '1')) {
             return redirect()->back()->with('error', 'You do not have permission to update the member level.');
         }
 

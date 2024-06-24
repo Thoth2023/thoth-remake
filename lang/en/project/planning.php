@@ -65,6 +65,7 @@ return [
                     'added' => 'Domain added successfully.',
                     'updated' => 'Domain updated successfully.',
                     'deleted' => 'Domain deleted successfully.',
+                    'duplicate'=> 'Domain duplicated is not allowed.',
                 ],
             ]
         ],
@@ -203,6 +204,7 @@ return [
                     'added' => 'Keyword added successfully.',
                     'updated' => 'Keyword updated successfully.',
                     'deleted' => 'Keyword deleted successfully.',
+                    'duplicate'=> 'Keyword duplicated is not allowed.'
                 ],
             ]
         ],
