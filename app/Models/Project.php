@@ -237,11 +237,11 @@ class Project extends Model
         $this->save();
     }
 
-    public function userHasAdministratorPermission(User $user): bool
+    public function userHasLevel(User $user, String $level): bool
     {
         return $this->users()
             ->wherePivot('id_user', $user->id)
-            ->wherePivot('level', '1')
+            ->wherePivot('level', $level)
             ->exists();
     }
 

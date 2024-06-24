@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\Overall;
 
+
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
@@ -102,7 +103,16 @@ class Domains extends Component
         $updateIf = [
             'id_domain' => $this->currentDomain?->id_domain,
         ];
+        $existingKeyword = DomainModel::where('description', $this->description)->first();
 
+        if ($existingKeyword && !$this->form['isEditing']) {
+            $toastMessage = __($this->toastMessages . '.duplicate');
+            $this->toast(
+                message: $toastMessage,
+                type: 'error'
+            );
+            return;
+        }
         try {
             $value = $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
