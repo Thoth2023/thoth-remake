@@ -194,7 +194,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // Start of the conducting routes
     Route::prefix('/conducting')->group(function () {
-        Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth');
+        Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);
     });
 
     // start of the reporting routes

@@ -12,7 +12,7 @@ class OverallController extends Controller
     public function index(string $id_project) {
 
         $project = Project::findOrFail($id_project);
-        return view('project.conducting.index', compact('project'));
+        return view('conducting.index', compact('project'));
     }
 
     

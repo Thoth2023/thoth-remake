@@ -14,11 +14,11 @@
             'label' => __("project/header.planning" ),
             'route' => 'project.planning.index',
         ],
-        'conducting' => [
-            'icon' => 'fas fa-tasks',
-            'label' => __("project/header.conducting"),
-            'route' => 'conducting.index',
-        ],
+        // 'conducting' => [
+        //     'icon' => 'fas fa-tasks',
+        //     'label' => __("project/header.conducting"),
+        //     'route' => 'project.conducting.index',
+        // ],
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
             'label' => __("project/header.reporting"),

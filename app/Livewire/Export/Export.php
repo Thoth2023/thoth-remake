@@ -77,6 +77,12 @@ class Export extends Component
         dd($projectName, $projectAuthors, $projectYear);
     }
 
+    // function projectLanguages()
+    // {
+    //     $projectId = $this->currentProject->id;
+    //     $languages = ProjectLanguageModel::where($projectId, $projectId)->pluck('description')->toArray();
+    //     return $languages;
+    // }
 
 
     public function overleafTemplate()
@@ -85,46 +91,183 @@ class Export extends Component
         $databases = $this->getDatabases();
         $projectYear = $this->currentProject->year;
         $projectDescription = $this->currentProject->description;
+
+
         $domainArray = $this->projectDomain();
         $domain = implode(', ', $domainArray);
-        // $projectKeywords = implode(', ', $this->projectKeywords()->toArray());
-        // $projectDomain = implode(', ', $this->projectDomain()->toArray());
-
+        $author = $this->currentProject->author;  // Adicione a variável autor se disponível
+        // $languagearray = $this->projectLanguages();
+        // $languages = implode(', ', $languagearray);
+        $studyType = $this->currentProject->study_type;
+        $keywords = $this->keywordsDescriptions;
+        $researchQuestions = $this->currentProject->research_questions;
+        $domainsList = 
+       
         $latexTemplate = "
-        \\documentclass{article}
+        \\documentclass[11pt]{article}
         \\usepackage[utf8]{inputenc}
-        \\usepackage{hyperref}
+        \\usepackage{graphicx}
+        \\usepackage{booktabs}
+        \\usepackage{float}
+        \\usepackage[alf]{abntex2cite}
+        \\usepackage[brazilian,hyperpageref]{backref}
+        \\renewcommand{\\backrefpagesname}{Citado na(s) página(s):~}
+        \\renewcommand{\\backref}{}
+        \\renewcommand*{\\backrefalt}[4]{
+        \\ifcase #1 %
+        Nenhuma citação no texto.%
+        \\or
+        Citado na página #2.%
+        \\else
+        Citado #1 vezes nas páginas #2.%
+        \\fi}%
+    
         \\title{{$projectName}}
-        
+        \\author{{$author}}
         \\date{{$projectYear}}
-
+    
         \\begin{document}
-
+    
         \\maketitle
-
+    
         \\begin{abstract}
         $projectDescription
         \\end{abstract}
-
-        \\section{Introduction}
-        % Write your introduction here
-
-        \\section{Keywords}
-       
-        \\domains
-        $domain
-
-        \\section{Domain}
-        
-
-        \\section{Content}
-        % Add your content here
-
+    
+        \\section{Planning}
+    
+        \\subsection{Description}
+        $projectDescription
+    
+        \\subsection{Objectives}
+        % Adicione seus objetivos aqui
+    
+        \\subsection{Domains}
+        \\begin{itemize}
+            \\item $domain
+        \\end{itemize}
+    
+        \\subsection{Languages}
+        \\begin{itemize}
+            \\item languages
+        \\end{itemize}
+    
+        \\subsection{Studies Types}
+        \\begin{itemize}
+            \\item $studyType
+        \\end{itemize}
+    
+        \\subsection{Keywords}
+        \\begin{itemize}
+            \\item $keywords
+        \\end{itemize}
+    
+        \\subsection{Research Questions}
+        \\begin{itemize}
+            \\item \\textbf$researchQuestions
+        \\end{itemize}
+    
+        \\subsection{Databases}
+        \\begin{table}[!htb]
+        \\caption[Databases used at work]{Databases used at work.}
+        \\label{tab:databases}
+        \\centering
+        \\begin{tabular}{@{}ll@{}}
+        \\toprule
+        \\textbf{Database} & \\textbf{Link} \\\\ \\midrule
+        GOOGLE & https://scholar.google.com.br/ \\\\ \\bottomrule 
+        \\end{tabular}
+        \\end{table}
+    
+        \\subsection{Terms and Synonyms}
+        \\begin{table}[H]
+        \\caption[Terms and Synonyms used at work]{Terms and Synonyms used at work.}
+        \\label{tab:terms}
+        \\centering
+        \\begin{tabular}{@{}ll@{}}
+        \\toprule
+        \\textbf{Term} & \\textbf{Synonyms} \\\\ \\midrule
+        \"efeitos da exposição prolongada ao sol em atletas de alto desempenho\" & \\\\ \\bottomrule 
+        \\end{tabular}
+        \\end{table}
+    
+        \\subsection{Search Strings}
+        \\begin{itemize}
+        \\item \\textbf{Generic: }(\"efeitos da exposição prolongada ao sol em atletas de alto desempenho\"); 
+        \\item \\textbf{GOOGLE: }(\"efeitos da exposição prolongada ao sol em atletas de alto desempenho\"); 
+        \\end{itemize}
+    
+        \\subsection{Search Strategy}
+        % Adicione sua estratégia de pesquisa aqui
+    
+        \\subsection{Inclusion and Exclusion Criteria}
+        Inclusion Rule: Any
+    
+        \\begin{itemize}
+        \\item \\textbf{1: }Example inclusion criterion
+        \\end{itemize}
+    
+        Exclusion Rule: Any
+    
+        \\begin{itemize}
+        \\item \\textbf{1: }Example exclusion criterion
+        \\end{itemize}
+    
+        \\subsection{General Scores}
+        Score Minimum to Approve: Example minimum score
+    
+        \\begin{table}[!htb]
+        \\caption[General Scores used at work]{General Scores used at work.}
+        \\label{tab:genscores}
+        \\centering
+        \\begin{tabular}{@{}lll@{}}
+        \\toprule
+        \\textbf{Start Interval} & \\textbf{End Interval} & \\textbf{Description} \\\\ \\midrule
+        3 & 5 & Example description \\\\ \\bottomrule 
+        \\end{tabular}
+        \\end{table}
+    
+        \\subsection{Quality Questions}
+        \\begin{itemize}
+        \\item \\textbf{1: } Example quality question
+        \\end{itemize}
+    
+        \\begin{table}[!htb]
+        \\caption[Quality Questions used at work]{Quality Questions used at work.}
+        \\label{tab:qa}
+        \\centering
+        \\begin{tabular}{@{}llll@{}}
+        \\toprule
+        \\textbf{ID} & \\textbf{Rules} & \\textbf{Weight} & \\textbf{\\begin{tabular}[c]{@{}l@{}}Minimum\\ to\\ Approve\\end{tabular}} \\\\ \\midrule
+        1 & \\begin{tabular}[c]{@{}l@{}}Example rule\\ \\end{tabular} & 3 & No minimum \\\\ \\bottomrule 
+        \\end{tabular}
+        \\end{table}
+    
+        \\subsection{Extraction Questions}
+        \\begin{itemize}
+        \\item \\textbf{1: } Example extraction question
+        \\end{itemize}
+    
+        \\begin{table}[!htb]
+        \\caption[Extraction Questions used at work]{Extraction Questions used at work.}
+        \\label{tab:qe}
+        \\centering
+        \\begin{tabular}{@{}lll@{}}
+        \\toprule
+        \\textbf{ID} & \\textbf{Type} & \\textbf{Options} \\\\ \\midrule
+        1 & Text & Example options \\\\ \\bottomrule 
+        \\end{tabular}
+        \\end{table}
+    
+        \\bibliography{Bib}
+    
         \\end{document}
         ";
-
+    
         return $latexTemplate;
     }
+    
+    
 
    
 
@@ -167,14 +310,23 @@ class Export extends Component
 
     public function createProjectOnOverleaf()
     {
-        $this->generateBibTex(); // Gera o conteúdo LaTeX
-        $this->openInOverleaf(); // Envia o formulário para o Overleaf
+        $overleafTemplate = $this->overleafTemplate();
+        $this->openInOverleaf($overleafTemplate); // Envia o formulário para o Overleaf
     }
 
-    public function openInOverleaf()
+    public function openInOverleaf($latexTemplate)
     {
-        // Lógica para abrir no Overleaf
+        // Codifica o conteúdo em base64
+        $base64Content = base64_encode($latexTemplate);
+    
+        // Constrói o URL para o Overleaf com os parâmetros necessários
+        $overleafUrl = 'https://www.overleaf.com/docs?snip_uri=data:application/x-latex;base64,' . $base64Content;
+    
+        // Redireciona o usuário para o Overleaf
+        return redirect()->away($overleafUrl);
     }
+    
+    
 
     private function isChecked($checkboxId)
     {
