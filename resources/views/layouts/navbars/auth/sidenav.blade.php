@@ -134,7 +134,24 @@
                                 class="{{ Route::currentRouteName() == "faq-management" ? "text-primary" : "text-dark" }} text-sm opacity-10 fas fa-users-cog"
                             ></i>
                         </div>
-                        <span class="nav-link-text ms-1">Page Management</span>
+                        <span class="nav-link-text ms-1">Gerenciador de FAQ</span>
+                    </a>
+                </li>
+            @endif
+             @if (Auth::user()->role == "SUPER_USER")
+                <li class="nav-item">
+                    <a
+                        class="nav-link "
+                        href="{{ Route::currentRouteName() != "home-manager" ? route("home-manager") : "#" }}"
+                    >
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
+                        >
+                            <i
+                                class="{{ Route::currentRouteName() == "home-manager" ? "text-primary" : "text-dark" }} text-sm opacity-10 fas fa-users-cog"
+                            ></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Gerenciador da Home</span>
                     </a>
                 </li>
             @endif
