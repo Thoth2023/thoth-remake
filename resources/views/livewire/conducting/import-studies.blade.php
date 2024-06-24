@@ -13,7 +13,7 @@
                 <x-select
                     class="w-md-25 w-100"
                     id="databaseSelect"
-                    label="{{ __('project/conducting.import-studies.form.database') }}"
+                    label="{{ __('project/conducting.import-studies.form.selected-database') }}"
                     wire:model="selectedDatabase"
                 >
                     <option value="">
@@ -44,7 +44,7 @@
                         class="form-control"
                         id="fileUpload"
                         wire:model="file"
-                        accept=".bib,.csv,.txt"
+                        accept=".bib,.csv"
                     />
                 </div>
                 @error("file")

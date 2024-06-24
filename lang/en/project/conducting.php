@@ -23,7 +23,7 @@ return [
                 'delete' => 'Delete'
         ],
         'help' =>[
-            'content' => 'Insert files in ".bib", ".csv" or ".txt" format and import files according to the database inserted in the planning'
+            'content' => 'Insert files in ".bib" or ".csv" format and import files according to the database inserted in the planning'
         ],
         'table' => [
             'database' => 'Database',
