@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Create Project'])
+    @include('layouts.navbars.auth.topnav', ['title' => __('project/create.create_project') ])
     <div class="card shadow-lg mx-4">
         <div class="container-fluid py-4">
             <p class="text-uppercase text-sm">{{ __('project/create.create_project') }}</p>

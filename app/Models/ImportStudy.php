@@ -9,7 +9,7 @@ class ImportStudy extends Model
 {
   use HasFactory;
 
-  protected $table = 'import_studies';
+  protected $table = 'import_study';
 
   public $timestamps = true;
 

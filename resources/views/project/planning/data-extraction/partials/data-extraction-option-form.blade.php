@@ -22,14 +22,21 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="question-id"
-                        class="form-control-label">{{ __('project/planning.data-extraction.option-form.question') }}</label>
+                    <label for="question-id" class="form-control-label">{{ __('project/planning.data-extraction.option-form.question') }}</label>
+                    @php
+                        $selectableQuestions = $project->questions->filter(function($question) {
+                            return $question->question_type->type === 'Multiple Choice List' || $question->question_type->type === 'Pick One List';
+                        });
+                    @endphp
+                
                     <select class="form-control" name="questionId" id="question-id">
-                        @foreach ($project->dataExtractionQuestions  as $question)
-                            @if ($question->question_type->type === 'Multiple Choice List' || $question->question_type->type === 'Pick One List')
+                        @if($selectableQuestions->isEmpty())
+                            <option value="" disabled selected>Nenhuma pergunta disponível para seleção no formato desejado.</option>
+                        @else
+                            @foreach ($selectableQuestions as $question)
                                 <option value="{{ $question->id_de }}">{{ $question->id }}</option>
-                            @endif
-                        @endforeach
+                            @endforeach
+                        @endif
                     </select>
                 </div>
 

@@ -1,3 +1,4 @@
+<div class="d-flex flex-column gap-4">
 <div class="card">
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
@@ -16,7 +17,7 @@
                     wire:model="selectedDatabase"
                 >
                     <option value="">
-                        {{ __("project/conducting.import-studies.form.select-database") }}
+                        {{ __("project/conducting.import-studies.form.selected-database") }}
                     </option>
                     @foreach ($databases as $database)
                         <option value="{{ $database->id_database }}">
@@ -34,6 +35,7 @@
                     <label
                         for="fileUpload"
                         class="form-control-label mx-0 mb-1"
+
                     >
                         {{ __("project/conducting.import-studies.form.upload") }}
                     </label>
@@ -42,7 +44,7 @@
                         class="form-control"
                         id="fileUpload"
                         wire:model="file"
-                        accept=".bib,.csv"
+                        accept=".bib,.csv,.txt"
                     />
                 </div>
                 @error("file")
@@ -95,37 +97,28 @@
                     <th style="padding: 0.5rem 0.75rem">
                         {{ __("project/conducting.import-studies.table.file-imported") }}
                     </th>
+                    <th style="padding: 0.5rem 0.75rem">
+                        {{ __("project/conducting.import-studies.table.file") }}
+                    </th>
+                    <th style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 0.75rem;">
+                        {{ __("project/conducting.import-studies.table.actions") }}
+                    </th>
                 </thead>
                 <tbody>
                     @foreach ($databases as $database)
                         <tr>
                             <td>{{ $database->name }}</td>
-                            <td>{{ $database->imported_studies_count }}</td>
+                            <td>{{ $database->imported_study_count }}</td>
                             @if ($database)
-                            <table class="table table-responsive table-hover">
-                                <thead
+                            {{-- <table class="table table-responsive table-hover"> --}}
+                                {{-- <thead
                                     class="table-light sticky-top custom-gray-text"
                                     style="color: #676a72"
                                 >
-                                    <th
-                                        style="
-                                            border-radius: 0.75rem 0 0 0;
-                                            padding: 0.5rem 1rem;
-                                        "
-                                    >
-                                        {{ __("project/conducting.import-studies.table.file") }}
-                                    </th>
-                                    <th
-                                    style="
-                                        border-radius: 0 0.75rem 0 0;
-                                        padding: 0.5rem 1rem;
-                                    "
-                                >
-                                    {{ __("project/conducting.import-studies.table.actions") }}
-                                </th>
+                                    
                                 </thead>
-                                <tbody>
-                                    @forelse ($files as $file)
+                                <tbody> --}}
+                                    {{-- @forelse ($files as $file)
                                     <td>
                                         {{$file}}
                                     </td>
@@ -140,11 +133,11 @@
 
                                     @empty
 
-                                    @endforelse
+                                    @endforelse --}}
 
-                                </tbody>
+                                {{-- </tbody> --}}
 
-                            </table>
+                            {{-- </table> --}}
                             @endif
 
                         </tr>
@@ -154,7 +147,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @script
     <script>
         $wire.on('import-studies', ([{ message, type }]) => {

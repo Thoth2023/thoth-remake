@@ -102,6 +102,17 @@ class Keywords extends Component
         $updateIf = [
             'id_keyword' => $this->currentKeyword?->id_keyword,
         ];
+        $existingKeyword = KeywordModel::where('description', $this->description)->first();
+
+        if ($existingKeyword && !$this->form['isEditing']) {
+            $toastMessage = __($this->toastMessages . '.duplicate');
+            $this->toast(
+                message: $toastMessage,
+                type: 'error'
+            );
+            return;
+        }
+
         $toastMessage = $this->form['isEditing']
             ? $this->toastMessages . '.updated'
             : $this->toastMessages . '.added';
