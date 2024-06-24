@@ -9,8 +9,20 @@
             </div>
             <div class="modal-body">
                 @if($paper)
-                    <p>{{ $paper['title'] }}</p>
-                    <p>{{ $paper['data_base'] }}</p>
+                <p><strong>Critérios de Inclusão:</strong> {{ $paper->criteria_acceptance }}</p>
+                <p><strong>Critérios de Exclusão:</strong> {{ $paper->criteria_rejection }}</p>
+                <div class="form-group">
+                    <label for="inclusion">Atende os Critérios de Inclusão?</label>
+                    <input type="checkbox" wire:model.defer="paper.criteria_inclusion">
+                </div>
+                <div class="form-group">
+                    <label for="exclusion">Atende os Critérios de Exclusão?</label>
+                    <input type="checkbox" wire:model.defer="paper.criteria_exclusion">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notas:</label>
+                    <textarea wire:model.defer="paper.notes" class="form-control"></textarea>
+                </div>
                 @else
                     <p>Hello World</p>
                 @endif

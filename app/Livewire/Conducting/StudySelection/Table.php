@@ -71,6 +71,7 @@ class Table extends Component
         
     }
 
+    
     private function setupDuplicates($papers): Collection
     {
         $uniquePapers = [];
@@ -136,9 +137,14 @@ class Table extends Component
     public function updateStatus(string $papersId, $status)
     {
         $paper = Papers::findOrFail($papersId);
-        $status = StatusSelection::where('description', $status)->first()->id_status;
-        $paper->status_selection = $status;
+        $statusSelection = StatusSelection::where('description', $status)->first()->id_status;
+        $paper->status_selection = $statusSelection;
         $paper->save();
+
+        $this->dispatchBrowserEvent('notify', [
+            'type' => 'success',
+            'message' => 'Status atualizado com sucesso!'
+        ]);
 
         $value = 'Updated papers status.';
 
@@ -149,6 +155,22 @@ class Table extends Component
         );
     }
 
+    public function filterBy($field, $value)
+    {
+        $this->filters[$field] = $value;
+        $this->papers = $this->applyFilters($this->papers);
+    }
+
+    private function applyFilters($papers)
+    {
+        foreach ($this->filters as $field => $value) {
+            if (!empty($value)) {
+                $papers = $papers->where($field, $value);
+            }
+        }
+        return $papers;
+    }
+
     public function sortBy($field)
     {
         if (!isset($this->sorts[$field])) {
@@ -156,12 +178,15 @@ class Table extends Component
         } else {
             $this->sorts[$field] = $this->sorts[$field] === 'asc' ? 'desc' : 'asc';
         }
+        $this->papers = $this->papers->sortBy($field, SORT_REGULAR, $this->sorts[$field] === 'desc');
     }
 
 
     public function render()
     {
         $papers = $this->papers;
+
+        $papers = $this->setupCriteria($papers);
 
         foreach ($this->sorts as $field => $direction) {
             $papers = $direction === 'asc' ? $papers->sortBy($field) : $papers->sortByDesc($field);
