@@ -94,8 +94,6 @@ class HomeText extends Component
 
     public function render()
     {
-        return view('livewire.home-text', [
-            'homeObjs' => $this->homeObjs,
-        ]);
+        return view('livewire.home-text');
     }
 }
