@@ -13,16 +13,39 @@ return [
         'data_extraction' => 'Data Extraction',
         'snowballing' => 'Snowballing'
     ],
+
+    'data-extraction' => [
+        'title' => 'Data Extraction',
+        'progress-data-extraction' => 'Data Extraction Progress',
+        'status' => [
+            'done' => 'Done',
+            'todo' => 'To Do',
+            'removed' => 'Removed',
+            'total' => 'Total'
+        ],
+        'list_studies' => 'List of Studies for Data Extraction',
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Title',
+            'author' => 'Author',
+            'year' => 'Year',
+            'database' => 'Database',
+            'status' => 'Status',
+            'actions' => 'Actions'
+        ],
+        'details' => 'View Details'
+    ],
+
     'import-studies' => [
         'title' => 'Import Studies',
         'form' => [
-                'database' => 'Database',
-                'selected-database' => 'Select Database',
-                'upload' => 'Choose File',
-                'add' => 'Add File',
-                'delete' => 'Delete'
+            'database' => 'Database',
+            'selected-database' => 'Select Database',
+            'upload' => 'Choose File',
+            'add' => 'Add File',
+            'delete' => 'Delete'
         ],
-        'help' =>[
+        'help' => [
             'content' => 'Insert files in ".bib", ".csv" or ".txt" format and import files according to the database inserted in the planning'
         ],
         'table' => [

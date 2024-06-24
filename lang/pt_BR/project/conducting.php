@@ -72,5 +72,27 @@ return [
             'actions' => 'Ações',
 
         ],
-    ]
+    ],
+
+    'data-extraction' => [
+        'title' => 'Extração de Dados',
+        'progress-data-extraction' => 'Progresso da Extração de Dados',
+        'status' => [
+            'done' => 'Concluído',
+            'todo' => 'A fazer',
+            'removed' => 'Removido',
+            'total' => 'Total'
+        ],
+        'list_studies' => 'Lista de Estudos para Extração de Dados',
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Título',
+            'author' => 'Autor',
+            'year' => 'Ano',
+            'database' => 'Base de Dados',
+            'status' => 'Status',
+            'actions' => 'Ações'
+        ],
+        'details' => 'Detalhar'
+    ],
 ];

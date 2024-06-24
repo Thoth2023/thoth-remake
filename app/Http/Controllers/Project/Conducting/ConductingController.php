@@ -21,8 +21,8 @@ class ConductingController extends Controller
 
         return view('project.conducting.index', [
             'project' => $project,
-            'snowballing_projects' => $snowballing_projects,
-            'dataExtractionQuestions' => $dataExtractionQuestions,
-        ]);
+            'snowballing_projects' => $snowballing_projects
+        ],
+        compact('dataExtractionQuestions'));
     }
 }

@@ -1,5 +1,5 @@
 <div class="modal fade bd-example-modal-lg" id="modal_paper_ex" tabindex="-1" role="dialog"
-	 aria-labelledby="exampleModalLabel" aria-hidden="true">
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -44,17 +44,18 @@
 					</hr>
 					<div class="col-md-12">
 						<h6>Abstract</h6>
-						<p id="paper_abstract_ex"</p>
+						<p id="paper_abstract_ex" </p>
 					</div>
 					<div class="col-md-12">
 						<h6>Keywords</h6>
-						<p id="paper_keywords_ex"</p>
+						<p id="paper_keywords_ex" </p>
 					</div>
 				</div>
 				<hr>
 				<div class="col-md-12" id="ex_analiese">
 					<h6>Extraction Questions</h6>
 					<div class="form-inline" id="extraction_questions">
+						<!-- Aqui serão inseridas as perguntas de extração -->
 					</div>
 					<br>
 					<hr>
@@ -67,3 +68,45 @@
 		</div>
 	</div>
 </div>
+<script>
+	// Passe as perguntas de extração do PHP para JavaScript
+	let questions = {!! json_encode($dataExtractionQuestions) !!};
+
+	// Função para exibir as perguntas de extração
+	function showQuestions() {
+		let container = document.getElementById('extraction_questions');
+		container.innerHTML = ''; // Limpa o conteúdo existente
+
+		questions.forEach(function (question) {
+			let div = document.createElement('div');
+			if (question.type == '1') { // Text
+				div.innerHTML = `
+                    <div class="form-group">
+                    <label for=${question.id_de}>${question.description}</label>
+                    <textarea id=${question.id_de} class="form-control" required></textarea>
+                </div>
+                `;
+			} else if (question.type == '2') { //Multiple Choice
+				div.innerHTML = `
+                    <div class="form-group">
+                    <label for=${question.id_de}>${question.description}</label>
+                    <option id=${question.id_de} class="form-control" required></textarea>
+                </div>
+                `;
+			} else { // Pick One
+				div.innerHTML = `
+                    <div class="form-group">
+                    <label for=${question.id_de}>${question.description}</label>
+                    <option id=${question.id_de} class="form-control" required></textarea>
+                </div>
+                `;
+			}
+
+			container.appendChild(div);
+		});
+	}
+	// Chama a função showQuestions ao carregar a página
+	document.addEventListener('DOMContentLoaded', function () {
+		showQuestions();
+	});
+</script>
