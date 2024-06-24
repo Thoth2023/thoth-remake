@@ -87,10 +87,26 @@
                             <form method="POST" action="{{ route('register.perform') }}">
                                 @csrf
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
-                                    <input type="text" name="username" class="form-control"
-                                        placeholder="{{ __('auth/register.username') }}"
-                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
-                                    @error('username')
+                                    <input type="text" name="firstname" class="form-control"
+                                        placeholder="{{ __('auth/register.firstname') }}"
+                                        aria-label="{{ __('auth.register.firstname') }}" value="{{ old('firstname') }}">
+                                    @error('firstname')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
+                                </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
+                                    <input type="text" name="lastname" class="form-control"
+                                        placeholder="{{ __('auth/register.lastname') }}"
+                                        aria-label="{{ __('auth.register.lastname') }}" value="{{ old('lastname') }}">
+                                    @error('lastname')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
+                                </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
+                                    <input type="text" name="institution" class="form-control"
+                                        placeholder="{{ __('auth/register.institution') }}"
+                                        aria-label="{{ __('auth.register.institution') }}" value="{{ old('institution') }}">
+                                    @error('institution')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
@@ -99,6 +115,14 @@
                                         placeholder="{{ __('auth/register.email') }}"
                                         aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}">
                                     @error('email')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
+                                </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
+                                    <input type="text" name="username" class="form-control"
+                                        placeholder="{{ __('auth/register.username') }}"
+                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
+                                    @error('username')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
