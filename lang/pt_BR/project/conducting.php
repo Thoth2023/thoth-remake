@@ -16,13 +16,13 @@ return [
         'title' => 'Importação de estudos',
         'form' => [
                 'database' => 'Base de dados',
-                'select-database' => 'Selecionar a base de dados',
+                'selected-database' => 'Selecionar a base de dados',
                 'upload' => 'Escolher arquivo',
                 'add' =>  'Adicionar arquivo',
                 'delete' => 'Deletar'
         ],
         'help' =>[
-            'content' => 'Insira Arquivos no Formato ".bib", ".csv" ou ".txt" e faça a importação de arquivos de acordo com a base inserida no planejamento'
+            'content' => 'Insira Arquivos no Formato ".bib" ou ".csv" e faça a importação de arquivos de acordo com a base inserida no planejamento'
         ],
          'table' => [
             'database' => 'Base de dados',
