@@ -29,6 +29,9 @@ return [
             'database' => 'Database',
             'studies-imported' => 'Total imported studies',
             'actions' => 'Actions',
+            'file' => 'File',
+            'file-imported' => 'Files imported',
+            'delete' => 'Delete',
         ],
     ]
 

@@ -94,14 +94,8 @@
                     <th style="padding: 0.5rem 0.75rem">
                         {{ __("project/conducting.import-studies.table.studies-imported") }}
                     </th>
-                    <th style="padding: 0.5rem 0.75rem">
-                        {{ __("project/conducting.import-studies.table.file-imported") }}
-                    </th>
-                    <th style="padding: 0.5rem 0.75rem">
-                        {{ __("project/conducting.import-studies.table.file") }}
-                    </th>
                     <th style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 0.75rem;">
-                        {{ __("project/conducting.import-studies.table.actions") }}
+                        {{ __("project/conducting.import-studies.table.file-imported") }}
                     </th>
                 </thead>
                 <tbody>
@@ -109,36 +103,38 @@
                         <tr>
                             <td>{{ $database->name }}</td>
                             <td>{{ $database->imported_study_count }}</td>
-                            @if ($database)
-                            {{-- <table class="table table-responsive table-hover"> --}}
-                                {{-- <thead
-                                    class="table-light sticky-top custom-gray-text"
-                                    style="color: #676a72"
-                                >
-                                    
-                                </thead>
-                                <tbody> --}}
-                                    {{-- @forelse ($files as $file)
-                                    <td>
-                                        {{$file}}
-                                    </td>
-                                    <td>
-                                        <button
-                                            class="btn py-1 px-3 btn-outline-danger"
-                                            wire:click="confirmDelete('{{ $database->id }}')"
-                                        >
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-
-                                    @empty
-
-                                    @endforelse --}}
-
-                                {{-- </tbody> --}}
-
-                            {{-- </table> --}}
-                            @endif
+                            <td>
+                                <table class="table table-responsive table-hover">
+                                    <th style="border-radius: 0.75rem 0 0 0; padding: 0.5rem 1rem;">
+                                        {{ __("project/conducting.import-studies.table.file") }}
+                                    </th>
+                                    <th style="border-radius: 0 0.75rem 0 0; padding: 0.5rem 1rem;">
+                                        {{ __("project/conducting.import-studies.table.delete") }}
+                                    </th>
+                                    </thead>
+                                    <tbody>
+                                        {{-- @forelse ($files as $file)
+                                        <td>
+                                            {{$file}}
+                                        </td>
+                                        <td>
+                                            <button
+                                                class="btn py-1 px-3 btn-outline-danger"
+                                                wire:click="confirmDelete('{{ $database->id }}')"
+                                            >
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+    
+                                        @empty
+    
+                                        @endforelse --}}
+    
+                                    </tbody>
+    
+                                </table>
+                            </td>
+                            
 
                         </tr>
                     @endforeach

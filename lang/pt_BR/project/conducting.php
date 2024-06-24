@@ -29,7 +29,9 @@ return [
             'studies-imported' => 'Estudos importados',
             'actions' => 'Ação',
             'file' => 'Arquivo',
-            'file-imported' => 'Arquivos importados'
+            'file-imported' => 'Arquivos importados',
+            'delete' => 'Deletar',
+
 
          ]
     ]
