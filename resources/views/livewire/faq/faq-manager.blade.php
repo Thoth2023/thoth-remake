@@ -6,6 +6,7 @@
     </div>
     <div class="overflow-auto px-4 py-1" style="max-height: 428px">
     <button wire:click="openCreateModal" class="btn btn-primary"  type="button"  data-bs-toggle="modal" data-bs-target="#faqModal">Add Nova Pergunta</button>
+    <button wire:click="openHistoryModal" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#historyModal">Histórico</button>
         <table class="table table-responsive table-hover">
             <thead
                 class="table-light sticky-top custom-gray-text"
@@ -99,3 +100,44 @@
     </div>
 </div>
 
+
+<!-- Modal de Histórico de Perguntas e Respostas -->
+<div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true" wire:ignore.self>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyModalLabel">Histórico de Perguntas e Respostas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                        <tr>
+                            <th>Pergunta</th>
+                            <th>Resposta</th>
+                            <th>Data/Hora</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($pageVersions as $version)
+                            <tr>
+                                <td>{{ $version->title }}</td>
+                                <td>{{ $version->content }}</td>
+                                <td>{{ $version->created_at }}</td>
+                                <td>
+                                    <button wire:click="restoreVersion({{ $version->id }})" class="btn btn-primary btn-sm">Restaurar</button>
+                                    <button wire:click="deleteVersion({{ $version->id }})" class="btn btn-danger btn-sm">Deletar</button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Nenhum histórico encontrado.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

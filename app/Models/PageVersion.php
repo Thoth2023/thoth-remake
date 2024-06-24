@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PageVersion extends Model
 {
-    protected $fillable = ['page_id', 'title', 'content'];
+    use HasFactory;
+    protected $fillable = [
+        'page_id', 
+        'title', 
+        'content'];
 
     public function page()
     {

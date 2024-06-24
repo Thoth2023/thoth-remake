@@ -1,23 +1,19 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-use App\Models\Page;
 use App\Models\PageVersion;
+use App\Models\Faq;
 use Illuminate\Http\Request;
 
 class PageVersionController extends Controller
 {
-    //buscar historico
     public function showHistory($pageId)
     {
         $pageVersions = PageVersion::where('page_id', $pageId)->orderByDesc('created_at')->get();
         return response()->json($pageVersions);
     }
 
-
-    //restaução do historico
     public function restoreVersion($pageId, $versionId)
     {
         $pageVersion = PageVersion::find($versionId);
@@ -25,19 +21,29 @@ class PageVersionController extends Controller
             return response()->json(['error' => 'Page version not found'], 404);
         }
 
-        $page = Page::find($pageId);
-        if (!$page) {
-            return response()->json(['error' => 'Page not found'], 404);
+        if ($pageId === 'faq') {
+            $faq = Faq::find($pageVersion->page_id);
+            if ($faq) {
+                $faq->update([
+                    'question' => $pageVersion->title,
+                    'response' => $pageVersion->content,
+                ]);
+            } else {
+                Faq::create([
+                    'question' => $pageVersion->title,
+                    'response' => $pageVersion->content,
+                    'page_id' => $pageVersion->page_id
+                ]);
+            }
+
+            return response()->json($faq);
         }
 
-        $page->title = $pageVersion->title;
-        $page->content = $pageVersion->content;
-        $page->save();
+        // Lógica para outras páginas, se necessário
 
-        return response()->json($page);
+        return response()->json(['message' => 'Restoration completed']);
     }
 
-    //deleta
     public function deleteVersion($versionId)
     {
         $pageVersion = PageVersion::find($versionId);

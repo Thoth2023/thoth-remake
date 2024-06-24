@@ -213,6 +213,12 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 });
 
+//ROTAS PARA FAQ
+/*Route::prefix('faq-management')->middleware('auth')->group(function () {
+    Route::get('/', [FaqManagementController::class, 'index'])->name('faq-management.index');
+    
+});*/
+
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/faq-management', [FaqManagementController::class, 'index'])->name('faq-management')->middleware('auth');
 Route::get('/home-manager', [HomeManagerController::class, 'index'])->name('home-manager')->middleware('auth');

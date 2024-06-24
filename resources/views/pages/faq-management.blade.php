@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
-                @livewire('faq.faq-manager')
+            @livewire('faq.faq-manager-component')
             </div>
         </div>
     </div>
