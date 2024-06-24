@@ -31,22 +31,34 @@ class UserProfileController extends Controller
             'institution' => ['max:255'],
             'lattes_link' => ['max:255'],
         ]);
-        // Update the authenticated user's profile with the validated data
-        auth()->user()->update([
-            'username' => $request->get('username'),
-            'firstname' => $request->get('firstname'),
-            'lastname' => $request->get('lastname'),
-            'email' => $request->get('email') ,
-            'address' => $request->get('address'),
-            'city' => $request->get('city'),
-            'country' => $request->get('country'),
-            'postal' => $request->get('postal'),
-            'about' => $request->get('about'),
-            'occupation' => $request->get('occupation'),
-            'institution' => $request->get('institution'),
-            'lattes_link' => $request->get('lattes_link'),
+
+        $request->validate([
+            'lattes_link' => 'required|max:255|regex:/^(?:https?:\/\/)?(?:[^@\s\/]+@)?(?:[^\s\/]+\.)+[^\s\/]+\/?(?:[^\s\/]+(?:\/[^\s\/]+)*)?$/',
+        ], [
+            'lattes_link.required' => 'O link para o currículo Lattes é obrigatório.',
+            'lattes_link.regex' => 'O formato do link para o currículo  Lattes é inválido.',
         ]);
-        // Redirect back to the previous page with a success message
-        return back()->with('success', 'Profile succesfully updated');
+
+        try{
+            // Update the authenticated user's profile with the validated data
+            auth()->user()->update([
+                'username' => $request->get('username'),
+                'firstname' => $request->get('firstname'),
+                'lastname' => $request->get('lastname'),
+                'email' => $request->get('email') ,
+                'address' => $request->get('address'),
+                'city' => $request->get('city'),
+                'country' => $request->get('country'),
+                'postal' => $request->get('postal'),
+                'about' => $request->get('about'),
+                'occupation' => $request->get('occupation'),
+                'institution' => $request->get('institution'),
+                'lattes_link' => $request->get('lattes_link'),
+            ]);
+            // Redirect back to the previous page with a success message
+            return back()->with('success', 'Profile succesfully updated');
+        }catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }
