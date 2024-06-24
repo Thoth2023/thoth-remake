@@ -35,7 +35,6 @@
 					</div>
 					<div id="paper_status_ex" class="col-md-12">
 						<h6>Status Extraction</h6>
-						<p id="text_ex"></p>
 						<select class="form-control" id="edit_status_ex">
 							<option value="Done">Done</option>
 							<option value="To Do">To Do</option>
@@ -43,7 +42,7 @@
 						</select>
 					</div>
 					</hr>
-					<div class="col-md-12">
+					<div class="col-md-12 mt-3">
 						<h6>Abstract</h6>
 						<p id="paper_abstract_ex" </p>
 					</div>
