@@ -1,30 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => 'Adicionar Nova Permissão de Grupo'])
+@include('layouts.navbars.auth.topnav', ['title' => __("nav/side.add_permission")])
 
 <div class="row mt-4 mx-4">
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0">
-                <h6>Adicionar Nova Permissão de Grupo</h6>
+                <h6>{{__("superuser/levels.add_permission")}}</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="p-3">
                     <form action="{{ route('levels.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="level" class="form-label">Nome do Perfil</label>
+                            <label for="level" class="form-label">{{__("superuser/levels.profile_name")}}</label>
                             <input type="text" class="form-control" id="level" name="level" required>
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Descrição</label>
+                            <label for="description" class="form-label">{{__("superuser/levels.profile_description")}}</label>
                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-5">
-                                <label>Permissões do Sistema</label>
+                                <label>{{__("superuser/levels.system_permissions")}}</label>
                                 <select multiple id="available-permissions" class="form-control" size="10">
                                     <option value="1">admin.users.add</option>
                                     <option value="2">admin.users.view</option>
@@ -39,23 +39,23 @@
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                <label>Permissões do Grupo</label>
+                                <label>{{__("superuser/levels.grou_permissions")}}</label>
                                 <select multiple id="assigned-permissions" name="permissions[]" class="form-control" size="10">
                                 </select>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <a href="{{ route('levels.index') }}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">{{__("superuser/levels.save")}}</button>
+                        <a href="{{ route('levels.index') }}" class="btn btn-secondary">{{__("superuser/levels.cancel")}}</a>
                     </form>
                 </div>
             </div>
-                        
-                    </form>
-                </div>
-            </div>
+
+            </form>
         </div>
     </div>
+</div>
+</div>
 </div>
 @endsection
 

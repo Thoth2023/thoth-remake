@@ -28,7 +28,7 @@ class LevelController extends Controller
 
         Level::create($request->all());
 
-        return redirect()->route('levels.index')->with('success', 'Level created successfully.');
+        return redirect()->route('levels.index')->with('success', __('superuser/levels.create_message'));
     }
 
     public function show(Level $level)
@@ -50,13 +50,13 @@ class LevelController extends Controller
 
         $level->update($request->all());
 
-        return redirect()->route('levels.index')->with('success', 'Level updated successfully.');
+        return redirect()->route('levels.index')->with('success', __('superuser/levels.update_message'));
     }
 
     public function destroy(Level $level)
     {
         $level->delete();
 
-        return redirect()->route('levels.index')->with('success', 'Level deleted successfully.');
+        return redirect()->route('levels.index')->with('success', __('superuser/levels.delete_message'));
     }
 }
