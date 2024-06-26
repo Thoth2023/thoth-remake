@@ -55,27 +55,31 @@
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{{ asset("assets/js/table-accordion.js") }}"></script>
         @livewireStyles
     </head>
 
     <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password","change-password"],) ? "bg-white" : "bg-gray-300" }}"
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password"],) ? "bg-white" : "bg-gray-300" }}"
     >
         @guest
             @yield("content")
         @endguest
 
         @auth
-            @if (in_array(request()->route()->getName(),["login", "register", "reset-password","change-password"]))
+            @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password"]))
                 @yield("content")
             @else
-                @if (! in_array(request()->route()->getName(),["profile", "home","about", "help","database-manager"]))
+                @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
                     <div
                         class="bg-gradient-faded-dark opacity-8 position-absolute w-100"
                         style="min-height: 280px"
                     ></div>
                 @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
-                    <div class="bg-gradient-faded-dark  position-absolute w-100 min-height-300 top-0">                    >
+                    <div
+                        class="bg-gradient-faded-dark position-absolute w-100 min-height-300 top-0"
+                    >
+                        >
                         <span class="mask bg-primary opacity-8"></span>
                     </div>
                 @endif
@@ -146,7 +150,8 @@
         </script>
 
         <div
-            class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999;"
+            class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3"
+            style="z-index: 9999"
         >
             <div
                 id="liveToast"
@@ -203,7 +208,7 @@
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{env("GOOGLE_API_KEY")}}&libraries=places"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ env("GOOGLE_API_KEY") }}&libraries=places"></script>
         <script src="{{ asset("assets/js/cep_autocomplete.js") }}"></script>
         @stack("scripts")
         @livewireScripts
