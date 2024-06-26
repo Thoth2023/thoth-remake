@@ -118,7 +118,6 @@ class QuestionScore extends Component
    */
   public function submit()
   {
-    // dd($this);
     $this->validate();
 
     try {

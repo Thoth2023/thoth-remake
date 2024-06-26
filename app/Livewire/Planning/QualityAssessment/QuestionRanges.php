@@ -86,7 +86,7 @@ class QuestionRanges extends Component
         ], [
           'start' => round($value + 0.01, 2),
         ]);
-      } else {
+      } else if ($index < count($this->items) - 1) {
         $this->items[$index]['end'] = round($this->items[$index]['start'] + 0.01, 2);
         $this->updateMax($index, $this->items[$index]['end']);
       }
