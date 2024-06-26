@@ -13,8 +13,7 @@ use App\Utils\ToastHelper;
 
 class QuestionScore extends Component
 {
-  private $translationPath = 'project/planning.quality-assessment.quality-score.livewire';
-  private $toastMessages = 'project/planning.quality-assessment.quality-score.livewire.toasts';
+  private $toastMessages = 'project/planning.quality-assessment.question-score.toasts';
   public $currentProject;
   public $currentQuestionScore;
   public $questions = [];
