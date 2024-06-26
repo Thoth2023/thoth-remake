@@ -40,8 +40,7 @@ class QuestionScore extends Component
    * Validation rules.
    */
   protected $rules = [
-    'questionId' => 'required|array',
-    'questionId.*.value' => 'required',
+    'questionId' => 'array|required',
     'scoreRule' => 'required|string|max:25',
     'score' => 'required|numeric',
     'description' => 'required|string|max:255',
@@ -54,7 +53,7 @@ class QuestionScore extends Component
   {
     return [
       'questionId.required' => __('common.required'),
-      'questionId.*.value.required' => __('common.required'),
+      'questionId.array' => __('common.required'),
       'scoreRule.required' => __('common.required'),
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
@@ -92,7 +91,7 @@ class QuestionScore extends Component
   function resetFields()
   {
     $this->currentQuestionScore = null;
-    $this->questionId["value"] = '';
+    $this->questionId = null;
     $this->scoreRule = '';
     $this->score = 50;
     $this->description = '';
@@ -120,6 +119,7 @@ class QuestionScore extends Component
    */
   public function submit()
   {
+    // dd($this);
     $this->validate();
 
     try {
@@ -163,13 +163,12 @@ class QuestionScore extends Component
       );
 
       $this->dispatch('update-qa-table');
+      $this->resetFields();
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),
         type: 'error'
       );
-    } finally {
-      $this->resetFields();
     }
   }
 
