@@ -514,6 +514,7 @@ return [
     ],
     'quality-assessment' => [
         'title' => 'Quality Assessment',
+        'generate-intervals' => 'Generate Intervals',
         'general-score' => [
             'title' => 'General Score',
             'help' => [

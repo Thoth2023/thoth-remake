@@ -515,6 +515,7 @@ return [
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
+        'generate-intervals' => 'Gerar intervalos',
         'general-score' => [
             'title' => 'Pontuação Geral',
             'help' => [
