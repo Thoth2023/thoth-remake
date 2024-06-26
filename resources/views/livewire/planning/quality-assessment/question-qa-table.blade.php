@@ -1,5 +1,5 @@
 <div class="card" style="border-radius: 20px 20px 0px 0px">
-    <div class="mt-0 mx-0">
+    <div class="mt-0 mx-0" style="overflow: auto; max-height: 450px">
         <table class="table table-custom-hover m-0">
             <thead class="table-light">
                 <tr class="p-0 m-0">

@@ -75,6 +75,7 @@ class QuestionQaTable extends Component
         message: 'Minimal score deleted successfully.',
         type: 'success'
       );
+      $this->dispatch('update-weight-sum');
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),

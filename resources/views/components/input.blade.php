@@ -4,6 +4,7 @@
     "id" => "input-{{ $randomId }}",
     "label" => "",
     "required" => false,
+    "disabled" => false,
 ])
 
 <div class="d-flex flex-column flex-shrink">
@@ -21,5 +22,6 @@
                 "type" => "text",
             ])
         }}
+        {{ $disabled ? "disabled" : "" }}
     />
 </div>
