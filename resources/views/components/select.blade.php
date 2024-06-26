@@ -6,6 +6,7 @@
     "label" => "",
     "defaultSelected" => "",
     "required" => false,
+    "disabled" => false,
 ])
 
 <div
@@ -36,6 +37,7 @@
                 "class" => "form-control",
             ])
         }}
+        {{ $disabled ? "disabled" : "" }}
         data-selected="{{ $defaultSelected }}"
         data-ref="{{ $target }}"
     >

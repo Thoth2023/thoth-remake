@@ -10,9 +10,13 @@
                     <th scope="col" class="p-1">
                         {{ __("project/planning.data-extraction.table.header.description") }}
                     </th>
-                    <th scope="col" class="p-1">Peso</th>
-                    <th scope="col" class="p-1">Mínimo para Aprovar</th>
-                    <th scope="col" class="p-1 rounded-r-sm">
+                    <th scope="col" class="p-1">
+                        {{ __("project/planning.quality-assessment.question-quality.weight") }}
+                    </th>
+                    <th scope="col" class="text-center p-1">
+                        {{ __("project/planning.quality-assessment.min-general-score.title") }}
+                    </th>
+                    <th scope="col" class="text-center p-1 rounded-r-sm">
                         {{ __("project/planning.data-extraction.table.header.actions") }}
                     </th>
                 </tr>
@@ -28,31 +32,39 @@
                         <td>
                             {{ $question->id }}
                         </td>
-                        <td class="text-wrap">
+                        <td class="text-wrap" style="max-width: 330px">
                             {{ $question->description }}
                         </td>
                         <td>
                             {{ $question->weight }}
                         </td>
                         <td>
-                            @if ($question->qualityScores->isNotEmpty())
-                                <div class="w-100 w-md-50">
-                                    <x-select
-                                        wire:change="console.log('click')"
-                                    >
-                                        <option selected disabled value="-1">
-                                            Select a Rule
-                                        </option>
-                                        @foreach ($question->qualityScores as $score)
+                            <div class="d-flex justify-content-center">
+                                @if ($question->qualityScores->isNotEmpty())
+                                    <div class="w-100">
+                                        <x-select
+                                            wire:change="updateMinimalScore({{ $question->id_qa }}, $event.target.value)"
+                                        >
                                             <option
-                                                value="{{ $score->id_score }}"
+                                                selected
+                                                disabled
+                                                value="-1"
                                             >
-                                                {{ $score->score_rule }}
+                                                {{ __("project/planning.quality-assessment.question-score.select.rule") }}
                                             </option>
-                                        @endforeach
-                                    </x-select>
-                                </div>
-                            @endif
+                                            @foreach ($question->qualityScores as $score)
+                                                <option
+                                                    value="{{ $score->id_score }}"
+                                                    <?= $score->id_score == $question->min_to_app ? "selected" : "" ?>
+                                                >
+                                                    {{ $score->score_rule }}
+                                                    ({{ $score->score }}%)
+                                                </option>
+                                            @endforeach
+                                        </x-select>
+                                    </div>
+                                @endif
+                            </div>
                         </td>
                         <td>
                             <div
@@ -72,7 +84,7 @@
                                     class="btn btn-outline-danger py-1 px-3 m-0"
                                     onConfirm="deleteQuestionQuality({{ $question->id_qa }})"
                                 >
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fas fa-trash"></i>
                                 </x-helpers.confirm-modal>
                             </div>
                         </td>
@@ -86,19 +98,19 @@
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            Score Rule
+                                            {{ __("project/planning.quality-assessment.question-score.score_rule.title") }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            Description
+                                            {{ __("project/planning.quality-assessment.question-score.description.title") }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            Score
+                                            {{ __("project/planning.quality-assessment.question-score.range.score") }}
                                         </th>
                                         <th
                                             scope="col"
@@ -118,7 +130,10 @@
                                                     {{ $question->score_rule }}
                                                 </span>
                                             </td>
-                                            <td class="text-wrap">
+                                            <td
+                                                class="text-wrap"
+                                                style="max-width: 250px"
+                                            >
                                                 {{ $question->description }}
                                             </td>
                                             <td>
@@ -134,7 +149,7 @@
                                                 >
                                                     <button
                                                         type="button"
-                                                        {{-- wire:click="sendEditDataToAnotherComponent({{ $question }})" --}}
+                                                        wire:click="editQuestionScore({{ $question->id_score }})"
                                                         class="btn btn-outline-secondary py-1 px-3 m-0"
                                                     >
                                                         <i
@@ -143,6 +158,7 @@
                                                     </button>
                                                     <button
                                                         class="btn btn-outline-danger py-1 px-3 m-0"
+                                                        wire:click="deleteQuestionScore({{ $question->id_score }})"
                                                     >
                                                         <i
                                                             class="fas fa-trash"
@@ -161,3 +177,11 @@
         </table>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('qa-table', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript

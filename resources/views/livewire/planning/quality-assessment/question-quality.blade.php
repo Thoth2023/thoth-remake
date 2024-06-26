@@ -12,7 +12,7 @@
                 <div class="d-flex flex-column gap-1">
                     <x-input
                         id="question-quality-id"
-                        label="ID"
+                        label="{{ __('project/planning.quality-assessment.question-quality.id') }}"
                         placeholder="QA01"
                         wire:model="questionId"
                         required
