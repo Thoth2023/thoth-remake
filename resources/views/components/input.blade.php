@@ -4,10 +4,14 @@
     "id" => "input-{{ $randomId }}",
     "label" => "",
     "size" => "auto",
+    "required" => false,
 ])
 
 <div class="d-flex flex-column flex-shrink">
-    <label for="{{ $id }}" class="form-control-label mx-0 mb-1">
+    <label
+        for="{{ $id }}"
+        class="form-control-label mx-0 mb-1 {{ $required ? "required" : "" }}"
+    >
         {{ $label }}
     </label>
     <input
