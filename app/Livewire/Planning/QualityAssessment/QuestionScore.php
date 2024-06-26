@@ -17,6 +17,7 @@ class QuestionScore extends Component
   public $currentProject;
   public $currentQuestion;
   public $questions = [];
+  public $sum = 0;
 
   /**
    * Fields to be filled by the form.
@@ -66,6 +67,7 @@ class QuestionScore extends Component
     $this->currentProject = ProjectModel::findOrFail($this->projectId);
     $this->questions = Question::where('id_project', $this->projectId)->get();
     $this->score = 50;
+    $this->sum = $this->questions->sum('weight');
   }
 
   #[On('update-score-questions')]
@@ -109,7 +111,7 @@ class QuestionScore extends Component
         'score_rule' => $this->scoreRule,
         'description' => $this->description,
         'score' => $this->score,
-        'id_qa' => $this->questionId,
+        'id_qa' => $this->questionId["value"],
       ]);
 
       Log::logActivity(

@@ -16,14 +16,14 @@ class QuestionQaTable extends Component
   {
     $projectId = request()->segment(2);
     $this->currentProject = Project::findOrFail($projectId);
-    $this->questions = Question::where('id_project', $projectId)->get();
+    $this->populateQuestions();
   }
 
   #[On('update-qa-table')]
   public function populateQuestions()
   {
     $projectId = $this->currentProject->id_project;
-    $questions = Question::where('id_project', $projectId)->get();
+    $questions = Question::where('id_project', $projectId)->with('qualityScores')->get();
     $this->questions = $questions;
   }
 

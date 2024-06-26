@@ -3,7 +3,7 @@
 namespace App\Livewire\Planning\QualityAssessment;
 
 use App\Models\Project;
-use App\Models\Project\Planning\QualityAssessment\MinToApp;
+use App\Models\Project\Planning\QualityAssessment\Cutoff;
 use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
@@ -16,6 +16,7 @@ class QuestionCutoff extends Component
 
   public $sum = 0;
   public $cutoff = 0;
+  public $oldCutoff = 0;
 
   public function mount()
   {
@@ -23,7 +24,8 @@ class QuestionCutoff extends Component
     $this->currentProject = Project::findOrFail($projectId);
     $this->questions = Question::where('id_project', $projectId)->get();
     $this->sum = $this->questions->sum('weight');
-    $this->cutoff = $this->questions->first() || 0;
+    $this->cutoff = Cutoff::where('id_project', $projectId)->first() || 0;
+    $this->oldCutoff = $this->cutoff;
   }
 
   #[On('update-weight-sum')]
@@ -45,11 +47,26 @@ class QuestionCutoff extends Component
   public function updateCutoff()
   {
     $cutoff = $this->cutoff;
-    $projectId = $this->currentProject->id;
+    $projectId = $this->currentProject->id_project;
+
+    if ($cutoff < 0 || $cutoff > $this->sum) {
+      $this->toast(
+        message: 'Invalid cutoff value',
+        type: 'info',
+      );
+      $this->cutoff = $this->oldCutoff;
+      return;
+    }
+
     $this->toast(
       message: 'Minimal score to approve updated successfully',
       type: 'success',
     );
+    Cutoff::updateOrCreate(['id_project' => $projectId], [
+      'id_project' => $projectId,
+      'score' => $cutoff,
+    ]);
+    $this->oldCutoff = $cutoff;
   }
 
   public function render()
