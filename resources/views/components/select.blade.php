@@ -5,6 +5,7 @@
     "search" => "false",
     "label" => "",
     "defaultSelected" => "",
+    "required" => false,
 ])
 
 <div
@@ -23,7 +24,10 @@
         });  
     }"
 >
-    <label class="form-control-label mx-0 mb-1" for="{{ $target }}">
+    <label
+        class="form-control-label mx-0 mb-1 {{ $required ? "required" : "" }}"
+        for="{{ $target }}"
+    >
         {{ $label }}
     </label>
     <select
