@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\QualityAssessment;
 
+use App\Models\Project\Planning\QualityAssessment\QualityScore;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
@@ -15,14 +16,14 @@ class QuestionScore extends Component
   private $translationPath = 'project/planning.quality-assessment.quality-score.livewire';
   private $toastMessages = 'project/planning.quality-assessment.quality-score.livewire.toasts';
   public $currentProject;
-  public $currentQuestion;
+  public $currentQuestionScore;
   public $questions = [];
   public $sum = 0;
 
   /**
    * Fields to be filled by the form.
    */
-  public $questionId;
+  public $questionId = [];
   public $scoreRule;
   public $score;
   public $description;
@@ -62,8 +63,10 @@ class QuestionScore extends Component
   {
     $this->projectId = request()->segment(2);
     $this->currentProject = ProjectModel::findOrFail($this->projectId);
+    $this->currentQuestionScore = null;
     $this->questions = Question::where('id_project', $this->projectId)->get();
     $this->score = 50;
+    $this->questionId["value"] = null;
   }
 
   #[On('update-score-questions')]
@@ -73,12 +76,25 @@ class QuestionScore extends Component
     $this->questions = Question::where('id_project', $projectId)->get();
   }
 
+  #[On('edit-question-score')]
+  public function editQuestionScore($questionScoreId)
+  {
+    $this->currentQuestionScore = QualityScore::findOrFail($questionScoreId);
+    $this->questionId["value"] = $this->currentQuestionScore->id_qa;
+    $this->scoreRule = $this->currentQuestionScore->score_rule;
+    $this->score = $this->currentQuestionScore->score;
+    $this->description = $this->currentQuestionScore->description;
+    $this->form['isEditing'] = true;
+  }
+
   function resetFields()
   {
-    $this->questionId = '';
+    $this->currentQuestionScore = null;
+    $this->questionId = [];
     $this->scoreRule = '';
     $this->score = 50;
     $this->description = '';
+    $this->form['isEditing'] = false;
   }
 
   /**
@@ -125,7 +141,7 @@ class QuestionScore extends Component
       }
 
       $create = QualityScoreModel::updateOrCreate([
-        'id_score' => $this->currentQuestion?->id_score,
+        'id_score' => $this->currentQuestionScore?->id_score,
       ], [
         'score_rule' => trim($this->scoreRule),
         'description' => $this->description,
