@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\QualityAssessment;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 use App\Utils\ToastHelper;
@@ -63,6 +64,7 @@ class QuestionQuality extends Component
         $this->currentProject = Project::findOrFail($projectId);
         $this->currentQuestion = null;
         $this->questions = Question::where('id_project', $projectId)->get();
+        $this->cutoffMaxValue = false;
     }
 
     /**
@@ -95,6 +97,45 @@ class QuestionQuality extends Component
         $this->dispatch('update-qa-table');
         $this->dispatch('update-weight-sum');
         $this->dispatch('update-score-questions');
+    }
+
+    #[On('edit-question-quality')]
+    public function edit($questionId)
+    {
+        $this->currentQuestion = Question::findOrFail($questionId);
+        $this->form['isEditing'] = true;
+        $this->questionId = $this->currentQuestion->id;
+        $this->weight = $this->currentQuestion->weight;
+        $this->description = $this->currentQuestion->description;
+    }
+
+    #[On('delete-question-quality')]
+    public function delete($questionId)
+    {
+        try {
+            $currentQuestion = Question::findOrFail($questionId);
+            $currentQuestion->delete();
+
+            Log::logActivity(
+                action: 'Deleted the quality score',
+                description: $currentQuestion->description,
+                projectId: $this->currentProject->id_project
+            );
+
+            $this->updateQuestions();
+            $this->toast(
+                message: 'Quality score deleted successfully.',
+                type: 'success'
+            );
+            $this->dispatch('update-cutoff');
+        } catch (\Exception $e) {
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
+        } finally {
+            $this->resetFields();
+        }
     }
 
     public function submit()

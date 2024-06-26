@@ -55,26 +55,30 @@
                             @endif
                         </td>
                         <td>
-                            <div style="min-width: fit-content">
+                            <div
+                                class="c-flex c-items-center c-justify-center gap-1"
+                                style="min-width: fit-content"
+                            >
                                 <button
                                     type="button"
-                                    {{-- wire:click="sendEditDataToAnotherComponent({{ $question }})" --}}
+                                    wire:click="editQuestionQuality({{ $question->id_qa }})"
                                     class="btn btn-outline-secondary py-1 px-3 m-0"
                                 >
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button
+                                <x-helpers.confirm-modal
+                                    modalTitle="Delete Quality Score"
+                                    modalContent="This action <strong>cannot</strong> be undone. This will remove the quality score permanently."
                                     class="btn btn-outline-danger py-1 px-3 m-0"
+                                    onConfirm="deleteQuestionQuality({{ $question->id_qa }})"
                                 >
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                    <i class="fa fa-trash"></i>
+                                </x-helpers.confirm-modal>
                             </div>
                         </td>
                     </tr>
-                    <x-table.accordion-content
-                        wire:key="{{ $question->id_qa }}"
-                    >
-                        <td colspan="6">
+                    <x-table.accordion-content>
+                        <td colspan="6" wire:key="{{ $question }}">
                             <table class="table table-responsive w-100">
                                 <thead>
                                     <tr>

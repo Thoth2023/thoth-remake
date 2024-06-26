@@ -13,6 +13,7 @@ class QuestionCutoff extends Component
 {
   public $currentProject;
   public $questions = [];
+  public $isCutoffMaxValue;
 
   public $sum = 0;
   public $cutoff = 0;
@@ -41,6 +42,23 @@ class QuestionCutoff extends Component
     $projectId = $this->currentProject->id_project;
     $this->questions = Question::where('id_project', $projectId)->get();
     $this->sum = $this->questions->sum('weight');
+  }
+
+  #[On('update-cutoff')]
+  public function updateSumCutoff()
+  {
+    $projectId = $this->currentProject->id_project;
+    $this->questions = Question::where('id_project', $projectId)->get();
+    $this->sum = $this->questions->sum('weight');
+
+    if ($this->cutoff > $this->sum) {
+      $this->cutoff = $this->sum;
+      Cutoff::updateOrCreate(['id_project' => $projectId], [
+        'id_project' => $projectId,
+        'score' => $this->cutoff,
+      ]);
+      $this->isCutoffMaxValue = true;
+    }
   }
 
   /**
@@ -78,6 +96,7 @@ class QuestionCutoff extends Component
       'score' => $cutoff,
     ]);
     $this->oldCutoff = $cutoff;
+    $this->isCutoffMaxValue = false;
   }
 
   public function render()

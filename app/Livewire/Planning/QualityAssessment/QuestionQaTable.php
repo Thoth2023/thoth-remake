@@ -27,6 +27,16 @@ class QuestionQaTable extends Component
     $this->questions = $questions;
   }
 
+  public function editQuestionQuality($questionId)
+  {
+    $this->dispatch('edit-question-quality', $questionId);
+  }
+
+  public function deleteQuestionQuality($questionId)
+  {
+    $this->dispatch('delete-question-quality', $questionId);
+  }
+
   public function render()
   {
     return view('livewire.planning.quality-assessment.question-qa-table');
