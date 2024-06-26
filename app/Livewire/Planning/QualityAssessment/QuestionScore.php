@@ -23,7 +23,7 @@ class QuestionScore extends Component
   /**
    * Fields to be filled by the form.
    */
-  public $questionId = [];
+  public $questionId;
   public $scoreRule;
   public $score;
   public $description;
@@ -40,7 +40,8 @@ class QuestionScore extends Component
    * Validation rules.
    */
   protected $rules = [
-    'questionId' => 'required',
+    'questionId' => 'required|array',
+    'questionId.*.value' => 'required',
     'scoreRule' => 'required|string|max:25',
     'score' => 'required|numeric',
     'description' => 'required|string|max:255',
@@ -53,6 +54,7 @@ class QuestionScore extends Component
   {
     return [
       'questionId.required' => __('common.required'),
+      'questionId.*.value.required' => __('common.required'),
       'scoreRule.required' => __('common.required'),
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
@@ -66,7 +68,7 @@ class QuestionScore extends Component
     $this->currentQuestionScore = null;
     $this->questions = Question::where('id_project', $this->projectId)->get();
     $this->score = 50;
-    $this->questionId["value"] = null;
+    $this->questionId = null;
   }
 
   #[On('update-score-questions')]
@@ -90,7 +92,7 @@ class QuestionScore extends Component
   function resetFields()
   {
     $this->currentQuestionScore = null;
-    $this->questionId = [];
+    $this->questionId["value"] = '';
     $this->scoreRule = '';
     $this->score = 50;
     $this->description = '';
