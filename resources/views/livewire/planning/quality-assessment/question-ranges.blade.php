@@ -25,13 +25,14 @@
                         type="number"
                         placeholder="Max"
                         wire:model="items.{{ $loop->index }}.end"
-                        wire:blur="updateMax([{{ $loop->index }}], $event.target.value)"
+                        wire:blur="updateMax({{ $loop->index }}, $event.target.value)"
                         min="0"
                         max="{{ $sum }}"
                         style="min-width: 150px"
                     />
                     <x-input
                         wire:model="items.{{ $loop->index }}.description"
+                        wire:blur="updateLabel({{ $item['id_general_score'] ?? '' }}, $event.target.value)"
                         label="Label"
                         placeholder="Good"
                         class="max-input"
@@ -55,7 +56,7 @@
                     type="number"
                     placeholder="Max"
                     wire:model="intervals"
-                    min="0"
+                    min="2"
                     max="10"
                     style="
                         min-width: 75px;
@@ -67,3 +68,11 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('qa-ranges', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript
