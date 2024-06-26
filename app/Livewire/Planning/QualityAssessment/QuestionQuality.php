@@ -47,9 +47,9 @@ class QuestionQuality extends Component
     protected function messages()
     {
         return [
-            'questionId.required' => __($this->translationPath . '.id.required'),
-            'description.required' => __($this->translationPath . '.description.required'),
-            'weight.required' => __($this->translationPath . '.weight.required'),
+            'questionId.required' => __('common.required'),
+            'weight.required' => __('common.required'),
+            'description.required' => __('common.required'),
         ];
     }
 

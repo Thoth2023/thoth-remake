@@ -26,7 +26,6 @@ class QuestionScore extends Component
   public $scoreRule;
   public $score;
   public $description;
-  public $weight;
 
 
   /**
@@ -44,7 +43,6 @@ class QuestionScore extends Component
     'scoreRule' => 'required|string|max:25',
     'score' => 'required|numeric',
     'description' => 'required|string|max:255',
-    'weight' => 'required|numeric',
   ];
 
   /**
@@ -53,11 +51,10 @@ class QuestionScore extends Component
   protected function messages()
   {
     return [
-      'questionId.required' => __($this->translationPath . '.questionId.required'),
-      'scoreRule.required' => __($this->translationPath . '.rule.required'),
-      'score.required' => __($this->translationPath . '.score.required'),
-      'description.required' => __($this->translationPath . '.description.required'),
-      'weight.required' => __($this->translationPath . '.weight.required'),
+      'questionId.required' => __('common.required'),
+      'scoreRule.required' => __('common.required'),
+      'score.required' => __('common.required'),
+      'description.required' => __('common.required'),
     ];
   }
 
@@ -67,7 +64,6 @@ class QuestionScore extends Component
     $this->currentProject = ProjectModel::findOrFail($this->projectId);
     $this->questions = Question::where('id_project', $this->projectId)->get();
     $this->score = 50;
-    $this->sum = $this->questions->sum('weight');
   }
 
   #[On('update-score-questions')]
@@ -83,7 +79,6 @@ class QuestionScore extends Component
     $this->scoreRule = '';
     $this->score = 50;
     $this->description = '';
-    $this->weight = '';
   }
 
   /**
@@ -92,6 +87,13 @@ class QuestionScore extends Component
   public function toast(string $message, string $type)
   {
     $this->dispatch('question-score', ToastHelper::dispatch($type, $message));
+  }
+
+  public function translate()
+  {
+    return [
+      'unique-score-rule' => 'The score rule already exists in this question.'
+    ];
   }
 
   /**
@@ -107,8 +109,25 @@ class QuestionScore extends Component
       $toastMessage = __($this->toastMessages . ($this->form['isEditing']
         ? '.updated' : '.added'));
 
-      $create = QualityScoreModel::create([
-        'score_rule' => $this->scoreRule,
+      if (!$this->form['isEditing']) {
+        $alreadyExists = QualityScoreModel::where([
+          'id_qa' => $this->questionId["value"],
+          'score_rule' => $this->scoreRule,
+        ])->exists();
+
+        if ($alreadyExists) {
+          $this->toast(
+            message: $this->translate()['unique-score-rule'],
+            type: 'info'
+          );
+          return;
+        }
+      }
+
+      $create = QualityScoreModel::updateOrCreate([
+        'id_score' => $this->currentQuestion?->id_score,
+      ], [
+        'score_rule' => trim($this->scoreRule),
         'description' => $this->description,
         'score' => $this->score,
         'id_qa' => $this->questionId["value"],
@@ -124,6 +143,8 @@ class QuestionScore extends Component
         message: $toastMessage,
         type: 'success'
       );
+
+      $this->dispatch('update-qa-table');
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),

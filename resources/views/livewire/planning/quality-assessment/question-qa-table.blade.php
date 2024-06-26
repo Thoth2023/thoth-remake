@@ -3,7 +3,7 @@
         <table class="table table-custom-hover m-0">
             <thead class="table-light">
                 <tr class="p-0 m-0">
-                    <th class="p-1 rounded-l-sm" style="width: 20px"></th>
+                    <th class="p-1 pl-3 rounded-l-sm" style="width: 30px"></th>
                     <th scope="col" class="p-1">
                         {{ __("project/planning.data-extraction.table.header.id") }}
                     </th>
@@ -25,21 +25,34 @@
                                 <x-table.accordion-button />
                             @endif
                         </td>
-                        <td>{{ $question->id_qa }}</td>
+                        <td>
+                            {{ $question->id }}
+                        </td>
                         <td class="text-wrap">
                             {{ $question->description }}
                         </td>
                         <td>
                             {{ $question->weight }}
                         </td>
-                        <td class="max-width: 50px;">
-                            <x-select>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </x-select>
+                        <td>
+                            @if ($question->qualityScores->isNotEmpty())
+                                <div class="w-100 w-md-50">
+                                    <x-select
+                                        wire:change="console.log('click')"
+                                    >
+                                        <option selected disabled value="-1">
+                                            Select a Rule
+                                        </option>
+                                        @foreach ($question->qualityScores as $score)
+                                            <option
+                                                value="{{ $score->id_score }}"
+                                            >
+                                                {{ $score->score_rule }}
+                                            </option>
+                                        @endforeach
+                                    </x-select>
+                                </div>
+                            @endif
                         </td>
                         <td>
                             <div style="min-width: fit-content">
@@ -58,79 +71,87 @@
                             </div>
                         </td>
                     </tr>
-                    @if ($question->qualityScores->isNotEmpty())
-                        <x-table.accordion-content>
-                            <td colspan="6">
-                                <table class="table" style="margin: 0 2rem">
-                                    <thead>
+                    <x-table.accordion-content
+                        wire:key="{{ $question->id_qa }}"
+                    >
+                        <td colspan="6">
+                            <table class="table table-responsive w-100">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="text-center p-05"
+                                        >
+                                            Score Rule
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="text-center p-05"
+                                        >
+                                            Description
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="text-center p-05"
+                                        >
+                                            Score
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="text-center p-05"
+                                        >
+                                            {{ __("project/planning.data-extraction.table.header.actions") }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($question->qualityScores as $question)
                                         <tr>
-                                            <th scope="col" class="p-1">
-                                                Score Rule
-                                            </th>
-                                            <th scope="col" class="p-1">
-                                                Description
-                                            </th>
-                                            <th scope="col" class="p-1">
-                                                Score
-                                            </th>
-                                            <th scope="col" class="p-1">
-                                                Weight
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="p-1 rounded-r-sm"
-                                            >
-                                                {{ __("project/planning.data-extraction.table.header.actions") }}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($question->qualityScores as $question)
-                                            <tr>
-                                                <td>
-                                                    {{ $question->scoreRule }}
-                                                    {{ $question }}
-                                                </td>
-                                                <td class="text-wrap">
-                                                    {{ $question->description }}
-                                                </td>
-                                                <td>
+                                            <td>
+                                                <span
+                                                    class="c-flex c-items-center c-justify-center"
+                                                >
+                                                    {{ $question->score_rule }}
+                                                </span>
+                                            </td>
+                                            <td class="text-wrap">
+                                                {{ $question->description }}
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="c-flex c-items-center c-justify-center"
+                                                >
                                                     {{ $question->score }}%
-                                                </td>
-                                                <td>
-                                                    {{ $question->weight }}
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        style="
-                                                            min-width: fit-content;
-                                                        "
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div
+                                                    class="c-flex c-items-center c-justify-center gap-1"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        {{-- wire:click="sendEditDataToAnotherComponent({{ $question }})" --}}
+                                                        class="btn btn-outline-secondary py-1 px-3 m-0"
                                                     >
-                                                        <button
-                                                            type="button"
-                                                            {{-- wire:click="sendEditDataToAnotherComponent({{ $question }})" --}}
-                                                            class="btn btn-outline-secondary py-1 px-3 m-0"
-                                                        >
-                                                            <i
-                                                                class="fas fa-edit"
-                                                            ></i>
-                                                        </button>
-                                                        <button
-                                                            class="btn btn-outline-danger py-1 px-3 m-0"
-                                                        >
-                                                            <i
-                                                                class="fas fa-trash"
-                                                            ></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </td>
-                        </x-table.accordion-content>
-                    @endif
+                                                        <i
+                                                            class="fas fa-edit"
+                                                        ></i>
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-outline-danger py-1 px-3 m-0"
+                                                    >
+                                                        <i
+                                                            class="fas fa-trash"
+                                                        ></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </td>
+                    </x-table.accordion-content>
                 @endforeach
             </tbody>
         </table>

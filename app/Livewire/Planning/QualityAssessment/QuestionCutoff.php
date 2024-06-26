@@ -24,8 +24,15 @@ class QuestionCutoff extends Component
     $this->currentProject = Project::findOrFail($projectId);
     $this->questions = Question::where('id_project', $projectId)->get();
     $this->sum = $this->questions->sum('weight');
-    $this->cutoff = Cutoff::where('id_project', $projectId)->first() || 0;
-    $this->oldCutoff = $this->cutoff;
+
+    if (Cutoff::where('id_project', $projectId)->exists()) {
+      $this->cutoff = Cutoff::where('id_project', $projectId)->first()->score;
+      $this->oldCutoff = Cutoff::where('id_project', $projectId)->first()->score;
+    } else {
+      Cutoff::create(['id_project' => $projectId, 'score' => 0]);
+      $this->cutoff = 0;
+      $this->oldCutoff = 0;
+    }
   }
 
   #[On('update-weight-sum')]
@@ -48,6 +55,10 @@ class QuestionCutoff extends Component
   {
     $cutoff = $this->cutoff;
     $projectId = $this->currentProject->id_project;
+
+    if ($cutoff === $this->oldCutoff) {
+      return;
+    }
 
     if ($cutoff < 0 || $cutoff > $this->sum) {
       $this->toast(
