@@ -13,16 +13,20 @@
                     <div class="d-flex flex-column gap-1">
                         <div style="min-width: 250px">
                             <x-select
-                                label="Question"
+                                label="{{ __('project/planning.quality-assessment.question-score.question.title') }}"
                                 wire:model="questionId"
                                 required
                                 search
+                                disabled="{{ $form['isEditing'] }}"
                             >
                                 <option selected disabled>
-                                    Selecione uma questão
+                                    {{ __("project/planning.quality-assessment.question-score.question.placeholder") }}
                                 </option>
                                 @foreach ($questions as $question)
-                                    <option value="{{ $question->id_qa }}">
+                                    <option
+                                        value="{{ $question->id_qa }}"
+                                        <?= $question->id_qa == ($questionId["value"] ?? "") ? "selected" : "" ?>
+                                    >
                                         {{ $question->id }}
                                     </option>
                                 @endforeach
@@ -37,7 +41,7 @@
                     <div class="d-flex flex-column gap-1">
                         <x-input
                             id="score-rule"
-                            label="Score Rule"
+                            label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
                             maxlength="20"
                             min="0"
                             placeholder="Partial"
@@ -61,10 +65,10 @@
                                     for="range-score"
                                     class="m-0 p-0 required"
                                 >
-                                    Score
+                                    {{ __("project/planning.quality-assessment.question-score.range.score") }}
                                 </label>
                                 <span class="text-xs" id="range-score">
-                                    50%
+                                    {{ $score ?? 50 }}%
                                 </span>
                             </div>
                             <input
@@ -111,8 +115,8 @@
                 >
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.quality-assessment.quality-score.form.update")
-                            : __("project/planning.quality-assessment.quality-score.form.add")
+                            ? __("project/planning.quality-assessment.question-score.form.update")
+                            : __("project/planning.quality-assessment.question-score.form.add")
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>

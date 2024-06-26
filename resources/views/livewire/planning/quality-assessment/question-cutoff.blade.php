@@ -3,7 +3,7 @@
     <div class="card-header py-0">
         <x-helpers.modal
             target="question-quality"
-            modalTitle="Minimal Score to Approve"
+            modalTitle="{{ __('project/planning.quality-assessment.min-general-score.title') }}"
             modalContent="hahaha"
         />
     </div>
@@ -11,7 +11,7 @@
         <div class="d-flex flex-wrap gap-2">
             <x-input
                 id="sum"
-                label="Soma dos Pesos"
+                label="{{ __('project/planning.quality-assessment.min-general-score.sum') }}"
                 placeholder="0"
                 pattern="[A-Za-z]{3}"
                 wire:model="sum"
@@ -19,7 +19,7 @@
             />
             <x-input
                 id="cutoff"
-                label="Cutoff"
+                label="{{ __('project/planning.quality-assessment.min-general-score.cutoff') }}"
                 type="number"
                 maxlength="3"
                 min="0"
