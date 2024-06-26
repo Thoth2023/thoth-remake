@@ -29,6 +29,7 @@
                         min="0"
                         max="{{ $sum }}"
                         style="min-width: 150px"
+                        disabled="{{ $loop->last }}"
                     />
                     <x-input
                         wire:model="items.{{ $loop->index }}.description"
