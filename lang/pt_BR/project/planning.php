@@ -65,7 +65,7 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
-                    'duplicate'=> 'Domínio duplicado não é permitido.'
+                    'duplicate' => 'Domínio duplicado não é permitido.'
                 ],
             ]
         ],
@@ -204,7 +204,7 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
-                    'duplicate'=> 'Palavra-chave duplicada não é permitida.'
+                    'duplicate' => 'Palavra-chave duplicada não é permitida.'
                 ],
             ]
         ],
@@ -593,8 +593,15 @@ return [
             ],
 
         ],
-        'quality-score' => [
+        'question-score' => [
             'title' => 'Pontuação de Qualidade',
+            'select' => [
+                'rule' => 'Selecione uma regra'
+            ],
+            'question' => [
+                'title' => 'Questão',
+                'placeholder' => 'Selecione uma questão',
+            ],
             'help' => [
                 'title' => 'Pontuação de Qualidade',
                 'content' => '',
@@ -646,7 +653,9 @@ return [
         ],
 
         'min-general-score' => [
-            'title' => 'Pontuação Geral Mínima para Aprovação',
+            'title' => 'Pontuação Mínima para Aprovação',
+            'cutoff' => 'Pontuação Mínima',
+            'sum' => 'Soma dos Pesos',
             'form' => [
                 'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
                 'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',

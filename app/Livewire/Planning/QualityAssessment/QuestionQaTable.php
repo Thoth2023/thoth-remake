@@ -3,7 +3,9 @@
 namespace App\Livewire\Planning\QualityAssessment;
 
 use App\Models\Project;
+use App\Models\Project\Planning\QualityAssessment\QualityScore;
 use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -19,6 +21,14 @@ class QuestionQaTable extends Component
     $this->populateQuestions();
   }
 
+  /**
+   * Dispatch a toast message to the view.
+   */
+  public function toast(string $message, string $type)
+  {
+    $this->dispatch('qa-table', ToastHelper::dispatch($type, $message));
+  }
+
   #[On('update-qa-table')]
   public function populateQuestions()
   {
@@ -30,6 +40,47 @@ class QuestionQaTable extends Component
   public function editQuestionQuality($questionId)
   {
     $this->dispatch('edit-question-quality', $questionId);
+  }
+
+  public function editQuestionScore($questionScoreId)
+  {
+    $this->dispatch('edit-question-score', $questionScoreId);
+  }
+
+  public function updateMinimalScore($questionId, $minToApp)
+  {
+    Question::updateOrCreate([
+      'id_qa' => $questionId
+    ], [
+      'id' => $questionId,
+      'min_to_app' => $minToApp
+    ]);
+
+    $this->populateQuestions();
+
+    $this->toast(
+      message: 'Minimal score updated successfully.',
+      type: 'success'
+    );
+  }
+
+  public function deleteQuestionScore($questionScoreId)
+  {
+    try {
+      $currentQuestionScore = QualityScore::findOrFail($questionScoreId);
+      $currentQuestionScore->delete();
+
+      $this->populateQuestions();
+      $this->toast(
+        message: 'Minimal score deleted successfully.',
+        type: 'success'
+      );
+    } catch (\Exception $e) {
+      $this->toast(
+        message: $e->getMessage(),
+        type: 'error'
+      );
+    }
   }
 
   public function deleteQuestionQuality($questionId)
