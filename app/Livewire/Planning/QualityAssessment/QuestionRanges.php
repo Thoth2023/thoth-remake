@@ -41,7 +41,7 @@ class QuestionRanges extends Component
    */
   public function toast(string $message, string $type)
   {
-    $this->dispatch('question-cutoff', ToastHelper::dispatch($type, $message));
+    $this->dispatch('qa-ranges', ToastHelper::dispatch($type, $message));
   }
 
   #[On('update-weight-sum')]
@@ -56,6 +56,20 @@ class QuestionRanges extends Component
     if ($index < count($this->items) - 1) {
       $this->items[$index + 1]['start'] = $value + 0.01;
     }
+  }
+
+  public function updateLabel($idGeneralScore, $value)
+  {
+    GeneralScore::updateOrCreate([
+      'id_general_score' => $idGeneralScore,
+    ], [
+      'description' => $value,
+    ]);
+
+    $this->toast(
+      message: 'Label updated successfully.',
+      type: 'success'
+    );
   }
 
   public function addItem()
@@ -91,6 +105,14 @@ class QuestionRanges extends Component
 
   public function generateIntervals()
   {
+    if ($this->intervals < 2) {
+      $this->intervals = 2;
+    }
+
+    if ($this->intervals > 10) {
+      $this->intervals = 10;
+    }
+
     $sum = $this->sum;
     $items = [];
     $min = 0.01;
