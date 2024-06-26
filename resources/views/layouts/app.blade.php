@@ -55,7 +55,6 @@
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="{{ asset("assets/js/table-accordion.js") }}"></script>
         @livewireStyles
     </head>
 

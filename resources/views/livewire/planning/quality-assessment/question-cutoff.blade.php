@@ -26,6 +26,7 @@
                 placeholder="0"
                 wire:model="cutoff"
                 wire:blur="updateCutoff"
+                style="{{ $isCutoffMaxValue ? 'border: solid 1px red' : '' }}"
             />
         </div>
     </div>

@@ -3,7 +3,6 @@
 @props([
     "id" => "input-{{ $randomId }}",
     "label" => "",
-    "size" => "auto",
     "required" => false,
 ])
 
@@ -16,7 +15,11 @@
     </label>
     <input
         id="{{ $id }}"
-        style="width: {{ $size }}"
-        {{ $attributes->merge(["class" => "form-control", "type" => "text"]) }}
+        {{
+            $attributes->merge([
+                "class" => "form-control",
+                "type" => "text",
+            ])
+        }}
     />
 </div>
