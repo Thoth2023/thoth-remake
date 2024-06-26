@@ -1,5 +1,5 @@
 <div class="d-flex flex-column gap-4">
-    <div class="card">
+    <div class="card h-100">
         <div class="card-header pb-0">
             <x-helpers.modal
                 target="question-score"
@@ -8,13 +8,14 @@
             />
         </div>
         <div class="card-body">
-            <form wire:submit="submit">
+            <form wire:submit="submit" novalidate>
                 <div class="d-flex flex-wrap gap-2">
                     <div class="d-flex flex-column gap-1">
                         <div style="min-width: 250px">
                             <x-select
                                 label="Question"
                                 wire:model="questionId"
+                                required
                                 search
                             >
                                 <option selected disabled>
@@ -37,10 +38,11 @@
                         <x-input
                             id="score-rule"
                             label="Score Rule"
-                            maxlength="25"
+                            maxlength="20"
                             min="0"
                             placeholder="Partial"
                             wire:model="scoreRule"
+                            required
                         />
                         @error("scoreRule")
                             <span class="text-xs text-danger">
@@ -55,7 +57,10 @@
                             <div
                                 class="d-flex align-items-start justify-content-between"
                             >
-                                <label for="range-score" class="m-0 p-0">
+                                <label
+                                    for="range-score"
+                                    class="m-0 p-0 required"
+                                >
                                     Score
                                 </label>
                                 <span class="text-xs" id="range-score">
@@ -71,6 +76,7 @@
                                 step="5"
                                 wire:model="score"
                                 oninput="updateRangeValue(this.value)"
+                                required
                             />
                         </div>
                         @error("score")
@@ -79,25 +85,9 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="d-flex flex-column gap-1">
-                        <x-input
-                            id="weight-score"
-                            label="Weight"
-                            type="number"
-                            maxlength="3"
-                            min="0"
-                            placeholder="2"
-                            wire:model="weight"
-                        />
-                        @error("weight")
-                            <span class="text-xs text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
                 </div>
                 <div class="d-flex flex-column mt-2">
-                    <label for="question" class="mb-1 mx-0">
+                    <label for="question" class="mb-1 mx-0 required">
                         {{ __("project/planning.research-questions.form.description") }}
                     </label>
                     <textarea
@@ -107,6 +97,7 @@
                         maxlength="255"
                         rows="2"
                         placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                        required
                     ></textarea>
                     @error("description")
                         <span class="text-xs text-danger mt-1">
@@ -140,3 +131,11 @@
         }
     </script>
 @endpush
+
+@script
+    <script>
+        $wire.on('question-score', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript
