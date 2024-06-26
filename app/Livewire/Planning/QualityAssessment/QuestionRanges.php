@@ -22,9 +22,8 @@ class QuestionRanges extends Component
     $projectId = request()->segment(2);
     $this->currentProject = Project::findOrFail($projectId);
     $this->sum = Question::where('id_project', $projectId)->sum('weight');
-    $this->intervals = 5;
     $items = GeneralScore::where('id_project', $projectId)->get();
-    $this->intervals = count($items) ?? 5;
+    $this->intervals = count($items) === 0 ? 2 : count($items);
 
     for ($i = 0; $i < count($items); $i++) {
       $this->items[] = [
@@ -51,10 +50,51 @@ class QuestionRanges extends Component
     $this->sum = Question::where('id_project', $projectId)->sum('weight');
   }
 
+  public function updateMin($index, $value)
+  {
+    try {
+      $this->items[$index]['start'] = $value;
+
+      GeneralScore::updateOrCreate([
+        'id_general_score' => $this->items[$index]
+      ], [
+        'start' => $value,
+      ]);
+    } catch (\Exception $e) {
+      $this->toast(
+        message: $e->getMessage(),
+        type: 'error'
+      );
+    }
+  }
+
   public function updateMax($index, $value)
   {
-    if ($index < count($this->items) - 1) {
-      $this->items[$index + 1]['start'] = $value + 0.01;
+    try {
+      if ($index < count($this->items) - 1 && $value >= $this->items[$index]['start']) {
+        $this->items[$index]['end'] = $value;
+        $this->items[$index + 1]['start'] = round($value + 0.01, 2);
+
+        GeneralScore::updateOrCreate([
+          'id_general_score' => $this->items[$index]
+        ], [
+          'end' => $value,
+        ]);
+
+        GeneralScore::updateOrCreate([
+          'id_general_score' => $this->items[$index + 1]
+        ], [
+          'start' => round($value + 0.01, 2),
+        ]);
+      } else {
+        $this->items[$index]['end'] = round($this->items[$index]['start'] + 0.01, 2);
+        $this->updateMax($index, $this->items[$index]['end']);
+      }
+    } catch (\Exception $e) {
+      $this->toast(
+        message: $e->getMessage(),
+        type: 'error'
+      );
     }
   }
 
