@@ -72,10 +72,6 @@
     background: #F8F8F8;
 }
 
-.table-custom-hover tr[data-accordion="accordion-child"]:hover {
-    background: transparent;
-}
-
 .table-accordion-button {
     background: #FB6340;
     border-radius: 100%;
@@ -93,7 +89,7 @@
 }
 
 .table-accordion-content {
-    background: rgb(248, 248, 248) !important;
+    background: rgb(248, 248, 248);
 }
 
 .table-accordion-item {
@@ -101,4 +97,42 @@
     align-items: center !important;
     justify-content: space-between;
     padding: 3px 40px;
+}
+
+.table-accordion-item:hover {
+    background: #F8F8F8;
+    border-radius: 10px;
+}
+
+.p-05 {
+    padding: 0.25rem !important;
+}
+
+.c-flex {
+    display: flex;
+}
+
+.c-flex-col {
+    flex-direction: column;
+}
+
+.c-flex-row {
+    flex-direction: row;
+}
+
+.c-justify-between {
+    justify-content: space-between;
+}
+
+.c-justify-center {
+    justify-content: center;
+}
+
+.c-items-center {
+    align-items: center;
+}
+
+.required::after {
+    content: "*";
+    color: red; 
 }
