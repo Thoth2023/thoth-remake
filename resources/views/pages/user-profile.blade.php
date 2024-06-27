@@ -153,7 +153,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.lattes_link') }}</label>
-                                    <input class="form-control" type="text" name="lattes_link" value="{{ old('lattes_link', auth()->user()->lattes_link) }}">
+                                    <input class="form-control" type="text" id="lattes_link" name="lattes_link" value="{{ old('lattes_link', auth()->user()->lattes_link) }}">
+                                    @error("lattes_link")
+                                        <span class="text-xs text-danger">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
