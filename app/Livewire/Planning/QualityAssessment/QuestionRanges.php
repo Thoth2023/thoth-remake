@@ -14,6 +14,7 @@ class QuestionRanges extends Component
 {
   public $currentProject;
   public $items = [];
+  public $oldItems = [];
   public $sum = 0;
   public $intervals = 5;
 
@@ -33,6 +34,7 @@ class QuestionRanges extends Component
         'description' => $items[$i]->description
       ];
     }
+    $this->oldItems = $this->items;
   }
 
   /**
@@ -71,25 +73,44 @@ class QuestionRanges extends Component
   public function updateMax($index, $value)
   {
     try {
-      if ($index < count($this->items) - 1 && $value >= $this->items[$index]['start']) {
-        $this->items[$index]['end'] = $value;
-        $this->items[$index + 1]['start'] = round($value + 0.01, 2);
-
-        GeneralScore::updateOrCreate([
-          'id_general_score' => $this->items[$index]
-        ], [
-          'end' => $value,
-        ]);
-
-        GeneralScore::updateOrCreate([
-          'id_general_score' => $this->items[$index + 1]
-        ], [
-          'start' => round($value + 0.01, 2),
-        ]);
-      } else if ($index < count($this->items) - 1) {
-        $this->items[$index]['end'] = round($this->items[$index]['start'] + 0.01, 2);
-        $this->updateMax($index, $this->items[$index]['end']);
+      /**
+       * If the new "end" value is the same as the current "end" value, 
+       * do nothing
+       */
+      if ($this->items[$index]['end'] == $this->oldItems[$index]['end']) {
+        return;
       }
+
+      $this->items[$index]['end'] = $value;
+      $this->items[$index + 1]['start'] = round($value + 0.01, 2);
+
+      /**
+       * Update the current "end" value
+       */
+      GeneralScore::updateOrCreate([
+        'id_general_score' => $this->items[$index]
+      ], [
+        'end' => $value,
+      ]);
+
+      if (count($this->items) <= $index + 1) {
+        return;
+      }
+
+      /**
+       * Update the next "start" value
+       */
+      GeneralScore::updateOrCreate([
+        'id_general_score' => $this->items[$index + 1]
+      ], [
+        'start' => round($value + 0.01, 2),
+      ]);
+
+      $this->toast(
+        message: 'Interval updated successfully.',
+        type: 'success'
+      );
+      $this->oldItems = $this->items;
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),
