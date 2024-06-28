@@ -87,14 +87,14 @@ class QuestionRanges extends Component
         return;
       }
 
-      $this->items[$index]['end'] = $value;
+      $this->items[$index]['end'] = round($value, 2);
       $this->items[$index + 1]['start'] = round($value + 0.01, 2);
 
       /**
        * Update the current "end" value
        */
       GeneralScore::updateOrCreate([
-        'id_general_score' => $this->items[$index]
+        'id_general_score' => $this->items[$index]['id_general_score']
       ], [
         'end' => $value,
       ]);
@@ -107,7 +107,7 @@ class QuestionRanges extends Component
        * Update the next "start" value
        */
       GeneralScore::updateOrCreate([
-        'id_general_score' => $this->items[$index + 1]
+        'id_general_score' => $this->items[$index + 1]['id_general_score']
       ], [
         'start' => round($value + 0.01, 2),
       ]);
@@ -149,37 +149,6 @@ class QuestionRanges extends Component
     }
   }
 
-  public function addItem()
-  {
-    if (count($this->items) == 0) {
-      $this->items[] = [
-        'start' => 0.01,
-        'end' => $this->sum,
-        'description' => ''
-      ];
-      return;
-    }
-
-    if (
-      count($this->items) >= 1
-      && $this->items[count($this->items) - 1]['end'] >= $this->sum
-    ) {
-      $this->toast(
-        message: 'O valor máximo do último item já está no máximo permitido.',
-        type: 'info'
-      );
-      return;
-    }
-
-    if (count($this->items) >= 1) {
-      $this->items[] = [
-        'start' => $this->items[count($this->items) - 1]['max'] + 0.01,
-        'end' => $this->sum,
-        'description' => ''
-      ];
-    }
-  }
-
   public function generateIntervals()
   {
     if ($this->intervals < 2) {
@@ -205,7 +174,9 @@ class QuestionRanges extends Component
       ];
 
       $itemCreated = GeneralScore::create($itemToAdd);
-      $items[] = $itemCreated->toArray();
+      $items[] = array_merge($itemCreated->toArray(), [
+        'id_project' => $this->currentProject->id_project
+      ]);
 
       $min = round($max + 0.01, 2);
       $max = round($max + $sum / $this->intervals, 2);
