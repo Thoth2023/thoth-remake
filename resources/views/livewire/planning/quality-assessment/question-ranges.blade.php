@@ -31,13 +31,30 @@
                         style="min-width: 150px"
                         disabled="{{ $loop->last }}"
                     />
-                    <x-input
-                        wire:model="items.{{ $loop->index }}.description"
-                        wire:blur="updateLabel({{ $item['id_general_score'] ?? '' }}, $event.target.value)"
-                        label="Label"
-                        placeholder="Good"
-                        class="max-input"
-                    />
+                    <div class="btn-group">
+                        <x-input
+                            wire:model="items.{{ $loop->index }}.description"
+                            label="Label"
+                            placeholder="Good"
+                            class="max-input"
+                            style="
+                                min-width: 75px;
+                                border-radius: 10px 0 0 10px;
+                            "
+                        />
+                        <button
+                            wire:click="updateLabel({{ $loop->index }})"
+                            type="button"
+                            class="save-button btn btn-secondary"
+                            style="
+                                max-width: fit-content;
+                                margin-top: 1.45rem;
+                                padding: 0.6rem 1rem;
+                            "
+                        >
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
                 </div>
             @endforeach
         </div>
