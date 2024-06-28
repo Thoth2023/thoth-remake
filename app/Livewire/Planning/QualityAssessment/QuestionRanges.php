@@ -18,13 +18,10 @@ class QuestionRanges extends Component
   public $sum = 0;
   public $intervals = 5;
 
-  public function mount()
+  public function populateItems()
   {
-    $projectId = request()->segment(2);
-    $this->currentProject = Project::findOrFail($projectId);
-    $this->sum = Question::where('id_project', $projectId)->sum('weight');
+    $projectId = $this->currentProject->id_project;
     $items = GeneralScore::where('id_project', $projectId)->get();
-    $this->intervals = count($items) === 0 ? 2 : count($items);
 
     for ($i = 0; $i < count($items); $i++) {
       $this->items[] = [
@@ -35,6 +32,15 @@ class QuestionRanges extends Component
       ];
     }
     $this->oldItems = $this->items;
+  }
+
+  public function mount()
+  {
+    $projectId = request()->segment(2);
+    $this->currentProject = Project::findOrFail($projectId);
+    $this->sum = Question::where('id_project', $projectId)->sum('weight');
+    $this->populateItems();
+    $this->intervals = count($this->items) === 0 ? 2 : count($this->items);
   }
 
   /**
@@ -107,7 +113,7 @@ class QuestionRanges extends Component
       ]);
 
       $this->toast(
-        message: 'Interval updated successfully.',
+        message: __('project/planning.quality-assessment.interval-updated-successfully'),
         type: 'success'
       );
       $this->oldItems = $this->items;
@@ -121,19 +127,26 @@ class QuestionRanges extends Component
 
   public function updateLabel($index)
   {
-    $idGeneralScore = $this->items[$index]['id_general_score'];
-    $value = $this->items[$index]['description'];
+    try {
+      $idGeneralScore = $this->items[$index]['id_general_score'];
+      $value = $this->items[$index]['description'];
 
-    GeneralScore::updateOrCreate([
-      'id_general_score' => $idGeneralScore,
-    ], [
-      'description' => $value,
-    ]);
+      GeneralScore::updateOrCreate([
+        'id_general_score' => $idGeneralScore,
+      ], [
+        'description' => $value,
+      ]);
 
-    $this->toast(
-      message: 'Label updated successfully.',
-      type: 'success'
-    );
+      $this->toast(
+        message: 'Label updated successfully.',
+        type: 'success'
+      );
+    } catch (\Exception $e) {
+      $this->toast(
+        message: $e->getMessage(),
+        type: 'error'
+      );
+    }
   }
 
   public function addItem()
@@ -184,19 +197,22 @@ class QuestionRanges extends Component
     GeneralScore::where('id_project', $this->currentProject->id_project)->delete();
 
     for ($i = 0; $i < $this->intervals; $i++) {
-      $items[] = [
+      $itemToAdd = [
         'start' => $min,
         'end' => $max,
-        'description' => 'Intervalo ' . $i + 1,
+        'description' => 'Item ' . $i + 1,
         'id_project' => $this->currentProject->id_project
       ];
+
+      $itemCreated = GeneralScore::create($itemToAdd);
+      $items[] = $itemCreated->toArray();
+
       $min = round($max + 0.01, 2);
       $max = round($max + $sum / $this->intervals, 2);
-
-      GeneralScore::create($items[$i]);
     }
 
     $this->items = $items;
+    $this->oldItems = $this->items;
   }
 
   public function render()
