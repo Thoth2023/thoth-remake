@@ -98,8 +98,11 @@ class QuestionRanges extends Component
     }
   }
 
-  public function updateLabel($idGeneralScore, $value)
+  public function updateLabel($index)
   {
+    $idGeneralScore = $this->items[$index]['id_general_score'];
+    $value = $this->items[$index]['description'];
+
     GeneralScore::updateOrCreate([
       'id_general_score' => $idGeneralScore,
     ], [
