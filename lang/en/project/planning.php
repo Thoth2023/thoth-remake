@@ -515,6 +515,10 @@ return [
     'quality-assessment' => [
         'title' => 'Quality Assessment',
         'generate-intervals' => 'Generate Intervals',
+        'ranges' => [
+            'label-updated' => 'Label updated successfully.',
+            'interval-updated' => 'Interval updated successfully.',
+        ],
         'general-score' => [
             'title' => 'General Score',
             'help' => [

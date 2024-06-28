@@ -516,6 +516,10 @@ return [
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
         'generate-intervals' => 'Gerar intervalos',
+        'ranges' => [
+            'label-updated' => 'Label atualizada com sucesso.',
+            'interval-updated' => 'Intervalo atualizado com sucesso.',
+        ],
         'general-score' => [
             'title' => 'Pontuação Geral',
             'help' => [

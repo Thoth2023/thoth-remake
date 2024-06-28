@@ -113,7 +113,7 @@ class QuestionRanges extends Component
       ]);
 
       $this->toast(
-        message: __('project/planning.quality-assessment.interval-updated-successfully'),
+        message: __('project/planning.quality-assessment.ranges.interval-updated'),
         type: 'success'
       );
       $this->oldItems = $this->items;
@@ -138,7 +138,7 @@ class QuestionRanges extends Component
       ]);
 
       $this->toast(
-        message: 'Label updated successfully.',
+        message: __('project/planning.quality-assessment.ranges.label-updated'),
         type: 'success'
       );
     } catch (\Exception $e) {
