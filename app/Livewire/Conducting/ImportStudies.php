@@ -97,12 +97,16 @@ class ImportStudies extends Component
 
         try {
             $filePath = $this->file->store('uploads');
+            $this->toast(
+                message: 'File uploaded successfully.',
+                type: 'success'
+            );
 
-            // Lógica real de processamento de arquivos (talvez precise atualizar) -> chama a função de processamento de arquivo.
+            // Processar o arquivo
             $importedStudiesCount = $this->processFile($filePath);
-            $failedImportsCount = 0;
+            $failedImportsCount = $this->failedImportsCount;
 
-            // Log the import activity
+            // Registrar a atividade de importação
             Log::logActivity(
                 action: 'Imported studies',
                 description: "Imported {$importedStudiesCount} studies, failed to import {$failedImportsCount} studies.",
@@ -123,6 +127,7 @@ class ImportStudies extends Component
             $this->resetFields();
         }
     }
+
 
     protected function findImportedStudies(){
 
