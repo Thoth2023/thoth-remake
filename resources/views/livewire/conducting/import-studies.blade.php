@@ -92,19 +92,6 @@
                                     </th>
                                     </thead>
                                     <tbody>
-                                        {{-- @forelse ($files as $file)
-                                        <td>
-                                            {{$file}}
-                            </td>
-                            <td>
-                                <button class="btn py-1 px-3 btn-outline-danger" wire:click="confirmDelete('{{ $database->id }}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-
-                            @empty
-
-                            @endforelse --}}
                             <td>
                                 nome do arquivo
                             </td>
