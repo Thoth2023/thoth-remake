@@ -200,6 +200,8 @@ Route::prefix('/project/{projectId}')->group(function () {
     });
 
     // start of the reporting routes
+    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+
 
     Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes

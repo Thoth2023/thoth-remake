@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Planning\QualityAssessment;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
-use App\Models\Project as ProjectModel;
-use App\Models\Project\Planning\QualityAssessment\Question as QuestionsModel;
-use App\Utils\ActivityLogHelper as Log;
+
 use App\Utils\ToastHelper;
+use App\Utils\ActivityLogHelper as Log;
+use App\Models\Project;
+use App\Models\Project\Planning\QualityAssessment\Question;
 
-
-class Question extends Component
+class QuestionQuality extends Component
 {
     private $translationPath = 'project/planning.quality-assessment.question-quality.livewire';
     private $toastMessages = 'project/planning.quality-assessment.question-quality.livewire.toasts';
@@ -47,9 +48,9 @@ class Question extends Component
     protected function messages()
     {
         return [
-            'questionId.required' => __($this->translationPath . '.id.required'),
-            'description.required' => __($this->translationPath . '.description.required'),
-            'weight.required' => __($this->translationPath . '.weight.required'),
+            'questionId.required' => __('common.required'),
+            'weight.required' => __('common.required'),
+            'description.required' => __('common.required'),
         ];
     }
 
@@ -60,12 +61,10 @@ class Question extends Component
     public function mount()
     {
         $projectId = request()->segment(2);
-        $this->currentProject = ProjectModel::findOrFail($projectId);
+        $this->currentProject = Project::findOrFail($projectId);
         $this->currentQuestion = null;
-        $this->questions = QuestionsModel::where(
-            'id_project',
-            $this->currentProject->id_project
-        )->get();
+        $this->questions = Question::where('id_project', $projectId)->get();
+        $this->cutoffMaxValue = false;
     }
 
     /**
@@ -81,27 +80,64 @@ class Question extends Component
     }
 
     /**
-     * Update the items.
-     */
-    public function updateQuestions()
-    {
-        $this->questions = QuestionsModel::where(
-            'id_project',
-            $this->currentProject->id_project
-        )->get();
-    }
-    /**
      * Dispatch a toast message to the view.
      */
     public function toast(string $message, string $type)
     {
-        $this->dispatch('question', ToastHelper::dispatch($type, $message));
+        $this->dispatch('question-quality', ToastHelper::dispatch($type, $message));
     }
 
     /**
-     * Submit the form. It validates the input fields
-     * and creates or updates an item.
+     * Update the items.
      */
+    public function updateQuestions()
+    {
+        $projectId = $this->currentProject->id_project;
+        $this->questions = Question::where('id_project', $projectId)->get();
+        $this->dispatch('update-qa-table');
+        $this->dispatch('update-weight-sum');
+        $this->dispatch('update-score-questions');
+    }
+
+    #[On('edit-question-quality')]
+    public function edit($questionId)
+    {
+        $this->currentQuestion = Question::findOrFail($questionId);
+        $this->form['isEditing'] = true;
+        $this->questionId = $this->currentQuestion->id;
+        $this->weight = $this->currentQuestion->weight;
+        $this->description = $this->currentQuestion->description;
+    }
+
+    #[On('delete-question-quality')]
+    public function delete($questionId)
+    {
+        try {
+            $currentQuestion = Question::findOrFail($questionId);
+            $currentQuestion->delete();
+
+            Log::logActivity(
+                action: 'Deleted the quality score',
+                description: $currentQuestion->description,
+                projectId: $this->currentProject->id_project
+            );
+
+            $this->updateQuestions();
+            $this->toast(
+                message: 'Quality score deleted successfully.',
+                type: 'success'
+            );
+            $this->dispatch('update-cutoff');
+        } catch (\Exception $e) {
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
+        } finally {
+            $this->resetFields();
+        }
+    }
+
     public function submit()
     {
         $this->validate();
@@ -111,11 +147,12 @@ class Question extends Component
         ];
 
         try {
-            $value = $this->form['isEditing'] ? 'Updated the question quality' : 'Added a question quality';
+            $value = $this->form['isEditing']
+                ? 'Updated the question quality' : 'Added a question quality';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
-                    ? '.updated' : '.added'));
+                ? '.updated' : '.added'));
 
-            $updatedOrCreated = QuestionsModel::updateOrCreate($updateIf, [
+            $updatedOrCreated = Question::updateOrCreate($updateIf, [
                 'id' => $this->questionId,
                 'description' => $this->description,
                 'weight' => $this->weight,
@@ -143,18 +180,8 @@ class Question extends Component
         }
     }
 
-    /**
-     * Render the component.
-     */
     public function render()
     {
-        $project = $this->currentProject;
-
-        return view(
-            'livewire.planning.quality-assessment.question',
-            compact(
-                'project',
-            )
-        )->extends('layouts.app');
+        return view('livewire.planning.quality-assessment.question-quality');
     }
 }

@@ -21,6 +21,9 @@ class ImportStudies extends Component
     public $selectedDatabase = '';
     public $file;
     public $studies = [];
+    public $failedImportsCount = 0;
+
+
 
     /**
      * Validation rules.
@@ -123,7 +126,7 @@ class ImportStudies extends Component
 
     protected function findImportedStudies(){
 
-     return ImportStudyModel::where('id_database', $this->selectedDatabase)->orderBy('created_at', 'desc')->first();
+     return ImportStudyModel::where('id_database', $this->selectedDatabase)->orderBy('created_at', 'desec')->first();
 
     }
 
@@ -133,13 +136,30 @@ class ImportStudies extends Component
 
        }
 
+    protected function findFailedImports(){
+
+        return ImportStudyModel::where('id_database', $this->selectedDatabase)->orderBy('created_at', 'desc')->first()->failed_imports;
+
+       }
+
+    protected function findDescription($idProject){
+
+        return ImportStudyModel::where('id_project', $idProject)->orderBy('created_at', 'desc')->first()->description;
+
+       }
+
     /**
      * Para o processamento de arquivos.
      */
     protected function processFile($filePath)
     {
         $importedStudiesCount = 0;
+        $failedImportsCount = 0;
+        $description = '';
         $importedStudiesFind = $this->findImportedStudies();
+        $failedImportsFind = $this->findFailedImports();
+        $descriptionFind = $this->findDescription($this->currentProject->id_project);
+
         // Determine o tipo de arquivo pelo seu formato
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
@@ -151,43 +171,64 @@ class ImportStudies extends Component
                 while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                     $studyData = array_combine($headers, $data);
 
+                    // Criar e salvar um novo estudo no banco de dados
+                    $study = new ImportStudyModel();
+                    $study->title = $studyData['title'] ?? null;
+                    $study->author = $studyData['author'] ?? null;
+                    $study->year = $studyData['year'] ?? null;
+                    $study->description = $studyData['description'] ?? $description; // Usar descrição do arquivo ou existente
+                    $study->save();
+
                     ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
                         'id_project' => strval($this->currentProject->id_project),
                         'id_database' => strval($this->selectedDatabase),
                         'file' => $filePath,
-                        //'description' => $this->description,
+                        'description' => $descriptionFind,
                         'imported_studies_count' => $importedStudiesFind->imported_studies_count,
-                        //'failed_imports_count' => $this->failed_imports_count,
+                        'failed_imports_count' => $failedImportsFind->failed_imports_count,
                     ]);
-
-                }
-
-                fclose($handle);
             }
-        } elseif ($fileExtension === 'bib') {
-            // Processamento de arquivos BIB
-            $parser = new Parser();
-            $listener = new Listener();
 
-            $parser->addListener($listener);
-            $parser->parseFile(storage_path('app/' . $filePath));
+            fclose($handle);
+        }
+    } elseif ($fileExtension === 'bib') {
+        // Processamento de arquivos BIB
+        $parser = new Parser();
+        $listener = new Listener();
 
-            foreach ($listener->export() as $entry) {
+        $parser->addListener($listener);
+        $parser->parseFile(storage_path('app/' . $filePath));
+
+        foreach ($listener->export() as $entry) {
+            try {
+                // Cria e salva um novo estudo no banco de dados
+                $study = new ImportStudyModel();
+                $study->title = $entry['title'] ?? null;
+                $study->author = $entry['author'] ?? null;
+                $study->year = $entry['year'] ?? null;
+                $study->description = $description;
+                $study->save();
+
+                // Cria um novo registro de importação
                 ImportStudyModel::create([
                     'id_project' => strval($this->currentProject->id_project),
                     'id_database' => strval($this->selectedDatabase),
-                    'file' => $this->file,
-                    //'description' => $this->description,
-                    //'imported_studies_count' => $this->imported_studies_count,
-                    //'failed_imports_count' => $this->failed_imports_count,
+                    'file' => $filePath,
+                    'description' => $descriptionFind,
+                    'imported_studies_count' => $importedStudiesFind->imported_studies_count,
+                    'failed_imports_count' => $failedImportsFind->failed_imports_count,
                 ]);
 
                 $importedStudiesCount++;
+            } catch (\Exception $e) {
+                $failedImportsCount++;
             }
         }
-
-        return $importedStudiesCount;
     }
+
+    // Retorna o número de estudos importados com sucesso
+    return $importedStudiesCount;
+}
 
     /**
      * Delete a study.
