@@ -77,7 +77,7 @@ class ImportStudies extends Component
      */
     public function toast(string $message, string $type)
     {
-        $this->dispatchBrowserEvent('import-studies', ToastHelper::dispatch($type, $message));
+        $this->dispatch('import-studies', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -85,9 +85,6 @@ class ImportStudies extends Component
      */
     public function import()
     {
-        $this->validate();
-
-        dump($this->file); // Verifique se o arquivo está sendo corretamente recebido
 
         try {
             if (!$this->file) {
