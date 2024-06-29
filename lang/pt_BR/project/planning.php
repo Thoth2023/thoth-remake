@@ -65,6 +65,7 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
+                    'duplicate' => 'Domínio duplicado não é permitido.'
                 ],
             ]
         ],
@@ -156,6 +157,7 @@ return [
             'description' => 'Descrição',
             'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
+            'update' => 'Atualizar Palavra-chave',
             'list' => [
                 'headers' => [
                     'description' => 'Descrição',
@@ -202,6 +204,7 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
+                    'duplicate' => 'Palavra-chave duplicada não é permitida.'
                 ],
             ]
         ],
@@ -442,7 +445,7 @@ return [
             'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
                 Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
-                Critérios de Inclusão: 
+                Critérios de Inclusão:
                 Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
                 Critérios de Exclusão:
                 Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
@@ -512,6 +515,11 @@ return [
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
+        'generate-intervals' => 'Gerar intervalos',
+        'ranges' => [
+            'label-updated' => 'Label atualizada com sucesso.',
+            'interval-updated' => 'Intervalo atualizado com sucesso.',
+        ],
         'general-score' => [
             'title' => 'Pontuação Geral',
             'help' => [
@@ -558,10 +566,10 @@ return [
 
         ],
         'question-quality' => [
-            'title' => 'Qualidade da Questão',
+            'title' => 'Questão de Qualidade',
             'help' => [
-                'title' => 'Qualidade da Questão',
-                'content' => '',
+                'title' => 'Questão de Qualidade',
+                'content' => '[WIP]',
             ],
             'id' => 'ID',
             'description' => 'Descrição',
@@ -590,8 +598,15 @@ return [
             ],
 
         ],
-        'quality-score' => [
+        'question-score' => [
             'title' => 'Pontuação de Qualidade',
+            'select' => [
+                'rule' => 'Selecione uma regra'
+            ],
+            'question' => [
+                'title' => 'Questão',
+                'placeholder' => 'Selecione uma questão',
+            ],
             'help' => [
                 'title' => 'Pontuação de Qualidade',
                 'content' => '',
@@ -643,7 +658,9 @@ return [
         ],
 
         'min-general-score' => [
-            'title' => 'Pontuação Geral Mínima para Aprovação',
+            'title' => 'Pontuação Mínima para Aprovação',
+            'cutoff' => 'Pontuação Mínima',
+            'sum' => 'Soma dos Pesos',
             'form' => [
                 'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
                 'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
