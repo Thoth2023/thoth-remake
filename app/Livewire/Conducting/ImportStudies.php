@@ -69,7 +69,7 @@ class ImportStudies extends Component
      */
     public function updateImportStudies()
     {
-        // $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
+        $this->studies = $this->byProjectId($this->currentProject->id_project);
     }
 
     /**
@@ -77,7 +77,7 @@ class ImportStudies extends Component
      */
     public function toast(string $message, string $type)
     {
-        $this->dispatch('import-studies', ToastHelper::dispatch($type, $message));
+        $this->dispatchBrowserEvent('import-studies', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -87,46 +87,35 @@ class ImportStudies extends Component
     {
         $this->validate();
 
-        if (!$this->file) {
-            $this->toast(
-                message: 'No file uploaded.',
-                type: 'error'
-            );
-            return;
-        }
+        dump($this->file); // Verifique se o arquivo está sendo corretamente recebido
 
         try {
-            $filePath = $this->file->store('uploads');
-            $this->toast(
-                message: 'File uploaded successfully.',
-                type: 'success'
-            );
+            if (!$this->file) {
+                $this->toast('No file uploaded.', 'error');
+                return;
+            }
 
-            // Processar o arquivo
+            $filePath = $this->file->store('uploads');
+            $this->toast('File uploaded successfully.', 'success');
+
             $importedStudiesCount = $this->processFile($filePath);
             $failedImportsCount = $this->failedImportsCount;
 
-            // Registrar a atividade de importação
             Log::logActivity(
-                action: 'Imported studies',
-                description: "Imported {$importedStudiesCount} studies, failed to import {$failedImportsCount} studies.",
-                projectId: $this->currentProject->id_project
+                'Imported studies',
+                "Imported {$importedStudiesCount} studies, failed to import {$failedImportsCount} studies.",
+                $this->currentProject->id_project
             );
 
             $this->updateImportStudies();
-            $this->toast(
-                message: "Successfully imported {$importedStudiesCount} studies. Failed to import {$failedImportsCount} studies.",
-                type: 'success'
-            );
+            $this->toast("Successfully imported {$importedStudiesCount} studies. Failed to import {$failedImportsCount} studies.", 'success');
         } catch (\Exception $e) {
-            $this->toast(
-                message: $e->getMessage(),
-                type: 'error'
-            );
+            $this->toast($e->getMessage(), 'error');
         } finally {
             $this->resetFields();
         }
     }
+
 
 
     protected function findImportedStudies(){
