@@ -163,14 +163,14 @@ class ImportStudies extends Component
                 while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                     $studyData = array_combine($headers, $data);
 
-                    
                     $paper = Paper::create([
                         'title' => $studyData['title'] ?? '',
                         'author' => $studyData['author'] ?? '',
                         'year' => $studyData['year'] ?? '',
-                        'abstract' => $studyData['abstract'] ?? $abstract, 
+                        'abstract' => $studyData['abstract'] ?? $abstract,
                         'volume' => $studyData['volume'] ?? 0,
                         'pages' => $studyData['pages'] ?? 0,
+                        
                     ]);
 
                     if ($paper) {
@@ -197,7 +197,7 @@ class ImportStudies extends Component
                         'title' => $studyData['title'] ?? null,
                         'author' => $studyData['author'] ?? null,
                         'year' => $studyData['year'] ?? null,
-                        'abstract' => $studyData['abstract'] ?? $abstract, 
+                        'abstract' => $studyData['abstract'] ?? $abstract,
                         'volume' => $studyData['volume'] ?? 0,
                         'pages' => $studyData['pages'] ?? 0,
 
