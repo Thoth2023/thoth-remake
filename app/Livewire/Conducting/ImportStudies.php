@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Project as ProjectModel;
 use App\Models\ImportStudy as ImportStudyModel;
+use App\Models\Paper;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
 use App\Utils\ActivityLogHelper as Log;
 use RenanBr\BibTexParser\Listener;
@@ -92,7 +93,7 @@ class ImportStudies extends Component
                 return;
             }
 
-            $filePath = $this->file->store('uploads');
+            $filePath = $this->file->store('public/files');
             $this->toast('File uploaded successfully.', 'success');
 
             $importedStudiesCount = $this->processFile($filePath);
@@ -146,7 +147,7 @@ class ImportStudies extends Component
     {
         $importedStudiesCount = 0;
         $failedImportsCount = 0;
-        $description = '';
+        $abstract = '';
         $importedStudiesFind = $this->findImportedStudies();
         $failedImportsFind = $this->findFailedImports();
         $descriptionFind = $this->findDescription($this->currentProject->id_project);
@@ -162,64 +163,68 @@ class ImportStudies extends Component
                 while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                     $studyData = array_combine($headers, $data);
 
-                    // Criar e salvar um novo estudo no banco de dados
-                    $study = new ImportStudyModel();
-                    $study->title = $studyData['title'] ?? null;
-                    $study->author = $studyData['author'] ?? null;
-                    $study->year = $studyData['year'] ?? null;
-                    $study->description = $studyData['description'] ?? $description; // Usar descrição do arquivo ou existente
-                    $study->save();
-
-                    ImportStudyModel::create([ // cria um novo registro no banco de dados usando o modelo
-                        'id_project' => strval($this->currentProject->id_project),
-                        'id_database' => strval($this->selectedDatabase),
-                        'file' => $filePath,
-                        'description' => $descriptionFind,
-                        'imported_studies_count' => $importedStudiesFind->imported_studies_count,
-                        'failed_imports_count' => $failedImportsFind->failed_imports_count,
+                    
+                    $paper = Paper::create([
+                        'title' => $studyData['title'] ?? '',
+                        'author' => $studyData['author'] ?? '',
+                        'year' => $studyData['year'] ?? '',
+                        'abstract' => $studyData['abstract'] ?? $abstract, 
+                        'volume' => $studyData['volume'] ?? 0,
+                        'pages' => $studyData['pages'] ?? 0,
                     ]);
+
+                    if ($paper) {
+                        $importedStudiesCount++;
+                    } else {
+                        $failedImportsCount++;
+                    }
+                }
+
+                fclose($handle);
+            }
+        } elseif ($fileExtension === 'bib') {
+            // Processamento de arquivos BIB
+            $parser = new Parser();
+            $listener = new Listener();
+
+            $parser->addListener($listener);
+            $parser->parseFile(storage_path('app/' . $filePath));
+
+            foreach ($listener->export() as $entry) {
+                try {
+                    // Cria e salva um novo estudo no banco de dados
+                    $paper = Paper::create([
+                        'title' => $studyData['title'] ?? null,
+                        'author' => $studyData['author'] ?? null,
+                        'year' => $studyData['year'] ?? null,
+                        'abstract' => $studyData['abstract'] ?? $abstract, 
+                        'volume' => $studyData['volume'] ?? 0,
+                        'pages' => $studyData['pages'] ?? 0,
+
+                    ]);
+
+                    if ($paper) {
+                        $importedStudiesCount++;
+                    } else {
+                        $failedImportsCount++;
+                    }
+                } catch (\Exception $e) {
+                    $failedImportsCount++;
+                }
             }
 
-            fclose($handle);
+            ImportStudyModel::create([
+                'id_project' => $this->currentProject->id_project,
+                'id_database' => $this->selectedDatabase,
+                'description' => $descriptionFind,
+                'failed_imports' => $failedImportsCount,
+                'file_path' => $filePath,
+            ]);
         }
-    } elseif ($fileExtension === 'bib') {
-        // Processamento de arquivos BIB
-        $parser = new Parser();
-        $listener = new Listener();
 
-        $parser->addListener($listener);
-        $parser->parseFile(storage_path('app/' . $filePath));
-
-        foreach ($listener->export() as $entry) {
-            try {
-                // Cria e salva um novo estudo no banco de dados
-                $study = new ImportStudyModel();
-                $study->title = $entry['title'] ?? null;
-                $study->author = $entry['author'] ?? null;
-                $study->year = $entry['year'] ?? null;
-                $study->description = $description;
-                $study->save();
-
-                // Cria um novo registro de importação
-                ImportStudyModel::create([
-                    'id_project' => strval($this->currentProject->id_project),
-                    'id_database' => strval($this->selectedDatabase),
-                    'file' => $filePath,
-                    'description' => $descriptionFind,
-                    'imported_studies_count' => $importedStudiesFind->imported_studies_count,
-                    'failed_imports_count' => $failedImportsFind->failed_imports_count,
-                ]);
-
-                $importedStudiesCount++;
-            } catch (\Exception $e) {
-                $failedImportsCount++;
-            }
-        }
+        // Retorna o número de estudos importados com sucesso
+        return $importedStudiesCount;
     }
-
-    // Retorna o número de estudos importados com sucesso
-    return $importedStudiesCount;
-}
 
     /**
      * Delete a study.
