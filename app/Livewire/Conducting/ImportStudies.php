@@ -164,6 +164,7 @@ class ImportStudies extends Component
                     $studyData = array_combine($headers, $data);
 
                     $paper = Paper::create([
+                        'title' => $studyData['title'] ?? '',
                         'book_title' => $studyData['book_title'] ?? '',
                         'author' => $studyData['author'] ?? '',
                         'year' => $studyData['year'] ?? '',
@@ -218,6 +219,7 @@ class ImportStudies extends Component
                 try {
                     // Cria e salva um novo estudo no banco de dados
                     $paper = Paper::create([
+                        'title' => $studyData['title'] ?? '',
                         'book_title' => $studyData['book_title'] ?? '',
                         'author' => $studyData['author'] ?? '',
                         'year' => $studyData['year'] ?? '',
