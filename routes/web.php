@@ -32,8 +32,6 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-use Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 
 
@@ -208,7 +206,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 
     // start of the reporting routes
-     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
 
 
 

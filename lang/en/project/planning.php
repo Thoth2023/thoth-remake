@@ -65,7 +65,7 @@ return [
                     'added' => 'Domain added successfully.',
                     'updated' => 'Domain updated successfully.',
                     'deleted' => 'Domain deleted successfully.',
-                    'duplicate'=> 'Domain duplicated is not allowed.',
+                    'duplicate' => 'Domain duplicated is not allowed.',
                 ],
             ]
         ],
@@ -204,7 +204,7 @@ return [
                     'added' => 'Keyword added successfully.',
                     'updated' => 'Keyword updated successfully.',
                     'deleted' => 'Keyword deleted successfully.',
-                    'duplicate'=> 'Keyword duplicated is not allowed.'
+                    'duplicate' => 'Keyword duplicated is not allowed.'
                 ],
             ]
         ],
@@ -514,6 +514,11 @@ return [
     ],
     'quality-assessment' => [
         'title' => 'Quality Assessment',
+        'generate-intervals' => 'Generate Intervals',
+        'ranges' => [
+            'label-updated' => 'Label updated successfully.',
+            'interval-updated' => 'Interval updated successfully.',
+        ],
         'general-score' => [
             'title' => 'General Score',
             'help' => [
@@ -592,10 +597,17 @@ return [
             ],
 
         ],
-        'quality-score' => [
-            'title' => 'Quality Score',
+        'question-score' => [
+            'title' => 'Question Score',
+            'select' => [
+                'rule' => 'Select a rule'
+            ],
+            'question' => [
+                'title' => 'Question',
+                'placeholder' => 'Select a question',
+            ],
             'help' => [
-                'title' => 'Quality Score',
+                'title' => 'Question Score',
                 'content' => '',
             ],
             'description' => [
@@ -645,7 +657,9 @@ return [
         ],
 
         'min-general-score' => [
-            'title' => 'Minimal General Score to Approve',
+            'title' => 'Minimal Score to Approve',
+            'cutoff' => 'Cutoff',
+            'sum' => 'Total Weight',
             'form' => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
                 'add' => 'Add Minimal General Score',
