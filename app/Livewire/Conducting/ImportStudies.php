@@ -164,13 +164,37 @@ class ImportStudies extends Component
                     $studyData = array_combine($headers, $data);
 
                     $paper = Paper::create([
-                        'title' => $studyData['title'] ?? '',
+                        'book_title' => $studyData['book_title'] ?? '',
                         'author' => $studyData['author'] ?? '',
                         'year' => $studyData['year'] ?? '',
                         'abstract' => $studyData['abstract'] ?? $abstract,
                         'volume' => $studyData['volume'] ?? 0,
                         'pages' => $studyData['pages'] ?? 0,
-                        
+                        'num_pages' => $studyData['num_pages'] ?? 0,
+                        'keywords' => $studyData['keywords'] ?? '',
+                        'doi' => $studyData['doi'] ?? '',
+                        'journal' => $studyData['journal'] ?? '',
+                        'issn' => $studyData['issn']?? '',
+                        'location' => $studyData['location'] ?? '',
+                        'isbn' => $studyData['isbn'] ?? '',
+                        'address' => $studyData['address'] ?? '',
+                        'type' => $studyData['type'] ?? '',
+                        'bib_key' => $studyData['bib_key'] ?? '',
+                        'url' => $studyData['url'] ?? '',
+                        'publisher' => $studyData['publisher'] ?? '',
+                        'added_at' => $studyData['added_at'] ?? '',
+                        'update_at' => $studyData['update_at'] ?? '',
+                        'data_base' => $studyData['data_base'] ?? 0,
+                        'id' => $studyData['id'] ?? 0,
+                        'status_selection' => $studyData['status_selection'] ?? 0,
+                        'check_status_selection' => $studyData['check_status_selection'] ?? 0,
+                        'status_qa' => $studyData['status_qa'] ?? 0,
+                        'id_gen_score' => $studyData['id_gen_score'] ?? 0,
+                        'check_qa' => $studyData['check_qa'] ?? 0,
+                        'score' => $studyData['score'] ?? '',
+                        'status_extraction' => $studyData['status_extraction'] ?? 0,
+                        'note' => $studyData['note'] ?? '',
+
                     ]);
 
                     if ($paper) {
@@ -194,12 +218,36 @@ class ImportStudies extends Component
                 try {
                     // Cria e salva um novo estudo no banco de dados
                     $paper = Paper::create([
-                        'title' => $studyData['title'] ?? null,
-                        'author' => $studyData['author'] ?? null,
-                        'year' => $studyData['year'] ?? null,
+                        'book_title' => $studyData['book_title'] ?? '',
+                        'author' => $studyData['author'] ?? '',
+                        'year' => $studyData['year'] ?? '',
                         'abstract' => $studyData['abstract'] ?? $abstract,
                         'volume' => $studyData['volume'] ?? 0,
                         'pages' => $studyData['pages'] ?? 0,
+                        'num_pages' => $studyData['num_pages'] ?? 0,
+                        'keywords' => $studyData['keywords'] ?? '',
+                        'doi' => $studyData['doi'] ?? '',
+                        'journal' => $studyData['journal'] ?? '',
+                        'issn' => $studyData['issn']?? '',
+                        'location' => $studyData['location'] ?? '',
+                        'isbn' => $studyData['isbn'] ?? '',
+                        'address' => $studyData['address'] ?? '',
+                        'type' => $studyData['type'] ?? '',
+                        'bib_key' => $studyData['bib_key'] ?? '',
+                        'url' => $studyData['url'] ?? '',
+                        'publisher' => $studyData['publisher'] ?? '',
+                        'added_at' => $studyData['added_at'] ?? '',
+                        'update_at' => $studyData['update_at'] ?? '',
+                        'data_base' => $studyData['data_base'] ?? 0,
+                        'id' => $studyData['id'] ?? 0,
+                        'status_selection' => $studyData['status_selection'] ?? 0,
+                        'check_status_selection' => $studyData['check_status_selection'] ?? 0,
+                        'status_qa' => $studyData['status_qa'] ?? 0,
+                        'id_gen_score' => $studyData['id_gen_score'] ?? 0,
+                        'check_qa' => $studyData['check_qa'] ?? 0,
+                        'score' => $studyData['score'] ?? '',
+                        'status_extraction' => $studyData['status_extraction'] ?? 0,
+                        'note' => $studyData['note'] ?? '',
 
                     ]);
 
