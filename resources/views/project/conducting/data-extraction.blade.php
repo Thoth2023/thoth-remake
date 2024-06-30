@@ -2,9 +2,7 @@
     <div class="container mt-4">
         <div class="card">
             <div class="card-body">
-                <br>
-                <label><strong>{{ __('project/conducting.data-extraction.title') }}</strong></label>
-                <br>
+                <h4 class="heading-large"><strong>{{ __('project/conducting.data-extraction.title') }}</strong></h4>
                 <h6>{{ __('project/conducting.data-extraction.progress-data-extraction') }}</h6>
                 <div class="progress" style="height: 18px">
                     <div id="prog_done" class="progress-bar bg-success" role="progressbar" style="width: 60%"

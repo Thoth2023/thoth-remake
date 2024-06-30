@@ -33,8 +33,28 @@ return [
             'status' => 'Status',
             'actions' => 'Actions'
         ],
-        'details' => 'View Details'
+        'details' => 'View Details',
+        'modal_paper_ex' => [
+            'title' => 'Title',
+            'doi' => 'Doi',
+            'url' => 'URL',
+            'export' => 'Export',
+            'author' => 'Author',
+            'year' => 'Year',
+            'database' => 'Data Base',
+            'status' => [
+                'status-extraction' => 'Status Extraction',
+                'done' => 'Done',
+                'to_do' => 'To do',
+                'removed' => 'Removed'
+            ],
+            'abstract' => 'Abstract',
+            'keywords' => 'Keywords',
+            'extraction_questions' => 'Extraction Questions',
+            'notes' => 'Notes'
+        ],
     ],
+
 
     'import-studies' => [
         'title' => 'Import Studies',

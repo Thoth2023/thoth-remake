@@ -81,7 +81,7 @@ return [
             'done' => 'Concluído',
             'todo' => 'A fazer',
             'removed' => 'Removido',
-            'total' => 'Total'
+            'total' => 'Total',
         ],
         'list_studies' => 'Lista de Estudos para Extração de Dados',
         'table' => [
@@ -93,6 +93,25 @@ return [
             'status' => 'Status',
             'actions' => 'Ações'
         ],
-        'details' => 'Detalhar'
+        'details' => 'Detalhar',
+        'modal_paper_ex' => [
+            'title' => 'Título',
+            'doi' => 'Doi',
+            'url' => 'URL',
+            'export' => 'Exportar',
+            'author' => 'Autor',
+            'year' => 'Ano',
+            'database' => 'Banco de Dados',
+            'status' => [
+                'status-extraction' => 'Status de Extração',
+                'done' => 'Finalizado',
+                'to_do' => 'Pendente',
+                'removed' => 'Removido'
+            ],
+            'abstract' => 'Resumo',
+            'keywords' => 'Palavras Chave',
+            'extraction_questions' => 'Questões de Extração',
+            'notes' => 'Anotações'
+        ],
     ],
 ];
