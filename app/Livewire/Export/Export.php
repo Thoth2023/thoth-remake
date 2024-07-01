@@ -95,7 +95,6 @@ class Export extends Component
         $title = $this->currentProject->title;
         $objetives = $this->currentProject->objectives;
         $author = $this->currentProject->created_by;
-        // dd($author);
         $projectYear = substr($this->currentProject->start_date, 0, 4);
         
         //start planning
@@ -107,7 +106,6 @@ class Export extends Component
 
         $domainArray = $this->projectDomain();
         $domain = implode("\n            \\item ", $domainArray);
-        $author = $this->currentProject->author;  // Adicione a variável autor se disponível
         $languagearray = $this->currentProject->languages->pluck('description')->toArray();
         $languages = implode("\n            \\item ", $languagearray);
         $studyType = $this->currentProject->study_type;
