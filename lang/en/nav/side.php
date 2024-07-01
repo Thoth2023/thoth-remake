@@ -9,6 +9,9 @@ return [
     'database_manager' => 'Database Manager',
     'user_manager' => 'User Manager',
     'levels_manager' => 'Profile Manager',
+    'add_permission' => 'Add New Permission Group',
+    'edit_permission' => 'Edit Permission Group',
+    'view_permission' => 'View Permission Group',
     
     // Left side navbar
 
