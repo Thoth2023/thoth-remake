@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(BasesSearchSeeder::class);
+        $this->call(PermissionSeeder::class);
 
         DB::table('users')->insert([
             'username' => 'admin',

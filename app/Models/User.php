@@ -71,4 +71,24 @@ class User extends Model implements AuthenticatableContract
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function level()
+    {
+        return $this->belongsToMany(Level::class);
+    }
+    
+    public function hasLevel($level)
+    {
+        return $this->levels()->where('name', $level)->exists();
+    }
+    
+    public function hasPermission($permission)
+    {
+        foreach ($this->levels as $level) {
+            if ($level->permissions()->where('name', $permission)->exists()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
