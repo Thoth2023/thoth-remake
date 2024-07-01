@@ -97,6 +97,10 @@
                 alert('Texto copiado para a área de transferência!');
             });
         });
+
+        document.addEventListener('open-overleaf', event => {
+            window.open(event.__livewire.params[0].url, '_blank');
+        });
     </script>
     @endpush
 </div>

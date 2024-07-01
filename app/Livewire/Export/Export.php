@@ -359,7 +359,7 @@ class Export extends Component
         $overleafUrl = 'https://www.overleaf.com/docs?snip_uri=data:application/x-latex;base64,' . $base64Content;
     
         // Redireciona o usuário para o Overleaf
-        return redirect()->away($overleafUrl);
+        $this->dispatch('open-overleaf', ['url' => $overleafUrl]);
     }
     
     
