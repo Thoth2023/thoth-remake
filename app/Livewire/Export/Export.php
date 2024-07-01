@@ -123,7 +123,6 @@ class Export extends Component
         $databasesArray = $this->getDatabases();
         $databases = implode(", ", $databasesArray);
             
-        $projectYear = $this->currentProject->year;
         $projectDescription = $this->currentProject->description;
 
         $keywordsArray = $this->getKeyWords();
