@@ -15,6 +15,11 @@ class Export extends Component
     public $keywordsDescriptions;
     public $template;
 
+    public $checkbox1;
+    public $checkbox2;
+    public $checkbox3;
+    public $checkbox4;
+
  
     public function render()
     {
@@ -95,13 +100,16 @@ class Export extends Component
         $title = $this->currentProject->title;
         $objetives = $this->currentProject->objectives;
         $author = $this->currentProject->created_by;
+
+        $projectDescription = $this->currentProject->description;
+
         $projectYear = substr($this->currentProject->start_date, 0, 4);
-        
+        if ($this->isChecked('flexCheckDefault1')){
         //start planning
         $databasesArray = $this->getDatabases();
         $databases = implode(", ", $databasesArray);
         $projectYear = $this->currentProject->year;
-        $projectDescription = $this->currentProject->description;
+       
         // $keywords = $this->currentProject->keywords;
 
         $domainArray = $this->projectDomain();
@@ -112,6 +120,15 @@ class Export extends Component
         $keywords = $this->keywordsDescriptions;
         $researchQuestions = $this->currentProject->research_questions;
         //end planning
+         } else
+        {
+            $databases = '';
+            $domain = '';
+            $languages = '';
+            $studyType = '';
+            $keywords = '';
+            $researchQuestions = '';
+        }
 
        
         $latexTemplate = "
@@ -339,10 +356,21 @@ class Export extends Component
     
     
 
-    private function isChecked($checkboxId)
+    public function isChecked($checkboxId)
     {
-        // Verifica se a checkbox está marcada
-        return $this->get($checkboxId) == 'on';
+        // Verifica qual checkbox está marcado
+        switch ($checkboxId) {
+            case 'flexCheckDefault1':
+                return $this->checkbox1;
+            case 'flexCheckDefault2':
+                return $this->checkbox2;
+            case 'flexCheckDefault3':
+                return $this->checkbox3;
+            case 'flexCheckDefault4':
+                return $this->checkbox4;
+            default:
+                return false;
+        }
     }
 
 
