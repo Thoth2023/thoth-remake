@@ -9,13 +9,13 @@
             margin-right: 10px;
         }
         .form-check-input {
-            width: 30px;
+            width: 20px;
             /* largura */
-            height: 30px;
+            height: 20px;
             /* altura */
         }
         .form-check-label {
-            font-size: 20px;
+            font-size: 15px;
             /* tamanho da fonte */
             margin-top: 5px
         }

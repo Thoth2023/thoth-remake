@@ -38,9 +38,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success mt-3" wire:click="generateBibTex">
+                                {{-- <button type="submit" class="btn btn-success mt-3" wire:click="generateBibTex">
                                     Generate BibTex
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
                     </div>
