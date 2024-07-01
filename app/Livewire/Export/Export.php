@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Export;
 
+use App\Models\ResearchQuestion;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
@@ -67,6 +68,13 @@ class Export extends Component
         return $keyWords;
     }
 
+    function getResearchQuestions() 
+    {
+        $projectId = $this->currentProject->id;
+        $questions = ResearchQuestion::where($projectId, $projectId)->pluck('description')->toArray();
+        return $questions;
+    }
+
 
  
 
@@ -111,17 +119,16 @@ class Export extends Component
         $projectDescription = $this->currentProject->description;
 
         $projectYear = substr($this->currentProject->start_date, 0, 4);
-        if ($this->isChecked('flexCheckDefault1')){
-        //start planning
+
         $databasesArray = $this->getDatabases();
         $databases = implode(", ", $databasesArray);
-        
+            
         $projectYear = $this->currentProject->year;
         $projectDescription = $this->currentProject->description;
 
         $keywordsArray = $this->getKeyWords();
         $keywords = implode("\n            \\item ", $keywordsArray);
-        
+            
         $domainArray = $this->projectDomain();
         $domain = implode("\n            \\item ", $domainArray);
 
@@ -129,19 +136,14 @@ class Export extends Component
         $languages = implode("\n            \\item ", $languagearray);
 
         $studyType = $this->currentProject->study_type;
-        $researchQuestions = $this->currentProject->research_questions;
-        //end planning
-         } else
-        {
-            $databases = '';
-            $domain = '';
-            $languages = '';
-            $studyType = '';
-            $keywords = '';
-            $researchQuestions = '';
-        }
 
-       
+        $researchQuestionsArray = $this->getResearchQuestions();
+        $researchQuestionsArrayTextBf = array_map(function($question) {
+            return "\\textbf{" . $question . "}";
+        }, $researchQuestionsArray);
+        $researchQuestions = implode("\n            \\item ", $researchQuestionsArrayTextBf);
+
+
         $latexTemplate = "
         \\documentclass[11pt]{article}
         \\usepackage[utf8]{inputenc}
@@ -203,7 +205,7 @@ class Export extends Component
     
         \\subsection{Research Questions}
         \\begin{itemize}
-            \\item \\textbf$researchQuestions
+            \\item $researchQuestions
         \\end{itemize}
     
         \\subsection{Databases}
