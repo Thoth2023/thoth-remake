@@ -35,9 +35,9 @@ class OverallController extends Controller
     public function index(string $id_project) {
     
         $project = Project::findOrFail($id_project);
-<<<<<<< HEAD
-        return view('project.conducting.index', compact('project'));
-=======
+
+       
+
         
         $generalscore = GeneralScoreModel::where('id_project', $project->id_project)->get();
         
@@ -54,34 +54,19 @@ class OverallController extends Controller
         )->get();
     
         $currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
+
         
 
-        return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion'));
+       
 
->>>>>>> 3b029ca6 (feat: :sparkles: Quality Assessmet de Conducting em progresso)
-
-=======
-        $progress = 20;
-=======
-        $progress = 1;
->>>>>>> 61a0335e (style: :lipstick: serapação em card e maior quantidade de cores para barra de progoresso)
-=======
         $progress = 50;
->>>>>>> d8be807b (Fix progress calculation in OverallController)
-    
+
         // Pass $progress to the view
         return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion', 'progress'));
->>>>>>> 19c5a6b1 (Ajustes na barra de progresso e tabela)
     }
     
 
 
-<<<<<<< HEAD
-=======
     public function mount()
     {
         $projectId = request()->segment(2);
@@ -105,5 +90,4 @@ class OverallController extends Controller
         dd($this->generalscore);
     }
     
->>>>>>> 3b029ca6 (feat: :sparkles: Quality Assessmet de Conducting em progresso)
 }
