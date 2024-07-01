@@ -34,10 +34,14 @@ class Export extends Component
     
     function getDatabases()
     {
-        $projectId = $this->currentProject->id;
-        $databases = ProjectDatabaseModel::where($projectId, $projectId)->get();
+       $this->currentProject->databases;
+       //get only the name of the database
+         $databases = $this->currentProject->databases->pluck('name')->toArray();
+
+
         return $databases;
-    } 
+    }
+    
 
     function projectSegment()
     {
@@ -86,22 +90,31 @@ class Export extends Component
 
 
     public function overleafTemplate()
-    {
-        $projectName = $this->currentProject->name;
-        $databases = $this->getDatabases();
+    {   
+     
+        $title = $this->currentProject->title;
+        $objetives = $this->currentProject->objectives;
+        $author = $this->currentProject->created_by;
+        // dd($author);
+        $projectYear = substr($this->currentProject->start_date, 0, 4);
+        
+        //start planning
+        $databasesArray = $this->getDatabases();
+        $databases = implode(", ", $databasesArray);
         $projectYear = $this->currentProject->year;
         $projectDescription = $this->currentProject->description;
-
+        // $keywords = $this->currentProject->keywords;
 
         $domainArray = $this->projectDomain();
-        $domain = implode(', ', $domainArray);
+        $domain = implode("\n            \\item ", $domainArray);
         $author = $this->currentProject->author;  // Adicione a variável autor se disponível
-        // $languagearray = $this->projectLanguages();
-        // $languages = implode(', ', $languagearray);
+        $languagearray = $this->currentProject->languages->pluck('description')->toArray();
+        $languages = implode("\n            \\item ", $languagearray);
         $studyType = $this->currentProject->study_type;
         $keywords = $this->keywordsDescriptions;
         $researchQuestions = $this->currentProject->research_questions;
-        $domainsList = 
+        //end planning
+
        
         $latexTemplate = "
         \\documentclass[11pt]{article}
@@ -122,7 +135,7 @@ class Export extends Component
         Citado #1 vezes nas páginas #2.%
         \\fi}%
     
-        \\title{{$projectName}}
+        \\title{{$title}}
         \\author{{$author}}
         \\date{{$projectYear}}
     
@@ -140,7 +153,7 @@ class Export extends Component
         $projectDescription
     
         \\subsection{Objectives}
-        % Adicione seus objetivos aqui
+        $objetives
     
         \\subsection{Domains}
         \\begin{itemize}
@@ -149,7 +162,7 @@ class Export extends Component
     
         \\subsection{Languages}
         \\begin{itemize}
-            \\item languages
+            \\item $languages
         \\end{itemize}
     
         \\subsection{Studies Types}
@@ -175,7 +188,7 @@ class Export extends Component
         \\begin{tabular}{@{}ll@{}}
         \\toprule
         \\textbf{Database} & \\textbf{Link} \\\\ \\midrule
-        GOOGLE & https://scholar.google.com.br/ \\\\ \\bottomrule 
+        $databases \\\\ \\bottomrule 
         \\end{tabular}
         \\end{table}
     

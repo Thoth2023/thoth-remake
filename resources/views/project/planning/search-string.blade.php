@@ -18,7 +18,7 @@
                     <div class="card-body pb-0">
                         {{-- add term --}}
                         <form role="form" method="POST"
-                              action="{{ route('planning_search_string.add_term', $project->id_project) }}"
+                              {{-- action="{{ route('planning_search_string.add_term', $project->id_project) }}" --}}
                               style="display: flex;">
                             @csrf
                             <div class="col-md-5">
@@ -52,7 +52,7 @@
                         <div class="row align-content-center">
                             {{-- add synonym --}}
                             <form role="form" method="POST"
-                                  action="{{ route('planning_search_string.add_synonym', $project->id_project) }}"
+                                  {{-- action="{{ route('planning_search_string.add_synonym', $project->id_project) }}" --}}
                                   style="display: flex;">
                                 @csrf
                                 <div class="col-md-5">
