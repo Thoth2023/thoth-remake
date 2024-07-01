@@ -55,6 +55,13 @@ class Export extends Component
         return $domain;
     }
 
+    function getKeyWords()
+    {
+        $projectId = $this->currentProject->id;
+        $keyWords = KeywordModel::where($projectId, $projectId)->pluck('description')->toArray();
+        return $keyWords;
+    }
+
 
  
 
@@ -100,16 +107,20 @@ class Export extends Component
         //start planning
         $databasesArray = $this->getDatabases();
         $databases = implode(", ", $databasesArray);
+        
         $projectYear = $this->currentProject->year;
         $projectDescription = $this->currentProject->description;
-        // $keywords = $this->currentProject->keywords;
 
+        $keywordsArray = $this->getKeyWords();
+        $keywords = implode("\n            \\item ", $keywordsArray);
+        
         $domainArray = $this->projectDomain();
         $domain = implode("\n            \\item ", $domainArray);
+
         $languagearray = $this->currentProject->languages->pluck('description')->toArray();
         $languages = implode("\n            \\item ", $languagearray);
+
         $studyType = $this->currentProject->study_type;
-        $keywords = $this->keywordsDescriptions;
         $researchQuestions = $this->currentProject->research_questions;
         //end planning
 
