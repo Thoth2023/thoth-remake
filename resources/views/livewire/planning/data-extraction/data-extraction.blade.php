@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($project->questions as $question)
+                    @foreach ($project->dataExtractionQuestions as $question)
                         <tr>
                             <td>
                                 @if ($question->options->isNotEmpty())
@@ -39,12 +39,14 @@
                                 <div style="min-width: fit-content">
                                     <button
                                         type="button"
-                                        wire:click="sendEditDataToAnotherComponent({{ $question }})"
+                                        wire:click="editQuestion({{ $question }})"
                                         class="btn btn-outline-secondary py-1 px-3 m-0"
                                     >
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button
+                                        type="button"
+                                        wire:click="deleteQuestion({{ $question }})"
                                         class="btn btn-outline-danger py-1 px-3 m-0"
                                     >
                                         <i class="fas fa-trash"></i>

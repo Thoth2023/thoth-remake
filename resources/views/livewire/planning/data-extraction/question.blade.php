@@ -64,7 +64,7 @@
                 <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.data-extraction.question-form.update")
+                            ? __("project/planning.data-extraction.question-form.edit-question")
                             : __("project/planning.data-extraction.question-form.add-question")
                     }}
                     <div wire:loading>

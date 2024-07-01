@@ -640,6 +640,7 @@ return [
             'description' => 'Description',
             'type' => 'Type',
             'add-question' => 'Add Question',
+            'edit-question' => 'Edit Question'
         ],
         'option-form' => [
             'title' => 'Create Data Extraction Question Option',

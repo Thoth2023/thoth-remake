@@ -17,7 +17,7 @@
                     <option selected disabled>
                         {{ __("Selecione uma pergunta") }}
                     </option>
-                    @foreach ($project->questions as $question)
+                    @foreach ($project->dataExtractionQuestions as $question)
                         @if (in_array($question->question_type->type, ["Multiple Choice List", "Pick One List"]))
                             <option value="{{ $question->id_de }}">
                                 {{ $question->id }}

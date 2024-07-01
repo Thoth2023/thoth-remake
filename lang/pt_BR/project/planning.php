@@ -638,6 +638,7 @@ return [
             'description' => 'Descrição',
             'type' => 'Tipo',
             'add-question' => 'Adicionar Pergunta',
+            'edit-question' => 'Editar Pergunta'
         ],
         'option-form' => [
             'title' => 'Criar Opção de Pergunta de Extração de Dados',

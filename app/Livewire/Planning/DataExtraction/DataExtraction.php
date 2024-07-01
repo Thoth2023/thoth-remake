@@ -26,9 +26,14 @@ class DataExtraction extends Component
         $this->questions = QuestionModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
-    public function sendEditDataToAnotherComponent($data)
+    public function editQuestion($data)
     {
-        $this->dispatch('data-extraction-table', $data['id']);
+        $this->dispatch('data-extraction-table-edit-question', $data['id']);
+    }
+
+    public function deleteQuestion($data)
+    {
+        $this->dispatch('data-extraction-table-delete-question', $data['id']);
     }
 
     public function render()
