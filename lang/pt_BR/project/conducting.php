@@ -111,7 +111,8 @@ return [
             'abstract' => 'Resumo',
             'keywords' => 'Palavras Chave',
             'extraction_questions' => 'Questões de Extração',
-            'notes' => 'Anotações'
+            'notes' => 'Anotações',
+            'save'  => 'Salvar'
         ],
     ],
 ];

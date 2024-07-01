@@ -51,7 +51,8 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'extraction_questions' => 'Extraction Questions',
-            'notes' => 'Notes'
+            'notes' => 'Notes',
+            'save'  => 'Save'
         ],
     ],
 

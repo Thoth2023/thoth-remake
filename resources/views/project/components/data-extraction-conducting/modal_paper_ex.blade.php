@@ -85,6 +85,11 @@
 					<h6>{{ __('project/conducting.data-extraction.modal_paper_ex.notes') }}</h6>
 					<textarea id="paper_note_ex" class="form-control"></textarea>
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-sm btn-view-paper">
+						{{ __('project/conducting.data-extraction.modal_paper_ex.save') }}
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

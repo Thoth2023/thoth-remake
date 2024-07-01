@@ -1,6 +1,6 @@
 <body>
     <div class="container mt-4">
-        <div class="card">
+        <div class="card ml-auto">
             <div class="card-body">
                 <h4 class="heading-large"><strong>{{ __('project/conducting.data-extraction.title') }}</strong></h4>
                 <h6>{{ __('project/conducting.data-extraction.progress-data-extraction') }}</h6>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <br>
-                <table class="table table-responsive-sm" id="table_papers_extraction">
+                <table class="table table-xs" id="table_papers_extraction">
                     <caption>{{ __('project/conducting.data-extraction.list_studies') }}</caption>
                     <thead>
                         <tr>
@@ -65,7 +65,7 @@
                                     <td>{{ $study->year }}</td>
                                     @foreach ($databases as $database)
                                         @if ($study->data_base == $database->id_database)
-                                            <td>{{ $database->name }}</td>
+                                        <td>{{ substr($database->name, 0, 10) }}</td>
                                         @endif
                                     @endforeach
                                     @if ($study->status_extraction == 1)
