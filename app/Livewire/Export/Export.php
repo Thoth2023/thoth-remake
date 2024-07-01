@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Export;
 
+use App\Models\ProjectStudyType;
 use App\Models\ResearchQuestion;
+use App\Models\StudyType;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
@@ -72,6 +74,12 @@ class Export extends Component
         return $questions;
     }
 
+    function getStudyType()
+    {
+        $studyTypes = $this->currentProject->studyTypes->toArray();
+        $descriptions = array_column($studyTypes, 'description');
+        return $descriptions;
+    }
 
  
 
@@ -130,7 +138,8 @@ class Export extends Component
         $languagearray = $this->currentProject->languages->pluck('description')->toArray();
         $languages = implode("\n            \\item ", $languagearray);
 
-        $studyType = $this->currentProject->study_type;
+        $studyTypeArray = $this->getStudyType();
+        $studyType = implode("\n            \\item ", $studyTypeArray);
 
         $researchQuestionsArray = $this->getResearchQuestions();
         $researchQuestionsArrayTextBf = array_map(function($question) {
