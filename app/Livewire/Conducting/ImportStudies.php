@@ -52,7 +52,7 @@ class ImportStudies extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
-        $this->studies = $this->byProjectId($projectId);
+        $this->studies = $this->byProjectId($projectId) ?? [];
         // $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->get();
     }
 
@@ -70,7 +70,7 @@ class ImportStudies extends Component
      */
     public function updateImportStudies()
     {
-        $this->studies = $this->byProjectId($this->currentProject->id_project);
+        $this->studies = ImportStudyModel::where('id_project', $this->currentProject->id_project)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -86,14 +86,13 @@ class ImportStudies extends Component
      */
     public function import()
     {
-
         try {
             if (!$this->file) {
                 $this->toast('No file uploaded.', 'error');
                 return;
             }
 
-            $filePath = $this->file->store('public/files');
+            $filePath = $this->file->store('uploads');
             $this->toast('File uploaded successfully.', 'success');
 
             $importedStudiesCount = $this->processFile($filePath);
@@ -113,7 +112,6 @@ class ImportStudies extends Component
             $this->resetFields();
         }
     }
-
 
 
     protected function findImportedStudies(){
@@ -151,6 +149,10 @@ class ImportStudies extends Component
         $importedStudiesFind = $this->findImportedStudies();
         $failedImportsFind = $this->findFailedImports();
         $descriptionFind = $this->findDescription($this->currentProject->id_project);
+
+        //Log::info('Importando arquivo: ' . $filePath);
+        //Log::info('Número de estudos importados: ' . $importedStudiesCount);
+        //Log::info('Número de falhas de importação: ' . $failedImportsCount);
 
         // Determine o tipo de arquivo pelo seu formato
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
@@ -311,11 +313,12 @@ public function delete(int $studyId)
     public function render()
     {
         $project = $this->currentProject;
+        $studies = $this->studies;
 
         return view(
             'livewire.conducting.import-studies',
             compact(
-                'project',
+                'project','studies',
             )
         );
     }
