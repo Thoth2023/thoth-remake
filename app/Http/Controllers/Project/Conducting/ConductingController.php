@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Project\Conducting;
 
 use App\Http\Controllers\Controller;
+use App\Models\BibUpload;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\View\View;
@@ -30,8 +31,24 @@ class ConductingController extends Controller
             ];
         }
 
+        // Consulta para os studies
+        $bibUploads = BibUpload::all();
+        $studies = collect();
+
+        foreach ($bibUploads as $bib) {
+            $projectDB = $bib->projectDatabase()->first();
+            if ($projectDB && $projectDB->id_project == $id_project) {
+                $studies = $studies->merge($bib->studies()->get());
+            }
+        }
+
+        // Consulta databases do projeto
+        $databases = $project->databases()->get();
+
         return view('project.conducting.index', [
             'project' => $project,
+            'studies' => $studies,
+            'databases' => $databases,
             'snowballing_projects' => $snowballing_projects,
             'dataExtractionQuestions' => $questions, // Passa as perguntas formatadas para a visão
         ]);

@@ -4,7 +4,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<input type="hidden" id="id_paper_ex">
-				<h5 class="modal-title" id="paper_title_ex">{{ __('project/conducting.data-extraction.modal_paper_ex.title') }}</h5>
+				<h5 class="modal-title" id="paper_title_ex">
+					{{ __('project/conducting.data-extraction.modal_paper_ex.title') }}
+				</h5>
 				<small id="paper_id_ex"></small>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -14,8 +16,12 @@
 				<input type="hidden" id="index_paper_ex">
 				<div class="form-inline">
 					<div class="col-md-6">
-						<h6>{{ __('project/conducting.data-extraction.modal_paper_ex.doi') }}</h6><a class="float-right opt"><i class="fas fa-question-circle"></i></a>
-						<a target="_blank" id="paper_doi_ex"><i class="fas fa-external-link-alt"></i></a>
+						<div>
+							<h6>DOI</h6>
+							<a class="float-right opt"><i class="fas fa-question-circle"></i></a>
+							<a target="_blank" id="paper_doi_ex"><i class="fas fa-external-link-alt"></i></a>
+						</div>
+						<a href="#" id="paper_doi_ex"></a></i></a>
 					</div>
 					<div class="col-md-6">
 						<h6>{{ __('project/conducting.data-extraction.modal_paper_ex.url') }}</h6>
@@ -45,19 +51,25 @@
 					<div id="paper_status_ex" class="col-md-12">
 						<h6>{{ __('project/conducting.data-extraction.modal_paper_ex.status.status-extraction') }}</h6>
 						<select class="form-control" id="edit_status_ex">
-							<option value="Done">{{ __('project/conducting.data-extraction.modal_paper_ex.status.done') }}</option>
-							<option value="To Do">{{ __('project/conducting.data-extraction.modal_paper_ex.status.to_do') }}</option>
-							<option value="Removed">{{ __('project/conducting.data-extraction.modal_paper_ex.status.removed') }}</option>
+							<option value="Done">
+								{{ __('project/conducting.data-extraction.modal_paper_ex.status.done') }}
+							</option>
+							<option value="To Do">
+								{{ __('project/conducting.data-extraction.modal_paper_ex.status.to_do') }}
+							</option>
+							<option value="Removed">
+								{{ __('project/conducting.data-extraction.modal_paper_ex.status.removed') }}
+							</option>
 						</select>
 					</div>
 					</hr>
 					<div class="col-md-12 mt-3">
 						<h6>{{ __('project/conducting.data-extraction.modal_paper_ex.abstract') }}</h6>
-						<p id="paper_abstract_ex" </p>
+						<p id="paper_abstract_ex"></p>
 					</div>
 					<div class="col-md-12">
 						<h6>{{ __('project/conducting.data-extraction.modal_paper_ex.keywords') }}</h6>
-						<p id="paper_keywords_ex" </p>
+						<p id="paper_keywords_ex"></p>
 					</div>
 				</div>
 				<hr>
