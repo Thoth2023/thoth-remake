@@ -37,24 +37,18 @@
                 </div>
 
                 <div class="grid-items-2 gap-3 card-group mt-4 pb-3">
-                    @foreach ([
-                            "questions" => "ni ni-bullet-list-67",
-                            "relevant_data" => "ni ni-single-copy-04",
-                            "quality" => "ni ni-like-2",
-                            "analyse_data" => "ni ni-chart-bar-32"
-                        ]
-                        as $key => $icon)
+                    @foreach ($homeObjs as $homeObj)
                         <div class="card rounded-3 p-3">
                             <div class="card-body pt-2">
                                 <a
                                     href="javascript:"
                                     class="card-title h5 d-flex align-items-center gap-2 text-darker"
                                 >
-                                    <i class="{{ $icon }}"></i>
-                                    {{ __("pages/home." . $key) }}
+                                    <i class="{{ $homeObj->icon }}"></i>
+                                    {{ $homeObj->title }}
                                 </a>
                                 <p class="card-description mb-4">
-                                    {{ __("pages/home." . $key . "_description") }}
+                                    {{ $homeObj->description }}
                                 </p>
                             </div>
                         </div>
