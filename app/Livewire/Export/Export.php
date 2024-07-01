@@ -40,11 +40,8 @@ class Export extends Component
     
     function getDatabases()
     {
-       $this->currentProject->databases;
-       //get only the name of the database
-         $databases = $this->currentProject->databases->pluck('name')->toArray();
-
-
+        $this->currentProject->databases;
+        $databases = $this->currentProject->databases->toArray();
         return $databases;
     }
     
@@ -111,19 +108,18 @@ class Export extends Component
 
     public function overleafTemplate()
     {   
-     
         $title = $this->currentProject->title;
         $objetives = $this->currentProject->objectives;
         $author = $this->currentProject->created_by;
-
         $projectDescription = $this->currentProject->description;
 
         $projectYear = substr($this->currentProject->start_date, 0, 4);
 
         $databasesArray = $this->getDatabases();
-        $databases = implode(", ", $databasesArray);
-            
-        $projectDescription = $this->currentProject->description;
+        $databases = "";
+        foreach ($databasesArray as $database) {
+            $databases .= $database['name'] . " & " . $database['link'] . " \\\\ \n \t";
+        }
 
         $keywordsArray = $this->getKeyWords();
         $keywords = implode("\n            \\item ", $keywordsArray);
@@ -215,7 +211,7 @@ class Export extends Component
         \\begin{tabular}{@{}ll@{}}
         \\toprule
         \\textbf{Database} & \\textbf{Link} \\\\ \\midrule
-        $databases \\\\ \\bottomrule 
+        $databases\\bottomrule
         \\end{tabular}
         \\end{table}
     
