@@ -87,6 +87,12 @@ class Export extends Component
         $questionsQuality = $this->currentProject->qualityAssessmentQuestions->toArray();
         return $questionsQuality;
     }
+
+    function getGeneralScores()
+    {
+        $generalScores = $this->currentProject->generalScores->toArray();
+        return $generalScores;
+    }
  
 
     // function projectLanguages()
@@ -157,6 +163,14 @@ class Export extends Component
         foreach ($questionsQualityArray as $question) {
             $questionsQuality .= $question['id'] . " & " . $question['description'] . " & " . $question['weight'] . " & " . $question['min_to_app'] . "\\\\ \n \t";
         }
+
+        $generalScoresArray = $this->getGeneralScores();
+        $generalScores = "";
+        foreach ($generalScoresArray as $score) {
+            $generalScores .= $score['start'] . " & " . $score['end'] . " & " . $score['description'] . "\\\\ \n \t";
+        }
+
+        $searchStrategy = $this->currentProject->searchStrategy->description;
 
         $latexTemplate = "
         \\documentclass[11pt]{article}
@@ -253,7 +267,9 @@ class Export extends Component
         \\end{itemize}
     
         \\subsection{Search Strategy}
-        % Adicione sua estratégia de pesquisa aqui
+        \\begin{itemize}
+        \\item $searchStrategy
+        \\end{itemize}
     
         \\subsection{Inclusion and Exclusion Criteria}
         Inclusion Rule: Any
@@ -278,7 +294,7 @@ class Export extends Component
         \\begin{tabular}{@{}lll@{}}
         \\toprule
         \\textbf{Start Interval} & \\textbf{End Interval} & \\textbf{Description} \\\\ \\midrule
-        3 & 5 & Example description \\\\ \\bottomrule 
+        $generalScores\\bottomrule
         \\end{tabular}
         \\end{table}
     
