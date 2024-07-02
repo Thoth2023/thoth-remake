@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Export;
 
+use App\Models\Project\Planning\DataExtraction\QuestionTypes;
 use App\Models\ProjectStudyType;
 use App\Models\ResearchQuestion;
 use App\Models\StudyType;
@@ -81,6 +82,11 @@ class Export extends Component
         return $descriptions;
     }
 
+    function getQuestionsQuality()
+    {
+        $questionsQuality = $this->currentProject->qualityAssessmentQuestions->toArray();
+        return $questionsQuality;
+    }
  
 
     // function projectLanguages()
@@ -120,7 +126,6 @@ class Export extends Component
         $objetives = $this->currentProject->objectives;
         $author = $this->currentProject->created_by;
         $projectDescription = $this->currentProject->description;
-
         $projectYear = substr($this->currentProject->start_date, 0, 4);
 
         $databasesArray = $this->getDatabases();
@@ -147,6 +152,11 @@ class Export extends Component
         }, $researchQuestionsArray);
         $researchQuestions = implode("\n            \\item ", $researchQuestionsArrayTextBf);
 
+        $questionsQualityArray = $this->getQuestionsQuality();
+        $questionsQuality = "";
+        foreach ($questionsQualityArray as $question) {
+            $questionsQuality .= $question['id'] . " & " . $question['description'] . " & " . $question['weight'] . " & " . $question['min_to_app'] . "\\\\ \n \t";
+        }
 
         $latexTemplate = "
         \\documentclass[11pt]{article}
@@ -284,7 +294,7 @@ class Export extends Component
         \\begin{tabular}{@{}llll@{}}
         \\toprule
         \\textbf{ID} & \\textbf{Rules} & \\textbf{Weight} & \\textbf{\\begin{tabular}[c]{@{}l@{}}Minimum\\ to\\ Approve\\end{tabular}} \\\\ \\midrule
-        1 & \\begin{tabular}[c]{@{}l@{}}Example rule\\ \\end{tabular} & 3 & No minimum \\\\ \\bottomrule 
+        $questionsQuality\\bottomrule
         \\end{tabular}
         \\end{table}
     
