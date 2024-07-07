@@ -92,16 +92,16 @@
                                         </th>
                                     </thead>
                                     <tbody>
+                                        @foreach ($files as $file)
                                         <tr>
-                                            <td>
-                                                nome do arquivo
-                                            </td>
+                                            <td>{{ $file->file_name }}</td>
                                             <td class="text-center">
-                                                <button class="btn py-1 px-3 btn-outline-danger" wire:click="confirmDelete('{{ $database->id }}')" wire:loading.attr="disabled">
+                                                <button class="btn py-1 px-3 btn-outline-danger" wire:click="confirmDelete('{{ $file->id }}')" wire:loading.attr="disabled">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </td>
