@@ -47,7 +47,7 @@ class FileUpload extends Component
 
        File::create([
            'file_name' => $name,
-           'database_id' => $this->selectedDatabase,
+           'id_database' => $this->selectedDatabase,
        ]);
 
        session()->flash('message', 'The file is successfully uploaded!');
