@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Planning\SearchString;
 
+use App\Utils\AlgoliaSynonyms;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Models\Project as ProjectModel;
 use App\Models\SearchString as SearchStringModel;
+use App\Models\Term;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 
@@ -15,10 +17,11 @@ class SearchString extends Component
     public $currentProject;
     public $currentSearchString;
     public $strings = [];
-    public $description;
+    public $genericDescription;
     public $searchStringId;
-
     public $databases = [];
+
+    public $descriptions = [];
 
     /**
      * Form state.
@@ -73,8 +76,11 @@ class SearchString extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentSearchString = null;
+        $algolia = new AlgoliaSynonyms();
+        $algolia->createSynonym('avenue');
+
         foreach ($this->currentProject->databases as $database) {
-            $this->databases[$database->id] = ''; // Initialize with empty string or fetch existing value
+            $this->databases[$database->id] = '';
         }
     }
 
@@ -83,7 +89,7 @@ class SearchString extends Component
      */
     public function resetFields()
     {
-        $this->description = '';
+        $this->genericDescription = '';
         $this->currentSearchString = null;
         $this->form['isEditing'] = false;
     }
@@ -99,26 +105,12 @@ class SearchString extends Component
         )->get();
     }
 
-    public function teste()
-    {
-        dd("oi");
-    }
-
     /**
      * Dispatch a toast message to the view.
      */
     public function toast(string $message, string $type)
     {
         $this->dispatch('search-string', ToastHelper::dispatch($type, $message));
-    }
-
-    /**
-     * Submit the form. It validates the input fields
-     * and creates or updates an item.
-     */
-    public function saveSearchString($description)
-    {
-
     }
 
     /**
@@ -156,6 +148,64 @@ class SearchString extends Component
             );
         } finally {
             $this->resetFields();
+        }
+    }
+
+    public function generateGenericSearchString()
+    {
+        $this->terms = Term::where('id_project', $this->currentProject->id_project)
+            ->with('synonyms')
+            ->get();
+
+        $formattedTerms = $this->terms->map(function ($term) {
+            $allTerms = array_merge([$term->description], $term->synonyms->pluck('description')->toArray());
+            return '("' . implode('" OR "', $allTerms) . '")';
+        });
+
+        $this->genericDescription = implode(' AND ', $formattedTerms->toArray());
+        return $this->genericDescription;
+    }
+
+    public function generateSearchString($databaseName)
+    {
+        $this->terms = Term::where('id_project', $this->currentProject->id_project)
+            ->with('synonyms')
+            ->get();
+
+        $formattedTerms = $this->terms->map(function ($term) {
+            $allTerms = array_merge([$term->description], $term->synonyms->pluck('description')->toArray());
+            return '("' . implode('" OR "', $allTerms) . '")';
+        });
+
+        switch (strtoupper($databaseName)) {
+            case 'SCOPUS':
+                $searchString = "TITLE-ABS-KEY " . implode(' AND ', $formattedTerms->toArray());
+                break;
+            case 'ENGINEERING VILLAGE':
+                $searchString = "( " . implode(' AND ', $formattedTerms->toArray()) . " AND ({english} WN LA) )";
+                break;
+            default:
+                $searchString = $this->generateGenericSearchString();
+                break;
+        }
+
+        return $searchString;
+    }
+
+    public function formatSearchStringByDatabase($index, $name)
+    {
+        $this->terms = Term::where('id_project', $this->currentProject->id_project)
+            ->with('synonyms')
+            ->get();
+
+        $generatedString = $this->generateSearchString($name);
+        $this->descriptions[$index] = $generatedString;
+    }
+
+    public function generateAllSearchStrings()
+    {
+        foreach ($this->currentProject->databases as $index => $database) {
+            $this->formatSearchStringByDatabase($index, $database->name);
         }
     }
 
