@@ -34,28 +34,30 @@ class FileUpload extends Component
        $this->file = null;
    }
 
-  public function save()
-  {
-    $this->validate([
-        'file' => 'required|mimes:csv,bib',
-        'selectedDatabase' => 'required',
-    ]);
+   public function save()
+   {
+       $this->validate([
+           'selectedDatabase' => 'required|exists:project_databases,id_database',
+           'file' => 'required|file|mimes:bib,csv|max:10240',
+       ]);
 
-    $name = md5($this->file . microtime()).'.'.$this->file->extension();
+       $name = md5($this->file . microtime()) . '.' . $this->file->extension();
 
-    $this->file->storeAs('files', $name);
+       $this->file->storeAs('files', $name);
 
-   File::create(['file_name' => $name,
-   'database_id' => $this->selectedDatabase,
-    ]);
+       File::create([
+           'file_name' => $name,
+           'database_id' => $this->selectedDatabase,
+       ]);
 
-    session()->flash('message', 'The file is successfully uploaded!');
-  }
+       session()->flash('message', 'The file is successfully uploaded!');
+   }
 
-  public function render()
-  {
-    return view('livewire.conducting.file-upload', [
-      'files' => File::all(),
-    ]);
-  }
-}
+
+   public function render()
+   {
+     return view('livewire.conducting.file-upload', [
+       'files' => File::all(),
+     ]);
+   }
+ }
