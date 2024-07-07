@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Faq;
 
 class HelpController extends Controller
 {
@@ -10,6 +11,7 @@ class HelpController extends Controller
      */
     public function index()
     {
-        return view('pages.help');
+        $faqs = Faq::all();
+        return view('pages.help',['faqs' => $faqs]);
     }
 }
