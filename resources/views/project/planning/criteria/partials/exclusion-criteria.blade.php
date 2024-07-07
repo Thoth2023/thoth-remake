@@ -44,8 +44,8 @@
                     <td>
                         <p class="text-sm font-weight-bold mb-0">{{ $criterion->id }}</p>
                     </td>
-                    <td>
-                        <p class="text-sm font-weight-bold mb-0">{{ $criterion->description }}</p>
+                    <td style="max-width: 185px">
+                        <p class="text-wrap text-sm font-weight-bold mb-0">{{ $criterion->description }}</p>
                     </td>
                     <td class="col-md-auto d-flex">
                         <button style="padding: 7px;" type="button"

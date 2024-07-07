@@ -4,7 +4,6 @@
     @include("layouts.navbars.auth.topnav", ["title" => __("nav/topnav.planning")])
 
     <div class="row mt-4 mx-4">
-
         @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
 
         <div class="container-fluid py-4">
@@ -74,18 +73,19 @@
                             @livewire("planning.databases.databases")
                         </div>
                         <div class="tab-pane fade" id="search-string">
-                            @include("project.planning.search-string")
+                            @livewire("planning.search-string.search-term")
                         </div>
                         <div class="tab-pane fade" id="search-strategy">
-                            @include("project.planning.search-strategy")
+                            @livewire("planning.search-strategy.strategy")
                         </div>
                         <div class="tab-pane fade" id="criteria">
-                            @include("project.planning.criteria.index")
+                            @livewire("planning.criteria.criteria")
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
                             @include("project.planning.quality-assessment")
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
+                            {{-- @livewire("planning.data-extraction.data-extraction") --}}
                             @include("project.planning.data-extraction.index")
                         </div>
                     </div>

@@ -9,15 +9,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Project\Conducting\ConductingController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
-use App\Http\Controllers\Project\Planning\DatabaseController;
-use App\Http\Controllers\Project\Planning\Overall\DateController;
-use App\Http\Controllers\Project\Planning\Overall\DomainController;
-use App\Http\Controllers\Project\Planning\Overall\KeywordController;
-use App\Http\Controllers\Project\Planning\Overall\LanguageController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
-use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
-use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
+
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\SearchStringController;
@@ -31,12 +26,14 @@ use App\Http\Controllers\Project\ExportController;
 use App\Http\Controllers\Project\ReportingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
+use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Livewire\Planning\Databases\Databases;
+use App\Http\Controllers\ThemeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +75,13 @@ Route::get('/' . __('sidenav'))->name('sidenav')->middleware(Localization::class
 // Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
 // Route::get('/' . __('profile'), [UserProfileController::class, 'index'])->name('profile')->middleware(Localization::class);
 
-
+// Terms routes
+Route::get('/' . __('terms'), [TermsController::class, 'index'])->name('terms')->middleware(Localization::class);
 
 Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrCreated'])->name('search-project')->middleware(Localization::class);
+
+//Theme routes
+Route::get('/themes', [ThemeController::class, 'readCookie']);
 
 // Projects Routes
 Route::get('/projects/{id}' . __('header'))->name('header')->middleware(Localization::class);
@@ -194,11 +195,18 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     // Start of the conducting routes
     Route::prefix('/conducting')->group(function () {
-        Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);
+        Route::get('/', [ConductingController::class, 'index'])
+            ->name('project.conducting.index')
+            ->middleware('auth')
+            ->middleware(Localization::class);
     });
+
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+
+
+
 });
 
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
@@ -213,9 +221,10 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
-    Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
-    Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
+    Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
+    Route::post('/change-password/{id}', [ChangePassword::class, 'update'])->name('change.perform');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {

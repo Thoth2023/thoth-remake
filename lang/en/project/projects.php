@@ -28,8 +28,8 @@ return [
             'options' => 'Options',
             'delete' => 'Delete',
             'edit' => 'Edit',
-            'view' => 'View',
-            'add_member' => 'Add Member',
+            'view' => 'Open',
+            'add_member' => 'Team',
         ],
     ],
 ];
