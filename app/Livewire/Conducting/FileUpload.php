@@ -37,8 +37,8 @@ class FileUpload extends Component
   public function save()
   {
     $this->validate([
-        'selectedDatabase' => 'required|exists:project_databases,id_database',
-        'file' => 'required|file|mimes:bib,csv|max:10240',
+        'file' => 'required|mimes:csv,bib',
+        'selectedDatabase' => 'required',
     ]);
 
     $name = md5($this->file . microtime()).'.'.$this->file->extension();

@@ -14,6 +14,7 @@ class ImportStudy extends Model
   public $timestamps = true;
 
   protected $fillable = [
+    'file_name',
     'id_project',
     'id_database',
     'file',
