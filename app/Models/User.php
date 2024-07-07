@@ -77,18 +77,10 @@ class User extends Model implements AuthenticatableContract
         return $this->belongsToMany(Level::class);
     }
     
-    public function hasLevel($level)
+
+
+    public function level()
     {
-        return $this->levels()->where('name', $level)->exists();
-    }
-    
-    public function hasPermission($permission)
-    {
-        foreach ($this->levels as $level) {
-            if ($level->permissions()->where('name', $permission)->exists()) {
-                return true;
-            }
-        }
-        return false;
+        return $this->belongsTo(Level::class);
     }
 }

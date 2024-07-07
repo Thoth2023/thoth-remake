@@ -222,7 +222,9 @@ Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('level
 Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
-
+Route::middleware(['auth', 'role:super-user'])->group(function () {
+Route::resource('permissions', PermissionController::class);
+});
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {
