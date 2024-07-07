@@ -47,9 +47,9 @@
                         ]
                     )
                     <div class="tab-content mt-4">
-                        <div class="tab-pane fade show active" id="import-studies">
+                        <div class="tab-pane fade show active" id="file-upload">
                             <!-- Conteúdo da aba Import Studies -->
-                            @livewire("conducting.import-studies")
+                            @livewire("conducting.file-upload")
                         </div>
                         </div>
                         {{-- <div id="snowballing" class="tab-pane fade">
