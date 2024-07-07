@@ -104,7 +104,7 @@ return [
             'database' => 'Banco de Dados',
             'status' => [
                 'status-extraction' => 'Status de Extração',
-                'done' => 'Finalizado',
+                'done' => 'Concluído',
                 'to_do' => 'Pendente',
                 'removed' => 'Removido'
             ],
