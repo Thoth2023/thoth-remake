@@ -101,6 +101,7 @@ class Criteria extends Component
             'id_project',
             $this->currentProject->id_project
         )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
+        $this->type['value'] = 'NONE';
     }
 
     /**
@@ -188,9 +189,7 @@ class Criteria extends Component
                         ->first()->update(['pre_selected' => 1]);
                 }
                 break;
-
         }
-
         $this->updateCriterias();
     }
 
@@ -231,7 +230,7 @@ class Criteria extends Component
     {
         $this->validate();
 
-        if ($this->type['value'] == 'NONE') {
+        if (strcmp($this->type['value'], 'NONE') === 0) {
             $this->toast(
                 message: $this->translate()['type.required'],
                 type: 'info'
@@ -273,6 +272,8 @@ class Criteria extends Component
                 'id' => $this->criteriaId,
                 'description' => $this->description,
                 'type' => $this->type['value'],
+                'rule' => $this->type['value'] == 'Inclusion' ?
+                    $this->inclusion_rule['value'] : $this->exclusion_rule['value'],
             ]);
 
             Log::logActivity(
@@ -281,8 +282,7 @@ class Criteria extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->updateCriterias();
-            $this->selectRule($updatedOrCreated->rule, $updatedOrCreated->type);
+            $this->selectRule($updatedOrCreated->rule, $this->type['value']);
             $this->toast(
                 message: $toastMessage,
                 type: 'success'
