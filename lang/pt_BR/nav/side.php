@@ -8,7 +8,7 @@ return [
     'help' => 'Ajuda',
     'database_manager' => 'Gerenciar Banco de Dados',
     'user_manager' => 'Gerenciar Usuários',
-    'levels manager' => 'Gerenciar Perfis',
+    'levels_manager' => 'Gerenciar Perfis',
     'add_permission' => 'Adicionar Nova Permissão de Grupo',
     'edit_permission' => 'Editar Permissão de Grupo',
     'view_permission' => 'Visualização da Permissão de Grupo',

@@ -7,7 +7,7 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                <h6>{{__(superuser/levels.permission_groups)}}</h6>
+                <h6>{{__("superuser/levels.permission_groups")}}</h6>
                 <a href="{{ route('levels.create') }}" class="btn btn-success">+ {{__("superuser/levels.new_permission")}}</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">

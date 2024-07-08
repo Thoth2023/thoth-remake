@@ -35,4 +35,5 @@ return [
     'back' => 'Back',
     'edit_permission' => 'Edit Permission Group',
     'group_name' => 'Group Name',
+    
 ];
