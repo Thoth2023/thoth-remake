@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                <label>{{__("superuser/levels.grou_permissions")}}</label>
+                                <label>{{__("superuser/levels.group_permissions")}}</label>
                                 <select multiple id="assigned-permissions" name="permissions[]" class="form-control" size="10">
                                 </select>
                             </div>

@@ -18,6 +18,7 @@ return[
     'Add_User' => '+ Novo Usuário',
     'Yes' => 'Sim',
     'No' => 'Não',
+    'singup_user' => 'Cadastrar novo usuário',
     'activated' => 'Usuário ativado com sucesso',
     'deactivated' => 'Usuário desativado com sucesso',
     'updated' => 'Usuário atualizado com sucesso',

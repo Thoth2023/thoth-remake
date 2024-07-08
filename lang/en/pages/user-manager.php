@@ -18,9 +18,9 @@ return [
     'Add_User' => '+ New User',
     'Yes' => 'Yes',
     'No' => 'No',
+    'singup_user' => 'Sign Up new user',
     'activated' => 'User activated successfully',
     'deactivated' => 'User deactivated successfully',
     'updated' => 'User updated successfully',
     'created' => 'User created successfully',
-
 ];

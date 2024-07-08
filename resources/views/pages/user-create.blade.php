@@ -15,7 +15,7 @@
                             {{ auth()->user()->lastname ? auth()->user()->lastname : '' }}
                         </h5>
                         <p class="mb-0 font-weight-bold text-sm">
-                        Cadastrar novo usuário {{  (auth()->user()->occupation ? auth()->user()->occupation : '') }}
+                            {{ __('pages/user-manager.singup_user')}} {{  (auth()->user()->occupation ? auth()->user()->occupation : '') }}
                         </p>
 
                     </div>
