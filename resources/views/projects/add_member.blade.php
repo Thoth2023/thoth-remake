@@ -99,9 +99,9 @@
                     </div>
                     <select class="form-select" id="levelMemberSelect" name="level_member">
                         <option value="" disabled selected>{{__('pages/add_member.level_select')}}</option>
-                        <option value=2>{{__('pages/add_member.viewer')}}</option>
-                        <option value=3>{{__('pages/add_member.researcher')}}</option>
-                        <option value=4>{{__('pages/add_member.reviser')}}</option>
+                        foreach ($levels as $level)
+                            <option value="{{ $level->id_level }}">{{ $level->level }}</option>
+                        endforeach
                     </select>
                 </div>
                 <div class="d-flex align-items-center">

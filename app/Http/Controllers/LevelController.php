@@ -12,6 +12,7 @@ class LevelController extends Controller
         return view('superuser.levels-dashboard', compact('levels'));
     }
 
+
     public function create()
     {
         $permissions = Permission::all();

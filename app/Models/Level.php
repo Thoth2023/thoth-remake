@@ -14,7 +14,8 @@ class Level extends Model{
 
     protected $fillable = [
         'level',
-        'description',
+        'description', 
+        'permissions',
     ]; 
 
     protected $primaryKey = 'id_level';
@@ -29,6 +30,14 @@ class Level extends Model{
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'user_levels')
+                    ->withTimestamps();
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_user')
+                    ->withPivot('level_id')
+                    ->withTimestamps();
     }
 }

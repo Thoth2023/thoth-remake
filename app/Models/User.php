@@ -72,9 +72,17 @@ class User extends Model implements AuthenticatableContract
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function level()
+    public function projectslevels()
     {
-        return $this->belongsToMany(Level::class);
+        return $this->belongsToMany(Project::class, 'project_user')
+                    ->withPivot('level_id')
+                    ->withTimestamps();
+    }
+
+    public function levels()
+    {
+        return $this->belongsToMany(Level::class, 'user_levels')
+                    ->withTimestamps();
     }
     
 }
