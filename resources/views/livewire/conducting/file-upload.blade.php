@@ -65,29 +65,58 @@
                 </div>
             </div>
             <hr style="opacity: 10%" />
-            <div class="overflow-auto px-2 py-1" style="max-height: 300px">
+            <div class="overflow-auto px-2 py-1" style="max-height: 500px">
                 <table class="table table-responsive table-hover">
                     <thead
                         class="table-light sticky-top custom-gray-text"
                         style="color: #676a72"
                     >
-                        <th
-                            style="
-                                border-radius: 0.75rem 0 0 0;
-                                padding: 0.5rem 1rem;
-                            "
-                        >
-                            {{ __("project/conducting.import-studies.table.database") }}
-                        </th>
-                        <th style="padding: 0.5rem 0.75rem">
-                            {{ __("project/conducting.import-studies.table.studies-imported") }}
-                        </th>
+                        <tr>
+                            <th
+                                style="
+                                    border-radius: 0.75rem 0 0 0;
+                                    padding: 0.5rem 1rem;
+                                "
+                            >
+                                {{ __("project/conducting.import-studies.table.database") }}
+                            </th>
+                            <th style="padding: 0.5rem 0.75rem">
+                                Files uploaded
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($databases as $database)
+                            @php
+                                $dbFiles = $files->where("id_database", $database->id_database);
+                                $rowCount = $dbFiles->count();
+                            @endphp
+
                             <tr>
-                                <td>{{ $database->name }}</td>
-                                <td></td>
+                                <td class="align-middle">
+                                    {{ $database->name }}
+                                </td>
+                                <td class="align-middle">
+                                    @if ($rowCount > 0)
+                                        <ul class="list-group">
+                                            @foreach ($dbFiles as $file)
+                                                <li
+                                                    class="list-group-item ml-4"
+                                                >
+                                                    {{ $file->file_name }}
+                                                    <button
+                                                        class="pl-4 btn py-1 px-3 btn-outline-danger"
+                                                        wire:click="deleteFile('{{ $file->id }}')"
+                                                    >
+                                                        <i
+                                                            class="fas fa-trash"
+                                                        ></i>
+                                                    </button>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\File;
 use App\Models\Project as ProjectModel;
+use Illuminate\Support\Facades\Storage;
 
 class FileUpload extends Component
 {
@@ -72,6 +73,26 @@ class FileUpload extends Component
     );
 
     $this->resetFields();
+  }
+
+  public function deleteFile($id)
+  {
+    $file = File::findOrFail($id);
+
+    try {
+      Storage::delete('files/' . $file->file_name);
+      $file->delete();
+
+      $this->toast(
+        message: 'File deleted successfully.',
+        type: 'success'
+      );
+    } catch (\Exception $e) {
+      $this->toast(
+        message: 'An error occurred while deleting the file.',
+        type: 'error'
+      );
+    }
   }
 
   public function render()
