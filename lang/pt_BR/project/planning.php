@@ -649,6 +649,7 @@ return [
             'question' => 'Pergunta',
             'option' => 'Opção',
             'add-option' => 'Adicionar Opção',
+            'edit-option' => 'Editar Opção'
         ],
         'table' => [
             'header' => [

@@ -36,6 +36,16 @@ class DataExtraction extends Component
         $this->dispatch('data-extraction-table-delete-question', $data['id']);
     }
 
+    public function editOption($data)
+    {
+        $this->dispatch('data-extraction-table-edit-option', $data['id_option']);
+    }
+
+    public function deleteOption($data)
+    {
+        $this->dispatch('data-extraction-table-delete-option', $data['id_option']);
+    }
+
     public function render()
     {
         return view('livewire.planning.data-extraction.data-extraction')

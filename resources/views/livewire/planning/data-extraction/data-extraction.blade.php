@@ -64,11 +64,15 @@
                                             </span>
                                             <div>
                                                 <button
+                                                    type="button"
+                                                    wire:click="editOption({{ $option }})"
                                                     class="btn btn-outline-secondary py-0 px-3 m-0"
                                                 >
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button
+                                                    type="button"
+                                                    wire:click="deleteOption({{ $option }})"
                                                     class="btn btn-outline-danger py-0 px-3 m-0"
                                                 >
                                                     <i class="fas fa-trash"></i>

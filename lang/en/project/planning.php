@@ -651,6 +651,7 @@ return [
             'question' => 'Question',
             'option' => 'Option',
             'add-option' => 'Add Option',
+            'edit-option' => 'Edit Option'
         ],
         'table' => [
             'header' => [
