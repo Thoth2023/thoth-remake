@@ -19,6 +19,7 @@ return[
     'contact_information' => 'Informações de Contato',
     'save' => 'Salvar',
     'cancel' => 'Cancelar',
+    'delete' => 'Deletar',
     'your_profile' => 'Seu Perfil',
     'user_name' => 'Nome de Usuário'
 

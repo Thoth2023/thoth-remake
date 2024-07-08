@@ -76,11 +76,4 @@ class User extends Model implements AuthenticatableContract
     {
         return $this->belongsToMany(Level::class);
     }
-    
-
-
-    public function level()
-    {
-        return $this->belongsTo(Level::class);
-    }
 }
