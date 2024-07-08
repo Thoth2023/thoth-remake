@@ -27,8 +27,8 @@ return [
         'options' => [
             'delete' => 'Deletar',
             'edit' => 'Editar',
-            'view' => 'Visualizar',
-            'add_member' => 'Adicionar Membro',
+            'view' => 'Abrir',
+            'add_member' => 'Colaboradores',
         ],
     ],
 ];
