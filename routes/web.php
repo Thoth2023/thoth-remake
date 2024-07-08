@@ -31,6 +31,7 @@ use App\Http\Controllers\Project\ReportingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\StudyController;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -96,6 +97,8 @@ Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_p
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
+
+Route::get('/study/{id}', [StudyController::class, 'show'])->name('study.show');
 
 // Project Routes
 Route::prefix('/project/{projectId}')->group(function () {

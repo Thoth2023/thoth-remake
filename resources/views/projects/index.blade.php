@@ -70,7 +70,9 @@
                                                             <h6
                                                                 class="mb-0 text-sm"
                                                             >
-                                                                {{ $project->title }}
+                                                                <a href="{{ route('study.show', $project->id_project) }}">
+                                                                    {{ $project->title }}
+                                                                </a>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -190,4 +192,3 @@
         </div>
         @include("layouts.footers.auth.footer")
     </div>
-@endsection
