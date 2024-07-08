@@ -8,7 +8,7 @@
             />
         </div>
         <div class="card-body">
-            <form wire:submit="submit" class="d-flex flex-column">
+            <form wire:submit.prevent="submit" class="d-flex flex-column">
                 <div class="d-flex flex-column gap-2 form-group">
                     <x-input
                         class="w-md-25 w-100"
@@ -96,6 +96,17 @@
                                 </div>
                             </x-helpers.submit-button>
                         </div>
+                    </div>
+                    <div class="mt-2">
+                        <ul class="list-group">
+                            @foreach ($synonymSuggestions as $suggestion)
+                                @foreach ($suggestion["synonyms"] as $synonym)
+                                    <li class="list-group-item">
+                                        {{ $synonym }}
+                                    </li>
+                                @endforeach
+                            @endforeach
+                        </ul>
                     </div>
                 </form>
             </div>

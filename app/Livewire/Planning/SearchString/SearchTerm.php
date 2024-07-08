@@ -5,6 +5,7 @@ namespace App\Livewire\Planning\SearchString;
 use App\Models\Term;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
+use App\Utils\AlgoliaSynonyms;
 use App\Models\Project as ProjectModel;
 use App\Models\Term as SearchTermModel;
 use App\Models\Synonym as SynonymModel;
@@ -21,6 +22,7 @@ class SearchTerm extends Component
     public $currentTerm;
     public $currentSynonym;
     public $terms = [];
+    public $synonymSuggestions = [];
 
     /**
      * Fields to be filled by the form.
@@ -271,17 +273,38 @@ class SearchTerm extends Component
         }
     }
 
+    public function getSynonymSuggestions()
+    {
+        if (!$this->synonym) {
+            $this->synonymSuggestions = [];
+            return;
+        }
+
+        $algolia = new AlgoliaSynonyms();
+        $results = $algolia->searchSynonyms($this->synonym);
+
+        $this->synonymSuggestions = $results['hits'] ?? [];
+    }
+
+
+    public function updatedSynonym()
+    {
+        $this->getSynonymSuggestions();
+    }
+
     /**
      * Render the component.
      */
     public function render()
     {
         $project = $this->currentProject;
+        $synonymSuggestions = $this->synonymSuggestions;
 
         return view(
             'livewire.planning.search-string.search-term',
             compact(
                 'project',
+                'synonymSuggestions'
             )
         )->extends('layouts.app');
     }
