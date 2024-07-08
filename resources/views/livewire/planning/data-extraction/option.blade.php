@@ -9,27 +9,33 @@
     <div class="card-body">
         <form wire:submit="submit" class="d-flex flex-column">
             <div class="form-group mt-3 d-flex flex-column gap-4">
-                <x-select
-                    id="questionId"
-                    label="{{ __('project/planning.data-extraction.option-form.question') }}"
-                    wire:model="questionId"
-                >
-                    <option selected disabled>
-                        {{ __("Selecione uma pergunta") }}
-                    </option>
-                    @foreach ($project->dataExtractionQuestions as $question)
-                        @if (in_array($question->question_type->type, ["Multiple Choice List", "Pick One List"]))
-                            <option value="{{ $question->id_de }}" <?= $question->id_de === $currentOption->id_de ? 'selected' : '' ?>>
-                                {{ $question->id }}
-                            </option>
-                        @endif
-                    @endforeach
-                </x-select>
-                @error("questionId")
-                    <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
+                <div class="d-flex flex-column gap-1">
+                    <x-select
+                        id="questionId"
+                        label="{{ __('project/planning.data-extraction.option-form.question') }}"
+                        wire:model="questionId"
+                        required
+                    >
+                        <option selected disabled>
+                            {{ __("Selecione uma pergunta") }}
+                        </option>
+                        @foreach ($project->dataExtractionQuestions as $question)
+                            @if (in_array($question->question_type->type, ["Multiple Choice List", "Pick One List"]))
+                                <option
+                                    value="{{ $question->id_de }}"
+                                    <?= $question->id_de === ($currentOption->id_de ?? "") ? "selected" : "" ?>
+                                >
+                                    {{ $question->id }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </x-select>
+                    @error("questionId")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
 
                 <x-input
                     id="description"
@@ -37,6 +43,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    required
                 />
                 @error("description")
                     <span class="text-xs text-danger">

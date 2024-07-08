@@ -13,6 +13,7 @@
                     wire:model="startDate"
                     type="date"
                     label="{{ __('project/planning.overall.dates.start_date') }}"
+                    required
                 />
                 @error("startDate")
                     <span class="text-xs text-danger">
@@ -24,6 +25,7 @@
                     wire:model="endDate"
                     type="date"
                     label="{{ __('project/planning.overall.dates.end_date') }}"
+                    required
                 />
                 @error("endDate")
                     <span class="text-xs text-danger">

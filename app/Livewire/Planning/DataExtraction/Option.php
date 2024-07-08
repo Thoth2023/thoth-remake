@@ -16,7 +16,7 @@ class Option extends Component
     public $currentOption;
     public $options = [];
     public $optionId;
-    public $questionId;
+    public $questionId = [];
 
     /**
      * Fields to be filled by the form.
@@ -72,8 +72,9 @@ class Option extends Component
     private function resetFields()
     {
         $this->optionId = null;
-        $this->description = '';
-        $this->questionId = '';
+        $this->description = null;
+        $this->questionId['value'] = $this->currentProject
+            ->dataExtractionQuestions->first()->id_de ?? null;
         $this->form['isEditing'] = false;
     }
 
@@ -149,7 +150,7 @@ class Option extends Component
         $this->currentOption = OptionModel::findOrFail($optionId);
         $this->optionId = $this->currentOption->id;
         $this->description = $this->currentOption->description;
-        $this->questionId = $this->currentOption->id_de;
+        $this->questionId['value'] = $this->currentOption->id_de;
         $this->form['isEditing'] = true;
 
     }
@@ -157,7 +158,7 @@ class Option extends Component
     /**
      * Delete an item.
      */
-   #[On('data-extraction-table-delete-option')]
+    #[On('data-extraction-table-delete-option')]
     public function delete(string $optionId)
     {
         try {
