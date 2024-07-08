@@ -10,7 +10,7 @@ class ProjectDatabases extends Model
 
     protected $primaryKey = 'id_project_database';
 
-    protected $fillable = ['id_project', 'id_database'];
+    protected $fillable = ['id_project', 'id_database', 'search_string'];
 
     public function project()
     {

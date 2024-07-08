@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\SearchString;
 
+use App\Models\ProjectDatabases;
 use App\Utils\AlgoliaSynonyms;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
@@ -10,6 +11,7 @@ use App\Models\SearchString as SearchStringModel;
 use App\Models\Term;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Models\ProjectDatabase;
 
 class SearchString extends Component
 {
@@ -49,9 +51,9 @@ class SearchString extends Component
         $toasts = 'project/planning.search-string.livewire.toasts';
 
         return [
+            'updated-string' => __($toasts . '.updated-search-string'),
+            'generated' => __($toasts . '.generated'),
             'updated' => __($toasts . '.updated'),
-            'added' => __($toasts . '.added'),
-            'deleted' => __($toasts . '.deleted'),
         ];
     }
 
@@ -76,11 +78,15 @@ class SearchString extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentSearchString = null;
-        $algolia = new AlgoliaSynonyms();
-        $algolia->createSynonym('avenue');
+        //$algolia = new AlgoliaSynonyms();
+        //$algolia->createSynonym('avenue');
+        $projectDatabases = ProjectDatabases::where([
+            'id_project' => $this->currentProject->id_project
+        ])->get();
+        $this->genericDescription = $this->currentProject->generic_search_string;
 
-        foreach ($this->currentProject->databases as $database) {
-            $this->databases[$database->id] = '';
+        foreach ($projectDatabases as $index => $database) {
+            $this->descriptions[$index] = $database->search_string;
         }
     }
 
@@ -189,6 +195,7 @@ class SearchString extends Component
                 break;
         }
 
+        $this->saveGenericSearchString();
         return $searchString;
     }
 
@@ -206,9 +213,35 @@ class SearchString extends Component
     {
         foreach ($this->currentProject->databases as $index => $database) {
             $this->formatSearchStringByDatabase($index, $database->name);
+            $this->saveSearchString($database->id_database, $index);
         }
+
+        $this->toast(
+            message: __($this->toastMessages . '.generated'),
+            type: 'success'
+        );
     }
 
+    public function saveGenericSearchString()
+    {
+        $this->currentProject->update(['generic_search_string' => $this->genericDescription]);
+        $this->toast(
+            message: __($this->toastMessages . '.updated-string'),
+            type: 'success'
+        );
+    }
+
+    public function saveSearchString($id_database, $index)
+    {
+        ProjectDatabase::where('id_project', $this->currentProject->id_project)
+            ->where('id_database', $id_database)
+            ->update(['search_string' => $this->descriptions[$index]]);
+
+        $this->toast(
+            message: __($this->toastMessages . '.updated-string'),
+            type: 'success'
+        );
+    }
     /**
      * Render the component.
      */

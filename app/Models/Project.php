@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Project extends Model 
+class Project extends Model
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name
@@ -33,6 +33,7 @@ class Project extends Model
         'objectives',
         'created_by',
         'feature_review',
+        'generic_search_string',
     ];
 
     public function users()
@@ -233,11 +234,11 @@ class Project extends Model
         foreach ($sourceProject->domains as $domain) {
             $this->domains()->create($domain->toArray());
         }
-        
+
         $this->save();
     }
 
-    public function userHasLevel(User $user, String $level): bool
+    public function userHasLevel(User $user, string $level): bool
     {
         return $this->users()
             ->wherePivot('id_user', $user->id)
