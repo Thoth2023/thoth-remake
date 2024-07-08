@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Spatie\Permission\Traits\HasRoles;
 use App\Models\Project\Planning\DataExtraction\Question as DataExtractionQuestion;
 use App\Models\Project\Planning\QualityAssessment\GeneralScore;
 use App\Models\Project\Planning\QualityAssessment\Question as QualityAssessmentQuestion;
@@ -25,7 +24,6 @@ class Project extends Model
     protected $primaryKey = 'id_project';
     public $timestamps = false;
 
-    use HasRoles;
     use HasFactory;
 
     protected $fillable = [
@@ -246,7 +244,5 @@ class Project extends Model
             ->wherePivot('level', $level)
             ->exists();
     }
-
-
 
 }

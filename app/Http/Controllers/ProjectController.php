@@ -279,23 +279,4 @@ class ProjectController extends Controller
 
         return $userId;
     }
-
-
-    public function addUserToProject(Request $request, Project $project)
-    {
-        $user = User::where('email', $request->email)->firstOrFail();
-        $level = Level::find($request->level_id);
-        $project->users()->attach($user, ['level_id' => $level->id]);
-    }
-
-    public function changeUserLevel(Request $request, Project $project, User $user)
-    {
-        $level = Level::find($request->level_id);
-        $project->users()->updateExistingPivot($user->id, ['level_id' => $level->id]);
-    }
-
-    public function removeUserFromProject(Project $project, User $user)
-    {
-        $project->users()->detach($user->id);
-    }
 }
