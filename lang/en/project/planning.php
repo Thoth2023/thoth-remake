@@ -378,8 +378,9 @@ return [
         ],
     ],
     'search-string' => [
+        'generate-all' => 'Generate All Search Strings',
         'title' => 'Search String',
-        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add, edit, or delete search terms to refine your search string and improve the accuracy of your search results.',
+        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add search strings to each database to refine your search and improve the accuracy of your search results.',
         'form' => [
             'description' => 'Generic search string',
             'enter-description' => 'Enter search string description',
@@ -387,15 +388,23 @@ return [
             'update' => 'Update Search String',
             'placeholder' => 'Enter the search string',
         ],
+        'livewire' => [
+            'toasts' => [
+                'generated' => 'Search Strings generated successfully.',
+                'updated-string' => 'Search String updated successfully.',
+            ],
+        ],
         'term' => [
+            'title' => 'Search Term',
+            'help' => 'Search terms are keywords that you use to search for relevant literature in databases. Add, edit, or delete search terms to refine your search string and improve the accuracy of your search results.',
             'form' => [
-                'title' => 'Search Term',
+                'title' => 'Term',
                 'placeholder' => 'Enter the search term',
                 'synonyms' => 'Synonyms',
                 'update' => 'Update Search Term',
                 'add' => 'Add Search Term',
-                'select' => 'Search Tems',
-                'select-placeholder' => 'Select a Search Term',
+                'select' => 'Search Terms',
+                'select-placeholder' => 'Select a term',
             ],
             'table' => [
                 'description' => 'Search Term',
@@ -408,6 +417,9 @@ return [
                     'required' => 'The search term field is required.',
                 ],
                 'toasts' => [
+                    'generated' => 'Search Strings generated successfully.',
+                    'updated-string' => 'Search String updated successfully.',
+                    'saved' => 'Search String saved successfully.',
                     'added' => 'Search Term added successfully.',
                     'updated' => 'Search Term updated successfully.',
                     'deleted' => 'Search Term deleted successfully.',
@@ -464,7 +476,7 @@ return [
             'select-exclusion' => 'Exclusion',
         ],
         'inclusion-table' => [
-            'title' => 'Inclusion Criteri',
+            'title' => 'Inclusion Criteria',
             'select' => 'Select',
             'id' => 'ID',
             'description' => 'Description',
@@ -481,7 +493,8 @@ return [
             'all' => 'All',
             'any' => 'Any',
             'at-least' => 'At Least',
-            'empty' => 'No criteria found'
+            'empty' => 'No criteria found',
+            'actions' => 'Actions',
         ],
         'livewire' => [
             'description' => [
