@@ -34,11 +34,7 @@ class OverallController extends Controller
 
     public function index(string $id_project) {
     
-        $project = Project::findOrFail($id_project);
-
-       
-
-        
+        $project = Project::findOrFail($id_project);        
         $generalscore = GeneralScoreModel::where('id_project', $project->id_project)->get();
         
         $this->projectId = request()->segment(2);
@@ -55,14 +51,11 @@ class OverallController extends Controller
     
         $currentQuestion = QuestionsModel::where('id_project', $this->projectId)->get();
 
-        
-
-       
-
         $progress = 50;
 
         // Pass $progress to the view
         return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion', 'progress'));
+
     }
     
 
@@ -71,15 +64,7 @@ class OverallController extends Controller
     {
         $projectId = request()->segment(2);
 
-        // Debug the projectId
-        dd('Project ID: ' . $projectId);
-
         $this->currentProject = ProjectModel::findOrFail($projectId);
-
-        // Debug the currentProject
-        dd($this->currentProject);
-
-
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentGeneralScore = null;
         $this->generalscore = GeneralScoreModel::where(
@@ -87,7 +72,8 @@ class OverallController extends Controller
             $this->currentProject->id_project
         )->get();
 
-        dd($this->generalscore);
+      
     }
     
+
 }

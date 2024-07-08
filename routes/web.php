@@ -198,8 +198,9 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 
     Route::prefix('/conducting')->group(function () {
-        Route::get('/', [OverallConductingController::class, 'index'])
-            ->name('conducting.index')
+
+        Route::get('/', [ConductingController::class, 'index'])
+            ->name('project.conducting.index')
             ->middleware('auth')
             ->middleware(Localization::class);
     });

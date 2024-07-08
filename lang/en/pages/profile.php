@@ -1,11 +1,16 @@
 <?php
 return [
     'profile' => 'Profile',
-    'username' => 'Username',
-    'email' => 'Email Address',
-    'institution' => 'Institution',
-    'first_name' => 'First Name',
-    'last_name' => 'Last Name',
+    'your_profile' => 'Your Profile',
+    'edit_profile' => 'Edit Profile',
+    'save' => 'Save',
+    'user_information' => 'USER INFORMATION',
+    'user_name' => 'Username',
+    'email' => 'Email address',
+    'first_name' => 'First name',
+    'last_name' => 'Last name',
+
+    'contact_information' => 'CONTACT INFORMATION',
     'address' => 'Address',
     'city' => 'City',
     'country' => 'Country',
