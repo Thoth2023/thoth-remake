@@ -3,7 +3,6 @@
 namespace App\Livewire\Planning\SearchString;
 
 use App\Models\ProjectDatabases;
-use App\Utils\AlgoliaSynonyms;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Models\Project as ProjectModel;
@@ -78,8 +77,7 @@ class SearchString extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentSearchString = null;
-        //$algolia = new AlgoliaSynonyms();
-        //$algolia->createSynonym('avenue');
+
         $projectDatabases = ProjectDatabases::where([
             'id_project' => $this->currentProject->id_project
         ])->get();

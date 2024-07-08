@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\SearchString;
 
+use App\Models\Term;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Models\Project as ProjectModel;
@@ -9,6 +10,7 @@ use App\Models\Term as SearchTermModel;
 use App\Models\Synonym as SynonymModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use Illuminate\Support\Facades\Http;
 
 class SearchTerm extends Component
 {
@@ -26,6 +28,10 @@ class SearchTerm extends Component
     public $description;
     public $termId;
     public $synonym;
+
+    public $api;
+    public $synonyms = [];
+    public $loading = false;
 
     /**
      * Form state.
@@ -65,6 +71,7 @@ class SearchTerm extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
+        $this->terms = Term::all();
     }
 
     /**
@@ -188,13 +195,17 @@ class SearchTerm extends Component
 
         $this->currentTerm = SearchTermModel::findOrFail($this->termId)->first();
 
+        $updateIf = [
+            'id_term' => $this->currentTerm?->id_term,
+        ];
+
         try {
             $value = $this->form['isEditing'] ? 'Updated the synonym' : 'Added a synonym';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
                 ? '.updated' : '.added'));
 
-            $created = SynonymModel::create([
-                'id_term' => $this->currentTerm?->id_term,
+            $created = SynonymModel::updateOrCreate($updateIf, [
+                'id_term' => $this->currentTerm->id_term,
                 'description' => $this->synonym,
             ]);
 
@@ -209,6 +220,47 @@ class SearchTerm extends Component
                 message: $toastMessage,
                 type: 'success'
             );
+        } catch (\Exception $e) {
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
+        } finally {
+            $this->resetFields();
+        }
+    }
+
+    /**
+     * Fill the form fields with the given data.
+     */
+    public function editSynonym($termId)
+    {
+        $this->currentSynonym = SynonymModel::findOrFail($termId);
+        $this->synonym = $this->currentSynonym->description;
+        $this->termId = $this->currentSynonym->id_term;
+        $this->form['isEditing'] = true;
+    }
+
+    /**
+     * Delete a synonym.
+     */
+    public function deleteSynonym(string $termId)
+    {
+        try {
+            $currentSynonym = SynonymModel::findOrFail($termId);
+            $currentSynonym->delete();
+
+            Log::logActivity(
+                action: 'Deleted the synonym',
+                description: $currentSynonym->description,
+                projectId: $this->currentProject->id_project
+            );
+
+            $this->toast(
+                message: __($this->toastMessages . '.deleted'),
+                type: 'success'
+            );
+            $this->updateTerms();
         } catch (\Exception $e) {
             $this->toast(
                 message: $e->getMessage(),

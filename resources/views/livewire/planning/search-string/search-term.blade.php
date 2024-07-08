@@ -3,8 +3,8 @@
         <div class="card-header mb-2 pb-0">
             <x-helpers.modal
                 target="search-string"
-                modalTitle="{{ __('project/planning.search-string.title') }}"
-                modalContent="{{ __('project/planning.search-string.help') }}"
+                modalTitle="{{ __('project/planning.search-string.term.title') }}"
+                modalContent="{{ __('project/planning.search-string.term.help') }}"
             />
         </div>
         <div class="card-body">
@@ -105,13 +105,13 @@
                         class="table-light sticky-top custom-gray-text"
                         style="color: #676a72"
                     >
-                        <th></th>
                         <th
                             style="
                                 padding: 0.5rem 0.75rem;
                                 border-radius: 0.75rem 0 0 0;
                             "
-                        >
+                        ></th>
+                        <th>
                             {{ __("project/planning.search-string.term.table.description") }}
                         </th>
                         <th
@@ -166,6 +166,7 @@
                                                 </span>
                                                 <div>
                                                     <button
+                                                        wire:click="editSynonym('{{ $synonym->id_synonym }}')"
                                                         class="btn btn-outline-secondary py-0 px-3 m-0"
                                                     >
                                                         <i
@@ -174,6 +175,9 @@
                                                     </button>
                                                     <button
                                                         class="btn btn-outline-danger py-0 px-3 m-0"
+                                                        wire:click="deleteSynonym('{{ $synonym->id_synonym }}')"
+                                                        wire:target="deleteSynonym('{{ $synonym->id_synonym }}')"
+                                                        wire:loading.attr="disabled"
                                                     >
                                                         <i
                                                             class="fas fa-trash"
@@ -206,7 +210,6 @@
     <script>
         $wire.on('terms', ([{ message, type }]) => {
             toasty({ message, type });
-            console.log(message, type);
         });
     </script>
 @endscript
