@@ -1,4 +1,4 @@
-<div class="search-bar w-25 mb-4">
-    <x-search.input class="mt-3" target="search-papers" />
+<div class="d-flex input-group justify-self-end" style="width: 18rem;">
+    <x-search.input class="form-control" target="search-papers" placeholder="Search..." aria-label="Search" />
 </div>
 

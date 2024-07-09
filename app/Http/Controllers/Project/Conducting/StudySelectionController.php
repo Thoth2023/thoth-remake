@@ -8,14 +8,16 @@ use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
 use App\Models\Project\Conducting\StudySelection;
 use App\Models\ProjectDatabases;
+use App\Models\StatusSelection;
 use Illuminate\Http\Request;
 
 class StudySelectionController extends Controller
 {   
 
+
     public function index($projectId) {
 
-        $currentProject = Project::findOrFail($projectId);
+        $projectId = request()->segment(2);
 
         $idsDatabase = ProjectDatabases::where('id_project', $projectId)->pluck('id_project_database');
 
@@ -26,9 +28,13 @@ class StudySelectionController extends Controller
         }
 
         $papers = Papers::whereIn('id_bib', $idsBib)->get();
-        
-        return view('project.conducting.study-selection.index', compact('papers'));
+    
+        return view('project.conducting.study-selection.index', [
+            'papers' => $papers,
+        ]);
     }
+
+    
     
     
 }

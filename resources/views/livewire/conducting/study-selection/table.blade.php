@@ -1,8 +1,4 @@
 <div>
-    <div class="progress mb-3">
-        <div class="progress-bar" role="progressbar" style="width: {{ count($papers) ? (count($papers->where('status', 'Accepted')) / count($papers) * 100) : 0 }}%;" aria-valuenow="{{ count($papers) ? (count($papers->where('status', 'Accepted')) / count($papers) * 100) : 0 }}" aria-valuemin="0" aria-valuemax="100">Progress Study Selection</div>
-    </div>
-    @livewire("conducting.study-selection.search")
     <ul class='list-group'>
         <li class='list-group-item d-flex'>    
             <div class='w-5 pl-2'>
@@ -107,18 +103,10 @@
                 <div class='w-15'>
                     <b data-search>{{ $paper['data_base'] }}</b>
                 </div>
-                <div class='w-15'>
-                    @if(isset($editingStatus[$paper->id]))
-                        <select wire:model="editingStatus.{{ $paper->id }}" wire:change="updateStatus({{ $paper->id }}, $event.target.value)">
-                            @foreach($statuses as $status)
-                                <option value="{{ $status }}">{{ $status }}</option>
-                            @endforeach
-                        </select>
-                    @else
-                        <b wire:click="$set('editingStatus.{{ $paper->id }}', '{{ $paper->status }}')" data-search>
-                            {{ $paper->status }}
-                        </b>
-                    @endif
+                <div class='w-15'>      
+                    <b data-search>
+                        {{ $paper->status }}
+                    </b>
                 </div>
                 <a class='btn btn-light w-5' href="{{ $paper->url }}" wire:custom-directive>
                     <i class="fa fa-solid fa-share"></i>
@@ -136,17 +124,3 @@
     </ul>   
 </div>
 
-@script
-<script>
-  Livewire.directive('custom-directive', {
-    bind: function (el, binding, vnode) {
-      el.addEventListener('click', function (event) {
-        if (event.ctrlKey || event.metaKey) {
-          event.preventDefault();
-          window.open(binding.value);
-        }
-      });
-    },
-  });
-</script>
-@endscript

@@ -15,6 +15,7 @@ class Papers extends Model
 
     public $timestamps = false;
 
+    protected $fillable = ['title'];
 
     public function database()
     {
@@ -24,6 +25,11 @@ class Papers extends Model
     public function status_selection()
     {
         return $this->belongsTo(StatusSelection::class, 'status_selection', 'id_status_selection');
+    }
+
+    public static function isDuplicate($title, $id)
+    {
+        return self::where('title', $title)->where('id_paper', '!=', $id)->exists();
     }
 
     public function ScopeFindPapersByIdProject($query, $projectId)

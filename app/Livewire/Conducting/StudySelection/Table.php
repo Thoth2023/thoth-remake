@@ -26,6 +26,11 @@ class Table extends Component
     public $projectId;
 
     public $papers;
+
+    public $criterias;
+
+    
+
     /**
      * The sort fields.
      * 
@@ -51,10 +56,11 @@ class Table extends Component
             __('project/conducting.study-selection.status.approved'),
         ];
 
-        $projectId = request()->segment(2);
-        $this->currentProject = Project::findOrFail($projectId);
+        $this->projectId = request()->segment(2);
+        
+        $this->currentProject = Project::findOrFail($this->projectId);
 
-        $idsDatabase = ProjectDatabases::where('id_project', $projectId)->pluck('id_project_database');
+        $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
 
         $idsBib = [];
 
@@ -62,13 +68,13 @@ class Table extends Component
             $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         }
 
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
+        $this->setupCriteria();
         
+        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
+
         $this->papers = $this->setupDatabase($this->papers);
-        $this->papers = $this->setupCriteria($this->papers);
         $this->papers = $this->setupStatus($this->papers);
         $this->papers = $this->setupDuplicates($this->papers);
-        
     }
 
     private function setupDuplicates($papers): Collection
@@ -96,17 +102,10 @@ class Table extends Component
 
 
 
-    private function setupCriteria($papers)
+    private function setupCriteria()
     {
         $criterias = Criteria::where('id_project', $this->projectId)->get();
-        
-        foreach($criterias as $criteria) {
-            foreach($papers as $paper) {
-                
-            }
-        }
-
-        return $papers;
+        $this->criterias = $criterias;
     }
 
     private function setupDatabase($papers) 
@@ -122,13 +121,14 @@ class Table extends Component
 
     public function openPaper($paper)
     {
-        $this->dispatch('showPaper', paper: $paper);
+        $this->dispatch('showPaper', paper: $paper , criterias: $this->criterias);
     }
 
     private function setupStatus($papers)
     {
         foreach($papers as $paper) {
-            $paper['status'] = "Selecionar";
+            $status = StatusSelection::where('id_status', $paper->status_selection)->first();
+            $paper['status'] = $status->description;
         }
         return $papers;
     }

@@ -9,7 +9,15 @@ class EvaluationCriteria extends Model
 {
     use HasFactory;
 
-    private $table = 'evaluation_criteria';
+    protected $table = 'evaluation_criteria';
+
+    protected $fillable = [
+        'id_paper',
+        'id_criteria',
+        'id_member',
+    ];
+
+    public $timestamps = false;
 
 
     public function criteria() {
