@@ -31,7 +31,7 @@ class PaperModal extends Component
             ]);
         }
 
-        $paper = Papers::find($this->paper['id_paper']);
+        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
         $status = StatusSelection::where('description', $this->selected_status)->first();
         $paper->status_selection = $status->id_status;
 
