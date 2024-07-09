@@ -17,6 +17,7 @@
                         label="{{ __('project/planning.search-string.term.form.title') }}"
                         wire:model="description"
                         placeholder="{{ __('project/planning.search-string.term.form.placeholder') }}"
+                        required
                     />
                     @error("description")
                         <span class="text-xs text-danger">
@@ -39,12 +40,13 @@
                     </x-helpers.submit-button>
                 </div>
             </form>
-            <div class="d-flex gap-4">
-                <div class="w-md-25 w-100">
+            <div class="d-flex gap-3">
+                <div class="w-md-50 w-100">
                     <x-select
                         wire:model="termId"
                         label="{{ __('project/planning.search-string.term.form.select') }}"
                         wire:change="getSynonymSuggestions($event.target.value)"
+                        required
                     >
                         <option selected disabled>
                             {{ __("project/planning.search-string.term.form.select-placeholder") }}
@@ -77,6 +79,7 @@
                                 label="{{ __('project/planning.search-string.synonym.form.title') }}"
                                 wire:model="synonym"
                                 placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                                required
                             />
                             @error("synonym")
                                 <span class="text-xs text-danger">
