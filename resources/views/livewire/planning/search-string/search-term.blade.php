@@ -44,12 +44,16 @@
                     <x-select
                         wire:model="termId"
                         label="{{ __('project/planning.search-string.term.form.select') }}"
+                        wire:change="getSynonymSuggestions($event.target.value)"
                     >
                         <option selected disabled>
                             {{ __("project/planning.search-string.term.form.select-placeholder") }}
                         </option>
                         @foreach ($terms as $term)
-                            <option value="{{ $term->id_term }}">
+                            <option
+                                value="{{ $term->id_term }}"
+                                <?= $term->id_term == ($termId["value"] ?? "") ? "selected" : "" ?>
+                            >
                                 {{ $term->description }}
                             </option>
                         @endforeach
@@ -64,7 +68,10 @@
                     wire:submit="addSynonyms"
                     class="d-flex flex-column w-md-25 w-100"
                 >
-                    <div class="d-flex gap-2 form-group w-100">
+                    <div
+                        class="d-flex gap-2 form-group w-100"
+                        style="margin-bottom: 5px"
+                    >
                         <x-input
                             maxlength="50"
                             id="synonym"
@@ -97,16 +104,44 @@
                             </x-helpers.submit-button>
                         </div>
                     </div>
-                    <div class="mt-2">
-                        <ul class="list-group">
-                            @foreach ($synonymSuggestions as $suggestion)
-                                @foreach ($suggestion["synonyms"] as $synonym)
-                                    <li class="list-group-item">
-                                        {{ $synonym }}
-                                    </li>
-                                @endforeach
-                            @endforeach
-                        </ul>
+                    <div
+                        style="
+                            max-height: 150px;
+                            overflow-y: auto;
+                            margin: 0;
+                            margin-bottom: 1rem;
+                        "
+                    >
+                        @foreach ($synonymSuggestions as $suggestion)
+                            @if ($synonym !== $suggestion)
+                                <div
+                                    class="d-flex align-items-center gap-2 form-group w-100 my-0"
+                                >
+                                    <x-input
+                                        value="{{ $suggestion }}"
+                                        placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                                        class="my-0"
+                                        {{-- style="border-radius: 0 0 0 0" --}}
+                                    />
+                                    <button
+                                        type="button"
+                                        class="btn btn-success"
+                                        wire:click="addSuggestionSynonym('{{ $suggestion }}')"
+                                        style="
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            width: 38px;
+                                            height: 38px;
+                                            padding: 5px;
+                                            margin: 0;
+                                        "
+                                    >
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                 </form>
             </div>
