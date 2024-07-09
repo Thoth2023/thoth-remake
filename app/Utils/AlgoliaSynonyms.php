@@ -30,8 +30,17 @@ class AlgoliaSynonyms
   public function searchSynonyms($query, $indexName = "synonyms")
   {
     $index = $this->client->initIndex($indexName);
-    $results = $index->searchSynonyms($query);
+    $results = $index->searchSynonyms($query, [
+      'hitsPerPage' => 10,
+    ]);
 
-    return $results;
+    $allSynonyms = [];
+    foreach ($results['hits'] as $hit) {
+      $allSynonyms = array_merge($allSynonyms, $hit['synonyms']);
+    }
+
+    $slicedSynonyms = array_slice($allSynonyms, 0, 10);
+
+    return $slicedSynonyms;
   }
 }

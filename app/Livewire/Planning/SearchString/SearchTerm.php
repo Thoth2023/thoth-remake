@@ -81,9 +81,10 @@ class SearchTerm extends Component
      */
     public function resetFields()
     {
+        $this->currentSynonym = null;
+        $this->currentTerm = null;
         $this->synonym = '';
         $this->description = '';
-        $this->currentTerm = null;
         $this->form['isEditing'] = false;
     }
 
@@ -159,6 +160,11 @@ class SearchTerm extends Component
         $this->form['isEditing'] = true;
     }
 
+    public function populateSuggestionsSynonyms($value)
+    {
+        $this->synonym = $value;
+    }
+
     /**
      * Delete an item.
      */
@@ -191,14 +197,12 @@ class SearchTerm extends Component
 
     public function addSynonyms()
     {
-        if (!$this->termId || !$this->synonym) {
+        if (!$this->termId['value'] || !$this->synonym) {
             $this->addError('termId', 'The term id is required');
         }
 
-        $this->currentTerm = SearchTermModel::findOrFail($this->termId)->first();
-
         $updateIf = [
-            'id_term' => $this->currentTerm?->id_term,
+            'id_synonym' => $this->currentSynonym?->id_synonym,
         ];
 
         try {
@@ -207,7 +211,7 @@ class SearchTerm extends Component
                 ? '.updated' : '.added'));
 
             $created = SynonymModel::updateOrCreate($updateIf, [
-                'id_term' => $this->currentTerm->id_term,
+                'id_term' => $this->termId['value'],
                 'description' => $this->synonym,
             ]);
 
@@ -238,8 +242,9 @@ class SearchTerm extends Component
     public function editSynonym($termId)
     {
         $this->currentSynonym = SynonymModel::findOrFail($termId);
+        $this->currentTerm = SearchTermModel::findOrFail($this->currentSynonym->id_term)->first();
         $this->synonym = $this->currentSynonym->description;
-        $this->termId = $this->currentSynonym->id_term;
+        $this->termId['value'] = $this->currentSynonym->id_term;
         $this->form['isEditing'] = true;
     }
 
@@ -273,23 +278,22 @@ class SearchTerm extends Component
         }
     }
 
-    public function getSynonymSuggestions()
+    public function getSynonymSuggestions($termId)
     {
-        if (!$this->synonym) {
-            $this->synonymSuggestions = [];
-            return;
-        }
-
+        $this->synonymSuggestions = [];
+        $term = Term::where('id_term', $termId)->first();
         $algolia = new AlgoliaSynonyms();
-        $results = $algolia->searchSynonyms($this->synonym);
+        $results = $algolia->searchSynonyms($term->description);
 
-        $this->synonymSuggestions = $results['hits'] ?? [];
+        $this->synonymSuggestions = $results ?? [];
     }
 
-
-    public function updatedSynonym()
+    public function addSuggestionSynonym($value)
     {
-        $this->getSynonymSuggestions();
+        $this->currentSynonym = null;
+        $this->currentTerm = null;
+        $this->synonym = $value;
+        $this->addSynonyms();
     }
 
     /**
