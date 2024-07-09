@@ -2,7 +2,7 @@
 
 return [
         'welcome' => 'Bem-vindo!',
-        'description' => 'Use esses formulários incríveis para fazer login ou criar uma nova conta em seu projeto gratuitamente.',
+        'description' => 'Use esses formulários incríveis para fazer login ou criar uma nova conta gratuitamente.',
         'register_with' => 'Registrar com',
         'google' => 'Google',
         'facebook' => 'Facebook',
@@ -14,6 +14,9 @@ return [
         'already_have_account' => 'Já tem uma conta?',
         'sign_in' => 'Entrar',
         'username' => 'Nome de usuário',
+        'firstname' => 'Nome',
+        'lastname' => 'Sobrenome',
+        'institution' => 'Instituição',
         'email' => 'E-mail',
         'password' => 'Senha',
         'terms_error' => 'Você deve concordar com os Termos e Condições.'

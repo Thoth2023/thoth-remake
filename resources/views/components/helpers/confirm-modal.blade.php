@@ -6,6 +6,7 @@
     "onConfirmNativeClick" => "() => {}",
     "textClose" => "Close",
     "textConfirm" => "Confirm",
+    "typeConfirmButton" => "button",
 ])
 
 <?php $randomId = rand(); ?>
@@ -54,7 +55,7 @@
                         {{ $textClose }}
                     </button>
                     <button
-                        type="button"
+                        type="{{ $typeConfirmButton }}"
                         class="btn text-white bg-danger"
                         data-bs-dismiss="modal"
                         wire:click="{{ $onConfirm }}"

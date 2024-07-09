@@ -647,19 +647,29 @@ progress {
 
 .container,
 .container-fluid,
+.container-fluid-project,
 .container-xxl,
 .container-xl,
 .container-lg,
 .container-md,
 .container-sm {
   width: 100%;
-  padding-right: var(--bs-gutter-x, 1.5rem);
-  padding-left: var(--bs-gutter-x, 1.5rem);
+  padding-right: var(--bs-gutter-x, 0.5rem);
+  padding-left: var(--bs-gutter-x, 0.5rem);
   margin-right: auto;
   margin-left: auto;
 }
 
-@media (min-width: 576px) {
+/* Adicione esta regra para telas menores */
+@media (max-width: 600px) {
+  .container-fluid-project
+   {
+    padding-right: 0rem;
+    padding-left: 0rem;
+  }
+}
+
+@media (min-width: 768px) {
   .container-sm, .container {
     max-width: 540px;
   }
@@ -8185,8 +8195,15 @@ textarea.form-control-lg {
 }
 
 .mx-4 {
-  margin-right: 1.5rem !important;
-  margin-left: 1.5rem !important;
+  margin-right: 0rem;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .mx-4 {
+    margin-right: 0rem !important;
+    margin-left: 0rem !important;
+  }
 }
 
 .mx-5 {
@@ -9020,6 +9037,13 @@ textarea.form-control-lg {
   padding-bottom: 0.5rem !important;
 }
 
+@media (max-width: 600px) {
+  .py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
 .py-3 {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
@@ -9071,7 +9095,7 @@ textarea.form-control-lg {
 }
 
 .pt-0 {
-  padding-top: 0 !important;
+  padding-top: 1rem !important;
 }
 
 .pt-1 {
@@ -19638,10 +19662,22 @@ textarea.form-control-lg {
 .card .card-header {
   padding: 1.5rem;
 }
-.card .card-body {
+.card.bg-secondary-overview .card-body {
   font-family: "Open Sans", sans-serif;
-  padding: 1.5rem;
+  padding: 1.5rem 0.7rem 1.5rem 0.7rem;
 }
+
+@media (max-width: 768px) {
+  .navbar .input-group {
+      width: 100%;
+  }
+  .navbar .input-group .form-control {
+      flex-grow: 1;
+  }
+}
+
+
+
 .card.card-plain {
   background-color: transparent;
   box-shadow: none !important;
@@ -22794,6 +22830,16 @@ hr.horizontal.gray-light {
   letter-spacing: 0px;
   border-bottom: 1px solid #e9ecef;
 }
+
+@media (max-width: 600px) {
+  .table thead th {
+    padding: 0.75rem 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0px;
+  border-bottom: 1px solid #e9ecef;
+  }
+}
+
 .table th {
   font-weight: 600;
 }
@@ -24903,4 +24949,6 @@ pre[class*=language-] {
     font-size: 0.875em; /* Define o tamanho da fonte para as abas inativas */
     font-weight: normal; /* Define a aba inativa em normal */
 }
+
+
 

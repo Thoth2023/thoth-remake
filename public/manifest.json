@@ -4,7 +4,7 @@
     "start_url": "/login",
     "orientation": "any",
     "background_color": "#c9c5b1",
-    "description": "Thoth :: Tool for SLR",
+    "description": "Thoth :: Is a powerful tool to support collaborative systematic reviews.",
     "display": "standalone",
     "theme_color": "#c9c5b1",
     "lang": "en-US",
@@ -458,6 +458,10 @@
             "src": "img/ios/1024.png",
             "sizes": "1024x1024"
         }
-    ]
+    ],
+    "categories": [
+        "education"
+    ],
+    "id": "thoth"
 }
 
