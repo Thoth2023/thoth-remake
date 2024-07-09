@@ -34,6 +34,7 @@ class SearchTerm extends Component
     public $api;
     public $synonyms = [];
     public $loading = false;
+    public $languageSynonyms;
 
     /**
      * Form state.
@@ -74,6 +75,7 @@ class SearchTerm extends Component
             $this->currentProject->id_project
         )->get();
         $this->terms = Term::all();
+        $this->languageSynonyms['value'] = 'en';
     }
 
     /**
@@ -280,12 +282,21 @@ class SearchTerm extends Component
 
     public function getSynonymSuggestions($termId)
     {
+        $indexFolder = $this->languageSynonyms['value'] == 'en' ? 'synonyms' : 'sinonimos';
+
         $this->synonymSuggestions = [];
         $term = Term::where('id_term', $termId)->first();
         $algolia = new AlgoliaSynonyms();
-        $results = $algolia->searchSynonyms($term->description);
+        $results = $algolia->searchSynonyms($term->description, $indexFolder);
 
         $this->synonymSuggestions = $results ?? [];
+    }
+
+    public function generateSynonyms()
+    {
+        if (($this->termId['value'] ?? null)) {
+            $this->getSynonymSuggestions($this->termId['value']);
+        }
     }
 
     public function addSuggestionSynonym($value)

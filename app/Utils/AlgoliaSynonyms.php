@@ -27,16 +27,21 @@ class AlgoliaSynonyms
     return $response;
   }
 
-  public function searchSynonyms($query, $indexName = "synonyms")
+  public function searchSynonyms($wordOrTerm, $indexName = "synonyms")
   {
     $index = $this->client->initIndex($indexName);
-    $results = $index->searchSynonyms($query, [
+    $results = $index->searchSynonyms($wordOrTerm, [
       'hitsPerPage' => 10,
     ]);
 
     $allSynonyms = [];
+
     foreach ($results['hits'] as $hit) {
-      $allSynonyms = array_merge($allSynonyms, $hit['synonyms']);
+      $filterSynonyms = array_filter($hit['synonyms'], function ($synonym) use ($wordOrTerm) {
+        return strcasecmp($synonym, $wordOrTerm) !== 0;
+      });
+
+      $allSynonyms = array_merge($allSynonyms, $filterSynonyms);
     }
 
     $slicedSynonyms = array_slice($allSynonyms, 0, 10);

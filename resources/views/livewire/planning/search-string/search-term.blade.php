@@ -66,43 +66,63 @@
                 </div>
                 <form
                     wire:submit="addSynonyms"
-                    class="d-flex flex-column w-md-25 w-100"
+                    class="d-flex flex-column w-100"
                 >
-                    <div
-                        class="d-flex gap-2 form-group w-100"
-                        style="margin-bottom: 5px"
-                    >
-                        <x-input
-                            class="w-100"
-                            maxlength="50"
-                            id="synonym"
-                            label="{{ __('project/planning.search-string.synonym.form.title') }}"
-                            wire:model="synonym"
-                            placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
-                        />
-                        @error("synonym")
-                            <span class="text-xs text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
+                    <div class="d-flex gap-3" style="margin-bottom: 5px">
+                        <div class="d-flex gap-1">
+                            <x-input
+                                class="w-100"
+                                maxlength="50"
+                                id="synonym"
+                                label="{{ __('project/planning.search-string.synonym.form.title') }}"
+                                wire:model="synonym"
+                                placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                            />
+                            @error("synonym")
+                                <span class="text-xs text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
 
-                        <div style="display: flex; align-items: end">
-                            <x-helpers.submit-button
-                                isEditing="{{ $form['isEditing'] }}"
-                                style="
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    width: 38px;
-                                    height: 38px;
-                                    padding: 5px;
-                                    margin-bottom: 0;
-                                "
+                            <div style="display: flex; align-items: end">
+                                <x-helpers.submit-button
+                                    isEditing="{{ $form['isEditing'] }}"
+                                    style="
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        width: 38px;
+                                        height: 38px;
+                                        padding: 5px;
+                                        margin-bottom: 6px;
+                                    "
+                                >
+                                    <div wire:loading>
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                </x-helpers.submit-button>
+                            </div>
+                        </div>
+
+                        <div class="w-25" style="margin-bottom: 5px">
+                            <x-select
+                                wire:model="languageSynonyms"
+                                label="{{ __('project/planning.search-string.term.form.language') }}"
+                                wire:change="generateSynonyms"
                             >
-                                <div wire:loading>
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                </div>
-                            </x-helpers.submit-button>
+                                <option
+                                    value="en"
+                                    <?= $languageSynonyms["value"] == "en" ? "selected" : "" ?>
+                                >
+                                    English
+                                </option>
+                                <option
+                                    value="pt"
+                                    <?= $languageSynonyms["value"] == "pt" ? "selected" : "" ?>
+                                >
+                                    Português
+                                </option>
+                            </x-select>
                         </div>
                     </div>
                     <div
@@ -115,7 +135,7 @@
                     >
                         @if (($termId["value"] ?? null) && count($synonymSuggestions) === 0)
                             <span class="text-sm text-warning">
-                                No suggestions found.
+                                {{ __("project/planning.search-string.term.form.no-suggestions") }}
                             </span>
                         @endif
 
@@ -151,7 +171,7 @@
                     </div>
                 </form>
             </div>
-            <div class="overflow-auto px-2 py-1" style="max-height: 230px">
+            <div class="overflow-auto px-2 py-1" style="max-height: 500px">
                 <table class="table table-responsive table-hover">
                     <thead
                         class="table-light sticky-top custom-gray-text"

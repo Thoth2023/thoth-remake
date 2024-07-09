@@ -405,6 +405,8 @@ return [
                 'add' => 'Add Search Term',
                 'select' => 'Search Terms',
                 'select-placeholder' => 'Select a term',
+                'no-suggestions' => 'No suggestions found.',
+                'language' => 'Language Suggestions',
             ],
             'table' => [
                 'description' => 'Search Term',

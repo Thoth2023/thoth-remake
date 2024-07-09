@@ -406,6 +406,8 @@ return [
                 'add' => 'Adicionar Termo',
                 'select' => 'Termos de Busca',
                 'select-placeholder' => 'Selecione um termo',
+                'no-suggestions' => 'Nenhuma sugestão encontrada.',
+                'language' => 'Idioma das Sugestões',
             ],
             'table' => [
                 'description' => 'Termo de Busca',
