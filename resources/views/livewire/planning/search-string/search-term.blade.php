@@ -73,6 +73,7 @@
                         style="margin-bottom: 5px"
                     >
                         <x-input
+                            class="w-100"
                             maxlength="50"
                             id="synonym"
                             label="{{ __('project/planning.search-string.synonym.form.title') }}"
@@ -112,6 +113,12 @@
                             margin-bottom: 1rem;
                         "
                     >
+                        @if (($termId["value"] ?? null) && count($synonymSuggestions) === 0)
+                            <span class="text-sm text-warning">
+                                No suggestions found.
+                            </span>
+                        @endif
+
                         @foreach ($synonymSuggestions as $suggestion)
                             @if ($synonym !== $suggestion)
                                 <div
@@ -121,7 +128,6 @@
                                         value="{{ $suggestion }}"
                                         placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
                                         class="my-0"
-                                        {{-- style="border-radius: 0 0 0 0" --}}
                                     />
                                     <button
                                         type="button"

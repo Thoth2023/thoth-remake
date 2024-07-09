@@ -213,6 +213,8 @@ class SearchString extends Component
             $this->formatSearchStringByDatabase($index, $database->name);
             $this->saveSearchString($database->id_database, $index);
         }
+        $this->generateGenericSearchString();
+        $this->saveGenericSearchString();
 
         $this->toast(
             message: __($this->toastMessages . '.generated'),
