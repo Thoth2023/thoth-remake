@@ -16,6 +16,7 @@
                     label="{{ __('project/planning.criteria.form.id') }}"
                     wire:model="criteriaId"
                     placeholder="ID"
+                    required
                 />
                 @error("criteriaId")
                     <span class="text-xs text-danger">
@@ -29,6 +30,7 @@
                         label="{{ __('project/planning.criteria.form.description') }}"
                         wire:model="description"
                         placeholder="{{ __('project/planning.criteria.form.enter_description') }}"
+                        required
                     />
                 </div>
                 @error("description")
@@ -42,6 +44,7 @@
                         wire:model="type"
                         label="{{ __('project/planning.criteria.form.type') }}"
                         search
+                        required
                     >
                         <option selected disabled>
                             {{ __("project/planning.criteria.form.select-placeholder") }}
