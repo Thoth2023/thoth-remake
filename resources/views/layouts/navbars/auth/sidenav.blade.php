@@ -105,6 +105,8 @@
                 </a>
             </li>
             @if (Auth::user()->role == "SUPER_USER")
+                <br/>
+                <h6 class="ps-4  ms-2 text-uppercase text-xl font-weight-bolder opacity-4">:: ADMINISTRATOR </h6>
                 <li class="nav-item">
                     <a
                         class="nav-link {{ Route::currentRouteName() == "database-manager" ? "active" : "" }}"
