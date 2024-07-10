@@ -712,6 +712,7 @@ return [
             'description' => 'Description',
             'type' => 'Type',
             'add-question' => 'Add Question',
+            'edit-question' => 'Edit Question'
         ],
         'option-form' => [
             'title' => 'Create Data Extraction Question Option',
@@ -722,6 +723,7 @@ return [
             'question' => 'Question',
             'option' => 'Option',
             'add-option' => 'Add Option',
+            'edit-option' => 'Edit Option'
         ],
         'table' => [
             'header' => [

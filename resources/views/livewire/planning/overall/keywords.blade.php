@@ -14,6 +14,7 @@
                     label="{{ __('project/planning.overall.keyword.description') }}"
                     wire:model="description"
                     placeholder="{{ __('project/planning.overall.keyword.enter_description') }}"
+                    required
                 />
                 @error("description")
                     <span class="text-xs text-danger">
