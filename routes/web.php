@@ -104,6 +104,8 @@ Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_p
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
+Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+
 
 // Project Routes
 Route::prefix('/project/{projectId}')->group(function () {
