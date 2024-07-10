@@ -105,6 +105,11 @@ class FaqManager extends Component
         $this->resetForm();
     }
 
+    public function openPreviewModal()
+    {
+    $this->showPreviewModal = true;
+    }
+    
     private function resetForm()
     {
         $this->faqId = null;
@@ -150,12 +155,6 @@ class FaqManager extends Component
         }
     }
 
-    public function openPreviewModal()
-    {
-    $this->showPreviewModal = true;
-    }
-
-   
     public function toggleFullText($faqId)
     {
         if (isset($this->showFullText[$faqId])) {
