@@ -38,7 +38,7 @@ class OverallController extends Controller
         $terms = $project->terms;
         $synonyms = $project->synonyms;
         $searchStrings = []; // simulating the search string results
-
+       
         return view(
             'project.planning.index',
             compact(
@@ -54,7 +54,19 @@ class OverallController extends Controller
                 'terms',
                 'synonyms',
                 'searchStrings',
+                
+                
             )
         );
     }
+
+
+    public function validate_finished($idproject):bool
+    {
+        $finished = Project::validateAll($idproject);
+        return $finished;
+    }
+
+   
+
 }
