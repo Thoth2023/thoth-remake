@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+
 class Project extends Model 
+
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name
@@ -58,7 +60,7 @@ class Project extends Model
             ->using(ProjectLanguage::class)
             ->withPivot('id_project_lang');
     }
-
+    
     public function studyTypes()
     {
         return $this->belongsToMany(StudyType::class, 'project_study_types', 'id_project', 'id_study_type')
@@ -235,11 +237,11 @@ class Project extends Model
         foreach ($sourceProject->domains as $domain) {
             $this->domains()->create($domain->toArray());
         }
-        
+
         $this->save();
     }
 
-    public function userHasLevel(User $user, String $level): bool
+    public function userHasLevel(User $user, string $level): bool
     {
         return $this->users()
             ->wherePivot('id_user', $user->id)
