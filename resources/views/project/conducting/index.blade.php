@@ -32,7 +32,9 @@
                                     'label' => __('project/conducting.header.quality_assessment'),
                                     'href' => '#quality-assessment',
                                 ],
-                            ])->when(in_array($project->feature_review, ['Snowballing', 'Sistematic Review and Snowballing']), function ($collection) use ($snowballing_projects) {
+
+                            ])->when(strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false, function ($collection) {
+
                                 return $collection->push([
                                     'id' => 'snowballing-tab',
                                     'label' => __('project/conducting.header.snowballing'),
@@ -42,6 +44,7 @@
                                 'id' => 'data-extraction-tab',
                                 'label' => __('project/conducting.header.data_extraction'),
                                 'href' => '#data-extraction',
+
                             ]),
                             "activeTab" => "import-studies-tab",
                         ]
@@ -63,7 +66,7 @@
                             @include("project.conducting.quality-assessment")
                         </div>
 
-                        @if (in_array($project->feature_review, ['Snowballing', 'Sistematic Review and Snowballing']))
+                        @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
                             <div id="snowballing" class="tab-pane fade">
                                 @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
                             </div>
@@ -74,6 +77,9 @@
                         </div>
                     </div>
                 </div>
+
+                @include('layouts.footers.auth.footer')
+
             </div>
         </div>
     </div>
@@ -105,5 +111,4 @@
         </script>
     @endif
 
-    @include("layouts.footers.auth.footer")
 @endsection
