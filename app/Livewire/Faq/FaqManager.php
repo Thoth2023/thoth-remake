@@ -145,10 +145,14 @@ class FaqManager extends Component
         $faqHistory = FaqHistory::find($versionId);
 
         if ($faqHistory) {
-            $faqHistory->delete();
-            
+            $faqHistory->delete();  
             $this->faqHistories = FaqHistory::orderBy('created_at', 'desc')->get();
         }
+    }
+
+    public function openPreviewModal()
+    {
+    $this->showPreviewModal = true;
     }
 
    
@@ -164,6 +168,7 @@ class FaqManager extends Component
     public function render()
     {
         return view('livewire.faq.faq-manager', [
+            'faq' => Faq::all(),  
             'faqHistories' => FaqHistory::orderBy('created_at', 'desc')->get()
         ]);
     }

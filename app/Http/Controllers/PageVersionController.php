@@ -39,7 +39,6 @@ class PageVersionController extends Controller
             return response()->json($faq);
         }
 
-        // Lógica para outras páginas, se necessário
 
         return response()->json(['message' => 'Restoration completed']);
     }
