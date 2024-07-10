@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
@@ -110,11 +110,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-        const totalUsers = 5997;
+        const totalUsers = {{ $total_users }};
         const totalProjects = {{ $total_projects }};
         const totalFinishedProjects = {{ $total_finished_projects }};
         const totalOngoingProjects = {{ $total_ongoing_projects }};
-        
+
         function animateValue(id, start, end, duration) {
             const range = end - start;
             let current = start;
@@ -134,7 +134,7 @@
                 }
             }, stepTime);
         }
-        
+
         function isElementInViewport(el) {
             const rect = el.getBoundingClientRect();
             return (
@@ -144,7 +144,7 @@
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             );
         }
-        
+
         function animateIfVisible(id, value) {
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -154,11 +154,11 @@
                     }
                 });
             }, { threshold: 0.5 });
-            
+
             const target = document.getElementById(id);
             observer.observe(target);
         }
-    
+
         animateIfVisible('user-count', totalUsers);
         animateIfVisible('project-count', totalProjects);
         animateIfVisible('total-finished-projects-count', totalFinishedProjects);
