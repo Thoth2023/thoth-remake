@@ -1,9 +1,15 @@
-<body>
-    <div class="container mt-4">
-        <div class="card ml-auto">
-            <div class="card-body">
-                <h4 class="heading-large"><strong>{{ __('project/conducting.data-extraction.title') }}</strong></h4>
-                <h6>{{ __('project/conducting.data-extraction.progress-data-extraction') }}</h6>
+<div class="d-flex flex-column gap-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header mb-0 pb-0">
+            <x-helpers.modal
+                target="import-studies"
+                modalTitle="{{ __('project/conducting.data-extraction.title') }}"
+                modalContent="{{ __('project/conducting.data-extraction.help.content') }}"
+            />
+        </div>
+          <br/><br/>
+             <div class="d-flex flex-column">
                 <div class="progress" style="height: 18px">
                     <div id="prog_done" class="progress-bar bg-success" role="progressbar" style="width: 60%"
                         aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">0%</div>
@@ -12,6 +18,8 @@
                     <div id="prog_rem_ex" class="progress-bar bg-info" role="progressbar" style="width: 10%"
                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">0%</div>
                 </div>
+             </div>
+
                 <br>
                 <div class="form-inline">
                     <div class="input-group col-md-2">
@@ -101,9 +109,9 @@
                     </tfoot>
                 </table>
             </div>
-        </div>
-    </div>
+      </div>
 
+</div>
     <!-- Modal -->
     @include('project.components.data-extraction-conducting.modal_paper_ex')
 
@@ -204,6 +212,3 @@
         });
 
     </script>
-</body>
-
-</html>
