@@ -9,7 +9,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
+
+use App\Http\Controllers\FaqManagementController;
+use App\Http\Controllers\HomeManagerController;
+
 use App\Http\Controllers\Project\Conducting\ConductingController;
+
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
 
@@ -27,6 +32,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\PageVersionController; /////////
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
@@ -203,7 +209,15 @@ Route::prefix('/project/{projectId}')->group(function () {
 
 });
 
+//ROTAS PARA FAQ
+/*Route::prefix('faq-management')->middleware('auth')->group(function () {
+    Route::get('/', [FaqManagementController::class, 'index'])->name('faq-management.index');
+    
+});*/
+
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+Route::get('/faq-management', [FaqManagementController::class, 'index'])->name('faq-management')->middleware('auth');
+Route::get('/home-manager', [HomeManagerController::class, 'index'])->name('home-manager')->middleware('auth');
 
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
