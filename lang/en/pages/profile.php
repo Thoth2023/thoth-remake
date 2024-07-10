@@ -14,12 +14,13 @@ return [
     'address' => 'Address',
     'city' => 'City',
     'country' => 'Country',
-    'postal_code' => 'Postal code',
-
-    'about_me' => 'ABOUT ME',
-    'about_me2' => 'About me',
+    'postal_code' => 'Postal Code',
+    'about_me' => 'About_me',
     'occupation' => 'Occupation',
-    'institution' => 'Institution',
     'lattes_link' => 'Lattes Link',
-
+    'edit_profile' => 'Edit Profile',
+    'user_information' => 'User Information',
+    'contact_information' => 'Contact Information',
+    'save' => 'Save',
+    'your_profile' => 'Your Profile',
 ];

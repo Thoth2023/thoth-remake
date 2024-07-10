@@ -32,7 +32,6 @@ class LoginController extends Controller
     if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-
             return redirect()->intended('about');
         } else  { return back()->withErrors([
             'password' => __('auth.failed'),
@@ -48,13 +47,10 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $user_email = Auth::user()->email;
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        $request->session()->put('user_email',$user_email);
 
         return redirect('/');
     }
