@@ -13,6 +13,7 @@ class HomeManager extends Model
      
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'icon'
     ];
 }

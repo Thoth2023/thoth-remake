@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class Faq extends Model
 {
     use HasFactory;
@@ -12,7 +11,8 @@ class Faq extends Model
     protected $fillable = [
         'question',
         'response',
-        'page_id' // Adicionando identificador de página
+        'page_id',
+  
     ];
     protected $table = 'faq';
     
@@ -21,21 +21,27 @@ class Faq extends Model
         parent::boot();
 
         static::updated(function ($faq) {
-            PageVersion::create([
-                'page_id' => $faq->page_id,
-                'title' => $faq->question,
-                'content' => $faq->response,
-                'created_at' => now()
-            ]);
+            if ($faq->page_id) { 
+                PageVersion::create([
+                    'page_id' => $faq->page_id,
+                    'title' => $faq->question,
+                    'content' => $faq->response,
+                    'created_at' => now(),
+                    'updated_at' => now(), 
+                ]);
+            }
         });
 
         static::deleted(function ($faq) {
-            PageVersion::create([
-                'page_id' => $faq->page_id,
-                'title' => $faq->question,
-                'content' => $faq->response,
-                'created_at' => now()
-            ]);
+            if ($faq->page_id) { 
+                PageVersion::create([
+                    'page_id' => $faq->page_id,
+                    'title' => $faq->question,
+                    'content' => $faq->response,
+                    'created_at' => now(),
+                    'updated_at' => now(), 
+                ]);
+            }
         });
     }
 }

@@ -13,7 +13,8 @@ class OverallController extends Controller
 
         $project = Project::findOrFail($id_project);
         return view('project.conducting.index', compact('project'));
+
     }
 
-    
+
 }

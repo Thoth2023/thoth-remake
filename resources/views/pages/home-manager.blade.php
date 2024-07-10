@@ -10,14 +10,20 @@
             >
                 <div class="col-lg-6 text-center mx-auto">
                     <h1 class="text-white" style="font-size: 2rem">
-                        {{-- {{ __("page-management/management.faq-management.title") }} --}}
+                        {{ __("page-management/home-manager.home.title") }}
                     </h1>
                     <p class="text-lead text-white">
-                        {{-- {{ __("page-management/management.faq-management.description") }} --}}
+                        {{ __("page-management/home-manager.home.description") }}
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    
+    <div class="container">
+        <div class="row">
+            <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
+                @livewire('home-text')
+            </div>
+        </div>
+    </div>
 @endsection
