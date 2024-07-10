@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Project;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -24,11 +26,37 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('pages.home');
+        $total_projects = Project::count();
+        $total_users = User::count();
+        $total_finished_projects = Project::countFinishedProjects();
+        $total_ongoing_projects = Project::countOngoingProjects();
+        
+        return view('pages.home', compact('total_projects', 'total_users', 'total_finished_projects', 'total_ongoing_projects'));
     }
 
     public function guest_home()
     {
-        return view('pages.home');
+        $total_projects = Project::count();
+        $total_users = User::count();
+        $total_finished_projects = Project::countFinishedProjects();
+        $total_ongoing_projects = Project::countOngoingProjects();
+
+        return view('pages.home', compact('total_projects', 'total_users', 'total_finished_projects', 'total_ongoing_projects'));
     }
+
+   
+
+    // public function ongoing_projects()
+    // {
+    //     $projects = Project::where('isFinished', '0')->get();
+    //     return view('pages.ongoing_projects', compact('projects'));
+    // }
+
+    // public function finished_projects()
+    // {
+    //     $projects = Project::where('isFinished', 1)->get();
+    //     return view('pages.finished_projects', compact('projects'));
+    // }
+    
+    
 }

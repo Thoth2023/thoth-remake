@@ -146,7 +146,7 @@ class Question extends Component
     /**
      * Fill the form fields with the given data.
      */
-    #[On('data-extraction-table')]
+    #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
         $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id', $questionId)->first();
@@ -159,10 +159,11 @@ class Question extends Component
     /**
      * Delete an item.
      */
+    #[On('data-extraction-table-delete-question')]
     public function delete(string $questionId)
     {
         try {
-            $currentQuestion = QuestionModel::findOrFail($questionId);
+            $currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id', $questionId)->first();
             $currentQuestion->delete();
 
             Log::logActivity(

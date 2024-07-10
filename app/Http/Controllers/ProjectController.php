@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
+use App\Livewire\Planning\Overall\Domains;
 use App\Models\Project;
 use App\Models\Activity;
 use App\Models\User;
@@ -13,9 +14,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Illuminate\Support\Str;
 use App\Notifications\ProjectInvitationNotification;
 use Illuminate\Support\Facades\Notification;
+
+use PHPUnit\Event\Application\FinishedSubscriber;
+
 
 
 class ProjectController extends Controller
@@ -34,9 +39,16 @@ class ProjectController extends Controller
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
         }
-
+        
+      
+        
+     
         return view('projects.index', compact('merged_projects'));
     }
+
+
+    
+    
 
     /**
      * Show the form for creating a new project.
@@ -292,6 +304,7 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
         return $userId;
     }
+
 
     public function acceptInvitation($idProject, Request $request)
     {
