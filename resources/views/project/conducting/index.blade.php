@@ -34,12 +34,12 @@
                                 ],
 
                             ])->when(strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false, function ($collection) {
-
                                 return $collection->push([
                                     'id' => 'snowballing-tab',
                                     'label' => __('project/conducting.header.snowballing'),
                                     'href' => '#snowballing',
                                 ]);
+
                             })->push([
                                 'id' => 'data-extraction-tab',
                                 'label' => __('project/conducting.header.data_extraction'),
@@ -50,14 +50,11 @@
                         ]
                     )
                     <div class="tab-content mt-4">
-                        <div class="tab-pane fade show active" id="file-upload">
+                        <div class="tab-pane fade show active" id="import-studies">
                             <!-- Conteúdo da aba Import Studies -->
-                            @livewire("conducting.file-upload")
+                             @livewire("conducting.file-upload")
                         </div>
-                        </div>
-                        {{-- <div id="snowballing" class="tab-pane fade">
-                            @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
-                        </div> --}}
+
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection")
                         </div>
@@ -77,6 +74,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
                 @include('layouts.footers.auth.footer')
 
