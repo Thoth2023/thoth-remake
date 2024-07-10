@@ -37,6 +37,7 @@ class Project extends Model
         'created_by',
         'is_finished',
         'feature_review',
+        'generic_search_string',
     ];
 
     public function users()

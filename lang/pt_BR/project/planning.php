@@ -379,8 +379,9 @@ return [
         ],
     ],
     'search-string' => [
+        'generate-all' => 'Gerar todas as strings de busca',
         'title' => 'String de Busca',
-        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione, edite ou exclua strings de pesquisa para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione strings de busca para cada base de dados do projeto para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
         'form' => [
             'description' => 'String de Busca Genérica',
             'enter-description' => 'Digite a string de busca genérica',
@@ -388,15 +389,25 @@ return [
             'update' => 'Atualizar String de Busca',
             'placeholder' => 'Digite a string de busca',
         ],
+        'livewire' => [
+            'toasts' => [
+                'generated' => 'Strings de Busca geradas com sucesso.',
+                'updated-string' => 'String de Busca atualizada com sucesso.',
+            ],
+        ],
         'term' => [
+            'title' => 'Termos',
+            'help' => 'Termos de busca são palavras-chave que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione, edite ou exclua termos de busca para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
             'form' => [
                 'title' => 'Termos de Busca',
                 'placeholder' => 'Digite o termo de busca',
                 'synonyms' => 'Sinônimos',
                 'update' => 'Atualizar Termo de Busca',
-                'add' => 'Adicionar Termo de Busca',
+                'add' => 'Adicionar Termo',
                 'select' => 'Termos de Busca',
-                'select-placeholder' => 'Selecione um Termo de Busca',
+                'select-placeholder' => 'Selecione um termo',
+                'no-suggestions' => 'Nenhuma sugestão encontrada.',
+                'language' => 'Idioma das Sugestões',
             ],
             'table' => [
                 'description' => 'Termo de Busca',
@@ -427,14 +438,11 @@ return [
         'help' => [
             'title' => 'Ajuda para Estratégia de Busca',
             'content' => "
-                <p>Na fase de planejamento, é necessário determinar e seguir uma estratégia de busca. Isso deve ser desenvolvido em consulta com bibliotecários ou outras pessoas com experiência relevante. As estratégias de busca geralmente são iterativas e se beneficiam de:</p>
-                <ul>
-                    <li>Realizar pesquisas preliminares com o objetivo de identificar revisões sistemáticas existentes e avaliar o volume de estudos potencialmente relevantes.</li>
-                    <li>Realizar buscas preliminares usando várias combinações de termos de busca derivados da pergunta de pesquisa.</li>
-                    <li>Verificar a sequência de pesquisa preliminar em listas de estudos primários já conhecidos.</li>
-                    <li>Buscar consultas com especialistas no campo.</li>
-                </ul>
-            ",
+                Na fase de planejamento, é necessário determinar e seguir uma estratégia de busca. Isso deve ser desenvolvido em consulta com bibliotecários ou outras pessoas com experiência relevante. As estratégias de busca geralmente são iterativas e se beneficiam de:
+                    Realizar pesquisas preliminares com o objetivo de identificar revisões sistemáticas existentes e avaliar o volume de estudos potencialmente relevantes.
+                    Realizar buscas preliminares usando várias combinações de termos de busca derivados da pergunta de pesquisa.
+                    Verificar a sequência de pesquisa preliminar em listas de estudos primários já conhecidos.
+                    Buscar consultas com especialistas no campo.",
         ],
         'placeholder' => 'Digite a estratégia de busca',
         'save-button' => 'Salvar',

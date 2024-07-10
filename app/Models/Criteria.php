@@ -23,5 +23,6 @@ class Criteria extends Model
         'id',
         'type',
         'pre_selected',
+        'rule',
     ];
 }
