@@ -50,11 +50,14 @@
                         ]
                     )
                     <div class="tab-content mt-4">
-                        <div class="tab-pane fade show active" id="import-studies">
+                        <div class="tab-pane fade show active" id="file-upload">
                             <!-- Conteúdo da aba Import Studies -->
-                            @livewire("conducting.import-studies")
+                            @livewire("conducting.file-upload")
                         </div>
-
+                        </div>
+                        {{-- <div id="snowballing" class="tab-pane fade">
+                            @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
+                        </div> --}}
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection")
                         </div>
@@ -63,14 +66,11 @@
                             @include("project.conducting.quality-assessment")
                         </div>
 
-
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
-
                             <div id="snowballing" class="tab-pane fade">
                                 @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
                             </div>
                         @endif
-
 
                         <div id="data-extraction" class="tab-pane fade">
                             @include("project.conducting.data-extraction")

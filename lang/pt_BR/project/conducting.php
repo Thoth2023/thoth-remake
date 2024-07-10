@@ -57,19 +57,23 @@ return [
     'import-studies' => [
         'title' => 'Importação de estudos',
         'form' => [
-            'database' => 'Base de dados',
-            'selected-database' => 'Selecionar a base de dados',
-            'upload' => 'Escolher arquivo',
-            'add' => 'Adicionar arquivo',
-            'delete' => 'Deletar'
+                'database' => 'Base de dados',
+                'selected-database' => 'Selecionar a base de dados',
+                'upload' => 'Escolher arquivo',
+                'add' =>  'Adicionar arquivo',
+                'delete' => 'Deletar'
         ],
         'help' =>[
-            'content' => 'Insira Arquivos no Formato ".bib", ".csv" ou ".txt" e faça a importação de arquivos de acordo com a base inserida no planejamento'
+            'content' => 'Insira Arquivos no Formato ".bib" ou ".csv" e faça a importação de arquivos de acordo com a base inserida no planejamento'
         ],
-        'table' => [
+         'table' => [
             'database' => 'Base de dados',
-            'studies-imported' => 'Total de Estudos Importados',
-            'actions' => 'Ações',
+            'studies-imported' => 'Estudos importados',
+            'actions' => 'Ação',
+            'file' => 'Arquivo',
+            'file-imported' => 'Arquivos importados',
+            'delete' => 'Deletar',
+
 
         ],
     ],
@@ -115,4 +119,6 @@ return [
             'save'  => 'Salvar'
         ],
     ],
+
 ];
+

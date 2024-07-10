@@ -66,13 +66,18 @@ return [
             'add' => 'Add File',
             'delete' => 'Delete'
         ],
-        'help' => [
+
+       'help' => [
             'content' => 'Insert files in ".bib", ".csv" or ".txt" format and import files according to the database inserted in the planning'
+
         ],
         'table' => [
             'database' => 'Database',
             'studies-imported' => 'Total imported studies',
             'actions' => 'Actions',
+            'file' => 'File',
+            'file-imported' => 'Files imported',
+            'delete' => 'Delete',
         ],
     ],
 
