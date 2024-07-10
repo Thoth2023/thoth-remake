@@ -104,6 +104,27 @@
                     <span class="nav-link-text ms-1">{{ __('nav/nav.help') }}</span>
                 </a>
             </li>
+
+            @if (Auth::user()->role == "SUPER_USER")
+                <br/>
+                <h6 class="ps-4  ms-2 text-uppercase text-xl font-weight-bolder opacity-4">:: ADMINISTRATOR </h6>
+                <li class="nav-item">
+                    <a
+                        class="nav-link {{ Route::currentRouteName() == "database-manager" ? "active" : "" }}"
+                        href="{{ Route::currentRouteName() != "database-manager" ? route("database-manager") : "#" }}"
+                    >
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
+                        >
+                            <i
+                                class="{{ Route::currentRouteName() == "database-manger" ? "text-primary" : "text-dark" }} text-sm opacity-10 fas fa-users-cog"
+                            ></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Database Manager</span>
+                    </a>
+                </li>
+            @endif
+
         </ul>
     </div>
 </aside>

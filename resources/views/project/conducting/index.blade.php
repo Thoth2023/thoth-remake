@@ -33,7 +33,8 @@
                                     'href' => '#quality-assessment',
                                 ],
 
-                            ])->when(in_array($project->feature_review, ['Snowballing', 'Sistematic Review and Snowballing']), function ($collection) use ($snowballing_projects) {
+                            ])->when(strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false, function ($collection) {
+
                                 return $collection->push([
                                     'id' => 'snowballing-tab',
                                     'label' => __('project/conducting.header.snowballing'),
@@ -57,18 +58,19 @@
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection")
                         </div>
-                        
+
                         <div id="quality-assessment" class="tab-pane fade">
                             @include("project.conducting.quality-assessment")
                         </div>
-                        
 
-                        @if (in_array($project->feature_review, ['Snowballing', 'Sistematic Review and Snowballing']))
+
+                        @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
+
                             <div id="snowballing" class="tab-pane fade">
                                 @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
                             </div>
                         @endif
-                        
+
 
                         <div id="data-extraction" class="tab-pane fade">
                             @include("project.conducting.data-extraction")

@@ -10,6 +10,7 @@ use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Project\Conducting\ConductingController;
+use App\Http\Controllers\Project\Conducting\DataExtractionController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
 use App\Http\Controllers\Project\Conducting\OverallController as OverallConductingController;
@@ -203,6 +204,14 @@ Route::prefix('/project/{projectId}')->group(function () {
             ->name('project.conducting.index')
             ->middleware('auth')
             ->middleware(Localization::class);
+
+        // Data Extraction Routes
+        Route::prefix('/data-extraction/')->group(function () {
+            Route::resource('/extraction', DataExtractionController::class)
+                ->only(['index'])
+                ->names(['index' => 'project.planning.data-extraction.data-extraction.index']);
+        });
+
     });
 
 
