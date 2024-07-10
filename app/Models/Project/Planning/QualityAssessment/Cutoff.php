@@ -8,27 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MinToApp extends Model
+class Cutoff extends Model
 {
     use HasFactory;
 
-    protected $table = 'min_to_app';
-    protected $primaryKey = 'id_min_to_app';
+    protected $table = 'qa_cutoff';
+    protected $primaryKey = 'id_cutoff';
     public $timestamps = false;
 
     protected $fillable = [
         'id_project',
-        'id_general_score',
+        'score',
     ];
 
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class, 'id_project');
     }
-
-    public function generalScore(): BelongsTo
-    {
-        return $this->belongsTo(GeneralScore::class, 'id_general_score');
-    }
-
 }
