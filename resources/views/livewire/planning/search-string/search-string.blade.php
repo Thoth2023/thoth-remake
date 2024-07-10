@@ -5,6 +5,13 @@
             modalTitle="{{ __('project/planning.search-string.title') }}"
             modalContent="{{ __('project/planning.search-string.help') }}"
         />
+        <button
+            class="btn btn-sm btn-primary mt-2"
+            wire:click="generateAllSearchStrings"
+        >
+            <i class="fa fa-plus"></i>
+            {{ __("project/planning.search-string.generate-all") }}
+        </button>
     </div>
     <div class="card-body">
         <div>
@@ -17,31 +24,32 @@
                     maxlength="255"
                     rows="4"
                     id="description"
-                    wire:blur="lulu"
+                    wire:model="genericDescription"
                     placeholder="{{ __("project/planning.search-string.form.enter-description") }}"
+                    wire:change="saveGenericSearchString"
                 ></textarea>
             </div>
             @forelse ($project->databases as $projectDatabase)
                 <div class="d-flex flex-column mt-3">
                     <label
-                        for="database-{{ $projectDatabase->id }}"
+                        for="database-{{ $loop->index }}"
                         class="form-control-label mx-0 mb-1"
                     >
                         {{ $projectDatabase->name }}
                     </label>
                     <textarea
+                        id="database-{{ $loop->index }}"
                         class="form-control"
                         maxlength="255"
                         rows="4"
-                        id="database-{{ $projectDatabase->id }}"
-                        wire:model="databases.{{ $projectDatabase->id }}"
+                        wire:model="descriptions.{{ $loop->index }}"
                         placeholder="{{ __("project/planning.search-string.form.enter-description") }}"
+                        wire:change="saveSearchString({{ $projectDatabase->id_database }}, {{ $loop->index }})"
                     ></textarea>
                 </div>
             @empty
                 <p>{{ __("No databases found for this project.") }}</p>
             @endforelse
-
             @error("description")
                 <span class="text-xs text-danger">
                     {{ $message }}
@@ -50,3 +58,11 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('search-string', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+    </script>
+@endscript

@@ -40,7 +40,7 @@
                             class="{{ Route::currentRouteName() == "page" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-tv-2"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __("nav/side.home") }}</span>
+                    <span class="nav-link-text ms-1">{{ __('nav/nav.home') }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -55,7 +55,7 @@
                             class="{{ Route::currentRouteName() == "projects.index" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-single-copy-04"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __("nav/side.my_projects") }}</span>
+                    <span class="nav-link-text ms-1">{{ __('nav/nav.my_projects') }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -70,7 +70,7 @@
                             class="{{ Route::currentRouteName() == "profile" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-single-02"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __("nav/side.profile") }}</span>
+                    <span class="nav-link-text ms-1">{{ __('nav/nav.profile') }}</span>
                 </a>
             </li>
 
@@ -86,7 +86,7 @@
                             class="{{ Route::currentRouteName() == "about" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-bulb-61"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __("nav/side.about_us") }}</span>
+                    <span class="nav-link-text ms-1">{{ __('nav/nav.about') }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -101,9 +101,10 @@
                             class="{{ Route::currentRouteName() == "help" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-satisfied"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __("nav/side.help") }}</span>
+                    <span class="nav-link-text ms-1">{{ __('nav/nav.help') }}</span>
                 </a>
             </li>
+
             @if (Auth::user()->role == "SUPER_USER")
                 <br/>
                 <h6 class="ps-4  ms-2 text-uppercase text-xl font-weight-bolder opacity-4">:: ADMINISTRATOR </h6>
@@ -123,6 +124,7 @@
                     </a>
                 </li>
             @endif
+
         </ul>
     </div>
 </aside>

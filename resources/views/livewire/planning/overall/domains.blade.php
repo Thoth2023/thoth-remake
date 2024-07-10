@@ -15,6 +15,7 @@
                     wire:model="description"
                     placeholder="{{ __('project/planning.overall.domain.list.headers.enter_description') }}"
                     maxlength="255"
+                    required
                 />
                 @error("description")
                     <span class="text-xs text-danger">
