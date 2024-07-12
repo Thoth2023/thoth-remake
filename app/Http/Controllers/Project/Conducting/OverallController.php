@@ -56,8 +56,6 @@ class OverallController extends Controller
         // Pass $progress to the view
         return view('project.conducting.index', compact('project', 'generalscore', 'currentQuestion', 'progress'));
 
-
-
     }
     
 

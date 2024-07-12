@@ -24,7 +24,6 @@ use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreControll
 use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\Project\ExportController;
 use App\Http\Controllers\Project\ReportingController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
@@ -204,13 +203,6 @@ Route::prefix('/project/{projectId}')->group(function () {
     });
     // End of the Planning Routes
 
-
-    // Export Routes
-    Route::get('/export', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth');
-
-
-
-    // Start of the conducting routes
 
     Route::prefix('/conducting')->group(function () {
 
