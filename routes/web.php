@@ -15,7 +15,8 @@ use App\Http\Controllers\Project\Conducting\ConductingController;
 use App\Http\Controllers\Project\Conducting\DataExtractionController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
-use App\Http\Controllers\Project\Conducting\OverallController as OverallConductingController;
+use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
+use App\Http\Controllers\Project\Conducting\StudySelectionController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
@@ -38,7 +39,6 @@ use Illuminate\Support\Facades\Route;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
-
 use App\Http\Controllers\ThemeController;
 
 
