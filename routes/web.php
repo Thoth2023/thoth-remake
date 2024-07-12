@@ -42,6 +42,9 @@ use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 
 
+//use App\Http\Controllers\Auth\LoginController;
+//use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -279,3 +282,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
+Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
+Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
+Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);
