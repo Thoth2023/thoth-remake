@@ -111,7 +111,7 @@ Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 
 
 // Project Routes
 Route::prefix('/project/{projectId}')->group(function () {
-   
+
         // // Start of the conducting routes
         // Route::prefix('/conducting')->group(function () {
         //     Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);;
@@ -228,8 +228,7 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-    Route::get('/conducting', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);
-    // End of Conducting routes
+
 
 });
 
