@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Project;
 
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectStoreRequest extends FormRequest
@@ -25,13 +26,13 @@ class ProjectStoreRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'objectives' => 'required|string',
+
             'copy_planning' => ['nullable', 'string', function ($attribute, $value, $fail) {
-                if ($value !== 'none') {
-                    if (!Project::where('id_project', $value)->exists()) {
-                        $fail('The selected :attribute is invalid.');
-                    }
+                if ($value !== 'none' && !(Project::where('id_project', $value)->exists())) {
+                    $fail('The selected :attribute is invalid.');
                 }
             }],
+            'feature_review' => 'required|string',
         ];
     }
 
@@ -45,6 +46,8 @@ class ProjectStoreRequest extends FormRequest
             'description.string' => 'The description field must be a string.',
             'objectives.required' => 'The objectives field is required.',
             'objectives.string' => 'The objectives field must be a string.',
+            'feature_review.required' => 'feature review is required field',
+            'feature_review.string' => 'feature review is must string,'
         ];
     }
 }

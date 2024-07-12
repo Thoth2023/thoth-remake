@@ -65,6 +65,7 @@ return [
                     'added' => 'Domain added successfully.',
                     'updated' => 'Domain updated successfully.',
                     'deleted' => 'Domain deleted successfully.',
+                    'duplicate' => 'Domain duplicated is not allowed.',
                 ],
             ]
         ],
@@ -203,6 +204,7 @@ return [
                     'added' => 'Keyword added successfully.',
                     'updated' => 'Keyword updated successfully.',
                     'deleted' => 'Keyword deleted successfully.',
+                    'duplicate' => 'Keyword duplicated is not allowed.'
                 ],
             ]
         ],
@@ -376,7 +378,62 @@ return [
         ],
     ],
     'search-string' => [
+        'generate-all' => 'Generate All Search Strings',
         'title' => 'Search String',
+        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add search strings to each database to refine your search and improve the accuracy of your search results.',
+        'form' => [
+            'description' => 'Generic search string',
+            'enter-description' => 'Enter search string description',
+            'add' => 'Add Search String',
+            'update' => 'Update Search String',
+            'placeholder' => 'Enter the search string',
+        ],
+        'livewire' => [
+            'toasts' => [
+                'generated' => 'Search Strings generated successfully.',
+                'updated-string' => 'Search String updated successfully.',
+            ],
+        ],
+        'term' => [
+            'title' => 'Search Term',
+            'help' => 'Search terms are keywords that you use to search for relevant literature in databases. Add, edit, or delete search terms to refine your search string and improve the accuracy of your search results.',
+            'form' => [
+                'title' => 'Term',
+                'placeholder' => 'Enter the search term',
+                'synonyms' => 'Synonyms',
+                'update' => 'Update Search Term',
+                'add' => 'Add Search Term',
+                'select' => 'Search Terms',
+                'select-placeholder' => 'Select a term',
+                'no-suggestions' => 'No suggestions found.',
+                'language' => 'Language Suggestions',
+            ],
+            'table' => [
+                'description' => 'Search Term',
+                'actions' => 'Actions',
+                'empty' => 'No search terms registered in the project.',
+                'not-found' => 'No search terms found.',
+            ],
+            'livewire' => [
+                'description' => [
+                    'required' => 'The search term field is required.',
+                ],
+                'toasts' => [
+                    'generated' => 'Search Strings generated successfully.',
+                    'updated-string' => 'Search String updated successfully.',
+                    'saved' => 'Search String saved successfully.',
+                    'added' => 'Search Term added successfully.',
+                    'updated' => 'Search Term updated successfully.',
+                    'deleted' => 'Search Term deleted successfully.',
+                ],
+            ]
+        ],
+        'synonym' => [
+            'form' => [
+                'title' => 'Synonyms',
+                'placeholder' => 'Enter the synonym',
+            ]
+        ]
     ],
     'search-strategy' => [
         'title' => 'Search Strategy',
@@ -398,7 +455,7 @@ return [
     'criteria' => [
         'title' => 'Inclusion/Exclusion Criteria',
         'help' => [
-            'title' => 'Inclusion/Exclusion Criteria Help',
+            'title' => 'Inclusion/Exclusion Criteria',
             'content' => '
                 <p>In the criteria section, you define the criteria for selecting or excluding studies in your research project.</p>
                 <p><strong>Inclusion Criteria:</strong> Specify the criteria that studies must meet to be included in your research.</p>
@@ -410,40 +467,73 @@ return [
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
             'description' => 'Description',
+            'enter_description' => 'Type the criteria description',
             'type' => 'Type',
             'inclusion' => 'Inclusion',
             'exclusion' => 'Exclusion',
-            'add' => 'Add Criteria',
+            'add' => 'Add criteria',
+            'update' => 'Update criteria',
+            'select-placeholder' => 'Select the type of criteria',
+            'select-inclusion' => 'Inclusion',
+            'select-exclusion' => 'Exclusion',
         ],
         'inclusion-table' => [
-            'title' => 'Inclusion Criterias',
+            'title' => 'Inclusion Criteria',
             'select' => 'Select',
             'id' => 'ID',
             'description' => 'Description',
-            'edit' => 'Edit',
-            'delete' => 'Delete Criteria',
-            'no-criteria' => 'No criteria found.',
             'rule' => 'Inclusion Rule',
-            'all' => 'All',
-            'any' => 'Any',
-            'at-least' => 'At Least',
         ],
         'exclusion-table' => [
-            'title' => 'Exclusion Criterias',
+            'title' => 'Exclusion Criteria',
             'select' => 'Select',
             'id' => 'ID',
             'description' => 'Description',
-            'edit' => 'Edit',
-            'delete' => 'Delete Criteria',
-            'no-criteria' => 'No criteria found.',
             'rule' => 'Exclusion Rule',
+        ],
+        'table' => [
             'all' => 'All',
             'any' => 'Any',
             'at-least' => 'At Least',
+            'empty' => 'No criteria found',
+            'actions' => 'Actions',
+        ],
+        'livewire' => [
+            'description' => [
+                'required' => 'The description field is required.'
+            ],
+            'criteriaId' => [
+                'required' => 'The ID field is required.',
+                'regex' => 'The ID field must contain only letters and numbers.',
+            ],
+            'type' => [
+                'required' => 'The type field is required.',
+            ],
+            'logs' => [
+                'added' => 'Criteria added',
+                'updated' => 'Criteria updated',
+                'deleted' => 'Criteria deleted',
+            ],
+            'toasts' => [
+                'added' => 'Criteria added successfully',
+                'deleted' => 'Criteria deleted successfully',
+                'updated' => 'Criteria updated successfully',
+                'updated-inclusion' => 'Inclusion criteria rule updated',
+                'updated-exclusion' => 'Exclusion criteria rule updated',
+                'unique-id' => 'This ID is already in use. Please choose another an unique ID.',
+                'type' => [
+                    'required' => 'The type field is required.',
+                ],
+            ],
         ],
     ],
     'quality-assessment' => [
-        'title'=>'Quality Assessment',
+        'title' => 'Quality Assessment',
+        'generate-intervals' => 'Generate Intervals',
+        'ranges' => [
+            'label-updated' => 'Label updated successfully.',
+            'interval-updated' => 'Interval updated successfully.',
+        ],
         'general-score' => [
             'title' => 'General Score',
             'help' => [
@@ -490,14 +580,14 @@ return [
 
         ],
         'question-quality' => [
-            'title'=> 'Question Quality',
+            'title' => 'Question Quality',
             'help' => [
                 'title' => 'Question Quality',
                 'content' => '',
             ],
-            'id'=> 'ID',
-            'description'=> 'Description',
-            'weight'=> 'Weight',
+            'id' => 'ID',
+            'description' => 'Description',
+            'weight' => 'Weight',
             'add' => 'Add Question Quality',
             'update' => 'Update Question Quality',
             'livewire' => [
@@ -522,22 +612,29 @@ return [
             ],
 
         ],
-        'quality-score' => [
-            'title'=> 'Quality Score',
+        'question-score' => [
+            'title' => 'Question Score',
+            'select' => [
+                'rule' => 'Select a rule'
+            ],
+            'question' => [
+                'title' => 'Question',
+                'placeholder' => 'Select a question',
+            ],
             'help' => [
-                'title' => 'Quality Score',
+                'title' => 'Question Score',
                 'content' => '',
             ],
-            'description'=> [
+            'description' => [
                 'title' => 'Description',
                 'placeholder' => 'Enter description',
             ],
-            'id_qa'=> [
+            'id_qa' => [
                 'title' => 'Question Quality',
                 'placeholder' => 'Select Question Quality',
                 'no-question-available' => 'No questions available',
             ],
-            'score_rule'=> [
+            'score_rule' => [
                 'title' => 'Score Rule',
                 'placeholder' => 'Enter Score Rule',
             ],
@@ -575,7 +672,9 @@ return [
         ],
 
         'min-general-score' => [
-            'title'=> 'Minimal General Score to Approve',
+            'title' => 'Minimal Score to Approve',
+            'cutoff' => 'Cutoff',
+            'sum' => 'Total Weight',
             'form' => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
                 'add' => 'Add Minimal General Score',
@@ -613,6 +712,7 @@ return [
             'description' => 'Description',
             'type' => 'Type',
             'add-question' => 'Add Question',
+            'edit-question' => 'Edit Question'
         ],
         'option-form' => [
             'title' => 'Create Data Extraction Question Option',
@@ -623,6 +723,7 @@ return [
             'question' => 'Question',
             'option' => 'Option',
             'add-option' => 'Add Option',
+            'edit-option' => 'Edit Option'
         ],
         'table' => [
             'header' => [

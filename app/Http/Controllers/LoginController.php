@@ -27,34 +27,29 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
     
-    $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
     
-    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if(!$user->active){
+            return back()->withErrors(__('auth.inactive'));
+        }
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-
             return redirect()->intended('about');
-        } else  { return back()->withErrors([
+        } else { return back()->withErrors([
             'password' => __('auth.failed'),
         ]);
-    }
-    
-        return back()->withErrors([
-            
-        ]);
-        
+        }        
 
     }
 
     public function logout(Request $request)
     {
-        $user_email = Auth::user()->email;
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        $request->session()->put('user_email',$user_email);
 
         return redirect('/');
     }

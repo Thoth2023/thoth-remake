@@ -8,8 +8,10 @@ use App\Models\Project\Planning\QualityAssessment\Question as QualityAssessmentQ
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
-class Project extends Model
+class Project extends Model 
+
 {
     // since the table was named in the singular and not plural,
     // we need to specify the table name
@@ -22,6 +24,7 @@ class Project extends Model
     // and would automatically set it
     // TODO change the db to have the primary key named as id
     protected $primaryKey = 'id_project';
+  
     public $timestamps = false;
 
     use HasFactory;
@@ -32,6 +35,9 @@ class Project extends Model
         'description',
         'objectives',
         'created_by',
+        'is_finished',
+        'feature_review',
+        'generic_search_string',
     ];
 
     public function users()
@@ -55,7 +61,7 @@ class Project extends Model
             ->using(ProjectLanguage::class)
             ->withPivot('id_project_lang');
     }
-
+    
     public function studyTypes()
     {
         return $this->belongsToMany(StudyType::class, 'project_study_types', 'id_project', 'id_study_type')
@@ -232,16 +238,82 @@ class Project extends Model
         foreach ($sourceProject->domains as $domain) {
             $this->domains()->create($domain->toArray());
         }
-        
+
         $this->save();
     }
 
-    public function userHasAdministratorPermission(User $user): bool
+    public function userHasLevel(User $user, string $level): bool
     {
         return $this->users()
             ->wherePivot('id_user', $user->id)
-            ->wherePivot('level', '1')
+            ->wherePivot('level', $level)
             ->exists();
     }
+
+    public  function markAsFinished()
+    {
+        $this->is_finished = true;
+        $this->save();
+    }
+    
+    public function isFinished(): bool
+    {
+        $idproject = $this->id_project; // Assign the value of id_project to $idproject
+        if (!$this->validateAll($idproject)) {
+            $this->finished = true;
+            $this->save();
+        }
+        return $this->finished;
+    }
+
+
+    public static function countFinishedProjects()
+    {
+        return self::where('is_finished', 1)->count();
+    }
+
+    public static function countOngoingProjects()
+    {
+        return self::where('is_finished', 0)->count();
+    }
+    
+    
+
+
+    public static  function validatePlanning($id_project):bool
+    {
+        $domain = DB::table('domain')->where('id_project', $id_project)->first();
+        $question_extraction = DB::table('question_extraction')->where('id_project', $id_project)->first();
+        if ($domain == null && $question_extraction == null){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function validateConducting($id_project): bool
+    {
+        $question_quality = DB::table('question_quality')->where('id_project', $id_project)->first();
+      
+        if ($question_quality == null){
+            return false;
+        }
+    
+        return true;
+    }
+    
+    
+
+    public static function validateAll($id_project):bool
+    {
+        $planning = Project::validatePlanning($id_project);
+        $conducting = Project::validateConducting($id_project);
+        if ($planning && $conducting) {
+            return true;
+        }
+        return false;
+    }
+
+    
 
 }

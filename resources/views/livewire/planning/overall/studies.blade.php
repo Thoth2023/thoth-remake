@@ -12,6 +12,7 @@
                 <x-select
                     wire:model="studyType"
                     label="{{ __('project/planning.overall.study_type.help.title') }}"
+                    required
                 >
                     <option selected disabled>
                         {{ __("project/planning.overall.study_type.list.select.placeholder") }}

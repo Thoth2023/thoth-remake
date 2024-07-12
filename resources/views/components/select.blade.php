@@ -4,26 +4,32 @@
     "sorted" => "false",
     "search" => "false",
     "label" => "",
+    "defaultSelected" => "",
+    "required" => false,
+    "disabled" => false,
 ])
 
 <div
-    wire:ignore
+
     class="d-flex flex-column"
     x-init="() => {
         const select = document.querySelector('[data-ref=\'{{ $target }}\']');
         const hasSearch = {{ $search }};
         const isSorted = {{ $sorted }};
 
-        new Choices(select, {
-            noResultsText: 'Nenhum resultado encontrado',
-            noChoicesText: 'Nenhuma opção selecionada',
-            itemSelectText: 'Clique para selecionar',
+        const test = new Choices(select, {
+            noResultsText: 'No results found',
+            noChoicesText: 'No choices available',
+            itemSelectText: 'Click to select',
             searchEnabled: hasSearch,
             shouldSort: isSorted,
-        });
+        });  
     }"
 >
-    <label class="form-control-label mx-0 mb-1" for="{{ $target }}">
+    <label
+        class="form-control-label mx-0 mb-1 {{ $required ? "required" : "" }}"
+        for="{{ $target }}"
+    >
         {{ $label }}
     </label>
     <select
@@ -32,6 +38,8 @@
                 "class" => "form-control",
             ])
         }}
+        {{ $disabled ? "disabled" : "" }}
+        data-selected="{{ $defaultSelected }}"
         data-ref="{{ $target }}"
     >
         {{ $slot }}

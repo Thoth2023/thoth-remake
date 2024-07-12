@@ -5,8 +5,10 @@
     <main class="main-content mt-0">
         <div class="container mt-8 mb-3">
             <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
+
                 <div class="row justify-content-center rounded-3 py-4"
                     style="background-color: rgba(85, 101, 128, 1); width: 100%">
+
                     <div class="col-lg-6 text-center mx-auto">
                         <h1 class="text-white">{{ __("auth/register.welcome") }}</h1>
                         <p class="text-lead text-white">{{ __("auth/register.description") }}</p>
@@ -79,11 +81,28 @@
                             <form method="POST" action="{{ route('register.perform') }}">
                                 @csrf
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
-                                    <input type="text" name="username" class="form-control"
-                                        placeholder="{{ __('auth/register.username') }}"
-                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
-                                    @error('username')
-                                        <p class='text-danger text-xs pt-1'>{{ $message }}</p>
+
+                                    <input type="text" name="firstname" class="form-control"
+                                        placeholder="{{ __('auth/register.firstname') }}"
+                                        aria-label="{{ __('auth.register.firstname') }}" value="{{ old('firstname') }}">
+                                    @error('firstname')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
+                                </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
+                                    <input type="text" name="lastname" class="form-control"
+                                        placeholder="{{ __('auth/register.lastname') }}"
+                                        aria-label="{{ __('auth.register.lastname') }}" value="{{ old('lastname') }}">
+                                    @error('lastname')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                                    @enderror
+                                </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
+                                    <input type="text" name="institution" class="form-control"
+                                        placeholder="{{ __('auth/register.institution') }}"
+                                        aria-label="{{ __('auth.register.institution') }}" value="{{ old('institution') }}">
+                                    @error('institution')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
@@ -92,6 +111,14 @@
                                         aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}">
                                     @error('email')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
+                                    <input type="text" name="username" class="form-control"
+                                        placeholder="{{ __('auth/register.username') }}"
+                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
+                                    @error('username')
+                                        <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
@@ -107,12 +134,14 @@
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
                                         {{ __('auth/register.i_agree') }}
-                                        <a href="javascript:;" class="text-dark font-weight-bolder">
+                                        <a href="{{ route('terms') }}" class="text-dark font-weight-bolder">
                                             {{ __('auth/register.terms_and_conditions') }}
                                         </a>
                                     </label>
                                     @error('terms')
+
                                         <p class='text-danger text-xs'>{{ $message }}</p>
+
                                     @enderror
                                 </div>
                                 <div class="text-center">

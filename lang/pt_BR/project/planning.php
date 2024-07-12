@@ -65,6 +65,7 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
+                    'duplicate' => 'Domínio duplicado não é permitido.'
                 ],
             ]
         ],
@@ -156,6 +157,7 @@ return [
             'description' => 'Descrição',
             'enter_description' => 'Digite a descrição da palavra-chave',
             'add' => 'Adicionar Palavra-chave',
+            'update' => 'Atualizar Palavra-chave',
             'list' => [
                 'headers' => [
                     'description' => 'Descrição',
@@ -202,6 +204,7 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
+                    'duplicate' => 'Palavra-chave duplicada não é permitida.'
                 ],
             ]
         ],
@@ -376,21 +379,70 @@ return [
         ],
     ],
     'search-string' => [
+        'generate-all' => 'Gerar todas as strings de busca',
         'title' => 'String de Busca',
+        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione strings de busca para cada base de dados do projeto para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+        'form' => [
+            'description' => 'String de Busca Genérica',
+            'enter-description' => 'Digite a string de busca genérica',
+            'add' => 'Adicionar String de Busca',
+            'update' => 'Atualizar String de Busca',
+            'placeholder' => 'Digite a string de busca',
+        ],
+        'livewire' => [
+            'toasts' => [
+                'generated' => 'Strings de Busca geradas com sucesso.',
+                'updated-string' => 'String de Busca atualizada com sucesso.',
+            ],
+        ],
+        'term' => [
+            'title' => 'Termos',
+            'help' => 'Termos de busca são palavras-chave que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione, edite ou exclua termos de busca para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+            'form' => [
+                'title' => 'Termos de Busca',
+                'placeholder' => 'Digite o termo de busca',
+                'synonyms' => 'Sinônimos',
+                'update' => 'Atualizar Termo de Busca',
+                'add' => 'Adicionar Termo',
+                'select' => 'Termos de Busca',
+                'select-placeholder' => 'Selecione um termo',
+                'no-suggestions' => 'Nenhuma sugestão encontrada.',
+                'language' => 'Idioma das Sugestões',
+            ],
+            'table' => [
+                'description' => 'Termo de Busca',
+                'actions' => 'Ações',
+                'empty' => 'Nenhum termo de busca cadastrado',
+                'not-found' => 'Nenhum termo de busca encontrado.',
+            ],
+            'livewire' => [
+                'description' => [
+                    'required' => 'O campo do termo de busca é obrigatório.',
+                ],
+                'toasts' => [
+                    'added' => 'Termo de Busca adicionado com sucesso.',
+                    'updated' => 'Termo de Busca atualizado com sucesso.',
+                    'deleted' => 'Termo de Busca deletado com sucesso.',
+                ],
+            ]
+        ],
+        'synonym' => [
+            'form' => [
+                'title' => 'Sinônimos',
+                'placeholder' => 'Digite o sinônimo',
+            ]
+        ]
     ],
     'search-strategy' => [
         'title' => 'Estratégia de Busca',
         'help' => [
             'title' => 'Ajuda para Estratégia de Busca',
             'content' => "
-                <p>Na fase de planejamento, é necessário determinar e seguir uma estratégia de busca. Isso deve ser desenvolvido em consulta com bibliotecários ou outras pessoas com experiência relevante. As estratégias de busca geralmente são iterativas e se beneficiam de:</p>
-                <ul>
-                    <li>Realizar pesquisas preliminares com o objetivo de identificar revisões sistemáticas existentes e avaliar o volume de estudos potencialmente relevantes.</li>
-                    <li>Realizar buscas preliminares usando várias combinações de termos de busca derivados da pergunta de pesquisa.</li>
-                    <li>Verificar a sequência de pesquisa preliminar em listas de estudos primários já conhecidos.</li>
-                    <li>Buscar consultas com especialistas no campo.</li>
-                </ul>
-            ",
+                Na fase de planejamento, é necessário determinar e seguir uma estratégia de busca. Isso deve ser desenvolvido em consulta com bibliotecários ou outras pessoas com experiência relevante. As estratégias de busca geralmente são iterativas e se beneficiam de:
+                    Realizar pesquisas preliminares com o objetivo de identificar revisões sistemáticas existentes e avaliar o volume de estudos potencialmente relevantes.
+                    Realizar buscas preliminares usando várias combinações de termos de busca derivados da pergunta de pesquisa.
+                    Verificar a sequência de pesquisa preliminar em listas de estudos primários já conhecidos.
+                    Buscar consultas com especialistas no campo.",
         ],
         'placeholder' => 'Digite a estratégia de busca',
         'save-button' => 'Salvar',
@@ -398,52 +450,84 @@ return [
     'criteria' => [
         'title' => 'Critérios de Inclusão/Exclusão',
         'help' => [
-            'title' => 'Ajuda para Critérios de Inclusão/Exclusão',
+            'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
-                <p>Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.</p>
-                <p><strong>Critérios de Inclusão:</strong> Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.</p>
-                <p><strong>Critérios de Exclusão:</strong> Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.</p>
-                <p>Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.</p>
+                Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
+                Critérios de Inclusão:
+                Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
+                Critérios de Exclusão:
+                Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
+                Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.
             ',
         ],
         'form' => [
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
+            'enter_description' => 'Digite a descrição do critério',
             'type' => 'Tipo',
             'inclusion' => 'Inclusão',
             'exclusion' => 'Exclusão',
             'add' => 'Adicionar Critério',
+            'update' => 'Atualizar Critério',
+            'select-placeholder' => 'Selecione o Tipo de Critério',
+            'select-inclusion' => 'Inclusão',
+            'select-exclusion' => 'Exclusão',
         ],
         'inclusion-table' => [
             'title' => 'Critérios de Inclusão',
             'select' => '',
             'id' => 'ID',
             'description' => 'Descrição',
-            'edit' => 'Editar',
-            'delete' => 'Excluir',
-            'no-criteria' => 'Nenhum critério encontrado.',
             'rule' => 'Regra de Inclusão',
-            'all' => 'Todos',
-            'any' => 'Qualquer',
-            'at-least' => 'Pelo Menos',
         ],
         'exclusion-table' => [
             'title' => 'Critérios de Exclusão',
             'select' => '',
             'id' => 'ID',
             'description' => 'Descrição',
-            'edit' => 'Editar',
-            'delete' => 'Excluir',
-            'no-criteria' => 'Nenhum critério encontrado.',
             'rule' => 'Regra de Exclusão',
+        ],
+        'table' => [
             'all' => 'Todos',
             'any' => 'Qualquer',
-            'at-least' => 'Pelo Menos',
+            'at-least' => 'Pelo menos',
+            'empty' => 'No criteria found',
+            'actions' => 'Ações',
+        ],
+        'livewire' => [
+            'description' => [
+                'required' => 'O campo de descrição é obrigatório.',
+            ],
+            'criteriaId' => [
+                'required' => 'O campo de ID é obrigatório.',
+                'regex' => 'O campo de ID deve conter apenas letras e números.',
+            ],
+            'type' => [
+                'required' => 'Selecionar um tipo é obrigatório.',
+            ],
+            'logs' => [
+                'added' => 'Critério adicionado',
+                'updated' => 'Critério atualizado.',
+                'deleted' => 'Critério excluído',
+            ],
+            'toasts' => [
+                'added' => 'Critério adicionado com sucesso.',
+                'deleted' => 'Critério deletado com sucesso.',
+                'updated' => 'Critério atualizado com sucesso.',
+                'updated-inclusion' => 'Regra do critério de inclusão atualizada',
+                'updated-exclusion' => 'Regra do critério de exclusão atualizada',
+                'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
+            ],
         ],
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
+        'generate-intervals' => 'Gerar intervalos',
+        'ranges' => [
+            'label-updated' => 'Label atualizada com sucesso.',
+            'interval-updated' => 'Intervalo atualizado com sucesso.',
+        ],
         'general-score' => [
             'title' => 'Pontuação Geral',
             'help' => [
@@ -490,14 +574,14 @@ return [
 
         ],
         'question-quality' => [
-            'title'=> 'Qualidade da Questão',
+            'title' => 'Questão de Qualidade',
             'help' => [
-                'title' => 'Qualidade da Questão',
-                'content' => '',
+                'title' => 'Questão de Qualidade',
+                'content' => '[WIP]',
             ],
-            'id'=> 'ID',
-            'description'=> 'Descrição',
-            'weight'=> 'Peso',
+            'id' => 'ID',
+            'description' => 'Descrição',
+            'weight' => 'Peso',
             'add' => 'Adicionar Questão de Qualidade',
             'update' => 'Atualizar Questão de Qualidade',
             'livewire' => [
@@ -522,22 +606,29 @@ return [
             ],
 
         ],
-        'quality-score' => [
-            'title'=> 'Pontuação de Qualidade',
+        'question-score' => [
+            'title' => 'Pontuação de Qualidade',
+            'select' => [
+                'rule' => 'Selecione uma regra'
+            ],
+            'question' => [
+                'title' => 'Questão',
+                'placeholder' => 'Selecione uma questão',
+            ],
             'help' => [
                 'title' => 'Pontuação de Qualidade',
                 'content' => '',
             ],
-            'description'=> [
+            'description' => [
                 'title' => 'Descrição',
                 'placeholder' => 'Insira a descrição',
             ],
-            'id_qa'=> [
+            'id_qa' => [
                 'title' => 'Questão de Qualidade',
                 'placeholder' => 'Selecione a Questão de Qualidade',
                 'no-question-available' => 'Nenhuma questão disponível',
             ],
-            'score_rule'=> [
+            'score_rule' => [
                 'title' => 'Regra de Pontuação',
                 'placeholder' => 'Insira a Regra de Pontuação',
             ],
@@ -575,7 +666,9 @@ return [
         ],
 
         'min-general-score' => [
-            'title'=> 'Pontuação Geral Mínima para Aprovação',
+            'title' => 'Pontuação Mínima para Aprovação',
+            'cutoff' => 'Pontuação Mínima',
+            'sum' => 'Soma dos Pesos',
             'form' => [
                 'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
                 'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
@@ -611,6 +704,7 @@ return [
             'description' => 'Descrição',
             'type' => 'Tipo',
             'add-question' => 'Adicionar Pergunta',
+            'edit-question' => 'Editar Pergunta'
         ],
         'option-form' => [
             'title' => 'Criar Opção de Pergunta de Extração de Dados',
@@ -621,6 +715,7 @@ return [
             'question' => 'Pergunta',
             'option' => 'Opção',
             'add-option' => 'Adicionar Opção',
+            'edit-option' => 'Editar Opção'
         ],
         'table' => [
             'header' => [

@@ -36,11 +36,17 @@ class User extends Model implements AuthenticatableContract
         'occupation',
         'lattes_link',
         'role',
+        'active',
     ];
 
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
+    }
+    
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class, 'profile_id');
     }
 
     protected $hidden = [
@@ -65,4 +71,18 @@ class User extends Model implements AuthenticatableContract
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function projectslevels()
+    {
+        return $this->belongsToMany(Project::class, 'project_user')
+                    ->withPivot('level_id')
+                    ->withTimestamps();
+    }
+
+    public function levels()
+    {
+        return $this->belongsToMany(Level::class, 'user_levels')
+                    ->withTimestamps();
+    }
+    
 }
