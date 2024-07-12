@@ -6,17 +6,24 @@
     $tabs = [
         'overview' => [
             'icon' => 'fas fa-info-circle',
-            'label' => __("project/header.overview"),
+            'label' => 'Overview',
             'route' => 'projects.show',
         ],
         'planning' => [
             'icon' => 'fas fa-calendar-alt',
-            'label' => __("project/header.planning" ),
+            'label' => 'Planning',
             'route' => 'project.planning.index',
         ],
+
+        'conducting' => [
+            'icon' => 'fas fa-tasks',
+            'label' => __("project/header.conducting"),
+            'route' => 'conducting.index',
+        ],
+
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
-            'label' => __("project/header.reporting"),
+            'label' => 'Reporting',
             'route' => 'reporting.index',
         ],
         'export' => [

@@ -12,6 +12,7 @@
                 <x-select
                     wire:model="language"
                     label="{{ __('project/planning.overall.language.help.title') }}"
+                    required
                 >
                     <option selected disabled>
                         {{ __("project/planning.overall.language.list.select.placeholder") }}

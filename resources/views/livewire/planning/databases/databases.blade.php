@@ -15,6 +15,7 @@
                             wire:model="database"
                             label="{{ __('project/planning.databases.form.select-placeholder') }}"
                             search
+                            required
                         >
                             <option selected disabled>
                                 {{ __("project/planning.databases.form.select-placeholder") }}

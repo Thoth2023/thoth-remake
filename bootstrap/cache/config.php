@@ -10,7 +10,7 @@
     'locale' => 'pt_BR',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:rvbuoEDhpGAi03Vqj/qx738L3QZryW7OUP3Xw7BXNQw=',
+    'key' => 'base64:8PxOC1WGSkrnVtXN7e3q1vh3kPxWGn4vGYt0txLmIbw=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -105,6 +105,7 @@
       array (
         'driver' => 'session',
         'provider' => 'users',
+        'remember' => true,
       ),
       'sanctum' => 
       array (
@@ -514,6 +515,7 @@
     'links' => 
     array (
       '/var/www/public/storage' => '/var/www/storage/app/public',
+      '/var/www/public/storage/files' => '/var/www/storage/app/files',
     ),
   ),
   'hashing' => 
@@ -768,6 +770,65 @@
     array (
       'verify_csrf_token' => 'App\\Http\\Middleware\\VerifyCsrfToken',
       'encrypt_cookies' => 'App\\Http\\Middleware\\EncryptCookies',
+    ),
+  ),
+
+  'scout' => 
+  array (
+    'driver' => 'algolia',
+    'prefix' => '',
+    'queue' => false,
+    'after_commit' => false,
+    'chunk' => 
+    array (
+      'searchable' => 500,
+      'unsearchable' => 500,
+    ),
+    'soft_delete' => false,
+    'identify' => false,
+    'algolia' => 
+    array (
+      'id' => '2F5LVPPZ8H',
+      'secret' => 'abfebeb7d7b3bf99be9bb3d050f7165e',
+    ),
+    'meilisearch' => 
+    array (
+      'host' => 'http://localhost:7700',
+      'key' => NULL,
+      'index-settings' => 
+      array (
+      ),
+    ),
+    'typesense' => 
+    array (
+      'client-settings' => 
+      array (
+        'api_key' => 'xyz',
+        'nodes' => 
+        array (
+          0 => 
+          array (
+            'host' => 'localhost',
+            'port' => '8108',
+            'path' => '',
+            'protocol' => 'http',
+          ),
+        ),
+        'nearest_node' => 
+        array (
+          'host' => 'localhost',
+          'port' => '8108',
+          'path' => '',
+          'protocol' => 'http',
+        ),
+        'connection_timeout_seconds' => 2,
+        'healthcheck_interval_seconds' => 30,
+        'num_retries' => 3,
+        'retry_interval_seconds' => 1,
+      ),
+      'model-settings' => 
+      array (
+      ),
     ),
   ),
   'services' => 
