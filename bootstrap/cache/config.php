@@ -772,7 +772,6 @@
       'encrypt_cookies' => 'App\\Http\\Middleware\\EncryptCookies',
     ),
   ),
-
   'scout' => 
   array (
     'driver' => 'algolia',

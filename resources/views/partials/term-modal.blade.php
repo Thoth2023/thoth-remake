@@ -8,7 +8,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            {{-- <form action="{{ route('planning_search_string.update_term', $term->id_term) }}" method="POST">
+            <form action="{{ route('planning_search_string.update_term', $term->id_term) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -22,7 +22,7 @@
                     <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn bg-gradient-info">Save</button>
                 </div>
-            </form> --}}
+            </form>
         </div>
     </div>
 </div>

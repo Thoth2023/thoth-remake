@@ -14,13 +14,11 @@
             'label' => 'Planning',
             'route' => 'project.planning.index',
         ],
-
         'conducting' => [
             'icon' => 'fas fa-tasks',
             'label' => __("project/header.conducting"),
             'route' => 'conducting.index',
         ],
-
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
             'label' => 'Reporting',
@@ -28,8 +26,8 @@
         ],
         'export' => [
             'icon' => 'fas fa-file-export',
-            'label' => __("project/header.export"),
-            'route' => 'project.export.index',
+            'label' => 'Export',
+            'route' => null,
         ],
     ];
 @endphp
