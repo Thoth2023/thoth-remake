@@ -16,6 +16,7 @@
                     label="{{ __('project/planning.research-questions.form.id') }}"
                     wire:model="questionId"
                     placeholder="ID"
+                    required
                 />
                 @error("questionId")
                     <span class="text-xs text-danger">
@@ -26,7 +27,7 @@
                 <div class="d-flex flex-column">
                     <label
                         for="description"
-                        class="form-control-label mx-0 mb-1"
+                        class="form-control-label mx-0 mb-1 required"
                     >
                         {{ __("project/planning.research-questions.form.description") }}
                     </label>
@@ -80,14 +81,16 @@
                     >
                         ID
                     </th>
-                    <th style="padding: 0.5rem 0.75rem">{{ __("project/planning.research-questions.table.description") }}</th>
+                    <th style="padding: 0.5rem 0.75rem">
+                        {{ __("project/planning.research-questions.table.description") }}
+                    </th>
                     <th
                         style="
                             border-radius: 0 0.75rem 0 0;
                             padding: 0.5rem 1rem;
                         "
                     >
-                    {{ __("project/planning.research-questions.table.actions") }}
+                        {{ __("project/planning.research-questions.table.actions") }}
                     </th>
                 </thead>
                 <tbody>

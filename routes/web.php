@@ -1,22 +1,23 @@
 <?php
 
-
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
+use App\Http\Controllers\PermissionManagerController;
+use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Project\Conducting\ConductingController;
+use App\Http\Controllers\Project\Conducting\DataExtractionController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
-
 use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
 use App\Http\Controllers\Project\Conducting\StudySelectionController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
-
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\SearchStringController;
@@ -35,8 +36,14 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+//analisar esta 2 próximas linhas
+use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 
+
+//use App\Http\Controllers\Auth\LoginController;
+//use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,10 +109,20 @@ Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_p
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
+Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+
 
 // Project Routes
 Route::prefix('/project/{projectId}')->group(function () {
-    // Planning Routes
+
+        // // Start of the conducting routes
+        // Route::prefix('/conducting')->group(function () {
+        //     Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);;
+        // });
+
+
+     // Planning Routes
+
     Route::prefix('/planning')->group(function () {
         Route::get('/', [OverallController::class, 'index'])
             ->name('project.planning.index')
@@ -191,24 +208,53 @@ Route::prefix('/project/{projectId}')->group(function () {
     });
     // End of the Planning Routes
 
-    // Start of the conducting routes
+
     Route::prefix('/conducting')->group(function () {
+
         Route::get('/', [ConductingController::class, 'index'])
             ->name('project.conducting.index')
             ->middleware('auth')
             ->middleware(Localization::class);
-    });
 
+        // Data Extraction Routes
+        Route::prefix('/data-extraction/')->group(function () {
+            Route::resource('/extraction', DataExtractionController::class)
+                ->only(['index'])
+                ->names(['index' => 'project.planning.data-extraction.data-extraction.index']);
+        });
+
+    });
 
     // start of the reporting routes
     Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
 
 
+    Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+    // Star of Conducting routes
+
 
 });
 
+//SUPER USER ROUTES
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
+Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
+Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
+Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
+Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
+Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
 
+Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
+Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
+Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
+Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth'); 
+Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
+Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
+Route::middleware(['auth', 'role:super-user'])->group(function () {
+Route::resource('permissions', PermissionController::class);
+});
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {
@@ -236,3 +282,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
+Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
+Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
+Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);

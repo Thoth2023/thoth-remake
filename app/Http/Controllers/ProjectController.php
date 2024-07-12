@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
+use App\Livewire\Planning\Overall\Domains;
 use App\Models\Project;
 use App\Models\Activity;
 use App\Models\User;
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use Illuminate\Support\Str;
+use App\Notifications\ProjectInvitationNotification;
+use Illuminate\Support\Facades\Notification;
+
+use PHPUnit\Event\Application\FinishedSubscriber;
+
 
 
 class ProjectController extends Controller
@@ -31,9 +39,16 @@ class ProjectController extends Controller
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
         }
-
+        
+      
+        
+     
         return view('projects.index', compact('merged_projects'));
     }
+
+
+    
+    
 
     /**
      * Show the form for creating a new project.
@@ -201,39 +216,49 @@ class ProjectController extends Controller
     }
 
     /**
-     * Add a member to a project based on the submitted form data.
-     *
-     * @param \App\Http\Requests\ProjectAddMemberRequest $request The validated request object.
-     * @param string $idProject The ID of the project.
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
-    {
-        $request->validated();
-        $project = Project::findOrFail($idProject);
-        $email_member = $request->get('email_member');
-        $member_id = $this->findIdByEmail($email_member);
-        $name_member = User::findOrFail($member_id);
-        $level_member = $request->get('level_member');
-        $user = Auth::user();
+ * Add a member to a project based on the submitted form data.
+ *
+ * @param \App\Http\Requests\ProjectAddMemberRequest $request The validated request object.
+ * @param string $idProject The ID of the project.
+ * @return \Illuminate\Http\RedirectResponse
+ * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+ */
+public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
+{
+    $request->validated();
+    $project = Project::findOrFail($idProject);
+    $email_member = $request->get('email_member');
+    $member_id = $this->findIdByEmail($email_member);
+    $name_member = User::findOrFail($member_id);
+    $level_member = $request->get('level_member', 1);  // Default to level 1 if not specified
 
-        if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
-            return redirect()->back()->with('error', 'The user is already associated with the project.');
-        }
+    $user = Auth::user();
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
-        }
-
-        $project->users()->attach($idProject, ['id_user' => $member_id, 'level' => $level_member]);
-
-        $activity = "Added a new member: ".$name_member->username;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-
-        $project->update($request->all());
-        return redirect()->back()->with('succes', $name_member->username.' has been added to the current project.');
+    if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
+        return redirect()->back()->with('error', 'The user is already associated with the project.');
     }
+
+    if (!$project->userHasLevel($user, '1')) {
+        return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+    }
+
+    $token = Str::random(40); // Generate a unique token
+    $project->users()->attach($member_id, [
+        'level' => $level_member, 
+        'invitation_token' => $token, 
+        'status' => 'pending'
+    ]);
+
+    Notification::send($name_member, new ProjectInvitationNotification($project, $token));
+
+    $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
+    ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
+
+    return redirect()->back()->with('success', 'Invitation sent to ' . $name_member->email);
+}
+
+
+
 
     /**
      * Update the level of a project member.
@@ -279,4 +304,36 @@ class ProjectController extends Controller
 
         return $userId;
     }
+
+
+    public function acceptInvitation($idProject, Request $request)
+    {
+        $token = $request->query('token');
+    
+        // Busca o registro na tabela 'members'
+        $invitation = DB::table('members')
+                        ->where('invitation_token', $token)
+                        ->where('id_project', $idProject)
+                        ->first();
+    
+        if (!$invitation) {
+            return back()->with('error', 'Invalid or expired invitation.');
+        }
+    
+        // Atualiza o status do convite para 'accepted'
+        DB::table('members')
+            ->where('invitation_token', $token)
+            ->where('id_project', $idProject)
+            ->update([
+                'status' => 'accepted',
+                'invitation_token' => null  // Remove o token após ser aceito
+            ]);
+    
+        $activity = "Accepted invitation to join the project.";
+        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+    
+        return redirect('/projects')->with('success', 'You have successfully joined the project!');
+    }
+    
+
 }
