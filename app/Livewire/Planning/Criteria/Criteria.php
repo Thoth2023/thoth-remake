@@ -20,12 +20,11 @@ class Criteria extends Component
     /**
      * Fields to be filled by the form.
      */
-    public $pre_selected_inclusion;
-    public $pre_selected_exclusion;
-
     public $type;
     public $description;
     public $criteriaId;
+    public $inclusion_rule;
+    public $exclusion_rule;
 
     /**
      * Form state.
@@ -94,15 +93,15 @@ class Criteria extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
-        $this->pre_selected_inclusion['value'] = CriteriaModel::where(
+        $this->inclusion_rule['value'] = CriteriaModel::where(
             'id_project',
             $this->currentProject->id_project
-        )->where('type', 'Inclusion')->first()->pre_selected ?? 0;
-        $this->pre_selected_exclusion['value'] = CriteriaModel::where(
+        )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
+        $this->exclusion_rule['value'] = CriteriaModel::where(
             'id_project',
             $this->currentProject->id_project
-        )->where('type', 'Exclusion')->first()->pre_selected ?? 0;
-        $this->type['value'] = '-1';
+        )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
+        $this->type['value'] = 'NONE';
     }
 
     /**
@@ -112,9 +111,86 @@ class Criteria extends Component
     {
         $this->criteriaId = '';
         $this->description = '';
-        $this->type['value'] = '-1';
+        $this->type['value'] = null;
         $this->currentCriteria = null;
         $this->form['isEditing'] = false;
+    }
+
+    public function changePreSelected($id, $type)
+    {
+        $preselected = CriteriaModel::where('id_criteria', $id)->first()->pre_selected == 1 ? 0 : 1;
+        CriteriaModel::where('id_criteria', $id)->update(['pre_selected' => $preselected]);
+
+        $allCriterias = CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type' => $type,
+        ])->get();
+
+        $preselecteds = $allCriterias->where('pre_selected', 1)->count();
+        $countCriterias = $allCriterias->count();
+
+        $ruleValue = match (true) {
+            $preselecteds > 0 && $preselecteds < $countCriterias => 'AT_LEAST',
+            $preselecteds == 0 => 'ANY',
+            $preselecteds == $countCriterias => 'ALL',
+            default => 'ALL'
+        };
+
+        switch ($type) {
+            case 'Inclusion':
+                $this->inclusion_rule['value'] = $ruleValue;
+                CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type' => 'Inclusion'
+                ])->update(['rule' => $this->inclusion_rule['value']]);
+                break;
+            case 'Exclusion':
+                $this->exclusion_rule['value'] = $ruleValue;
+                CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type' => 'Exclusion'
+                ])->update(['rule' => $this->exclusion_rule['value']]);
+                break;
+        }
+
+        $this->updateCriterias();
+    }
+
+    public function selectRule($rule, $type)
+    {
+        $where = [
+            'id_project' => $this->currentProject->id_project,
+            'rule' => $rule,
+            'type' => $type,
+        ];
+
+        CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type' => $type,
+        ])->update(['rule' => $rule]);
+
+        switch ($rule) {
+            case 'ALL':
+                CriteriaModel::where($where)->update(['pre_selected' => 1]);
+                break;
+            case 'ANY':
+                CriteriaModel::where($where)->update(['pre_selected' => 0]);
+                break;
+            case 'AT_LEAST':
+                $selectedCount = CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'pre_selected' => 1,
+                    'type' => $type,
+                    'rule' => $rule,
+                ])->count();
+
+                if ($selectedCount === 0) {
+                    CriteriaModel::where($where)
+                        ->first()->update(['pre_selected' => 1]);
+                }
+                break;
+        }
+        $this->updateCriterias();
     }
 
     /**
@@ -127,15 +203,15 @@ class Criteria extends Component
             $this->currentProject->id_project
         )->get();
 
-        $this->pre_selected_inclusion['value'] = CriteriaModel::where(
+        $this->inclusion_rule['value'] = CriteriaModel::where(
             'id_project',
             $this->currentProject->id_project
-        )->where('type', 'Inclusion')->first()->pre_selected ?? 0;
+        )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
 
-        $this->pre_selected_exclusion['value'] = CriteriaModel::where(
+        $this->exclusion_rule['value'] = CriteriaModel::where(
             'id_project',
             $this->currentProject->id_project,
-        )->where('type', 'Exclusion')->first()->pre_selected ?? 0;
+        )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
     }
 
     /**
@@ -154,7 +230,7 @@ class Criteria extends Component
     {
         $this->validate();
 
-        if ($this->type['value'] == '-1') {
+        if (strcmp($this->type['value'], 'NONE') === 0) {
             $this->toast(
                 message: $this->translate()['type.required'],
                 type: 'info'
@@ -196,7 +272,8 @@ class Criteria extends Component
                 'id' => $this->criteriaId,
                 'description' => $this->description,
                 'type' => $this->type['value'],
-                'pre_selected' => 0
+                'rule' => $this->type['value'] == 'Inclusion' ?
+                    $this->inclusion_rule['value'] : $this->exclusion_rule['value'],
             ]);
 
             Log::logActivity(
@@ -205,7 +282,7 @@ class Criteria extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->updateCriterias();
+            $this->selectRule($updatedOrCreated->rule, $this->type['value']);
             $this->toast(
                 message: $toastMessage,
                 type: 'success'
@@ -266,15 +343,15 @@ class Criteria extends Component
      */
     public function updateCriteriaRule($type)
     {
-        $this->pre_selected_exclusion['value'] = CriteriaModel::where([
+        $this->exclusion_rule['value'] = CriteriaModel::where([
             'id_project' => $this->currentProject->id_project,
             'type' => 'Exclusion'
-        ])->update(['pre_selected' => $this->pre_selected_exclusion['value']]);
+        ])->update(['rule' => $this->exclusion_rule['value']]);
 
-        $this->pre_selected_inclusion['value'] = CriteriaModel::where([
+        $this->inclusion_rule['value'] = CriteriaModel::where([
             'id_project' => $this->currentProject->id_project,
             'type' => 'Inclusion'
-        ])->update(['pre_selected' => $this->pre_selected_inclusion['value']]);
+        ])->update(['rule' => $this->inclusion_rule['value']]);
 
         if ($type == 'Inclusion') {
             $this->toast(

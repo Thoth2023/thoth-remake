@@ -11,10 +11,10 @@ class ImportStudy extends Model
 
   protected $table = 'import_study';
 
-  protected $primaryKey = 'id_import_study';
   public $timestamps = true;
 
   protected $fillable = [
+    'file_name',
     'id_project',
     'id_database',
     'file',

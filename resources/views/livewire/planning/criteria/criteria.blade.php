@@ -16,6 +16,7 @@
                     label="{{ __('project/planning.criteria.form.id') }}"
                     wire:model="criteriaId"
                     placeholder="ID"
+                    required
                 />
                 @error("criteriaId")
                     <span class="text-xs text-danger">
@@ -29,6 +30,7 @@
                         label="{{ __('project/planning.criteria.form.description') }}"
                         wire:model="description"
                         placeholder="{{ __('project/planning.criteria.form.enter_description') }}"
+                        required
                     />
                 </div>
                 @error("description")
@@ -42,18 +44,19 @@
                         wire:model="type"
                         label="{{ __('project/planning.criteria.form.type') }}"
                         search
+                        required
                     >
                         <option selected disabled>
                             {{ __("project/planning.criteria.form.select-placeholder") }}
                         </option>
                         <option
-                            <?= $type["value"] === "Inclusion" ? "selected" : "" ?>
+                            <?= ($type["value"] ?? "") === "Inclusion" ? "selected" : "" ?>
                             value="Inclusion"
                         >
                             {{ __("project/planning.criteria.form.select-inclusion") }}
                         </option>
                         <option
-                            <?= $type["value"] === "Exclusion" ? "selected" : "" ?>
+                            <?= ($type["value"] ?? "") === "Exclusion" ? "selected" : "" ?>
                             value="Exclusion"
                         >
                             {{ __("project/planning.criteria.form.select-exclusion") }}
@@ -92,6 +95,12 @@
                                         border-radius: 0.75rem 0 0 0;
                                         padding: 0.5rem 1rem;
                                     "
+                                ></th>
+                                <th
+                                    style="
+                                        border-radius: 0 0 0 0;
+                                        padding: 0.5rem 1rem;
+                                    "
                                 >
                                     ID
                                 </th>
@@ -116,6 +125,15 @@
                                         data-item="search-criterias"
                                         wire:key="{{ $criteria->id_research_criteria }}"
                                     >
+                                        <td>
+                                            <input
+                                                wire:key="{{ $criteria->pre_selected }}"
+                                                type="checkbox"
+                                                wire:model="selectedRows"
+                                                wire:change="changePreSelected({{ $criteria->id_criteria }}, 'Inclusion')"
+                                                <?= $criteria->pre_selected === 1 ? "checked" : "" ?>
+                                            />
+                                        </td>
                                         <td>{{ $criteria->id }}</td>
                                         <td>
                                             <span
@@ -157,37 +175,31 @@
                 </div>
                 <div class="w-50">
                     <x-select
-                        wire:model="pre_selected_inclusion"
+                        wire:model="inclusion_rule"
                         label="{{ __('project/planning.criteria.inclusion-table.rule') }}"
                         style="max-width: 100px"
+                        wire:change="selectRule($event.target.value, 'Inclusion')"
                         search
                     >
                         <option
-                            value="0"
-                            <?= $pre_selected_inclusion["value"] === 0 ? "selected" : "" ?>
+                            value="ALL"
+                            <?= ($inclusion_rule["value"] ?? "") === "ALL" ? "selected" : "" ?>
                         >
                             {{ __("project/planning.criteria.table.all") }}
                         </option>
                         <option
-                            value="1"
-                            <?= $pre_selected_inclusion["value"] === 1 ? "selected" : "" ?>
+                            value="ANY"
+                            <?= ($inclusion_rule["value"] ?? "") === "ANY" ? "selected" : "" ?>
                         >
                             {{ __("project/planning.criteria.table.any") }}
                         </option>
                         <option
-                            value="2"
-                            <?= $pre_selected_inclusion["value"] === 2 ? "selected" : "" ?>
+                            value="AT_LEAST"
+                            <?= ($inclusion_rule["value"] ?? "") === "AT_LEAST" ? "selected" : "" ?>
                         >
                             {{ __("project/planning.criteria.table.at-least") }}
                         </option>
                     </x-select>
-                    <button
-                        type="button"
-                        class="mt-2 btn-sm btn btn-primary px-3"
-                        wire:click="updateCriteriaRule('Inclusion')"
-                    >
-                        <i class="fa fa-plus"></i>
-                    </button>
                 </div>
             </div>
             <div class="d-flex flex-column gap-1">
@@ -204,6 +216,12 @@
                                 <th
                                     style="
                                         border-radius: 0.75rem 0 0 0;
+                                        padding: 0.5rem 1rem;
+                                    "
+                                ></th>
+                                <th
+                                    style="
+                                        border-radius: 0 0 0 0;
                                         padding: 0.5rem 1rem;
                                     "
                                 >
@@ -230,7 +248,17 @@
                                         data-item="search-criterias"
                                         wire:key="{{ $criteria->id_research_criteria }}"
                                     >
-                                        <td>{{ $criteria->id }}</td>
+                                        <td>
+                                            <input
+                                                wire:key="{{ $criteria->pre_selected }}"
+                                                type="checkbox"
+                                                wire:change="changePreSelected({{ $criteria->id_criteria }}, 'Exclusion')"
+                                                <?= $criteria->pre_selected === 1 ? "checked" : "" ?>
+                                            />
+                                        </td>
+                                        <td>
+                                            {{ $criteria->id }}
+                                        </td>
                                         <td>
                                             <span
                                                 class="block text-wrap text-break"
@@ -271,42 +299,35 @@
                 </div>
                 <div class="w-50">
                     <x-select
-                        wire:model="pre_selected_exclusion"
+                        wire:model="exclusion_rule"
                         label="{{ __('project/planning.criteria.exclusion-table.rule') }}"
                         style="width: 100px"
+                        wire:change="selectRule($event.target.value, 'Exclusion')"
                         search
                     >
                         <option
-                            value="0"
-                            <?= $pre_selected_exclusion["value"] === 0 ? "selected" : "" ?>
+                            value="ALL"
+                            <?= ($exclusion_rule["value"] ?? "") === "ALL" ? "selected" : "" ?>
                         >
                             {{ __("project/planning.criteria.table.all") }}
                         </option>
                         <option
-                            value="1"
-                            <?= $pre_selected_exclusion["value"] === 1 ? "selected" : "" ?>
+                            value="ANY"
+                            <?= ($exclusion_rule["value"] ?? "") === "ANY" ? "selected" : "" ?>
                         >
                             {{ __("project/planning.criteria.table.any") }}
                         </option>
                         <option
-                            value="2"
-                            <?= $pre_selected_exclusion["value"] === 2 ? "selected" : "" ?>
+                            value="AT_LEAST"
+                            <?= ($exclusion_rule["value"] ?? "") === "AT_LEAST" ? "selected" : "" ?>
                         >
                             {{ __("project/planning.criteria.table.at-least") }}
                         </option>
                     </x-select>
-                    <button
-                        type="button"
-                        class="mt-2 btn-sm btn btn-primary px-3"
-                        wire:click="updateCriteriaRule('Exclusion')"
-                    >
-                        <i class="fa fa-plus"></i>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
-
     @script
         <script>
             $wire.on('criteria', ([{ message, type }]) => {

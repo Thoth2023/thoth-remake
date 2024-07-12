@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Project;
+use Laravel\Scout\Searchable;
 
 class Term extends Model
 {
+    use Searchable;
     use HasFactory;
     protected $table = 'term';
     protected $primaryKey = 'id_term';
