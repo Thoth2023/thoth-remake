@@ -43,7 +43,7 @@
                 ></textarea>
             </div>
             @error("currentDescription")
-                <span class="text-xs text-danger">
+            <span class="text-xs text-danger">
                     {{ $message }}
                 </span>
             @enderror
@@ -65,9 +65,9 @@
 </div>
 
 @script
-    <script>
-        $wire.on('search-strategy', ([{ message, type }]) => {
-            toasty({ message, type });
-        });
-    </script>
+<script>
+    $wire.on('search-strategy', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+</script>
 @endscript

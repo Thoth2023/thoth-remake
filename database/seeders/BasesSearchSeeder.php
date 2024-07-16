@@ -28,6 +28,7 @@ class BasesSearchSeeder extends Seeder
             ['id_database' => 13, 'name' => 'Web of Science (ISI)', 'link' => 'https://access.clarivate.com/', 'state' => 'approved'],
             ['id_database' => 14, 'name' => 'EI Compendex', 'link' => '', 'state' => 'approved'],
             ['id_database' => 15, 'name' => 'Research Gate', 'link' => 'https://www.researchgate.net/', 'state' => 'approved'],
+            ['id_database' => 16, 'name' => 'Snowballing Studies', 'link' => '', 'state' => 'approved'],
         ]);
     }
 }
