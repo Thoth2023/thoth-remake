@@ -13,7 +13,7 @@
                     class="w-md-25 w-50"
                     id="databaseSelect"
                     label="{{ __('project/conducting.import-studies.form.selected-database') }}"
-                    wire:model="selectedDatabase"
+                    wire:model="selectedDatabase.value"
                 >
                     <option selected disabled>
                         {{ __("project/conducting.import-studies.form.selected-database") }}
@@ -21,24 +21,21 @@
                     @foreach ($databases as $database)
                         <option
                             value="{{ $database->id_database }}"
-                                <?= ($selectedDatabase["value"] ?? "") == $database->id_database ? "selected" : "" ?>
+                            {{ ($selectedDatabase['value'] ?? '') == $database->id_database ? 'selected' : '' }}
                         >
                             {{ $database->name }}
                         </option>
                     @endforeach
                 </x-select>
-                @error("selectedDatabase")
+                @error("selectedDatabase.value")
                 <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
+                    {{ $message }}
+                </span>
                 @enderror
 
                 <div class="d-flex flex-column">
                     <form wire:submit.prevent="save">
-                        <label
-                            for="fileUpload"
-                            class="form-control-label mx-0 mb-1"
-                        >
+                        <label for="fileUpload" class="form-control-label mx-0 mb-1">
                             {{ __("project/conducting.import-studies.form.upload") }}
                         </label>
                         <input
@@ -46,12 +43,12 @@
                             class="form-control"
                             id="fileUpload"
                             wire:model="file"
-                            accept=".bib,.csv"
+                            accept=".bib,.csv,.txt"
                         />
                         @error("file")
                         <span class="text-xs text-danger">
-                                {{ $message }}
-                            </span>
+                            {{ $message }}
+                        </span>
                         @enderror
 
                         <x-helpers.submit-button
@@ -67,17 +64,9 @@
             <hr style="opacity: 10%" />
             <div class="overflow-auto px-2 py-1" style="max-height: 500px">
                 <table class="table table-responsive table-hover">
-                    <thead
-                        class="table-light sticky-top custom-gray-text"
-                        style="color: #676a72"
-                    >
+                    <thead class="table-light sticky-top custom-gray-text" style="color: #676a72">
                     <tr>
-                        <th
-                            style="
-                                    border-radius: 0.75rem 0 0 0;
-                                    padding: 0.5rem 1rem;
-                                "
-                        >
+                        <th style="border-radius: 0.75rem 0 0 0; padding: 0.5rem 1rem;">
                             {{ __("project/conducting.import-studies.table.database") }}
                         </th>
                         <th style="padding: 0.5rem 0.75rem">
@@ -88,10 +77,9 @@
                     <tbody>
                     @foreach ($databases as $database)
                         @php
-                            $dbFiles = $files->where("id_database", $database->id_database);
+                            $dbFiles = $files->filter(fn($file) => $file->projectDatabase->id_database == $database->id_database);
                             $rowCount = $dbFiles->count();
                         @endphp
-
                         <tr>
                             <td class="align-middle">
                                 {{ $database->name }}
@@ -101,16 +89,15 @@
                                     <ul class="list-group">
                                         @foreach ($dbFiles as $file)
                                             <li class="list-group-item ml-4">
-                                                {{ $file->file_name }}
-                                                <button
-                                                    class="pl-4 btn py-1 px-3 btn-outline-danger"
-                                                    wire:click="deleteFile('{{ $file->id }}')"
-                                                >
+                                                {{ $file->name }}
+                                                <button class="pl-4 btn py-1 px-3 btn-outline-danger" wire:click="deleteFile('{{ $file->id_bib }}')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </li>
                                         @endforeach
                                     </ul>
+                                @else
+                                    <p>No files uploaded for this database.</p>
                                 @endif
                             </td>
                         </tr>

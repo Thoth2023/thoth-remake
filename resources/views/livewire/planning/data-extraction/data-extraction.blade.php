@@ -56,11 +56,15 @@
                         </tr>
                         @if ($question->options->isNotEmpty() && $question->type > 1)
                             <x-table.accordion-content>
-                                <td colspan="5">
-                                    <div class="d-grid gap-3">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="1" > <!-- Adicionando a classe text-end -->
+
+                                    <div class="d-grid">
                                         @foreach ($question->options as $option)
-                                            <div class="table-accordion-item">
-                                                <span class="d-flex text-break">
+                                            <div class="table-accordion-item d-flex justify-content-between ">
+                                                <span class="text-break">
                                                     {{ $option->description }}
                                                 </span>
                                                 <div>
@@ -69,24 +73,21 @@
                                                         wire:click="editOption({{ $option }})"
                                                         class="btn btn-outline-secondary py-0 px-3 m-0"
                                                     >
-                                                        <i
-                                                            class="fas fa-edit"
-                                                        ></i>
+                                                        <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button
                                                         type="button"
                                                         wire:click="deleteOption({{ $option }})"
                                                         class="btn btn-outline-danger py-0 px-3 m-0"
                                                     >
-                                                        <i
-                                                            class="fas fa-trash"
-                                                        ></i>
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
                                 </td>
+                                <td></td>
                             </x-table.accordion-content>
                         @endif
                     @endforeach

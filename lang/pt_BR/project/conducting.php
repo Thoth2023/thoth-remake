@@ -9,6 +9,7 @@ return [
         'import_studies' => 'Importar Estudos',
         'study_selection' => 'Seleção de Estudos',
         'quality_assessment' => 'Avaliação de Qualidade',
+        'snowballing' => 'Estudos Snowballing',
         'data_extraction' => 'Extração de Dados',
     ],
 

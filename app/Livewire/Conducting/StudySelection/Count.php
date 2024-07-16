@@ -47,53 +47,60 @@ class Count extends Component
         }
 
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
-    
-        $this->duplicates = $this->findDuplicates($this->papers);  
+
+        if ($this->papers->isEmpty()) {
+            session()->flash('error', 'No papers imported for this project.');
+            return;
+        }
+
+        $this->duplicates = $this->findDuplicates($this->papers);
         $this->accepted = $this->findAccepted($this->papers);
         $this->removed = $this->findRemoved($this->papers);
         $this->rejected = $this->findRejected($this->papers);
         $this->unclassified = $this->findUnclassified($this->papers);
 
-        $this->rejectedPercentage = count($this->rejected) / count($this->papers) * 100;
-        $this->unclassifiedPercentage = count($this->unclassified) / count($this->papers) * 100;
-        $this->acceptedPercentage = count($this->accepted) / count($this->papers) * 100;
-        $this->removedPercentage = count($this->removed) / count($this->papers) * 100;
-        $this->duplicatePercentage = count($this->duplicates) / count($this->papers) * 100;
+        // Use operadores ternários para lidar com arrays potencialmente vazios
+        $this->rejectedPercentage = $this->rejected ? count($this->rejected) / count($this->papers) * 100 : 0;
+        $this->unclassifiedPercentage = $this->unclassified ? count($this->unclassified) / count($this->papers) * 100 : 0;
+        $this->acceptedPercentage = $this->accepted ? count($this->accepted) / count($this->papers) * 100 : 0;
+        $this->removedPercentage = $this->removed ? count($this->removed) / count($this->papers) * 100 : 0;
+        $this->duplicatePercentage = $this->duplicates ? count($this->duplicates) / count($this->papers) * 100 : 0;
 
-        $this->updateDuplicates($this->duplicates);    
+
+        $this->updateDuplicates($this->duplicates);
     }
 
     private function findRejected($papers) {
         $papersWithRejectedStatus = $papers->map(function ($paper) {
             $isRejected = $paper->status_selection == StatusSelection::where('description', 'Rejected')->first()->id_status;
-            return $isRejected ? $paper : null; 
+            return $isRejected ? $paper : null;
+        })->filter(function ($paper) {  // Add filter to remove null values
+            return $paper !== null;
         });
 
-        $papersWithRejectedStatus = $this->cleanArr($papersWithRejectedStatus->toArray());
-
-        return $papersWithRejectedStatus;
+        return $papersWithRejectedStatus->toArray();
     }
 
     private function findUnclassified($papers) {
         $papersWithUnclassifiedStatus = $papers->map(function ($paper) {
             $isUnclassified = $paper->status_selection == StatusSelection::where('description', 'Unclassified')->first()->id_status;
-            return $isUnclassified ? $paper : null; 
+            return $isUnclassified ? $paper : null;
+        })->filter(function ($paper) {  // Add filter to remove null values
+            return $paper !== null;
         });
 
-        $papersWithUnclassifiedStatus = $this->cleanArr($papersWithUnclassifiedStatus->toArray());
-
-        return $papersWithUnclassifiedStatus;
+        return $papersWithUnclassifiedStatus->toArray();
     }
 
     private function findRemoved($papers) {
         $papersWithRemovedStatus = $papers->map(function ($paper) {
             $isRemoved = $paper->status_selection == StatusSelection::where('description', 'Removed')->first()->id_status;
-            return $isRemoved ? $paper : null; 
+            return $isRemoved ? $paper : null;
+        })->filter(function ($paper) {  // Add filter to remove null values
+            return $paper !== null;
         });
 
-        $papersWithRemovedStatus = $this->cleanArr($papersWithRemovedStatus->toArray());
-
-        return $papersWithRemovedStatus;
+        return $papersWithRemovedStatus->toArray();
     }
 
     private function cleanArr($array) {
@@ -104,12 +111,12 @@ class Count extends Component
     private function findAccepted($papers) {
         $papersWithAcceptedStatus = $papers->map(function ($paper) {
             $isAccepted = $paper->status_selection == StatusSelection::where('description', 'Accepted')->first()->id_status;
-            return $isAccepted ? $paper : null; 
+            return $isAccepted ? $paper : null;
+        })->filter(function ($paper) {  // Add filter to remove null values
+            return $paper !== null;
         });
 
-        $papersWithAcceptedStatus = $this->cleanArr($papersWithAcceptedStatus->toArray());
-
-        return $papersWithAcceptedStatus;
+        return $papersWithAcceptedStatus->toArray();
     }
 
     private function updateDuplicates($papers) {
@@ -127,16 +134,16 @@ class Count extends Component
 
     private function findDuplicates($papers) {
 
-        $papersWithDuplicationStatus = $papers->map(function ($paper) {
+        $duplicatePaperIds = $papers->map(function ($paper) {
             $isDuplicated = Papers::isDuplicate($paper->title, $paper->id_paper);
-            return $isDuplicated ? $paper : null;
-        });
+            return $isDuplicated ? $paper->id_paper : null;  // Return only id if duplicated
+        })->filter(function ($id) {  // Filter non-null IDs
+            return $id !== null;
+        })->toArray();
 
-        $papersWithDuplicationStatus = $this->cleanArr($papersWithDuplicationStatus->toArray());
-
-        return $papersWithDuplicationStatus;
+        return $duplicatePaperIds;
     }
-    
+
 
     public function render()
     {

@@ -19,7 +19,7 @@ class Table extends Component
 
     /**
      * The current project.
-     * 
+     *
      */
     public Project $currentProject;
 
@@ -29,17 +29,17 @@ class Table extends Component
 
     public $criterias;
 
-    
+
 
     /**
      * The sort fields.
-     * 
+     *
      */
     public array $sorts = [];
 
     public array $statuses = [];
 
-    public array $editingStatus = []; 
+    public array $editingStatus = [];
 
    /**
      * Executed when the component is mounted. It sets the
@@ -49,29 +49,46 @@ class Table extends Component
     public function mount()
     {
         $this->statuses = [
-            __('project/conducting.study-selection.status.duplicated'), 
-            __('project/conducting.study-selection.status.removed'), 
+            __('project/conducting.study-selection.status.duplicated'),
+            __('project/conducting.study-selection.status.removed'),
             __('project/conducting.study-selection.status.unclassified'),
             __('project/conducting.study-selection.status.included'),
             __('project/conducting.study-selection.status.approved'),
         ];
 
         $this->projectId = request()->segment(2);
-        
         $this->currentProject = Project::findOrFail($this->projectId);
 
+        // Obter os IDs dos bancos de dados associados ao projeto
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
 
         $idsBib = [];
 
+        // Verificar se há bases de dados associadas
         if (count($idsDatabase) > 0) {
             $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         }
 
-        $this->setupCriteria();
-        
+        // Verificar se há registros em BibUpload
+        if (empty($idsBib)) {
+            // Definir uma variável de mensagem ou lançar uma exceção
+            session()->flash('error', 'Não existem papers importados para este projeto.');
+            $this->papers = collect(); // Definir como coleção vazia
+            return;
+        }
+
+        // Obter os registros de papers associados aos IDs de BibUpload
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
 
+        // Verificar se há registros em Papers
+        if ($this->papers->isEmpty()) {
+            // Definir uma variável de mensagem ou lançar uma exceção
+            session()->flash('error', 'Não existem papers importados para este projeto.');
+            $this->papers = collect(); // Definir como coleção vazia
+            return;
+        }
+
+        $this->setupCriteria();
         $this->papers = $this->setupDatabase($this->papers);
         $this->papers = $this->setupStatus($this->papers);
         $this->papers = $this->setupDuplicates($this->papers);
@@ -108,16 +125,16 @@ class Table extends Component
         $this->criterias = $criterias;
     }
 
-    private function setupDatabase($papers) 
+    private function setupDatabase($papers)
     {
         foreach($papers as $paper) {
             $database = $paper->database;
-            
+
             $paper['data_base'] = $database->name;
         }
 
         return $papers;
-    }   
+    }
 
     public function openPaper($paper)
     {
@@ -142,10 +159,10 @@ class Table extends Component
 
         $value = 'Updated papers status.';
 
+        // Registrar log da ação
         Log::info(
-            'action: ' + $value + 
-            'description:' + $paper, 
-            projectId: $this->currentProject->id_project
+            'action: ' . $value . ' description: ' . $paper,
+            ['projectId' => $this->currentProject->id_project]
         );
     }
 

@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The following language lines are used for the navigation bar.
-    | 
+    |
     |
     */
 

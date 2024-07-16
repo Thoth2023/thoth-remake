@@ -1,6 +1,6 @@
 <div>
     <ul class='list-group'>
-        <li class='list-group-item d-flex'>    
+        <li class='list-group-item d-flex'>
             <div class='w-5 pl-2'>
                 <b wire:click.prevent="sortBy('id')" role="button" href="#">
                     {{ __('project/conducting.study-selection.table.id' )}}
@@ -96,14 +96,14 @@
                 </div>
                 <div class='w-20'>
                     <b data-search>[wip]</b>
-                </div>  
+                </div>
                 <div class='w-20'>
                     <b data-search>[wip]</b>
                 </div>
                 <div class='w-15'>
                     <b data-search>{{ $paper['data_base'] }}</b>
                 </div>
-                <div class='w-15'>      
+                <div class='w-15'>
                     <b data-search>
                         {{ $paper->status }}
                     </b>
@@ -120,7 +120,7 @@
         <x-search.empty target="search-papers" >
             {{ __("project/conducting.study-selection.papers.no-results") }}
         </x-search.empty>
-        
-    </ul>   
+
+    </ul>
 </div>
 

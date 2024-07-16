@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Conducting;
 
+use App\Models\ProjectDatabases;
 use App\Utils\ToastHelper;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\File;
+use App\Models\BibUpload;
 use App\Models\Project as ProjectModel;
+use App\Models\ProjectDatabases as ProjectDatabasesModel;
 use Illuminate\Support\Facades\Storage;
 
 class FileUpload extends Component
@@ -29,7 +31,7 @@ class FileUpload extends Component
   protected $rules = [
     'selectedDatabase' => 'required|exists:project_databases,id_database',
     'file' => 'required|file|max:10240',
-    'file.mimes' => 'The file must be a type of: bib, csv.',
+    'file.mimes' => 'The file must be a type of: bib, csv, txt.',
     'file.max' => 'The file size must not exceed 10MB.',
   ];
 
@@ -43,6 +45,7 @@ class FileUpload extends Component
     $projectId = request()->segment(2);
     $this->currentProject = ProjectModel::findOrFail($projectId);
     $this->databases = $this->currentProject->databases;
+
   }
 
   /**
@@ -54,33 +57,51 @@ class FileUpload extends Component
     $this->file = null;
   }
 
-  public function save()
+    public function save()
+    {
+        $this->validate();
+
+        $name = md5($this->file . microtime()) . '.' . $this->file->extension();
+        $projectDatabase = ProjectDatabasesModel::where('id_project', $this->currentProject->id_project)
+            ->where('id_database', $this->selectedDatabase['value'])
+            ->first();
+
+
+        if ($projectDatabase) {
+            $id_project_database = $projectDatabase->id_project_database;
+
+            $this->file->storeAs('files', $name);
+
+            BibUpload::create([
+                'name' => $name,
+                'id_project_database' => $id_project_database,
+            ]);
+
+            $id_project = $this->currentProject->id_project;
+            $database = $this->selectedDatabase['value'];
+            BibUpload::importPapers($papers, $database, $name, $id_project);
+
+            $this->toast(
+                message: 'File uploaded successfully.',
+                type: 'success'
+            );
+
+            $this->resetFields();
+        } else {
+            $this->toast(
+                message: 'Project database not found.',
+                type: 'error'
+            );
+        }
+    }
+
+
+    public function deleteFile($id)
   {
-    $this->validate();
-
-    $name = md5($this->file . microtime()) . '.' . $this->file->extension();
-
-    $this->file->storeAs('files', $name);
-
-    File::create([
-      'file_name' => $name,
-      'id_database' => $this->selectedDatabase['value'],
-    ]);
-
-    $this->toast(
-      message: 'File uploaded successfully.',
-      type: 'success'
-    );
-
-    $this->resetFields();
-  }
-
-  public function deleteFile($id)
-  {
-    $file = File::findOrFail($id);
+    $file = BibUpload::findOrFail($id);
 
     try {
-      Storage::delete('files/' . $file->file_name);
+      Storage::delete('files/' . $file->name);
       $file->delete();
 
       $this->toast(
@@ -98,7 +119,7 @@ class FileUpload extends Component
   public function render()
   {
     return view('livewire.conducting.file-upload', [
-      'files' => File::all(),
+      'files' => BibUpload::all(),
     ]);
   }
 }

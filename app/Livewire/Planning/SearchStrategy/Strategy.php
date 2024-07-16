@@ -15,7 +15,7 @@ class Strategy extends Component
     public $currentDescription;
 
     protected $rules = [
-        'searchStrategy.description' => 'required|string|max:255',
+        'currentDescription' => 'required|string|max:255',
     ];
 
     public function mount()
@@ -41,8 +41,8 @@ class Strategy extends Component
         try {
             $project = ProjectModel::findOrFail($this->projectId);
             $project->searchStrategy()
-                    ->updateOrCreate([], ['description' => $this->currentDescription]);
-    
+                ->updateOrCreate([], ['description' => $this->currentDescription]);
+
             Log::logActivity(
                 action: 'Updated the search strategy',
                 description: $this->currentDescription,
@@ -60,6 +60,7 @@ class Strategy extends Component
             );
         }
     }
+
 
     public function render()
     {
