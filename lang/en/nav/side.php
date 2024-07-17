@@ -6,7 +6,14 @@ return [
     'profile' => 'Profile',
     'about_us' => 'About Us',
     'help' => 'Help',
-    
+    'titulo-adm' => 'ADMINISTRATOR',
+    'database_manager' => 'Database Manager',
+    'user_manager' => 'User Manager',
+    'levels_manager' => 'Profile Manager',
+    'add_permission' => 'Add New Permission Group',
+    'edit_permission' => 'Edit Permission Group',
+    'view_permission' => 'View Permission Group',
+
     // Left side navbar
 
     'thoth_configurator' => 'Thoth Configurator',

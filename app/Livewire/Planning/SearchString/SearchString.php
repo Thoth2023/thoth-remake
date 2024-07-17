@@ -72,11 +72,16 @@ class SearchString extends Component
      * Executed when the component is mounted. It sets the
      * project id and retrieves the items.
      */
+
+    protected $listeners = ['databaseAdded' => 'refreshDatabases', 'databaseDeleted' => 'refreshDatabases'];
+
     public function mount()
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentSearchString = null;
+
+        $this->loadProjectDatabases();
 
         $projectDatabases = ProjectDatabases::where([
             'id_project' => $this->currentProject->id_project
@@ -86,6 +91,8 @@ class SearchString extends Component
         foreach ($projectDatabases as $index => $database) {
             $this->descriptions[$index] = $database->search_string;
         }
+
+
     }
 
     /**
@@ -101,12 +108,33 @@ class SearchString extends Component
     /**
      * Update the items.
      */
+
     public function updateSearchStrings()
     {
         $this->strings = SearchStringModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
+
+    }
+
+    public function loadProjectDatabases()
+    {
+        $projectDatabases = ProjectDatabases::where('id_project', $this->currentProject->id_project)->get();
+        $this->genericDescription = $this->currentProject->generic_search_string;
+
+        foreach ($projectDatabases as $index => $database) {
+            $this->descriptions[$index] = $database->search_string;
+        }
+    }
+
+    // Method to refresh databases when the event is received
+    public function refreshDatabases($projectId)
+    {
+        if ($this->currentProject->id_project == $projectId) {
+            $this->loadProjectDatabases();
+
+        }
     }
 
     /**

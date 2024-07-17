@@ -1,9 +1,11 @@
 <?php
 
-
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
+use App\Http\Controllers\PermissionManagerController;
+use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
@@ -13,7 +15,8 @@ use App\Http\Controllers\Project\Conducting\ConductingController;
 use App\Http\Controllers\Project\Conducting\DataExtractionController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
-use App\Http\Controllers\Project\Conducting\OverallController as OverallConductingController;
+use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
+use App\Http\Controllers\Project\Conducting\StudySelectionController;
 use App\Http\Controllers\Project\Planning\Overall\StudyTypeController;
 use App\Http\Controllers\Project\Planning\ResearchQuestionsController;
 use App\Http\Controllers\Project\Planning\SearchStrategyController;
@@ -36,9 +39,11 @@ use Illuminate\Support\Facades\Route;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
-
 use App\Http\Controllers\ThemeController;
 
+
+//use App\Http\Controllers\Auth\LoginController;
+//use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,7 +114,7 @@ Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 
 
 // Project Routes
 Route::prefix('/project/{projectId}')->group(function () {
-   
+
         // // Start of the conducting routes
         // Route::prefix('/conducting')->group(function () {
         //     Route::get('/', [OverallConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);;
@@ -226,13 +231,30 @@ Route::prefix('/project/{projectId}')->group(function () {
 
     Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-    Route::get('/conducting', [ConductingController::class, 'index'])->name('conducting.index')->middleware('auth')->middleware(Localization::class);
-    // End of Conducting routes
+
 
 });
 
+//SUPER USER ROUTES
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
+Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
+Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
+Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
+Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
+Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
 
+Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
+Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
+Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
+Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth'); 
+Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
+Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
+Route::middleware(['auth', 'role:super-user'])->group(function () {
+Route::resource('permissions', PermissionController::class);
+});
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {
@@ -260,3 +282,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
+Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
+Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
+Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);

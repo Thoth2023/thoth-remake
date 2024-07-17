@@ -6,6 +6,13 @@ return [
     'profile' => 'Perfil',
     'about_us' => 'Sobre nós',
     'help' => 'Ajuda',
+    'titulo-adm' => 'ADMINISTRAÇÃO',
+    'database_manager' => 'Gerenciar Base de Dados',
+    'user_manager' => 'Gerenciar Usuários',
+    'levels_manager' => 'Gerenciar Perfis',
+    'add_permission' => 'Adicionar Nova Permissão de Grupo',
+    'edit_permission' => 'Editar Permissão de Grupo',
+    'view_permission' => 'Visualização da Permissão de Grupo',
 
     // Left side navbar
 

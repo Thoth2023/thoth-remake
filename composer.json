@@ -17,7 +17,7 @@
         "livewire/livewire": "*",
         "renanbr/bibtex-parser": "^2.2",
         "spatie/laravel-model-states": "^2.7",
-        "spatie/laravel-permission": "^5.10"
+        "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

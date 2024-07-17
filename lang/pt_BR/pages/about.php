@@ -4,13 +4,25 @@ return [
     'home' => 'Sobre',
     'about' => 'Sobre nós',
     'description' => 'Use esses formulários incríveis para fazer login ou criar uma nova conta no seu projeto gratuitamente.',
-    
+
     'new_features' => 'Novas funcionalidades:',
     'recover_password' => 'Recuperar Senha',
-    'bug_databases' => 'Banco de Dados de Bugs',
-    'new_interface' => 'Nova Interface',
-    'new_framework' => 'Novo Framework',
-    
+    'bug_databases' => 'Planejamento - Bases de Dados (base de dados padrão definidos)',
+    'suggest_databases' => 'Sugerir Base de Dados (implementação com aprovação do superusuário)',
+    'new_interface' => 'Nova Interface Frontend e Backend com Livewire',
+    'new_framework' => 'Novo Framework (Laravel 10)',
+    'internationalization' => 'Internacionalização (PT/BR e EN)',
+    'usability' => 'Correções de erros de usabilidade e acessibilidade (Helpers)',
+    'users_management' => 'Gerenciamento de Usuários (ativação/permissões)',
+    'profile_management' => 'Gerenciamento de Perfis (ACL/gates e policies)',
+    'members_invitation' => 'Convite a Membros (notificação por e-mail)',
+    'pwa' => 'Aplicativo Web Progressivo (PWA Mobile)',
+    'snowballing' => 'Módulo Snowballing (em desenvolvimento)',
+    'new_qa' => 'Planejamento - Nova forma de configurar as questões de avaliação de qualidade (QA)',
+    'algolia_api' => 'API Algolia AI Synonyms - implementação para sugerir sinônimos para palavras-chave e auxiliar na construção de strings',
+    'crossref_api' => 'API CrossRef - implementação junto ao módulo snowballing para busca de referências dos estudos.',
+
+
     'development' => 'Desenvolvimento',
     'development_description' => 'Thoth foi criado por estudantes de graduação em Engenharia de Software, mantido e atualizado por alunos e professores do Programa de Pós-Graduação em Engenharia de Software - PPGES da Universidade Federal do Pampa (UNIPAMPA).',
 
@@ -20,13 +32,13 @@ return [
 
     'about_the_tool' => 'Sobre a Ferramenta:',
     'about_the_tool_description' => 'Thoth é uma poderosa ferramenta para apoiar revisões sistemáticas colaborativas. É uma solução multiplataforma desenvolvida para automatizar partes importantes do processo de revisão sistemática, facilitando e agilizando o trabalho de pesquisadores e profissionais envolvidos nesse tipo de estudo.',
-    
+
     'cross_platform' => 'Ferramenta colaborativa multiplataforma',
     'cross_platform_description' => 'Thoth foi projetado para funcionar em diferentes plataformas, como computadores, tablets e smartphones, permitindo que os usuários trabalhem colaborativamente em um ambiente virtual compartilhado. Essa característica possibilita que vários investigadores trabalhem simultaneamente, compartilhando informações e colaborando em tempo real.',
-    
+
     'automate_process' => 'Automatizar partes do processo',
     'automate_process_description' => 'Thoth tem como objetivo automatizar várias etapas do processo de revisão sistemática, reduzindo a necessidade de trabalho manual e minimizando erros. Algumas das funcionalidades automatizadas incluem a geração de strings de pesquisa, gerenciamento de estudos nas etapas de seleção e qualidade, geração de dados para uso em trabalhos e criação de gráficos e tabelas que representam as etapas de importação, seleção, qualidade e extração.',
-    
+
     'search_string' => 'Geração de strings de pesquisa',
     'search_string_description' => 'Uma das tarefas cruciais na revisão sistemática é a definição de termos de pesquisa apropriados para localizar estudos relevantes. A Thoth é capaz de gerar automaticamente strings de pesquisa com base em critérios definidos pelo usuário, ajudando a obter resultados mais precisos e abrangentes.',
 

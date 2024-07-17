@@ -10,7 +10,32 @@ return [
         'import_studies' => 'Import Studies',
         'study_selection' => 'Study Selection',
         'quality_assessment' => 'Quality Assessment',
+        'snowballing' => 'Snowballing Studies',
         'data_extraction' => 'Data Extraction',
+
+    ],
+    'study-selection' => [
+        'title' => '',
+        'papers' => [
+            'empty' => 'No papers have been added yet.',
+            'no-results' => 'No results found.'
+        ],
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Title',
+            'acceptance-criteria' => 'Inclusion Criteria',
+            'rejection-criteria' => 'Rejection Criteria',
+            'status' => 'Status',
+            'database' => 'Database',
+            'actions' => 'Actions',
+        ],
+        'status' => [
+            'duplicated' => 'Duplicated',
+            'removed' => 'Removed',
+            'unclassified' => 'Unclassified',
+            'included' => 'Included',
+            'approved' => 'Approved'
+        ],
         'snowballing' => 'Snowballing'
     ],
 

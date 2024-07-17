@@ -104,6 +104,10 @@
         <script src="{{ asset("assets/js/core/bootstrap.min.js") }}"></script>
         <script src="{{ asset("assets/js/plugins/perfect-scrollbar.min.js") }}"></script>
         <script src="{{ asset("assets/js/plugins/smooth-scrollbar.min.js") }}"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <script>
             var win = navigator.platform.indexOf('Win') > -1;
             if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -204,6 +208,8 @@
 
             });
         </script>
+
+        
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>

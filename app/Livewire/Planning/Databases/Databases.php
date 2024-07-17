@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Planning\Databases;
 
-use App\Utils\ToastHelper;
+
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Database as DatabaseModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Utils\ToastHelper;
 
 class Databases extends Component
 {
@@ -72,6 +73,8 @@ class Databases extends Component
     public function toast(string $message, string $type)
     {
         $this->dispatch('databases', ToastHelper::dispatch($type, $message));
+
+
     }
 
     /**
@@ -87,6 +90,7 @@ class Databases extends Component
     /**
      * Submit the form. It also validates the input fields.
      */
+
     public function submit()
     {
         $this->validate();
@@ -119,6 +123,10 @@ class Databases extends Component
                 message: $this->translate('added'),
                 type: 'success',
             );
+
+            // Emit the event after successfully adding the database
+            $this->dispatch('databaseAdded', $this->currentProject->id_project);
+
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
         }
@@ -146,6 +154,8 @@ class Databases extends Component
             message: $this->translate('deleted'),
             type: 'success',
         );
+
+        $this->dispatch('databaseDeleted', $this->currentProject->id_project);
     }
 
     /**
@@ -162,4 +172,6 @@ class Databases extends Component
             )
         )->extends('layouts.app');
     }
+
+
 }

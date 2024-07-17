@@ -9,8 +9,35 @@ return [
         'import_studies' => 'Importar Estudos',
         'study_selection' => 'Seleção de Estudos',
         'quality_assessment' => 'Avaliação de Qualidade',
+        'snowballing' => 'Estudos Snowballing',
         'data_extraction' => 'Extração de Dados',
     ],
+
+    'study-selection' => [
+        'title' => '',
+        'papers' => [
+            'empty' => 'Nenhum Paper foi adicionado ainda.',
+            'no-results' => 'Nenhum resultado encontrado.'
+        ],
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Título',
+            'acceptance-criteria' => 'Critério de Aceitação',
+            'rejection-criteria' => 'Critério de Rejeição',
+            'status' => 'Status',
+            'database' => 'Base de Dados',
+            'actions' => 'Ações',
+        ],
+        'status' => [
+            'duplicated' => 'Duplicado',
+            'removed' => 'Removido',
+            'unclassified' => 'Não Classificado',
+            'approved' => 'Aprovado',
+            'included' => 'Incluido'
+        ],
+    ],
+    'snowballing' => 'Snowballing',
+
 
     'progress_bar' => [
         'title' => 'Progresso de Extração de Dados',
@@ -54,6 +81,7 @@ return [
 
     'snowballing' => 'Snowballing',
 
+
     'import-studies' => [
         'title' => 'Importação de estudos',
         'form' => [
@@ -68,8 +96,9 @@ return [
         ],
          'table' => [
             'database' => 'Base de dados',
+
             'studies-imported' => 'Estudos importados',
-            'actions' => 'Ação',
+            'actions' => 'Ações',
             'file' => 'Arquivo',
             'file-imported' => 'Arquivos importados',
             'delete' => 'Deletar',
@@ -86,6 +115,7 @@ return [
             'todo' => 'A fazer',
             'removed' => 'Removido',
             'total' => 'Total',
+
         ],
         'list_studies' => 'Lista de Estudos para Extração de Dados',
         'table' => [
