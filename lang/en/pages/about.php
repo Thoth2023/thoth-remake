@@ -4,32 +4,44 @@ return [
     'home' => 'About',
     'about' => 'About us',
     'description' => 'Use these awesome forms to login or create new account in your project for free.',
-    
+
     'new_features' => 'New features:',
-    'recover_password' => 'Recover Password',
-    'bug_databases' => 'Bug Databases',
-    'new_interface' => 'New Interface',
-    'new_framework' => 'New Framework',
+    'recover_password' => 'Password Recovery',
+    'bug_databases' => 'Planning Databases (default databases defined)',
+    'suggest_databases' => 'Suggest Databases (implementation with super user approval)',
+    'new_interface' => 'New Frontend and Backend Interface with Livewire',
+    'new_framework' => 'New Framework (Laravel 10)',
+    'internationalization' => 'Internationalization (PT/BR and EN)',
+    'usability' => 'Usability and accessibility bug fixes (Helpers)',
+    'users_management' => 'User Management (activation/permissions)',
+    'profile_management' => 'Profile Management (ACL/gates and policies)',
+    'members_invitation' => 'Member Invitation (email notification)',
+    'pwa' => 'Progressive Web App (PWA Mobile)',
+    'snowballing' => 'Snowballing Module (in development)',
+    'new_qa' => 'Planning - New method for configuring quality assessment (QA)',
+    'algolia_api' => 'Algolia AI Synonyms API - implementation for suggesting synonyms for keywords and assisting in string construction',
+    'crossref_api' => 'CrossRef API - implementation with the snowballing module for searching study references.',
+
 
     'development' => 'Development',
     'development_description' => 'Thoth was created by undergraduate students in Software Engineering, maintained and updated by students and professors of the Graduate Program in Software Engineering - PPGES at the Federal University of Pampa (UNIPAMPA).',
-    
+
     'open_source_project' => 'Open Source Project',
     'mit_license' => 'MIT License',
     'technologies_used' => 'Technologies Used:',
 
     'about_the_tool' => 'About the Tool:',
     'about_the_tool_description' => 'Thoth is a powerful tool to support collaborative systematic reviews. It is a multi-platform solution developed to automate important parts of the systematic review process, facilitating and streamlining the work of researchers and professionals involved in this type of study.',
-    
+
     'cross_platform' => 'Cross-platform, collaborative tool',
     'cross_platform_description' => 'Thoth was designed to work on different platforms, such as computers, tablets and smartphones, allowing users to work collaboratively in a shared virtual environment. This characteristic makes it possible for several investigators to work simultaneously, sharing information and collaborating in real time.',
-    
+
     'automate_process' => 'Automate parts of the process',
     'automate_process_description' => 'Thoth aims to automate several steps of the systematic review process, reducing the need for manual work and minimizing errors. Some of the automated functionality includes generating search strings, managing studies in the selection and quality steps, generating data for use in jobs, and creating charts and tables that represent the steps of import, selection, quality, and extraction.',
-    
+
     'search_string' => 'Search string generation',
     'search_string_description' => 'One of the crucial tasks in the systematic review is the definition of appropriate search terms to locate relevant studies. Thoth is capable of automatically generating search strings based on user-defined criteria, helping to obtain more accurate and comprehensive results.',
-    
+
     'management_selection' => 'Management of studies in the selection stage',
     'management_selection_description' => 'During the selection stage, where studies are evaluated for their relevance to the review, Thoth offers features to facilitate the management of these studies. Users can import studies into the tool, organize them, and perform screening based on predefined criteria, making the process more efficient and traceable.',
 
