@@ -38,12 +38,21 @@
                                 {{ __("pages/about.new_features") }}
                             </a>
                             <ul>
-                                <li>
-                                    {{ __("pages/about.recover_password") }}
-                                </li>
+                                <li>{{ __("pages/about.recover_password") }}</li>
                                 <li>{{ __("pages/about.bug_databases") }}</li>
+                                <li>{{ __("pages/about.suggest_databases") }}</li>
+                                <li>{{ __("pages/about.new_qa") }}</li>
                                 <li>{{ __("pages/about.new_interface") }}</li>
                                 <li>{{ __("pages/about.new_framework") }}</li>
+                                <li>{{ __("pages/about.internationalization") }}</li>
+                                <li>{{ __("pages/about.usability") }}</li>
+                                <li>{{ __("pages/about.users_management") }}</li>
+                                <li>{{ __("pages/about.profile_management") }}</li>
+                                <li>{{ __("pages/about.members_invitation") }}</li>
+                                <li>{{ __("pages/about.pwa") }}</li>
+                                <li>{{ __("pages/about.snowballing") }}</li>
+                                <li>{{ __("pages/about.algolia_api") }}</li>
+                                <li>{{ __("pages/about.crossref_api") }}</li>
                             </ul>
                         </div>
                     </div>
