@@ -297,8 +297,6 @@ return [
             'name' => 'Name',
             'actions' => 'Actions',
             'header' => 'Databases',
-            'name' => 'Name',
-            'actions' => 'Actions',
             'remove-button' => 'Remove',
             'no-databases' => 'No databases found.',
             'empty' => 'No database registered in the project.',

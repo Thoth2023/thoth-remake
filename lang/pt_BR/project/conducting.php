@@ -14,7 +14,11 @@ return [
     ],
 
     'study-selection' => [
-        'title' => '',
+        'title' => 'Seleção de Estudos',
+        'help' => [
+            'content' => '??'
+
+        ],
         'papers' => [
             'empty' => 'Nenhum Paper foi adicionado ainda.',
             'no-results' => 'Nenhum resultado encontrado.'
@@ -35,6 +39,14 @@ return [
             'approved' => 'Aprovado',
             'included' => 'Incluido'
         ],
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'Nenhuma base de dados encontrada para este projeto.',
+                'no-papers' => 'Nenhum paper importado para este projeto.',
+                'data-refresh' => 'Dados atualizados com sucesso',
+            ],
+        ],
+
     ],
     'snowballing' => 'Snowballing',
 
@@ -79,11 +91,8 @@ return [
         'title' => 'Detalhes do Estudo',
     ],
 
-    'snowballing' => 'Snowballing',
-
-
     'import-studies' => [
-        'title' => 'Importação de estudos',
+        'title' => 'Importar estudos',
         'form' => [
                 'database' => 'Base de dados',
                 'selected-database' => 'Selecionar a base de dados',
@@ -100,11 +109,35 @@ return [
             'studies-imported' => 'Estudos importados',
             'actions' => 'Ações',
             'file' => 'Arquivo',
-            'file-imported' => 'Arquivos importados',
+            'files-uploaded' => 'Arquivos carregados',
+            'no-files' => 'Nenhum arquivo carregado para esta base de dados.',
             'delete' => 'Deletar',
-
-
         ],
+        'livewire' => [
+            'logs' => [
+                'database_associated_papers_imported' => 'Papers associados à base de dados importados',
+                'deleted_file_and_papers' => 'Arquivo e :count papers associados excluídos',
+            ],
+            'selectedDatabase' => [
+                'value' => [
+                    'required' => 'O campo da base de dados é obrigatório.',
+                    'exists' => 'A base de dados selecionada não existe.',
+                ],
+            ],
+            'file' => [
+                'required' => 'O campo de descrição é obrigatório.',
+                'mimes' => 'O arquivo deve ser do tipo: bib, csv, txt.',
+                'max' => 'O tamanho do arquivo não deve exceder 10MB.',
+            ],
+            'toasts' => [
+                'file_uploaded_success' => 'Arquivo carregado com sucesso. :count papers foram inseridos.',
+                'file_upload_error' => 'Ocorreu um erro ao importar papers. ERRO: :message',
+                'project_database_not_found' => 'Base de dados do projeto não encontrada.',
+                'file_deleted_success' => 'Arquivo excluído com sucesso. :count papers associados também foram excluídos.',
+                'file_delete_error' => 'Ocorreu um erro ao excluir o arquivo: :message',
+            ],
+        ],
+
     ],
 
     'data-extraction' => [
