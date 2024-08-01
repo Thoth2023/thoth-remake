@@ -9,33 +9,9 @@
         </div>
         <div class="card-body">
             <div class="d-flex flex-column gap-2 form-group">
-                <x-select
-                    class="w-md-25 w-50"
-                    id="databaseSelect"
-                    label="{{ __('project/conducting.import-studies.form.selected-database') }}"
-                    wire:model="selectedDatabase.value"
-                >
-                    <option selected disabled>
-                        {{ __("project/conducting.import-studies.form.selected-database") }}
-                    </option>
-                    @foreach ($databases as $database)
-                        <option
-                            value="{{ $database->id_database }}"
-                            {{ ($selectedDatabase['value'] ?? '') == $database->id_database ? 'selected' : '' }}
-                        >
-                            {{ $database->name }}
-                        </option>
-                    @endforeach
-                </x-select>
-                @error("selectedDatabase.value")
-                <span class="text-xs text-danger">
-                    {{ $message }}
-                </span>
-                @enderror
-
                 <div class="d-flex flex-column">
                     <form wire:submit.prevent="save">
-                        <label for="fileUpload" class="form-control-label mx-0 mb-1">
+                        <label for="fileUpload" class="form-control-label mx-0 mb-1 mt-3">
                             {{ __("project/conducting.import-studies.form.upload") }}
                         </label>
                         <input
@@ -51,12 +27,36 @@
                         </span>
                         @enderror
 
+                        <x-select
+                            class="w-md-25 w-50"
+                            id="databaseSelect"
+                            label="{{ __('project/conducting.import-studies.form.selected-database') }}"
+                            wire:model="selectedDatabase.value"
+                        >
+                            <option selected disabled>
+                                {{ __("project/conducting.import-studies.form.selected-database") }}
+                            </option>
+                            @foreach ($databases as $database)
+                                <option
+                                    value="{{ $database->id_database }}"
+                                    {{ ($selectedDatabase['value'] ?? '') == $database->id_database ? 'selected' : '' }}
+                                >
+                                    {{ $database->name }}
+                                </option>
+                            @endforeach
+                        </x-select>
+                        @error("selectedDatabase.value")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                        @enderror
+
                         <x-helpers.submit-button
                             class="mt-3"
                             type="submit"
                             wire:loading.attr="disabled"
                         >
-                            Enviar arquivo
+                            {{ __("project/conducting.import-studies.form.add") }}
                         </x-helpers.submit-button>
                     </form>
                 </div>
@@ -70,7 +70,7 @@
                             {{ __("project/conducting.import-studies.table.database") }}
                         </th>
                         <th style="padding: 0.5rem 0.75rem">
-                            Files uploaded
+                            {{ __("project/conducting.import-studies.table.files-uploaded") }}
                         </th>
                     </tr>
                     </thead>
@@ -83,6 +83,7 @@
                         <tr>
                             <td class="align-middle">
                                 {{ $database->name }}
+                                @livewire('conducting.study-selection.paper-count', ['databaseId' => $database->id_database, 'projectId' => $currentProject->id_project], key($database->id_database))
                             </td>
                             <td class="align-middle">
                                 @if ($rowCount > 0)
@@ -97,7 +98,7 @@
                                         @endforeach
                                     </ul>
                                 @else
-                                    <p>No files uploaded for this database.</p>
+                                    <p>{{ __("project/conducting.import-studies.table.no-files") }}</p>
                                 @endif
                             </td>
                         </tr>
@@ -116,3 +117,4 @@
     });
 </script>
 @endscript
+

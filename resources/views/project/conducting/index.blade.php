@@ -60,7 +60,7 @@
                         </div>
 
                         <div id="quality-assessment" class="tab-pane fade">
-                            @include("project.conducting.quality-assessment")
+                            @include("project.conducting.quality-assessment", ["project" => $project])
                         </div>
 
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)

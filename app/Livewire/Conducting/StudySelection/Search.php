@@ -12,15 +12,13 @@ use Livewire\Component;
 class Search extends Component
 {
 
-    
     /**
      * Render the component.
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function render()
     {
-        return view(
-            'livewire.conducting.study-selection.search');
+        return view('livewire.conducting.study-selection.search');
     }
 }

@@ -5,34 +5,74 @@ namespace App\Livewire\Conducting\StudySelection;
 use App\Models\BibUpload;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
+use App\Utils\ActivityLogHelper as Log;
 use Livewire\Component;
 use TCPDF;
+use App\Utils\ToastHelper;
+
 
 class Buttons extends Component
-{   
+{
 
     public $projectId;
 
     public function removeDuplicates()
     {
+        // Obtém todos os papers para o projeto atual
         $papers = $this->getPapers($this->projectId);
-        $uniquePapers = [];
-        $titles = [];
 
+        // Inicializa arrays para armazenar títulos únicos e duplicados
+        $uniqueTitles = [];
+        $duplicates = [];
+
+        // Itera sobre os papers para encontrar duplicatas
         foreach ($papers as $paper) {
-            if (!in_array($paper->title, $titles)) {
-                $uniquePapers[] = $paper;
-                $titles[] = $paper->title;
+            if (!in_array($paper->title, $uniqueTitles)) {
+                // Adiciona título à lista de títulos únicos
+                $uniqueTitles[] = $paper->title;
+            } else {
+                // Adiciona o ID do papel à lista de duplicados
+                $duplicates[] = $paper->id_paper;
             }
         }
 
-        foreach ($papers as $paper) {
-            if (!in_array($paper, $uniquePapers)) {
-                $paper->delete();
-            }
-        }
+        // Log para verificar IDs de duplicados
+        //Log::info('Duplicate IDs:', $duplicates);
 
-        return redirect()->route('conducting.study-selection', $this->projectId);
+
+        // Atualiza o status dos papers duplicados para 'removed' (status_selection = 5)
+        if (count($duplicates) > 0) {
+            $updated = Papers::whereIn('id_paper', $duplicates)
+                ->update(['status_selection' => 4]); // Atualiza o campo status_selection para '5'
+
+            // Log para verificar o número de atualizações realizadas
+            //Log::info('Number of papers updated:', ['count' => $updated]);
+
+
+            // Log da atividade com o número de papers duplicados
+            Log::logActivity(
+                action: 'Papers duplicated have been successfully marked as Duplicated',
+                description: 'Number of papers duplicates: ' . $updated,
+                projectId: $this->projectId,
+            );
+
+
+            // Emite um evento para recarregar o componente Livewire
+            $this->dispatch('refreshPapers');
+
+            if ($updated > 0) {
+                $this->toast('Papers duplicated have been successfully marked as Duplicated.', 'success');
+            } else {
+                $this->toast('No papers were updated.', 'info');
+            }
+        } else {
+            $this->toast('No duplicates found.', 'info');
+        }
+    }
+
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('buttons', ToastHelper::dispatch($type, $message));
     }
 
     public function exportCsv()
@@ -47,7 +87,7 @@ class Buttons extends Component
     public function exportXml()
     {
         $papers = $this->getPapers($this->projectId);
-        $xmlData = $this->formatXml($papers); 
+        $xmlData = $this->formatXml($papers);
         return response()->streamDownload(function() use ($xmlData) {
             echo $xmlData;
         }, 'studies.xml');
@@ -55,9 +95,9 @@ class Buttons extends Component
 
     public function exportPdf()
     {
-        
+
         $papers = $this->getPapers($this->projectId);
-        $pdfData = $this->formatPdf($papers); 
+        $pdfData = $this->formatPdf($papers);
         return response()->streamDownload(function() use ($pdfData) {
             echo $pdfData;
         }, 'studies.pdf');
@@ -103,7 +143,7 @@ class Buttons extends Component
             $paperElement->addChild('criteria_rejection', $paper->criteriaRejection ?? '');
             $paperElement->addChild('database', $paper->database->name ?? '');
             $paperElement->addChild('status', $paper->status ?? '');
-        
+
         }
 
         return $xmlData->asXML();

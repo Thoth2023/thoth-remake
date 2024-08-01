@@ -36,15 +36,17 @@
             href="{{ asset("assets/css/nucleo-svg.css") }}"
             rel="stylesheet"
         />
-        <!-- Font Awesome Icons -->
-        <script
-            src="https://kit.fontawesome.com/42d5adcbca.js"
-            crossorigin="anonymous"
-        ></script>
+
         <link
             href="{{ asset("assets/css/nucleo-svg.css") }}"
             rel="stylesheet"
         />
+
+        <link
+            href="{{ asset("assets/fontawesome-free-6.6.0-web/css/all.min.css") }}"
+            rel="stylesheet"
+        />
+
         <!-- CSS Files -->
         <link
             id="pagestyle"
@@ -55,7 +57,7 @@
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        @livewireStyles
+         @livewireStyles
     </head>
 
     <body
@@ -209,7 +211,7 @@
             });
         </script>
 
-        
+
 
         {{-- Search input js logic --}}
         <script src="{{ asset("assets/js/utils.js") }}"></script>

@@ -123,4 +123,10 @@
 
     </ul>
 </div>
-
+@script
+<script>
+    $wire.on('table', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+</script>
+@endscript

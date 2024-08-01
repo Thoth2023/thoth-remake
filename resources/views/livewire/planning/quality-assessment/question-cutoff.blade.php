@@ -17,17 +17,20 @@
                 wire:model="sum"
                 disabled
             />
-            <x-input
+        </div>
+        <div class="gap-2">
+            <x-select
                 id="cutoff"
                 label="{{ __('project/planning.quality-assessment.min-general-score.cutoff') }}"
-                type="number"
-                maxlength="3"
-                min="0"
-                placeholder="0"
-                wire:model="cutoff"
-                wire:blur="updateCutoff"
-                style="{{ $isCutoffMaxValue ? 'border: solid 1px red' : '' }}"
-            />
+                wire:model="selectedGeneralScore"
+                wire:change="updateCutoff"
+            >
+                <option value="">Select a general score</option>
+                @foreach ($generalScores as $score)
+                    <option value="{{ $score->id_general_score }}" {{ $selectedGeneralScore == $score->id_general_score ? 'selected' : '' }}>{{ $score->description }}  ({{ $score->start }} - {{ $score->end }})</option>
+                @endforeach
+
+            </x-select>
         </div>
     </div>
 </div>
@@ -49,9 +52,9 @@
 </script>
 
 @script
-    <script>
-        $wire.on('question-cutoff', ([{ message, type }]) => {
-            toasty({ message, type });
-        });
-    </script>
+<script>
+    $wire.on('question-cutoff', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+</script>
 @endscript
