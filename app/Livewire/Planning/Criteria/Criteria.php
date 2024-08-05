@@ -206,6 +206,14 @@ class Criteria extends Component
     }
 
     /**
+     * Translate messages based on the given key.
+     */
+    public function translate($key)
+    {
+        return __($this->toastMessages . '.' . $key);
+    }
+
+    /**
      * Submit the form. It validates the input fields
      * and creates or updates an item.
      */
@@ -215,7 +223,7 @@ class Criteria extends Component
 
         if (strcmp($this->type['value'], 'NONE') === 0) {
             $this->toast(
-                message: $this->translate()['type.required'],
+                message: $this->translate('type.required'),
                 type: 'info'
             );
             return;
@@ -228,11 +236,11 @@ class Criteria extends Component
         try {
             $value = $this->form['isEditing'] ? 'Updated the criteria' : 'Added a criteria';
 
-            $toastMessage = $this->translate()[$this->form['isEditing'] ? 'updated' : 'added'];
+            $toastMessage = $this->translate($this->form['isEditing'] ? 'updated' : 'added');
 
             if (!$this->form['isEditing'] && $this->currentProject->criterias->contains('id', $this->criteriaId)) {
                 $this->toast(
-                    message: $this->translate()['unique-id'],
+                    message: $this->translate('unique-id'),
                     type: 'error'
                 );
                 return;
@@ -244,7 +252,7 @@ class Criteria extends Component
                 && $this->currentProject->criterias->contains('id', $this->criteriaId)
             ) {
                 $this->toast(
-                    message: $this->translate()['unique-id'],
+                    message: $this->translate('unique-id'),
                     type: 'error'
                 );
                 return;
@@ -307,7 +315,7 @@ class Criteria extends Component
             );
 
             $this->toast(
-                message: $this->translate()['deleted'],
+                message: $this->translate('deleted'),
                 type: 'success'
             );
             $this->updateCriterias();
@@ -338,14 +346,14 @@ class Criteria extends Component
 
         if ($type == 'Inclusion') {
             $this->toast(
-                message: $this->translate()['updated-inclusion'],
+                message: $this->translate('updated-inclusion'),
                 type: 'success'
             );
         }
 
         if ($type == 'Exclusion') {
             $this->toast(
-                message: $this->translate()['updated-exclusion'],
+                message: $this->translate('updated-exclusion'),
                 type: 'success'
             );
         }
@@ -361,5 +369,3 @@ class Criteria extends Component
         return view('livewire.planning.criteria.criteria')->extends('layouts.app');
     }
 }
-
-
