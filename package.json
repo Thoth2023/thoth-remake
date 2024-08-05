@@ -8,14 +8,14 @@
         "@popperjs/core": "^2.11.6",
         "axios": "^1.1.2",
         "blade-formatter": "^1.41.1",
-        "bootstrap": "^5.2.3",
+        "bootstrap": "^5.3.3",
         "laravel-vite-plugin": "^0.7.2",
         "prettier-plugin-blade": "^2.1.12",
         "sass": "^1.56.1",
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@creative-tim-official/argon-dashboard-free": "^1.2.0",
+        "@creative-tim-official/argon-dashboard-free": "^1.1.0",
         "lodash": "^4.17.21",
         "perfect-scrollbar": "^1.5.5"
     }

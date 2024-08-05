@@ -11,7 +11,7 @@
                 @if ($paper)
                     <div class="d-flex gap-1 mb-3">
                         <p>Title: {{ $paper['title'] }}</p>
-                        <p>Database: {{ $paper['data_base'] }}</p>            
+                        <p>Database: {{ $paper['data_base'] }}</p>
                     </div>
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
@@ -39,7 +39,7 @@
                     <hr />
 
                     <p>Select an option</p>
-                    
+
                     <div class="btn-group mt-2" role="group">
                         <input type="radio" class="btn-check" wire:model="selected_status" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
                         <label class="btn btn-outline-primary" for="btnradio1">Remove</label>
@@ -72,5 +72,13 @@
                 $('#paperModal').modal('show');
             });
         });
+</script>
+@endscript
+
+@script
+<script>
+    $wire.on('paper-modal', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
 </script>
 @endscript

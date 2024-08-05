@@ -47,23 +47,6 @@ class Criteria extends Component
         ];
     }
 
-    /**
-     * Custom translation messages for the validation rules.
-     */
-    public function translate()
-    {
-        $toasts = 'project/planning.criteria.livewire.toasts';
-
-        return [
-            'type.required' => __($toasts . '.type.required'),
-            'updated' => __($toasts . '.updated'),
-            'added' => __($toasts . '.added'),
-            'deleted' => __($toasts . '.deleted'),
-            'updated-inclusion' => __($toasts . '.updated-inclusion'),
-            'updated-exclusion' => __($toasts . '.updated-exclusion'),
-            'unique-id' => __($toasts . '.unique-id')
-        ];
-    }
 
     /**
      * Custom error messages for the validation rules.

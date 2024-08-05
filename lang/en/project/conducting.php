@@ -15,7 +15,11 @@ return [
 
     ],
     'study-selection' => [
-        'title' => '',
+        'title' => 'Study Selection',
+        'help' => [
+            'content' => '??'
+
+        ],
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -30,15 +34,21 @@ return [
             'actions' => 'Actions',
         ],
         'status' => [
-            'duplicated' => 'Duplicated',
+            'duplicated' => 'Duplicate',
             'removed' => 'Removed',
             'unclassified' => 'Unclassified',
             'included' => 'Included',
             'approved' => 'Approved'
         ],
-        'snowballing' => 'Snowballing'
+        'count'=>[
+            'toasts' =>[
+                'no-databases'=>'No databases found for this project.',
+                'no-papers'=>'No papers imported for this project.',
+                'data-refresh'=>'Data refreshed successfully',
+            ]
+        ]
     ],
-
+    'snowballing' => 'Snowballing',
     'data-extraction' => [
         'title' => 'Data Extraction',
         'progress-data-extraction' => 'Data Extraction Progress',
@@ -89,7 +99,7 @@ return [
             'selected-database' => 'Select Database',
             'upload' => 'Choose File',
             'add' => 'Add File',
-            'delete' => 'Delete'
+            'delete' => 'Delete',
         ],
 
        'help' => [
@@ -101,9 +111,36 @@ return [
             'studies-imported' => 'Total imported studies',
             'actions' => 'Actions',
             'file' => 'File',
-            'file-imported' => 'Files imported',
+            'files-uploaded' => 'Files uploaded',
+            'no-files'=>'No files uploaded for this database.',
             'delete' => 'Delete',
         ],
+
+        'livewire' => [
+            'logs' => [
+                'database_associated_papers_imported' => 'Database associated papers imported',
+                'deleted_file_and_papers' => 'Deleted file and :count associated papers',
+            ],
+            'selectedDatabase'=>[
+                'value'=>[
+                    'required'=>'The database field is required.',
+                    'exists' =>'The selected database does not exist.',
+                ]
+            ],
+            'file' => [
+                'required' => 'The description field is required.',
+                'mimes'=>'The file must be a type of: bib, csv, txt.',
+                'max' => 'The file size must not exceed 10MB.',
+            ],
+            'toasts' => [
+                'file_uploaded_success' => 'File uploaded successfully. :count papers were inserted.',
+                'file_upload_error' => 'An error occurred while importing papers. ERRO: :message',
+                'project_database_not_found' => 'Project database not found.',
+                'file_deleted_success' => 'File deleted successfully. :count papers associated were also deleted.',
+                'file_delete_error' => 'An error occurred while deleting the file: :message',
+            ],
+        ],
+
     ],
 
     'progress_bar' => [
