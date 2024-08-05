@@ -12,24 +12,19 @@ use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Table extends Component
 {
-
     /**
      * The current project.
      *
      */
-    public Project $currentProject;
-
+    public $currentProject;
     public $projectId;
-
     public $papers;
-
     public $criterias;
-
-
 
     /**
      * The sort fields.
@@ -46,6 +41,7 @@ class Table extends Component
      * project id and retrieves the items.
      * @return void
      */
+
     public function mount()
     {
         $this->statuses = [
@@ -91,7 +87,7 @@ class Table extends Component
         $this->setupCriteria();
         $this->papers = $this->setupDatabase($this->papers);
         $this->papers = $this->setupStatus($this->papers);
-        $this->papers = $this->setupDuplicates($this->papers);
+        //$this->papers = $this->setupDuplicates($this->papers);
     }
 
     private function setupDuplicates($papers): Collection
@@ -108,7 +104,7 @@ class Table extends Component
 
         foreach ($papers as $paper) {
             if (!in_array($paper, $uniquePapers)) {
-                $status_selection = StatusSelection::where('description', 'Duplicated')->first();
+                $status_selection = StatusSelection::where('description', 'Duplicate')->first();
                 $paper['status_selection'] = $status_selection->id_status;
                 $paper['status'] = $status_selection->description;
             }

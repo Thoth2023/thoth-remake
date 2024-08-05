@@ -7,7 +7,19 @@
     </div>
 @else
     <div class='card card-body col-md-12 mt-3'>
-        <h1 class="h4 mb-3">Study Selection</h1>
+    <div class="d-flex flex-column gap-4">
+
+            <div class="card">
+                <div class="card-header mb-0 pb-4">
+                    <x-helpers.modal
+                        target="import-studies"
+                        modalTitle="{{ __('project/conducting.study-selection.title') }}"
+                        modalContent="{{ __('project/conducting.study-selection.help.content') }}"
+                    />
+                </div>
+            </div>
+    </div>
+
         <div>
             @livewire('conducting.study-selection.count')
         </div>
@@ -18,7 +30,7 @@
             @livewire('conducting.study-selection.search')
         </div>
         <div class="table-section">
-            @livewire('conducting.study-selection.table')
+           {{--@livewire('conducting.study-selection.table')--}}
         </div>
     </div>
 @endif

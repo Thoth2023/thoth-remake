@@ -18,7 +18,7 @@ class Cutoff extends Model
 
     protected $fillable = [
         'id_project',
-        'score',
+        'id_general_score',
     ];
 
     public function project(): BelongsTo
