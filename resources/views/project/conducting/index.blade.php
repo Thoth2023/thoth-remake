@@ -50,9 +50,9 @@
                         ]
                     )
                     <div class="tab-content mt-4">
-                        <div class="tab-pane fade show active" id="import-studies">
+                        <div class="tab-pane fade" id="import-studies">
                             <!-- Conteúdo da aba Import Studies -->
-                             @livewire("conducting.file-upload")
+                            @livewire("conducting.file-upload")
                         </div>
 
                         <div id="study-selection" class="tab-pane fade">
@@ -76,37 +76,57 @@
                 </div>
             </div>
 
-                @include('layouts.footers.auth.footer')
+            @include('layouts.footers.auth.footer')
 
-            </div>
         </div>
+    </div>
     </div>
 
     @if (session()->has("activePlanningTab"))
         <script>
             window.onload = function () {
-                // Remove active class from import-studies-tab
+                // Remover a classe active da aba import-studies-tab
                 document
                     .getElementById('import-studies-tab')
                     .classList.remove('active');
-                // Remove active class from import-studies content
+                // Remover a classe active e show do conteúdo import-studies
                 document
                     .getElementById('import-studies')
                     .classList.remove('show', 'active');
 
-                // Get the tab ID stored in the session
+                // Obter o ID da aba armazenada na sessão
                 var activeTabId = '{{ session("activePlanningTab") }}';
 
-                // Add active class to the tab stored in the session
+                // Adicionar a classe active à aba armazenada na sessão
                 document
                     .getElementById(activeTabId + '-tab')
                     .classList.add('active');
-                // Add active show class to the tab content stored in the session
+                // Adicionar as classes show e active ao conteúdo da aba armazenada na sessão
                 document
                     .getElementById(activeTabId)
                     .classList.add('show', 'active');
             };
         </script>
     @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Adicionar um ouvinte de evento para cada aba
+            var tabs = document.querySelectorAll('[id$="-tab"]');
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    var tabId = this.id.replace('-tab', '');
+                    fetch('/set-active-tab', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        body: JSON.stringify({ activeTab: tabId }),
+                    });
+                });
+            });
+        });
+    </script>
 
 @endsection

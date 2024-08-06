@@ -53,4 +53,11 @@ class ConductingController extends Controller
             'dataExtractionQuestions' => $questions, // Passa as perguntas formatadas para a visão
         ]);
     }
+
+    public function setActiveTab(Request $request)
+    {
+        $activeTab = $request->input('activeTab');
+        session(['activePlanningTab' => $activeTab]);
+        return response()->json(['status' => 'success']);
+    }
 }
