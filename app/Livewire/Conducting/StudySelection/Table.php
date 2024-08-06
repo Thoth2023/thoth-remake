@@ -4,116 +4,70 @@ namespace App\Livewire\Conducting\StudySelection;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
-use App\Models\Database;
-use App\Models\EvaluationCriteria;
 use App\Models\Project;
-use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Project\Conducting\Papers;
 use Illuminate\Support\Facades\Log;
-use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Table extends Component
 {
-    /**
-     * The current project.
-     *
-     */
+    use WithPagination;
+
     public $currentProject;
     public $projectId;
-    public $papers;
     public $criterias;
-
-    /**
-     * The sort fields.
-     *
-     */
     public array $sorts = [];
-
-    public array $statuses = [];
-
+    //public array $statuses = [];
     public array $editingStatus = [];
+    public int $perPage = 200;
+    public string $search = '';
 
-   /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
-     * @return void
-     */
+    public $selectedDatabase = '';
+    public $selectedStatus = '';
+    public $bulkStatus = '';
+    public array $selectedPapers = [];
+    public bool $selectAll = false;
+
+    protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {
-        $this->statuses = [
+       /* $this->statuses = [
             __('project/conducting.study-selection.status.duplicated'),
             __('project/conducting.study-selection.status.removed'),
             __('project/conducting.study-selection.status.unclassified'),
             __('project/conducting.study-selection.status.included'),
             __('project/conducting.study-selection.status.approved'),
-        ];
+        ];*/
 
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
 
-        // Obter os IDs dos bancos de dados associados ao projeto
-        $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
-
-        $idsBib = [];
-
-        // Verificar se há bases de dados associadas
-        if (count($idsDatabase) > 0) {
-            $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
-        }
-
-        // Verificar se há registros em BibUpload
-        if (empty($idsBib)) {
-            // Definir uma variável de mensagem ou lançar uma exceção
-            session()->flash('error', 'Não existem papers importados para este projeto.');
-            $this->papers = collect(); // Definir como coleção vazia
-            return;
-        }
-
-        // Obter os registros de papers associados aos IDs de BibUpload
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
-
-        // Verificar se há registros em Papers
-        if ($this->papers->isEmpty()) {
-            // Definir uma variável de mensagem ou lançar uma exceção
-            session()->flash('error', 'Não existem papers importados para este projeto.');
-            $this->papers = collect(); // Definir como coleção vazia
-            return;
-        }
-
         $this->setupCriteria();
-        $this->papers = $this->setupDatabase($this->papers);
-        $this->papers = $this->setupStatus($this->papers);
-        //$this->papers = $this->setupDuplicates($this->papers);
     }
 
-    private function setupDuplicates($papers): Collection
+    public function updatedSelectedDatabase()
     {
-        $uniquePapers = [];
-        $titles = [];
-
-        foreach ($papers as $paper) {
-            if (!in_array($paper->title, $titles)) {
-                $uniquePapers[] = $paper;
-                $titles[] = $paper->title;
-            }
-        }
-
-        foreach ($papers as $paper) {
-            if (!in_array($paper, $uniquePapers)) {
-                $status_selection = StatusSelection::where('description', 'Duplicate')->first();
-                $paper['status_selection'] = $status_selection->id_status;
-                $paper['status'] = $status_selection->description;
-            }
-        }
-
-        return Collection::make($uniquePapers);
+        $this->resetPage();
     }
 
+    public function updatedSelectedStatus()
+    {
+        $this->resetPage();
+    }
 
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectedPapers = $this->papers->pluck('id_paper')->toArray();
+        } else {
+            $this->selectedPapers = [];
+        }
+    }
 
     private function setupCriteria()
     {
@@ -121,29 +75,9 @@ class Table extends Component
         $this->criterias = $criterias;
     }
 
-    private function setupDatabase($papers)
-    {
-        foreach($papers as $paper) {
-            $database = $paper->database;
-
-            $paper['data_base'] = $database->name;
-        }
-
-        return $papers;
-    }
-
     public function openPaper($paper)
     {
-        $this->dispatch('showPaper', paper: $paper , criterias: $this->criterias);
-    }
-
-    private function setupStatus($papers)
-    {
-        foreach($papers as $paper) {
-            $status = StatusSelection::where('id_status', $paper->status_selection)->first();
-            $paper['status'] = $status->description;
-        }
-        return $papers;
+        $this->dispatch('showPaper', paper: $paper, criterias: $this->criterias);
     }
 
     public function updateStatus(string $papersId, $status)
@@ -154,12 +88,19 @@ class Table extends Component
         $paper->save();
 
         $value = 'Updated papers status.';
+        Log::info('action: ' . $value . ' description: ' . $paper, ['projectId' => $this->currentProject->id_project]);
+    }
 
-        // Registrar log da ação
-        Log::info(
-            'action: ' . $value . ' description: ' . $paper,
-            ['projectId' => $this->currentProject->id_project]
-        );
+    public function updateBulkStatus()
+    {
+        if ($this->bulkStatus && !empty($this->selectedPapers)) {
+            $statusId = StatusSelection::find($this->bulkStatus)->id_status;
+
+            Papers::whereIn('id_paper', $this->selectedPapers)->update(['status_selection' => $statusId]);
+
+            $value = 'Updated papers status in bulk.';
+            Log::info('action: ' . $value, ['projectId' => $this->currentProject->id_project]);
+        }
     }
 
     public function sortBy($field)
@@ -171,18 +112,46 @@ class Table extends Component
         }
     }
 
-
     public function render()
     {
-        $papers = $this->papers;
+        $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
+        $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
-        foreach ($this->sorts as $field => $direction) {
-            $papers = $direction === 'asc' ? $papers->sortBy($field) : $papers->sortByDesc($field);
+        $databases = ProjectDatabases::where('id_project', $this->projectId)
+            ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
+            ->pluck('data_base.name', 'project_databases.id_database')
+            ->toArray();
+
+        $statuses = StatusSelection::pluck('description', 'id_status')->toArray();
+
+        if (empty($idsBib)) {
+            session()->flash('error', 'Não existem papers importados para este projeto.');
+            $papers = new LengthAwarePaginator([], 0, $this->perPage);
+        } else {
+            $query = Papers::whereIn('id_bib', $idsBib)
+                ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+                ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
+                ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description');
+
+            if ($this->search) {
+                $query = $query->where('title', 'like', '%' . $this->search . '%');
+            }
+
+            if ($this->selectedDatabase) {
+                $query = $query->where('papers.data_base', $this->selectedDatabase);
+            }
+
+            if ($this->selectedStatus) {
+                $query = $query->where('papers.status_selection', $this->selectedStatus);
+            }
+
+            foreach ($this->sorts as $field => $direction) {
+                $query = $query->orderBy($field, $direction);
+            }
+
+            $papers = $query->paginate($this->perPage);
         }
 
-        return view('livewire.conducting.study-selection.table', [
-            'papers' => $papers,
-        ])->extends('layouts.app');
+        return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses'));
     }
-
 }

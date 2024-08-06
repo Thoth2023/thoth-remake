@@ -26,11 +26,8 @@
         <div class="buttons-section mb-3">
             @livewire('conducting.study-selection.buttons')
         </div>
-        <div class="search-section mb-3">
-            @livewire('conducting.study-selection.search')
-        </div>
         <div class="table-section">
-           {{--@livewire('conducting.study-selection.table')--}}
+           @livewire('conducting.study-selection.table')
         </div>
     </div>
 @endif

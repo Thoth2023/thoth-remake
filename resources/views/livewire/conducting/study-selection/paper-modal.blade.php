@@ -1,18 +1,46 @@
 <div class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title" id="paperModalLabel">Paper Details</h5>
+                @if ($paper)
+                <h5 class="modal-title" id="paperModalLabel">{{ $paper['title'] }}</h5>
                 <button type="button" data-bs-dismiss="modal" class="btn">
                     <span aria-hidden="true">X</span>
                 </button>
             </div>
             <div class="modal-body">
-                @if ($paper)
-                    <div class="d-flex gap-1 mb-3">
-                        <p>Title: {{ $paper['title'] }}</p>
-                        <p>Database: {{ $paper['data_base'] }}</p>
+                <div class="row">
+                    <div class="col-4">
+                        <b>Author: </b>
+                        <p>{{ $paper['author'] }}</p>
                     </div>
+                    <div class="col-2">
+                        <b>Year:</b>
+                        <p>{{ $paper['year'] }}</p>
+                    </div><div class="col-4">
+                        <b>Database:</b>
+                        <p>{{ $paper['data_base'] }}</p>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi" href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            DOI
+                        </a>
+                        <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="URL" href="{{ $paper['url'] }}" target="_blank">
+                            <i class="fa-solid fa-link"></i>
+                            URL
+                        </a>
+                    </div>
+                    <div class="d-flex gap-1 mb-3">
+                        <b>Status Selection: </b>
+                        <p>{{ $paper['status_selection'] }}</p>
+                    </div>
+                    <div class="col-12">
+                        <b>Abstract: </b>
+                        <p>{{ $paper['abstract'] }}</p>
+                    </div>
+                </div>
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
                             <tr>
