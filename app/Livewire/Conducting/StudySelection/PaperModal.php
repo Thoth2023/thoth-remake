@@ -4,14 +4,19 @@ namespace App\Livewire\Conducting\StudySelection;
 
 use App\Models\EvaluationCriteria;
 use App\Models\Member;
+use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
+use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
 class PaperModal extends Component
 {
 
+    public $currentProject;
+    public $projectId;
     public $paper;
 
     public $criterias;
@@ -36,6 +41,9 @@ class PaperModal extends Component
         $paper->status_selection = $status->id_status;
 
         $paper->save();
+        $this->dispatch('paperSaved', ['message' => 'Paper information updated successfully!', 'type' => 'success']);
+        //$this->resetFields();
+
     }
 
     #[On('showPaper')]
@@ -43,6 +51,13 @@ class PaperModal extends Component
     {
         $this->criterias = $criterias;
         $this->paper = $paper;
+
+        $databaseName = DB::table('data_base')
+            ->where('id_database', $this->paper['data_base'])
+            ->value('name');
+
+        $this->paper['database_name'] = $databaseName;
+
         $this->dispatch('show-paper');
     }
 
