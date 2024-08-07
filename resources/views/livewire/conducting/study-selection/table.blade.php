@@ -1,8 +1,13 @@
 <div>
-    <div class="d-flex input-group justify-self-end" style="width: 30%;">
-        <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="Search..." aria-label="Search" />
+    <br/>
+    <div class="row">
+        <div class="col-4">
+            <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="Search papers..." aria-label="Search" />
+        </div>
+        <div class="col-8 text-end">
+            @livewire('conducting.study-selection.buttons')
+        </div>
     </div>
-
     <ul class='list-group'>
         <li class='list-group-item d-flex'>
 
@@ -31,7 +36,7 @@
                 </b>
             </div>
 
-            <div class='w-15 pl-2 pr-2'>
+            <div class='w-20 pl-2 pr-2 ms-auto'>
                 <b wire:click.prevent="sortBy('database')" role="button">
                     {{ __('project/conducting.study-selection.table.database') }}
                     @if(isset($sorts['database']))
@@ -43,7 +48,7 @@
                     @endif
                 </b>
             </div>
-            <div class='pr-5 w-15'>
+            <div class='pr-5 w-15 ms-auto'>
                 <b wire:click.prevent="sortBy('status')" role="button">
                     {{ __('project/conducting.study-selection.table.status') }}
                     @if(isset($sorts['status']))
@@ -72,10 +77,10 @@
                     <span data-search>{{ $paper['title'] }}</span>
                 </div>
 
-                <div class='w-15'>
+                <div class='w-20 ms-auto'>
                     <span data-search>{{ $paper['database_name'] }}</span>
                 </div>
-                <div class='w-15'>
+                <div class='w-15 ms-auto'>
                     <b data-search>
                         {{ $paper['status_description'] }}
                     </b>
@@ -101,12 +106,13 @@
             @endforeach
         </select>
 
-        <select class="form-select me-2" style="width: 25%;" wire:model="selectedStatus">
+        <select class="form-select me-2" style="width: 25%; margin-bottom: 0rem" wire:model="selectedStatus">
             <option value="">{{ __('Selecione o Status') }}</option>
             @foreach($statuses as $id => $description)
                 <option value="{{ $id }}">{{ $description }}</option>
             @endforeach
         </select>
+        <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">Filtrar</button>
     </div>
     <br/>
     {{ $papers->links() }}

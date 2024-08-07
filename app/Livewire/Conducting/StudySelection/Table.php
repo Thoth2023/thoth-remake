@@ -23,7 +23,7 @@ class Table extends Component
     public array $sorts = [];
     //public array $statuses = [];
     public array $editingStatus = [];
-    public int $perPage = 200;
+    public int $perPage = 100;
     public string $search = '';
 
     public $selectedDatabase = '';
@@ -110,6 +110,11 @@ class Table extends Component
         } else {
             $this->sorts[$field] = $this->sorts[$field] === 'asc' ? 'desc' : 'asc';
         }
+    }
+
+    public function applyFilters()
+    {
+        $this->resetPage();
     }
 
     public function render()
