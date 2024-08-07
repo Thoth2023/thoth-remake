@@ -17,8 +17,7 @@ return [
     'study-selection' => [
         'title' => 'Study Selection',
         'help' => [
-            'content' => '??'
-
+            'content' => 'Study selection is a crucial phase of the systematic review, where the author examines the title, abstract, and keywords of each study, assessing them according to the inclusion and exclusion criteria established in the review planning. Based on these criteria, the status of each study will be automatically updated. However, the researcher has the option to manually set the status, but in doing so, the system will not record which criteria were considered in the evaluation.'
         ],
         'papers' => [
             'empty' => 'No papers have been added yet.',
@@ -33,12 +32,52 @@ return [
             'database' => 'Database',
             'actions' => 'Actions',
         ],
+        'buttons' => [
+            'csv' => 'Export CSV',
+            'xml' => 'Export XML',
+            'pdf' => 'Export PDF',
+            'print' => 'Print',
+            'duplicates' => 'Find Duplicates',
+            'filter' => 'Filter',
+            'filter-by' => 'Filter by',
+            'select-database' => 'Show all Databases',
+            'select-status' => 'Show all Statuses...',
+            'search-papers' => 'Search papers...',
+        ],
+        'modal' => [
+            'author' => 'Author',
+            'year' => 'Year',
+            'database' => 'Database',
+            'status-selection' => 'Status Selection',
+            'abstract' => 'Abstract',
+            'keywords' => 'Keywords',
+            'rejected' => 'Rejected',
+            'table' => [
+                'select' => 'Select',
+                'description' => 'Description',
+                'type' => 'Type',
+                'inclusion' => 'Inclusion',
+                'exclusion' => 'Exclusion',
+            ],
+            'option' => [
+                'select'=>'Select an option',
+                'remove' => 'Remove',
+                'accepted' => 'Accepted',
+                'rejected' => 'Rejected',
+                'duplicated' => 'Duplicate',
+            ],
+            'save'=>'Save',
+            'close'=>'Close',
+
+        ],
         'status' => [
-            'duplicated' => 'Duplicate',
+            'duplicate' => 'Duplicate',
             'removed' => 'Removed',
             'unclassified' => 'Unclassified',
             'included' => 'Included',
-            'approved' => 'Approved'
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'accepted' => 'Accepted'
         ],
         'count'=>[
             'toasts' =>[

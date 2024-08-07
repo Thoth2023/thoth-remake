@@ -121,7 +121,7 @@ class FileUpload extends Component
 
             } catch (\Exception $e) {
                 $errorMessage = method_exists($e, 'getMessage') ? $e->getMessage() : 'Unknown error';
-                
+
                 $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
                 $this->toast(
                     message: $toastMessage,

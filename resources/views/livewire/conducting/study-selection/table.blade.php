@@ -2,7 +2,7 @@
     <br/>
     <div class="row">
         <div class="col-4">
-            <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="Search papers..." aria-label="Search" />
+            <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="{{ __('project/conducting.study-selection.buttons.search-papers' )}}" aria-label="Search" />
         </div>
         <div class="col-8 text-end">
             @livewire('conducting.study-selection.buttons')
@@ -80,9 +80,9 @@
                 <div class='w-20 ms-auto'>
                     <span data-search>{{ $paper['database_name'] }}</span>
                 </div>
-                <div class='w-15 ms-auto'>
-                    <b data-search>
-                        {{ $paper['status_description'] }}
+                <div class="w-15 ms-auto">
+                    <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
+                        {{ __("project/conducting.study-selection.status." . strtolower($paper['status_description'])) }}
                     </b>
                 </div>
             </x-search.item>
@@ -97,22 +97,22 @@
     </ul>
     <br/>
 
-    <div class="d-flex ms-auto" style="width: 60%;">
-        <span class="ms-auto" style="width: 10%;"> Filtrar por:</span>
-        <select class="form-select me-2" style="width: 25%;" wire:model="selectedDatabase">
-            <option value="">{{ __('Selecione Database') }}</option>
+    <div class="d-flex ms-auto" style="width: 70%;">
+        <span class="ms-auto" style="width: 10%;"> {{ __('project/conducting.study-selection.buttons.filter-by' )}}:</span>
+        <select class="form-select me-2" style="width: 40%;" wire:model="selectedDatabase">
+            <option value="">{{ __('project/conducting.study-selection.buttons.select-database' )}}</option>
             @foreach($databases as $id => $name)
                 <option value="{{ $id }}">{{ $name }}</option>
             @endforeach
         </select>
 
         <select class="form-select me-2" style="width: 25%; margin-bottom: 0rem" wire:model="selectedStatus">
-            <option value="">{{ __('Selecione o Status') }}</option>
+            <option value="">{{ __('project/conducting.study-selection.buttons.select-status' )}}</option>
             @foreach($statuses as $id => $description)
-                <option value="{{ $id }}">{{ $description }}</option>
+                <option value="{{ $id }}">{{ __("project/conducting.study-selection.status." . strtolower($description)) }}</option>
             @endforeach
         </select>
-        <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">Filtrar</button>
+        <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">{{ __('project/conducting.study-selection.buttons.filter' )}}</button>
     </div>
     <br/>
     {{ $papers->links() }}
@@ -121,6 +121,10 @@
 <script>
     $wire.on('table', ([{ message, type }]) => {
         toasty({ message, type });
+    });
+    $wire.on('paperSaved', ([{ message, type }]) => {
+        toasty({ message, type });
+        @this.call('refreshPapers');
     });
 </script>
 @endscript

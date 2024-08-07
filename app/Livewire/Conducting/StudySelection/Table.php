@@ -9,6 +9,7 @@ use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use App\Models\Project\Conducting\Papers;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -79,6 +80,12 @@ class Table extends Component
     {
         $this->dispatch('showPaper', paper: $paper, criterias: $this->criterias);
     }
+    #[On('refreshPapers')]
+    public function refreshPapers()
+    {
+        $this->papers = $this->render();
+        $this->dispatch('papersUpdated');
+    }
 
     public function updateStatus(string $papersId, $status)
     {
@@ -117,8 +124,11 @@ class Table extends Component
         $this->resetPage();
     }
 
+
+
     public function render()
     {
+
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
@@ -159,4 +169,5 @@ class Table extends Component
 
         return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses'));
     }
+
 }

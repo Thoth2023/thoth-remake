@@ -29,20 +29,20 @@
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>Unclassified:</strong> {{ count($unclassified) }}
+                <strong>{{ __('project/conducting.study-selection.status.unclassified' )}}:</strong> {{ count($unclassified) }}
             </div>
             <div class="col text-success">
-                <strong>Accepted:</strong> {{ count($accepted) }}
+                <strong>{{ __('project/conducting.study-selection.status.accepted' )}}:</strong> {{ count($accepted) }}
             </div>
             <div class="col text-danger">
-                <strong>Rejected:</strong> {{ count($rejected) }}
+                <strong>{{ __('project/conducting.study-selection.status.rejected' )}}:</strong> {{ count($rejected) }}
             </div>
             <div class="col text-info">
-                <strong>Removed:</strong> {{ count($removed) }}
+                <strong>{{ __('project/conducting.study-selection.status.removed' )}}:</strong> {{ count($removed) }}
             </div>
 
             <div class="col text-warning">
-                <strong>Duplicate:</strong> {{ count($duplicates) }}
+                <strong>{{ __('project/conducting.study-selection.status.duplicate' )}}:</strong> {{ count($duplicates) }}
             </div>
             <div class="col">
                 <strong>Total:</strong> {{ count($papers) }}
@@ -56,6 +56,19 @@
 <script>
     $wire.on('count', ([{ message, type }]) => {
         toasty({ message, type });
+    });
+</script>
+@endscript
+@script
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('papersUpdated', () => {
+            // Aqui você pode mostrar uma mensagem de toasty ou qualquer outra ação
+            toasty({ message: 'Papers updated successfully!', type: 'success' });
+
+            // Você pode também recarregar a página se necessário
+             window.location.reload();
+        });
     });
 </script>
 @endscript
