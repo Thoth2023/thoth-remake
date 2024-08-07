@@ -79,6 +79,7 @@ class Count extends Component
 
     }
 
+
     #[On('refreshPapers')]
     public function refreshCounters()
     {

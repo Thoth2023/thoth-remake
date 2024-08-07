@@ -9497,6 +9497,22 @@ textarea.form-control-lg {
   --bs-text-opacity: 1;
 }
 
+.text-accepted {
+    color: #2dce89 !important;
+}
+.text-rejected {
+    color: #f5365c !important;
+}
+.text-unclassified {
+    color: #344767 !important;
+}
+.text-duplicate {
+    color: #fb6340 !important;
+}
+.text-removed {
+    color: #11cdef !important;
+}
+
 .bg-primary {
   background-color: #556580 !important;
 }
@@ -24950,5 +24966,20 @@ pre[class*=language-] {
     font-weight: normal; /* Define a aba inativa em normal */
 }
 
+.status-accepted {
+    color: #2dce89 !important;
+}
+.status-rejected {
+    color: red;
+}
+.status-unclassified {
+    color: #353333;
+}
+.status-duplicate {
+    color: orange;
+}
+.status-removed {
+    color: blue;
+}
 
 

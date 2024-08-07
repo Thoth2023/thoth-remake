@@ -16,8 +16,7 @@ return [
     'study-selection' => [
         'title' => 'Seleção de Estudos',
         'help' => [
-            'content' => '??'
-
+            'content' => 'A seleção de estudos é uma fase crucial da revisão sistemática, na qual o autor analisa o título, resumo e palavras-chave de cada estudo, avaliando-os conforme as regras dos critérios de inclusão e exclusão estabelecidos no planejamento da revisão. Com base nesses critérios, o status de cada estudo será automaticamente alterado. No entanto, o pesquisador tem a opção de definir o status manualmente, mas, ao fazer isso, o sistema não registrará quais critérios foram considerados na avaliação.'
         ],
         'papers' => [
             'empty' => 'Nenhum Paper foi adicionado ainda.',
@@ -32,12 +31,51 @@ return [
             'database' => 'Base de Dados',
             'actions' => 'Ações',
         ],
+        'buttons' => [
+            'csv' => 'Exportar CSV',
+            'xml' => 'Exportar XML',
+            'pdf' => 'Exportar PDF',
+            'print' => 'Imprimir',
+            'duplicates' => 'Encontrar Duplicados',
+            'filter' => 'Filtrar',
+            'filter-by' => 'Filtrar por',
+            'select-database' => 'Mostrar todos as Bases',
+            'select-status' => 'Mostrar todos Status...',
+            'search-papers' => 'Buscar estudos...',
+        ],
+        'modal' => [
+            'author' => 'Autor',
+            'year' => 'Ano',
+            'database' => 'Base de Dados',
+            'status-selection' => 'Status da Seleção',
+            'abstract' => 'Resumo',
+            'keywords' => 'Palavras-chave',
+            'rejected' => 'Rejeitado',
+            'table' => [
+                'select' => 'Selecionar',
+                'description' => 'Descrição',
+                'type' => 'Tipo',
+                'inclusion' => 'Inclusão',
+                'exclusion' => 'Exclusão',
+            ],
+            'option' => [
+                'select' => 'Selecione uma opção',
+                'remove' => 'Remover',
+                'accepted' => 'Aceito',
+                'rejected' => 'Rejeitado',
+                'duplicated' => 'Duplicado',
+            ],
+            'save'=>'Salvar',
+            'close'=>'Fechar',
+        ],
         'status' => [
-            'duplicated' => 'Duplicado',
+            'duplicate' => 'Duplicado',
             'removed' => 'Removido',
             'unclassified' => 'Não Classificado',
+            'included' => 'Incluído',
             'approved' => 'Aprovado',
-            'included' => 'Incluido'
+            'rejected' => 'Rejeitado',
+            'accepted' => 'Aceito'
         ],
         'count' => [
             'toasts' => [
