@@ -42,7 +42,7 @@ class PaperModal extends Component
 
         $paper->save();
         $this->dispatch('paperSaved', ['message' => 'Paper information updated successfully!', 'type' => 'success']);
-        $this->resetFields();
+        //$this->resetFields();
 
     }
 
