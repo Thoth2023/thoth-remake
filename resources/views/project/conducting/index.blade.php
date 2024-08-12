@@ -19,7 +19,7 @@
                             "tabs" => collect([
                                 [
                                     'id' => 'import-studies-tab',
-                                    'label' => __('project/conducting.header.import_studies'),
+                                    'label' =>__('project/conducting.header.import_studies'),
                                     'href' => '#import-studies',
                                 ],
                                 [
@@ -60,7 +60,7 @@
                         </div>
 
                         <div id="quality-assessment" class="tab-pane fade">
-                            @include("project.conducting.quality-assessment", ["project" => $project])
+                            @include("project.conducting.quality-assessment.index", ["project" => $project])
                         </div>
 
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
