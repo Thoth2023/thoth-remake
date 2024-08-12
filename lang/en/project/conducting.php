@@ -65,6 +65,7 @@ return [
                 'accepted' => 'Accepted',
                 'rejected' => 'Rejected',
                 'duplicated' => 'Duplicate',
+                'unclassified' => 'Unclassified'
             ],
             'save'=>'Save',
             'close'=>'Close',
@@ -87,6 +88,84 @@ return [
             ]
         ]
     ],
+
+    'quality-assessment' => [
+        'title' => 'Quality Assessment',
+        'help' => [
+            'content' => '???'
+        ],
+        'papers' => [
+            'empty' => 'No papers have been added yet.',
+            'no-results' => 'No results found.'
+        ],
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Title',
+            'acceptance-criteria' => 'Inclusion Criteria',
+            'rejection-criteria' => 'Rejection Criteria',
+            'status' => 'Status',
+            'database' => 'Database',
+            'actions' => 'Actions',
+            'general-score' => 'General Score',
+            'score' => 'Score',
+        ],
+        'buttons' => [
+            'csv' => 'Export CSV',
+            'xml' => 'Export XML',
+            'pdf' => 'Export PDF',
+            'print' => 'Print',
+            'duplicates' => 'Find Duplicates',
+            'filter' => 'Filter',
+            'filter-by' => 'Filter by',
+            'select-database' => 'Show all Databases',
+            'select-status' => 'Show all Statuses...',
+            'search-papers' => 'Search papers...',
+        ],
+        'modal' => [
+            'author' => 'Author',
+            'year' => 'Year',
+            'database' => 'Database',
+            'status-selection' => 'Status Selection',
+            'abstract' => 'Abstract',
+            'keywords' => 'Keywords',
+            'rejected' => 'Rejected',
+            'table' => [
+                'select' => 'Select',
+                'description' => 'Description',
+                'type' => 'Type',
+                'inclusion' => 'Inclusion',
+                'exclusion' => 'Exclusion',
+            ],
+            'option' => [
+                'select'=>'Select an option',
+                'remove' => 'Remove',
+                'accepted' => 'Accepted',
+                'rejected' => 'Rejected',
+                'duplicated' => 'Duplicate',
+                'unclassified' => 'Unclassified',
+            ],
+            'save'=>'Save',
+            'close'=>'Close',
+
+        ],
+        'status' => [
+            'duplicate' => 'Duplicate',
+            'removed' => 'Removed',
+            'unclassified' => 'Unclassified',
+            'included' => 'Included',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'accepted' => 'Accepted'
+        ],
+        'count'=>[
+            'toasts' =>[
+                'no-databases'=>'No databases found for this project.',
+                'no-papers'=>'No papers imported for this project.',
+                'data-refresh'=>'Data refreshed successfully',
+            ]
+        ]
+    ],
+
     'snowballing' => 'Snowballing',
     'data-extraction' => [
         'title' => 'Data Extraction',

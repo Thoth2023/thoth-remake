@@ -64,6 +64,7 @@ return [
                 'accepted' => 'Aceito',
                 'rejected' => 'Rejeitado',
                 'duplicated' => 'Duplicado',
+                'unclassified' => 'Unclassified'
             ],
             'save'=>'Salvar',
             'close'=>'Fechar',
@@ -173,6 +174,83 @@ return [
                 'project_database_not_found' => 'Base de dados do projeto não encontrada.',
                 'file_deleted_success' => 'Arquivo excluído com sucesso. :count papers associados também foram excluídos.',
                 'file_delete_error' => 'Ocorreu um erro ao excluir o arquivo: :message',
+            ],
+        ],
+
+    ],
+
+    'quality-assessment' => [
+        'title' => 'Avaliação de Qualidade dos Estudos',
+        'help' => [
+            'content' => '???'
+        ],
+        'papers' => [
+            'empty' => 'Nenhum Paper foi adicionado ainda.',
+            'no-results' => 'Nenhum resultado encontrado.'
+        ],
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Título',
+            'acceptance-criteria' => 'Critério de Aceitação',
+            'rejection-criteria' => 'Critério de Rejeição',
+            'status' => 'Status',
+            'database' => 'Base de Dados',
+            'actions' => 'Ações',
+            'general-score' => 'Pontuação Geral',
+            'score' => 'Pontuação',
+        ],
+        'buttons' => [
+            'csv' => 'Exportar CSV',
+            'xml' => 'Exportar XML',
+            'pdf' => 'Exportar PDF',
+            'print' => 'Imprimir',
+            'duplicates' => 'Encontrar Duplicados',
+            'filter' => 'Filtrar',
+            'filter-by' => 'Filtrar por',
+            'select-database' => 'Mostrar todos as Bases',
+            'select-status' => 'Mostrar todos Status...',
+            'search-papers' => 'Buscar estudos...',
+        ],
+        'modal' => [
+            'author' => 'Autor',
+            'year' => 'Ano',
+            'database' => 'Base de Dados',
+            'status-selection' => 'Status da Seleção',
+            'abstract' => 'Resumo',
+            'keywords' => 'Palavras-chave',
+            'rejected' => 'Rejeitado',
+            'table' => [
+                'select' => 'Selecionar',
+                'description' => 'Descrição',
+                'type' => 'Tipo',
+                'inclusion' => 'Inclusão',
+                'exclusion' => 'Exclusão',
+            ],
+            'option' => [
+                'select' => 'Selecione uma opção',
+                'remove' => 'Remover',
+                'accepted' => 'Aceito',
+                'rejected' => 'Rejeitado',
+                'duplicated' => 'Duplicado',
+                'unclassified' => 'Unclassified',
+            ],
+            'save'=>'Salvar',
+            'close'=>'Fechar',
+        ],
+        'status' => [
+            'duplicate' => 'Duplicado',
+            'removed' => 'Removido',
+            'unclassified' => 'Não Classificado',
+            'included' => 'Incluído',
+            'approved' => 'Aprovado',
+            'rejected' => 'Rejeitado',
+            'accepted' => 'Aceito'
+        ],
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'Nenhuma base de dados encontrada para este projeto.',
+                'no-papers' => 'Nenhum paper importado para este projeto.',
+                'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Conducting\StudySelection;
+namespace App\Livewire\Conducting\QualityAssessment;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
@@ -138,7 +138,8 @@ class Table extends Component
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
-                ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description');
+                ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description')
+                ->where('status_selection', 1);
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
@@ -159,7 +160,7 @@ class Table extends Component
             $papers = $query->paginate($this->perPage);
         }
 
-        return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses'));
+        return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses'));
     }
 
 }
