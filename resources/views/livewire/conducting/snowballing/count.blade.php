@@ -21,24 +21,29 @@
             <div class="progress-bar bg-info" role="progressbar" style="width: {{ $removedPercentage }}%;" aria-valuenow="{{ $removedPercentage }}" aria-valuemin="0" aria-valuemax="100">
                 {{ number_format($removedPercentage, 2) }}%
             </div>
-
+            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $duplicatePercentage }}%;" aria-valuenow="{{ $duplicatePercentage }}" aria-valuemin="0" aria-valuemax="100">
+                {{ number_format($duplicatePercentage, 2) }}%
+            </div>
 
         </div>
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>{{ __('project/conducting.quality-assessment.status.unclassified' )}}:</strong> {{ count($unclassified) }}
+                <strong>{{ __('project/conducting.snowballing.status.unclassified' )}}:</strong> {{ count($unclassified) }}
             </div>
             <div class="col text-success">
-                <strong>{{ __('project/conducting.quality-assessment.status.accepted' )}}:</strong> {{ count($accepted) }}
+                <strong>{{ __('project/conducting.snowballing.status.accepted' )}}:</strong> {{ count($accepted) }}
             </div>
             <div class="col text-danger">
-                <strong>{{ __('project/conducting.quality-assessment.status.rejected' )}}:</strong> {{ count($rejected) }}
+                <strong>{{ __('project/conducting.snowballing.status.rejected' )}}:</strong> {{ count($rejected) }}
             </div>
             <div class="col text-info">
-                <strong>{{ __('project/conducting.quality-assessment.status.removed' )}}:</strong> {{ count($removed) }}
+                <strong>{{ __('project/conducting.snowballing.status.removed' )}}:</strong> {{ count($removed) }}
             </div>
 
+            <div class="col text-warning">
+                <strong>{{ __('project/conducting.snowballing.status.duplicate' )}}:</strong> {{ count($duplicates) }}
+            </div>
             <div class="col">
                 <strong>Total:</strong> {{ count($papers) }}
             </div>

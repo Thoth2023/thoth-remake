@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Livewire\Conducting\QualityAssessment;
+namespace App\Livewire\Conducting\DataExtraction;
 
 use App\Models\EvaluationCriteria;
 use App\Models\Member;
 use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
+use App\Models\StatusExtraction;
 use App\Models\StatusSelection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -37,8 +38,8 @@ class PaperModal extends Component
         }
 
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
-        $status = StatusSelection::where('description', $this->selected_status)->first();
-        $paper->status_selection = $status->id_status;
+        $status = StatusExtraction::where('description', $this->selected_status)->first();
+        $paper->status_extraction = $status->id_status;
 
         $paper->save();
         $this->dispatch('paperSaved', ['message' => 'Paper information updated successfully!', 'type' => 'success']);
@@ -46,8 +47,8 @@ class PaperModal extends Component
 
     }
 
-    #[On('showPaperQuality')]
-    public function showPaperQuality($paper, $criterias)
+    #[On('showPaperExtraction')]
+    public function showPaperExtraction($paper, $criterias)
     {
         $this->criterias = $criterias;
         $this->paper = $paper;
@@ -58,11 +59,11 @@ class PaperModal extends Component
 
         $this->paper['database_name'] = $databaseName;
 
-        $this->dispatch('show-paper-quality');
+        $this->dispatch('show-paper-extraction');
     }
 
     public function render()
     {
-        return view('livewire.conducting.quality-assessment.paper-modal');
+        return view('livewire.conducting.data-extraction.paper-modal');
     }
 }

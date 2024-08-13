@@ -65,12 +65,12 @@
 
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
                             <div id="snowballing" class="tab-pane fade">
-                                @include("project.conducting.snowballing", ['snowballing_projects' => $snowballing_projects])
+                                @include("project.conducting.snowballing.index",["project" => $project])
                             </div>
                         @endif
 
                         <div id="data-extraction" class="tab-pane fade">
-                            @include("project.conducting.data-extraction")
+                            @include("project.conducting.data-extraction.index", ["project" => $project])
                         </div>
                     </div>
                 </div>

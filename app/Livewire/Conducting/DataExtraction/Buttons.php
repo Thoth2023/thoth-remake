@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Conducting\QualityAssessment;
+namespace App\Livewire\Conducting\DataExtraction;
 
 use App\Models\BibUpload;
 use App\Models\Project\Conducting\Papers;
@@ -123,6 +123,6 @@ class Buttons extends Component
 
     public function render()
     {
-        return view('livewire.conducting.quality-assessment.buttons');
+        return view('livewire.conducting.data-extraction.buttons');
     }
 }

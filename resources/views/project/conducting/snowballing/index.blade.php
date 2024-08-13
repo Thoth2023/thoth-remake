@@ -10,17 +10,17 @@
 
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
-                target="quality-assessment"
-                modalTitle="{{ __('project/conducting.quality-assessment.title') }}"
-                modalContent="{{ __('project/conducting.quality-assessment.help.content') }}"
+                target="snowballing"
+                modalTitle="{{ __('project/conducting.snowballing.title') }}"
+                modalContent="{{ __('project/conducting.snowballing.help.content') }}"
             />
         </div>
         <br/>
         <div>
-            @livewire('conducting.quality-assessment.count')
+            @livewire('conducting.snowballing.count')
         </div>
         <div class="table-section">
-            @livewire('conducting.quality-assessment.table')
+            @livewire('conducting.snowballing.table')
         </div>
 
 

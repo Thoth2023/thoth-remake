@@ -87,7 +87,77 @@ return [
         ],
 
     ],
-    'snowballing' => 'Snowballing',
+    'snowballing' => [
+        'title' => 'Snowballing',
+        'help' => [
+            'content' => '???'
+        ],
+        'papers' => [
+            'empty' => 'Nenhum artigo foi adicionado ainda.',
+            'no-results' => 'Nenhum resultado encontrado.'
+        ],
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Título',
+            'status' => 'Status',
+            'database' => 'Base de Dados',
+            'actions' => 'Ações',
+            'year' => 'Ano',
+        ],
+        'buttons' => [
+            'csv' => 'Exportar CSV',
+            'xml' => 'Exportar XML',
+            'pdf' => 'Exportar PDF',
+            'print' => 'Imprimir',
+            'duplicates' => 'Encontrar Duplicados',
+            'filter' => 'Filtrar',
+            'filter-by' => 'Filtrar por',
+            'select-database' => 'Mostrar todas as Bases de Dados',
+            'select-status' => 'Mostrar todos os Status...',
+            'select-type' => 'Mostrar todos os Tipos...',
+            'search-papers' => 'Pesquisar artigos...',
+        ],
+        'modal' => [
+            'author' => 'Autor',
+            'year' => 'Ano',
+            'database' => 'Base de Dados',
+            'status-snowballing' => 'Status Snowballing',
+            'abstract' => 'Resumo',
+            'keywords' => 'Palavras-chave',
+            'rejected' => 'Rejeitado',
+            'table' => [
+                'select' => 'Selecionar',
+                'description' => 'Descrição',
+                'type' => 'Tipo',
+            ],
+            'option' => [
+                'select' => 'Selecione uma opção',
+                'remove' => 'Remover',
+                'accepted' => 'Aceito',
+                'rejected' => 'Rejeitado',
+                'duplicated' => 'Duplicado',
+                'unclassified' => 'Não Classificado',
+            ],
+            'save' => 'Salvar',
+            'close' => 'Fechar',
+        ],
+        'status' => [
+            'duplicate' => 'Duplicado',
+            'removed' => 'Removido',
+            'unclassified' => 'Não Classificado',
+            'included' => 'Incluído',
+            'approved' => 'Aprovado',
+            'rejected' => 'Rejeitado',
+            'accepted' => 'Aceito'
+        ],
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'Nenhuma base de dados encontrada para este projeto.',
+                'no-papers' => 'Nenhum artigo importado para este projeto.',
+                'data-refresh' => 'Dados atualizados com sucesso',
+            ]
+        ]
+    ],
 
 
     'progress_bar' => [
@@ -180,7 +250,7 @@ return [
     ],
 
     'quality-assessment' => [
-        'title' => 'Avaliação de Qualidade dos Estudos',
+        'title' => 'Avaliação de Qualidade',
         'help' => [
             'content' => '???'
         ],
@@ -258,46 +328,71 @@ return [
 
     'data-extraction' => [
         'title' => 'Extração de Dados',
-        'progress-data-extraction' => 'Progresso da Extração de Dados',
-        'status' => [
-            'done' => 'Concluído',
-            'todo' => 'A fazer',
-            'removed' => 'Removido',
-            'total' => 'Total',
-
+        'help' => [
+            'content' => '???'
         ],
-        'list_studies' => 'Lista de Estudos para Extração de Dados',
+        'papers' => [
+            'empty' => 'Nenhum artigo foi adicionado ainda.',
+            'no-results' => 'Nenhum resultado encontrado.'
+        ],
         'table' => [
             'id' => 'ID',
             'title' => 'Título',
+            'status' => 'Status',
+            'database' => 'Base de Dados',
+            'actions' => 'Ações',
+            'year' => 'Ano',
+        ],
+        'buttons' => [
+            'csv' => 'Exportar CSV',
+            'xml' => 'Exportar XML',
+            'pdf' => 'Exportar PDF',
+            'print' => 'Imprimir',
+            'duplicates' => 'Encontrar Duplicados',
+            'filter' => 'Filtrar',
+            'filter-by' => 'Filtrar por',
+            'select-database' => 'Mostrar todas as Bases de Dados',
+            'select-status' => 'Mostrar todos os Status...',
+            'search-papers' => 'Pesquisar artigos...',
+        ],
+        'modal' => [
             'author' => 'Autor',
             'year' => 'Ano',
             'database' => 'Base de Dados',
-            'status' => 'Status',
-            'actions' => 'Ações'
-        ],
-        'details' => 'Detalhar',
-        'modal_paper_ex' => [
-            'title' => 'Título',
-            'doi' => 'Doi',
-            'url' => 'URL',
-            'export' => 'Exportar',
-            'author' => 'Autor',
-            'year' => 'Ano',
-            'database' => 'Banco de Dados',
-            'status' => [
-                'status-extraction' => 'Status de Extração',
-                'done' => 'Concluído',
-                'to_do' => 'Pendente',
-                'removed' => 'Removido'
-            ],
+            'status-extraction' => 'Status da Extração',
             'abstract' => 'Resumo',
-            'keywords' => 'Palavras Chave',
-            'extraction_questions' => 'Questões de Extração',
-            'notes' => 'Anotações',
-            'save'  => 'Salvar'
+            'keywords' => 'Palavras-chave',
+            'table' => [
+                'select' => 'Selecionar',
+                'description' => 'Descrição',
+                'type' => 'Tipo',
+            ],
+            'option' => [
+                'select' => 'Selecione uma opção',
+                'removed' => 'Remover',
+                'done' => 'Concluído',
+                'to_do' => 'A fazer',
+                'to do' => 'A fazer',
+                'unclassified' => 'Não Classificado',
+            ],
+            'save' => 'Salvar',
+            'close' => 'Fechar',
         ],
+        'status' => [
+            'done' => 'Concluído',
+            'removed' => 'Removido',
+            'to do' => 'A Fazer',
+            'to_do' => 'A Fazer',
+        ],
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'Nenhuma base de dados encontrada para este projeto.',
+                'no-papers' => 'Nenhum artigo importado para este projeto.',
+                'data-refresh' => 'Dados atualizados com sucesso',
+            ]
+        ]
     ],
+
 
 ];
 

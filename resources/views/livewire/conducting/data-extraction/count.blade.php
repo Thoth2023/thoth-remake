@@ -9,14 +9,11 @@
     <div wire:model="count" >
     <div class="mt-1">
         <div class="progress mb-4" style="height: 20px;">
-            <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ $unclassifiedPercentage }}%;" aria-valuenow="{{ $unclassifiedPercentage }}" aria-valuemin="0" aria-valuemax="100">
-                {{ number_format($unclassifiedPercentage, 2) }}%
+            <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ $to_doPercentage }}%;" aria-valuenow="{{ $to_doPercentage }}" aria-valuemin="0" aria-valuemax="100">
+                {{ number_format($to_doPercentage, 2) }}%
             </div>
-            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $acceptedPercentage }}%;" aria-valuenow="{{ $acceptedPercentage }}" aria-valuemin="0" aria-valuemax="100">
-                {{ number_format($acceptedPercentage, 2) }}%
-            </div>
-            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $rejectedPercentage }}%;" aria-valuenow="{{ $rejectedPercentage }}" aria-valuemin="0" aria-valuemax="100">
-                {{ number_format($rejectedPercentage, 2) }}%
+            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $donePercentage }}%;" aria-valuenow="{{ $donePercentage }}" aria-valuemin="0" aria-valuemax="100">
+                {{ number_format($donePercentage, 2) }}%
             </div>
             <div class="progress-bar bg-info" role="progressbar" style="width: {{ $removedPercentage }}%;" aria-valuenow="{{ $removedPercentage }}" aria-valuemin="0" aria-valuemax="100">
                 {{ number_format($removedPercentage, 2) }}%
@@ -27,16 +24,13 @@
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>{{ __('project/conducting.quality-assessment.status.unclassified' )}}:</strong> {{ count($unclassified) }}
+                <strong>{{ __('project/conducting.data-extraction.status.to_do' )}}:</strong> {{ count($to_do) }}
             </div>
             <div class="col text-success">
-                <strong>{{ __('project/conducting.quality-assessment.status.accepted' )}}:</strong> {{ count($accepted) }}
-            </div>
-            <div class="col text-danger">
-                <strong>{{ __('project/conducting.quality-assessment.status.rejected' )}}:</strong> {{ count($rejected) }}
+                <strong>{{ __('project/conducting.data-extraction.status.done' )}}:</strong> {{ count($done) }}
             </div>
             <div class="col text-info">
-                <strong>{{ __('project/conducting.quality-assessment.status.removed' )}}:</strong> {{ count($removed) }}
+                <strong>{{ __('project/conducting.data-extraction.status.removed' )}}:</strong> {{ count($removed) }}
             </div>
 
             <div class="col">

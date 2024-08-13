@@ -166,47 +166,146 @@ return [
         ]
     ],
 
-    'snowballing' => 'Snowballing',
-    'data-extraction' => [
-        'title' => 'Data Extraction',
-        'progress-data-extraction' => 'Data Extraction Progress',
-        'status' => [
-            'done' => 'Done',
-            'todo' => 'To Do',
-            'removed' => 'Removed',
-            'total' => 'Total'
+    'snowballing' => [
+        'title' => 'Snowballing',
+        'help' => [
+            'content' => '???'
         ],
-        'list_studies' => 'List of Studies for Data Extraction',
+        'papers' => [
+            'empty' => 'No papers have been added yet.',
+            'no-results' => 'No results found.'
+        ],
         'table' => [
             'id' => 'ID',
             'title' => 'Title',
+            'status' => 'Status',
+            'database' => 'Database',
+            'actions' => 'Actions',
+            'year' => 'Year',
+        ],
+        'buttons' => [
+            'csv' => 'Export CSV',
+            'xml' => 'Export XML',
+            'pdf' => 'Export PDF',
+            'print' => 'Print',
+            'duplicates' => 'Find Duplicates',
+            'filter' => 'Filter',
+            'filter-by' => 'Filter by',
+            'select-database' => 'Show all Databases',
+            'select-status' => 'Show all Statuses...',
+            'select-type' => 'Show all Types...',
+            'search-papers' => 'Search papers...',
+        ],
+        'modal' => [
             'author' => 'Author',
             'year' => 'Year',
             'database' => 'Database',
-            'status' => 'Status',
-            'actions' => 'Actions'
-        ],
-        'details' => 'View Details',
-        'modal_paper_ex' => [
-            'title' => 'Title',
-            'doi' => 'Doi',
-            'url' => 'URL',
-            'export' => 'Export',
-            'author' => 'Author',
-            'year' => 'Year',
-            'database' => 'Data Base',
-            'status' => [
-                'status-extraction' => 'Status Extraction',
-                'done' => 'Done',
-                'to_do' => 'To do',
-                'removed' => 'Removed'
-            ],
+            'status-snowballing' => 'Status Snowballing',
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
-            'extraction_questions' => 'Extraction Questions',
-            'notes' => 'Notes',
-            'save'  => 'Save'
+            'rejected' => 'Rejected',
+            'table' => [
+                'select' => 'Select',
+                'description' => 'Description',
+                'type' => 'Type',
+            ],
+            'option' => [
+                'select'=>'Select an option',
+                'remove' => 'Remove',
+                'accepted' => 'Accepted',
+                'rejected' => 'Rejected',
+                'duplicated' => 'Duplicate',
+                'unclassified' => 'Unclassified',
+            ],
+            'save'=>'Save',
+            'close'=>'Close',
+
         ],
+        'status' => [
+            'duplicate' => 'Duplicate',
+            'removed' => 'Removed',
+            'unclassified' => 'Unclassified',
+            'included' => 'Included',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'accepted' => 'Accepted'
+        ],
+        'count'=>[
+            'toasts' =>[
+                'no-databases'=>'No databases found for this project.',
+                'no-papers'=>'No papers imported for this project.',
+                'data-refresh'=>'Data refreshed successfully',
+            ]
+        ]
+    ],
+
+    'data-extraction' => [
+        'title' => 'Data Extraction',
+        'help' => [
+            'content' => '???'
+        ],
+        'papers' => [
+            'empty' => 'No papers have been added yet.',
+            'no-results' => 'No results found.'
+        ],
+        'table' => [
+            'id' => 'ID',
+            'title' => 'Title',
+            'status' => 'Status',
+            'database' => 'Database',
+            'actions' => 'Actions',
+            'year' => 'Year',
+        ],
+        'buttons' => [
+            'csv' => 'Export CSV',
+            'xml' => 'Export XML',
+            'pdf' => 'Export PDF',
+            'print' => 'Print',
+            'duplicates' => 'Find Duplicates',
+            'filter' => 'Filter',
+            'filter-by' => 'Filter by',
+            'select-database' => 'Show all Databases',
+            'select-status' => 'Show all Statuses...',
+            'search-papers' => 'Search papers...',
+        ],
+        'modal' => [
+            'author' => 'Author',
+            'year' => 'Year',
+            'database' => 'Database',
+            'status-extraction' => 'Status Extraction',
+            'abstract' => 'Abstract',
+            'keywords' => 'Keywords',
+            'table' => [
+                'select' => 'Select',
+                'description' => 'Description',
+                'type' => 'Type',
+            ],
+            'option' => [
+                'select'=>'Select an option',
+                'removed' => 'Removed',
+                'done' => 'Done',
+                'to_do' => 'To Do',
+                'to do' => 'To Do',
+                'unclassified' => 'Unclassified',
+            ],
+            'save'=>'Save',
+            'close'=>'Close',
+
+        ],
+        'status' => [
+            'done' => 'Done',
+            'removed' => 'Removed',
+            'to_do' => 'To Do',
+            'to do' => 'To Do',
+
+        ],
+        'count'=>[
+            'toasts' =>[
+                'no-databases'=>'No databases found for this project.',
+                'no-papers'=>'No papers imported for this project.',
+                'data-refresh'=>'Data refreshed successfully',
+            ]
+        ]
     ],
 
 
