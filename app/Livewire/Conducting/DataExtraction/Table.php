@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Conducting\QualityAssessment;
+namespace App\Livewire\Conducting\DataExtraction;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
 use App\Models\Project;
 use App\Models\ProjectDatabases;
-use App\Models\StatusQualityAssessment;
+use App\Models\StatusExtraction;
 use App\Models\Project\Conducting\Papers;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -67,7 +67,7 @@ class Table extends Component
 
     public function openPaper($paper)
     {
-        $this->dispatch('showPaperQuality', paper: $paper, criterias: $this->criterias);
+        $this->dispatch('showPaperExtraction', paper: $paper, criterias: $this->criterias);
     }
     #[On('refreshPapers')]
     public function refreshPapers()
@@ -79,7 +79,7 @@ class Table extends Component
     public function updateStatus(string $papersId, $status)
     {
         $paper = Papers::findOrFail($papersId);
-        $status = StatusQualityAssessment::where('status', $status)->first()->id_status;
+        $status = StatusExtraction::where('status', $status)->first()->id_status;
         $paper->status_selection = $status;
         $paper->save();
 
@@ -90,7 +90,7 @@ class Table extends Component
     public function updateBulkStatus()
     {
         if ($this->bulkStatus && !empty($this->selectedPapers)) {
-            $statusId = StatusQualityAssessment::find($this->bulkStatus)->id_status;
+            $statusId = StatusExtraction::find($this->bulkStatus)->id_status;
 
             Papers::whereIn('id_paper', $this->selectedPapers)->update(['status_qa' => $statusId]);
 
@@ -126,7 +126,7 @@ class Table extends Component
             ->pluck('data_base.name', 'project_databases.id_database')
             ->toArray();
 
-        $statuses = StatusQualityAssessment::pluck('status', 'id_status')->toArray();
+        $statuses = StatusExtraction::pluck('description', 'id_status')->toArray();
 
         if (empty($idsBib)) {
             session()->flash('error', 'Não existem papers importados para este projeto.');
@@ -135,9 +135,9 @@ class Table extends Component
             //pegar os papers que foram aceitos na fase de study select
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-                ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
-                ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
-                ->where('status_selection', 1);
+                ->join('status_extraction', 'papers.status_extraction', '=', 'status_extraction.id_status')
+                ->select('papers.*', 'data_base.name as database_name', 'status_extraction.description as status_description')
+                ->where('papers.status_selection', 1);
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
@@ -148,7 +148,7 @@ class Table extends Component
             }
 
             if ($this->selectedStatus) {
-                $query = $query->where('papers.status_qa', $this->selectedStatus);
+                $query = $query->where('papers.status_extraction', $this->selectedStatus);
             }
 
             foreach ($this->sorts as $field => $direction) {
@@ -158,7 +158,7 @@ class Table extends Component
             $papers = $query->paginate($this->perPage);
         }
 
-        return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses'));
+        return view('livewire.conducting.data-extraction.table', compact('papers', 'databases', 'statuses'));
     }
 
 }

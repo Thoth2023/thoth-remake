@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Conducting\StudySelection;
+namespace App\Livewire\Conducting\Snowballing;
 
 use App\Models\Criteria;
 use App\Models\EvaluationCriteria;
@@ -55,8 +55,8 @@ class PaperModal extends Component
 
     }
 
-    #[On('showPaper')]
-    public function showPaper($paper, $criterias)
+    #[On('showPaperSnowballing')]
+    public function showPaperSnowballing($paper, $criterias)
     {
 
         $this->criterias = $criterias;
@@ -76,7 +76,7 @@ class PaperModal extends Component
             ->toArray();
 
         // Dispara o evento para mostrar o modal
-        $this->dispatch('show-paper');
+        $this->dispatch('show-paper-snowballing');
     }
 
     public function changePreSelected($criteriaId, $type)
@@ -204,6 +204,6 @@ class PaperModal extends Component
 
     public function render()
     {
-        return view('livewire.conducting.study-selection.paper-modal');
+        return view('livewire.conducting.snowballing.paper-modal');
     }
 }

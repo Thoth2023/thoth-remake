@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Livewire\Conducting\QualityAssessment;
+namespace App\Livewire\Conducting\Snowballing;
 
 use App\Models\BibUpload;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
-use App\Models\StatusQualityAssessment;
+use App\Models\StatusSnowballing;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Count extends Component
 {
-    private $toastMessages = 'project/conducting.quality-assessment.count.toasts';
+    private $toastMessages = 'project/conducting.snowballing.count.toasts';
     public $papers = [];
     public $accepted = [];
     public $duplicates = [];
@@ -34,7 +34,7 @@ class Count extends Component
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
 
         if ($idsDatabase->isEmpty()) {
-            session()->flash('error', __('project/conducting.quality-assessment.count.toasts.no-databases'));
+            session()->flash('error', __('project/conducting.snowballing.count.toasts.no-databases'));
             return;
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
@@ -43,7 +43,7 @@ class Count extends Component
         //dd($papers);
 
         if ($this->papers->isEmpty()) {
-            session()->flash('error', __('project/conducting.quality-assessment.count.toasts.no-papers'));
+            session()->flash('error', __('project/conducting.snowballing.count.toasts.no-papers'));
             return;
         }
 
@@ -54,8 +54,8 @@ class Count extends Component
 
     public function loadCounters()
     {
-        $statuses = StatusQualityAssessment::whereIn('status', ['Rejected', 'Unclassified', 'Removed', 'Accepted'])->get()->keyBy('status');
-        $requiredStatuses = ['Rejected', 'Unclassified', 'Removed', 'Accepted'];
+        $statuses = StatusSnowballing::whereIn('description', ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'])->get()->keyBy('description');
+        $requiredStatuses = ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'];
 
         foreach ($requiredStatuses as $status) {
             if (!isset($statuses[$status])) {
@@ -64,19 +64,22 @@ class Count extends Component
             }
         }
 
-        $this->rejected = $this->papers->where('status_qa', $statuses['Rejected']->id_status)->toArray();
-        $this->unclassified = $this->papers->where('status_qa', $statuses['Unclassified']->id_status)->toArray();
-        $this->removed = $this->papers->where('status_qa', $statuses['Removed']->id_status)->toArray();
-        $this->accepted = $this->papers->where('status_qa', $statuses['Accepted']->id_status)->toArray();
+        //analisar sobre o campo status_snowballing na tabela papers
+        $this->rejected = $this->papers->where('status_snowballing', $statuses['Rejected']->id)->toArray();
+        $this->unclassified = $this->papers->where('status_snowballing', $statuses['Unclassified']->id)->toArray();
+        $this->removed = $this->papers->where('status_snowballing', $statuses['Removed']->id)->toArray();
+        $this->accepted = $this->papers->where('status_snowballing', $statuses['Accepted']->id)->toArray();
+        $this->duplicates = $this->papers->where('status_snowballing', $statuses['Duplicate']->id)->toArray();
 
-        //pegar os papers aceitos na fase de seleção e passa para a fase de QA, mas algo está estranho no DB, analisar melhor.
         $totalPapers = count($this->papers);
         $this->rejectedPercentage = $totalPapers > 0 ? count($this->rejected) / $totalPapers * 100 : 0;
         $this->unclassifiedPercentage = $totalPapers > 0 ? count($this->unclassified) / $totalPapers * 100 : 0;
         $this->acceptedPercentage = $totalPapers > 0 ? count($this->accepted) / $totalPapers * 100 : 0;
         $this->removedPercentage = $totalPapers > 0 ? count($this->removed) / $totalPapers * 100 : 0;
+        $this->duplicatePercentage = $totalPapers > 0 ? count($this->duplicates) / $totalPapers * 100 : 0;
 
     }
+
 
     #[On('refreshPapers')]
     public function refreshCounters()
@@ -84,14 +87,25 @@ class Count extends Component
        $this->loadCounters();
 
         $this->dispatch('count', [
-            'message' => __('project/conducting.quality-assessment.count.toasts.data-refresh'),
+            'message' => __('project/conducting.snowballing.count.toasts.data-refresh'),
             'type' => 'success',
         ]);
 
+
+    }
+
+    private function updateDuplicates($duplicatePaperIds, $duplicateStatusId)
+    {
+        if (count($duplicatePaperIds) === 0) {
+            return;
+        }
+
+        // Atualiza o status dos papers com IDs encontrados como duplicados
+        Papers::whereIn('id_paper', $duplicatePaperIds)->update(['status_selection' => $duplicateStatusId]);
     }
 
     public function render()
     {
-        return view('livewire.conducting.quality-assessment.count');
+        return view('livewire.conducting.snowballing.count');
     }
 }

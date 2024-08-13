@@ -11,16 +11,16 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="quality-assessment"
-                modalTitle="{{ __('project/conducting.quality-assessment.title') }}"
-                modalContent="{{ __('project/conducting.quality-assessment.help.content') }}"
+                modalTitle="{{ __('project/conducting.data-extraction.title') }}"
+                modalContent="{{ __('project/conducting.data-extraction.help.content') }}"
             />
         </div>
         <br/>
         <div>
-            @livewire('conducting.quality-assessment.count')
+            @livewire('conducting.data-extraction.count')
         </div>
         <div class="table-section">
-            @livewire('conducting.quality-assessment.table')
+            @livewire('conducting.data-extraction.table')
         </div>
 
 
