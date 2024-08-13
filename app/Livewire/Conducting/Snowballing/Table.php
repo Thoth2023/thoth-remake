@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Livewire\Conducting\QualityAssessment;
+namespace App\Livewire\Conducting\Snowballing;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
 use App\Models\Project;
 use App\Models\ProjectDatabases;
-use App\Models\StatusQualityAssessment;
+use App\Models\StatusSelection;
 use App\Models\Project\Conducting\Papers;
+use App\Models\StatusSnowballing;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -17,6 +18,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class Table extends Component
 {
     use WithPagination;
+
     public $currentProject;
     public $projectId;
     public $criterias;
@@ -25,11 +27,13 @@ class Table extends Component
     public array $editingStatus = [];
     public int $perPage = 100;
     public string $search = '';
+
     public $selectedDatabase = '';
     public $selectedStatus = '';
     public $bulkStatus = '';
     public array $selectedPapers = [];
     public bool $selectAll = false;
+
     protected $paginationTheme = 'bootstrap';
 
     public function mount()
@@ -67,7 +71,7 @@ class Table extends Component
 
     public function openPaper($paper)
     {
-        $this->dispatch('showPaperQuality', paper: $paper, criterias: $this->criterias);
+        $this->dispatch('showPaperSnowballing', paper: $paper, criterias: $this->criterias);
     }
     #[On('refreshPapers')]
     public function refreshPapers()
@@ -79,20 +83,20 @@ class Table extends Component
     public function updateStatus(string $papersId, $status)
     {
         $paper = Papers::findOrFail($papersId);
-        $status = StatusQualityAssessment::where('status', $status)->first()->id_status;
+        $status = StatusSelection::where('description', $status)->first()->id_status;
         $paper->status_selection = $status;
         $paper->save();
 
         $value = 'Updated papers status.';
-        Log::info('action: ' . $value . ' status: ' . $paper, ['projectId' => $this->currentProject->id_project]);
+        Log::info('action: ' . $value . ' description: ' . $paper, ['projectId' => $this->currentProject->id_project]);
     }
 
     public function updateBulkStatus()
     {
         if ($this->bulkStatus && !empty($this->selectedPapers)) {
-            $statusId = StatusQualityAssessment::find($this->bulkStatus)->id_status;
+            $statusId = StatusSelection::find($this->bulkStatus)->id_status;
 
-            Papers::whereIn('id_paper', $this->selectedPapers)->update(['status_qa' => $statusId]);
+            Papers::whereIn('id_paper', $this->selectedPapers)->update(['status_selection' => $statusId]);
 
             $value = 'Updated papers status in bulk.';
             Log::info('action: ' . $value, ['projectId' => $this->currentProject->id_project]);
@@ -126,18 +130,19 @@ class Table extends Component
             ->pluck('data_base.name', 'project_databases.id_database')
             ->toArray();
 
-        $statuses = StatusQualityAssessment::pluck('status', 'id_status')->toArray();
+        $statuses = StatusSnowballing::pluck('description', 'id')->toArray();
 
         if (empty($idsBib)) {
             session()->flash('error', 'Não existem papers importados para este projeto.');
             $papers = new LengthAwarePaginator([], 0, $this->perPage);
         } else {
-            //pegar os papers que foram aceitos na fase de study select
+            //pegar os papers que foram aceitos na fase de QA ou database Snowballing Studies
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
                 ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
-                ->where('status_selection', 1);
+                ->where('papers.status_qa', 1)
+                ->orWhere('papers.data_base', 16);
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
@@ -148,7 +153,7 @@ class Table extends Component
             }
 
             if ($this->selectedStatus) {
-                $query = $query->where('papers.status_qa', $this->selectedStatus);
+                $query = $query->where('papers.status_snowballing', $this->selectedStatus);
             }
 
             foreach ($this->sorts as $field => $direction) {
@@ -158,7 +163,7 @@ class Table extends Component
             $papers = $query->paginate($this->perPage);
         }
 
-        return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses'));
+        return view('livewire.conducting.snowballing.table', compact('papers', 'databases', 'statuses'));
     }
 
 }

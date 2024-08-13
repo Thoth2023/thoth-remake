@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Conducting\QualityAssessment;
+namespace App\Livewire\Conducting\Snowballing;
 
 use App\Models\BibUpload;
 use App\Models\Project\Conducting\Papers;
@@ -16,6 +16,64 @@ class Buttons extends Component
 
     public $projectId;
 
+    public function removeDuplicates()
+    {
+        // Obtém todos os papers para o projeto atual
+        $papers = $this->getPapers($this->projectId);
+
+        // Inicializa arrays para armazenar títulos únicos e duplicados
+        $uniqueTitles = [];
+        $duplicates = [];
+
+        // Itera sobre os papers para encontrar duplicatas
+        foreach ($papers as $paper) {
+            if (!in_array($paper->title, $uniqueTitles)) {
+                // Adiciona título à lista de títulos únicos
+                $uniqueTitles[] = $paper->title;
+            } else {
+                // Adiciona o ID do papel à lista de duplicados
+                $duplicates[] = $paper->id_paper;
+            }
+        }
+
+        // Log para verificar IDs de duplicados
+        //Log::info('Duplicate IDs:', $duplicates);
+
+
+        // Atualiza o status dos papers duplicados para 'removed' (status_selection = 5)
+        if (count($duplicates) > 0) {
+            $updated = Papers::whereIn('id_paper', $duplicates)
+                ->update(['status_selection' => 4]); // Atualiza o campo status_selection para '5'
+
+            // Log para verificar o número de atualizações realizadas
+            //Log::info('Number of papers updated:', ['count' => $updated]);
+
+
+            // Log da atividade com o número de papers duplicados
+            Log::logActivity(
+                action: 'Papers duplicated have been successfully marked as Duplicated',
+                description: 'Number of papers duplicates: ' . $updated,
+                projectId: $this->projectId,
+            );
+
+
+            // Emite um evento para recarregar o componente Livewire
+            $this->dispatch('refreshPapers');
+
+            if ($updated > 0) {
+                $this->toast('Papers duplicated have been successfully marked as Duplicated.', 'success');
+            } else {
+                $this->toast('No papers were updated.', 'info');
+            }
+        } else {
+            $this->toast('No duplicates found.', 'info');
+        }
+    }
+
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('buttons', ToastHelper::dispatch($type, $message));
+    }
 
     public function exportCsv()
     {
@@ -123,6 +181,6 @@ class Buttons extends Component
 
     public function render()
     {
-        return view('livewire.conducting.quality-assessment.buttons');
+        return view('livewire.conducting.snowballing.buttons');
     }
 }
