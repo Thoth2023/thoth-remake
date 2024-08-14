@@ -33,66 +33,54 @@ class PaperModal extends Component
 
     }
 
-    public function save()
-    {
-
-        $member = Member::where('id_user', auth()->user()->id)->first();
-        foreach ($this->selected_criterias as $criteria) {
-            EvaluationCriteria::create([
-                'id_paper' => $this->paper['id_paper'],
-                'id_criteria' => $criteria,
-                'id_member' => $member->id_members,
-            ]);
-        }
-
-        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
-        $status = StatusSelection::where('description', $this->selected_status)->first();
-        $paper->status_selection = $status->id_status;
-
-        $paper->save();
-        $this->dispatch('paperSaved', ['message' => 'Paper information updated successfully!', 'type' => 'success']);
-        //$this->resetFields();
-
-    }
 
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
     {
-
         $this->criterias = $criterias;
         $this->paper = $paper;
 
-        // Obtém o nome do banco de dados associado ao paper
         $databaseName = DB::table('data_base')
             ->where('id_database', $this->paper['data_base'])
             ->value('name');
 
         $this->paper['database_name'] = $databaseName;
 
-        // Carrega os critérios já avaliados e marca os checkboxes correspondentes
-        $this->selected_criterias = DB::table('evaluation_criteria')
-            ->where('id_paper', $this->paper['id_paper'])
+        //carregar todos os critérios de uma vez
+        $this->selected_criterias = EvaluationCriteria::where('id_paper', $this->paper['id_paper'])
             ->pluck('id_criteria')
             ->toArray();
 
-        // Dispara o evento para mostrar o modal
+        //status selecionado com base no status salvo no banco de dados
+        $this->selected_status = $this->paper['status_description'];
+
         $this->dispatch('show-paper');
+    }
+
+    public function updateStatusManual()
+    {
+        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
+        $status = StatusSelection::where('description', $this->selected_status)->first();
+        $paper->status_selection = $status->id_status;
+
+        $paper->save();
+
+        session()->flash('successMessage', "Criteria updated successfully. New status: " . $status->description);
+        // Mostra o modal de sucesso
+        $this->dispatch('show-success');
     }
 
     public function changePreSelected($criteriaId, $type)
     {
         $member = Member::where('id_user', auth()->user()->id)->first();
+        $isSelected = in_array($criteriaId, $this->selected_criterias);
 
-        if (in_array($criteriaId, $this->selected_criterias)) {
+        if ($isSelected) {
             EvaluationCriteria::create([
                 'id_paper' => $this->paper['id_paper'],
                 'id_criteria' => $criteriaId,
                 'id_member' => $member->id_members,
             ]);
-
-            // Lógica para atualizar o status com base nas regras
-            $this->updatePaperStatus($type);
-
         } else {
             EvaluationCriteria::where('id_paper', $this->paper['id_paper'])
                 ->where('id_criteria', $criteriaId)
@@ -100,107 +88,90 @@ class PaperModal extends Component
                 ->delete();
         }
 
-        // Definir mensagem de sucesso na sessão
-        session()->flash('successMessage', 'Criteria updated successfully.');
+        $this->updatePaperStatus($type);
 
-        // Emitir evento para atualizar o paper-modal e mostrar o modal de sucesso
-        //$this->dispatch('updatePaperModal');
+        session()->flash('successMessage', "Criteria updated successfully. New status: " . $this->getPaperStatusDescription($this->paper['status_selection']));
+
+        // Atualiza a view para mostrar o alert
         $this->dispatch('show-success');
-
+        $this->dispatch('papersUpdated');
     }
+
+    // Método auxiliar para obter a descrição do status
+    private function getPaperStatusDescription($status)
+    {
+        $statusDescriptions = [
+            1 => 'Accepted',
+            2 => 'Rejected',
+            3 => 'Unclassified',
+            4 => 'Duplicate',
+            5 => 'Removed',
+        ];
+
+        return $statusDescriptions[$status] ?? 'Unknown';
+    }
+
 
     private function updatePaperStatus($type)
     {
-
         $id_project = $this->currentProject->id_project;
         $id_paper = $this->paper['id_paper'];
         $old_status = $this->paper['status_selection'];
 
-        $criterias['inclusion'] = Criteria::where('id_project', $id_project)->where('type', 'Inclusion')->get();
-        $criterias['exclusion'] = Criteria::where('id_project', $id_project)->where('type', 'Exclusion')->get();
-        $criterias_ev = EvaluationCriteria::where('id_paper', $id_paper)->join('criteria', 'evaluation_criteria.id_criteria', '=', 'criteria.id_criteria')
-            ->select('evaluation_criteria.*', 'criteria.type')->get();
-        $in_rules = Criteria::where('id_project', $id_project)->where('type', 'Inclusion')->distinct()->pluck('rule');
-        $ex_rules = Criteria::where('id_project', $id_project)->where('type', 'Exclusion')->distinct()->pluck('rule');
-        $inclusion = false;
-        $exclusion = false;
+        // Obter todos os critérios e regras de uma só vez
+        $criterias = Criteria::where('id_project', $id_project)->get()->groupBy('type');
+        $criterias_ev = EvaluationCriteria::where('id_paper', $id_paper)
+            ->join('criteria', 'evaluation_criteria.id_criteria', '=', 'criteria.id_criteria')
+            ->select('evaluation_criteria.*', 'criteria.type')
+            ->get()
+            ->groupBy('type');
 
+        $inclusion = $this->checkCriteriaRules($criterias['Inclusion'] ?? collect(), $criterias_ev['Inclusion'] ?? collect());
+        $exclusion = $this->checkCriteriaRules($criterias['Exclusion'] ?? collect(), $criterias_ev['Exclusion'] ?? collect());
 
-        foreach ($in_rules as $in_rule) {
+        $new_status = $this->determineNewStatus($inclusion, $exclusion, $old_status);
 
-            switch ($in_rule) {
-                case 'ALL':
-                    if ($criterias['inclusion']->count() == $criterias_ev->where('type', 'Inclusion')->count()) {
-                        $inclusion = true;
-                    }
-                    break;
-                case 'AT LEAST':
-                    if ($criterias_ev->where('type', 'Inclusion')->count() >= 1) {
-                        $inclusion = true;
-                    }
-                    break;
-                case 'ANY':
-                    if ($criterias_ev->where('type', 'Inclusion')->count() > 0) {
-                        $inclusion = true;
-                    }
-                    break;
-            }
-        }
-
-        foreach ($ex_rules as $ex_rule) {
-            switch ($ex_rule) {
-                case 'ALL':
-                    if ($criterias['exclusion']->count() == $criterias_ev->where('type', 'Exclusion')->count()) {
-                        $inclusion = false;
-                        $exclusion = true;
-                    }
-                    break;
-                case 'AT LEAST':
-                    if ($criterias_ev->where('type', 'Exclusion')->count() >= 1) {
-                        $exclusion = true;
-                        $inclusion = false;
-                    }
-                    break;
-                case 'ANY':
-                    if ($criterias_ev->where('type', 'Exclusion')->count() > 0) {
-                        $exclusion = true;
-                        $inclusion = false;
-                    }
-                    break;
-            }
-        }
-
-        $change = false;
-
-
-        if ($old_status != 4 && $old_status != 5) {
-            if ($inclusion && !$exclusion) {
-                if ($old_status != 1) {
-                    $new_status = 1; // Accepted
-                    $change = true;
-                }
-            } elseif (!$inclusion && $exclusion) {
-                if ($old_status != 2) {
-                    $new_status = 2; // Rejected
-                    $change = true;
-                }
-            } else {
-                if ($old_status != 3) {
-                    $new_status = 3; // Unclassified
-                    $change = true;
-                }
-            }
-        }
-
-        //dd($new_status);
-
-        if ($change) {
+        if ($new_status !== $old_status) {
             $this->paper['status_selection'] = $new_status;
             Papers::where('id_paper', $id_paper)->update(['status_selection' => $new_status]);
-            $this->dispatch('papersUpdated');
+
         }
     }
 
+    private function checkCriteriaRules($criterias, $criterias_ev)
+    {
+        foreach ($criterias->pluck('rule')->unique() as $rule) {
+            switch ($rule) {
+                case 'ALL':
+                    if ($criterias->count() == $criterias_ev->count()) {
+                        return true;
+                    }
+                    break;
+                case 'AT LEAST':
+                    if ($criterias_ev->count() >= 1) {
+                        return true;
+                    }
+                    break;
+                case 'ANY':
+                    if ($criterias_ev->count() > 0) {
+                        return true;
+                    }
+                    break;
+            }
+        }
+        return false;
+    }
+
+    private function determineNewStatus($inclusion, $exclusion, $old_status)
+    {
+        if ($inclusion && !$exclusion) {
+            return 1; // Accepted
+        } elseif (!$inclusion && $exclusion) {
+            return 2; // Rejected
+        } else {
+            return 3; // Unclassified
+        }
+    }
 
     public function render()
     {
