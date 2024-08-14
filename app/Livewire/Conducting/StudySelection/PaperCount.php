@@ -20,7 +20,7 @@ class PaperCount extends Component
         $this->projectId = $projectId;
         $this->loadPaperCount();
     }
-    #[On('refreshPapers')]
+    #[On('refreshPapersCount')]
     public function loadPaperCount()
     {
         $this->paperCount = DB::table('papers')

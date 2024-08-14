@@ -24,9 +24,9 @@ class Table extends Component
     public array $sorts = [];
     //public array $statuses = [];
     public array $editingStatus = [];
-    public int $perPage = 100;
-    public string $search = '';
 
+    public string $search = '';
+    public $perPage = 100;
     public $selectedDatabase = '';
     public $selectedStatus = '';
     public $bulkStatus = '';
@@ -43,6 +43,10 @@ class Table extends Component
         $this->setupCriteria();
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
     public function updatedSelectedDatabase()
     {
         $this->resetPage();
@@ -77,6 +81,7 @@ class Table extends Component
     {
         $this->papers = $this->render();
         $this->dispatch('papersUpdated');
+
     }
 
     public function updateStatus(string $papersId, $status)
@@ -117,10 +122,8 @@ class Table extends Component
     }
 
 
-
     public function render()
     {
-
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
@@ -135,15 +138,20 @@ class Table extends Component
             session()->flash('error', 'Não existem papers importados para este projeto.');
             $papers = new LengthAwarePaginator([], 0, $this->perPage);
         } else {
+
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
                 ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description');
 
+
             if ($this->search) {
-                $query = $query->where('title', 'like', '%' . $this->search . '%');
+                $query = $query->where(function ($query) {
+                    $query->where('papers.title', 'like', '%' . $this->search . '%');
+                });
             }
 
+            // Aplicar filtros adicionais (database e status)
             if ($this->selectedDatabase) {
                 $query = $query->where('papers.data_base', $this->selectedDatabase);
             }
@@ -152,10 +160,12 @@ class Table extends Component
                 $query = $query->where('papers.status_selection', $this->selectedStatus);
             }
 
+            // Ordenação
             foreach ($this->sorts as $field => $direction) {
                 $query = $query->orderBy($field, $direction);
             }
 
+            // Paginação
             $papers = $query->paginate($this->perPage);
         }
 

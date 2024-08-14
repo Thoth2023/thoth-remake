@@ -1,8 +1,8 @@
 <div>
     <br/>
     <div class="row">
-        <div class="col-4">
-            <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="{{ __('project/conducting.study-selection.buttons.search-papers' )}}" aria-label="Search" />
+        <div class="col-4 d-flex">
+            <x-search.input class="form-control me-2" target="search-papers-selection" wire:model.debounce.500ms="search" placeholder="{{ __('project/conducting.study-selection.buttons.search-papers' )}}" aria-label="Search" />
         </div>
         <div class="col-8 text-end">
             @livewire('conducting.study-selection.buttons')
@@ -67,7 +67,7 @@
         @forelse ($papers as $paper)
             <x-search.item
                 wire:key="{{ $paper['title'] }}"
-                target="search-papers"
+                target="search-papers-selection"
                 class="list-group-item d-flex row w-100"
             >
                 <div class='w-5 pl-2'>

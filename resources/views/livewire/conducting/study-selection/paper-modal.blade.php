@@ -34,12 +34,8 @@
                                 URL
                             </a>
                         </div>
-                        <div class="d-flex gap-1 mb-3">
-                            <b>{{ __('project/conducting.study-selection.modal.status-selection' )}}: </b>
-                            <b class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                                {{ __("project/conducting.study-selection.status." . strtolower($paper['status_description'])) }}
-                            </b>
-                        </div>
+                        @livewire('conducting.study-selection.paper-status', ['paper' => $paper['id_paper']],key($paper['id_paper']))
+
                         <div class="col-12">
                             <b>{{ __('project/conducting.study-selection.modal.abstract' )}}: </b>
                             <p>{{ $paper['abstract'] }}</p>
@@ -61,7 +57,7 @@
                         <tbody>
                         @foreach ($criterias as $criteria)
                             <tr>
-                                <td class="d-flex align-items-center justify-content-center">
+                                <td class="w-5 align-middle text-center">
                                     <input
                                         type="checkbox"
                                         id="criteria-{{ $criteria['id_criteria'] }}"
@@ -82,23 +78,25 @@
                     </table>
 
                     <hr />
-
+                    <!-- Verificação do status -->
+                    @if($paper['status_selection'] != 1 && $paper['status_selection'] != 2)
+                        <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
                     <p>{{ __('project/conducting.study-selection.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off">
                         <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
                         <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" value="Duplicate" name="btnradio" id="btnradio4" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Duplicate" name="btnradio" id="btnradio4" autocomplete="off">
                         <label class="btn btn-outline-primary" for="btnradio4">{{ __('project/conducting.study-selection.modal.option.duplicated' )}}</label>
                     </div>
                     @endif
+                @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" wire:click="save">{{ __('project/conducting.study-selection.modal.save' )}}</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
             </div>
@@ -126,17 +124,20 @@
 @script
 <script>
     $(document).ready(function(){
-        // Show the modal
+        // Show the paper modal
         $wire.on('show-paper', () => {
             $('#paperModal').modal('show');
         });
 
-        Livewire.on('updatePaperModal', () => {
-            Livewire.dispatch('showPaper'); // Dispara a função showPaper no backend para recarregar as informações
+        // Show the success modal on success event
+        Livewire.on('show-success', () => {
+            $('#paperModal').modal('hide'); // Hide the paper modal
+            $('#successModal').modal('show'); // Show the success modal
         });
 
-        Livewire.on('show-success', () => {
-            $('#successModal').modal('show'); // Mostra o modal de sucesso
+        // Handle the closing of success modal to reopen the paper modal
+        $('#successModal').on('hidden.bs.modal', function () {
+            $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
 
         // Handle saving and showing toast
@@ -144,18 +145,19 @@
             // Show a toast message
             toasty({ message, type });
 
-            // Hide the modal
+            // Hide the paper modal (if needed)
             $('#paperModal').modal('hide');
-
         });
 
-        // Refresh papers on the client side when the event is fired
-        window.addEventListener('papersUpdated', () => {
-            // Trigger Livewire's refresh or reload method
-            Livewire.dispatch('refreshPapers');
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('papersUpdated', () => {
+                Livewire.dispatch('refreshPapers'); // Atualiza o componente Livewire
+            });
         });
     });
+
 </script>
+
 @endscript
 
 @script

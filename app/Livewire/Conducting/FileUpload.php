@@ -118,6 +118,7 @@ class FileUpload extends Component
                 $this->resetFields();
 
                 $this->dispatch('refreshPapers');
+                $this->dispatch('refreshPapersCount');
 
             } catch (\Exception $e) {
                 $errorMessage = method_exists($e, 'getMessage') ? $e->getMessage() : 'Unknown error';
