@@ -168,6 +168,8 @@ class PaperModal extends Component
             return 1; // Accepted
         } elseif (!$inclusion && $exclusion) {
             return 2; // Rejected
+        } elseif ($inclusion && $exclusion) {
+            return 2; // Rejected
         } else {
             return 3; // Unclassified
         }
