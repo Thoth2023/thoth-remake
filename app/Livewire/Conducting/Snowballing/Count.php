@@ -81,7 +81,7 @@ class Count extends Component
     }
 
 
-    #[On('refreshPapers')]
+    #[On('refreshPapersCount')]
     public function refreshCounters()
     {
        $this->loadCounters();
@@ -103,6 +103,7 @@ class Count extends Component
         // Atualiza o status dos papers com IDs encontrados como duplicados
         Papers::whereIn('id_paper', $duplicatePaperIds)->update(['status_selection' => $duplicateStatusId]);
     }
+
 
     public function render()
     {

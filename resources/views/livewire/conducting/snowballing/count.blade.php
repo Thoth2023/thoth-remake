@@ -57,12 +57,8 @@
     $wire.on('count', ([{ message, type }]) => {
         toasty({ message, type });
     });
-</script>
-@endscript
-@script
-<script>
     document.addEventListener('livewire:load', function () {
-        Livewire.on('papersUpdated', () => {
+        Livewire.on('show-success', () => {
             // Aqui você pode mostrar uma mensagem de toasty ou qualquer outra ação
             toasty({ message: 'Papers updated successfully!', type: 'success' });
 
