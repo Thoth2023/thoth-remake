@@ -80,7 +80,7 @@ class Table extends Component
     public function refreshPapers()
     {
         $this->papers = $this->render();
-        $this->dispatch('papersUpdated');
+        //$this->dispatch('show-success');
 
     }
 

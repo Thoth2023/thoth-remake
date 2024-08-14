@@ -139,29 +139,8 @@
         $('#successModal').on('hidden.bs.modal', function () {
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
-
-        // Handle saving and showing toast
-        $wire.on('paperSaved', ([{ message, type }]) => {
-            // Show a toast message
-            toasty({ message, type });
-
-            // Hide the paper modal (if needed)
-            $('#paperModal').modal('hide');
-        });
-
-        document.addEventListener('livewire:load', function () {
-            Livewire.on('papersUpdated', () => {
-                Livewire.dispatch('refreshPapers'); // Atualiza o componente Livewire
-            });
-        });
     });
 
-</script>
-
-@endscript
-
-@script
-<script>
     $wire.on('paper-modal', ([{ message, type }]) => {
         toasty({ message, type });
     });
