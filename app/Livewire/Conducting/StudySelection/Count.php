@@ -80,7 +80,8 @@ class Count extends Component
     }
 
 
-    #[On('refreshPapers')]
+    #[On('refreshPapersCount')]
+    #[On('show-success')]
     public function refreshCounters()
     {
        $this->loadCounters();
@@ -107,4 +108,5 @@ class Count extends Component
     {
         return view('livewire.conducting.study-selection.count');
     }
+
 }

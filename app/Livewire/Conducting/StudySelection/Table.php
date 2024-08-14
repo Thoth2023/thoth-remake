@@ -76,13 +76,6 @@ class Table extends Component
     {
         $this->dispatch('showPaper', paper: $paper, criterias: $this->criterias);
     }
-    #[On('refreshPapers')]
-    public function refreshPapers()
-    {
-        $this->papers = $this->render();
-        //$this->dispatch('show-success');
-
-    }
 
     public function updateStatus(string $papersId, $status)
     {
@@ -121,7 +114,7 @@ class Table extends Component
         $this->resetPage();
     }
 
-
+    #[On('show-success')]
     public function render()
     {
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
