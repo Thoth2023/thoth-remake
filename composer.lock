@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "daaf2086af522abf4b603bba1fc10646",
+    "content-hash": "9141a0fa659999d43ad7606b8eadac5f",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -7100,6 +7100,71 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "ibex/crud-generator",
+            "version": "v1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awais-vteams/laravel-crud-generator.git",
+                "reference": "3c9220d73d846f6553806e746886062e554c6102"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awais-vteams/laravel-crud-generator/zipball/3c9220d73d846f6553806e746886062e554c6102",
+                "reference": "3c9220d73d846f6553806e746886062e554c6102",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.5|^6.20.42|^7.0|^8.0|^9.0|^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ibex\\CrudGenerator\\CrudServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ibex\\CrudGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M Awais",
+                    "email": "asargodha@gmail.com"
+                }
+            ],
+            "description": "Laravel Crud Generator",
+            "keywords": [
+                "bootstrap css",
+                "crud",
+                "crud generator",
+                "laravel",
+                "laravel crud generator",
+                "laravel package"
+            ],
+            "support": {
+                "issues": "https://github.com/awais-vteams/laravel-crud-generator/issues",
+                "source": "https://github.com/awais-vteams/laravel-crud-generator/tree/v1.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/awais-vteams",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/mawais",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2024-03-17T04:37:32+00:00"
         },
         {
             "name": "kitloong/laravel-migrations-generator",
