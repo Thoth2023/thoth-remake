@@ -50,7 +50,7 @@
                         ]
                     )
                     <div class="tab-content mt-4">
-                        <div class="tab-pane fade" id="import-studies">
+                        <div class="tab-pane fade show active" id="import-studies">
                             <!-- Conteúdo da aba Import Studies -->
                             @livewire("conducting.file-upload")
                         </div>
@@ -81,8 +81,7 @@
         </div>
     </div>
     </div>
-
-    @if (session()->has("activePlanningTab"))
+    @if (session()->has("activeConductingTab"))
         <script>
             window.onload = function () {
                 // Remover a classe active da aba import-studies-tab
@@ -95,7 +94,7 @@
                     .classList.remove('show', 'active');
 
                 // Obter o ID da aba armazenada na sessão
-                var activeTabId = '{{ session("activePlanningTab") }}';
+                var activeTabId = '{{ session("activeConductingTab") }}';
 
                 // Adicionar a classe active à aba armazenada na sessão
                 document
@@ -108,25 +107,5 @@
             };
         </script>
     @endif
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Adicionar um ouvinte de evento para cada aba
-            var tabs = document.querySelectorAll('[id$="-tab"]');
-            tabs.forEach(function (tab) {
-                tab.addEventListener('click', function () {
-                    var tabId = this.id.replace('-tab', '');
-                    fetch('/set-active-tab', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                        body: JSON.stringify({ activeTab: tabId }),
-                    });
-                });
-            });
-        });
-    </script>
 
 @endsection
