@@ -60,11 +60,6 @@ class DatabaseSeeder extends Seeder
             ['id_type' => 3, 'type' => 'Pick One List'],
         ]);
 
-        DB::table('rule')->insert([
-            ['id_rule' => 1, 'description' => 'All'],
-            ['id_rule' => 2, 'description' => 'Any'],
-            ['id_rule' => 3, 'description' => 'At Least'],
-        ]);
 
         DB::table('status_extraction')->insert([
             ['id_status' => 1, 'description' => 'Done'],
