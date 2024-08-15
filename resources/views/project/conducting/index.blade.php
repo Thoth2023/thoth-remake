@@ -81,6 +81,7 @@
         </div>
     </div>
     </div>
+
     @if (session()->has("activeConductingTab"))
         <script>
             window.onload = function () {
@@ -107,5 +108,4 @@
             };
         </script>
     @endif
-
 @endsection
