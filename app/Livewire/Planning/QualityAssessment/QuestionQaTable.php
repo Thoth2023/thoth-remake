@@ -52,14 +52,13 @@ class QuestionQaTable extends Component
     Question::updateOrCreate([
       'id_qa' => $questionId
     ], [
-      'id' => $questionId,
       'min_to_app' => $minToApp
     ]);
 
     $this->populateQuestions();
 
     $this->toast(
-      message: 'Minimal score updated successfully.',
+      message: __('project/planning.quality-assessment.min-general-score.form.minimal-score'),
       type: 'success'
     );
   }

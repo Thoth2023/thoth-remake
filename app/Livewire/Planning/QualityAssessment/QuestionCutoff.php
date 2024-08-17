@@ -20,6 +20,10 @@ class QuestionCutoff extends Component
     public $selectedGeneralScore;
     public $generalScores = [];
 
+    private function translate(string $message, string $key = 'toasts')
+    {
+        return __('project/planning.quality-assessment.min-general-score.livewire.' . $key . '.' . $message);
+    }
 
     public function mount()
     {
@@ -33,7 +37,7 @@ class QuestionCutoff extends Component
 
         // Mensagem quando não há pontuações gerais
         if ($this->generalScores->isEmpty()) {
-            $this->generalScoresMessage = 'No general scores available. Please register general scores.';
+            $this->generalScoresMessage = __('project/planning.quality-assessment.min-general-score.form.empty');
         } else {
             $this->generalScoresMessage = null;
         }
@@ -76,40 +80,54 @@ class QuestionCutoff extends Component
         }*/
     }
 
-
     public function updateCutoff()
     {
         $projectId = $this->currentProject->id_project;
 
         $selectedGeneralScore = is_array($this->selectedGeneralScore) ? $this->selectedGeneralScore['value'] : $this->selectedGeneralScore;
 
-
         // Validação
-        if ($selectedGeneralScore === null) {
+        if (is_null($this->selectedGeneralScore) || $this->selectedGeneralScore === 0) {
             $this->toast(
-                message: 'Please select a valid general score.',
-                type: 'info',
+                message: $this->translate('required'),
+                type: 'error',
             );
             return;
         }
 
         Log::logActivity(
-            action: 'Updating Min to Aprove with values',
+            action: $this->translate('updated'),
             description:  $selectedGeneralScore,
-            projectId : $projectId
+            projectId: $projectId
         );
 
         // Atualize ou crie o cutoff
-        Cutoff::updateOrCreate(['id_project' => $projectId], [
-            'id_project' => $projectId,
-            'id_general_score' => $selectedGeneralScore,
-        ]);
+        Cutoff::updateOrCreate(
+            ['id_project' => $projectId],
+            ['id_general_score' => $selectedGeneralScore]
+        );
+
+        // Recarregar o valor do select a partir do banco de dados
+        $this->reloadCutoff();
 
         $this->toast(
-            message: 'Minimal score to approve updated successfully',
+            message: $this->translate('updated'),
             type: 'success',
         );
-        //$this->dispatch('update-minimal-approve');
+
+
+        $this->dispatch('update-select-minimal-approve');
+    }
+
+    #[On('update-select-minimal-approve')]
+    public function reloadCutoff()
+    {
+        $projectId = $this->currentProject->id_project;
+        $cutoff = Cutoff::where('id_project', $projectId)->first();
+
+        if ($cutoff) {
+            $this->selectedGeneralScore = $cutoff->id_general_score;
+        }
 
     }
 

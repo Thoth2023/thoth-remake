@@ -57,6 +57,9 @@
                             wire:loading.attr="disabled"
                         >
                             {{ __("project/conducting.import-studies.form.add") }}
+                            <div wire:loading>
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
                         </x-helpers.submit-button>
                     </form>
                 </div>

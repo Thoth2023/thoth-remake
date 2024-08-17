@@ -50,7 +50,8 @@ return [
                 'title' => 'Domains',
                 'content' => 'Domains are thematic categories or subject areas that you define to structure and categorize ' .
                     'the diverse set of literature sources you encounter during your review. Each domain represents ' .
-                    'a specific aspect or topic related to your research question or area of interest.',
+                    'a specific aspect or topic related to your research question or area of interest.
+                    <br><strong>Example:</strong> Software Engineering, Medicine, Health Sciences, etc.',
             ],
             'livewire' => [
                 'logs' => [
@@ -244,7 +245,8 @@ return [
         'title' => 'Research Questions',
         'help' => [
             'title' => 'Research Questions Help',
-            'content' => 'Research questions are key inquiries that guide your literature review. Each question should be clear, focused, and directly related to your research objectives. Add, edit, or delete research questions to refine the scope of your literature review.',
+            'content' => 'Research questions are key inquiries that guide your literature review. Each question should be clear, focused, and directly related to your research objectives. Add, edit, or delete research questions to refine the scope of your literature review.
+            <br><strong>Example:</strong> RQ01 - Are the studies systematic literature reviews?',
         ],
         'form' => [
             'id' => 'ID',
@@ -303,6 +305,10 @@ return [
         ],
         'suggest-new' => [
             'title' => 'Suggest a New Database',
+            'help'=>[
+                'title' => 'Suggest a New Database',
+                'content' => "Suggest a new database if it is necessary for your research and it is not included in Thoth's current list. It is important to note that this database will only be available for use after approval by the system administrators.",
+            ] ,
             'name-label' => 'Database Name',
             'enter-name' => 'Enter database name',
             'link-label' => 'Database Link',
@@ -368,7 +374,7 @@ return [
                 ],
                 'delete' => [
                     'title' => 'Delete Suggestion',
-                    'description' => 'This action <strong>cannot</strong> be undone. This will remove the suggestion permanently.',
+                    'description' => 'This action cannot be undone. This will remove the suggestion permanently.',
                     'cancel' => 'Cancel',
                     'delete' => 'Delete',
                 ],
@@ -445,10 +451,12 @@ return [
                     <li>Cross-checking the trial research string against lists of already known primary studies.</li>
                     <li>Seeking consultations with experts in the field.</li>
                 </ul>
+                <p>Describe here to describe a strategy used for the research.</p>
             ",
         ],
         'placeholder' => 'Enter the search strategy',
         'save-button' => 'Save',
+        'success'=> 'Search strategy updated successfully.',
     ],
     'criteria' => [
         'title' => 'Inclusion/Exclusion Criteria',
@@ -456,9 +464,12 @@ return [
             'title' => 'Inclusion/Exclusion Criteria',
             'content' => '
                 <p>In the criteria section, you define the criteria for selecting or excluding studies in your research project.</p>
-                <p><strong>Inclusion Criteria:</strong> Specify the criteria that studies must meet to be included in your research.</p>
-                <p><strong>Exclusion Criteria:</strong> Specify the criteria that studies must meet to be excluded from your research.</p>
+                <p><strong>Inclusion Criteria:</strong> Specify the criteria that studies must meet to be included in your research. Ex.: IC1 - The publication should propose a tool to support the performance test.</p>
+                <p><strong>Exclusion Criteria:</strong> Specify the criteria that studies must meet to be excluded from your research. Ex.: EC1 Duplicate articles.</p>
                 <p>Make sure to carefully consider and document your criteria to ensure a systematic and transparent selection process.</p>
+                <ul><li><strong>All:</strong> The study must contain all the inclusion or exclusion criteria.</li>
+                <li><strong>At Least:</strong> The study should contain at least the criteria selected.</li>
+                <li><strong>Any:</strong> The study may contain any of the criteria.</li></ul>
             ',
         ],
         'form' => [
@@ -536,7 +547,49 @@ return [
             'title' => 'General Score',
             'help' => [
                 'title' => 'General Score',
-                'content' => '',
+                'content' => '
+                <p>You can define the intervals you deem necessary for your systematic review. However, remember to save the settings and
+                specify the "minimum for approval." This planning will be crucial in the review\'s execution phase.</p>
+
+                <strong>Example:</strong>
+                <table class="table table-bordered table-striped small">
+                            <thead>
+                                <tr>
+                                    <th>Min Score</th>
+                                    <th>Max Score</th>
+                                    <th>Label</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>Very Poor</td>
+                                </tr>
+                                <tr>
+                                    <td>1.1</td>
+                                    <td>2</td>
+                                    <td>Poor</td>
+                                </tr>
+                                <tr>
+                                    <td>2.1</td>
+                                    <td>3</td>
+                                    <td>Fair</td>
+                                </tr>
+                                <tr>
+                                    <td>3.1</td>
+                                    <td>4</td>
+                                    <td>Good</td>
+                                </tr>
+                                <tr>
+                                    <td>4.1</td>
+                                    <td>5</td>
+                                    <td>Very Good</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                ',
             ],
             'start' => 'Enter the Minimum Score',
             'end' => 'Enter the Max Score',
@@ -581,7 +634,17 @@ return [
             'title' => 'Question Quality',
             'help' => [
                 'title' => 'Question Quality',
-                'content' => '',
+                'content' => '
+                <p>In addition to general inclusion/exclusion criteria, it is considered critical to assess the “quality” of primary studies:</p>
+                    <ul>
+                        <li>To provide still more detailed inclusion/exclusion criteria.</li>
+                        <li>To investigate whether quality differences provide an explanation for differences in study results.</li>
+                        <li>As a means of weighting the importance of individual studies when results are being synthesised.</li>
+                        <li>To guide the interpretation of findings and determine the strength of inferences.</li>
+                        <li>To guide recommendations for further research.</li>
+                    </ul><br>
+
+                    <strpong>Example:</strpong> QA01 - Does the study present the implementation of a tool for systematic literature review?',
             ],
             'id' => 'ID',
             'description' => 'Description',
@@ -621,7 +684,38 @@ return [
             ],
             'help' => [
                 'title' => 'Question Score',
-                'content' => '',
+                'content' => '
+                    <p> The score and score rules are recorded as responses, and each response is associated with the previously registered quality questions.
+                    For each question, after registering the scoring rules, a minimum criterion must be established for the approval of each quality question.</p>
+                    <br>
+                    <strong>Example</strong> (minimum to approval "*"):<br>
+                <table class="table table-bordered table-striped small">
+                    <thead>
+                        <tr class="w-5">
+                            <th>Score Rule</th>
+                            <th>Score</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="w-5">
+                            <td>Yes</td>
+                            <td>100%</td>
+                            <td>This study presents the implementation of a <br>tool for systematic literature review.</td>
+                        </tr>
+                        <tr class="50">
+                            <td><strong>Partially*</strong></td>
+                            <td>50%</td>
+                            <td>This study presents partially the implementation of<br> a tool for systematic literature review.</td>
+                        </tr>
+                        <tr>
+                            <td>No</td>
+                            <td>0%</td>
+                            <td>This study doesn\'t present the implementation of <br>a tool for systematic literature review.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                ',
             ],
             'description' => [
                 'title' => 'Description',
@@ -671,12 +765,20 @@ return [
 
         'min-general-score' => [
             'title' => 'Minimal Score to Approve',
-            'cutoff' => 'Cutoff',
+            'help-content' => '
+                <p>After registering the quality questions, the sum of the weights for all previously recorded questions is automatically calculated by Thoth.</p>
+                <strong>Minimum to Approval:</strong>
+                <p>This criterion defines the range of minimum overall scores that should be considered the minimum threshold for accepting studies in the review.</p>
+                <p><strong>Note:</strong> To register, you must first enter the quality questions, generate the overall score ranges, and save them in the ongoing review project.</p>
+                ',
+            'cutoff' => 'Cutoff (Min Score general)',
             'sum' => 'Total Weight',
             'form' => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
                 'add' => 'Add Minimal General Score',
                 'update' => 'Update Minimal General Score',
+                'empty' => 'No general scores available. Please register general scores.',
+                'minimal-score' => 'Minimal score updated successfully',
             ],
 
             'livewire' => [
@@ -687,8 +789,6 @@ return [
                 'toasts' => [
                     'added' => 'Minimal General Score to Approve added successfully.',
                     'updated' => 'Minimal General Score to Approve updated successfully.',
-                ],
-                'min-general-score' => [
                     'required' => 'Minimal General Score to Approve field is required.',
                 ],
             ],
@@ -703,7 +803,20 @@ return [
             'title' => 'Create Data Extraction Question',
             'help' => [
                 'title' => 'Data Extraction Question Form Help',
-                'content' => 'Use the data extraction question form to create questions that guide the extraction of specific information from selected studies. Define the question ID, description, type, and add options if needed. This step ensures structured and comprehensive data extraction.',
+                'content' => '
+                <p>The data extraction forms must be designed to collect all the information needed to address the review questions and the study quality criteria. If the quality criteria are to be used to identify inclusion/exclusion criteria, they require separate forms (since the information must be collected prior to the main data extraction exercise). If the quality criteria are to be used as part of the data analysis, the quality criteria and the review data can be included in the same form.
+                </p>
+                <p>In most cases, data extraction will define a set of numerical values that should be extracted for each study (e.g. number of subjects, treatment effect, confidence intervals, etc.). Numerical data are important for any attempt to summarise the results of a set of primary studies and are a prerequisite for meta-analysis (i.e. statistical techniques aimed at integrating the results of the primary studies).
+                </p>
+                <p>The extraction quest should be defined from a description and the type of data. The data types are:
+                </p>
+                <ul>
+                    <li><strong>Text:</strong> The extracted data is defined through simple text, giving the researcher the freedom to define the extracted data.</li>
+                    <li><strong>Pick One List:</strong> Through a predefined list of data, the researcher should choose only one data extraction option.</li>
+                    <li><strong>Multiple Choice List:</strong> Through a predefined list of data, the researcher can choose more than one data extraction option.</li>
+                </ul>
+
+                ',
             ],
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
@@ -716,7 +829,17 @@ return [
             'title' => 'Create Data Extraction Question Option',
             'help' => [
                 'title' => 'Data Extraction Option Form Help',
-                'content' => 'Use the data extraction option form to add specific options for questions, facilitating detailed information capture during the data extraction process. Define the question to which the option belongs, provide a description, and ensure that options cover all relevant aspects of the question.',
+                'content' => '
+                 <p>Use the data extraction option form to add specific options for questions,
+                 facilitating the detailed capture of information during the data extraction process. Define the question to which
+                 the option belongs, provide a description, and ensure that the options cover all relevant aspects of the question.</p>
+                 <p><strong>Note:</strong> You can only add extraction options to "Multiple Choice" and "Pick One List" types.</p>
+                <p><strong>Example:</strong></p>
+                <ul>
+                    <li>Description: Abstract - Type of data: Text.</li>
+                    <li>Description: Database - Type of data: Pick One List. (List: ACM, IEEE, Scopus)</li>
+                </ul>
+                ',
             ],
             'question' => 'Question',
             'option' => 'Option',

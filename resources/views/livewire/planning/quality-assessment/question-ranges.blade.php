@@ -3,7 +3,7 @@
         <x-helpers.modal
             target="question-quality"
             modalTitle="{{ __('project/planning.quality-assessment.general-score.title') }}"
-            modalContent="{{ __('project/planning.quality-assessment.general-score.help.content') }}"
+            modalContent="{!! __('project/planning.quality-assessment.general-score.help.content') !!}"
         />
     </div>
     <div class="card-body pb-1">

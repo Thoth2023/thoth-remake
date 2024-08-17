@@ -14,8 +14,9 @@ class Strategy extends Component
     public $searchStrategy;
     public $currentDescription;
 
+
     protected $rules = [
-        'currentDescription' => 'required|string|max:255',
+        'currentDescription' => 'required|string',
     ];
 
     public function mount()
@@ -50,7 +51,7 @@ class Strategy extends Component
             );
 
             $this->toast(
-                message:  'Search strategy updated successfully.',
+                message: __('project/planning.search-strategy.success'),
                 type: 'success'
             );
         } catch (\Exception $e) {
@@ -60,7 +61,6 @@ class Strategy extends Component
             );
         }
     }
-
 
     public function render()
     {
