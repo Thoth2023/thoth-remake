@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Livewire\Conducting\QualityAssessment;
+
+use App\Models\Project\Conducting\QualityAssessment\PapersQA;
+use Livewire\Attributes\On;
+use Livewire\Component;
+
+class QualityScore extends Component
+{
+    public $paper;
+    public $quality_description;
+    public $score;
+    public $status_paper;
+
+
+    public function mount($paper)
+    {
+        $this->paper = $paper;
+        $this->loadScore();
+    }
+
+    #[On('show-success-quality-score')]
+    public function loadScore()
+    {
+        $StatusQuality = PapersQA::where('id_paper', $this->paper)
+            ->join('general_score', 'papers_qa.id_gen_score', '=', 'general_score.id_general_score')
+            ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
+            ->select('papers_qa.*', 'general_score.description as quality_description', 'papers_qa.score', 'status_qa.status as status_paper')
+            ->first();
+
+        if ($StatusQuality) {
+            $this->quality_description = $StatusQuality->quality_description;
+            $this->score = $StatusQuality->score;
+            $this->status_paper = $StatusQuality->status_paper;
+        } else {
+            $this->quality_description = 'Unknown';
+            $this->score = null;
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.conducting.quality-assessment.quality-score');
+    }
+}

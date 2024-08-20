@@ -5,6 +5,9 @@ namespace App\Livewire\Conducting\QualityAssessment;
 use App\Models\BibUpload;
 use App\Models\Criteria;
 use App\Models\Project;
+use App\Models\Project\Conducting\QualityAssessment\GeneralScore;
+use App\Models\Project\Planning\QualityAssessment\Cutoff;
+use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Models\ProjectDatabases;
 use App\Models\StatusQualityAssessment;
 use App\Models\Project\Conducting\Papers;
@@ -30,6 +33,7 @@ class Table extends Component
     public $bulkStatus = '';
     public array $selectedPapers = [];
     public bool $selectAll = false;
+
     protected $paginationTheme = 'bootstrap';
 
     public function mount()
@@ -37,7 +41,6 @@ class Table extends Component
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
 
-        $this->setupCriteria();
     }
 
     public function updatedSelectedDatabase()
@@ -57,12 +60,6 @@ class Table extends Component
         } else {
             $this->selectedPapers = [];
         }
-    }
-
-    private function setupCriteria()
-    {
-        $criterias = Criteria::where('id_project', $this->projectId)->get();
-        $this->criterias = $criterias;
     }
 
     public function openPaper($paper)
@@ -111,7 +108,6 @@ class Table extends Component
     #[On('show-success-quality')]
     public function render()
     {
-
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 

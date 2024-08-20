@@ -1,3 +1,11 @@
+@if (session()->has('error'))
+    <div class='card card-body col-md-12 mt-3'>
+        <h3 class="h5 mb-3">{{ __('project/conducting.quality-assessment.tasks') }}</h3>
+        <div class="alert alert-warning">
+            {{ session('error') }}
+        </div>
+    </div>
+@else
 <div class="d-flex flex-column gap-4">
     <div class="card">
         <div class="card-header mb-0 pb-0">
@@ -112,7 +120,7 @@
         </div>
     </div>
 </div>
-
+@endif
 @script
 <script>
     $wire.on('file-upload', ([{ message, type }]) => {

@@ -33,7 +33,7 @@
                                 URL
                             </a>
                         </div>
-                        @livewire('conducting.quality-assessment.paper-status', ['paper' => $paper['id_paper']],key($paper['id_paper']))
+
                         <div class="col-12">
                             <b>{{ __('project/conducting.quality-assessment.modal.abstract' )}}: </b>
                             <p>{{ $paper['abstract'] }}</p>
@@ -44,8 +44,9 @@
                         </div>
                     </div>
                     <span class="card-header pb-0">
-                        <h5 >Quality Questions</h5>
+                        <h5 >{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
                         <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
+                        @livewire('conducting.quality-assessment.quality-score', ['paper' => $paper['id_paper']],key($paper['id_paper']))
                     </span>
 
                     <ul class='list-group'>
@@ -101,10 +102,18 @@
                     <div class='w-20 ms-auto'>
                         <span data-search>
                                 <x-select wire:model="selected_questions_score.{{ $question->id_qa }}" wire:change="updateScore({{ $question->id_qa }}, $event.target.value)">
-                                    <option selected disabled>{{ __('Select score quality') }}</option>
-                                            @foreach ($question->qualityScores as $score)
-                                    <option value="{{ $score->id_score }}">{{ $score->score_rule }}</option>
-                                           @endforeach
+                                     @if(!isset($selected_questions_score[$question->id_qa]))  <!-- Verifica se não há score salvo -->
+                                    <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
+                                    @endif
+
+                                    @foreach ($question->qualityScores as $score)
+                                        <option value="{{ $score->id_score }}"
+                                                @if(isset($selected_questions_score[$question->id_qa]) && $selected_questions_score[$question->id_qa] == $score->id_score)
+                                                    selected
+                                        @endif>
+                                        {{ $score->score_rule }}
+                                    </option>
+                                    @endforeach
                                 </x-select>
                         </span>
                     </div>
@@ -172,6 +181,10 @@
         $('#successModalQuality').on('hidden.bs.modal', function () {
             $('#paperModalQuality').modal('show'); // Reopen the paper modal after success modal is closed
         });
+    });
+    Livewire.on('reload-paper-modal', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('showPaperQuality', @json($paper));
     });
 
     $wire.on('paper-modal', ([{ message, type }]) => {

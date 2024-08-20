@@ -46,6 +46,8 @@ class PaperModal extends Component
     #[On('showPaperQuality')]
     public function showPaperQuality($paper)
     {
+        $this->selected_questions_score = [];
+
         $member = Member::where('id_user', auth()->user()->id)->first();
 
         $this->paper = $paper;
@@ -59,7 +61,11 @@ class PaperModal extends Component
         //status selecionado com base no status salvo no banco de dados
         $this->selected_status = $this->paper['status_description'];
 
+        $this->loadSelectedScores();
+
+        $this->dispatch('reload-paper-modal');
         $this->dispatch('show-paper-quality');
+        $this->dispatch('show-success-quality-score');
     }
 
     public function updateStatusManual()
@@ -120,10 +126,15 @@ class PaperModal extends Component
         //atualizar papers_qa
         $this->updatePaperQaStatus($this->paper['id_paper']);
 
+        // Recarregar os scores selecionados
+        $this->loadSelectedScores();
+
         session()->flash('successMessage', "Evaluation Quality Score updated successfully.");
 
         // Se desejar, você pode adicionar uma mensagem de sucesso ou atualizar algum estado
+        $this->dispatch('reload-paper-modal');
         $this->dispatch('show-success-quality');
+        $this->dispatch('show-success-quality-score');
     }
 
 
@@ -141,34 +152,24 @@ class PaperModal extends Component
         return 0;
     }
 
-    private function loadSelectedScores()
-    {
-        $evaluations = EvaluationQA::where('id_paper', $this->paper['id_paper'])->get();
-
-        foreach ($evaluations as $evaluation) {
-            $this->selected_questions_score[$evaluation->id_qa] = $evaluation->id_score_qa;
-        }
-    }
-
     public function updatePaperQaStatus($paperId)
     {
         //Calcular a soma de todos os `score_partial` de `evaluation_qa` para o `id_paper`
         $totalScore = EvaluationQA::where('id_paper', $paperId)
             ->sum('score_partial');
 
-        //Determinar o `id_gen_score` correspondente
         $generalScoreId = $this->findGeneralScoreId($totalScore);
 
-        // Obter o número total de questões para o projeto atual
+        //questões do projeto atual
         $totalQuestions = Question::where('id_project', $this->currentProject->id_project)->count();
 
-        // Obter o número de avaliações feitas para o paper específico
+        //avaliações feitas para o paper específico
         $answeredQuestions = EvaluationQA::where('id_paper', $paperId)->count();
 
-        // Verificar se todas as questões foram respondidas
+        // Verifica se todas as questões foram respondidas
         $todasRespostas = ($answeredQuestions === $totalQuestions);
 
-        //Verificar se o score está num intervalo maior ou menor que o cutoff em `qa_cutoff` em general_scores
+        //Verifica se o score está num intervalo maior ou menor que o cutoff em `qa_cutoff` em general_scores
         $qaCutoff = DB::table('qa_cutoff')
             ->join('general_score', 'qa_cutoff.id_general_score', '=', 'general_score.id_general_score')
             ->where('qa_cutoff.id_project', $this->currentProject->id_project)
@@ -201,6 +202,15 @@ class PaperModal extends Component
             ->where('end', '>=', $totalScore)
             ->where('id_project', $this->currentProject->id_project)
             ->value('id_general_score');
+    }
+
+    private function loadSelectedScores()
+    {
+        $evaluations = EvaluationQA::where('id_paper', $this->paper)->get();
+
+        foreach ($evaluations as $evaluation) {
+            $this->selected_questions_score[$evaluation->id_qa] = $evaluation->id_score_qa;
+        }
     }
 
     public function render()

@@ -1,6 +1,6 @@
 @if (session()->has('error'))
     <div class='card card-body col-md-12 mt-3'>
-        <h3 class="h4 mb-3">Complete these tasks to advance</h3>
+        <h3 class="h5 mb-3">{{ __('project/conducting.study-selection.tasks') }}</h3>
         <div class="alert alert-warning">
             {{ session('error') }}
         </div>

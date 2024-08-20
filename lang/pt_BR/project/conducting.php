@@ -18,6 +18,7 @@ return [
         'help' => [
             'content' => 'A seleção de estudos é uma fase crucial da revisão sistemática, na qual o autor analisa o título, resumo e palavras-chave de cada estudo, avaliando-os conforme as regras dos critérios de inclusão e exclusão estabelecidos no planejamento da revisão. Com base nesses critérios, o status de cada estudo será automaticamente alterado. No entanto, o pesquisador tem a opção de definir o status manualmente, mas, ao fazer isso, o sistema não registrará quais critérios foram considerados na avaliação.'
         ],
+        'tasks' => 'Complete essas tarefas para avançar',
         'papers' => [
             'empty' => 'Nenhum Paper foi adicionado ainda.',
             'no-results' => 'Nenhum resultado encontrado.'
@@ -92,6 +93,7 @@ return [
         'help' => [
             'content' => '???'
         ],
+        'tasks' => 'Complete essas tarefas para avançar',
         'papers' => [
             'empty' => 'Nenhum artigo foi adicionado ainda.',
             'no-results' => 'Nenhum resultado encontrado.'
@@ -254,6 +256,7 @@ return [
         'help' => [
             'content' => '???'
         ],
+        'tasks' => 'Complete essas tarefas para avançar',
         'papers' => [
             'empty' => 'Nenhum Paper foi adicionado ainda.',
             'no-results' => 'Nenhum resultado encontrado.'
@@ -286,9 +289,13 @@ return [
             'year' => 'Ano',
             'database' => 'Base de Dados',
             'status-quality' => 'Status de Qualidade',
+            'quality-questions' => 'Questões de Qualidade',
             'abstract' => 'Resumo',
             'keywords' => 'Palavras-chave',
             'rejected' => 'Rejeitado',
+            'select-score'=> 'Selecione...',
+            'quality-score'=> 'Pontuação',
+            'quality-description'=> 'Qualidade',
             'table' => [
                 'select' => 'Selecionar',
                 'description' => 'Descrição',
@@ -330,6 +337,7 @@ return [
         'help' => [
             'content' => '???'
         ],
+        'tasks' => 'Complete essas tarefas para avançar',
         'papers' => [
             'empty' => 'Nenhum artigo foi adicionado ainda.',
             'no-results' => 'Nenhum resultado encontrado.'
