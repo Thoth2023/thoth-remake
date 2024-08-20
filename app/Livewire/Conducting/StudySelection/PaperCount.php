@@ -12,8 +12,6 @@ class PaperCount extends Component
     public $projectId;
     public $paperCount = 0;
 
-    //protected $listeners = ['refreshPapers' => 'loadPaperCount'];
-
     public function mount($databaseId, $projectId)
     {
         $this->databaseId = $databaseId;

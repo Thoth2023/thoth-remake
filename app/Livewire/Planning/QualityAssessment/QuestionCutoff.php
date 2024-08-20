@@ -101,7 +101,7 @@ class QuestionCutoff extends Component
             projectId: $projectId
         );
 
-        // Atualize ou crie o cutoff
+        // Atualize ou crie o cutoff (id mínimo para aprovar em table cutoff)
         Cutoff::updateOrCreate(
             ['id_project' => $projectId],
             ['id_general_score' => $selectedGeneralScore]

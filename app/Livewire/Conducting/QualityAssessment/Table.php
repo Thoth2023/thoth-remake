@@ -69,12 +69,6 @@ class Table extends Component
     {
         $this->dispatch('showPaperQuality', paper: $paper, criterias: $this->criterias);
     }
-    #[On('refreshPapers')]
-    public function refreshPapers()
-    {
-        $this->papers = $this->render();
-        $this->dispatch('papersUpdated');
-    }
 
     public function updateStatus(string $papersId, $status)
     {
@@ -114,7 +108,7 @@ class Table extends Component
     }
 
 
-
+    #[On('show-success-quality')]
     public function render()
     {
 

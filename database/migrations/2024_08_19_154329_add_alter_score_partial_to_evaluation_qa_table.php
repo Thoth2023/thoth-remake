@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_user', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('id_user')->index('id_user');
-        $table->foreignId('id_project')->index('id_project');
-        $table->foreignId('id_level')->index('id_level');
-        $table->timestamps();
+        Schema::table('evaluation_qa', function (Blueprint $table) {
+            $table->double('score_partial')->after('id_score_qa')->default(0);
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_user');
+        Schema::table('evaluation_qa', function (Blueprint $table) {
+            $table->dropColumn('score_partial');
+        });
     }
 };

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Project\Planning\QualityAssessment;
+namespace App\Models\Project\Conducting\QualityAssessment;
 
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

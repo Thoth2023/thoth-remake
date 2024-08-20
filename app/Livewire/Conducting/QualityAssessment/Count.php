@@ -51,7 +51,8 @@ class Count extends Component
         $this->loadCounters();
     }
 
-
+    #[On('show-success-quality')]
+    #[On('show-success')]
     public function loadCounters()
     {
         $statuses = StatusQualityAssessment::whereIn('status', ['Rejected', 'Unclassified', 'Removed', 'Accepted'])->get()->keyBy('status');
@@ -66,11 +67,14 @@ class Count extends Component
 
         $this->rejected = $this->papers->where('status_qa', $statuses['Rejected']->id_status)->toArray();
         $this->unclassified = $this->papers->where('status_qa', $statuses['Unclassified']->id_status)->toArray();
+        /*$this->unclassified = Papers::where('status_qa', $statuses['Unclassified']->id_status)
+            ->where('status_selection', 1)->count();
+        dd($this->unclassified);*/
         $this->removed = $this->papers->where('status_qa', $statuses['Removed']->id_status)->toArray();
         $this->accepted = $this->papers->where('status_qa', $statuses['Accepted']->id_status)->toArray();
 
         //pegar os papers aceitos na fase de seleção e passa para a fase de QA, mas algo está estranho no DB, analisar melhor.
-        $totalPapers = count($this->papers);
+        $totalPapers = count($this->papers->where('status_selection', 1));
         $this->rejectedPercentage = $totalPapers > 0 ? count($this->rejected) / $totalPapers * 100 : 0;
         $this->unclassifiedPercentage = $totalPapers > 0 ? count($this->unclassified) / $totalPapers * 100 : 0;
         $this->acceptedPercentage = $totalPapers > 0 ? count($this->accepted) / $totalPapers * 100 : 0;

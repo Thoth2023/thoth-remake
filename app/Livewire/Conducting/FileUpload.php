@@ -117,7 +117,7 @@ class FileUpload extends Component
 
                 $this->resetFields();
 
-                $this->dispatch('refreshPapers');
+                $this->dispatch('show-success');
                 $this->dispatch('refreshPapersCount');
 
             } catch (\Exception $e) {
@@ -219,7 +219,7 @@ class FileUpload extends Component
                     type: 'success'
                 );
 
-                $this->dispatch('refreshPapers');
+                $this->dispatch('show-success');
 
             });
         } catch (\Exception $e) {
@@ -228,8 +228,6 @@ class FileUpload extends Component
                 message: $toastMessage,
                 type: 'error'
             );
-
-            $this->dispatch('refreshPapers');
         }
     }
 

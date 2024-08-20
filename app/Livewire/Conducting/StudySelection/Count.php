@@ -40,8 +40,6 @@ class Count extends Component
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
 
-        //dd($papers);
-
         if ($this->papers->isEmpty()) {
             session()->flash('error', __('project/conducting.study-selection.count.toasts.no-papers'));
             return;
@@ -51,18 +49,10 @@ class Count extends Component
         $this->loadCounters();
     }
 
-
+    #[On('show-success')]
     public function loadCounters()
     {
         $statuses = StatusSelection::whereIn('description', ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'])->get()->keyBy('description');
-        $requiredStatuses = ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'];
-
-        foreach ($requiredStatuses as $status) {
-            if (!isset($statuses[$status])) {
-                session()->flash('error', "Status '$status' not found.");
-                return;
-            }
-        }
 
         $this->rejected = $this->papers->where('status_selection', $statuses['Rejected']->id_status)->toArray();
         $this->unclassified = $this->papers->where('status_selection', $statuses['Unclassified']->id_status)->toArray();
@@ -80,16 +70,15 @@ class Count extends Component
     }
 
 
-    #[On('refreshPapersCount')]
-    #[On('show-success')]
     public function refreshCounters()
     {
-       $this->loadCounters();
 
+        $this->loadCounters();
         $this->dispatch('count', [
             'message' => __('project/conducting.study-selection.count.toasts.data-refresh'),
             'type' => 'success',
         ]);
+
 
 
     }
