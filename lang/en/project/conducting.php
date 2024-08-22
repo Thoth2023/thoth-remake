@@ -19,6 +19,7 @@ return [
         'help' => [
             'content' => 'Study selection is a crucial phase of the systematic review, where the author examines the title, abstract, and keywords of each study, assessing them according to the inclusion and exclusion criteria established in the review planning. Based on these criteria, the status of each study will be automatically updated. However, the researcher has the option to manually set the status, but in doing so, the system will not record which criteria were considered in the evaluation.'
         ],
+        'tasks'=>'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -94,6 +95,7 @@ return [
         'help' => [
             'content' => '???'
         ],
+        'tasks'=>'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -125,16 +127,19 @@ return [
             'author' => 'Author',
             'year' => 'Year',
             'database' => 'Database',
-            'status-selection' => 'Status Selection',
+            'status-quality' => 'Status Quality',
+            'quality-questions' => 'Quality Questions',
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
+            'select-score'=> 'Select...',
+            'quality-score'=> 'Score',
+            'quality-description'=> 'Quality',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',
-                'type' => 'Type',
-                'inclusion' => 'Inclusion',
-                'exclusion' => 'Exclusion',
+                'score' => 'Score',
+                'min-to-app' => 'Minimal to<br/>Approve',
             ],
             'option' => [
                 'select'=>'Select an option',
@@ -171,6 +176,7 @@ return [
         'help' => [
             'content' => '???'
         ],
+        'tasks'=>'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -244,6 +250,7 @@ return [
         'help' => [
             'content' => '???'
         ],
+        'tasks'=>'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'

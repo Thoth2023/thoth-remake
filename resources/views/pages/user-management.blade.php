@@ -42,13 +42,9 @@
                                         </td>
                                         <td>
                                             @if($user->role == 'SUPER_USER')
-                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.Administrator') }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.super_user') }}</p>
                                             @elseif($user->role == 'USER')
-                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.Viewer') }}</p>
-                                            @elseif($user->role == 'RESEARCHER')
-                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.Researcher') }}</p>
-                                            @elseif($user->role == 'REVISER')
-                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.Reviser') }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.user') }}</p>
                                             @else
                                                 <p class="text-sm font-weight-bold mb-0">{{ $user->role }}</p>
                                             @endif

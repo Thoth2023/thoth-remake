@@ -2,9 +2,9 @@
     <hr class="mt-0" />
     <div class="card-header py-0">
         <x-helpers.modal
-            target="question-quality"
+            target="question-cutoff"
             modalTitle="{{ __('project/planning.quality-assessment.min-general-score.title') }}"
-            modalContent="hahaha"
+            modalContent="{!! __('project/planning.quality-assessment.min-general-score.help-content') !!}"
         />
     </div>
     <div class="card-body">
@@ -25,12 +25,14 @@
                 wire:model="selectedGeneralScore"
                 wire:change="updateCutoff"
             >
-                <option value="">Select a general score</option>
+                <option selected disabled>{{ __('project/planning.quality-assessment.min-general-score.form.select-placeholder') }}</option>
                 @foreach ($generalScores as $score)
-                    <option value="{{ $score->id_general_score }}" {{ $selectedGeneralScore == $score->id_general_score ? 'selected' : '' }}>{{ $score->description }}  ({{ $score->start }} - {{ $score->end }})</option>
+                    <option value="{{ $score->id_general_score }}" {{ $selectedGeneralScore == $score->id_general_score ? 'selected' : '' }}>
+                        {{ $score->description }} ({{ $score->start }} - {{ $score->end }})
+                    </option>
                 @endforeach
-
             </x-select>
+
         </div>
     </div>
 </div>

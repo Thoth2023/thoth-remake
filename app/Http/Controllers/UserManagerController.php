@@ -17,10 +17,8 @@ class UserManagerController extends Controller
     public function edit(User $user)
     {
         $roles = [
-            'SUPER_USER' => __('pages/user-manager.Administrator'),
-            'USER' => __('pages/user-manager.Viewer'),
-            'RESEARCHER' => __('pages/user-manager.Researcher'),
-            'REVISER' => __('pages/user-manager.Reviser'),
+            'SUPER_USER' => __('pages/user-manager.super_user'),
+            'USER' => __('pages/user-manager.user'),
         ];
         return view('pages.user-edit', compact('user', 'roles'));
     }
@@ -57,14 +55,12 @@ class UserManagerController extends Controller
         ]);
 
         $rolesMapping = [
-            __('pages/user-manager.Administrator') => 'SUPER_USER',
-            __('pages/user-manager.Viewer') => 'USER',
-            __('pages/user-manager.Researcher') => 'RESEARCHER',
-            __('pages/user-manager.Reviser') => 'REVISER',
+            __('pages/user-manager.super_user') => 'SUPER_USER',
+            __('pages/user-manager.user') => 'USER',
         ];
 
         $role = $request->input('function');
-        $role = $rolesMapping[$role] ?? 'USER';        
+        $role = $rolesMapping[$role] ?? 'USER';
 
         $user->update([
             'username' => $request->username,

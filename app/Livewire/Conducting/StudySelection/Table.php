@@ -115,6 +115,7 @@ class Table extends Component
     }
 
     #[On('show-success')]
+    #[On('import-success')]
     public function render()
     {
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');

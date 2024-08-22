@@ -5,6 +5,9 @@ namespace App\Livewire\Conducting\QualityAssessment;
 use App\Models\BibUpload;
 use App\Models\Criteria;
 use App\Models\Project;
+use App\Models\Project\Conducting\QualityAssessment\GeneralScore;
+use App\Models\Project\Planning\QualityAssessment\Cutoff;
+use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Models\ProjectDatabases;
 use App\Models\StatusQualityAssessment;
 use App\Models\Project\Conducting\Papers;
@@ -36,20 +39,15 @@ class Table extends Component
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-
-        $this->setupCriteria();
     }
-
     public function updatedSelectedDatabase()
     {
         $this->resetPage();
     }
-
     public function updatedSelectedStatus()
     {
         $this->resetPage();
     }
-
     public function updatedSelectAll($value)
     {
         if ($value) {
@@ -58,22 +56,9 @@ class Table extends Component
             $this->selectedPapers = [];
         }
     }
-
-    private function setupCriteria()
-    {
-        $criterias = Criteria::where('id_project', $this->projectId)->get();
-        $this->criterias = $criterias;
-    }
-
     public function openPaper($paper)
     {
         $this->dispatch('showPaperQuality', paper: $paper, criterias: $this->criterias);
-    }
-    #[On('refreshPapers')]
-    public function refreshPapers()
-    {
-        $this->papers = $this->render();
-        $this->dispatch('papersUpdated');
     }
 
     public function updateStatus(string $papersId, $status)
@@ -98,7 +83,6 @@ class Table extends Component
             Log::info('action: ' . $value, ['projectId' => $this->currentProject->id_project]);
         }
     }
-
     public function sortBy($field)
     {
         if (!isset($this->sorts[$field])) {
@@ -107,17 +91,14 @@ class Table extends Component
             $this->sorts[$field] = $this->sorts[$field] === 'asc' ? 'desc' : 'asc';
         }
     }
-
     public function applyFilters()
     {
         $this->resetPage();
     }
 
-
-
+    #[On('show-success-quality')]
     public function render()
     {
-
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
@@ -133,31 +114,34 @@ class Table extends Component
             $papers = new LengthAwarePaginator([], 0, $this->perPage);
         } else {
             //pegar os papers que foram aceitos na fase de study select
-            $query = Papers::whereIn('id_bib', $idsBib)
+            $query = Papers::whereIn('papers.id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
-                ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
-                ->where('status_selection', 1);
+                ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+                ->join('general_score', 'papers_qa.id_gen_score', '=', 'general_score.id_general_score')
+                ->select(
+                    'papers.*',
+                    'data_base.name as database_name',
+                    'status_qa.status as status_description',
+                    'papers_qa.score as score',
+                    'general_score.description as general_score'
+                )
+                ->where('papers.status_selection', 1) ;
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
             }
-
             if ($this->selectedDatabase) {
                 $query = $query->where('papers.data_base', $this->selectedDatabase);
             }
-
             if ($this->selectedStatus) {
                 $query = $query->where('papers.status_qa', $this->selectedStatus);
             }
-
             foreach ($this->sorts as $field => $direction) {
                 $query = $query->orderBy($field, $direction);
             }
-
             $papers = $query->paginate($this->perPage);
         }
-
         return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses'));
     }
 

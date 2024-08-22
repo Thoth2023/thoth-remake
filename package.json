@@ -15,8 +15,10 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^43.0.0",
         "@creative-tim-official/argon-dashboard-free": "^1.1.0",
         "lodash": "^4.17.21",
-        "perfect-scrollbar": "^1.5.5"
+        "perfect-scrollbar": "^1.5.5",
+        "quill": "^2.0.2"
     }
 }

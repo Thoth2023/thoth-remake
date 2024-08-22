@@ -25,4 +25,8 @@ class Cutoff extends Model
     {
         return $this->belongsTo(Project::class, 'id_project');
     }
+    public function generalScore(): BelongsTo
+    {
+        return $this->belongsTo(GeneralScore::class, 'id_general_score');
+    }
 }

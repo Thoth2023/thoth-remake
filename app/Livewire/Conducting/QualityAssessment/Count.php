@@ -23,7 +23,6 @@ class Count extends Component
     public $unclassifiedPercentage = 0;
     public $acceptedPercentage = 0;
     public $removedPercentage = 0;
-    public $duplicatePercentage = 0;
     public $currentProject;
 
     public function mount()
@@ -38,9 +37,8 @@ class Count extends Component
             return;
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
-
-        //dd($papers);
+        //busca paper aceitos em Study Selection
+        $this->papers = Papers::whereIn('id_bib', $idsBib)->where('status_selection', 1)->get();
 
         if ($this->papers->isEmpty()) {
             session()->flash('error', __('project/conducting.quality-assessment.count.toasts.no-papers'));
@@ -51,7 +49,8 @@ class Count extends Component
         $this->loadCounters();
     }
 
-
+    #[On('show-success-quality')]
+    #[On('show-success')]
     public function loadCounters()
     {
         $statuses = StatusQualityAssessment::whereIn('status', ['Rejected', 'Unclassified', 'Removed', 'Accepted'])->get()->keyBy('status');

@@ -13,6 +13,9 @@ return [
         'sign_up_link' => 'Inscreva-se',
         'app_description' => 'Thoth :: Ferramenta para RSL',
         'app_description_long' => 'Revisões sistemáticas são um tipo de revisão de literatura que utiliza métodos sistemáticos para coletar dados secundários, avaliar criticamente estudos de pesquisa e sintetizar estudos.',
+        'user_not_found' => 'Este endereço de e-mail não está cadastrado.',
+        'failed' => 'As credenciais não correspondem aos nossos registros.',
+        'throttle' => 'Muitas tentativas de login. Tente novamente em :seconds segundos.',
 
-        'error' => 'As credenciais fornecidas não correspondem aos nossos registros.'
+    'error' => 'As credenciais fornecidas não correspondem aos nossos registros.'
 ];

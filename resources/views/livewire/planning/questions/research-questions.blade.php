@@ -3,7 +3,7 @@
         <x-helpers.modal
             target="search-questions"
             modalTitle="{{ __('project/planning.research-questions.title') }}"
-            modalContent="{{ __('project/planning.research-questions.help.content') }}"
+            modalContent="{!! __('project/planning.research-questions.help.content') !!}"
         />
     </div>
     <div class="card-body">

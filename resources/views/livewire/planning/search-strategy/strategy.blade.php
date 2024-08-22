@@ -3,7 +3,7 @@
         <x-helpers.modal
             target="search-strategy"
             modalTitle="{{ __('project/planning.search-strategy.title') }}"
-            modalContent="{{ __('project/planning.search-strategy.help.content') }}"
+            modalContent="{!!  __('project/planning.search-strategy.help.content') !!}"
         />
     </div>
 
@@ -33,14 +33,20 @@
                 >
                     {{ __("project/planning.research-questions.form.description") }}
                 </label>
-                <textarea
-                    class="form-control"
-                    maxlength="255"
-                    rows="4"
-                    id="search-strategy-description"
-                    wire:model="currentDescription"
-                    placeholder="{{ __("project/planning.search-strategy.placeholder") }}"
-                ></textarea>
+                <div wire:ignore>
+                    <div x-data
+                         x-ref="editor"
+                         x-init="
+                                const quill = new Quill($refs.editor, {
+                                    theme: 'snow'
+                                });
+                                quill.on('text-change', function () {
+                                    $wire.set('currentDescription', quill.root.innerHTML);
+                                });"
+                             style="height: 250px;">
+                        {!! $currentDescription !!}
+                    </div>
+                </div>
             </div>
             @error("currentDescription")
             <span class="text-xs text-danger">
