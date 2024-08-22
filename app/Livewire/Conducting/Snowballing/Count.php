@@ -30,7 +30,6 @@ class Count extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
-
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
 
         if ($idsDatabase->isEmpty()) {
@@ -38,19 +37,21 @@ class Count extends Component
             return;
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
 
-        //dd($papers);
+        //busca paper aceitos em QA
+        $this->papers = Papers::whereIn('id_bib', $idsBib)
+            ->where(function($query) {
+                $query->where('papers.status_selection', 1)->where('papers.status_qa', 1)
+                    ->orWhere('papers.data_base', 16);
+            })->get();
 
         if ($this->papers->isEmpty()) {
             session()->flash('error', __('project/conducting.snowballing.count.toasts.no-papers'));
             return;
         }
-
         //carrega os contadores de papers
         $this->loadCounters();
     }
-
 
     public function loadCounters()
     {

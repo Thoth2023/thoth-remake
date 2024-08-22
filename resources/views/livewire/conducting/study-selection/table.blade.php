@@ -122,9 +122,5 @@
     $wire.on('table', ([{ message, type }]) => {
         toasty({ message, type });
     });
-    $wire.on('paperSaved', ([{ message, type }]) => {
-        toasty({ message, type });
-        @this.call('refreshPapers');
-    });
 </script>
 @endscript

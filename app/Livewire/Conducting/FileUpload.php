@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Conducting;
 
+
 use App\Rules\ValidBibFile;
 use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 use RenanBr\BibTexParser\Exception\ParserException;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
+
+use App\Utils\CheckProjectDataPlanning;
 
 class FileUpload extends Component
 {
@@ -59,6 +62,8 @@ class FileUpload extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
+
+
     }
 
     public function resetFields()
@@ -73,6 +78,7 @@ class FileUpload extends Component
     public function save()
     {
         $this->validate();
+        CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
 
         $originalName = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
         $cleanName = str_replace(' ', '_', $originalName);
@@ -114,10 +120,9 @@ class FileUpload extends Component
                     type: 'success'
                 );
 
-
                 $this->resetFields();
 
-                $this->dispatch('refreshPapers');
+                $this->dispatch('import-success');
                 $this->dispatch('refreshPapersCount');
 
             } catch (\Exception $e) {
@@ -219,7 +224,8 @@ class FileUpload extends Component
                     type: 'success'
                 );
 
-                $this->dispatch('refreshPapers');
+                $this->dispatch('import-success');
+                $this->dispatch('refreshPapersCount');
 
             });
         } catch (\Exception $e) {
@@ -228,13 +234,14 @@ class FileUpload extends Component
                 message: $toastMessage,
                 type: 'error'
             );
-
-            $this->dispatch('refreshPapers');
         }
     }
 
     public function render()
     {
+        //Verificar Campos necessários cadastrados no Planning
+        CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
+
         return view('livewire.conducting.file-upload', [
             'files' => BibUpload::all(),
         ]);

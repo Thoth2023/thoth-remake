@@ -80,7 +80,7 @@ class QuestionRanges extends Component
   {
     try {
       /**
-       * If the new "end" value is the same as the current "end" value, 
+       * If the new "end" value is the same as the current "end" value,
        * do nothing
        */
       if ($this->items[$index]['end'] == $this->oldItems[$index]['end']) {
@@ -136,6 +136,8 @@ class QuestionRanges extends Component
       ], [
         'description' => $value,
       ]);
+
+        $this->dispatch('update-select-minimal-approve');
 
       $this->toast(
         message: __('project/planning.quality-assessment.ranges.label-updated'),

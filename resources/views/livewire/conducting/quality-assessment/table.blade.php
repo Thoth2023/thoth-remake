@@ -89,10 +89,10 @@
                     <span data-search>{{ $paper['title'] }}</span>
                 </div>
                 <div class='w-15 ms-auto'>
-                    <span data-search>{{ $paper['database_name'] }}</span>
+                    <span data-search>{{ $paper['general_score'] }}</span>
                 </div>
                 <div class='w-10 ms-auto'>
-                    <span data-search>{{ $paper['database_name'] }}</span>
+                    <span data-search>{{ $paper['score'] }}</span>
                 </div>
 
                 <div class="w-15 ms-auto">

@@ -35,9 +35,10 @@ class Count extends Component
             return;
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
-
-        //dd($papers);
+        $this->papers = Papers::whereIn('id_bib', $idsBib)
+            ->where(function($query) {
+                $query->where('papers.status_selection', 1)->where('papers.status_qa', 1);
+            })->get();
 
         if ($this->papers->isEmpty()) {
             session()->flash('error', __('project/conducting.data-extraction.count.toasts.no-papers'));

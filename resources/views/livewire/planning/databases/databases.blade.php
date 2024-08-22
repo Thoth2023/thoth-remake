@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
-                target="search-domains"
+                target="database"
                 modalTitle="{{ __('project/planning.databases.title') }}"
                 modalContent="{{ __('project/planning.databases.help.content') }}"
             />

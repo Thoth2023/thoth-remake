@@ -50,7 +50,8 @@ return [
                 'title' => 'Domínios',
                 'content' => 'Domínios são categorias temáticas ou áreas de assunto que você define para estruturar e categorizar ' .
                     'o conjunto diversificado de fontes de literatura que você encontra durante sua revisão. Cada domínio representa ' .
-                    'um aspecto específico ou tópico relacionado à sua pergunta de pesquisa ou área de interesse.',
+                    'um aspecto específico ou tópico relacionado à sua pergunta de pesquisa ou área de interesse.
+                    <br><strong>Ex.:</strong> Engenharia de Software, Medicina, Ciências da Saúde, etc...',
             ],
             'livewire' => [
                 'logs' => [
@@ -245,7 +246,8 @@ return [
         'title' => 'Questões de Pesquisa',
         'help' => [
             'title' => 'Ajuda para Questões de Pesquisa',
-            'content' => 'Questões de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.',
+            'content' => 'Questões de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.
+            <br><strong>Ex.:</strong> RQ01 - Os estudos são revisões sistemáticas da literatura?',
         ],
         'form' => [
             'id' => 'ID',
@@ -299,14 +301,17 @@ return [
             'name' => 'Nome',
             'actions' => 'Ações',
             'header' => 'Bases de Dados',
-            'name' => 'Nome',
-            'actions' => 'Ações',
             'remove-button' => 'Remover',
             'no-databases' => 'Nenhuma base de dados encontrado.',
             'empty' => 'Este projeto ainda não possui bases de dados registradas'
         ],
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
+            'help'=>[
+                'title' => 'Sugira uma nova Base de Dados',
+                'content' => 'Caso seja necessário para sua pesquisa e ela não esteja na lista atual da Thoth. Vale ressaltar que essa base de dados só ficará disponível para uso após aprovação dos administradores responsáveis pelo sistema.',
+            ] ,
+            'content' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
             'enter-name' => 'Digite o nome da Base de Dados',
             'link-label' => 'Link da Base de Dados',
@@ -438,26 +443,34 @@ return [
         'help' => [
             'title' => 'Ajuda para Estratégia de Busca',
             'content' => "
-                Na fase de planejamento, é necessário determinar e seguir uma estratégia de busca. Isso deve ser desenvolvido em consulta com bibliotecários ou outras pessoas com experiência relevante. As estratégias de busca geralmente são iterativas e se beneficiam de:
-                    Realizar pesquisas preliminares com o objetivo de identificar revisões sistemáticas existentes e avaliar o volume de estudos potencialmente relevantes.
-                    Realizar buscas preliminares usando várias combinações de termos de busca derivados da pergunta de pesquisa.
-                    Verificar a sequência de pesquisa preliminar em listas de estudos primários já conhecidos.
-                    Buscar consultas com especialistas no campo.",
+                        <p>Na fase de planejamento, é necessário determinar e seguir uma estratégia de busca. Esta deve ser desenvolvida em consulta com bibliotecários ou outras pessoas com experiência relevante. As estratégias de busca são geralmente iterativas e se beneficiam de:</p>
+                        <ul>
+                            <li>Realizar buscas preliminares com o objetivo de identificar revisões sistemáticas existentes e avaliar o volume de estudos potencialmente relevantes.</li>
+                            <li>Executar buscas experimentais usando várias combinações de termos de busca derivados da questão de pesquisa.</li>
+                            <li>Verificar a cadeia de pesquisa experimental em comparação com listas de estudos primários já conhecidos.</li>
+                            <li>Buscar consultas com especialistas na área.</li>
+                        </ul>
+                        <p>Descreva aqui uma estratégia utilizada para a pesquisa.</p>
+                    ",
         ],
         'placeholder' => 'Digite a estratégia de busca',
         'save-button' => 'Salvar',
+        'success' => 'Estratégia de busca atualizada com sucesso.',
     ],
     'criteria' => [
         'title' => 'Critérios de Inclusão/Exclusão',
         'help' => [
             'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
-                Na seção de critérios, você define os critérios para selecionar ou excluir estudos em seu projeto de pesquisa.
-                Critérios de Inclusão:
-                Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
-                Critérios de Exclusão:
-                Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
-                Certifique-se de considerar cuidadosamente e documentar seus critérios para garantir um processo de seleção sistemático e transparente.
+            <p>Na seção de critérios, você define os critérios para a seleção ou exclusão de estudos em seu projeto de pesquisa.</p>
+            <p><strong>Critérios de Inclusão:</strong> Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
+            <br>Ex.: IC1 - A publicação deve propor uma ferramenta para apoiar o teste de desempenho.</p>
+            <p><strong>Critérios de Exclusão:</strong> Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
+            <br>Ex.: EC1 - Artigos duplicados.</p>
+            <p>Certifique-se de considerar e documentar cuidadosamente seus critérios para garantir um processo de seleção sistemático e transparente.</p>
+            <ul><li><strong>Todos:</strong> O estudo deve conter todos os critérios de inclusão ou exclusão.</li>
+            <li><strong>Pelo menos:</strong> O estudo deve conter pelo menos os critérios selecionados.</li>
+            <li><strong>Qualquer:</strong> O estudo pode conter qualquer um dos critérios.</li></ul>
             ',
         ],
         'form' => [
@@ -532,7 +545,48 @@ return [
             'title' => 'Pontuação Geral',
             'help' => [
                 'title' => 'Pontuação Geral',
-                'content' => '',
+                'content' => '
+                <p>Você pode definir os intervalos que considerar necessários para a sua revisão sistemática. No entanto,
+                lembre-se de salvar as configurações e definir o "mínimo para aprovação". Esse planejamento será crucial na fase de condução da revisão.</p>
+                <strong>Exemplo:</strong>
+                <table class="table table-bordered table-striped small">
+                        <thead>
+                            <tr>
+                                <th>Mínimo</th>
+                                <th>Máximo</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>Muito Ruim</td>
+                            </tr>
+                            <tr>
+                                <td>1.1</td>
+                                <td>2</td>
+                                <td>Ruim</td>
+                                </tr>
+                                <tr>
+                                    <td>2.1</td>
+                                    <td>3</td>
+                                    <td>Regular</td>
+                                </tr>
+                                <tr>
+                                    <td>3.1</td>
+                                    <td>4</td>
+                                    <td>Bom</td>
+                                </tr>
+                                <tr>
+                                    <td>4.1</td>
+                                    <td>5</td>
+                                    <td>Muito Bom</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                ',
             ],
             'start' => 'Digite a Pontuação Mínima',
             'end' => 'Digite a Pontuação Máxima',
@@ -577,7 +631,17 @@ return [
             'title' => 'Questão de Qualidade',
             'help' => [
                 'title' => 'Questão de Qualidade',
-                'content' => '[WIP]',
+                'content' => '
+                    <p>Além dos critérios gerais de inclusão/exclusão, considera-se fundamental avaliar a "qualidade" dos estudos primários:</p>
+                    <ul>
+                        <li>Para fornecer critérios de inclusão/exclusão ainda mais detalhados.</li>
+                        <li>Para investigar se as diferenças de qualidade explicam as diferenças nos resultados dos estudos.</li>
+                        <li>Como um meio de ponderar a importância de estudos individuais quando os resultados estão sendo sintetizados.</li>
+                        <li>Para orientar a interpretação dos achados e determinar a força das inferências.</li>
+                        <li>Para orientar recomendações para futuras pesquisas.</li>
+                    </ul><br>
+
+                    <strong>Exemplo:</strong> QA01 - O estudo apresenta a implementação de uma ferramenta para revisão sistemática da literatura?',
             ],
             'id' => 'ID',
             'description' => 'Descrição',
@@ -617,7 +681,39 @@ return [
             ],
             'help' => [
                 'title' => 'Pontuação de Qualidade',
-                'content' => '',
+                'content' => '
+                   <p> A pontuação e as regras de pontuação são registradas como respostas, e cada resposta é associada às questões de qualidade previamente cadastradas.
+                    Para cada questão, após o cadastro das regras de pontuação, deve-se estabelecer um critério mínimo para a aprovação de cada questão de qualidade.</p>
+                   <br>
+                    <strong>Exemplo</strong> (mínimo para aprovação "*"):<br>
+                <table class="table table-bordered table-striped small">
+                    <thead>
+                        <tr class="w-5">
+                            <th>Regra</th>
+                            <th>Pontuação</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="w-5">
+                            <td>Sim</td>
+                            <td>100%</td>
+                            <td>Este estudo apresenta a implementação de uma ferramenta<br>  para revisão sistemática da literatura.</td>
+                        </tr>
+                        <tr  class="50 ">
+                            <td><b>Parcial*</b></td>
+                            <td>50%</td>
+                            <td>Este estudo apresenta parcialmentea implementação de uma <br>ferramenta para revisão sistemática da literatura.</td>
+                        </tr>
+                        <tr>
+                            <td>Não</td>
+                            <td>0%</td>
+                            <td>Este estudo não apresenta a implementação de uma <br>ferramenta  para revisão sistemática da literatura.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                ',
             ],
             'description' => [
                 'title' => 'Descrição',
@@ -667,12 +763,21 @@ return [
 
         'min-general-score' => [
             'title' => 'Pontuação Mínima para Aprovação',
-            'cutoff' => 'Pontuação Mínima',
+            'help-content' => '
+                <p>Após o cadastro das questões de qualidade, a soma dos pesos de todas as questões registradas anteriormente é calculada automaticamente pela Thoth.</p>
+                <strong>Mínimo para Aprovação:</strong>
+                <p>Este item define o intervalo de pontuação mínima geral que deve ser considerado como o critério mínimo para aceitar estudos na revisão.</p>
+                <p><strong>Observação:</strong> Para registrar, é necessário primeiro cadastrar as questões de qualidade, gerar os intervalos de pontuação geral
+                e salvar no projeto da revisão em andamento.</p>
+                ',
+            'cutoff' => 'Pontuação Mínima Geral',
             'sum' => 'Soma dos Pesos',
             'form' => [
                 'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
                 'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
                 'update' => 'Atualizar Pontuação Geral Mínima para Aprovação',
+                'empty' => 'Nenhuma pontuação geral disponível. Por favor, registre pontuações gerais.',
+                'minimal-score' => 'Pontuação mínima atualizada com sucesso',
             ],
 
             'livewire' => [
@@ -697,7 +802,20 @@ return [
             'title' => 'Criar Pergunta de Extração de Dados',
             'help' => [
                 'title' => 'Ajuda para Formulário de Pergunta de Extração de Dados',
-                'content' => 'Use o formulário de pergunta de extração de dados para criar perguntas que orientem a extração de informações específicas de estudos selecionados. Defina o ID da pergunta, descrição, tipo e adicione opções, se necessário. Esta etapa garante uma extração de dados estruturada e abrangente.',
+                'content' => '
+                <p>Os formulários de extração de dados devem ser projetados para coletar todas as informações necessárias para responder às questões da revisão e aos critérios de qualidade do estudo. Se os critérios de qualidade forem utilizados para identificar critérios de inclusão/exclusão, eles exigem formulários separados (uma vez que as informações devem ser coletadas antes do exercício principal de extração de dados). Se os critérios de qualidade forem usados como parte da análise de dados, os critérios de qualidade e os dados da revisão podem ser incluídos no mesmo formulário.
+                </p>
+                <p>Na maioria dos casos, a extração de dados definirá um conjunto de valores numéricos que devem ser extraídos de cada estudo (por exemplo, número de sujeitos, efeito do tratamento, intervalos de confiança, etc.). Os dados numéricos são importantes para qualquer tentativa de resumir os resultados de um conjunto de estudos primários e são um pré-requisito para a meta-análise (ou seja, técnicas estatísticas destinadas a integrar os resultados dos estudos primários).
+                </p>
+                <p>A questão de extração deve ser definida a partir de uma descrição e do tipo de dado. Os tipos de dados são:
+                </p>
+                <ul>
+                    <li><strong>Texto:</strong> Os dados extraídos são definidos por meio de texto simples, dando ao pesquisador a liberdade de definir os dados extraídos.</li>
+                    <li><strong>Lista de Escolha Única:</strong> Através de uma lista predefinida de dados, o pesquisador deve escolher apenas uma opção de extração de dados.</li>
+                    <li><strong>Lista de Múltipla Escolha:</strong> Através de uma lista predefinida de dados, o pesquisador pode escolher mais de uma opção de extração de dados.</li>
+                </ul>
+
+                ',
             ],
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
@@ -710,7 +828,15 @@ return [
             'title' => 'Criar Opção de Pergunta de Extração de Dados',
             'help' => [
                 'title' => 'Ajuda para Formulário de Opção de Extração de Dados',
-                'content' => 'Use o formulário de opção de extração de dados para adicionar opções específicas para perguntas, facilitando a captura detalhada de informações durante o processo de extração de dados. Defina a pergunta à qual a opção pertence, forneça uma descrição e certifique-se de que as opções cubram todos os aspectos relevantes da pergunta.',
+                'content' => '<p>Use o formulário de opção de extração de dados para adicionar opções específicas para perguntas,
+                 facilitando a captura detalhada de informações durante o processo de extração de dados. Defina a pergunta à qual
+                  a opção pertence, forneça uma descrição e certifique-se de que as opções cubram todos os aspectos relevantes da pergunta.</p>
+                  <p><strong>Observação:</strong> Somente poderá adicionar opções de extração aos tipos, "Múltipla Escoljha" e "Única Escolha"</p>
+                  <p><strong>Exemplo:</strong></p>
+                <ul>
+                    <li>Descrição: Resumo - Tipo de dado: Texto.</li>
+                    <li>Descrição: Base de Dados - Tipo de dado: Lista de Escolha Única. (Lista: ACM, IEEE, Scopus)</li>
+                </ul>',
             ],
             'question' => 'Pergunta',
             'option' => 'Opção',

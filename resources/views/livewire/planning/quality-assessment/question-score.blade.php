@@ -4,7 +4,8 @@
             <x-helpers.modal
                 target="question-score"
                 modalTitle="{{ __('project/planning.quality-assessment.question-score.title') }}"
-                modalContent="{{ __('project/planning.quality-assessment.question-score.help.content') }}"
+                modalContent="{!! __('project/planning.quality-assessment.question-score.help.content') !!}"
+                class="modal-sm"
             />
         </div>
         <div class="card-body">

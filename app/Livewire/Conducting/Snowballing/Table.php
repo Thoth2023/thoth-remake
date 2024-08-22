@@ -141,8 +141,9 @@ class Table extends Component
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
                 ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
-                ->where('papers.status_qa', 1)
-                ->orWhere('papers.data_base', 16);
+                ->where(function($query) {
+                    $query->where('papers.status_selection', 1)->where('papers.status_qa', 1)->orWhere('papers.data_base', 16);
+                });
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');

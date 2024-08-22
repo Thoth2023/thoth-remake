@@ -3,43 +3,48 @@
         <x-helpers.modal
             target="criteria"
             modalTitle="{{ __('project/planning.criteria.title') }}"
-            modalContent="{{ __('project/planning.criteria.help.content') }}"
+            modalContent="{!!  __('project/planning.criteria.help.content') !!}"
         />
     </div>
     <div class="card-body">
         <form wire:submit="submit" class="d-flex flex-column">
             <div class="d-flex flex-column gap-2 form-group">
-                <x-input
-                    class="w-md-25 w-100"
-                    maxlength="20"
-                    id="criteriaId"
-                    label="{{ __('project/planning.criteria.form.id') }}"
-                    wire:model="criteriaId"
-                    placeholder="ID"
-                    required
-                />
-                @error("criteriaId")
-                    <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
+                <div class="d-flex gap-2 form-group">
+                    <!-- Primeira Div -->
+                    <div class="w-25">
+                        <x-input
+                            maxlength="20"
+                            id="criteriaId"
+                            label="{{ __('project/planning.criteria.form.id') }}"
+                            wire:model="criteriaId"
+                            placeholder="ID"
+                            required
+                        />
+                        @error("criteriaId")
+                        <span class="text-xs text-danger">
+                {{ $message }}
+            </span>
+                        @enderror
+                    </div>
 
-                <div class="d-flex flex-column w-75">
-                    <x-input
-                        id="description"
-                        label="{{ __('project/planning.criteria.form.description') }}"
-                        wire:model="description"
-                        placeholder="{{ __('project/planning.criteria.form.enter_description') }}"
-                        required
-                    />
+                    <!-- Segunda Div -->
+                    <div class="w-75">
+                        <x-input
+                            id="description"
+                            label="{{ __('project/planning.criteria.form.description') }}"
+                            wire:model="description"
+                            placeholder="{{ __('project/planning.criteria.form.enter_description') }}"
+                            required
+                        />
+                        @error("description")
+                        <span class="text-xs text-danger">
+                {{ $message }}
+            </span>
+                        @enderror
+                    </div>
                 </div>
-                @error("description")
-                    <span class="text-xs text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
 
-                <div class="d-flex flex-column w-100 w-md-25">
+                <div class="d-flex flex-column w-40 ">
                     <x-select
                         wire:model="type"
                         label="{{ __('project/planning.criteria.form.type') }}"
@@ -63,20 +68,23 @@
                         </option>
                     </x-select>
                 </div>
-            </div>
-            <x-helpers.submit-button
-                isEditing="{{ $form['isEditing'] }}"
-                fitContent
-            >
-                {{
-                    $form["isEditing"]
-                        ? __("project/planning.criteria.form.update")
-                        : __("project/planning.criteria.form.add")
-                }}
-                <div wire:loading>
-                    <i class="fas fa-spinner fa-spin"></i>
+                <div>
+                    <x-helpers.submit-button
+                        isEditing="{{ $form['isEditing'] }}"
+                        fitContent
+                    >
+                        {{
+                            $form["isEditing"]
+                                ? __("project/planning.criteria.form.update")
+                                : __("project/planning.criteria.form.add")
+                        }}
+                        <div wire:loading>
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </x-helpers.submit-button>
                 </div>
-            </x-helpers.submit-button>
+            </div>
+
         </form>
         <div class="grid-items-2 gap-4">
             <div class="flex-column d-flex px-2 py-1">

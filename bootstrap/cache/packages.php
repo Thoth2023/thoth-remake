@@ -17,6 +17,13 @@
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
   ),
+  'ibex/crud-generator' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Ibex\\CrudGenerator\\CrudServiceProvider',
+    ),
+  ),
   'kitloong/laravel-migrations-generator' => 
   array (
     'providers' => 

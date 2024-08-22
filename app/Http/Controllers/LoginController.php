@@ -26,22 +26,29 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-    
+
+        // Verifica se o usuário existe
         $user = User::where('email', $request->email)->first();
-    
-        if(!$user->active){
-            return back()->withErrors(__('auth.inactive'));
+
+        if (!$user) {
+            return back()->withErrors(['email' => __('auth/login.user_not_found')]);
         }
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        // Verifica se o usuário está ativo
+        if (!$user->active) {
+            return back()->withErrors(['email' => __('auth/login.inactive')]);
+        }
+
+        // Verifica as credenciais
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->intended('about');
-        } else { return back()->withErrors([
-            'password' => __('auth.failed'),
-        ]);
-        }        
+        }
 
+        // Retorna erro se a senha estiver incorreta
+        return back()->withErrors([
+            'password' => __('auth/login.failed'),
+        ]);
     }
 
     public function logout(Request $request)

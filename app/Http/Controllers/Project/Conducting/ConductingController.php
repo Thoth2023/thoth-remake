@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project\Conducting;
 
 use App\Http\Controllers\Controller;
 use App\Models\BibUpload;
+use App\Utils\CheckProjectDataPlanning;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\View\View;
@@ -41,6 +42,9 @@ class ConductingController extends Controller
                 $studies = $studies->merge($bib->studies()->get());
             }
         }
+
+        //Verificar Campos necessários cadastrados no Planning
+        CheckProjectDataPlanning::checkProjectData($id_project);
 
         // Consulta databases do projeto
         $databases = $project->databases()->get();

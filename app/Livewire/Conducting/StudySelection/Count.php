@@ -31,8 +31,11 @@ class Count extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
 
-        $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
+    }
 
+    public function loadCounters()
+    {
+        $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
         if ($idsDatabase->isEmpty()) {
             session()->flash('error', __('project/conducting.study-selection.count.toasts.no-databases'));
             return;
@@ -40,29 +43,12 @@ class Count extends Component
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
 
-        //dd($papers);
-
         if ($this->papers->isEmpty()) {
             session()->flash('error', __('project/conducting.study-selection.count.toasts.no-papers'));
             return;
         }
 
-        //carrega os contadores de papers
-        $this->loadCounters();
-    }
-
-
-    public function loadCounters()
-    {
         $statuses = StatusSelection::whereIn('description', ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'])->get()->keyBy('description');
-        $requiredStatuses = ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'];
-
-        foreach ($requiredStatuses as $status) {
-            if (!isset($statuses[$status])) {
-                session()->flash('error', "Status '$status' not found.");
-                return;
-            }
-        }
 
         $this->rejected = $this->papers->where('status_selection', $statuses['Rejected']->id_status)->toArray();
         $this->unclassified = $this->papers->where('status_selection', $statuses['Unclassified']->id_status)->toArray();
@@ -79,33 +65,29 @@ class Count extends Component
 
     }
 
-
-    #[On('refreshPapersCount')]
     #[On('show-success')]
+    #[On('import-success')]
     public function refreshCounters()
     {
-       $this->loadCounters();
-
-        $this->dispatch('count', [
-            'message' => __('project/conducting.study-selection.count.toasts.data-refresh'),
-            'type' => 'success',
-        ]);
-
+        $this->loadCounters();
+        $this->dispatch('reload-count');
 
     }
-
     private function updateDuplicates($duplicatePaperIds, $duplicateStatusId)
     {
         if (count($duplicatePaperIds) === 0) {
             return;
         }
-
         // Atualiza o status dos papers com IDs encontrados como duplicados
         Papers::whereIn('id_paper', $duplicatePaperIds)->update(['status_selection' => $duplicateStatusId]);
     }
 
+    #[On('show-success')]
+    #[On('import-success')]
     public function render()
     {
+        $this->loadCounters();
+        $this->dispatch('reload-count');
         return view('livewire.conducting.study-selection.count');
     }
 

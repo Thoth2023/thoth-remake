@@ -140,6 +140,10 @@
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
     });
+    Livewire.on('reload-papers', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-sucess');
+    });
 
     $wire.on('paper-modal', ([{ message, type }]) => {
         toasty({ message, type });

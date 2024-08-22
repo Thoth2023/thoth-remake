@@ -1,9 +1,10 @@
 <div class="card">
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
-            target="data-extraction.question-form"
+            target="data-extraction"
             modalTitle="{{ __('project/planning.data-extraction.question-form.title') }}"
-            modalContent="{{ __('project/planning.data-extraction.question-form.help.content') }}"
+            modalContent="{!!   __('project/planning.data-extraction.question-form.help.content') !!}"
+            modalclass="modal-xl"
         />
     </div>
     <div class="card-body">
