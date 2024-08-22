@@ -94,7 +94,7 @@ class PaperModal extends Component
 
         // Atualiza a view para mostrar o alert
         $this->dispatch('show-success');
-        //$this->dispatch('papersUpdated');
+        $this->dispatch('reload-papers');
     }
 
     // Método auxiliar para obter a descrição do status

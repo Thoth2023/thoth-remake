@@ -1,16 +1,9 @@
-@if (session()->has('error'))
-    <div class='card card-body col-md-12 mt-3'>
-        <h3 class="h5 mb-3">{{ __('project/conducting.quality-assessment.tasks') }}</h3>
-        <div class="alert alert-warning">
-            {{ session('error') }}
-        </div>
-    </div>
-@else
+
 <div class="d-flex flex-column gap-4">
     <div class="card">
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
-                target="import-studies"
+                target="file-upload"
                 modalTitle="{{ __('project/conducting.import-studies.title') }}"
                 modalContent="{{ __('project/conducting.import-studies.help.content') }}"
             />
@@ -34,7 +27,9 @@
                             {{ $message }}
                         </span>
                         @enderror
-
+                        <div wire:loading wire:target="file" class="text-info">
+                            <i class="fas fa-spinner fa-spin"></i> Checking file...
+                        </div>
                         <x-select
                             class="w-md-25 w-50"
                             id="databaseSelect"
@@ -120,11 +115,15 @@
         </div>
     </div>
 </div>
-@endif
+
 @script
 <script>
     $wire.on('file-upload', ([{ message, type }]) => {
         toasty({ message, type });
+    });
+    Livewire.on('import-success', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-sucess');
     });
 </script>
 @endscript

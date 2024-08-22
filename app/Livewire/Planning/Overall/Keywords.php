@@ -102,7 +102,9 @@ class Keywords extends Component
         $updateIf = [
             'id_keyword' => $this->currentKeyword?->id_keyword,
         ];
-        $existingKeyword = KeywordModel::where('description', $this->description)->first();
+        $existingKeyword = KeywordModel::where('description', $this->description)
+            ->where('id_project', $this->currentProject->id_project)
+            ->first();
 
         if ($existingKeyword && !$this->form['isEditing']) {
             $toastMessage = __($this->toastMessages . '.duplicate');
@@ -148,6 +150,21 @@ class Keywords extends Component
     {
         $this->currentKeyword = KeywordModel::findOrFail($keywordId);
         $this->description = $this->currentKeyword->description;
+
+        $existingKeyword = KeywordModel::where('description', $this->description)
+            ->where('id_project', $this->currentProject->id_project)
+            ->where('id_keyword', '!=', $this->currentKeyword->id_keyword)
+            ->first();
+
+        if ($existingKeyword) {
+            $toastMessage = __($this->toastMessages . '.duplicate');
+            $this->toast(
+                message: $toastMessage,
+                type: 'error'
+            );
+            return;
+        }
+
         $this->form['isEditing'] = true;
     }
 

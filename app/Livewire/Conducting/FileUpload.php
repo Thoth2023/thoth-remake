@@ -2,9 +2,7 @@
 
 namespace App\Livewire\Conducting;
 
-use App\Models\Project\Conducting\QualityAssessment\GeneralScore;
-use App\Models\Project\Planning\QualityAssessment\Cutoff;
-use App\Models\Project\Planning\QualityAssessment\Question;
+
 use App\Rules\ValidBibFile;
 use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
@@ -19,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 use RenanBr\BibTexParser\Exception\ParserException;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
+
+use App\Utils\CheckProjectDataPlanning;
 
 class FileUpload extends Component
 {
@@ -62,6 +62,8 @@ class FileUpload extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
+
+
     }
 
     public function resetFields()
@@ -76,6 +78,7 @@ class FileUpload extends Component
     public function save()
     {
         $this->validate();
+        CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
 
         $originalName = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
         $cleanName = str_replace(' ', '_', $originalName);
@@ -117,10 +120,9 @@ class FileUpload extends Component
                     type: 'success'
                 );
 
-
                 $this->resetFields();
 
-                $this->dispatch('show-success');
+                $this->dispatch('import-success');
                 $this->dispatch('refreshPapersCount');
 
             } catch (\Exception $e) {
@@ -222,7 +224,8 @@ class FileUpload extends Component
                     type: 'success'
                 );
 
-                $this->dispatch('show-success');
+                $this->dispatch('import-success');
+                $this->dispatch('refreshPapersCount');
 
             });
         } catch (\Exception $e) {
@@ -234,59 +237,10 @@ class FileUpload extends Component
         }
     }
 
-    public function checkProjectData()
-    {
-        $projectId = $this->currentProject->id_project;
-
-        // Verificar se existem dados na tabela 'general_score'
-        $generalScoreExists = GeneralScore::where('id_project', $projectId)->exists();
-
-        if (!$generalScoreExists) {
-            session()->flash('error', 'Dados de "General Score" não cadastrados para este projeto.');
-            return false;
-        }
-
-        // Verificar se existem dados na tabela 'qa_cutoff'
-        $cutoffExists = Cutoff::where('id_project', $projectId)->exists();
-
-        if (!$cutoffExists) {
-            session()->flash('error', 'Dados de "QA Cutoff" não cadastrados para este projeto.');
-            return false;
-        }
-
-        // Verificar se há alguma pergunta com 'min_to_app' NULL
-        $questionHasNullMinToApp = Question::where('id_project', $projectId)
-            ->whereNull('min_to_app')->exists();;
-
-        if ($questionHasNullMinToApp) {
-            session()->flash('error', 'Existem perguntas com "min_to_app" não definido para este projeto.');
-            return false;
-        }
-
-        // Verificar se existem dados na tabela 'question_quality' com 'min_to_app' diferente de NULL
-        $questionExists = Question::where('id_project', $projectId)->exists();
-
-        if (!$questionExists) {
-            session()->flash('error', 'Dados de "Question Quality" não cadastrados ou "min_to_app" não definido para este projeto.');
-            return false;
-        }
-
-        // Verificar se existem dados na tabela 'score_quality' vinculados a 'question_quality'
-        $scoreExists = Question::where('id_project', $projectId)
-            ->whereHas('qualityScores')
-            ->exists();
-
-        if (!$scoreExists) {
-            session()->flash('error', 'Dados de "Score Quality" não cadastrados para este projeto.');
-            return false;
-        }
-        return true;
-    }
-
-
     public function render()
     {
-        $this->checkProjectData();
+        //Verificar Campos necessários cadastrados no Planning
+        CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
 
         return view('livewire.conducting.file-upload', [
             'files' => BibUpload::all(),

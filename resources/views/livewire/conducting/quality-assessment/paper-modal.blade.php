@@ -166,18 +166,17 @@
 @script
 <script>
     $(document).ready(function(){
-        // Show the paper modal
+        // mostrar o paper
         $wire.on('show-paper-quality', () => {
             $('#paperModalQuality').modal('show');
         });
-
-        // Show the success modal on success event
+        //mostrar msg de sucesso
         Livewire.on('show-success-quality', () => {
             $('#paperModalQuality').modal('hide'); // Hide the paper modal
             $('#successModalQuality').modal('show'); // Show the success modal
         });
 
-        // Handle the closing of success modal to reopen the paper modal
+        // fechar modal paper
         $('#successModalQuality').on('hidden.bs.modal', function () {
             $('#paperModalQuality').modal('show'); // Reopen the paper modal after success modal is closed
         });

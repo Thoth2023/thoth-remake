@@ -52,18 +52,10 @@
     $wire.on('count', ([{ message, type }]) => {
         toasty({ message, type });
     });
-</script>
-@endscript
-@script
-<script>
-    document.addEventListener('livewire:load', function () {
-        Livewire.on('papersUpdated', () => {
-            // Aqui você pode mostrar uma mensagem de toasty ou qualquer outra ação
-            toasty({ message: 'Papers updated successfully!', type: 'success' });
 
-            // Você pode também recarregar a página se necessário
-             window.location.reload();
-        });
+    Livewire.on('import-success', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-sucess');
     });
 </script>
 @endscript

@@ -23,7 +23,6 @@ class Count extends Component
     public $unclassifiedPercentage = 0;
     public $acceptedPercentage = 0;
     public $removedPercentage = 0;
-    public $duplicatePercentage = 0;
     public $currentProject;
 
     public function mount()
@@ -38,9 +37,8 @@ class Count extends Component
             return;
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
-
-        //dd($papers);
+        //busca paper aceitos em Study Selection
+        $this->papers = Papers::whereIn('id_bib', $idsBib)->where('status_selection', 1)->get();
 
         if ($this->papers->isEmpty()) {
             session()->flash('error', __('project/conducting.quality-assessment.count.toasts.no-papers'));
@@ -67,14 +65,11 @@ class Count extends Component
 
         $this->rejected = $this->papers->where('status_qa', $statuses['Rejected']->id_status)->toArray();
         $this->unclassified = $this->papers->where('status_qa', $statuses['Unclassified']->id_status)->toArray();
-        /*$this->unclassified = Papers::where('status_qa', $statuses['Unclassified']->id_status)
-            ->where('status_selection', 1)->count();
-        dd($this->unclassified);*/
         $this->removed = $this->papers->where('status_qa', $statuses['Removed']->id_status)->toArray();
         $this->accepted = $this->papers->where('status_qa', $statuses['Accepted']->id_status)->toArray();
 
         //pegar os papers aceitos na fase de seleção e passa para a fase de QA, mas algo está estranho no DB, analisar melhor.
-        $totalPapers = count($this->papers->where('status_selection', 1));
+        $totalPapers = count($this->papers);
         $this->rejectedPercentage = $totalPapers > 0 ? count($this->rejected) / $totalPapers * 100 : 0;
         $this->unclassifiedPercentage = $totalPapers > 0 ? count($this->unclassified) / $totalPapers * 100 : 0;
         $this->acceptedPercentage = $totalPapers > 0 ? count($this->accepted) / $totalPapers * 100 : 0;

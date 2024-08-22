@@ -106,25 +106,47 @@ class Question extends Component
     {
         $this->validate();
 
-        $updateIf = [
-            'id' => $this->currentQuestion?->id,
-        ];
+        // Verifica se o 'id' da questão já existe no projeto atual (em modo de criação)
+        if (!$this->form['isEditing']) {
+            $existingQuestion = QuestionModel::where('id', $this->questionId)
+                ->where('id_project', $this->currentProject->id_project)
+                ->first();
+
+            if ($existingQuestion) {
+                $this->toast(
+                    message: 'Já existe uma questão com este ID neste projeto.',
+                    type: 'error'
+                );
+                return;
+            }
+        }
 
         try {
             $value = $this->form['isEditing'] ? 'Updated the question' : 'Added a question';
             $toastMessage = $this->form['isEditing']
                 ? 'Questão atualizada com sucesso!' : 'Questão adicionada com sucesso!';
 
-            $updatedOrCreated = QuestionModel::updateOrCreate($updateIf, [
-                'id_project' => $this->currentProject->id_project,
-                'type' => $this->type['value'],
-                'id' => $this->questionId,
-                'description' => $this->description,
-            ]);
+            if ($this->form['isEditing']) {
+                // Atualiza a questão existente
+                $this->currentQuestion->update([
+                    'id_project' => $this->currentProject->id_project,
+                    'type' => $this->type['value'],
+                    'id' => $this->questionId,
+                    'description' => $this->description,
+                ]);
+            } else {
+                // Cria uma nova questão
+                QuestionModel::create([
+                    'id_project' => $this->currentProject->id_project,
+                    'type' => $this->type['value'],
+                    'id' => $this->questionId,
+                    'description' => $this->description,
+                ]);
+            }
 
             Log::logActivity(
                 action: $value,
-                description: $updatedOrCreated->description,
+                description: $this->description,
                 projectId: $this->currentProject->id_project
             );
 
@@ -143,13 +165,41 @@ class Question extends Component
         }
     }
 
+
+
     /**
      * Fill the form fields with the given data.
      */
     #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
-        $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id', $questionId)->first();
+        $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)
+            ->where('id_de', $questionId)
+            ->first();
+
+        if (!$this->currentQuestion) {
+            $this->toast(
+                message: 'Questão não encontrada.',
+                type: 'error'
+            );
+            return;
+        }
+
+        // Verifica se o 'questionId' já existe em outra questão do mesmo projeto
+        $existingQuestion = QuestionModel::where('id', $this->questionId)
+            ->where('id_project', $this->currentProject->id_project)
+            ->where('id', '!=', $this->currentQuestion->id) // Garante que não é a mesma questão
+            ->first();
+
+        if ($existingQuestion) {
+            $this->toast(
+                message: 'Já existe uma questão com este ID neste projeto.',
+                type: 'error'
+            );
+            return;
+        }
+
+        // Preenche os campos do formulário com os dados da questão atual
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
         $this->type['value'] = $this->currentQuestion->type;
@@ -163,7 +213,7 @@ class Question extends Component
     public function delete(string $questionId)
     {
         try {
-            $currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id', $questionId)->first();
+            $currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id_de', $questionId)->first();
             $currentQuestion->delete();
 
             Log::logActivity(

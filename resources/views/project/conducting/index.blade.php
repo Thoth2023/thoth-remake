@@ -11,7 +11,16 @@
 
         <div class="container-fluid py-4">
             <div class="row">
+
                 <div class="col-12">
+                    @if (session()->has('error'))
+                        <div class='card card-body col-md-12 mt-3'>
+                            <h3 class="h5 mb-3">{{ __('project/conducting.study-selection.tasks') }}</h3>
+                            <div class="alert alert-warning">
+                                {{ session('error') }}
+                            </div>
+                        </div>
+                    @else
                     @include(
                         "project.components.project-tabs",
                         [
@@ -49,6 +58,7 @@
                             "activeTab" => "import-studies-tab",
                         ]
                     )
+
                     <div class="tab-content mt-4">
                         <div class="tab-pane fade show active" id="import-studies">
                             <!-- Conteúdo da aba Import Studies -->
@@ -73,7 +83,9 @@
                             @include("project.conducting.data-extraction.index", ["project" => $project])
                         </div>
                     </div>
+                    @endif
                 </div>
+
             </div>
 
             @include('layouts.footers.auth.footer')
@@ -81,6 +93,8 @@
         </div>
     </div>
     </div>
+
+
 
     @if (session()->has("activeConductingTab"))
         <script>

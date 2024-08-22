@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Planning\DataExtraction;
 
+use App\Utils\CheckProjectDataPlanning;
 use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -28,12 +29,12 @@ class DataExtraction extends Component
 
     public function editQuestion($data)
     {
-        $this->dispatch('data-extraction-table-edit-question', $data['id']);
+        $this->dispatch('data-extraction-table-edit-question', $data['id_de']);
     }
 
     public function deleteQuestion($data)
     {
-        $this->dispatch('data-extraction-table-delete-question', $data['id']);
+        $this->dispatch('data-extraction-table-delete-question', $data['id_de']);
     }
 
     public function editOption($data)
@@ -48,6 +49,7 @@ class DataExtraction extends Component
 
     public function render()
     {
+
         return view('livewire.planning.data-extraction.data-extraction')
             ->with('questions', $this->questions)
             ->with('project', $this->currentProject);

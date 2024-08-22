@@ -103,7 +103,9 @@ class Domains extends Component
         $updateIf = [
             'id_domain' => $this->currentDomain?->id_domain,
         ];
-        $existingKeyword = DomainModel::where('description', $this->description)->first();
+        $existingKeyword = DomainModel::where('description', $this->description)
+            ->where('id_project', $this->currentProject->id_project)
+            ->first();
 
         if ($existingKeyword && !$this->form['isEditing']) {
             $toastMessage = __($this->toastMessages . '.duplicate');
@@ -151,6 +153,22 @@ class Domains extends Component
     {
         $this->currentDomain = DomainModel::findOrFail($domainId);
         $this->description = $this->currentDomain->description;
+
+        // Verificar se existe outro domínio com a mesma descrição dentro do projeto, exceto o que está sendo editado
+        $existingKeyword = DomainModel::where('description', $this->description)
+            ->where('id_project', $this->currentProject->id_project)
+            ->where('id_domain', '!=', $this->currentDomain->id_domain) // Excluir o domínio atual da verificação
+            ->first();
+
+        if ($existingKeyword) {
+            $toastMessage = __($this->toastMessages . '.duplicate');
+            $this->toast(
+                message: $toastMessage,
+                type: 'error'
+            );
+            return;
+        }
+
         $this->form['isEditing'] = true;
     }
 

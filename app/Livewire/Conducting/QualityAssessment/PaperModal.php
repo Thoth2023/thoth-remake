@@ -169,6 +169,27 @@ class PaperModal extends Component
         // Verifica se todas as questões foram respondidas
         $todasRespostas = ($answeredQuestions === $totalQuestions);
 
+        $scores = DB::table('evaluation_qa')
+            ->join('question_quality', 'evaluation_qa.id_qa', '=', 'question_quality.id_qa')
+            ->join('score_quality as sq1', 'evaluation_qa.id_score_qa', '=', 'sq1.id_score')
+            ->join('score_quality as sq2', 'sq2.id_score', '=', 'question_quality.min_to_app')
+            ->where('evaluation_qa.id_paper', $paperId)
+            ->select(
+                'evaluation_qa.id_score_qa as score_resposta',
+                'question_quality.min_to_app as min_to_app',
+                'sq1.score as score_selecionado',
+                'sq2.score as score_min_to_app'
+            )
+            ->get();
+
+        // Verifica se algum score_selecionado é menor que score_min_to_app
+        $belowMinScore = false;
+        foreach ($scores as $score) {
+            if ($score->score_selecionado < $score->score_min_to_app) {
+                $belowMinScore = true;
+                break;
+            }
+        }
         //Verifica se o score está num intervalo maior ou menor que o cutoff em `qa_cutoff` em general_scores
         $qaCutoff = DB::table('qa_cutoff')
             ->join('general_score', 'qa_cutoff.id_general_score', '=', 'general_score.id_general_score')
@@ -177,7 +198,7 @@ class PaperModal extends Component
             ->first();
 
         // 1 = Accepted, 2 = Rejected
-        $newStatus = ($totalScore >= $qaCutoff->start ) ? 1 : 2;
+        $newStatus = ($totalScore >= $qaCutoff->start && !$belowMinScore) ? 1 : 2;
 
         //Atualizar `papers_qa`
         PapersQA::where('id_paper', $paperId)->update([
@@ -197,6 +218,17 @@ class PaperModal extends Component
     }
     private function findGeneralScoreId($totalScore)
     {
+        //caso o Score for zero ou menor que o menor intervalo
+        if ($totalScore === 0 || $totalScore < DB::table('general_score')
+                ->where('id_project', $this->currentProject->id_project)
+                ->min('start')) {
+
+            return DB::table('general_score')
+                ->where('id_project', $this->currentProject->id_project)
+                ->orderBy('start', 'asc') // Ordena pelo menor intervalo possível
+                ->value('id_general_score');
+        }
+        //senão pega o o general_score do intervalo a que realmente pertence
         return DB::table('general_score')
             ->where('start', '<=', $totalScore)
             ->where('end', '>=', $totalScore)

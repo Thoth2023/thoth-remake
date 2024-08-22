@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Planning\SearchString;
 
-use App\Models\Term;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Utils\AlgoliaSynonyms;
@@ -69,12 +68,12 @@ class SearchTerm extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
+
         $this->currentTerm = null;
         $this->terms = SearchTermModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
-        $this->terms = Term::all();
         $this->languageSynonyms['value'] = 'en';
     }
 
@@ -285,7 +284,7 @@ class SearchTerm extends Component
         $indexFolder = $this->languageSynonyms['value'] == 'en' ? 'synonyms' : 'sinonimos';
 
         $this->synonymSuggestions = [];
-        $term = Term::where('id_term', $termId)->first();
+        $term = SearchTermModel::where('id_term', $termId)->first();
         $algolia = new AlgoliaSynonyms();
         $results = $algolia->searchSynonyms($term->description, $indexFolder);
 

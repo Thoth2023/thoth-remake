@@ -137,7 +137,7 @@ class Table extends Component
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_extraction', 'papers.status_extraction', '=', 'status_extraction.id_status')
                 ->select('papers.*', 'data_base.name as database_name', 'status_extraction.description as status_description')
-                ->where('papers.status_selection', 1);
+                ->where('papers.status_selection', 1)->where('papers.status_qa', 1);
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
