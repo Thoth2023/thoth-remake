@@ -43,10 +43,6 @@ class Count extends Component
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         $this->papers = Papers::whereIn('id_bib', $idsBib)->get();
 
-        if ($this->papers->isEmpty()) {
-            session()->flash('error', __('project/conducting.study-selection.count.toasts.no-papers'));
-            return;
-        }
 
         $statuses = StatusSelection::whereIn('description', ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'])->get()->keyBy('description');
 
