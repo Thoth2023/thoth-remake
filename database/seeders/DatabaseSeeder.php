@@ -82,5 +82,13 @@ class DatabaseSeeder extends Seeder
             ['id_status' => 5, 'description' => 'Removed'],
         ]);
 
+        DB::table('status_snowballing')->insert([
+            ['description' => 'Accepted'],
+            ['description' => 'Rejected'],
+            ['description' => 'Duplicate'],
+            ['description' => 'Unclassified'],
+            ['description' => 'Removed'],
+        ]);
+
     }
 }

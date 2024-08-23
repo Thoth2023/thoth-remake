@@ -27,7 +27,7 @@
                             {{ $message }}
                         </span>
                         @enderror
-                        <div wire:loading wire:target="file" class="text-info">
+                        <div wire:loading wire:target="file" class="text-primary">
                             <i class="fas fa-spinner fa-spin"></i> Checking file...
                         </div>
                         <x-select

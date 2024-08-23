@@ -40,10 +40,6 @@ class Count extends Component
                 $query->where('papers.status_selection', 1)->where('papers.status_qa', 1);
             })->get();
 
-        if ($this->papers->isEmpty()) {
-            session()->flash('error', __('project/conducting.data-extraction.count.toasts.no-papers'));
-            return;
-        }
 
         //carrega os contadores de papers
         $this->loadCounters();

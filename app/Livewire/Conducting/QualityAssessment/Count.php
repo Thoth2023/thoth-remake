@@ -40,10 +40,6 @@ class Count extends Component
         //busca paper aceitos em Study Selection
         $this->papers = Papers::whereIn('id_bib', $idsBib)->where('status_selection', 1)->get();
 
-        if ($this->papers->isEmpty()) {
-            session()->flash('error', __('project/conducting.quality-assessment.count.toasts.no-papers'));
-            return;
-        }
 
         //carrega os contadores de papers
         $this->loadCounters();
