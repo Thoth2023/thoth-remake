@@ -1,11 +1,3 @@
-@if (session()->has('error'))
-    <div class="card card-body col-md-12 mt-1">
-        <h3 class="h4 mb-3">Complete these tasks to advance</h3>
-        <div class="alert alert-warning">
-            {{ session('error') }}
-        </div>
-    </div>
-@else
     <div wire:model="count" >
     <div class="mt-1">
         <div class="progress mb-4" style="height: 20px;">
@@ -39,7 +31,7 @@
         </div>
     </div>
     </div>
-@endif
+
 
 @script
 <script>

@@ -45,10 +45,6 @@ class Count extends Component
                     ->orWhere('papers.data_base', 16);
             })->get();
 
-        if ($this->papers->isEmpty()) {
-            session()->flash('error', __('project/conducting.snowballing.count.toasts.no-papers'));
-            return;
-        }
         //carrega os contadores de papers
         $this->loadCounters();
     }
