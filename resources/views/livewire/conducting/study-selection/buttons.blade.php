@@ -99,12 +99,12 @@
             $('#duplicatesModal').modal('show');
         });
 
-        Livewire.on('show-success', () => {
+        Livewire.on('show-success-duplicates', () => {
             $('#duplicatesModal').modal('hide');
-            $('#successModal').modal('show');
+            $('#successModalDuplicates').modal('show');
         });
 
-        $('#successModal').on('hidden.bs.modal', function () {
+        $('#successModalDuplicates').on('hidden.bs.modal', function () {
             $('#duplicatesModal').modal('show');
         });
     });

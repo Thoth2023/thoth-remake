@@ -140,7 +140,7 @@
             $('#paperModalConflict').modal('show');
         });
         // Show the success modal on success event
-        Livewire.on('show-success', () => {
+        Livewire.on('show-success-conflicts', () => {
             $('#paperModalConflict').modal('hide'); // Hide the paper modal
             $('#successModalConflict').modal('show'); // Show the success modal
         });
