@@ -107,7 +107,7 @@ class PaperModalConflicts extends Component
         session()->flash('successMessage', 'Note and status saved successfully.');
 
         // Exibir o modal de sucesso
-        $this->dispatch('show-success');
+        $this->dispatch('show-success-conflicts');
     }
 
     public function submitNote()
