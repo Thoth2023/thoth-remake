@@ -5,7 +5,7 @@ namespace App\Models\Project\Planning\DataExtraction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Project\Planning\DataExtraction\QuestionTypes;
-use App\Models\Project\Planning\DataExtraction\Options;
+use App\Models\Project\Planning\DataExtraction\Option;
 use App\Models\Project;
 
 class Question extends Model

@@ -4,6 +4,7 @@ namespace App\Livewire\Conducting\Snowballing;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
+use App\Models\Member;
 use App\Models\Project;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
@@ -73,12 +74,6 @@ class Table extends Component
     {
         $this->dispatch('showPaperSnowballing', paper: $paper, criterias: $this->criterias);
     }
-    #[On('refreshPapers')]
-    public function refreshPapers()
-    {
-        $this->papers = $this->render();
-        $this->dispatch('papersUpdated');
-    }
 
     public function updateStatus(string $papersId, $status)
     {
@@ -116,14 +111,17 @@ class Table extends Component
     {
         $this->resetPage();
     }
-
-
-
+    #[On('show-success-snowballing')]
+    #[On('show-success-quality')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function render()
     {
 
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
+
+        $member = Member::where('id_user', auth()->user()->id)->first();
 
         $databases = ProjectDatabases::where('id_project', $this->projectId)
             ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
@@ -140,10 +138,12 @@ class Table extends Component
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
                 ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
+                ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
                 ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
                 ->where(function($query) {
                     $query->where('papers.status_selection', 1)->where('papers.status_qa', 1)->orWhere('papers.data_base', 16);
-                });
+                })
+                ->where('papers_qa.id_member', $member->id_members);
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');

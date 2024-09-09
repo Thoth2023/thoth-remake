@@ -21,13 +21,17 @@ class QualityScore extends Component
     }
 
     #[On('show-success-quality-score')]
+    #[On('show-success-quality')]
+    #[On('reload-paper-modal')]
     public function loadScore()
     {
-        $StatusQuality = PapersQA::where('id_paper', $this->paper)
+        $StatusQuality = PapersQA::where('papers_qa.id_paper', $this->paper)
             ->join('general_score', 'papers_qa.id_gen_score', '=', 'general_score.id_general_score')
-            ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
-            ->select('papers_qa.*', 'general_score.description as quality_description', 'papers_qa.score', 'status_qa.status as status_paper')
+            ->join('papers', 'papers_qa.id_paper', '=', 'papers.id_paper')
+            ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
+            ->select('papers_qa.*','general_score.description as quality_description','papers_qa.score','status_qa.status as status_paper')
             ->first();
+
 
         if ($StatusQuality) {
             $this->quality_description = $StatusQuality->quality_description;

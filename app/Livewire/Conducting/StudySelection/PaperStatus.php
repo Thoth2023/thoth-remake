@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Conducting\StudySelection;
 
+use App\Models\Member;
 use App\Models\Project\Conducting\Papers;
+use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\StatusSelection;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -22,9 +24,12 @@ class PaperStatus extends Component
     #[On('show-success')]
     public function loadStatus()
     {
-        $paperStatus = Papers::where('id_paper', $this->paper)
-            ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
-            ->select('papers.*', 'status_selection.description as status_description')
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        $paperStatus = PapersSelection::where('id_paper', $this->paper)
+            ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
+            ->select('status_selection.description as status_description')
+            ->where('papers_selection.id_member', $member->id_members)
             ->first();
 
         $this->status_description = $paperStatus ? $paperStatus->status_description : 'Unknown';

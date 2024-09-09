@@ -15,58 +15,77 @@ class Buttons extends Component
 {
 
     public $projectId;
+    public $duplicates = []; // Armazena os papers duplicados organizados por título
+    public $uniquePapers = []; // Armazena os papers únicos
 
     public function removeDuplicates()
     {
-        // Obtém todos os papers para o projeto atual
         $papers = $this->getPapers($this->projectId);
-
-        // Inicializa arrays para armazenar títulos únicos e duplicados
         $uniqueTitles = [];
         $duplicates = [];
 
-        // Itera sobre os papers para encontrar duplicatas
         foreach ($papers as $paper) {
             if (!in_array($paper->title, $uniqueTitles)) {
-                // Adiciona título à lista de títulos únicos
                 $uniqueTitles[] = $paper->title;
+                $this->uniquePapers[] = $paper;
             } else {
-                // Adiciona o ID do papel à lista de duplicados
-                $duplicates[] = $paper->id_paper;
+                $this->duplicates[$paper->title][] = $paper;
             }
         }
 
-        // Log para verificar IDs de duplicados
-        //Log::info('Duplicate IDs:', $duplicates);
+        if (count($this->duplicates) > 0) {
+            // Abrir o modal com os resultados
+            $this->dispatch('show-duplicates-modal');
+        } else {
+            $this->toast('No duplicates found.', 'info');
+        }
+    }
 
-
-        // Atualiza o status dos papers duplicados para 'removed' (status_selection = 5)
-        if (count($duplicates) > 0) {
-            $updated = Papers::whereIn('id_paper', $duplicates)
-                ->update(['status_selection' => 4]); // Atualiza o campo status_selection para '5'
-
-            // Log para verificar o número de atualizações realizadas
-            //Log::info('Number of papers updated:', ['count' => $updated]);
-
-
+    public function confirmDuplicate($paperId)
+    {
+        $paper = Papers::find($paperId);
+        if ($paper) {
+            $paper->update(['status_selection' => 4]); // Status 'Duplicated'
+            $this->toast("Paper ID {$paperId} marked as duplicated.", 'success');
             // Log da atividade com o número de papers duplicados
             Log::logActivity(
-                action: 'Papers duplicated have been successfully marked as Duplicated',
-                description: 'Number of papers duplicates: ' . $updated,
+                action: 'Paper duplicated have been successfully marked as Duplicated',
+                description: 'Papers duplicate confirmed. - '.$paperId,
                 projectId: $this->projectId,
             );
 
+        }
+        $this->removeFromDuplicates($paperId);
+    }
 
-            // Emite um evento para recarregar o componente Livewire
-            $this->dispatch('refreshPapers');
+    public function rejectDuplicate($paperId)
+    {
+        $paper = Papers::find($paperId);
+        if ($paper) {
+            $paper->update(['status_selection' => 3]); // Status 'Unclassified'
+            $this->toast("Paper ID {$paperId} marked as unclassified.", 'info');
+            // Log da atividade com o número de papers duplicados
+            Log::logActivity(
+                action: 'Paper have been successfully marked as unclassified',
+                description: 'Papers unclassified confirmed. - '.$paperId,
+                projectId: $this->projectId,
+            );
+        }
+        $this->removeFromDuplicates($paperId);
+    }
 
-            if ($updated > 0) {
-                $this->toast('Papers duplicated have been successfully marked as Duplicated.', 'success');
-            } else {
-                $this->toast('No papers were updated.', 'info');
+    private function removeFromDuplicates($paperId)
+    {
+        foreach ($this->duplicates as $title => $papers) {
+            foreach ($papers as $index => $paper) {
+                if ($paper->id_paper == $paperId) {
+                    unset($this->duplicates[$title][$index]);
+                }
             }
-        } else {
-            $this->toast('No duplicates found.', 'info');
+
+            if (empty($this->duplicates[$title])) {
+                unset($this->duplicates[$title]);
+            }
         }
     }
 
@@ -74,6 +93,7 @@ class Buttons extends Component
     {
         $this->dispatch('buttons', ToastHelper::dispatch($type, $message));
     }
+
 
     public function exportCsv()
     {

@@ -52,12 +52,16 @@ return [
             'abstract' => 'Resumo',
             'keywords' => 'Palavras-chave',
             'rejected' => 'Rejeitado',
+            'paper-conflict'=>'Resolver Conflitos: Decisão em Grupo',
             'table' => [
                 'select' => 'Selecionar',
                 'description' => 'Descrição',
                 'type' => 'Tipo',
                 'inclusion' => 'Inclusão',
                 'exclusion' => 'Exclusão',
+                'conflicts-members' => 'Avaliação do Membro',
+                'conflicts-criteria' => 'Critério I/E Selecionado',
+                'conflicts-status' => 'Status da avaliação',
             ],
             'option' => [
                 'select' => 'Selecione uma opção',
@@ -65,7 +69,8 @@ return [
                 'accepted' => 'Aceito',
                 'rejected' => 'Rejeitado',
                 'duplicated' => 'Duplicado',
-                'unclassified' => 'Unclassified'
+                'unclassified' => 'Unclassified',
+                'final-decision' =>'Decisão final do grupo sobre o paper?',
             ],
             'save'=>'Salvar',
             'close'=>'Fechar',

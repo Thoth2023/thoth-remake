@@ -47,9 +47,7 @@ class PaperModal extends Component
     public function showPaperQuality($paper)
     {
         $this->selected_questions_score = [];
-
         $member = Member::where('id_user', auth()->user()->id)->first();
-
         $this->paper = $paper;
 
         $databaseName = DB::table('data_base')
@@ -71,10 +69,13 @@ class PaperModal extends Component
     public function updateStatusManual()
     {
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
+        $papers_qa = PapersQA::where('id_paper', $this->paper['id_paper'])->first();
         $status = StatusQualityAssessment::where('status', $this->selected_status)->first();
         $paper->status_qa = $status->id_status;
+        $papers_qa->id_status = $status->id_status;
 
         $paper->save();
+        $papers_qa->save();
 
         session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
         // Mostra o modal de sucesso

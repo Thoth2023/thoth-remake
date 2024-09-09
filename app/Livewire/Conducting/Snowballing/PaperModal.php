@@ -105,7 +105,7 @@ class PaperModal extends Component
 
         // Emitir evento para atualizar o paper-modal e mostrar o modal de sucesso
         //$this->dispatch('updatePaperModal');
-        $this->dispatch('show-success');
+        $this->dispatch('show-success-snowballing');
 
     }
 
@@ -191,8 +191,6 @@ class PaperModal extends Component
                 }
             }
         }
-
-        //dd($new_status);
 
         if ($change) {
             $this->paper['status_selection'] = $new_status;

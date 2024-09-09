@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Auth\Authenticatable;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class User extends Model implements AuthenticatableContract
 {
@@ -43,7 +44,7 @@ class User extends Model implements AuthenticatableContract
     {
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
     }
-    
+
     public function profile()
     {
         return $this->belongsTo(Profile::class, 'profile_id');
@@ -84,5 +85,5 @@ class User extends Model implements AuthenticatableContract
         return $this->belongsToMany(Level::class, 'user_levels')
                     ->withTimestamps();
     }
-    
+
 }
