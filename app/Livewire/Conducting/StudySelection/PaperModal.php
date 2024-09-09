@@ -7,6 +7,7 @@ use App\Models\EvaluationCriteria;
 use App\Models\Member;
 use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
+use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,6 @@ class PaperModal extends Component
 
     }
 
-
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
     {
@@ -46,8 +46,11 @@ class PaperModal extends Component
 
         $this->paper['database_name'] = $databaseName;
 
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         //carregar todos os critérios de uma vez
         $this->selected_criterias = EvaluationCriteria::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
             ->pluck('id_criteria')
             ->toArray();
 
@@ -59,16 +62,45 @@ class PaperModal extends Component
 
     public function updateStatusManual()
     {
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Pega o paper associado
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
+
+        // Pega o status selecionado
         $status = StatusSelection::where('description', $this->selected_status)->first();
-        $paper->status_selection = $status->id_status;
 
-        $paper->save();
+        // Atualiza na tabela papers_selection
+        $paperSelection = PapersSelection::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
+            ->first();
 
-        session()->flash('successMessage', "Criteria updated successfully. New status: " . $status->description);
+        if (!$paperSelection) {
+            // Se não existir uma seleção para o paper e membro, cria uma nova entrada
+            $paperSelection = new PapersSelection();
+            $paperSelection->id_paper = $this->paper['id_paper'];
+            $paperSelection->id_member = $member->id_members;
+        }
+
+        // Atualiza o status em papers_selection
+        $paperSelection->id_status = $status->id_status;
+        $paperSelection->save();
+
+        // Se o membro for um administrador, também atualiza na tabela papers
+        if ($member->level == 1) {
+            $paper->status_selection = $status->id_status;
+            $paper->save();
+
+            session()->flash('successMessage', "Status updated in both Papers and PapersSelection. New status: " . $status->description);
+        } else {
+            session()->flash('successMessage', "Status updated for your selection. New status: " . $status->description);
+        }
+
         // Mostra o modal de sucesso
         $this->dispatch('show-success');
     }
+
+
 
     public function changePreSelected($criteriaId, $type)
     {
@@ -114,6 +146,9 @@ class PaperModal extends Component
 
     private function updatePaperStatus($type)
     {
+        // Verificar membro
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         $id_project = $this->currentProject->id_project;
         $id_paper = $this->paper['id_paper'];
         $old_status = $this->paper['status_selection'];
@@ -123,6 +158,7 @@ class PaperModal extends Component
         $criterias_ev = EvaluationCriteria::where('id_paper', $id_paper)
             ->join('criteria', 'evaluation_criteria.id_criteria', '=', 'criteria.id_criteria')
             ->select('evaluation_criteria.*', 'criteria.type')
+            ->where('id_member', $member->id_members)
             ->get()
             ->groupBy('type');
 
@@ -132,11 +168,34 @@ class PaperModal extends Component
         $new_status = $this->determineNewStatus($inclusion, $exclusion, $old_status);
 
         if ($new_status !== $old_status) {
+            // Atualiza o status no objeto atual
             $this->paper['status_selection'] = $new_status;
-            Papers::where('id_paper', $id_paper)->update(['status_selection' => $new_status]);
 
+            // Atualização na tabela papers_selection
+            $paperSelection = PapersSelection::where('id_paper', $id_paper)
+                ->where('id_member', $member->id_members)
+                ->first();
+
+            if (!$paperSelection) {
+                // Se não existir uma seleção para o paper e membro, cria uma nova entrada
+                $paperSelection = new PapersSelection();
+                $paperSelection->id_paper = $id_paper;
+                $paperSelection->id_member = $member->id_members;
+            }
+
+            // Atualiza o status em papers_selection
+            $paperSelection->id_status = $new_status;
+            $paperSelection->save();
+
+            // Se o membro for um administrador, também atualiza na tabela papers
+            if ($member->level == 1) {
+                Papers::where('id_paper', $id_paper)->update(['status_selection' => $new_status]);
+            }
+
+            session()->flash('successMessage', "Status updated successfully.");
         }
     }
+
 
     private function checkCriteriaRules($criterias, $criterias_ev)
     {

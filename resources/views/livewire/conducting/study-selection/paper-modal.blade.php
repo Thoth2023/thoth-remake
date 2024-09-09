@@ -144,6 +144,10 @@
         // Recarregar o componente Livewire para refletir as mudanças
         Livewire.emit('show-sucess');
     });
+    Livewire.on('show-sucess', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-sucess-quality');
+    });
 
     $wire.on('paper-modal', ([{ message, type }]) => {
         toasty({ message, type });

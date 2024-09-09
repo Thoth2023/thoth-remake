@@ -4,7 +4,9 @@ namespace App\Livewire\Conducting\StudySelection;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
+use App\Models\Member;
 use App\Models\Project;
+use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use App\Models\Project\Conducting\Papers;
@@ -13,6 +15,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
+use function Laravel\Prompts\select;
 
 class Table extends Component
 {
@@ -77,6 +80,11 @@ class Table extends Component
         $this->dispatch('showPaper', paper: $paper, criterias: $this->criterias);
     }
 
+    public function openConflictModal($paper)
+    {
+        $this->dispatch('showPaperConflict', paper: $paper, criterias: $this->criterias);
+    }
+
     public function updateStatus(string $papersId, $status)
     {
         $paper = Papers::findOrFail($papersId);
@@ -121,6 +129,8 @@ class Table extends Component
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         $databases = ProjectDatabases::where('id_project', $this->projectId)
             ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
             ->pluck('data_base.name', 'project_databases.id_database')
@@ -135,9 +145,10 @@ class Table extends Component
 
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-                ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
-                ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description');
-
+                ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers.id_paper')
+                ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
+                ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description')
+                ->where('papers_selection.id_member', $member->id_members);
 
             if ($this->search) {
                 $query = $query->where(function ($query) {
@@ -161,9 +172,19 @@ class Table extends Component
 
             // Paginação
             $papers = $query->paginate($this->perPage);
-        }
 
-        return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses'));
+            // Verificar se há conflitos para cada paper
+            foreach ($papers as $paper) {
+                $paper->has_conflict = PapersSelection::where('id_paper', $paper->id_paper)
+                        ->where('id_status', '!=', 3) // Excluindo Unclassified (id=3)
+                        ->distinct()
+                        ->count('id_status') > 1;
+            }
+        }
+        // Passa se o membro é administrador
+        $isAdministrator = $member->level == 1;
+        return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses','isAdministrator'));
     }
+
 
 }

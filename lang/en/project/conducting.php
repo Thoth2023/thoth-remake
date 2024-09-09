@@ -53,12 +53,17 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
+            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',
                 'type' => 'Type',
                 'inclusion' => 'Inclusion',
                 'exclusion' => 'Exclusion',
+                'conflicts-members' => 'Member Evaluation',
+                'conflicts-criteria' => 'Selected I/E Criteria',
+                'conflicts-status' => 'Evaluation Status',
+                'final-decision' =>'Final Decision Group about paper?',
             ],
             'option' => [
                 'select'=>'Select an option',

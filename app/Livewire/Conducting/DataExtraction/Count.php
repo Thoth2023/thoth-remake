@@ -3,6 +3,7 @@
 namespace App\Livewire\Conducting\DataExtraction;
 
 use App\Models\BibUpload;
+use App\Models\Member;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
@@ -28,6 +29,8 @@ class Count extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
 
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
 
         if ($idsDatabase->isEmpty()) {
@@ -36,16 +39,17 @@ class Count extends Component
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         $this->papers = Papers::whereIn('id_bib', $idsBib)
+            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
             ->where(function($query) {
                 $query->where('papers.status_selection', 1)->where('papers.status_qa', 1);
-            })->get();
+            })->where('papers_qa.id_member', $member->id_members)->get();
 
-
-        //carrega os contadores de papers
-        $this->loadCounters();
     }
 
-
+    #[On('show-success-quality')]
+    #[On('show-success-extraction')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function loadCounters()
     {
         $statuses = StatusExtraction::whereIn('description', ['Done', 'To Do', 'Removed'])->get()->keyBy('description');
@@ -70,7 +74,8 @@ class Count extends Component
 
     }
 
-    #[On('refreshPapers')]
+
+    /*#[On('refreshPapersCount')]
     public function refreshCounters()
     {
        $this->loadCounters();
@@ -80,10 +85,16 @@ class Count extends Component
             'type' => 'success',
         ]);
 
-    }
-
+    }*/
+    #[On('show-success-quality')]
+    #[On('show-success-extraction')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function render()
     {
+
+        //carrega os contadores de papers
+        $this->loadCounters();
         return view('livewire.conducting.data-extraction.count');
     }
 }

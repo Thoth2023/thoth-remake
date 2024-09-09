@@ -224,6 +224,7 @@ class FileUpload extends Component
                     type: 'success'
                 );
 
+                //atualizar os demais módulos
                 $this->dispatch('import-success');
                 $this->dispatch('refreshPapersCount');
 

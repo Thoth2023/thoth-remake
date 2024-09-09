@@ -3,6 +3,7 @@
 namespace App\Livewire\Conducting\Snowballing;
 
 use App\Models\BibUpload;
+use App\Models\Member;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
@@ -30,6 +31,9 @@ class Count extends Component
     {
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
+
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
 
         if ($idsDatabase->isEmpty()) {
@@ -40,15 +44,17 @@ class Count extends Component
 
         //busca paper aceitos em QA
         $this->papers = Papers::whereIn('id_bib', $idsBib)
+            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
             ->where(function($query) {
                 $query->where('papers.status_selection', 1)->where('papers.status_qa', 1)
                     ->orWhere('papers.data_base', 16);
-            })->get();
-
-        //carrega os contadores de papers
-        $this->loadCounters();
+            })->where('papers_qa.id_member', $member->id_members)->get();
     }
 
+    #[On('show-success-snowballing')]
+    #[On('show-success-quality')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function loadCounters()
     {
         $statuses = StatusSnowballing::whereIn('description', ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'])->get()->keyBy('description');
@@ -78,18 +84,6 @@ class Count extends Component
     }
 
 
-    #[On('refreshPapersCount')]
-    public function refreshCounters()
-    {
-       $this->loadCounters();
-
-        $this->dispatch('count', [
-            'message' => __('project/conducting.snowballing.count.toasts.data-refresh'),
-            'type' => 'success',
-        ]);
-
-
-    }
 
     private function updateDuplicates($duplicatePaperIds, $duplicateStatusId)
     {
@@ -101,9 +95,14 @@ class Count extends Component
         Papers::whereIn('id_paper', $duplicatePaperIds)->update(['status_selection' => $duplicateStatusId]);
     }
 
-
+    #[On('show-success-snowballing')]
+    #[On('show-success-quality')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function render()
     {
+        //carrega os contadores de papers
+        $this->loadCounters();
         return view('livewire.conducting.snowballing.count');
     }
 }

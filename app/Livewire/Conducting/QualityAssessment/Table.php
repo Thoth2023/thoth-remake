@@ -4,6 +4,7 @@ namespace App\Livewire\Conducting\QualityAssessment;
 
 use App\Models\BibUpload;
 use App\Models\Criteria;
+use App\Models\Member;
 use App\Models\Project;
 use App\Models\Project\Conducting\QualityAssessment\GeneralScore;
 use App\Models\Project\Planning\QualityAssessment\Cutoff;
@@ -96,11 +97,16 @@ class Table extends Component
         $this->resetPage();
     }
 
+    #[On('refreshPapersCount')]
     #[On('show-success-quality')]
+    #[On('show-success')]
+    #[On('import-success')]
     public function render()
     {
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
+
+        $member = Member::where('id_user', auth()->user()->id)->first();
 
         $databases = ProjectDatabases::where('id_project', $this->projectId)
             ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
@@ -126,7 +132,8 @@ class Table extends Component
                     'papers_qa.score as score',
                     'general_score.description as general_score'
                 )
-                ->where('papers.status_selection', 1) ;
+                ->where('papers.status_selection', 1)
+                ->where('papers_qa.id_member', $member->id_members);
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
