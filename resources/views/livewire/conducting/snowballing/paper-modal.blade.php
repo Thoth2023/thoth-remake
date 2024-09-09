@@ -49,37 +49,8 @@
                             <p>{{ $paper['keywords'] }}</p>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered mb-3">
-                        <thead>
-                        <tr>
-                            <th>{{ __('project/conducting.snowballing.modal.table.select' )}}</th>
-                            <th>ID</th>
-                            <th>{{ __('project/conducting.snowballing.modal.table.description' )}}</th>
-                            <th>{{ __('project/conducting.snowballing.modal.table.type' )}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($criterias as $criteria)
-                            <tr>
-                                <td class="d-flex align-items-center justify-content-center">
-                                    <input
-                                        type="checkbox"
-                                        id="criteria-{{ $criteria['id_criteria'] }}"
-                                        wire:key="criteria-{{ $criteria['id_criteria'] }}"
-                                        wire:model="selected_criterias"
-                                        wire:change="changePreSelected({{ $criteria['id_criteria'] }}, '{{ $criteria['type'] }}')"
-                                        value="{{ $criteria['id_criteria'] }}"
-                                        @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif
-                                    >
-                                </td>
-                                <td>{{ $criteria['id'] }}</td>
-                                <td>{{ $criteria['description'] }}</td>
-                                <td>{{ $criteria['type'] }}</td>
-                                <td>{{ $criteria['rule'] }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+
+                    <!--Aqui vai os dados do snowballing -->
 
                     <hr />
 
@@ -98,7 +69,6 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" wire:click="save">{{ __('project/conducting.snowballing.modal.save' )}}</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.snowballing.modal.close' )}}</button>
                 </div>
             </div>
@@ -126,37 +96,26 @@
 @script
 <script>
     $(document).ready(function(){
-        // Show the modal
+        // mostrar o paper
         $wire.on('show-paper-snowballing', () => {
             $('#paperModalSnowballing').modal('show');
         });
-
-        Livewire.on('updatePaperModal', () => {
-            Livewire.dispatch('showPaperSnowballing'); // Dispara a função showPaper no backend para recarregar as informações
+        //mostrar msg de sucesso
+        Livewire.on('show-success-snowballing', () => {
+            $('#paperModalSnowballing').modal('hide'); // Hide the paper modal
+            $('#successModalSnowballing').modal('show'); // Show the success modal
         });
 
-
-        // Handle saving and showing toast
-        $wire.on('paperSaved', ([{ message, type }]) => {
-            // Show a toast message
-            toasty({ message, type });
-
-            // Hide the modal
-            $('#paperModalSnowballing').modal('hide');
-
-        });
-
-        // Refresh papers on the client side when the event is fired
-        window.addEventListener('papersUpdated', () => {
-            // Trigger Livewire's refresh or reload method
-            Livewire.dispatch('refreshPapers');
+        // fechar modal paper
+        $('#successModalSnowballing').on('hidden.bs.modal', function () {
+            $('#paperModalSnowballing').modal('show'); // Reopen the paper modal after success modal is closed
         });
     });
-</script>
-@endscript
+    Livewire.on('reload-paper-snowballing', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('showPaperSnowballing', @json($paper));
+    });
 
-@script
-<script>
     $wire.on('paper-modal', ([{ message, type }]) => {
         toasty({ message, type });
     });

@@ -3,6 +3,7 @@
 namespace App\Livewire\Conducting\QualityAssessment;
 
 use App\Models\BibUpload;
+use App\Models\Member;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
@@ -30,6 +31,8 @@ class Count extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
 
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
 
         if ($idsDatabase->isEmpty()) {
@@ -38,15 +41,22 @@ class Count extends Component
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         //busca paper aceitos em Study Selection
-        $this->papers = Papers::whereIn('id_bib', $idsBib)->where('status_selection', 1)->get();
+        //$this->papers = Papers::whereIn('id_bib', $idsBib)->where('status_selection', 1)->get();
+        $this->papers = Papers::whereIn('id_bib', $idsBib)
+            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+            ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
+            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+            ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description')
+            ->where('papers.status_selection', 1)
+            ->where('papers_qa.id_member', $member->id_members)
+            ->get();
 
-
-        //carrega os contadores de papers
-        $this->loadCounters();
     }
 
     #[On('show-success-quality')]
     #[On('show-success')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function loadCounters()
     {
         $statuses = StatusQualityAssessment::whereIn('status', ['Rejected', 'Unclassified', 'Removed', 'Accepted'])->get()->keyBy('status');
@@ -73,20 +83,14 @@ class Count extends Component
 
     }
 
-    #[On('refreshPapers')]
-    public function refreshCounters()
-    {
-       $this->loadCounters();
-
-        $this->dispatch('count', [
-            'message' => __('project/conducting.quality-assessment.count.toasts.data-refresh'),
-            'type' => 'success',
-        ]);
-
-    }
-
+    #[On('show-success-quality')]
+    #[On('show-success')]
+    #[On('refreshPapersCount')]
+    #[On('import-success')]
     public function render()
     {
+        $this->loadCounters();
         return view('livewire.conducting.quality-assessment.count');
+
     }
 }

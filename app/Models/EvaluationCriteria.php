@@ -10,6 +10,8 @@ class EvaluationCriteria extends Model
     use HasFactory;
 
     protected $table = 'evaluation_criteria';
+    protected $primaryKey = 'id_evaluation_criteria';
+
 
     protected $fillable = [
         'id_paper',
@@ -20,7 +22,9 @@ class EvaluationCriteria extends Model
     public $timestamps = false;
 
 
-    public function criteria() {
-        return $this->belongsTo(Criteria::class, 'id_criteria', 'id');
+    // Relacionamento com Criteria
+    public function criteria()
+    {
+        return $this->belongsTo(Criteria::class, 'id_criteria');
     }
 }
