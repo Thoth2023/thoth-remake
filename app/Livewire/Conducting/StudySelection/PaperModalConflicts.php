@@ -102,8 +102,7 @@ class PaperModalConflicts extends Component
             ]
         );
 
-        // Debugging: verificar o resultado da operação
-        dd($decision);
+        //dd($decision);
 
         session()->flash('successMessage', 'Note and status saved successfully.');
 

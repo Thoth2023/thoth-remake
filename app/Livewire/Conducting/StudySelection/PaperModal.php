@@ -34,7 +34,6 @@ class PaperModal extends Component
 
     }
 
-
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
     {
