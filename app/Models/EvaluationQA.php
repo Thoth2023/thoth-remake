@@ -8,7 +8,7 @@ use App\Models\Project\Planning\QualityAssessment\Question;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EvaluationQa extends Model
+class EvaluationQA extends Model
 {
     use HasFactory;
 
