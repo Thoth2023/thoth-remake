@@ -54,6 +54,12 @@ return [
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
             'paper-conflict'=>'Resolve Paper Conflicts: Group Decision',
+            'paper-conflict-note'=>'Note',
+            'paper-conflict-writer'=>'Write note...',
+            'sucess-decision'=>'Group Decision successfully',
+            'error-status' => 'Select your Final Decision',
+            'last-confirmation' => 'Last Confirmation',
+            'confirmation-date' => 'in',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',
@@ -63,7 +69,7 @@ return [
                 'conflicts-members' => 'Member Evaluation',
                 'conflicts-criteria' => 'Selected I/E Criteria',
                 'conflicts-status' => 'Evaluation Status',
-                'final-decision' =>'Final Decision Group about paper?',
+
             ],
             'option' => [
                 'select'=>'Select an option',
@@ -71,10 +77,15 @@ return [
                 'accepted' => 'Accepted',
                 'rejected' => 'Rejected',
                 'duplicated' => 'Duplicate',
-                'unclassified' => 'Unclassified'
+                'unclassified' => 'Unclassified',
+                'final-decision' =>'Final Decision Group about paper?',
             ],
             'save'=>'Save',
+            'update'=>'Update',
+            'confirm'=>'Confirm',
             'close'=>'Close',
+            'error'=>'Error',
+            'success'=>'Success',
 
         ],
         'status' => [

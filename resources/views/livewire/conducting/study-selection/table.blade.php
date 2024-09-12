@@ -85,10 +85,18 @@
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.study-selection.status." . strtolower($paper['status_description'])) }}
                     </b>
-                    @if($isAdministrator && $paper->has_conflict)
-                        <div class="badge bg-warning text-white" role='button'  wire:click.prevent="openConflictModal({{ $paper }})" title="Resolve Conflicts">
-                            <i class="fa-solid fa-file-circle-exclamation"></i> Resolve
-                        </div>
+                    @if($isAdministrator)
+                        @if($paper->has_conflict && !$paper->is_confirmed)
+                            <!-- Mostrar div de resolução de conflitos -->
+                            <div class="badge bg-warning text-white" role="button" wire:click.prevent="openConflictModal({{ $paper }})" title="Resolve Conflicts">
+                                <i class="fa-solid fa-file-circle-exclamation"></i> Resolve
+                            </div>
+                        @elseif($paper->has_conflict && $paper->is_confirmed)
+                            <!-- já resolvidos -->
+                            <div class="badge bg-light text-dark" role="button" wire:click.prevent="openConflictModal({{ $paper }})" title="Conflicts Resolved">
+                                <i class="fa-solid fa-check-circle"></i> ok
+                            </div>
+                        @endif
                     @endif
                 </div>
             </x-search.item>

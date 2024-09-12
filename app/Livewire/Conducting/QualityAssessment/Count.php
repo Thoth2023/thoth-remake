@@ -44,17 +44,29 @@ class Count extends Component
         //$this->papers = Papers::whereIn('id_bib', $idsBib)->where('status_selection', 1)->get();
         $this->papers = Papers::whereIn('id_bib', $idsBib)
             ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-            ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
             ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
-            ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description')
-            ->where('papers.status_selection', 1)
+            ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
+            ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers_qa.id_paper')
+            ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
+            ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+
+            // Filtrar papers que tenham `id_status = 1` ou `id_status = 2` com base em condições
+            ->where(function ($query) {
+                $query->where('papers_selection.id_status', 1)
+                    ->orWhere(function ($query) {
+                        $query->where('papers_selection.id_status', 2)
+                            ->where('paper_decision_conflicts.new_status_paper', 1);
+                    });
+            })
+            // Filtrando pelo membro correto
+            ->where('papers_selection.id_member', $member->id_members)
             ->where('papers_qa.id_member', $member->id_members)
             ->get();
-
     }
 
     #[On('show-success-quality')]
     #[On('show-success')]
+    #[On('show-success-conflicts')]
     #[On('refreshPapersCount')]
     #[On('import-success')]
     public function loadCounters()
@@ -85,6 +97,7 @@ class Count extends Component
 
     #[On('show-success-quality')]
     #[On('show-success')]
+    #[On('show-success-conflicts')]
     #[On('refreshPapersCount')]
     #[On('import-success')]
     public function render()

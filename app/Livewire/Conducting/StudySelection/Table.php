@@ -6,6 +6,7 @@ use App\Models\BibUpload;
 use App\Models\Criteria;
 use App\Models\Member;
 use App\Models\Project;
+use App\Models\Project\Conducting\StudySelection\PaperDecisionConflict;
 use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
@@ -15,7 +16,6 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
-use function Laravel\Prompts\select;
 
 class Table extends Component
 {
@@ -123,6 +123,7 @@ class Table extends Component
     }
 
     #[On('show-success')]
+    #[On('show-success-conflicts')]
     #[On('import-success')]
     public function render()
     {
@@ -179,10 +180,12 @@ class Table extends Component
                         ->where('id_status', '!=', 3) // Excluindo Unclassified (id=3)
                         ->distinct()
                         ->count('id_status') > 1;
+                // Verificar se o paper já foi confirmado na tabela paper_decision_conflicts
+                $paper->is_confirmed = PaperDecisionConflict::where('id_paper', $paper->id_paper)->exists();
             }
         }
-        // Passa se o membro é administrador
-        $isAdministrator = $member->level == 1;
+        // Passa se o membro é administrador/pesquisador
+        $isAdministrator = $member->level == 1 || $member->level == 3;
         return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses','isAdministrator'));
     }
 
