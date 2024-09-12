@@ -97,6 +97,7 @@ class Count extends Component
 
     #[On('show-success-quality')]
     #[On('show-success')]
+    #[On('show-success-conflicts')]
     #[On('refreshPapersCount')]
     #[On('import-success')]
     public function render()
