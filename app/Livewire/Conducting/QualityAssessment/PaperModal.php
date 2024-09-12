@@ -68,14 +68,36 @@ class PaperModal extends Component
 
     public function updateStatusManual()
     {
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
-        $papers_qa = PapersQA::where('id_paper', $this->paper['id_paper'])->first();
+        $papers_qa = PapersQA::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
+            ->first();
+
+        if (!$papers_qa) {
+            // Se não existir uma seleção para o paper e membro, cria uma nova entrada
+            $papers_qa = new PapersQA();
+            $papers_qa->id_paper = $this->paper['id_paper'];
+            $papers_qa->id_member = $member->id_members;
+        }
+
+
         $status = StatusQualityAssessment::where('status', $this->selected_status)->first();
         $paper->status_qa = $status->id_status;
         $papers_qa->id_status = $status->id_status;
 
-        $paper->save();
         $papers_qa->save();
+
+        // Se o membro for um administrador, também atualiza na tabela papers
+        if ($member->level == 1) {
+            $paper->status_selection = $status->id_status;
+            $paper->save();
+
+            session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
+        } else {
+            session()->flash('successMessage', "Status updated for your selection. New status: " . $status->status);
+        }
 
         session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
         // Mostra o modal de sucesso

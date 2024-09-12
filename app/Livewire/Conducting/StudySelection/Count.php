@@ -132,6 +132,7 @@ class Count extends Component
     }
 
     #[On('show-success')]
+    #[On('show-success-conflicts')]
     #[On('import-success')]
     public function render()
     {

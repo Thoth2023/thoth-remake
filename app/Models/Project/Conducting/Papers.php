@@ -4,6 +4,7 @@ namespace App\Models\Project\Conducting;
 
 use App\Models\BibUpload;
 use App\Models\Database;
+use App\Models\Project\Conducting\StudySelection\PaperDecisionConflict;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,10 @@ class Papers extends Model
     public static function isDuplicate($title, $id)
     {
         return self::where('title', $title)->where('id_paper', '!=', $id)->exists();
+    }
+    public function paperDecisionConflicts()
+    {
+        return $this->hasMany(PaperDecisionConflict::class, 'id_paper', 'id_paper');
     }
 
     public function ScopeFindPapersByIdProject($query, $projectId)
