@@ -100,6 +100,7 @@ class Table extends Component
     #[On('refreshPapersCount')]
     #[On('show-success-quality')]
     #[On('show-success')]
+    #[On('show-success-conflicts')]
     #[On('import-success')]
     public function render()
     {
@@ -121,19 +122,34 @@ class Table extends Component
         } else {
             //pegar os papers que foram aceitos na fase de study select
             $query = Papers::whereIn('papers.id_bib', $idsBib)
+                // Junção com outras tabelas
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-                ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
                 ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+                ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
+                ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers_qa.id_paper')
                 ->join('general_score', 'papers_qa.id_gen_score', '=', 'general_score.id_general_score')
+                ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+
+                // Filtrar papers que tenham `id_status = 1` ou `id_status = 2` com base em condições
+                ->where(function ($query) {
+                    $query->where('papers_selection.id_status', 1)
+                        ->orWhere(function ($query) {
+                            $query->where('papers_selection.id_status', 2)
+                                ->where('paper_decision_conflicts.new_status_paper', 1);
+                        });
+                })
+                // Filtrando pelo membro correto
+                ->where('papers_selection.id_member', $member->id_members)
+                ->where('papers_qa.id_member', $member->id_members)
+
+                // Selecionar os campos desejados
                 ->select(
                     'papers.*',
                     'data_base.name as database_name',
                     'status_qa.status as status_description',
                     'papers_qa.score as score',
                     'general_score.description as general_score'
-                )
-                ->where('papers.status_selection', 1)
-                ->where('papers_qa.id_member', $member->id_members);
+                );
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
@@ -147,6 +163,7 @@ class Table extends Component
             foreach ($this->sorts as $field => $direction) {
                 $query = $query->orderBy($field, $direction);
             }
+            //dd($query);
             $papers = $query->paginate($this->perPage);
         }
         return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses'));

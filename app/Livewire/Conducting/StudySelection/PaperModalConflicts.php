@@ -20,19 +20,39 @@ class PaperModalConflicts extends Component
     public $paper = null;
     public $membersWithEvaluations = [];
     public $criterias = [];
-    public $note = null;
-    public $selected_status = "None";
+    public $note;
+    public $selected_status = null;
+    public $lastConfirmedBy = null;
+    public $lastConfirmedAt = null;
+
+    protected $rules = [
+        'selected_status' => 'required',
+    ];
 
     public function mount()
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-
     }
     #[On('showPaperConflict')]
     public function showPaperConflicts($paper)
     {
         $this->paper = $paper;
+        $this->paperDecision = PaperDecisionConflict::where('id_paper', $this->paper['id_paper'])->firstOrNew([]);
+        // Carregar o valor de 'note' do banco de dados
+        $this->note = $this->paperDecision->note ?? '';
+
+        // Carregar o status atual do paper
+        $this->selected_status = $this->paperDecision->new_status_paper ?: 'None';
+
+        // Buscar o membro que realizou a última confirmação e a data
+        if ($this->paperDecision->exists) {
+            $this->lastConfirmedBy = Member::find($this->paperDecision->id_member);
+            $this->lastConfirmedAt = $this->paperDecision->updated_at;
+        } else {
+            $this->lastConfirmedBy = null;
+            $this->lastConfirmedAt = null;
+        }
 
         $databaseName = DB::table('data_base')
             ->where('id_database', $this->paper['data_base'])
@@ -74,94 +94,51 @@ class PaperModalConflicts extends Component
             });
     }
 
-
-
-    public function submit()
+    public function save()
     {
+
+        // Buscando o membro atual
         $member = Member::where('id_user', auth()->user()->id)->first();
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
 
         // Obter o old_status_paper do campo 'status_selection' da tabela 'Papers'
         $oldStatus = $paper->status_selection;
-        // Obter o novo status selecionado pelo usuário através da variável 'selected_status'
-        $newStatus = StatusSelection::where('description', $this->selected_status)->first();
 
+        // Obter o novo status selecionado pelo usuário através da variável 'selected_status'
+        $newStatus = StatusSelection::where('id_status', $this->selected_status)->first();
+
+        // Certifique-se de que $newStatus foi encontrado
+        if (!$newStatus) {
+            session()->flash('errorMessage', __('project/conducting.study-selection.modal.error-status'));
+            // Mostrar o modal de erro
+            $this->dispatch('show-success-conflicts');
+            return;
+        }
         // Criar ou atualizar o registro na tabela PaperDecisionConflict
         $decision = PaperDecisionConflict::updateOrCreate(
-        // Condições para buscar um registro existente
             [
                 'id_paper' => $this->paper['id_paper'],
                 'id_member' => $member->id_members,
                 'phase' => 'study-selection',
             ],
-            // Valores que serão atualizados ou inseridos
             [
                 'old_status_paper' => $oldStatus,
-                'new_status_paper' => $newStatus->description, // Usando a descrição do novo status selecionado
-                'note' => $this->note, // O conteúdo da nota do editor de texto
+                'new_status_paper' => $newStatus->id_status,
+                'note' => $this->note,
             ]
         );
 
-        //dd($decision);
+        // Atualizar o status_selection na tabela Papers
+        $paper->status_selection = $newStatus->id_status;
+        $paper->save();
 
-        session()->flash('successMessage', 'Note and status saved successfully.');
+        session()->flash('successMessage', __('project/conducting.study-selection.modal.sucess-decision'));
+
 
         // Exibir o modal de sucesso
         $this->dispatch('show-success-conflicts');
     }
 
-    public function submitNote()
-    {
-        // Emitir o evento para capturar o valor do Quill no frontend
-        $this->dispatch('submit-note');
-
-        // Adicionar um pequeno delay para garantir que o valor foi atualizado
-        usleep(200000); // 200ms
-
-        // Agora o valor 'note' será capturado corretamente
-        $this->submit(); // Chamando o método submit que já trata o salvamento
-    }
-
-
-    public function updateStatusManual()
-    {
-        $member = Member::where('id_user', auth()->user()->id)->first();
-
-        // Pega o paper associado
-        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
-
-        // Pega o status selecionado
-        $status = StatusSelection::where('description', $this->selected_status)->first();
-
-        // Atualiza na tabela papers_selection
-        $paperSelection = PapersSelection::where('id_paper', $this->paper['id_paper'])
-            ->where('id_member', $member->id_members)
-            ->first();
-
-        if (!$paperSelection) {
-            // Se não existir uma seleção para o paper e membro, cria uma nova entrada
-            $paperSelection = new PapersSelection();
-            $paperSelection->id_paper = $this->paper['id_paper'];
-            $paperSelection->id_member = $member->id_members;
-        }
-
-        // Atualiza o status em papers_selection
-        $paperSelection->id_status = $status->id_status;
-        $paperSelection->save();
-
-        // Se o membro for um administrador, também atualiza na tabela papers
-        if ($member->level == 1) {
-            $paper->status_selection = $status->id_status;
-            $paper->save();
-
-            session()->flash('successMessage', "Status updated in both Papers and PapersSelection. New status: " . $status->description);
-        } else {
-            session()->flash('successMessage', "Status updated for your selection. New status: " . $status->description);
-        }
-
-        // Mostra o modal de sucesso
-        $this->dispatch('show-success');
-    }
 
 
     public function render()
