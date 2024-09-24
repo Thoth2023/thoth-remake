@@ -32,6 +32,12 @@ class Count extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
 
+
+    }
+
+    public function loadCounters()
+    {
+
         $member = Member::where('id_user', auth()->user()->id)->first();
 
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
@@ -44,19 +50,28 @@ class Count extends Component
 
         //busca paper aceitos em QA
         $this->papers = Papers::whereIn('id_bib', $idsBib)
+            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+            ->join('status_snowballing', 'papers.status_extraction', '=', 'status_snowballing.id')
             ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
-            ->where(function($query) {
-                $query->where('papers.status_selection', 1)->where('papers.status_qa', 1)
-                    ->orWhere('papers.data_base', 16);
-            })->where('papers_qa.id_member', $member->id_members)->get();
-    }
+            ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+            ->select('papers.*', 'data_base.name as database_name', 'status_snowballing.description as status_description')
 
-    #[On('show-success-snowballing')]
-    #[On('show-success-quality')]
-    #[On('refreshPapersCount')]
-    #[On('import-success')]
-    public function loadCounters()
-    {
+            // Filtrar papers que tenham `id_status = 1` ou `id_status = 2` com base em condições
+            ->where(function ($query) {
+                $query->where('papers_qa.id_status', 1)
+                    ->orWhere('papers.data_base', 16)
+                    ->orWhere(function ($query) {
+                        $query->where('papers_qa.id_status', 2)
+                            ->where('paper_decision_conflicts.phase', 'quality')
+                            ->where('paper_decision_conflicts.new_status_paper', 1);
+                    });
+            })
+            // Filtrando pelo membro correto
+            ->where('papers.status_qa', 1)
+            ->where('papers_qa.id_member', $member->id_members)
+            ->distinct()
+            ->get();
+
         $statuses = StatusSnowballing::whereIn('description', ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'])->get()->keyBy('description');
         $requiredStatuses = ['Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'];
 
@@ -83,8 +98,6 @@ class Count extends Component
 
     }
 
-
-
     private function updateDuplicates($duplicatePaperIds, $duplicateStatusId)
     {
         if (count($duplicatePaperIds) === 0) {
@@ -97,6 +110,7 @@ class Count extends Component
 
     #[On('show-success-snowballing')]
     #[On('show-success-quality')]
+    #[On('show-success-conflicts-quality')]
     #[On('refreshPapersCount')]
     #[On('import-success')]
     public function render()

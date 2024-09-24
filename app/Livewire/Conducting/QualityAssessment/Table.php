@@ -2,13 +2,11 @@
 
 namespace App\Livewire\Conducting\QualityAssessment;
 
-use App\Models\BibUpload;
-use App\Models\Criteria;
+use App\Models\BibUpload;;
 use App\Models\Member;
 use App\Models\Project;
-use App\Models\Project\Conducting\QualityAssessment\GeneralScore;
-use App\Models\Project\Planning\QualityAssessment\Cutoff;
-use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Models\Project\Conducting\QualityAssessment\PapersQA;
+use App\Models\Project\Conducting\StudySelection\PaperDecisionConflict;
 use App\Models\ProjectDatabases;
 use App\Models\StatusQualityAssessment;
 use App\Models\Project\Conducting\Papers;
@@ -23,7 +21,6 @@ class Table extends Component
     use WithPagination;
     public $currentProject;
     public $projectId;
-    public $criterias;
     public array $sorts = [];
     //public array $statuses = [];
     public array $editingStatus = [];
@@ -59,7 +56,11 @@ class Table extends Component
     }
     public function openPaper($paper)
     {
-        $this->dispatch('showPaperQuality', paper: $paper, criterias: $this->criterias);
+        $this->dispatch('showPaperQuality', paper: $paper);
+    }
+    public function openConflictModalQuality($paper)
+    {
+        $this->dispatch('showPaperConflictQuality', paper: $paper);
     }
 
     public function updateStatus(string $papersId, $status)
@@ -101,6 +102,7 @@ class Table extends Component
     #[On('show-success-quality')]
     #[On('show-success')]
     #[On('show-success-conflicts')]
+    #[On('show-success-conflicts-quality')]
     #[On('import-success')]
     public function render()
     {
@@ -135,14 +137,14 @@ class Table extends Component
                     $query->where('papers_selection.id_status', 1)
                         ->orWhere(function ($query) {
                             $query->where('papers_selection.id_status', 2)
+                                ->where('paper_decision_conflicts.phase', 'study-selection')
                                 ->where('paper_decision_conflicts.new_status_paper', 1);
                         });
                 })
                 // Filtrando pelo membro correto
                 ->where('papers_selection.id_member', $member->id_members)
                 ->where('papers_qa.id_member', $member->id_members)
-
-                // Selecionar os campos desejados
+                ->distinct()
                 ->select(
                     'papers.*',
                     'data_base.name as database_name',
@@ -165,8 +167,28 @@ class Table extends Component
             }
             //dd($query);
             $papers = $query->paginate($this->perPage);
+
+            // Verificar se há conflitos para cada paper
+            foreach ($papers as $paper) {
+                $paper->has_conflict = PapersQA::where('id_paper', $paper->id_paper)
+                        ->where('id_status', '!=', 3) // Excluindo Unclassified (id=3)
+                        ->distinct()
+                        ->count('id_status') > 1;
+                // Verificar se o paper já foi confirmado na tabela paper_decision_conflicts
+                $paper->is_confirmed = PaperDecisionConflict::where('id_paper', $paper->id_paper)
+                    ->where('phase', 'quality') // Verificar se a fase é "QA"
+                    ->exists();
+                // Verificar se o paper foi aceito em "Avaliação por Pares" na fase "study-selection" com new_status_paper = 1
+                $paper->peer_review_accepted = PaperDecisionConflict::where('id_paper', $paper->id_paper)
+                    ->where('phase', 'study-selection') // Verificar se a fase é "study-selection"
+                    ->where('new_status_paper', 1) // Verificar se o status é 1 (Aceito)
+                    ->exists();
+            }
+
         }
-        return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses'));
+        // Passa se o membro é administrador/pesquisador
+        $isAdministrator = $member->level == 1 || $member->level == 3;
+        return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses','isAdministrator'));
     }
 
 }

@@ -5,7 +5,7 @@
             <x-helpers.modal
                 target="quality-assessment"
                 modalTitle="{{ __('project/conducting.data-extraction.title') }}"
-                modalContent="{{ __('project/conducting.data-extraction.help.content') }}"
+                modalContent="{!! __('project/conducting.data-extraction.help.content') !!} "
             />
         </div>
         <br/>

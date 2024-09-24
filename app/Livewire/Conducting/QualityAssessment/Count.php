@@ -31,6 +31,10 @@ class Count extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
 
+    }
+
+    public function loadCounters()
+    {
         $member = Member::where('id_user', auth()->user()->id)->first();
 
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
@@ -47,7 +51,7 @@ class Count extends Component
             ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
             ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
             ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers_qa.id_paper')
-            ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
+            ->select('papers.*', 'data_base.name as database_name', 'papers_qa.id_status as id_status_quality','status_qa.status as status_description')
             ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
 
             // Filtrar papers que tenham `id_status = 1` ou `id_status = 2` com base em condições
@@ -61,16 +65,9 @@ class Count extends Component
             // Filtrando pelo membro correto
             ->where('papers_selection.id_member', $member->id_members)
             ->where('papers_qa.id_member', $member->id_members)
+            ->distinct()
             ->get();
-    }
 
-    #[On('show-success-quality')]
-    #[On('show-success')]
-    #[On('show-success-conflicts')]
-    #[On('refreshPapersCount')]
-    #[On('import-success')]
-    public function loadCounters()
-    {
         $statuses = StatusQualityAssessment::whereIn('status', ['Rejected', 'Unclassified', 'Removed', 'Accepted'])->get()->keyBy('status');
         $requiredStatuses = ['Rejected', 'Unclassified', 'Removed', 'Accepted'];
 
@@ -81,10 +78,10 @@ class Count extends Component
             }
         }
 
-        $this->rejected = $this->papers->where('status_qa', $statuses['Rejected']->id_status)->toArray();
-        $this->unclassified = $this->papers->where('status_qa', $statuses['Unclassified']->id_status)->toArray();
-        $this->removed = $this->papers->where('status_qa', $statuses['Removed']->id_status)->toArray();
-        $this->accepted = $this->papers->where('status_qa', $statuses['Accepted']->id_status)->toArray();
+        $this->rejected = $this->papers->where('id_status_quality', $statuses['Rejected']->id_status)->toArray();
+        $this->unclassified = $this->papers->where('id_status_quality', $statuses['Unclassified']->id_status)->toArray();
+        $this->removed = $this->papers->where('id_status_quality', $statuses['Removed']->id_status)->toArray();
+        $this->accepted = $this->papers->where('id_status_quality', $statuses['Accepted']->id_status)->toArray();
 
         //pegar os papers aceitos na fase de seleção e passa para a fase de QA, mas algo está estranho no DB, analisar melhor.
         $totalPapers = count($this->papers);
@@ -98,6 +95,7 @@ class Count extends Component
     #[On('show-success-quality')]
     #[On('show-success')]
     #[On('show-success-conflicts')]
+    #[On('show-success-conflicts-quality')]
     #[On('refreshPapersCount')]
     #[On('import-success')]
     public function render()

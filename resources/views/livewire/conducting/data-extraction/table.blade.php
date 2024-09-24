@@ -23,7 +23,7 @@
                     @endif
                 </b>
             </div>
-            <div class='w-60 pl-2 pr-2'>
+            <div class='w-50 pl-2 pr-2'>
                 <b wire:click.prevent="sortBy('title')" role="button">
                     {{ __('project/conducting.data-extraction.table.title' )}}
                     @if(isset($sorts['title']))
@@ -40,6 +40,19 @@
                     {{ __('project/conducting.data-extraction.table.year' )}}
                     @if(isset($sorts['year']))
                         @if($sorts['year'] === 'asc')
+                            ↑
+                        @else
+                            ↓
+                        @endif
+                    @endif
+                </b>
+            </div>
+
+            <div class='w-20 pl-2 pr-2 ms-auto'>
+                <b wire:click.prevent="sortBy('database')" role="button">
+                    {{ __('project/conducting.study-selection.table.database') }}
+                    @if(isset($sorts['database']))
+                        @if($sorts['database'] === 'asc')
                             ↑
                         @else
                             ↓
@@ -73,17 +86,27 @@
                 <div class='w-5 pl-2'>
                     <span data-search>{{ $paper['id'] }}</span>
                 </div>
-                <div class='w-60' role='button' wire:click="openPaper({{ $paper }})">
+                <div class='w-50' role='button' wire:click="openPaper({{ $paper }})">
                     <span data-search>{{ $paper['title'] }}</span>
                 </div>
                 <div class='w-10 ms-auto'>
                     <span data-search>{{ $paper['year'] }}</span>
                 </div>
 
+                <div class='w-20 ms-auto'>
+                    <span data-search>{{ $paper['database_name'] }}</span>
+                </div>
+
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.data-extraction.status." . strtolower($paper['status_description'])) }}
                     </b>
+                    <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
+                    @if($paper->peer_review_accepted)
+
+                        <i class="fa-solid fa-users" title=" {{ __('project/conducting.quality-assessment.resolve.resolved-decision') }}"></i>
+
+                    @endif
                 </div>
             </x-search.item>
         @empty

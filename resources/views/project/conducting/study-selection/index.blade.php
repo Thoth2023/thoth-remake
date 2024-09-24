@@ -5,7 +5,7 @@
             <x-helpers.modal
                 target="study-selection"
                 modalTitle="{{ __('project/conducting.study-selection.title') }}"
-                modalContent="{{ __('project/conducting.study-selection.help.content') }}"
+                modalContent="{!! __('project/conducting.study-selection.help.content')!!} "
             />
         </div>
         <br/>

@@ -5,7 +5,7 @@
             <x-helpers.modal
                 target="file-upload"
                 modalTitle="{{ __('project/conducting.import-studies.title') }}"
-                modalContent="{{ __('project/conducting.import-studies.help.content') }}"
+                modalContent="{!!  __('project/conducting.import-studies.help.content') !!}"
             />
         </div>
         <div class="card-body">
