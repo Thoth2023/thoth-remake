@@ -75,6 +75,7 @@
         </li>
     </ul>
     @livewire('conducting.quality-assessment.paper-modal')
+    @livewire('conducting.quality-assessment.paper-modal-conflicts')
     <ul class='list-group list-group-flush'>
         @forelse ($papers as $paper)
             <x-search.item
@@ -99,6 +100,26 @@
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.quality-assessment.status." . strtolower($paper['status_description'])) }}
                     </b>
+                    <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
+                    @if($paper->peer_review_accepted)
+
+                            <i class="fa-solid fa-users" title=" {{ __('project/conducting.quality-assessment.resolve.resolved-decision') }}"></i>
+
+                    @endif
+                    @if($isAdministrator)
+                        @if($paper->has_conflict && !$paper->is_confirmed)
+                            <!-- Mostrar div de resolução de conflitos -->
+                            <div class="badge bg-warning text-white" role="button" wire:click.prevent="openConflictModalQuality({{ $paper }})" title="Resolve Conflicts">
+                                <i class="fa-solid fa-file-circle-exclamation"></i> Resolve
+                            </div>
+                        @elseif($paper->has_conflict && $paper->is_confirmed)
+                            <!-- já resolvidos -->
+                            <div class="badge bg-light text-dark" role="button" wire:click.prevent="openConflictModalQuality({{ $paper }})" title="Conflicts Resolved">
+                                <i class="fa-solid fa-check-circle"></i> ok
+                            </div>
+                        @endif
+                    @endif
+
                 </div>
             </x-search.item>
         @empty

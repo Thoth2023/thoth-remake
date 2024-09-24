@@ -14,10 +14,42 @@ return [
         'data_extraction' => 'Data Extraction',
 
     ],
+    'check' =>[
+        'domain' => 'Data for "Domain" not registered for this review project.',
+        'language' => 'Data for "Language" not registered for this review project.',
+        'study-types' => 'Data for "Study Types" not registered for this review project.',
+        'research-questions' => 'Data for "Research Questions" not registered for this review project.',
+        'databases' => 'Data for "Database" not registered for this review project.',
+        'term' => 'Data for "Search Terms" in the Search String not registered for this review project.',
+        'search-strategy' => 'Data for "Search Strategy" not registered for this review project.',
+        'criteria' => 'Data for "Inclusion or Exclusion Criteria" not registered for this review project.',
+        'general-score' => 'Data for "General Score/Intervals" in Quality Assessment not registered for this review project.',
+        'cutoff' => 'Data for "Minimum Score for Approval" not registered or "general score" is empty for this review project.',
+        'score-min' => 'There are questions with "Minimum Quality Score for Approval" not defined for this review project.',
+        'question-qa' => 'Data for "Quality Questions" not registered or "Minimum Score for Approval" not defined for this review project.',
+        'score-qa' => 'Data for "Quality Score" not registered for this review project.',
+        'data-extraction' => 'Data for "Data Extraction Questions" not registered for this review project.',
+        'option-extraction' => 'No "Options" registered for the data extraction questions of this review project.'
+    ],
     'study-selection' => [
         'title' => 'Study Selection',
         'help' => [
-            'content' => 'Study selection is a crucial phase of the systematic review, where the author examines the title, abstract, and keywords of each study, assessing them according to the inclusion and exclusion criteria established in the review planning. Based on these criteria, the status of each study will be automatically updated. However, the researcher has the option to manually set the status, but in doing so, the system will not record which criteria were considered in the evaluation.'
+            'content' => 'Study selection is a crucial phase of the systematic review, where the author analyzes the title, abstract, and keywords of each study, evaluating them according to the inclusion and exclusion criteria established in the review plan. Based on these criteria, the status of each study will be automatically updated. However, the researcher has the option to manually set the status, but in doing so, the system will not record which criteria were considered during the evaluation.
+            <br/><br/>
+            <h6>Find Duplicates</h6>
+            <p>We have two options to mark papers as duplicates: </p>
+            <ul><li>1- Studies with the same "Title, Year, and Authors" information can all be marked as duplicates at once; </li>
+            <li>2- Studies with only some similar information can be analyzed individually. </li></ul>
+            <h6>Peer Review (Group Decision)</h6>
+            <p>If the review is conducted with 2 or more researchers and <b>there is any disagreement</b> in the results, the following information will appear on the screen:</p>
+            <ul><li><div class="badge bg-warning text-white" role="button" title="Resolve Conflicts">
+                <i class="fa-solid fa-file-circle-exclamation"></i> Resolve
+            </div> | A final group decision will be required.</li>
+            <li><div class="badge bg-light text-dark" role="button"  title="Conflicts Resolved">
+                <i class="fa-solid fa-check-circle"></i> OK
+            </div>| Group decision already confirmed.</li></ul>
+            <p>Note: If the review does not involve Peer Review, these options will not appear.</p>
+            '
         ],
         'tasks'=>'Complete these tasks to advance',
         'papers' => [
@@ -53,7 +85,7 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
-            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision',
+            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision - I/E Criteria ',
             'paper-conflict-note'=>'Note',
             'paper-conflict-writer'=>'Write note...',
             'sucess-decision'=>'Group Decision successfully',
@@ -88,6 +120,7 @@ return [
             'success'=>'Success',
 
         ],
+
         'status' => [
             'duplicate' => 'Duplicate',
             'removed' => 'Removed',
@@ -109,7 +142,19 @@ return [
     'quality-assessment' => [
         'title' => 'Quality Assessment',
         'help' => [
-            'content' => '???'
+            'content' => 'The Quality Assessment is an important phase where researchers must read the full study and answer the quality questions that were planned for this review. Based on the answers provided, the "Score, General Score, and Status" of this assessment are updated.
+            <br/><br/>
+            <h6>Peer Review (Group Decision)</h6>
+            <p>If the assessment is conducted with 2 or more researchers and <b>there is any disagreement</b> in the result, the following information will appear on the screen:</p>
+            <ul><li><div class="badge bg-warning text-white" role="button" title="Resolve Conflicts">
+                <i class="fa-solid fa-file-circle-exclamation"></i> Resolve
+            </div> | A final group decision will be required.</li>
+            <li><div class="badge bg-light text-dark" role="button"  title="Conflicts Resolved">
+                <i class="fa-solid fa-check-circle"></i> OK
+            </div> | Group decision already confirmed.</li>
+            <li><i class="fa-solid fa-users"></i> | Paper accepted in Peer Review (Group Decision) in the previous stage.</li></ul>
+            <p>Note: If the review does not involve Peer Review, these options will not appear.</p>
+            '
         ],
         'tasks'=>'Complete these tasks to advance',
         'papers' => [
@@ -169,6 +214,49 @@ return [
             'close'=>'Close',
 
         ],
+        'resolve'=>[
+            'author' => 'Author',
+            'year' => 'Year',
+            'database' => 'Database',
+            'status-selection' => 'Status Selection',
+            'abstract' => 'Abstract',
+            'keywords' => 'Keywords',
+            'rejected' => 'Rejected',
+            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision - QA',
+            'paper-conflict-note'=>'Note',
+            'paper-conflict-writer'=>'Write note...',
+            'success-decision'=>'Group Decision successfully',
+            'resolved-decision'=>'Accepted for Peer Review (Group Decision) in the previous stage.',
+            'error-status' => 'Select your Final Decision',
+            'last-confirmation' => 'Last Confirmation',
+            'confirmation-date' => 'in',
+            'table' => [
+                'select' => 'Select',
+                'description' => 'Description',
+                'type' => 'Type',
+                'inclusion' => 'Inclusion',
+                'exclusion' => 'Exclusion',
+                'conflicts-members' => 'Member Evaluation',
+                'conflicts-qa' => 'Score/General Score',
+                'conflicts-status' => 'Evaluation Status',
+
+            ],
+            'option' => [
+                'select'=>'Select an option',
+                'remove' => 'Remove',
+                'accepted' => 'Accepted',
+                'rejected' => 'Rejected',
+                'duplicated' => 'Duplicate',
+                'unclassified' => 'Unclassified',
+                'final-decision' =>'Final Decision Group about paper?',
+            ],
+            'save'=>'Save',
+            'update'=>'Update',
+            'confirm'=>'Confirm',
+            'close'=>'Close',
+            'error'=>'Error',
+            'success'=>'Success',
+        ],
         'status' => [
             'duplicate' => 'Duplicate',
             'removed' => 'Removed',
@@ -190,7 +278,16 @@ return [
     'snowballing' => [
         'title' => 'Snowballing',
         'help' => [
-            'content' => '???'
+            'content' => 'Snowballing involves recursively searching for relevant references cited in the retrieved literature and adding them to the research results. Snowballing is an alternative approach to discover additional evidence that was not retrieved through conventional search methods. The effectiveness of snowballing makes it a recommended practice in systematic reviews.
+            <br/><br/>
+            <h6>Finding References (Snowballing)</h6>
+            <p>References are retrieved via the <b>CrossRef API</b>.</p>
+            <ul><li><b>Backward</b> | The first step is to examine the reference list and exclude articles that do not meet basic criteria, such as language, publication year, and type of publication (if only peer-reviewed articles are considered). <b>Verify/investigate where and how this study is referenced;</b></li>
+            <li><b>Forward</b> | refers to identifying new articles based on those that cite the article being examined.</li></ul>
+
+            <i class="fa-solid fa-users"></i> | Paper accepted in Peer Review (Group Decision) in the previous stage.
+            <p>Note: If the review does not involve Peer Review, this icon will not appear.</p>
+            '
         ],
         'tasks'=>'Complete these tasks to advance',
         'papers' => [
@@ -264,7 +361,14 @@ return [
     'data-extraction' => [
         'title' => 'Data Extraction',
         'help' => [
-            'content' => '???'
+            'content' => 'Data Extraction is the final phase of the review. In this stage, after reading the full study, researchers must extract the information
+            that answers the extraction questions planned. Once completed, it is necessary to mark the extraction as finalized for each study, so that this information is included in the existing reports.
+            <br/><br/>
+            <h6>Peer Review (Group Decision)</h6>
+            <p>If the assessment is conducted with 2 or more researchers and <b>there is any disagreement</b> in the result, the following information will appear on the screen:</p>
+            <ul><li><i class="fa-solid fa-users"></i> | Paper accepted in Peer Review (Group Decision) in the previous stage.</li></ul>
+            <p>Note: If the review does not involve Peer Review, these options will not appear.</p>
+            '
         ],
         'tasks'=>'Complete these tasks to advance',
         'papers' => [
@@ -330,8 +434,6 @@ return [
             ]
         ]
     ],
-
-
     'import-studies' => [
         'title' => 'Import Studies',
         'form' => [
@@ -343,8 +445,11 @@ return [
         ],
 
        'help' => [
-            'content' => 'Insert files in ".bib", ".csv" or ".txt" format and import files according to the database inserted in the planning'
-
+            'content' => 'Upload files in ".bib" or ".csv" format and import the files according to the database defined in the plan.<br>
+             <ul>
+             <li><b>Note:</b> If you want to conduct <b>"Peer Review"</b>, it is necessary to invite the researchers and add them to the project before importing the studies (papers).</li>
+             <li>To add researchers, navigate to <b>"My Projects->Team"</b></li>
+             </ul>'
         ],
         'table' => [
             'database' => 'Database',

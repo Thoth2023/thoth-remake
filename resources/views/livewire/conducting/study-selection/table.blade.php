@@ -98,6 +98,7 @@
                             </div>
                         @endif
                     @endif
+
                 </div>
             </x-search.item>
         @empty
