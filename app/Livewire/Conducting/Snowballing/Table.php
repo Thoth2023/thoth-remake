@@ -6,6 +6,7 @@ use App\Models\BibUpload;
 use App\Models\Criteria;
 use App\Models\Member;
 use App\Models\Project;
+use App\Models\Project\Conducting\StudySelection\PaperDecisionConflict;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use App\Models\Project\Conducting\Papers;
@@ -113,6 +114,7 @@ class Table extends Component
     }
     #[On('show-success-snowballing')]
     #[On('show-success-quality')]
+    #[On('show-success-conflicts-quality')]
     #[On('refreshPapersCount')]
     #[On('import-success')]
     public function render()
@@ -137,13 +139,25 @@ class Table extends Component
             //pegar os papers que foram aceitos na fase de QA ou database Snowballing Studies
             $query = Papers::whereIn('id_bib', $idsBib)
                 ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-                ->join('status_qa', 'papers.status_qa', '=', 'status_qa.id_status')
+                ->join('status_snowballing', 'papers.status_extraction', '=', 'status_snowballing.id')
                 ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
-                ->select('papers.*', 'data_base.name as database_name', 'status_qa.status as status_description')
-                ->where(function($query) {
-                    $query->where('papers.status_selection', 1)->where('papers.status_qa', 1)->orWhere('papers.data_base', 16);
+                ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+
+                // Filtrar papers que tenham `id_status = 1` ou `id_status = 2` com base em condições
+                ->where(function ($query) {
+                    $query->where('papers_qa.id_status', 1)
+                        ->orWhere('papers.data_base', 16)
+                        ->orWhere(function ($query) {
+                            $query->where('papers_qa.id_status', 2)
+                                ->where('paper_decision_conflicts.phase', 'quality')
+                                ->where('paper_decision_conflicts.new_status_paper', 1);
+                        });
                 })
-                ->where('papers_qa.id_member', $member->id_members);
+                // Filtrando pelo membro correto
+                ->where('papers.status_qa', 1)
+                ->where('papers_qa.id_member', $member->id_members)
+                ->distinct()
+                ->select('papers.*', 'data_base.name as database_name', 'status_snowballing.description as status_description');
 
             if ($this->search) {
                 $query = $query->where('title', 'like', '%' . $this->search . '%');
@@ -162,6 +176,15 @@ class Table extends Component
             }
 
             $papers = $query->paginate($this->perPage);
+
+            // Verificar se há conflitos para cada paper
+            foreach ($papers as $paper) {
+                // Verificar se o paper foi aceito em "Avaliação por Pares" na fase "quality" com new_status_paper = 1
+                $paper->peer_review_accepted = PaperDecisionConflict::where('id_paper', $paper->id_paper)
+                    ->where('phase', 'quality') // Verificar se a fase é "quality"
+                    ->where('new_status_paper', 1) // Verificar se o status é 1 (Aceito)
+                    ->exists();
+            }
         }
 
         return view('livewire.conducting.snowballing.table', compact('papers', 'databases', 'statuses'));

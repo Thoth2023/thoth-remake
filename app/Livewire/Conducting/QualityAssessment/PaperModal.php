@@ -46,25 +46,30 @@ class PaperModal extends Component
     #[On('showPaperQuality')]
     public function showPaperQuality($paper)
     {
-        $this->selected_questions_score = [];
+        // Identificar o membro logado
         $member = Member::where('id_user', auth()->user()->id)->first();
-        $this->paper = $paper;
 
-        $databaseName = DB::table('data_base')
-            ->where('id_database', $this->paper['data_base'])
-            ->value('name');
+        // Carregar o paper e os detalhes específicos do papers_qa
+        $this->paper = PapersQA::where('papers_qa.id_paper', $paper['id_paper'])
+            ->where('id_member', $member->id_members) // Filtrando pelo id_member
+            ->join('papers', 'papers_qa.id_paper', '=', 'papers.id_paper')
+            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+            ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
+            ->select('papers.*', 'papers_qa.*', 'data_base.name as database_name', 'status_qa.status as status_description', 'status_qa.id_status as id_status_paper')
+            ->firstOrFail();
 
-        $this->paper['database_name'] = $databaseName;
-
-        //status selecionado com base no status salvo no banco de dados
-        $this->selected_status = $this->paper['status_description'];
-
+        // Carregar os scores selecionados previamente
         $this->loadSelectedScores();
 
+        // Atualiza o status selecionado
+        $this->selected_status = $this->paper->status_description;
+
+        // Disparar eventos para recarregar o modal e mostrar o paper
         $this->dispatch('reload-paper-modal');
         $this->dispatch('show-paper-quality');
         $this->dispatch('show-success-quality-score');
     }
+
 
     public function updateStatusManual()
     {
@@ -81,7 +86,6 @@ class PaperModal extends Component
             $papers_qa->id_paper = $this->paper['id_paper'];
             $papers_qa->id_member = $member->id_members;
         }
-
 
         $status = StatusQualityAssessment::where('status', $this->selected_status)->first();
         $paper->status_qa = $status->id_status;
@@ -177,8 +181,11 @@ class PaperModal extends Component
 
     public function updatePaperQaStatus($paperId)
     {
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
         //Calcular a soma de todos os `score_partial` de `evaluation_qa` para o `id_paper`
         $totalScore = EvaluationQA::where('id_paper', $paperId)
+            ->where('id_member', $member->id_members)
             ->sum('score_partial');
 
         $generalScoreId = $this->findGeneralScoreId($totalScore);
@@ -187,7 +194,9 @@ class PaperModal extends Component
         $totalQuestions = Question::where('id_project', $this->currentProject->id_project)->count();
 
         //avaliações feitas para o paper específico
-        $answeredQuestions = EvaluationQA::where('id_paper', $paperId)->count();
+        $answeredQuestions = EvaluationQA::where('id_paper', $paperId)
+            ->where('id_member', $member->id_members)
+            ->count();
 
         // Verifica se todas as questões foram respondidas
         $todasRespostas = ($answeredQuestions === $totalQuestions);
@@ -197,6 +206,7 @@ class PaperModal extends Component
             ->join('score_quality as sq1', 'evaluation_qa.id_score_qa', '=', 'sq1.id_score')
             ->join('score_quality as sq2', 'sq2.id_score', '=', 'question_quality.min_to_app')
             ->where('evaluation_qa.id_paper', $paperId)
+            ->where('id_member', $member->id_members)
             ->select(
                 'evaluation_qa.id_score_qa as score_resposta',
                 'question_quality.min_to_app as min_to_app',
@@ -213,7 +223,7 @@ class PaperModal extends Component
                 break;
             }
         }
-        //Verifica se o score está num intervalo maior ou menor que o cutoff em `qa_cutoff` em general_scores
+        //Verifica se o score está num intervalo maior ou menor que o cutoff (score geral) em `qa_cutoff` em general_scores
         $qaCutoff = DB::table('qa_cutoff')
             ->join('general_score', 'qa_cutoff.id_general_score', '=', 'general_score.id_general_score')
             ->where('qa_cutoff.id_project', $this->currentProject->id_project)
@@ -224,14 +234,24 @@ class PaperModal extends Component
         $newStatus = ($totalScore >= $qaCutoff->start && !$belowMinScore) ? 1 : 2;
 
         //Atualizar `papers_qa`
-        PapersQA::where('id_paper', $paperId)->update([
-            'score' => $totalScore,
-            'id_gen_score' => $generalScoreId,
-            'id_status' => $newStatus,
-        ]);
+        PapersQA::where('id_paper', $paperId)
+                ->where('id_member', $member->id_members)
+                ->update([
+                    'score' => $totalScore,
+                    'id_gen_score' => $generalScoreId,
+                ]);
 
         if ($todasRespostas === true) {
-            //Atualiza em `papers`
+            PapersQA::where('id_paper', $paperId)
+                ->where('id_member', $member->id_members)
+                ->update([
+                    'score' => $totalScore,
+                    'id_gen_score' => $generalScoreId,
+                    'id_status' => $newStatus,
+                ]);
+        }
+        // Se todas as respostas foram completadas e o nível do membro for 1 (administrador), atualizar a tabela `papers`
+        if ($todasRespostas === true && $member->level == 1) {
             Papers::where('id_paper', $paperId)->update([
                 'score' => $totalScore,
                 'id_gen_score' => $generalScoreId,
@@ -261,7 +281,13 @@ class PaperModal extends Component
 
     private function loadSelectedScores()
     {
-        $evaluations = EvaluationQA::where('id_paper', $this->paper)->get();
+        // Obter as avaliações específicas do paper e do membro logado
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Carregar as avaliações de QA específicas do paper e do membro
+        $evaluations = EvaluationQA::where('id_paper', $this->paper->id_paper)
+            ->where('id_member', $member->id_members) // Filtrando pelo id_member
+            ->get();
 
         foreach ($evaluations as $evaluation) {
             $this->selected_questions_score[$evaluation->id_qa] = $evaluation->id_score_qa;

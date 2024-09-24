@@ -181,7 +181,9 @@ class Table extends Component
                         ->distinct()
                         ->count('id_status') > 1;
                 // Verificar se o paper já foi confirmado na tabela paper_decision_conflicts
-                $paper->is_confirmed = PaperDecisionConflict::where('id_paper', $paper->id_paper)->exists();
+                $paper->is_confirmed = PaperDecisionConflict::where('id_paper', $paper->id_paper)
+                    ->where('phase', 'study-selection') // Verificar se a fase é "study-selection"
+                    ->exists();
             }
         }
         // Passa se o membro é administrador/pesquisador

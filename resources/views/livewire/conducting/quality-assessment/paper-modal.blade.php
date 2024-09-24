@@ -124,7 +124,7 @@
 
                     <hr />
                     <!-- Verificação do status -->
-                    @if($paper['status_qa'] != 1 && $paper['status_qa'] != 2)
+                    @if($paper['id_status_paper'] != 1 && $paper['id_status_paper'] != 2)
                         <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
                         <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
 

@@ -38,14 +38,18 @@ class PaperModalConflicts extends Component
     public function showPaperConflicts($paper)
     {
         $this->paper = $paper;
-        $this->paperDecision = PaperDecisionConflict::where('id_paper', $this->paper['id_paper'])->firstOrNew([]);
-        // Carregar o valor de 'note' do banco de dados
+        // Carregar decisão de conflito na fase 'qa'
+        $this->paperDecision = PaperDecisionConflict::where('id_paper', $this->paper['id_paper'])
+            ->where('phase', 'qa') // Filtrar pela fase QA
+            ->firstOrNew([]);
+
+        // Carregar a nota do banco de dados (se houver)
         $this->note = $this->paperDecision->note ?? '';
 
         // Carregar o status atual do paper
         $this->selected_status = $this->paperDecision->new_status_paper ?: 'None';
 
-        // Buscar o membro que realizou a última confirmação e a data
+        // Verificar quem realizou a última confirmação e quando
         if ($this->paperDecision->exists) {
             $this->lastConfirmedBy = Member::find($this->paperDecision->id_member);
             $this->lastConfirmedAt = $this->paperDecision->updated_at;
@@ -118,10 +122,11 @@ class PaperModalConflicts extends Component
         $decision = PaperDecisionConflict::updateOrCreate(
             [
                 'id_paper' => $this->paper['id_paper'],
-                'id_member' => $member->id_members,
                 'phase' => 'study-selection',
             ],
             [
+
+                'id_member' => $member->id_members,
                 'old_status_paper' => $oldStatus,
                 'new_status_paper' => $newStatus->id_status,
                 'note' => $this->note,
