@@ -40,7 +40,7 @@ class PaperModalConflicts extends Component
         $this->paper = $paper;
         // Carregar decisão de conflito na fase 'qa'
         $this->paperDecision = PaperDecisionConflict::where('id_paper', $this->paper['id_paper'])
-            ->where('phase', 'qa') // Filtrar pela fase QA
+            ->where('phase', 'study-selection') // Filtrar pela fase QA
             ->firstOrNew([]);
 
         // Carregar a nota do banco de dados (se houver)
