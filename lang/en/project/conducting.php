@@ -135,8 +135,27 @@ return [
                 'no-databases'=>'No databases found for this project.',
                 'no-papers'=>'No papers imported for this project.',
                 'data-refresh'=>'Data refreshed successfully',
-            ]
-        ]
+            ],
+        ],
+        'duplicates' => [
+            'title' => 'Duplicate Papers Review',
+            'no-duplicates' => 'No duplicate papers were found.',
+            'confirm-duplicate' => 'Paper marked as duplicate.',
+            'erro-find-paper' => 'Error: Paper not found.',
+            'marked-unclassified' => 'Paper marked as unclassified.',
+            'analyse-all' => 'All duplicate papers have been analyzed.',
+            'duplicates-all' => 'All papers with identical Author/Year/Title marked as Duplicates',
+            'unique-papers' => 'papers possibly duplicated for individual analysis listed below.',
+            'exact-duplicate-count' => 'papers with <b>Title/Year/Authors</b> exactly identical marked as duplicates.',
+            'button-mark-all' => 'Mark the :count as Duplicates',
+            'table-title' => 'Title',
+            'table-year' => 'Year',
+            'table-database' => 'Database',
+            'table-duplicate' => 'Duplicate',
+            'table-duplicate-yes' => 'YES',
+            'table-duplicate-no' => 'NO',
+        ],
+
     ],
 
     'quality-assessment' => [
