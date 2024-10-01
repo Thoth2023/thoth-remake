@@ -124,6 +124,7 @@ class Table extends Component
 
     #[On('show-success')]
     #[On('show-success-conflicts')]
+    #[On('show-success-duplicates')]
     #[On('import-success')]
     public function render()
     {

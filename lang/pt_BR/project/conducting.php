@@ -133,6 +133,25 @@ return [
                 'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
+        'duplicates'=>[
+            'title'=>'Revisão de papers Duplicados',
+            'no-duplicates' => 'Não foram encontrados papers Duplicados.',
+            'confirm-duplicate' => 'Paper marcado como duplicado.',
+            'erro-find-paper' => 'Erro: Paper não encontrado.',
+            'marked-unclassified' => 'Paper marcado como não classificado.',
+            'analyse-all' => 'Todos os papers Duplicados foram analisados.',
+            'duplicates-all' => "Todos os papers com Autor/Ano/Titulo iguais marcados como Duplicados",
+            'unique-papers' =>'papers possivelmente duplicados para análise individual listados abaixo. ',
+            'exact-duplicate-count' =>'papers com <b>Título/Ano/Autores</b> exatamente idênticos como duplicados.',
+            'button-mark-all' => 'Marcar os :count como Duplicados',
+            'table-title'=>'Título',
+            'table-year'=>'Ano',
+            'table-database'=>'Base de Dados',
+            'table-duplicate'=>'Duplicado',
+            'table-duplicate-yes'=>'SIM',
+            'table-duplicate-no'=>'NÃO',
+
+        ],
 
     ],
     'snowballing' => [
