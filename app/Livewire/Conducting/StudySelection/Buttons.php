@@ -8,8 +8,10 @@ use App\Models\Project\Conducting\Papers;
 use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Utils\ActivityLogHelper as Log;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use TCPDF;
+use Illuminate\Support\Facades\View;
 use App\Utils\ToastHelper;
 
 
@@ -283,30 +285,29 @@ class Buttons extends Component
 
     public function exportCsv()
     {
-        $papers = $this->getPapers($this->projectId);
+        $papers = $this->getPapersExport($this->projectId);
         $csvData = $this->formatCsv($papers);
         return response()->streamDownload(function() use ($csvData) {
             echo $csvData;
-        }, 'studies.csv');
+        }, 'studies-selection.csv');
     }
 
     public function exportXml()
     {
-        $papers = $this->getPapers($this->projectId);
+        $papers = $this->getPapersExport($this->projectId);
         $xmlData = $this->formatXml($papers);
         return response()->streamDownload(function() use ($xmlData) {
             echo $xmlData;
-        }, 'studies.xml');
+        }, 'studies-selection.xml');
     }
 
     public function exportPdf()
     {
-
-        $papers = $this->getPapers($this->projectId);
+        $papers = $this->getPapersExport($this->projectId);
         $pdfData = $this->formatPdf($papers);
         return response()->streamDownload(function() use ($pdfData) {
             echo $pdfData;
-        }, 'studies.pdf');
+        }, 'studies-selection.pdf');
     }
 
     private function getPapers()
@@ -332,17 +333,80 @@ class Buttons extends Component
             ->get();
     }
 
+    private function getPapersExport()
+    {
+        // Obter o membro atual da sessão
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Obter os IDs dos bancos de dados do projeto
+        $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
+
+        // Obter os IDs das bibliotecas associadas aos bancos de dados do projeto
+        $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
+
+        // Buscar os papers vinculados aos IDs das bibliotecas e ao membro atual
+        return Papers::whereIn('id_bib', $idsBib)
+            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database') // Relacionar com o database
+            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Relacionar com papers_selection
+            ->join('members', 'members.id_members', '=', 'papers_selection.id_member')
+            ->join('users', 'members.id_user', '=', 'users.id')
+            ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status') // Relacionar com status_selection
+            ->leftJoin('evaluation_criteria', function($join) use ($member) {
+                $join->on('papers.id_paper', '=', 'evaluation_criteria.id_paper')
+                    ->where('evaluation_criteria.id_member', '=', $member->id_members); // Filtrar pelo membro atual
+            })
+            ->leftJoin('criteria', 'criteria.id_criteria', '=', 'evaluation_criteria.id_criteria') // Relacionar com criteria
+            // Novo left join com a tabela paper_decision_conflicts para verificar conflitos na fase 'study-selection'
+            ->leftJoin('paper_decision_conflicts', function($join) {
+                $join->on('papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+                    ->where('paper_decision_conflicts.phase', '=', 'study-selection'); // Filtrar pela fase 'study-selection'
+            })
+            ->where('papers_selection.id_member', $member->id_members) // Filtrar pelo membro atual
+            ->select(
+                'papers.id as id_paper',
+                'papers.title',
+                'data_base.name as database',
+                'papers_selection.id_status',
+                'status_selection.description as status',
+                'papers_selection.note',
+                'users.firstname',
+                'users.lastname',
+                DB::raw('GROUP_CONCAT(criteria.id ORDER BY criteria.id_criteria ASC SEPARATOR "-") as criterias'),
+                'paper_decision_conflicts.new_status_paper' // Adicionar o campo new_status_paper ao select
+            )
+            ->groupBy(
+                'papers.id_paper',
+                'papers.title',
+                'data_base.name',
+                'papers_selection.id_status',
+                'status_selection.description',
+                'papers_selection.note',
+                'paper_decision_conflicts.new_status_paper' // Incluir no groupBy para evitar erros de agregação
+            )
+            ->distinct()
+            ->get();
+    }
+
     private function formatCsv($papers)
     {
-        $csvData = "ID,Title, Acceptance Criteria, Rejection Criteria, Database, Status\n";
+        $csvData = "Study Selection, Researcher: {$papers->first()->firstname} {$papers->first()->lastname}\n";
+        $csvData .= "ID,Title,I/E Criteria,Database,Status,Peer Review\n";
 
         foreach ($papers as $paper) {
-            $criteriaAcceptance = $paper->criteriaAcceptance ?? '';
-            $criteriaRejection = $paper->criteriaRejection ?? '';
-            $database = $paper->data_base->name ?? '';
-            $status = $paper->status_criteria->description ?? '';
+            $criterias = $paper->criterias ?? 'N/A'; // Critérios de inclusão/exclusão já concatenados
+            $database = $paper->database ?? 'N/A'; // Database
+            $status = $paper->status ?? 'N/A'; // Status do paper
 
-            $csvData .= "{$paper->id},{$paper->title},$criteriaAcceptance,$criteriaRejection,$database,$status\n";
+            // Condição para verificar o status de avaliação por pares
+            if ($paper->new_status_paper == 1) {
+                $newStatus = 'Accepted';
+            } elseif ($paper->new_status_paper == 2) {
+                $newStatus = 'Rejected';
+            } else {
+                $newStatus = 'N/A'; // Caso não seja 1 ou 2, definir como N/A
+            }
+            // Montar a linha CSV
+            $csvData .= "{$paper->id_paper},\"{$paper->title}\",{$criterias},{$database},{$status},{$newStatus}\n";
         }
 
         return $csvData;
@@ -352,45 +416,48 @@ class Buttons extends Component
     {
         $xmlData = new \SimpleXMLElement('<papers/>');
 
+        // Adiciona o cabeçalho com o nome do pesquisador (usando o primeiro paper da coleção)
+        $researcherName = "Researcher: {$papers->first()->firstname} {$papers->first()->lastname}";
+        $xmlData->addChild('study_selection', "Study Selection, {$researcherName}");
+
         foreach ($papers as $paper) {
             $paperElement = $xmlData->addChild('paper');
-            $paperElement->addChild('id', $paper->id);
-            $paperElement->addChild('title', $paper->title);
-            $paperElement->addChild('criteria_acceptance', $paper->criteriaAcceptance ?? '');
-            $paperElement->addChild('criteria_rejection', $paper->criteriaRejection ?? '');
-            $paperElement->addChild('database', $paper->database->name ?? '');
-            $paperElement->addChild('status', $paper->status ?? '');
+            $paperElement->addChild('id', $paper->id_paper); // Corrigido para 'id_paper'
+            $paperElement->addChild('title', htmlspecialchars($paper->title)); // Evitar problemas com caracteres especiais
+            $paperElement->addChild('criteria', $paper->criterias ?? 'N/A'); // Critérios de inclusão/exclusão
+            $paperElement->addChild('database', htmlspecialchars($paper->database ?? 'N/A')); // Database
+            $paperElement->addChild('status', $paper->status ?? 'N/A'); // Status do paper
 
+            // Condição para verificar o status de avaliação por pares
+            if ($paper->new_status_paper == 1) {
+                $peerReviewStatus = 'Accepted';
+            } elseif ($paper->new_status_paper == 2) {
+                $peerReviewStatus = 'Rejected';
+            } else {
+                $peerReviewStatus = 'N/A'; // Caso não seja 1 ou 2
+            }
+            $paperElement->addChild('peer_review', $peerReviewStatus); // Avaliação por pares (Peer Review)
         }
-
         return $xmlData->asXML();
     }
 
+
     private function formatPdf($papers)
     {
-        $pdf = new TCPDF();
+        // Renderiza a view Blade com os dados
+        $html = View::make('pdf.papers', compact('papers'))->render();
+
+        // Inicia o PDF em modo paisagem (orientação 'L')
+        $pdf = new TCPDF('L', 'mm', 'A4');
+        $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
 
-        $html = '<h1>Study Selection</h1>';
-        $html .= '<table border="1" cellpadding="2" cellspacing="2">';
-        $html .= '<thead><tr><th>ID</th><th>Title</th><th>Acceptance Criteria</th><th>Rejection Criteria</th><th>Database</th><th>Status</th></tr></thead><tbody>';
-
-        foreach ($papers as $paper) {
-            $criteriaAcceptance = $paper->criteriaAcceptance ?? '';
-            $criteriaRejection = $paper->criteriaRejection ?? '';
-            $database = $paper->database->name ?? '';
-            $status = $paper->status->description ?? '';
-
-            $html .= "<tr><td>{$paper->id}</td><td>{$paper->title}</td><td>$criteriaAcceptance</td><td>$criteriaRejection</td><td>$database</td><td>$status</td></tr>";
-        }
-
-        $html .= '</tbody></table>';
-
+        // Escreve o conteúdo HTML no PDF
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        return $pdf->Output('studies.pdf', 'S');
+        // Retorna o PDF gerado
+        return $pdf->Output('studies-selection.pdf', 'S');
     }
-
 
     public function mount() {
         $this->projectId = request()->segment(2);
