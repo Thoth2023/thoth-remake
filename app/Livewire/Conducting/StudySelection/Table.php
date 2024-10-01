@@ -164,7 +164,7 @@ class Table extends Component
             }
 
             if ($this->selectedStatus) {
-                $query = $query->where('papers.status_selection', $this->selectedStatus);
+                $query = $query->where('papers_selection.id_status', $this->selectedStatus);
             }
 
             // Ordenação
