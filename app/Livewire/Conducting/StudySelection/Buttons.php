@@ -3,7 +3,9 @@
 namespace App\Livewire\Conducting\StudySelection;
 
 use App\Models\BibUpload;
+use App\Models\Member;
 use App\Models\Project\Conducting\Papers;
+use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Utils\ActivityLogHelper as Log;
 use Livewire\Component;
@@ -13,65 +15,176 @@ use App\Utils\ToastHelper;
 
 class Buttons extends Component
 {
-
     public $projectId;
     public $duplicates = []; // Armazena os papers duplicados organizados por título
-    public $uniquePapers = []; // Armazena os papers únicos
+    public $uniquePapers = [];
+    public $exactDuplicateCount = 0;
+
+    public $totalDuplicates = 0;
+
+    private function translate(string $message, string $key = 'duplicates')
+    {
+        return __('project/conducting.study-selection.' . $key . '.' . $message);
+    }
 
     public function removeDuplicates()
     {
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Reinicializar as variáveis para evitar duplicações
+        $this->uniquePapers = [];
+        $this->duplicates = [];
+
         $papers = $this->getPapers($this->projectId);
         $uniqueTitles = [];
-        $duplicates = [];
 
         foreach ($papers as $paper) {
             if (!in_array($paper->title, $uniqueTitles)) {
+                // Se o título ainda não estiver na lista de títulos únicos
                 $uniqueTitles[] = $paper->title;
-                $this->uniquePapers[] = $paper;
             } else {
+                // Se estiver na lista é um duplicado
                 $this->duplicates[$paper->title][] = $paper;
             }
         }
 
+        // lista de papers únicos, apenas os papers que têm duplicatas
+        foreach ($uniqueTitles as $title) {
+            if (isset($this->duplicates[$title])) {
+                // Pegamos o primeiro paper com esse título como o 'único' (original)
+                $originalPaper = Papers::where('title', $title)->first();
+                $this->uniquePapers[] = $originalPaper;
+            }
+        }
+
+        // Lógica de contagem de duplicados (considerando o membro atual)
+        $duplicatesAllFields = Papers::select('papers.title', 'papers.year', 'papers.author')
+            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Join com papers_selection
+            ->where('papers_selection.id_member', $member->id_members)  // Filtra pelo membro atual na tabela papers_selection
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('papers.title', 'papers.year', 'papers.author')
+            ->having('count', '>', 1)
+            ->get();
+
+        $this->exactDuplicateCount = 0; // Inicializa a contagem
+
+        foreach ($duplicatesAllFields as $duplicate) {
+            // Conta os duplicados com base no membro atual
+            $duplicateCount = Papers::where('title', $duplicate->title)
+                ->where('year', $duplicate->year)
+                ->where('author', $duplicate->author)
+                ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Join com papers_selection
+                ->where('papers_selection.id_member', $member->id_members)  // Filtra pelo membro atual
+                ->count();
+
+            if ($duplicateCount > 1) {
+                // Incrementa o contador de duplicados exatos (descontando o original)
+                $this->exactDuplicateCount += $duplicateCount - 1;
+            }
+        }
+        // Verificar se há duplicados e exibir o modal
         if (count($this->duplicates) > 0) {
-            // Abrir o modal com os resultados
             $this->dispatch('show-duplicates-modal');
         } else {
-            $this->toast('No duplicates found.', 'info');
+            $this->toast(
+                message: $this->translate('no-duplicates'),
+                type: 'info',
+            );
         }
     }
 
     public function confirmDuplicate($paperId)
     {
-        $paper = Papers::find($paperId);
+        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Busca o paper pelo ID
+        $paper = Papers::where('id_paper', $paperId)->first();
+
         if ($paper) {
+            // Atualiza o status do paper diretamente
             $paper->update(['status_selection' => 4]); // Status 'Duplicated'
-            $this->toast("Paper ID {$paperId} marked as duplicated.", 'success');
-            // Log da atividade com o número de papers duplicados
-            Log::logActivity(
-                action: 'Paper duplicated have been successfully marked as Duplicated',
-                description: 'Papers duplicate confirmed. - '.$paperId,
-                projectId: $this->projectId,
+
+            // Busca o registro na tabela PapersSelection correspondente ao paper
+            $paperSelection = PapersSelection::where('id_paper', $paperId)
+                ->where('id_member', $member->id_members) // Condição para o membro atual
+                ->first();
+
+            if ($paperSelection) {
+                // Atualiza o status na tabela PapersSelection
+                $paperSelection->update(['id_status' => 4]);
+                // Exibe uma mensagem de sucesso
+                $this->toast(
+                    message: $this->translate('confirm-duplicate'),
+                    type: 'success',
+                );
+                // Registra a atividade no log
+                Log::logActivity(
+                    action: 'Paper duplicated successfully marked',
+                    description: $this->translate('confirm-duplicate'). ' - ' . $paperId,
+                    projectId: $this->projectId,
+                );
+            } else {
+                // Caso não exista um registro em PapersSelection, trate o erro ou adicione a lógica para criar.
+                $this->toast("Erro: PaperSelection não encontrado para o Paper ID {$paperId}.", 'error');
+            }
+            // Remove o paper da lista de duplicatas sem recalcular tudo
+            $this->removeFromDuplicates($paperId);
+
+            // Atualizar a view para refletir as mudanças
+            $this->dispatch('refresh');
+        } else {
+            // Se o paper não for encontrado, trate o erro
+            $this->toast(
+                message: $this->translate('erro-find-paper'),
+                type: 'error',
             );
-
         }
-        $this->removeFromDuplicates($paperId);
     }
-
     public function rejectDuplicate($paperId)
     {
-        $paper = Papers::find($paperId);
+        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Busca o paper pelo ID
+        $paper = Papers::where('id_paper', $paperId)->first();
+
         if ($paper) {
+            // Atualiza o status do paper diretamente
             $paper->update(['status_selection' => 3]); // Status 'Unclassified'
-            $this->toast("Paper ID {$paperId} marked as unclassified.", 'info');
-            // Log da atividade com o número de papers duplicados
-            Log::logActivity(
-                action: 'Paper have been successfully marked as unclassified',
-                description: 'Papers unclassified confirmed. - '.$paperId,
-                projectId: $this->projectId,
+
+            // Busca o registro na tabela PapersSelection correspondente ao paper
+            $paperSelection = PapersSelection::where('id_paper', $paperId)
+                ->where('id_member', $member->id_members) // Condição para o membro atual
+                ->first();
+
+            if ($paperSelection) {
+                // Atualiza o status na tabela PapersSelection
+                $paperSelection->update(['id_status' => 3]);
+
+                // Exibe uma mensagem de sucesso
+                $this->toast(
+                    message: $this->translate('marked-unclassified'),
+                    type: 'info',
+                );
+
+                // Registra a atividade no log
+                Log::logActivity(
+                    action: 'Paper marked as unclassified',
+                    description: $this->translate('marked-unclassified'). ' - ' . $paperId,
+                    projectId: $this->projectId,
+                );
+            } else {
+                // Caso não exista um registro em PapersSelection, trate o erro ou adicione a lógica para criar.
+                $this->toast("Erro: PaperSelection não encontrado para o Paper ID {$paperId}.", 'error');
+            }
+            // Remover o paper da lista de duplicatas sem recalcular tudo
+            $this->removeFromDuplicates($paperId);
+            // Atualizar a view para refletir as mudanças
+            $this->dispatch('refresh');
+        } else {
+            // Se o paper não for encontrado, trate o erro
+            $this->toast(
+                message: $this->translate('erro-find-paper'),
+                type: 'error',
             );
-        }
-        $this->removeFromDuplicates($paperId);
+           }
     }
 
     private function removeFromDuplicates($paperId)
@@ -79,14 +192,87 @@ class Buttons extends Component
         foreach ($this->duplicates as $title => $papers) {
             foreach ($papers as $index => $paper) {
                 if ($paper->id_paper == $paperId) {
-                    unset($this->duplicates[$title][$index]);
+                    unset($this->duplicates[$title][$index]); // Remove o paper da lista
                 }
             }
-
+            // Se não restarem duplicatas para um determinado título, removemos o título também
             if (empty($this->duplicates[$title])) {
                 unset($this->duplicates[$title]);
             }
         }
+        // Se todas as duplicatas forem resolvidas, você pode opcionalmente fechar o modal
+        if (empty($this->duplicates)) {
+            $this->toast(
+                message: $this->translate('analyse-all'),
+                type: 'info',
+            );
+            $this->dispatch('show-success-duplicates');
+        }
+    }
+
+    public function markAllDuplicates()
+    {
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Busca duplicatas baseadas em título, ano e autor
+        $duplicates = Papers::select('title', 'year', 'author')
+            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Join com PapersSelection
+            ->where('papers_selection.id_member', $member->id_members) // Filtrar pelo membro atual
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('title', 'year', 'author')
+            ->having('count', '>', 1)
+            ->get();
+
+        // Contador total de duplicatas processadas
+        $totalDuplicates = 0;
+
+        foreach ($duplicates as $duplicate) {
+            // Conta o número de papers com o mesmo título, ano e autor
+            $papers = Papers::where('title', $duplicate->title)
+                ->where('year', $duplicate->year)
+                ->where('author', $duplicate->author)
+                ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper')
+                ->where('papers_selection.id_member', $member->id_members) // Filtrar pelo membro atual
+                ->get();
+
+            $duplicateCount = $papers->count();
+
+            // Incrementa o contador de duplicados exatos
+            if ($duplicateCount > 1) {
+                $this->exactDuplicateCount += $duplicateCount - 1; // Contar somente os duplicados, excluindo o original
+            }
+
+            // Marcar todos como duplicados, exceto o primeiro (considerado o original)
+            foreach ($papers->skip(1) as $paper) {
+                $paper->update(['status_selection' => 4]); // Status 'Duplicated'
+
+                // Atualiza a tabela de seleção de papers
+                $paperSelection = PapersSelection::where('id_paper', $paper->id_paper)
+                    ->where('id_member', $member->id_members) // Filtrar pelo membro atual
+                    ->first();
+                if ($paperSelection) {
+                    $paperSelection->update(['id_status' => 4]);
+                }
+
+                // Incrementa o total de duplicados processados
+                $totalDuplicates++;
+            }
+        }
+
+        // Exibir uma notificação de sucesso
+        if ($totalDuplicates > 0) {
+            $this->toast(
+                message: $this->translate('duplicates-all'),
+                type: 'success',
+            );
+          } else {
+            $this->toast(
+                message: $this->translate('no-duplicates'),
+                type: 'info',
+            );
+        }
+
+        $this->dispatch('show-success-duplicates');
     }
 
     public function toast(string $message, string $type)
@@ -125,14 +311,25 @@ class Buttons extends Component
 
     private function getPapers()
     {
+        // Obter os IDs dos bancos de dados do projeto
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
 
         $idsBib = [];
         if (count($idsDatabase) > 0) {
+            // Obter os IDs das bibliotecas associadas aos bancos de dados do projeto
             $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         }
 
-        return Papers::whereIn('id_bib', $idsBib)->get();
+        // Obter o membro atual da sessão
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Buscar os papers vinculados aos IDs das bibliotecas e que estão associados ao membro atual
+        return Papers::whereIn('id_bib', $idsBib)
+            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Associar com a tabela papers_selection
+            ->where('papers_selection.id_member', $member->id_members) // Filtrar pelo membro atual
+            ->select('papers.*', 'papers_selection.id_member', 'papers_selection.id_status', 'data_base.name as database') // Garantir que apenas os campos da tabela papers sejam retornados
+            ->get();
     }
 
     private function formatCsv($papers)
@@ -197,6 +394,7 @@ class Buttons extends Component
 
     public function mount() {
         $this->projectId = request()->segment(2);
+
     }
 
     public function render()
