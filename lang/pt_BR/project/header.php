@@ -5,7 +5,7 @@ return [
     'overview' => 'Visão Geral',
     'planning' => 'Planejamento',
     'conducting' => 'Condução',
-    'reporting' => 'Relatório',
+    'reporting' => 'Relatórios',
     'export' => 'Exportar'
 
 ];

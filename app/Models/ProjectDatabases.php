@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Project\Conducting\Papers;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectDatabases extends Model
@@ -16,9 +17,13 @@ class ProjectDatabases extends Model
     {
         return $this->belongsTo(Project::class, 'id_project', 'id_project');
     }
-
     public function database()
     {
         return $this->belongsTo(Database::class, 'id_database', 'id_database');
     }
+    public function papers()
+    {
+        return $this->hasMany(Papers::class, 'data_base', 'id_database');
+    }
+
 }

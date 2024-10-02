@@ -25,7 +25,7 @@ class Papers extends Model
 
     public function status_selection()
     {
-        return $this->belongsTo(StatusSelection::class, 'status_selection', 'id_status_selection');
+        return $this->belongsTo(StatusSelection::class, 'status_selection', 'id_status');
     }
 
     public static function isDuplicate($title, $id)
