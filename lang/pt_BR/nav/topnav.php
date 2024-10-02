@@ -9,7 +9,7 @@ return [
     'projects' => 'Projetos',
     'planning' => 'Planejamento',
     'conducting' => 'Condução',
-    'reporting' => 'Relatório',
+    'reporting' => 'Relatórios',
     'edit' => 'Editar Projeto',
-    
+
 ];
