@@ -3,9 +3,7 @@
 namespace App\Livewire\Reporting;
 
 use App\Models\Activity;
-use App\Models\Paper;
 use App\Models\Project as ProjectModel;
-use App\Models\Project\Conducting\Papers;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -54,108 +52,12 @@ class Overview extends Component
         ];
     }
 
-    public function getImportedStudiesCount()
-    {
-        // Conta o número de estudos importados para o projeto atual
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->count();
-    }
-
-    public function getDuplicateStudiesCount()
-    {
-        // Conta o número de estudos duplicados (status_selection = 4)
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->where('status_selection', 4)
-            ->count();
-    }
-
-    public function getStudiesSelectionCount()
-    {
-        // Conta o número de estudos duplicados (status_selection = 4)
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->where('status_selection', 1)
-            ->count();
-    }
-
-    public function getStudiesSelectionRejectedCount()
-    {
-        // Conta o número de estudos duplicados (status_selection = 4)
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->where('status_selection', 2)
-            ->count();
-    }
-
-    public function getStudiesQualityCount()
-    {
-        // Conta o número de estudos duplicados (status_selection = 4)
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->where('status_qa', 1)
-            ->count();
-    }
-
-
-
-    public function getStudiesQualityRejectedCount()
-    {
-        // Conta o número de estudos duplicados (status_selection = 4)
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->where('status_qa', 2)
-            ->count();
-    }
-
-    public function getStudiesExtractionCount()
-    {
-        // Conta o número de estudos duplicados (status_selection = 4)
-        return Papers::whereHas('bibUpload', function ($query) {
-            $query->whereHas('projectDatabase', function ($query) {
-                $query->where('id_project', $this->currentProject->id_project);
-            });
-        })
-            ->where('status_extraction', 1)
-            ->count();
-    }
-
 
     public function render()
     {
         // Obtém os dados de atividades
         $activitiesData = $this->getProjectActivities();
-        // Obtém a contagem de "Imported Studies"
-        $importedStudiesCount = $this->getImportedStudiesCount();
-        $duplicateStudiesCount = $this->getDuplicateStudiesCount();
-        $studiesSelectionCount = $this->getStudiesSelectionCount();
-        $studiesSelectionRejectedCount = $this->getStudiesSelectionRejectedCount();
-        $studiesQualityCount = $this->getStudiesQualityCount();
-        $studiesQualityRejectedCount = $this->getStudiesQualityRejectedCount();
-        $studiesExtractionCount = $this->getStudiesExtractionCount();
-        $notDuplicateStudiesCount = $importedStudiesCount - $duplicateStudiesCount;
 
-        return view('livewire.reporting.overview', compact('activitiesData','importedStudiesCount',
-            'duplicateStudiesCount', 'notDuplicateStudiesCount','studiesSelectionCount','studiesQualityCount','studiesExtractionCount',
-            'studiesQualityRejectedCount','studiesSelectionRejectedCount'));
+        return view('livewire.reporting.overview', compact('activitiesData'));
     }
 }
