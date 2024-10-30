@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Reporting;
 
-use App\Models\Project\Conducting\Papers;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
@@ -33,43 +32,44 @@ class ImportStudies extends Component
      */
     public function getDatabasesWithPaperCount()
     {
-        // Pega os databases cadastrados para o projeto corrente na tabela project_databases
+        // Busca os databases cadastrados para o projeto corrente
         return ProjectDatabases::where('id_project', $this->currentProject->id_project)
-            ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database') // Une com a tabela de data_base
-            ->leftJoin('papers', 'papers.data_base', '=', 'project_databases.id_database') // Une com a tabela de papers
+            ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
+            ->leftJoin('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
+            ->leftJoin('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
             ->select(
-                'data_base.name', // Nome da database
-                DB::raw('COUNT(papers.id) as papers_count') // Conta os papers por database
+                'data_base.name',
+                DB::raw('COALESCE(COUNT(papers.id), 0) as papers_count') // Conta os papers por database, retorna 0 se não houver papers
             )
-            ->groupBy('data_base.name') // Agrupa pelo nome da database
+            ->groupBy('data_base.name') // Agrupa pelo nome
             ->get()
             ->map(function ($database) {
-                // Mapeia os resultados para retornar o formato necessário para o gráfico
+                // Mapeia os resultados
                 return [
                     'name' => $database->name,
-                    'y' => $database->papers_count,
+                    'y' => (int) $database->papers_count,
                 ];
-            })->toArray();
+            })
+            ->toArray();
     }
+
 
     public function getPapersByYearAndDatabase()
     {
-        // Consulta para obter os papers agrupados por ano e base de dados
-        $papersByYearAndDatabase = Papers::whereIn('data_base', function ($query) {
-            $query->select('id_database')
-                ->from('project_databases')
-                ->where('id_project', $this->currentProject->id_project);
-        })
-            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-            ->selectRaw('year, data_base.name as database_name, COUNT(*) as total')
-            ->groupBy('year', 'database_name')
-            ->orderBy('year')
+        // Consulta para obter os papers relacionados ao projeto corrente agrupados por ano e database
+        $papersByYearAndDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)
+            ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
+            ->leftJoin('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
+            ->leftJoin('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
+            ->selectRaw('papers.year, data_base.name as database_name, COUNT(papers.id) as total') // Conta os papers por ano e database
+            ->groupBy('papers.year', 'data_base.name')
+            ->orderBy('papers.year')
             ->get();
 
         // Retorna os dados formatados para o gráfico
         return $papersByYearAndDatabase->groupBy('year')->map(function ($yearGroup) {
             return $yearGroup->mapWithKeys(function ($item) {
-                return [$item->database_name => $item->total];
+                return [$item->database_name => (int) $item->total]; // Garantir que o total seja inteiro
             });
         });
     }

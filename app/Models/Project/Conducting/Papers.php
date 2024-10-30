@@ -28,6 +28,11 @@ class Papers extends Model
         return $this->belongsTo(StatusSelection::class, 'status_selection', 'id_status');
     }
 
+    public function bibUpload()
+    {
+        return $this->belongsTo(BibUpload::class, 'id_bib', 'id_bib');
+    }
+
     public static function isDuplicate($title, $id)
     {
         return self::where('title', $title)->where('id_paper', '!=', $id)->exists();
