@@ -39,14 +39,14 @@
                                 'href' => '#data-extraction',
                             ],
                             [
-                                'id' => 'snowballing-tab',
-                                'label' => __('project/reporting.header.snowballing'),
-                                'href' => '#snowballing',
-                            ],
-                            [
                                 'id' => 'reliability-tab',
                                 'label' => __('project/reporting.header.reliability'),
                                 'href' => '#reliability',
+                            ],
+                             [
+                                'id' => 'snowballing-tab',
+                                'label' => __('project/reporting.header.snowballing'),
+                                'href' => '#snowballing',
                             ],
                         ],
                         'activeTab' => 'overview-tab',
@@ -72,14 +72,16 @@
                             <!-- Content for Data Extraction tab -->
                             @livewire('reporting.data-extraction')
                         </div>
-                        <div class="tab-pane fade" id="snowballing">
-                            <!-- Content for Snowballing tab -->
-                            @livewire('reporting.snowballing')
-                        </div>
                         <div class="tab-pane fade" id="reliability">
                             <!-- Content for Snowballing tab -->
                             @livewire('reporting.reliability')
                         </div>
+                        @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
+                        <div class="tab-pane fade" id="snowballing">
+                            <!-- Content for Snowballing tab -->
+                            @livewire('reporting.snowballing')
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

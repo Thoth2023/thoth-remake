@@ -26,6 +26,8 @@ class QualityAssessment extends Component
         $papers = Papers::whereIn('data_base', function ($query) {
             $query->select('id_database')
                 ->from('project_databases')
+                ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
+                ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
                 ->where('id_project', $this->currentProject->id_project);
         })
             // Junção com outras tabelas necessárias
@@ -91,6 +93,8 @@ class QualityAssessment extends Component
             ->whereIn('papers.data_base', function ($query) {
                 $query->select('id_database')
                     ->from('project_databases')
+                    ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
+                    ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
                     ->where('id_project', $this->currentProject->id_project);
             })
 
