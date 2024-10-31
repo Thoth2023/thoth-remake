@@ -54,7 +54,7 @@
                     <div class="tab-content mt-4">
                         <div class="tab-pane fade show active" id="overview">
                             <!-- Content for Overview tab -->
-                            {{--@livewire('reporting.overview')--}}
+                            @livewire('reporting.overview')
                         </div>
                         <div class="tab-pane fade" id="import-studies">
                             <!-- Content for Import Studies tab -->
