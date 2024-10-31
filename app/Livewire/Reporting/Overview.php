@@ -3,10 +3,8 @@
 namespace App\Livewire\Reporting;
 
 use App\Models\Activity;
-use App\Models\Paper;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Overview extends Component

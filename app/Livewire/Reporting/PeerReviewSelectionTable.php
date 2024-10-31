@@ -3,7 +3,6 @@
 namespace App\Livewire\Reporting;
 
 use App\Models\BibUpload;
-use App\Models\Criteria;
 use App\Models\Member;
 use App\Models\Project;
 use App\Models\Project\Conducting\StudySelection\PaperDecisionConflict;
