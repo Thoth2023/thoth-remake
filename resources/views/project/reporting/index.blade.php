@@ -66,7 +66,7 @@
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
                             <!-- Content for Quality Assessment tab -->
-                           {{--@livewire('reporting.quality-assessment')--}}
+                           @livewire('reporting.quality-assessment')
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
                             <!-- Content for Data Extraction tab -->
