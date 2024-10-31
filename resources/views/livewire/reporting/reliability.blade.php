@@ -30,7 +30,7 @@
                 modalContent="{!!  __('project/reporting.reliability.selection.content') !!} "
             />
         </div>
-        @livewire('reporting.peer-review-selection-table')
+        {{--@livewire('reporting.peer-review-selection-table')--}}
     </div>
 
     <div class="card card-body col-md-12 mt-3">
@@ -42,7 +42,7 @@
                 modalContent="{!!  __('project/reporting.reliability.quality.content') !!} "
             />
         </div>
-        @livewire('reporting.peer-review-quality-table')
+        {{--@livewire('reporting.peer-review-quality-table')--}}
     </div>
 
 </div>
