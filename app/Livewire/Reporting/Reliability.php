@@ -99,116 +99,99 @@ class Reliability extends Component
 
     public function calculateStudySelectionkappa()
     {
-        // Recupera todos os critérios para o projeto
         $criterias = Criteria::where('id_project', $this->projectId)->get();
 
         $agreements = [];
         $totalPapers = 0;
 
         foreach ($criterias as $criteria) {
-            // Recupera todas as avaliações dos membros para o critério
             $evaluations = EvaluationCriteria::where('id_criteria', $criteria->id_criteria)->get();
-
-            // Inicializa contadores
             $observedAgreement = 0;
             $expectedAgreement = 0;
-
-            // Agrupa avaliações por paper
             $groupedEvaluations = $evaluations->groupBy('id_paper');
 
             foreach ($groupedEvaluations as $paperId => $paperEvaluations) {
                 $totalPapers++;
-
-                // Agrupa avaliações por critério e membro
                 $memberEvaluations = $paperEvaluations->groupBy('id_member');
 
-                // Contar concordâncias observadas entre os membros
                 if ($memberEvaluations->count() === 2) {
                     $firstEvaluator = $memberEvaluations->first();
                     $secondEvaluator = $memberEvaluations->last();
 
-                    // Se os avaliadores concordaram nos critérios
                     if ($firstEvaluator->pluck('id_criteria')->sort()->values()->toArray() === $secondEvaluator->pluck('id_criteria')->sort()->values()->toArray()) {
                         $observedAgreement++;
                     }
 
-                    // Calcula P(E) (Proporção esperada de concordância ao acaso)
                     $p1 = $firstEvaluator->count() / $totalPapers;
                     $p2 = $secondEvaluator->count() / $totalPapers;
                     $expectedAgreement += $p1 * $p2;
                 }
             }
 
-            // Calcula o Kappa
-            $P_O = $observedAgreement / $totalPapers;
-            $P_E = $expectedAgreement / $totalPapers;
-            $kappa = ($P_O - $P_E) / (1 - $P_E);
+            if ($totalPapers > 0 && (1 - $expectedAgreement) !== 0) { // Verificação para evitar divisão por zero
+                $P_O = $observedAgreement / $totalPapers;
+                $P_E = $expectedAgreement / $totalPapers;
+                $kappa = ($P_O - $P_E) / (1 - $P_E);
+            } else {
+                $kappa = 0; // Ou outro valor padrão, como `null`, dependendo do que fizer sentido no seu caso
+            }
 
-            // Armazena o resultado
             $agreements[] = [
                 'criteria' => $criteria->description,
                 'kappa' => $kappa
             ];
         }
 
-        return $agreements; // Retorna valores de Kappa por critério
+        return $agreements;
     }
+
 
     public function calculateQualityAssessmentkappa()
     {
-        // Recupera todas as questões de qualidade do projeto
         $questions = Question::where('id_project', $this->projectId)->get();
 
         $agreements = [];
         $totalPapers = 0;
 
         foreach ($questions as $question) {
-            // Recupera todas as avaliações de qualidade para a questão
             $evaluations = EvaluationQA::where('id_qa', $question->id_qa)->get();
-
-            // Inicializa contadores
             $observedAgreement = 0;
             $expectedAgreement = 0;
-
-            // Agrupa avaliações por paper
             $groupedEvaluations = $evaluations->groupBy('id_paper');
 
             foreach ($groupedEvaluations as $paperId => $paperEvaluations) {
                 $totalPapers++;
-
-                // Agrupa avaliações por membro
                 $memberEvaluations = $paperEvaluations->groupBy('id_member');
 
-                // Contar concordâncias observadas entre os membros
                 if ($memberEvaluations->count() === 2) {
                     $firstEvaluator = $memberEvaluations->first();
                     $secondEvaluator = $memberEvaluations->last();
 
-                    // Se os avaliadores concordaram nas respostas
                     if ($firstEvaluator->pluck('id_score_qa')->sort()->values()->toArray() === $secondEvaluator->pluck('id_score_qa')->sort()->values()->toArray()) {
                         $observedAgreement++;
                     }
 
-                    // Calcula P(E) (Proporção esperada de concordância ao acaso)
                     $p1 = $firstEvaluator->count() / $totalPapers;
                     $p2 = $secondEvaluator->count() / $totalPapers;
                     $expectedAgreement += $p1 * $p2;
                 }
             }
 
-            // Calcula o Kappa
-            $P_O = $observedAgreement / $totalPapers;
-            $P_E = $expectedAgreement / $totalPapers;
-            $kappa = ($P_O - $P_E) / (1 - $P_E);
+            if ($totalPapers > 0 && (1 - $expectedAgreement) !== 0) { // Verificação para evitar divisão por zero
+                $P_O = $observedAgreement / $totalPapers;
+                $P_E = $expectedAgreement / $totalPapers;
+                $kappa = ($P_O - $P_E) / (1 - $P_E);
+            } else {
+                $kappa = 0; // Ou outro valor padrão
+            }
 
-            // Armazena o resultado
             $agreements[] = [
                 'question' => $question->description,
                 'kappa' => $kappa
             ];
         }
 
-        return $agreements; // Retorna valores de Kappa por questão
+        return $agreements;
     }
 
 
