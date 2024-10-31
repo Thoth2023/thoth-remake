@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Reporting;
 
+use App\Models\Project\Conducting\DataExtraction\EvaluationExOp;
+use App\Models\Project\Conducting\DataExtraction\EvaluationExTxt;
 use App\Models\Project\Planning\DataExtraction\Question;
-use App\Models\Project\Planning\DataExtraction\EvaluationExOp;
-use App\Models\Project\Planning\DataExtraction\EvaluationExTxt;
 use App\Models\Project\Planning\DataExtraction\Option;
 
 use Livewire\Component;
