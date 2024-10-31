@@ -67,19 +67,6 @@ class PaperModal extends Component
         }
     }
 
-    public function updateStatusManual()
-    {
-        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
-        $status = StatusExtraction::where('description', $this->selected_status)->first();
-        $paper->status_extraction = $status->id_status;
-
-        $paper->save();
-
-        session()->flash('successMessage', "Status Extraction updated successfully. New status: " . $status->status);
-        // Mostra o modal de sucesso
-        $this->dispatch('show-success-extraction');
-    }
-
     #[On('showPaperExtraction')]
     public function showPaperExtraction($paper)
     {
@@ -98,6 +85,25 @@ class PaperModal extends Component
 
         $this->dispatch('show-paper-extraction');
         $this->dispatch('reload-paper-extraction');
+    }
+
+    public function updateStatusManual()
+    {
+        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
+
+        // Verifica se o status selecionado realmente existe no banco de dados
+        $status = StatusExtraction::where('description', $this->selected_status)->first();
+
+        // Atualiza o status do paper
+        if ($paper) {
+            $paper->status_extraction = $status->id_status;
+            $paper->save();
+            session()->flash('successMessage', "Status Extraction updated successfully. New status: " . $status->description);
+            // Dispara o modal de sucesso
+            $this->dispatch('show-success-extraction');
+        } else {
+            session()->flash('errorMessage', "Paper not found.");
+        }
     }
 
     public function saveTextAnswer($questionId, $content)
