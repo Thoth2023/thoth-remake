@@ -70,7 +70,7 @@
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
                             <!-- Content for Data Extraction tab -->
-                            {{--@livewire('reporting.data-extraction')--}}
+                            @livewire('reporting.data-extraction')
                         </div>
                         <div class="tab-pane fade" id="reliability">
                             <!-- Content for Snowballing tab -->
