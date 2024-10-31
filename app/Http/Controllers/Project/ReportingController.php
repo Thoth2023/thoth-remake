@@ -15,11 +15,12 @@ namespace App\Http\Controllers\Project;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Contracts\View\View as ViewContract;
 
 class ReportingController extends Controller
 {
-    public function index(string $id_project): View
+    public function index(string $id_project): ViewFactory|ViewContract
     {
         $project = Project::findOrFail($id_project);
         return view('project.reporting.index', compact('project'));
