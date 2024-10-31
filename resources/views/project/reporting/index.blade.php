@@ -58,7 +58,7 @@
                         </div>
                         <div class="tab-pane fade" id="import-studies">
                             <!-- Content for Import Studies tab -->
-                            {{--@livewire('reporting.import-studies')--}}
+                            @livewire('reporting.import-studies')
                         </div>
                         <div class="tab-pane fade" id="study-selection">
                             <!-- Content for Study Selection tab -->
