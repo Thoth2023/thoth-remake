@@ -66,7 +66,7 @@
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
                             <!-- Content for Quality Assessment tab -->
-                            @livewire('reporting.quality-assessment')
+                           @livewire('reporting.quality-assessment')
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
                             <!-- Content for Data Extraction tab -->
@@ -74,7 +74,7 @@
                         </div>
                         <div class="tab-pane fade" id="reliability">
                             <!-- Content for Snowballing tab -->
-                            @livewire('reporting.reliability')
+                           @livewire('reporting.reliability')
                         </div>
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
                         <div class="tab-pane fade" id="snowballing">
