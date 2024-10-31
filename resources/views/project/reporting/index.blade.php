@@ -54,27 +54,27 @@
                     <div class="tab-content mt-4">
                         <div class="tab-pane fade show active" id="overview">
                             <!-- Content for Overview tab -->
-                            @livewire('reporting.overview')
+                            {{--@livewire('reporting.overview')--}}
                         </div>
                         <div class="tab-pane fade" id="import-studies">
                             <!-- Content for Import Studies tab -->
-                            @livewire('reporting.import-studies')
+                            {{--@livewire('reporting.import-studies')--}}
                         </div>
                         <div class="tab-pane fade" id="study-selection">
                             <!-- Content for Study Selection tab -->
-                            @livewire('reporting.study-selection')
+                            {{--@livewire('reporting.study-selection')--}}
                         </div>
                         <div class="tab-pane fade" id="quality-assessment">
                             <!-- Content for Quality Assessment tab -->
-                            @livewire('reporting.quality-assessment')
+                           {{--@livewire('reporting.quality-assessment')--}}
                         </div>
                         <div class="tab-pane fade" id="data-extraction">
                             <!-- Content for Data Extraction tab -->
-                            @livewire('reporting.data-extraction')
+                            {{--@livewire('reporting.data-extraction')--}}
                         </div>
                         <div class="tab-pane fade" id="reliability">
                             <!-- Content for Snowballing tab -->
-                            @livewire('reporting.reliability')
+                           {{-- @livewire('reporting.reliability')--}}
                         </div>
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
                         <div class="tab-pane fade" id="snowballing">
