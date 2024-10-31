@@ -47,7 +47,7 @@
 
 </div>
 
-@section('scripts')
+{{--@section('scripts')
     @parent
     @push('js')
         <script>
@@ -157,7 +157,7 @@
         </script>
     @endpush
 @endsection
-
+--}}
 
 
 
