@@ -5,7 +5,6 @@ namespace App\Livewire\Reporting;
 use App\Models\EvaluationCriteria;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
-use App\Models\ProjectDatabases;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -24,25 +23,25 @@ class StudySelection extends Component
 
     public function getPapersPerStatusSelection()
     {
-        // Consulta para pegar os papers vinculados ao projeto corrente, agrupados por status de seleção
-        $papers = ProjectDatabases::where('id_project', $this->currentProject->id_project)
-            ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')
-            ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
-            ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
+        // Consulta usando join para pegar a descrição diretamente
+        $papers = Papers::whereIn('data_base', function ($query) {
+            $query->select('id_database')
+                ->from('project_databases')
+                ->where('id_project', $this->currentProject->id_project);
+        })
             ->join('status_selection', 'papers.status_selection', '=', 'status_selection.id_status')
-            ->selectRaw('status_selection.description as status_description, COUNT(papers.id) as total') // Conta os papers por status
-            ->groupBy('status_selection.description') // Agrupa pelo status
+            ->selectRaw('status_selection.description as status_description, COUNT(*) as total')
+            ->groupBy('status_description')
             ->get();
 
         // Mapear os resultados para o formato necessário
         return $papers->map(function($paper) {
             return [
-                'name' => $paper->status_description,
-                'y' => (int) $paper->total // Total de papers por status
+                'name' => $paper->status_description, // Acessa a descrição diretamente da query
+                'y' => $paper->total // Total de papers por status
             ];
         });
     }
-
 
     public function getCriteriaPerUser()
     {
@@ -50,12 +49,10 @@ class StudySelection extends Component
         $criteriaPerUser = EvaluationCriteria::whereIn('id_paper', function ($query) {
             $query->select('id_paper')
                 ->from('papers')
-                ->whereIn('papers.data_base', function ($subQuery) {
+                ->whereIn('data_base', function ($subQuery) {
                     $subQuery->select('id_database')
                         ->from('project_databases')
-                        ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
-                        ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
-                        ->where('project_databases.id_project', $this->currentProject->id_project); // Filtra pelo projeto corrente
+                        ->where('id_project', $this->currentProject->id_project);
                 });
         })
             ->join('criteria', 'evaluation_criteria.id_criteria', '=', 'criteria.id_criteria')
@@ -90,12 +87,10 @@ class StudySelection extends Component
             ->whereIn('id_paper', function ($query) {
                 $query->select('id_paper')
                     ->from('papers')
-                    ->whereIn('papers.data_base', function ($subQuery) {
+                    ->whereIn('data_base', function ($subQuery) {
                         $subQuery->select('id_database')
                             ->from('project_databases')
-                            ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
-                            ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
-                            ->where('project_databases.id_project', $this->currentProject->id_project); // Filtra pelo projeto corrente
+                            ->where('id_project', $this->currentProject->id_project);
                     });
             })
             ->groupBy('user_name', 'status_name')

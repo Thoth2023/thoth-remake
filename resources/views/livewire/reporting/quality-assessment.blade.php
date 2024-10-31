@@ -10,13 +10,7 @@
     <figure class="highcharts-figure">
        <div id="status_per_members_quality" style="height: 400px;" class="card my-2 p-2"></div>
     </figure>
-    <div class="col-12">
-        <div class="card card-body col-md-12 mt-3">
-        @livewire('reporting.quality-table')
-        </div>
-    </div>
 </div>
-
 @section('scripts')
     @parent
     @push('js')
