@@ -21,7 +21,7 @@
                 </label>
                 <textarea
                     class="form-control"
-                    maxlength="500"
+                    maxlength="750"
                     rows="4"
                     id="description"
                     wire:model="genericDescription"
@@ -40,7 +40,7 @@
                     <textarea
                         id="database-{{ $loop->index }}"
                         class="form-control"
-                        maxlength="500"
+                        maxlength="750"
                         rows="4"
                         wire:model="descriptions.{{ $loop->index }}"
                         placeholder="{{ __("project/planning.search-string.form.enter-description") }}"
