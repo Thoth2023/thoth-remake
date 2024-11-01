@@ -3,9 +3,11 @@
 namespace App\Livewire\Conducting;
 
 
+use App\Jobs\ProcessFileImport;
 use App\Rules\ValidBibFile;
 use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
+use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -77,66 +79,134 @@ class FileUpload extends Component
      */
     public function save()
     {
-        $this->validate();
-        CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
+        try {
+            // Validações iniciais
+            $this->validate();
 
-        $originalName = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
-        $cleanName = str_replace(' ', '_', $originalName);
-        $extension = $this->file->getClientOriginalExtension();
-        $name = $cleanName . '.' . $extension;
+            CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
 
-        $projectDatabase = ProjectDatabasesModel::where('id_project', $this->currentProject->id_project)
-            ->where('id_database', $this->selectedDatabase['value'])
-            ->first();
+            // Preparar o nome do arquivo para salvar
+            $originalName = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
+            $cleanName = str_replace(' ', '_', $originalName);
+            $extension = $this->file->getClientOriginalExtension();
+            $name = $cleanName . '.' . $extension;
+            FacadesLog::info('Preparando o nome do arquivo para salvar.', ['file_name' => $name]);
 
-        if ($projectDatabase) {
-            $id_project_database = $projectDatabase->id_project_database;
+            // Obter o banco de dados do projeto selecionado
+            $projectDatabase = ProjectDatabasesModel::where('id_project', $this->currentProject->id_project)
+                ->where('id_database', $this->selectedDatabase['value'])
+                ->first();
 
-            try {
-                $this->file->storeAs('files', $name);
+            if ($projectDatabase) {
+                $id_project_database = $projectDatabase->id_project_database;
 
-                $bibUpload = BibUpload::create([
-                    'name' => $name,
-                    'id_project_database' => $id_project_database,
-                ]);
+                // Verificação de duplicidade de nome de arquivo no banco de dados
+                $existingFile = BibUpload::where('name', $name)
+                    ->where('id_project_database', $id_project_database)
+                    ->first();
 
-                $id_project = $this->currentProject->id_project;
-                $database = $this->selectedDatabase['value'];
-                $filePath = storage_path('app/files/' . $name);
+                if ($existingFile) {
+                    FacadesLog::warning('Tentativa de upload de arquivo duplicado.', ['file_name' => $name]);
 
-                $papers = in_array($extension, ['bib', 'txt']) ? $this->extractBibTexReferences($filePath) : $this->extractCsvReferences($filePath);
+                    // Notifica o usuário sobre a duplicidade de nome
+                    $toastMessage = __($this->toastMessages . '.file_already_exists', ['file_name' => $name]);
+                    $this->toast(
+                        message: $toastMessage,
+                        type: 'error'
+                    );
+                    return;
+                }
 
-                $papersInserted = $bibUpload->importPapers($papers, $database, $id_project);
+                try {
+                    // Salvar o arquivo no sistema de arquivos
+                    $this->file->storeAs('files', $name);
+                    FacadesLog::info('Arquivo salvo no sistema de arquivos com sucesso.', ['file_name' => $name]);
 
-                Log::logActivity(
-                    action: __('project/conducting.import-studies.livewire.logs.database_associated_papers_imported'),
-                    description: "$name - $papersInserted papers inserted",
-                    projectId: $this->currentProject->id_project,
-                );
+                    // Criar a entrada de BibUpload para o arquivo
+                    $bibUpload = BibUpload::create([
+                        'name' => $name,
+                        'id_project_database' => $id_project_database,
+                    ]);
+                    $id_bib = $bibUpload->id_bib;
+                    FacadesLog::info('Entrada de BibUpload criada com sucesso.', ['id_bib' => $id_bib]);
 
-                $toastMessage = __($this->toastMessages . '.file_uploaded_success', ['count' => $papersInserted]);
-                $this->toast(
-                    message: $toastMessage,
-                    type: 'success'
-                );
+                    // Definir o caminho do arquivo e verificar o tipo de extensão
+                    $filePath = storage_path('app/files/' . $name);
+                    $projectId = $this->currentProject->id_project;
+                    $database = $this->selectedDatabase['value'];
 
-                $this->resetFields();
+                    // Processamento Condicional
+                    if (in_array($extension, ['bib', 'txt'])) {
+                        // Despachar o job para arquivos .bib ou .txt
+                        FacadesLog::info('Arquivo .bib ou .txt detectado, despachando o job para processamento.', ['file_path' => $filePath]);
+                        dispatch(new ProcessFileImport($filePath, $projectId, $database, $id_bib));
 
-                $this->dispatch('import-success');
-                $this->dispatch('refreshPapersCount');
+                        // Exibir uma notificação de sucesso para o usuário
+                        $toastMessage = __($this->toastMessages . '.file_uploaded_success');
+                        $this->toast(
+                            message: $toastMessage,
+                            type: 'success'
+                        );
+                    } else {
+                        // Processar CSV diretamente
+                        FacadesLog::info('Arquivo CSV detectado, iniciando o processamento direto.', ['file_path' => $filePath]);
+                        $papers = $this->extractCsvReferences($filePath);
+                        $papersInserted = $bibUpload->importPapers($papers, $database, $projectId, $id_bib);
 
-            } catch (\Exception $e) {
-                $errorMessage = method_exists($e, 'getMessage') ? $e->getMessage() : 'Unknown error';
+                        // Log de atividade para CSV
+                        FacadesLog::info('Importação de estudos CSV concluída.', ['file_name' => $name, 'papers_inserted' => $papersInserted]);
 
-                $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
+                        Log::logActivity(
+                            action: __('project/conducting.import-studies.livewire.logs.database_associated_papers_imported'),
+                            description: "$name - $papersInserted papers inserted",
+                            projectId: $projectId,
+                        );
+
+                        // Exibir uma notificação de sucesso com o número de papers importados
+                        $toastMessage = __($this->toastMessages . '.file_uploaded_success', ['count' => $papersInserted]);
+                        $this->toast(
+                            message: $toastMessage,
+                            type: 'success'
+                        );
+                    }
+
+                    // Resetar os campos do formulário
+                    $this->resetFields();
+                    FacadesLog::info('Campos do formulário resetados com sucesso.');
+
+                    // Enviar eventos para atualização no front-end
+                    $this->dispatch('import-success');
+                    $this->dispatch('refreshPapersCount');
+                    FacadesLog::info('Eventos de importação e atualização de contagem de papers despachados com sucesso.');
+
+                } catch (\Exception $e) {
+                    // Lidar com erros no processo de criação de BibUpload ou despachar job/processamento CSV
+                    $errorMessage = $e->getMessage();
+                    FacadesLog::error('Erro ao salvar o arquivo ou processar BibUpload.', ['error' => $errorMessage]);
+
+                    $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
+                    $this->toast(
+                        message: $toastMessage,
+                        type: 'error'
+                    );
+                }
+
+            } else {
+                // Mensagem de erro caso o banco de dados do projeto não seja encontrado
+                FacadesLog::error('Banco de dados do projeto não encontrado.', ['project_id' => $this->currentProject->id_project]);
+
+                $toastMessage = __($this->toastMessages . '.project_database_not_found');
                 $this->toast(
                     message: $toastMessage,
                     type: 'error'
                 );
             }
+        } catch (\Exception $e) {
+            // Captura erro na validação inicial ou verificação de dados
+            $errorMessage = $e->getMessage();
+            FacadesLog::error('Erro geral ao tentar salvar o arquivo.', ['error' => $errorMessage]);
 
-        } else {
-            $toastMessage = __($this->toastMessages . '.project_database_not_found');
+            $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
             $this->toast(
                 message: $toastMessage,
                 type: 'error'
@@ -144,10 +214,13 @@ class FileUpload extends Component
         }
     }
 
+
+
+
     /**
      * @throws ParserException
      */
-    private function extractBibTexReferences($filePath)
+     private function extractBibTexReferences($filePath)
     {
         $contents = file_get_contents($filePath);
         $parser = new Parser();
@@ -157,6 +230,7 @@ class FileUpload extends Component
 
         return $listener->export();
     }
+
 
     private function extractCsvReferences($filePath)
     {
