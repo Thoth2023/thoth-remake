@@ -314,11 +314,13 @@ class FileUpload extends Component
 
     public function render()
     {
-        //Verificar Campos necessários cadastrados no Planning
+        // Verificar Campos necessários cadastrados no Planning
         CheckProjectDataPlanning::checkProjectData($this->currentProject->id_project);
 
         return view('livewire.conducting.file-upload', [
-            'files' => BibUpload::all(),
+            'files' => BibUpload::whereHas('projectDatabase', function ($query) {
+                $query->where('id_project', $this->currentProject->id_project);
+            })->get(),
         ]);
     }
 }
