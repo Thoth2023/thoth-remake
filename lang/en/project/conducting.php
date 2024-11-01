@@ -497,11 +497,12 @@ return [
                 'max' => 'The file size must not exceed 10MB.',
             ],
             'toasts' => [
-                'file_uploaded_success' => 'File uploaded successfully. :count papers were inserted.',
+                'file_uploaded_success' => 'File uploaded successfully. Papers have been inserted, and the total will be updated on screen shortly.',
                 'file_upload_error' => 'An error occurred while importing papers. ERRO: :message',
                 'project_database_not_found' => 'Project database not found.',
                 'file_deleted_success' => 'File deleted successfully. :count papers associated were also deleted.',
                 'file_delete_error' => 'An error occurred while deleting the file: :message',
+                'file_already_exists' => 'A file with this name already exists in this database. Please avoid duplicates!',
             ],
         ],
 
