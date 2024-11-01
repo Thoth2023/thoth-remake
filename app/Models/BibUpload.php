@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BibUpload extends Model
 {
@@ -31,21 +32,13 @@ class BibUpload extends Model
         return $this->belongsTo(ProjectDatabases::class, 'id_project_database', 'id_project_database');
     }
 
-
-    public function importPapers(array $papers, $database, int $id_project)
+    public function importPapers(array $papers, $database, int $id_project, int $id_bib)
     {
-        // Obtém o último ID dos papers do projeto e incrementa por 1
         $count_papers = $this->getLastPaperIdByProject($id_project) + 1;
-
-        //$id_project_database = $this->getIdProjectDatabase($database, $id_project);
-        $id_bib = $this->id_bib; // Usar o id_bib do próprio model BibUpload
-
         $insert_papers = [];
         $gen_score = $this->genScoreMin($id_project);
 
         foreach ($papers as $p) {
-
-
             $data = [
                 'id' => $count_papers,
                 'id_bib' => $id_bib,
@@ -53,20 +46,20 @@ class BibUpload extends Model
                 'bib_key' => $p['citation-key'] ?? '',
                 'title' => $p['title'] ?? '',
                 'author' => $p['author'] ?? '',
-                'book_title' => $p['booktitle'] ?? '',
-                'volume' => $p['volume'] ?? '',
-                'pages' => $p['pages'] ?? '',
-                'num_pages' => $p['numpages'] ?? '',
-                'abstract' => $p['abstract'] ?? '',
-                'keywords' => $p['keywords'] ?? '',
+                'book_title' => $p['booktitle'] ?? null,
+                'volume' => $p['volume'] ?? null,
+                'pages' => $p['pages'] ?? null,
+                'num_pages' => $p['numpages'] ?? null,
+                'abstract' => $p['abstract'] ?? null,
+                'keywords' => $p['keywords'] ?? null,
                 'doi' => $p['doi'] ?? '',
                 'journal' => $p['journal'] ?? '',
-                'issn' => $p['issn'] ?? '',
-                'location' => $p['location'] ?? '',
-                'isbn' => $p['isbn'] ?? '',
-                'address' => $p['address'] ?? '',
+                'issn' => $p['issn'] ?? null,
+                'location' =>$p['location'] ?? null,
+                'isbn' => $p['isbn'] ?? null,
+                'address' =>$p['address'] ?? null,
                 'url' => $p['url'] ?? '',
-                'publisher' => $p['series'] ?? '',
+                'publisher' => $p['series'] ?? null,
                 'year' => $p['year'] ?? '',
                 'score' => 0,
                 'status_qa' => 3,
@@ -79,53 +72,162 @@ class BibUpload extends Model
                 'data_base' => $database['value'],
             ];
 
-            array_push($insert_papers, $data);
+            $insert_papers[] = $data;
             $count_papers++;
         }
-        //dd($insert_papers);
 
-        DB::table('papers')->insert($insert_papers);
+        // Definindo o tamanho do lote
+        $batchSize = 1000;
 
-        $members = $this->getIdsMembers13($id_project);
-        $id_papers = $this->getIdsPapers($id_bib);
-
-        $status = [];
-        $status_qa = [];
-        foreach ($members as $mem) {
-            foreach ($id_papers as $paper) {
-                $insert = [
-                    'id_paper' => $paper,
-                    'id_member' => $mem,
-                    'id_status' => 3,
-                    'note' => '',
-                ];
-
-                $insert_qa = [
-                    'id_paper' => $paper,
-                    'id_member' => $mem,
-                    'id_status' => 3,
-                    'note' => '',
-                    'score' => 0,
-                    'id_gen_score' => $gen_score->id_general_score,
-                ];
-                array_push($status, $insert);
-                array_push($status_qa, $insert_qa);
+        DB::transaction(function () use (&$count_papers, $insert_papers, $id_project, $gen_score, $id_bib, $batchSize) {
+            // Inserir os papers em lotes
+            foreach (array_chunk($insert_papers, $batchSize) as $batch) {
+                DB::table('papers')->insert($batch);
             }
 
+            // Obter IDs dos papers inseridos para associar em `papers_selection` e `papers_qa`
+            $members = $this->getIdsMembers13($id_project);
+            $id_papers = $this->getIdsPapers($id_bib);
+
+            $status = [];
+            $status_qa = [];
+
+            foreach ($members as $mem) {
+                foreach ($id_papers as $paper) {
+                    $status[] = [
+                        'id_paper' => $paper,
+                        'id_member' => $mem,
+                        'id_status' => 3,
+                        'note' => '',
+                    ];
+
+                    $status_qa[] = [
+                        'id_paper' => $paper,
+                        'id_member' => $mem,
+                        'id_status' => 3,
+                        'note' => '',
+                        'score' => 0,
+                        'id_gen_score' => $gen_score->id_general_score,
+                    ];
+                }
+            }
+
+            // Inserir `papers_selection` e `papers_qa` em lotes também
+            foreach (array_chunk($status, $batchSize) as $statusBatch) {
+                DB::table('papers_selection')->insert($statusBatch);
+            }
+
+            foreach (array_chunk($status_qa, $batchSize) as $statusQaBatch) {
+                DB::table('papers_qa')->insert($statusQaBatch);
+            }
+
+            // Atualizar a contagem de papers no projeto
+            DB::table('project')
+                ->where('id_project', $id_project)
+                ->update(['c_papers' => $count_papers]);
+        });
+
+        return count($insert_papers);
+    }
+
+
+
+    /*    public function importPapers(array $papers, $database, int $id_project, int $id_bib)
+        {
+            // Obtém o último ID dos papers do projeto e incrementa por 1
+            $count_papers = $this->getLastPaperIdByProject($id_project) + 1;
+
+            //$id_project_database = $this->getIdProjectDatabase($database, $id_project);
+            //$id_bib = $this->id_bib; // Usar o id_bib do próprio model BibUpload
+
+            $insert_papers = [];
+            $gen_score = $this->genScoreMin($id_project);
+
+            foreach ($papers as $p) {
+
+
+                $data = [
+                    'id' => $count_papers,
+                    'id_bib' => $id_bib,
+                    'type' => $p['type'] ?? '',
+                    'bib_key' => $p['citation-key'] ?? '',
+                    'title' => $p['title'] ?? '',
+                    'author' => $p['author'] ?? '',
+                    'book_title' => $p['booktitle'] ?? '',
+                    'volume' => $p['volume'] ?? '',
+                    'pages' => $p['pages'] ?? '',
+                    'num_pages' => $p['numpages'] ?? '',
+                    'abstract' => $p['abstract'] ?? '',
+                    'keywords' => $p['keywords'] ?? '',
+                    'doi' => $p['doi'] ?? '',
+                    'journal' => $p['journal'] ?? '',
+                    'issn' => $p['issn'] ?? '',
+                    'location' => $p['location'] ?? '',
+                    'isbn' => $p['isbn'] ?? '',
+                    'address' => $p['address'] ?? '',
+                    'url' => $p['url'] ?? '',
+                    'publisher' => $p['series'] ?? '',
+                    'year' => $p['year'] ?? '',
+                    'score' => 0,
+                    'status_qa' => 3,
+                    'id_gen_score' => $gen_score->id_general_score,
+                    'check_qa' => false,
+                    'status_selection' => 3,
+                    'status_extraction' => 2,
+                    'note' => '',
+                    'check_status_selection' => false,
+                    'data_base' => $database['value'],
+                ];
+
+                array_push($insert_papers, $data);
+                $count_papers++;
+            }
+            //dd($insert_papers);
+
+            DB::table('papers')->insert($insert_papers);
+
+            $members = $this->getIdsMembers13($id_project);
+            $id_papers = $this->getIdsPapers($id_bib);
+
+            $status = [];
+            $status_qa = [];
+            foreach ($members as $mem) {
+                foreach ($id_papers as $paper) {
+                    $insert = [
+                        'id_paper' => $paper,
+                        'id_member' => $mem,
+                        'id_status' => 3,
+                        'note' => '',
+                    ];
+
+                    $insert_qa = [
+                        'id_paper' => $paper,
+                        'id_member' => $mem,
+                        'id_status' => 3,
+                        'note' => '',
+                        'score' => 0,
+                        'id_gen_score' => $gen_score->id_general_score,
+                    ];
+                    array_push($status, $insert);
+                    array_push($status_qa, $insert_qa);
+                }
+
+
+            }
+
+            DB::table('papers_selection')->insert($status);
+            DB::table('papers_qa')->insert($status_qa);
+
+            DB::table('project')
+                ->where('id_project', $id_project)
+                ->update(['c_papers' => $count_papers]);
+
+            // Return the number of papers inserted
+            return count($insert_papers);
 
         }
+    */
 
-        DB::table('papers_selection')->insert($status);
-        DB::table('papers_qa')->insert($status_qa);
-
-        DB::table('project')
-            ->where('id_project', $id_project)
-            ->update(['c_papers' => $count_papers]);
-
-        // Return the number of papers inserted
-        return count($insert_papers);
-
-    }
 
     public function deleteAssociatedPapers()
     {

@@ -323,11 +323,12 @@ return [
                 'max' => 'O tamanho do arquivo não deve exceder 10MB.',
             ],
             'toasts' => [
-                'file_uploaded_success' => 'Arquivo carregado com sucesso. :count papers foram inseridos.',
+                'file_uploaded_success' => 'Arquivo carregado com sucesso. Papers foram inseridos e o total será atualizado em instantes em tela.',
                 'file_upload_error' => 'Ocorreu um erro ao importar papers. ERRO: :message',
                 'project_database_not_found' => 'Base de dados do projeto não encontrada.',
                 'file_deleted_success' => 'Arquivo excluído com sucesso. :count papers associados também foram excluídos.',
                 'file_delete_error' => 'Ocorreu um erro ao excluir o arquivo: :message',
+                'file_already_exists' => 'Um arquivo com este nome já foi adicionado nesta Base de Dados. Evite duplicações!',
             ],
         ],
 
