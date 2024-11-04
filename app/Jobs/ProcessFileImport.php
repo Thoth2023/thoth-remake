@@ -117,8 +117,17 @@ class ProcessFileImport implements ShouldQueue
             'ʇ' => 't',              // exemplo de substituição para o caractere 'ʇ'
         ];
 
-        // Substituir os caracteres
-        return strtr($contents, $problematicChars);
+        // Substituir caracteres
+        $contents = strtr($contents, $problematicChars);
+
+        // Remover parênteses dos identificadores no início de cada entrada BibTeX
+        $contents = preg_replace_callback('/@(\w+)\{([^,]+)\)/', function ($matches) {
+            $type = $matches[1];
+            $identifier = str_replace(['(', ')'], '', $matches[2]); // Remove os parênteses
+            return "@{$type}{{$identifier}";
+        }, $contents);
+
+        return $contents;
     }
 
     /**
