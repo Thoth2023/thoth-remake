@@ -26,6 +26,7 @@ class PaperModal extends Component
     public $selected_criterias = [];
 
     public $selected_status = "None";
+    public $note;
 
     public function mount()
     {
@@ -56,6 +57,12 @@ class PaperModal extends Component
 
         //status selecionado com base no status salvo no banco de dados
         $this->selected_status = $this->paper['status_description'];
+
+        // Carregar a nota existente
+        $paperSelection = PapersSelection::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
+            ->first();
+        $this->note = $paperSelection ? $paperSelection->note : '';
 
         $this->dispatch('show-paper');
     }
@@ -100,7 +107,30 @@ class PaperModal extends Component
         $this->dispatch('show-success');
     }
 
+    public function saveNote()
+    {
+        $member = Member::where('id_user', auth()->user()->id)->first();
 
+        // Verifica se já existe uma seleção de paper para o membro e paper atual
+        $paperSelection = PapersSelection::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
+            ->first();
+
+        if (!$paperSelection) {
+            // Se não existir uma seleção, cria uma nova entrada
+            $paperSelection = new PapersSelection();
+            $paperSelection->id_paper = $this->paper['id_paper'];
+            $paperSelection->id_member = $member->id_members;
+        }
+
+        // Atualiza a nota
+        $paperSelection->note = $this->note;
+        $paperSelection->save();
+
+        session()->flash('successMessage', 'Nota salva com sucesso.');
+        // Mostra o modal de sucesso
+        $this->dispatch('show-success');
+    }
 
     public function changePreSelected($criteriaId, $type)
     {

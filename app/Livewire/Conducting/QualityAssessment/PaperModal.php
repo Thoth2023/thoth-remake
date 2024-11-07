@@ -27,6 +27,8 @@ class PaperModal extends Component
 
     public $selected_status = "None";
 
+    public $note;
+
     public function mount()
     {
         $this->projectId = request()->segment(2);
@@ -64,10 +66,41 @@ class PaperModal extends Component
         // Atualiza o status selecionado
         $this->selected_status = $this->paper->status_description;
 
+        // Carregar a nota existente
+        $paperQA = PapersQA::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
+            ->first();
+        $this->note = $paperQA ? $paperQA->note : '';
+
         // Disparar eventos para recarregar o modal e mostrar o paper
         $this->dispatch('reload-paper-modal');
         $this->dispatch('show-paper-quality');
         $this->dispatch('show-success-quality-score');
+    }
+
+    public function saveNote()
+    {
+        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Verifica se já existe uma entrada de paper para o membro e paper atual na tabela PapersQA
+        $paperQA = PapersQA::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
+            ->first();
+
+        if (!$paperQA) {
+            // Se não existir uma entrada, cria uma nova
+            $paperQA = new PapersQA();
+            $paperQA->id_paper = $this->paper['id_paper'];
+            $paperQA->id_member = $member->id_members;
+        }
+
+        // Atualiza a nota
+        $paperQA->note = $this->note;
+        $paperQA->save();
+
+        session()->flash('successMessage', 'Nota salva com sucesso.');
+        // Mostra o modal de sucesso
+        $this->dispatch('show-success-quality');
     }
 
 

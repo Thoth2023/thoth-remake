@@ -86,18 +86,11 @@ class StudySelection extends Component
             ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
             ->join('members', 'papers_selection.id_member', '=', 'members.id_members')
             ->join('users', 'members.id_user', '=', 'users.id') // Pega o nome do usuário
+            ->join('papers', 'papers_selection.id_paper', '=', 'papers.id_paper') // Vincula com papers para verificar o projeto
+            ->join('bib_upload', 'papers.id_bib', '=', 'bib_upload.id_bib')
+            ->join('project_databases', 'bib_upload.id_project_database', '=', 'project_databases.id_project_database')
             ->selectRaw('users.firstname as user_name, status_selection.description as status_name, COUNT(*) as total')
-            ->whereIn('id_paper', function ($query) {
-                $query->select('id_paper')
-                    ->from('papers')
-                    ->whereIn('papers.data_base', function ($subQuery) {
-                        $subQuery->select('id_database')
-                            ->from('project_databases')
-                            ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
-                            ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
-                            ->where('project_databases.id_project', $this->currentProject->id_project); // Filtra pelo projeto corrente
-                    });
-            })
+            ->where('project_databases.id_project', $this->currentProject->id_project) // Filtra pelo projeto corrente
             ->groupBy('user_name', 'status_name')
             ->orderBy('user_name') // Ordena por usuário para facilitar o agrupamento
             ->get();
@@ -111,6 +104,8 @@ class StudySelection extends Component
             ];
         });
     }
+
+
 
     public function render()
     {
