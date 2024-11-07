@@ -121,6 +121,20 @@
                     @endforeach
                     </ul>
 
+                    <hr />
+
+                    <div class="d-flex flex-column mt-3">
+                        <label>{{ __('project/conducting.quality-assessment.resolve.paper-conflict-note') }}</label>
+                        <textarea
+                            id="note"
+                            class="form-control"
+                            rows="2"
+                            wire:model="note"
+                            wire:blur="saveNote"
+                            placeholder="{{ __('project/conducting.quality-assessment.resolve.paper-conflict-writer') }}"
+                            required>
+                        </textarea>
+                    </div>
 
                     <hr />
                     <!-- Verificação do status -->
