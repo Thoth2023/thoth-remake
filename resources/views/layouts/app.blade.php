@@ -56,6 +56,9 @@
         <link rel="stylesheet" href="{{ asset("assets/css/select.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
 
+        <!-- Google reCaptcha-->
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+
         <!--editor de richtexto Quill -->
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
