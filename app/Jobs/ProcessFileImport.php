@@ -109,24 +109,27 @@ class ProcessFileImport implements ShouldQueue
 
     private function sanitizeBibtexContent($contents)
     {
-        // Mapeamento de caracteres problemáticos para alternativas mais comuns
+        // Mapeamento de caracteres problemáticos comuns para alternativas mais comuns
         $problematicChars = [
-            '‐' => '-', // hífen
+            '‐' => '-',  // hífen
             '“' => '"', '”' => '"',  // aspas duplas estilizadas
             '‘' => "'", '’' => "'",  // aspas simples estilizadas
             'ʇ' => 't',              // exemplo de substituição para o caractere 'ʇ'
         ];
 
-        // Substituir caracteres
+        // Substituir caracteres problemáticos comuns
         $contents = strtr($contents, $problematicChars);
 
-        // Remover parênteses dos identificadores no início de cada entrada BibTeX
-        $contents = preg_replace_callback('/@(\w+)\{([^,]+)\)/', function ($matches) {
+        // Substituir caracteres especiais nos identificadores de entrada BibTeX
+        // Utiliza regex para identificar qualquer caractere especial no identificador
+        $contents = preg_replace_callback('/@(\w+)\{([^,]+)}/', function ($matches) {
             $type = $matches[1];
-            $identifier = str_replace(['(', ')'], '', $matches[2]); // Remove os parênteses
+            // Substitui caracteres não alfanuméricos por underscore
+            $identifier = preg_replace('/[^a-zA-Z0-9]/', '_', $matches[2]);
             return "@{$type}{{$identifier}";
         }, $contents);
 
+        // Retorna o conteúdo sanitizado
         return $contents;
     }
 
