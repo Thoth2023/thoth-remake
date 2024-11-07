@@ -48,10 +48,10 @@
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
                         <tr>
-                            <th>{{ __('project/conducting.study-selection.modal.table.select' )}}</th>
-                            <th>ID</th>
-                            <th>{{ __('project/conducting.study-selection.modal.table.description' )}}</th>
-                            <th>{{ __('project/conducting.study-selection.modal.table.type' )}}</th>
+                            <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.select' )}}</th>
+                            <th class="w-5 align-middle text-center">ID</th>
+                            <th class="w-70 align-middle text-wrap">{{ __('project/conducting.study-selection.modal.table.description' )}}</th>
+                            <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.type' )}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -68,14 +68,27 @@
                                         @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif
                                     >
                                 </td>
-                                <td>{{ $criteria['id'] }}</td>
-                                <td>{{ $criteria['description'] }}</td>
-                                <td>{{ $criteria['type'] }}</td>
-                                <td>{{ $criteria['rule'] }}</td>
+                                <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
+                                <td class="w-70 align-middle text-wrap">{{ $criteria['description'] }}</td>
+                                <td class="w-5 align-middle text-center">{{ $criteria['type'] }}</td>
+                                <td class="w-5 align-middle text-center">{{ $criteria['rule'] }}</td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    <hr />
+                    <div class="d-flex flex-column mt-3">
+                        <label>{{ __('project/conducting.study-selection.modal.paper-conflict-note' )}}</label>
+                        <textarea
+                            id="note"
+                            class="form-control"
+                            rows="2"
+                            wire:model="note"
+                            wire:blur="saveNote"
+                            placeholder="{{ __('project/conducting.study-selection.modal.paper-conflict-writer' )}}"
+                            required>
+                    </textarea>
+                    </div>
 
                     <hr />
                     <!-- Verificação do status -->
