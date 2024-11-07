@@ -161,12 +161,15 @@
                                 <br/><br/>
                             </form>
                             <script>
-                                grecaptcha.ready(function () {
-                                    document.getElementById('registerForm').addEventListener('submit', function (event) {
-                                        event.preventDefault(); // Evita o envio do formulário antes de obter o token
-                                        grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'register'}).then(function (token) {
-                                            document.getElementById('recaptchaResponse').value = token;
-                                            event.target.submit(); // Envia o formulário após definir o token
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    grecaptcha.ready(function () {
+                                        document.getElementById('registerForm').addEventListener('submit', function (event) {
+                                            event.preventDefault(); // Impede o envio do formulário
+
+                                            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'register'}).then(function (token) {
+                                                document.getElementById('recaptchaResponse').value = token;
+                                                event.target.submit(); // Envia o formulário após definir o token
+                                            });
                                         });
                                     });
                                 });
@@ -177,6 +180,5 @@
             </div>
         </div>
     </main>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
     @include('layouts.footers.guest.footer')
 @endsection
