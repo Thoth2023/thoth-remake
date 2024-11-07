@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class RegisterRequest extends FormRequest
 {
@@ -47,9 +48,17 @@ class RegisterRequest extends FormRequest
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => config('services.recaptcha.secret_key'),
             'response' => $this->input('g-recaptcha-response'),
-            'remoteip' => $this->ip(), // Para obter o IP do usuário
+            'remoteip' => $this->ip(),
         ]);
 
-        return $response->json('success') && $response->json('score') >= 0.5; // Exige uma pontuação mínima de 0.5
+        $result = $response->json();
+
+        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.3) {
+            Log::error('reCAPTCHA falhou', ['response' => $result]); // Log de erro detalhado
+            return false;
+        }
+
+        return true;
     }
+
 }
