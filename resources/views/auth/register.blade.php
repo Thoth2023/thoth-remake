@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="card-body col-xl-8 col-lg-5 col-md-7 mx-auto">
-                            <form method="POST" action="{{ route('register.perform') }}">
+                            <form method="POST" action="{{ route('register.perform') }}" id="registerForm">
                                 @csrf
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
 
@@ -144,6 +144,9 @@
 
                                     @enderror
                                 </div>
+                                <!-- Campo oculto para armazenar o token do reCAPTCHA -->
+                                <input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
+
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-dark w-50 my-4 mb-2">
                                         {{ __('auth/register.sign_up') }}
@@ -157,11 +160,23 @@
                                 </p>
                                 <br/><br/>
                             </form>
+                            <script>
+                                grecaptcha.ready(function () {
+                                    document.getElementById('registerForm').addEventListener('submit', function (event) {
+                                        event.preventDefault(); // Evita o envio do formulário antes de obter o token
+                                        grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'register'}).then(function (token) {
+                                            document.getElementById('recaptchaResponse').value = token;
+                                            event.target.submit(); // Envia o formulário após definir o token
+                                        });
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
     @include('layouts.footers.guest.footer')
 @endsection
