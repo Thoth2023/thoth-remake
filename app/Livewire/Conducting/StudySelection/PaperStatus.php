@@ -3,6 +3,7 @@
 namespace App\Livewire\Conducting\StudySelection;
 
 use App\Models\Member;
+use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
 use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\StatusSelection;
@@ -11,12 +12,18 @@ use Livewire\Component;
 
 class PaperStatus extends Component
 {
+
+    public $currentProject;
+    public $projectId;
     public $paper;
     public $status_description;
     public $paperStatus;
 
-    public function mount($paper)
+    public function mount($paper,$projectId)
     {
+        $this->projectId = $projectId; // Usar o projectId passado diretamente
+        $this->currentProject = Project::find($this->projectId);
+
         $this->paper = $paper;
         $this->loadStatus();
     }
@@ -24,7 +31,11 @@ class PaperStatus extends Component
     #[On('show-success')]
     public function loadStatus()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project',$this->currentProject->id_project) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         $paperStatus = PapersSelection::where('id_paper', $this->paper)
             ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')

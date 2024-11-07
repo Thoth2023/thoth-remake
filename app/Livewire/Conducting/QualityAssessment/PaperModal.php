@@ -48,8 +48,10 @@ class PaperModal extends Component
     #[On('showPaperQuality')]
     public function showPaperQuality($paper)
     {
-        // Identificar o membro logado
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Carregar o paper e os detalhes específicos do papers_qa
         $this->paper = PapersQA::where('papers_qa.id_paper', $paper['id_paper'])
@@ -80,7 +82,10 @@ class PaperModal extends Component
 
     public function saveNote()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Verifica se já existe uma entrada de paper para o membro e paper atual na tabela PapersQA
         $paperQA = PapersQA::where('id_paper', $this->paper['id_paper'])
@@ -106,7 +111,10 @@ class PaperModal extends Component
 
     public function updateStatusManual()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
         $papers_qa = PapersQA::where('id_paper', $this->paper['id_paper'])
@@ -157,7 +165,10 @@ class PaperModal extends Component
 
     public function updateScore($questionId, $scoreId)
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
             $score_partial = $this->calculateScorePartial($questionId, $scoreId);
 
@@ -214,7 +225,10 @@ class PaperModal extends Component
 
     public function updatePaperQaStatus($paperId)
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         //Calcular a soma de todos os `score_partial` de `evaluation_qa` para o `id_paper`
         $totalScore = EvaluationQA::where('id_paper', $paperId)
@@ -315,7 +329,10 @@ class PaperModal extends Component
     private function loadSelectedScores()
     {
         // Obter as avaliações específicas do paper e do membro logado
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Carregar as avaliações de QA específicas do paper e do membro
         $evaluations = EvaluationQA::where('id_paper', $this->paper->id_paper)

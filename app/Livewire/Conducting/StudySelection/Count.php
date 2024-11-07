@@ -8,6 +8,7 @@ use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -43,7 +44,21 @@ class Count extends Component
         }
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->currentProject->id_project) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
+
+        if (!$member) {
+            // Se o membro não for encontrado, retorne uma mensagem de erro
+            session()->flash('error', 'Você não está associado a este projeto.');
+            return view('livewire.conducting.study-selection.table', [
+                'papers' => new LengthAwarePaginator([], 0, $this->perPage),
+                'databases' => [],
+                'statuses' => [],
+                'isAdministrator' => false,
+            ]);
+        }
 
         //$this->papers = Papers::whereIn('id_bib', $idsBib)->get();
         // contar apenas os papers que contenham o id_member

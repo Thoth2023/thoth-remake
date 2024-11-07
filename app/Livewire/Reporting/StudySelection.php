@@ -46,7 +46,7 @@ class StudySelection extends Component
 
     public function getCriteriaPerUser()
     {
-        // Consulta para obter a quantidade de vezes que cada usuário assinalou cada critério
+        // Consulta para obter a quantidade de vezes que cada usuário assinalou cada critério, filtrando pelo projeto corrente
         $criteriaPerUser = EvaluationCriteria::whereIn('id_paper', function ($query) {
             $query->select('id_paper')
                 ->from('papers')
@@ -59,8 +59,11 @@ class StudySelection extends Component
                 });
         })
             ->join('criteria', 'evaluation_criteria.id_criteria', '=', 'criteria.id_criteria')
-            ->join('members', 'evaluation_criteria.id_member', '=', 'members.id_members')
-            ->join('users', 'members.id_user', '=', 'users.id') // Pega o usuário responsável
+            ->join('members', function ($join) {
+                $join->on('evaluation_criteria.id_member', '=', 'members.id_members')
+                    ->where('members.id_project', $this->currentProject->id_project); // Garante que o membro pertence ao projeto corrente
+            })
+            ->join('users', 'members.id_user', '=', 'users.id') // Obtém o usuário responsável
             ->selectRaw('criteria.id as criteria_id, criteria.description as criteria_name, users.firstname as user_name, COUNT(*) as total')
             ->groupBy('criteria_id', 'criteria_name', 'user_name')
             ->orderByRaw("CASE WHEN criteria.type = 'Inclusion' THEN 0 ELSE 1 END")
@@ -78,6 +81,7 @@ class StudySelection extends Component
             ];
         });
     }
+
 
     public function getPapersByUserAndStatusSelection()
     {
