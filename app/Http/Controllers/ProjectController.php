@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use App\Notifications\ProjectInvitationNotification;
 use Illuminate\Support\Facades\Notification;
 
 use PHPUnit\Event\Application\FinishedSubscriber;
-
 
 
 class ProjectController extends Controller
@@ -39,16 +39,10 @@ class ProjectController extends Controller
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
         }
-        
-      
-        
-     
+
         return view('projects.index', compact('merged_projects'));
     }
 
-
-    
-    
 
     /**
      * Show the form for creating a new project.
@@ -96,16 +90,23 @@ class ProjectController extends Controller
      * Display the specified project.
      */
     public function show(string $idProject)
-{
-    $project = Project::findOrFail($idProject);
-    $users_relation = $project->users()->get();
-    $activities = Activity::where('id_project', $idProject)
-        ->orderBy('created_at', 'DESC')
-        ->get();
+    {
+        $project = Project::findOrFail($idProject);
 
-    return view('projects.show', compact('project'), compact('users_relation'))->with('activities', $activities);
+        // Verificar se o usuário tem permissão para acessar o projeto
+        if (Gate::denies('access-project', $project)) {
+            return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
+        }
 
-}
+        // Obter relação de usuários e atividades caso a permissão seja concedida
+        $users_relation = $project->users()->get();
+        $activities = Activity::where('id_project', $idProject)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        return view('projects.show', compact('project', 'users_relation', 'activities'));
+    }
+
 
     /**
      * Show the form for editing the specified project.
@@ -244,8 +245,8 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
     $token = Str::random(40); // Generate a unique token
     $project->users()->attach($member_id, [
-        'level' => $level_member, 
-        'invitation_token' => $token, 
+        'level' => $level_member,
+        'invitation_token' => $token,
         'status' => 'pending'
     ]);
 
@@ -309,17 +310,17 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
     public function acceptInvitation($idProject, Request $request)
     {
         $token = $request->query('token');
-    
+
         // Busca o registro na tabela 'members'
         $invitation = DB::table('members')
                         ->where('invitation_token', $token)
                         ->where('id_project', $idProject)
                         ->first();
-    
+
         if (!$invitation) {
             return back()->with('error', 'Invalid or expired invitation.');
         }
-    
+
         // Atualiza o status do convite para 'accepted'
         DB::table('members')
             ->where('invitation_token', $token)
@@ -328,12 +329,12 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
                 'status' => 'accepted',
                 'invitation_token' => null  // Remove o token após ser aceito
             ]);
-    
+
         $activity = "Accepted invitation to join the project.";
         ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
-    
+
         return redirect('/projects')->with('success', 'You have successfully joined the project!');
     }
-    
+
 
 }
