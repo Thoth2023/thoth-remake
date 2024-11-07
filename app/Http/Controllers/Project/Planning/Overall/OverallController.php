@@ -10,6 +10,7 @@ use App\Models\Language;
 use App\Models\Project;
 use App\Models\Project\Planning\DataExtraction\QuestionTypes;
 use App\Models\StudyType;
+use Illuminate\Support\Facades\Gate;
 
 class OverallController extends Controller
 {
@@ -21,6 +22,11 @@ class OverallController extends Controller
     {
         // Retrieve the project or throw a ModelNotFoundException
         $project = Project::findOrFail($id_project);
+
+        // Verificação de autorização usando o Gate
+        if (Gate::denies('access-project', $project)) {
+            return redirect()->route('projects.index')->with('error', 'Você não tem permissão para acessar este projeto.');
+        }
 
         // Eager load users relation for better performance
         $usersRelation = $project->users()->get();
@@ -38,7 +44,7 @@ class OverallController extends Controller
         $terms = $project->terms;
         $synonyms = $project->synonyms;
         $searchStrings = []; // simulating the search string results
-       
+
         return view(
             'project.planning.index',
             compact(
@@ -54,8 +60,8 @@ class OverallController extends Controller
                 'terms',
                 'synonyms',
                 'searchStrings',
-                
-                
+
+
             )
         );
     }
@@ -67,6 +73,6 @@ class OverallController extends Controller
         return $finished;
     }
 
-   
+
 
 }
