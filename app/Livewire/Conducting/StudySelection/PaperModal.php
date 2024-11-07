@@ -10,6 +10,7 @@ use App\Models\Project\Conducting\Papers;
 use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -47,7 +48,10 @@ class PaperModal extends Component
 
         $this->paper['database_name'] = $databaseName;
 
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         //carregar todos os critérios de uma vez
         $this->selected_criterias = EvaluationCriteria::where('id_paper', $this->paper['id_paper'])
@@ -69,7 +73,10 @@ class PaperModal extends Component
 
     public function updateStatusManual()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Pega o paper associado
         $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
@@ -109,7 +116,10 @@ class PaperModal extends Component
 
     public function saveNote()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Verifica se já existe uma seleção de paper para o membro e paper atual
         $paperSelection = PapersSelection::where('id_paper', $this->paper['id_paper'])
@@ -134,7 +144,10 @@ class PaperModal extends Component
 
     public function changePreSelected($criteriaId, $type)
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
         $isSelected = in_array($criteriaId, $this->selected_criterias);
 
         if ($isSelected) {
@@ -176,8 +189,10 @@ class PaperModal extends Component
 
     private function updatePaperStatus($type)
     {
-        // Verificar membro
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         $id_project = $this->currentProject->id_project;
         $id_paper = $this->paper['id_paper'];

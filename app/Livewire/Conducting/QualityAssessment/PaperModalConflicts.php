@@ -102,7 +102,10 @@ class PaperModalConflicts extends Component
 
     public function save()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
         $paper = PapersQA::where('id_paper', $this->paper['id_paper'])->first();
 
         // Obter o status atual e novo

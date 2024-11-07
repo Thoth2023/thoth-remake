@@ -3,20 +3,26 @@
 namespace App\Livewire\Conducting\QualityAssessment;
 
 use App\Models\Member;
+use App\Models\Project;
 use App\Models\Project\Conducting\QualityAssessment\PapersQA;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class QualityScore extends Component
 {
+    public $currentProject;
+    public $projectId;
     public $paper;
     public $quality_description;
     public $score;
     public $status_paper;
 
 
-    public function mount($paper)
+    public function mount($paper,$projectId)
     {
+        $this->projectId = $projectId; // Usar o projectId passado diretamente
+        $this->currentProject = Project::find($this->projectId);
+
         $this->paper = $paper;
         $this->loadScore();
     }
@@ -26,7 +32,10 @@ class QualityScore extends Component
     #[On('reload-paper-modal')]
     public function loadScore()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project',$this->currentProject->id_project) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         $StatusQuality = PapersQA::where('papers_qa.id_paper', $this->paper)
             ->join('general_score', 'papers_qa.id_gen_score', '=', 'general_score.id_general_score')

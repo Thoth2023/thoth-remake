@@ -97,7 +97,10 @@ class Buttons extends Component
 
     public function confirmDuplicate($paperId)
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
         // Busca o paper pelo ID
         $paper = Papers::where('id_paper', $paperId)->first();
 
@@ -143,7 +146,10 @@ class Buttons extends Component
     }
     public function rejectDuplicate($paperId)
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
         // Busca o paper pelo ID
         $paper = Papers::where('id_paper', $paperId)->first();
 
@@ -214,7 +220,10 @@ class Buttons extends Component
 
     public function markAllDuplicates()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Busca duplicatas baseadas em título, ano e autor
         $duplicates = Papers::select('title', 'year', 'author')
@@ -321,8 +330,10 @@ class Buttons extends Component
             $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         }
 
-        // Obter o membro atual da sessão
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Buscar os papers vinculados aos IDs das bibliotecas e que estão associados ao membro atual
         return Papers::whereIn('id_bib', $idsBib)
@@ -335,8 +346,10 @@ class Buttons extends Component
 
     private function getPapersExport()
     {
-        // Obter o membro atual da sessão
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Obter os IDs dos bancos de dados do projeto
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
