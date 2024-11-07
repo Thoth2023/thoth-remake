@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Member;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +24,21 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        // Gate para verificar se o usuário tem acesso a um projeto específico
+        Gate::define('access-project', function (User $user, Project $project) {
+            return Member::where('id_user', $user->id)
+                ->where('id_project', $project->id_project)
+                ->exists();
+        });
+
+        // Gate para verificar se o usuário pode gerenciar o projeto
+        Gate::define('manage-project', function (User $user, Project $project) {
+            return Member::where('id_user', $user->id)
+                ->where('id_project', $project->id)
+                ->where('level', 'administrator') // Define que o nível precisa ser "administrator"
+                ->exists();
+        });
     }
 }

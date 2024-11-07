@@ -77,6 +77,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-end">
+                                                    @can('access-project', $project)
                                                     <div class="d-flex align-items-center justify-content-end gap-1">
                                                         <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="View Project" href="{{ route("projects.show", $project->id_project) }}">
                                                             <i class="fas fa-search-plus"></i>
@@ -100,6 +101,7 @@
                                                             <i class="fas fa-trash"></i>
                                                         </a>
                                                     </x-helpers.confirm-modal>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

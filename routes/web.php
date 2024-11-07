@@ -113,7 +113,7 @@ Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 
 
 
 // Project Routes
-Route::prefix('/project/{projectId}')->group(function () {
+Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {
 
         // // Start of the conducting routes
         // Route::prefix('/conducting')->group(function () {
