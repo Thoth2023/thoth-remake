@@ -38,7 +38,10 @@ class Count extends Component
     public function loadCounters()
     {
 
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->currentProject->id_project) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         $idsDatabase = ProjectDatabases::where('id_project', $this->currentProject->id_project)->pluck('id_project_database');
 

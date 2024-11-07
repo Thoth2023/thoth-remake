@@ -50,8 +50,10 @@ class Buttons extends Component
 
     private function getPapersExport()
     {
-        // Obter o membro atual da sessão
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         // Obter os IDs dos bancos de dados do projeto
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');

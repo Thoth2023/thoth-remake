@@ -22,7 +22,10 @@ class PaperStatus extends Component
     #[On('show-success-quality')]
     public function loadStatus()
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         $paperStatus = PapersQA::where('id_paper', $this->paper)
             ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')

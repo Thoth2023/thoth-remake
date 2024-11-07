@@ -131,7 +131,21 @@ class Table extends Component
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
         $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
 
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
+
+        if (!$member) {
+            // Se o membro não for encontrado, retorne uma mensagem de erro
+            session()->flash('error', 'Você não está associado a este projeto.');
+            return view('livewire.conducting.study-selection.table', [
+                'papers' => new LengthAwarePaginator([], 0, $this->perPage),
+                'databases' => [],
+                'statuses' => [],
+                'isAdministrator' => false,
+            ]);
+        }
 
         $databases = ProjectDatabases::where('id_project', $this->projectId)
             ->join('data_base', 'project_databases.id_database', '=', 'data_base.id_database')

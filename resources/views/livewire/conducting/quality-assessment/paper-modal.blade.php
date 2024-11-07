@@ -46,7 +46,7 @@
                     <span class="card-header pb-0">
                         <h5 >{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
                         <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
-                        @livewire('conducting.quality-assessment.quality-score', ['paper' => $paper['id_paper']],key($paper['id_paper']))
+                        @livewire('conducting.quality-assessment.quality-score', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
                     </span>
 
                     <ul class='list-group'>

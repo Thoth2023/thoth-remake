@@ -36,7 +36,10 @@ class PaperModal extends Component
     public function save()
     {
 
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
         foreach ($this->selected_criterias as $criteria) {
             EvaluationCriteria::create([
                 'id_paper' => $this->paper['id_paper'],
@@ -81,7 +84,10 @@ class PaperModal extends Component
 
     public function changePreSelected($criteriaId, $type)
     {
-        $member = Member::where('id_user', auth()->user()->id)->first();
+        // Buscar o membro específico para o projeto atual
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->first();
 
         if (in_array($criteriaId, $this->selected_criterias)) {
             EvaluationCriteria::create([

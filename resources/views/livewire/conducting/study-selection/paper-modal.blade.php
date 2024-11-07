@@ -34,7 +34,7 @@
                                 URL
                             </a>
                         </div>
-                        @livewire('conducting.study-selection.paper-status', ['paper' => $paper['id_paper']],key($paper['id_paper']))
+                        @livewire('conducting.study-selection.paper-status', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
 
                         <div class="col-12">
                             <b>{{ __('project/conducting.study-selection.modal.abstract' )}}: </b>
