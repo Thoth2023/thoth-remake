@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -12,17 +12,10 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store()
+    public function store(RegisterRequest $request)
     {
-        $attributes = request()->validate([
-            'firstname' => 'required|max:255|min:2',
-            'lastname' => 'required|max:255|min:2',
-            'institution' => 'required|max:255|min:2',
-            'email' => 'required|email|max:255|unique:users,email',
-            'username' => 'required|max:255|min:2',
-            'password' => 'required|min:5|max:255',
-            'terms' => 'required'
-        ]);
+        $attributes = $request->validated();
+
         $user = User::create($attributes);
         auth()->login($user);
 
