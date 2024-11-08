@@ -138,7 +138,8 @@
 
                     <hr />
                     <!-- Verificação do status -->
-                    @if($paper['id_status_paper'] != 1 && $paper['id_status_paper'] != 2)
+
+                    {{--@if($paper['id_status_paper'] != 1 && $paper['id_status_paper'] != 2) --}}
                         <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
                         <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
 
@@ -150,7 +151,7 @@
                             <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
 
                         </div>
-                    @endif
+                    {{--endif--}}
 
                     @endif
                 </div>
@@ -180,28 +181,27 @@
 @script
 <script>
     $(document).ready(function(){
-        // mostrar o paper
-        $wire.on('show-paper-quality', () => {
+        // Mostrar o modal do paper
+        Livewire.on('show-paper-quality', () => {
             $('#paperModalQuality').modal('show');
         });
-        //mostrar msg de sucesso
+
+        // Mostrar o modal de sucesso
         Livewire.on('show-success-quality', () => {
-            $('#paperModalQuality').modal('hide'); // Hide the paper modal
-            $('#successModalQuality').modal('show'); // Show the success modal
+            $('#paperModalQuality').modal('hide');
+            $('#successModalQuality').modal('show');
         });
 
-        // fechar modal paper
+        // Reabrir o modal do paper após o modal de sucesso ser fechado
         $('#successModalQuality').on('hidden.bs.modal', function () {
-            $('#paperModalQuality').modal('show'); // Reopen the paper modal after success modal is closed
+            $('#paperModalQuality').modal('show');
         });
     });
-    Livewire.on('reload-paper-modal', () => {
-        // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('showPaperQuality', @json($paper));
-    });
 
-    $wire.on('paper-modal', ([{ message, type }]) => {
-        toasty({ message, type });
+    // Recarga do modal de paper
+    Livewire.on('reload-paper-quality', () => {
+        Livewire.emit('showPaperQuality', @json($paper));
     });
 </script>
 @endscript
+
