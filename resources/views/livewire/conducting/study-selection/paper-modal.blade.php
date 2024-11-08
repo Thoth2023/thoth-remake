@@ -33,6 +33,16 @@
                                 <i class="fa-solid fa-link"></i>
                                 URL
                             </a>
+                            @if(empty($paper['abstract']) || empty($paper['keywords']))
+                                <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via CrossRef" wire:click="atualizarDadosFaltantes">
+                                    <i class="fa-solid fa-refresh"></i>
+                                    Via CrossRef
+                                </a>
+                                <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via Springer" wire:click="atualizarDadosSpringer">
+                                    <i class="fa-solid fa-refresh"></i>
+                                    Via SpringerLink
+                                </a>
+                            @endif
                         </div>
                         @livewire('conducting.study-selection.paper-status', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
 
@@ -134,6 +144,7 @@
     </div>
 </div>
 
+
 @script
 <script>
     $(document).ready(function(){
@@ -141,13 +152,11 @@
         $wire.on('show-paper', () => {
             $('#paperModal').modal('show');
         });
-
         // Show the success modal on success event
         Livewire.on('show-success', () => {
             $('#paperModal').modal('hide'); // Hide the paper modal
             $('#successModal').modal('show'); // Show the success modal
         });
-
         // Handle the closing of success modal to reopen the paper modal
         $('#successModal').on('hidden.bs.modal', function () {
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
