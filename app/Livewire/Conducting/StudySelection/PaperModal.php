@@ -288,7 +288,10 @@ class PaperModal extends Component
 
     public function refreshPaperData()
     {
-        $this->paper = Papers::find($this->paper['id_paper'])->toArray();
+        $paper = Papers::find($this->paper['id_paper'])->toArray();
+        $criterias = $this->criterias; // Preserva os critérios atuais
+
+        $this->showPaper($paper, $criterias); // Reutiliza a lógica de `showPaper` para atualizar dados do modal
     }
 
     public function atualizarDadosFaltantes()
