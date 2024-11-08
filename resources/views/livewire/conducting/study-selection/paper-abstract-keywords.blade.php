@@ -8,3 +8,10 @@
         <p>{{ $keywords }}</p>
     </div>
 </div>
+@script
+<script>
+    $wire.on('paper-abstract-keywords', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+</script>
+@endscript

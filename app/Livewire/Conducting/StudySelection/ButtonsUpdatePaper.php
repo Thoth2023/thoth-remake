@@ -4,8 +4,8 @@ namespace App\Livewire\Conducting\StudySelection;
 
 use App\Jobs\AtualizarDadosCrossref;
 use App\Jobs\AtualizarDadosSpringer;
-use App\Models\Project;
 use App\Models\Project\Conducting\Papers;
+use App\Utils\ToastHelper; // Certifique-se de que o ToastHelper está corretamente importado
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -42,7 +42,8 @@ class ButtonsUpdatePaper extends Component
     public function atualizarDadosFaltantes()
     {
         if (empty($this->doi) && empty($this->title)) {
-            session()->flash('errorMessage', 'DOI ou título do paper necessário para buscar dados.');
+            // Usar ToastHelper para exibir mensagem de erro
+            $this->toast('DOI ou título do paper necessário para buscar dados.', 'error');
             $this->dispatch('refresh-paper-data');
             return;
         }
@@ -51,14 +52,16 @@ class ButtonsUpdatePaper extends Component
 
         AtualizarDadosCrossref::dispatch($this->paperId, $this->doi, $this->title);
 
-        session()->flash('successMessage', 'A atualização dos dados foi solicitada via CrossRef, verifique se os dados foram atualizados.');
+        // Usar ToastHelper para exibir mensagem de sucesso
+        $this->toast('A atualização dos dados foi solicitada via CrossRef, verifique se os dados foram atualizados.', 'success');
         $this->dispatch('refresh-paper-data');
     }
 
     public function atualizarDadosSpringer()
     {
         if (empty($this->doi)) {
-            session()->flash('errorMessage', 'DOI necessário para buscar dados via Springer.');
+            // Usar ToastHelper para exibir mensagem de erro
+            $this->toast('DOI necessário para buscar dados via Springer.', 'error');
             $this->dispatch('refresh-paper-data');
             return;
         }
@@ -67,8 +70,15 @@ class ButtonsUpdatePaper extends Component
 
         AtualizarDadosSpringer::dispatch($this->paperId, $this->doi);
 
-        session()->flash('successMessage', 'A atualização dos dados foi solicitada via Springer, verifique se os dados foram atualizados.');
+        // Usar ToastHelper para exibir mensagem de sucesso
+        $this->toast('A atualização dos dados foi solicitada via Springer, verifique se os dados foram atualizados.', 'success');
         $this->dispatch('refresh-paper-data');
+    }
+
+    // Função auxiliar para enviar mensagens de toast
+    private function toast(string $message, string $type)
+    {
+        $this->dispatch('buttons-update-paper', ToastHelper::dispatch($type, $message));
     }
 
     public function render()
