@@ -26,3 +26,10 @@
             </div>
         </div>
 </div>
+@script
+<script>
+    $wire.on('buttons-update-paper', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+</script>
+@endscript

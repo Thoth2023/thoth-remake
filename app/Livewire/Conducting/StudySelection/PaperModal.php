@@ -36,7 +36,6 @@ class PaperModal extends Component
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-
     }
 
     #[On('showPaper')]
