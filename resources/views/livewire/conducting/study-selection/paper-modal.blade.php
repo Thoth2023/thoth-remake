@@ -157,10 +157,18 @@
             $('#paperModal').modal('hide'); // Hide the paper modal
             $('#successModal').modal('show'); // Show the success modal
         });
-        // After success modal closes, refresh the paper data and show paperModal
+        // Handle the closing of success modal to reopen the paper modal
         $('#successModal').on('hidden.bs.modal', function () {
-            Livewire.emit('refreshPaperData'); // Refresh paper data
+            $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
+    });
+    Livewire.on('refresh-papers', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('refresh-data');
+    });
+    Livewire.on('reload-papers', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-sucess');
     });
     Livewire.on('reload-papers', () => {
         // Recarregar o componente Livewire para refletir as mudanças

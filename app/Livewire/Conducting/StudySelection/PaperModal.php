@@ -285,7 +285,7 @@ class PaperModal extends Component
             return 3; // Unclassified
         }
     }
-
+    #[On('refresh-data')]
     public function refreshPaperData()
     {
         $paper = Papers::find($this->paper['id_paper'])->toArray();
