@@ -40,14 +40,7 @@
                                 {{ __("project/conducting.snowballing.status." . strtolower($paper['status_description'])) }}
                             </b>
                         </div>
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.abstract' )}}: </b>
-                            <p>{{ $paper['abstract'] }}</p>
-                        </div>
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.keywords' )}}: </b>
-                            <p>{{ $paper['keywords'] }}</p>
-                        </div>
+                        @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                     </div>
 
                     <!--Aqui vai os dados do snowballing -->

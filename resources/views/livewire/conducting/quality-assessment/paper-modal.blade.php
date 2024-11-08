@@ -33,15 +33,7 @@
                                 URL
                             </a>
                         </div>
-
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.quality-assessment.modal.abstract' )}}: </b>
-                            <p>{{ $paper['abstract'] }}</p>
-                        </div>
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.quality-assessment.modal.keywords' )}}: </b>
-                            <p>{{ $paper['keywords'] }}</p>
-                        </div>
+                        @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                     </div>
                     <span class="card-header pb-0">
                         <h5 >{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
