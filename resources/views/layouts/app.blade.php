@@ -57,7 +57,10 @@
         <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
 
         <!-- Google reCaptcha-->
-        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+        @if(request()->is('register'))
+            <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+        @endif
+
 
         <!--editor de richtexto Quill -->
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
