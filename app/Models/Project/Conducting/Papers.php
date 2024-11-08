@@ -14,9 +14,16 @@ class Papers extends Model
 {
     use HasFactory;
 
+    protected $table = 'papers';
+    protected $primaryKey = 'id_paper';
     public $timestamps = false;
 
-    protected $fillable = ['title'];
+    protected $fillable = [
+        'title',
+        'abstract',
+        'keywords',
+        'doi'
+    ];
 
     public function database()
     {
