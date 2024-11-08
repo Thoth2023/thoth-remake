@@ -3,10 +3,6 @@
 namespace App\Livewire\Conducting\StudySelection;
 
 
-use App\Jobs\AtualizarDadosCrossref;
-use App\Jobs\AtualizarDadosSpringer;
-use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Client;
 use App\Models\Criteria;
 use App\Models\EvaluationCriteria;
 use App\Models\Member;
@@ -40,7 +36,6 @@ class PaperModal extends Component
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-
     }
 
     #[On('showPaper')]
@@ -285,75 +280,6 @@ class PaperModal extends Component
             return 3; // Unclassified
         }
     }
-
-    public function refreshPaperData()
-    {
-        $paper = Papers::find($this->paper['id_paper'])->toArray();
-        $criterias = $this->criterias; // Preserva os critérios atuais
-
-        $this->showPaper($paper, $criterias); // Reutiliza a lógica de `showPaper` para atualizar dados do modal
-    }
-
-    public function atualizarDadosFaltantes()
-    {
-        if (empty($this->paper['doi']) && empty($this->paper['title'])) {
-            session()->flash('errorMessage', 'DOI ou título do paper necessário para buscar dados.');
-            $this->dispatch('show-success');
-            return;
-        }
-
-        // Log para verificar o ID e DOI antes de despachar o Job
-        Log::info("Despachando Job para paper ID {$this->paper['id_paper']}, DOI: {$this->paper['doi']} e Título: {$this->paper['title']}");
-
-        AtualizarDadosCrossref::dispatch(
-            $this->paper['id_paper'],
-            $this->paper['doi'],
-            $this->paper['title']
-        );
-
-        session()->flash('successMessage', 'A atualização dos dados está em andamento. Verifique mais tarde.');
-        $this->dispatch('show-success');
-        $this->dispatch('refresh-paper');
-    }
-
-
-    private function processarDadosCrossref($paperData)
-    {
-        $paper = Papers::find($this->paper['id_paper']);
-        if ($paper) {
-            $paper->abstract = $paper->abstract ?: ($paperData['abstract'] ?? '');
-            $paper->keywords = $paper->keywords ?: (isset($paperData['subject']) ? implode(', ', $paperData['subject']) : '');
-            if (empty($paper->doi) && isset($paperData['DOI'])) {
-                $paper->doi = $paperData['DOI'];
-            }
-            $paper->save();
-            $this->paper['abstract'] = $paper->abstract;
-            $this->paper['keywords'] = $paper->keywords;
-            $this->paper['doi'] = $paper->doi;
-        }
-    }
-
-    public function atualizarDadosSpringer()
-    {
-        if (empty($this->paper['doi'])) {
-            session()->flash('errorMessage', 'DOI necessário para buscar dados via Springer.');
-            $this->dispatch('show-success');
-            return;
-        }
-
-        Log::info("Despachando Job para atualização via Springer para paper ID {$this->paper['id_paper']}");
-
-        AtualizarDadosSpringer::dispatch(
-            $this->paper['id_paper'],
-            $this->paper['doi']
-        );
-
-        session()->flash('successMessage', 'A atualização dos dados via Springer está em andamento. Verifique mais tarde.');
-        $this->dispatch('show-success');
-        $this->dispatch('refresh-paper');
-    }
-
-
 
     public function render()
     {
