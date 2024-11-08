@@ -286,12 +286,16 @@ class PaperModal extends Component
         }
     }
 
+    public function refreshPaperData()
+    {
+        $this->paper = Papers::find($this->paper['id_paper'])->toArray();
+    }
 
     public function atualizarDadosFaltantes()
     {
         if (empty($this->paper['doi']) && empty($this->paper['title'])) {
             session()->flash('errorMessage', 'DOI ou título do paper necessário para buscar dados.');
-            $this->dispatch('show-error');
+            $this->dispatch('show-success');
             return;
         }
 

@@ -157,9 +157,10 @@
             $('#paperModal').modal('hide'); // Hide the paper modal
             $('#successModal').modal('show'); // Show the success modal
         });
-        // Handle the closing of success modal to reopen the paper modal
+        // Refresh paper data when success modal closes, then reopen paper modal
         $('#successModal').on('hidden.bs.modal', function () {
-            $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
+            Livewire.emit('refreshPaperData'); // Emit to refresh paper data
+            $('#paperModal').modal('show'); // Reopen the paper modal
         });
     });
     Livewire.on('reload-papers', () => {
