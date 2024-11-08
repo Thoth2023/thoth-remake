@@ -33,27 +33,14 @@
                                 <i class="fa-solid fa-link"></i>
                                 URL
                             </a>
-                            @if(empty($paper['abstract']) || empty($paper['keywords']))
-                                <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via CrossRef" wire:click="atualizarDadosFaltantes">
-                                    <i class="fa-solid fa-refresh"></i>
-                                    Via CrossRef
-                                </a>
-                                <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via Springer" wire:click="atualizarDadosSpringer">
-                                    <i class="fa-solid fa-refresh"></i>
-                                    Via SpringerLink
-                                </a>
-                            @endif
+                            @livewire('conducting.study-selection.buttons-update-paper', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
+
                         @livewire('conducting.study-selection.paper-status', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
 
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.study-selection.modal.abstract' )}}: </b>
-                            <p>{{ $paper['abstract'] }}</p>
-                        </div>
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.study-selection.modal.keywords' )}}: </b>
-                            <p>{{ $paper['keywords'] }}</p>
-                        </div>
+                        @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
+
+
                     </div>
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
@@ -161,14 +148,6 @@
         $('#successModal').on('hidden.bs.modal', function () {
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
-    });
-    Livewire.on('refresh-papers', () => {
-        // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('refresh-data');
-    });
-    Livewire.on('reload-papers', () => {
-        // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('show-sucess');
     });
     Livewire.on('reload-papers', () => {
         // Recarregar o componente Livewire para refletir as mudanças
