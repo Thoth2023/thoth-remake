@@ -50,23 +50,19 @@ class PaperModal extends Component
     {
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
 
-        // Carregar o paper e os detalhes específicos do papers_qa
-        $this->paper = PapersQA::where('papers_qa.id_paper', $paper['id_paper'])
-            ->where('id_member', $member->id_members) // Filtrando pelo id_member
-            ->join('papers', 'papers_qa.id_paper', '=', 'papers.id_paper')
-            ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-            ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
-            ->select('papers.*', 'papers_qa.*', 'data_base.name as database_name', 'status_qa.status as status_description', 'status_qa.id_status as id_status_paper')
-            ->firstOrFail();
+        $this->paper = $paper;
 
-        // Carregar os scores selecionados previamente
-        $this->loadSelectedScores();
+        $databaseName = DB::table('data_base')
+            ->where('id_database', $this->paper['data_base'])
+            ->value('name');
 
-        // Atualiza o status selecionado
-        $this->selected_status = $this->paper->status_description;
+        $this->paper['database_name'] = $databaseName;
+
+        //status selecionado com base no status salvo no banco de dados
+        $this->selected_status = $this->paper['status_description'];
 
         // Carregar a nota existente
         $paperQA = PapersQA::where('id_paper', $this->paper['id_paper'])
@@ -74,10 +70,8 @@ class PaperModal extends Component
             ->first();
         $this->note = $paperQA ? $paperQA->note : '';
 
-        // Disparar eventos para recarregar o modal e mostrar o paper
-        $this->dispatch('reload-paper-modal');
+        // Exibe o modal após garantir que os dados foram carregados
         $this->dispatch('show-paper-quality');
-        $this->dispatch('show-success-quality-score');
     }
 
     public function saveNote()
@@ -103,6 +97,7 @@ class PaperModal extends Component
         $paperQA->note = $this->note;
         $paperQA->save();
 
+        session()->forget('successMessage');
         session()->flash('successMessage', 'Nota salva com sucesso.');
         // Mostra o modal de sucesso
         $this->dispatch('show-success-quality');
@@ -139,11 +134,13 @@ class PaperModal extends Component
             $paper->status_selection = $status->id_status;
             $paper->save();
 
+            session()->forget('successMessage');
             session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
         } else {
+            session()->forget('successMessage');
             session()->flash('successMessage', "Status updated for your selection. New status: " . $status->status);
         }
-
+        session()->forget('successMessage');
         session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
         // Mostra o modal de sucesso
         $this->dispatch('show-success-quality');
@@ -200,6 +197,7 @@ class PaperModal extends Component
         // Recarregar os scores selecionados
         $this->loadSelectedScores();
 
+        session()->forget('successMessage');
         session()->flash('successMessage', "Evaluation Quality Score updated successfully.");
 
         // Se desejar, você pode adicionar uma mensagem de sucesso ou atualizar algum estado
@@ -335,7 +333,7 @@ class PaperModal extends Component
             ->first();
 
         // Carregar as avaliações de QA específicas do paper e do membro
-        $evaluations = EvaluationQA::where('id_paper', $this->paper->id_paper)
+        $evaluations = EvaluationQA::where('id_paper',$this->paper['id_paper'])
             ->where('id_member', $member->id_members) // Filtrando pelo id_member
             ->get();
 
