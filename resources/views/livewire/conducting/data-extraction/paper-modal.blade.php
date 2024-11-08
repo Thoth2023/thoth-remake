@@ -34,7 +34,14 @@
                         </a>
                     </div>
                     @livewire('conducting.data-extraction.paper-status', ['paper' => $paper['id_paper']],key($paper['id_paper']))
-                    @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
+                    <div class="col-12">
+                        <b>{{ __('project/conducting.data-extraction.modal.abstract' )}}: </b>
+                        <p>{{ $paper['abstract'] }}</p>
+                    </div>
+                    <div class="col-12">
+                        <b>{{ __('project/conducting.data-extraction.modal.keywords' )}}: </b>
+                        <p>{{ $paper['keywords'] }}</p>
+                    </div>
                 </div>
 
                 <ul class='list-group list-group-flush'>
