@@ -18,7 +18,8 @@
         "renanbr/bibtex-parser": "^2.2",
         "spatie/laravel-model-states": "^2.7",
         "spatie/laravel-permission": "^6.10",
-        "tecnickcom/tcpdf": "^6.7"
+        "tecnickcom/tcpdf": "^6.7",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
