@@ -36,7 +36,7 @@
                             @livewire('conducting.study-selection.buttons-update-paper', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
 
-                        @livewire('conducting.study-selection.paper-status', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
+                        @livewire('conducting.study-selection.paper-status', ['paperId' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
 
                         @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
 
@@ -131,7 +131,6 @@
     </div>
 </div>
 
-
 @script
 <script>
     $(document).ready(function(){
@@ -139,11 +138,13 @@
         $wire.on('show-paper', () => {
             $('#paperModal').modal('show');
         });
+
         // Show the success modal on success event
         Livewire.on('show-success', () => {
             $('#paperModal').modal('hide'); // Hide the paper modal
             $('#successModal').modal('show'); // Show the success modal
         });
+
         // Handle the closing of success modal to reopen the paper modal
         $('#successModal').on('hidden.bs.modal', function () {
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
