@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ChangePassword extends Controller
 {
@@ -32,15 +34,15 @@ class ChangePassword extends Controller
             'confirm-password' => ['same:password'],
         ]);
 
-        if (!password_verify($attributes['password'], $this->user->password)) {
-            return back()->with('error', __('auth/change-password.messages.same_password'));
-        }
-
         if ($this->user && $this->user->email === $attributes['email']) {
-            $this->user->update([
-                'password' => bcrypt($attributes['password']),
-            ]);
-            return redirect('login')->with('success', __('auth/change-password.messages.success'));
+            // Apenas atribui a nova senha sem `Hash::make`, pois o model já cuida do hashing
+            $this->user->password = $attributes['password'];
+
+            if ($this->user->save()) {
+                return redirect('login')->with('success', __('auth/change-password.messages.success'));
+            } else {
+                return back()->with('error', __('auth/change-password.messages.error'));
+            }
         } else {
             return back()->with('error', __('auth/change-password.messages.error'));
         }

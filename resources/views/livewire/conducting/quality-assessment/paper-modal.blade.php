@@ -139,7 +139,7 @@
                     <hr />
                     <!-- Verificação do status -->
 
-                    {{--@if($paper['id_status_paper'] != 1 && $paper['id_status_paper'] != 2) --}}
+                    @if($selected_status !== 'Accepted' && $selected_status !== 'Rejected')
                         <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
                         <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
 
@@ -151,7 +151,7 @@
                             <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
 
                         </div>
-                    {{--endif--}}
+                    @endif
 
                     @endif
                 </div>

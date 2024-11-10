@@ -106,14 +106,17 @@ class PaperModal extends Component
         if ($member->level == 1) {
             $paper->status_selection = $status->id_status;
             $paper->save();
-
+            session()->forget('successMessage');
             session()->flash('successMessage', "Status updated in both Papers and PapersSelection. New status: " . $status->description);
         } else {
+            session()->forget('successMessage');
             session()->flash('successMessage', "Status updated for your selection. New status: " . $status->description);
         }
 
         // Mostra o modal de sucesso
         $this->dispatch('show-success');
+        $this->dispatch('refreshPaperStatus');
+
     }
 
     public function saveNote()
@@ -139,9 +142,11 @@ class PaperModal extends Component
         $paperSelection->note = $this->note;
         $paperSelection->save();
 
+        session()->forget('successMessage');
         session()->flash('successMessage', 'Nota salva com sucesso.');
         // Mostra o modal de sucesso
         $this->dispatch('show-success');
+        $this->dispatch('refreshPaperStatus');
     }
 
     public function changePreSelected($criteriaId, $type)
@@ -166,12 +171,12 @@ class PaperModal extends Component
         }
 
         $this->updatePaperStatus($type);
-
+        session()->forget('successMessage');
         session()->flash('successMessage', "Criteria updated successfully. New status: " . $this->getPaperStatusDescription($this->paper['status_selection']));
 
         // Atualiza a view para mostrar o alert
         $this->dispatch('show-success');
-        $this->dispatch('reload-papers');
+        $this->dispatch('refreshPaperStatus');
     }
 
     // Método auxiliar para obter a descrição do status
@@ -238,7 +243,7 @@ class PaperModal extends Component
             if ($member->level == 1) {
                 Papers::where('id_paper', $id_paper)->update(['status_selection' => $new_status]);
             }
-
+            session()->forget('successMessage');
             session()->flash('successMessage', "Status updated successfully.");
         }
     }
