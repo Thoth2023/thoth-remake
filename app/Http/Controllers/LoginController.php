@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -13,9 +14,8 @@ class LoginController extends Controller
     /**
      * Display login page.
      *
-     * @return Renderable
      */
-    public function show()
+    public function show(): View
     {
         return view('auth.login');
     }

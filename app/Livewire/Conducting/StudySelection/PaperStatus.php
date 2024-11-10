@@ -15,20 +15,20 @@ class PaperStatus extends Component
 
     public $currentProject;
     public $projectId;
-    public $paper;
+    public $paperId;
     public $status_description;
     public $paperStatus;
 
-    public function mount($paper,$projectId)
+    public function mount($paperId,$projectId)
     {
         $this->projectId = $projectId; // Usar o projectId passado diretamente
         $this->currentProject = Project::find($this->projectId);
 
-        $this->paper = $paper;
+        $this->paper = $paperId;
         $this->loadStatus();
     }
 
-    #[On('show-success')]
+    #[On('refreshPaperStatus')]
     public function loadStatus()
     {
 
@@ -37,7 +37,7 @@ class PaperStatus extends Component
             ->where('id_project',$this->currentProject->id_project) // Certificar-se de que o membro pertence ao projeto atual
             ->first();
 
-        $paperStatus = PapersSelection::where('id_paper', $this->paper)
+        $paperStatus = PapersSelection::where('id_paper', $this->paperId)
             ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
             ->select('status_selection.description as status_description')
             ->where('papers_selection.id_member', $member->id_members)
