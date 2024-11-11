@@ -34,15 +34,10 @@ class RegisterController extends Controller
     {
         $attributes = $request->validated();
 
-        $user = User::create([
-            'name' => $attributes['name'],
-            'email' => $attributes['email'],
-            'password' => Hash::make($attributes['password']),
-        ]);
-
+        $user = User::create($attributes);
         auth()->login($user);
 
-        return redirect($this->redirectTo);
+        return redirect('/projects');
     }
 
     // Validação para registro de formulário básico, se necessário
