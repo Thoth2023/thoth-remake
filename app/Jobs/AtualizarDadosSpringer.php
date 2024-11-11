@@ -36,7 +36,8 @@ class AtualizarDadosSpringer implements ShouldQueue
         ]);
 
         try {
-            $endpoint = 'metadata/pam?q=doi:' . $this->doi . '&api_key=097168f70e34da7f5a566f0ccf84156f';
+            $apiKey = config('services.springer.api_key');
+            $endpoint = 'metadata/pam?q=doi:' . $this->doi . '&api_key=' . $apiKey;
             Log::info("Fazendo a requisição para a API Springer no endpoint: $endpoint");
 
             $response = $client->get($endpoint);
