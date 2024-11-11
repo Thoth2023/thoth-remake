@@ -18,6 +18,8 @@ return [
     'total_users' => 'Users',
     'completed_projects' => 'Completed Projects',
     'ongoing_projects' => 'Ongoing Projects',
+    'terms_and_conditions' => 'Terms and Privacy Policy',
+    'back-top' => 'Back to Top',
 
 ];
 

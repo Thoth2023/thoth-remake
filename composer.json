@@ -6,20 +6,21 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-simplexml": "*",
         "algolia/algoliasearch-client-php": "^3.4",
         "algolia/scout-extended": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
         "ladumor/laravel-pwa": "^0.0.4",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "livewire/livewire": "*",
         "renanbr/bibtex-parser": "^2.2",
         "spatie/laravel-model-states": "^2.7",
         "spatie/laravel-permission": "^6.10",
-        "tecnickcom/tcpdf": "^6.7",
-        "ext-simplexml": "*"
+        "tecnickcom/tcpdf": "^6.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

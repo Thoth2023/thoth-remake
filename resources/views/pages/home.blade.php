@@ -3,7 +3,7 @@
 @section("content")
 @include("layouts.navbars.guest.navbar", ["title" => __("pages/home.home")])
 
-<div class="container mt-8 mb-3">
+<div  class="container mt-8 mb-3">
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8" style="width: 100%">
             <div class="col-lg-6 text-center mx-auto">
@@ -102,6 +102,34 @@
                 </div>
             </div>
         </div>
+        <!-- Rodapé com links para Termos e Política de Privacidade e para o topo da página -->
+        <div class="col-12">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <!-- Nome do site e copyright à esquerda -->
+                    <p class="mb-0 text-muted">
+                        © {{ date('Y') }} Thoth-SLR
+                    </p>
+
+                    <!-- Termos e Política de Privacidade e Voltar ao Topo à direita -->
+                    <div class="d-flex gap-3">
+                        <!-- Link para Termos e Política de Privacidade -->
+                        <a href="{{ url('/terms') }}" class="text-muted">
+                            <i class="fas fa-user-shield me-1"></i>
+                            {{ __("pages/home.terms_and_conditions") }}
+                        </a>
+
+                        <!-- Link para Voltar ao Topo com ícone -->
+                        <a href="#top" class="text-muted d-flex align-items-center">
+                            <span>{{ __("pages/home.back-top") }} </span>
+                            <i class="fas fa-arrow-up ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 @endsection
