@@ -34,15 +34,10 @@ class RegisterController extends Controller
     {
         $attributes = $request->validated();
 
-        $user = User::create([
-            'name' => $attributes['name'],
-            'email' => $attributes['email'],
-            'password' => Hash::make($attributes['password']),
-        ]);
-
+        $user = User::create($attributes);
         auth()->login($user);
 
-        return redirect($this->redirectTo);
+        return redirect('/projects');
     }
 
     // Validação para registro de formulário básico, se necessário
@@ -102,12 +97,25 @@ class RegisterController extends Controller
         if ($existingUser) {
             Auth::login($existingUser, true);
         } else {
+            // Extrair o nome completo do usuário e separar em firstname e lastname
+            $nameParts = explode(' ', $socialUser->name);
+            $firstname = $nameParts[0];
+            $lastname = isset($nameParts[1]) ? $nameParts[1] : '';
+
+            // Criar o username concatenando firstname e lastname
+            $username = strtolower($firstname . $lastname);
+
+            // Capturar o país, se estiver disponível
+            $country = $socialUser->user['locale'] ?? null; // Locale às vezes fornece o país/idioma
+
+            // Criar um novo usuário com os dados recebidos
             $newUser = User::create([
-                'name' => $socialUser->name,
+                'username' => $username,
+                'firstname' => $firstname,
+                'lastname' => $lastname,
                 'email' => $socialUser->email,
                 'password' => Hash::make('random_generated_password'), // Gere uma senha aleatória
-                'provider_id' => $socialUser->id,
-                'avatar' => $socialUser->avatar,
+                'country' => $country,
             ]);
 
             Auth::login($newUser, true);
