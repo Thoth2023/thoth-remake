@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Http\Requests\RegisterRequest; // Certifique-se de que RegisterRequest exista ou crie um novo Validator se não houver
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -21,11 +23,29 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function showRegistrationForm()
+    // Método para exibir o formulário de registro
+    public function create()
     {
         return view('auth.register');
     }
 
+    // Método para registro com formulário básico
+    public function store(RegisterRequest $request)
+    {
+        $attributes = $request->validated();
+
+        $user = User::create([
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'password' => Hash::make($attributes['password']),
+        ]);
+
+        auth()->login($user);
+
+        return redirect($this->redirectTo);
+    }
+
+    // Validação para registro de formulário básico, se necessário
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -35,15 +55,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-
+    // Registro e login via Google
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -51,28 +63,12 @@ class RegisterController extends Controller
 
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->user();
-
-        // Check if a user already exists with the given email
-        $existingUser = User::where('email', $googleUser->email)->first();
-
-        if ($existingUser) {
-            // Login the existing user
-            auth()->login($existingUser, true);
-        } else {
-            // Create a new user account
-            $newUser = User::create([
-                'name' => $googleUser->name,
-                'email' => $googleUser->email,
-                'password' => Hash::make('random_generated_password'), // You can generate a random password here
-            ]);
-
-            auth()->login($newUser, true);
-        }
-
-        return redirect()->route('home');
+        $googleUser = Socialite::driver('google')->stateless()->user();
+        $this->_registerOrLoginUser($googleUser);
+        return redirect($this->redirectTo);
     }
 
+    // Registro e login via Facebook
     public function redirectToFacebook()
     {
         return Socialite::driver('facebook')->redirect();
@@ -80,25 +76,12 @@ class RegisterController extends Controller
 
     public function handleFacebookCallback()
     {
-        $facebookUser = Socialite::driver('facebook')->user();
-
-        $existingUser = User::where('email', $facebookUser->email)->first();
-
-        if ($existingUser) {
-            auth()->login($existingUser, true);
-        } else {
-            $newUser = User::create([
-                'name' => $facebookUser->name,
-                'email' => $facebookUser->email,
-                'password' => Hash::make('random_generated_password'),
-            ]);
-
-            auth()->login($newUser, true);
-        }
-
-        return redirect()->route('home');
+        $facebookUser = Socialite::driver('facebook')->stateless()->user();
+        $this->_registerOrLoginUser($facebookUser);
+        return redirect($this->redirectTo);
     }
 
+    // Registro e login via Apple
     public function redirectToApple()
     {
         return Socialite::driver('apple')->redirect();
@@ -106,22 +89,28 @@ class RegisterController extends Controller
 
     public function handleAppleCallback()
     {
-        $appleUser = Socialite::driver('apple')->user();
+        $appleUser = Socialite::driver('apple')->stateless()->user();
+        $this->_registerOrLoginUser($appleUser);
+        return redirect($this->redirectTo);
+    }
 
-        $existingUser = User::where('email', $appleUser->email)->first();
+    // Método privado para registro/login de usuário via autenticação social
+    protected function _registerOrLoginUser($socialUser)
+    {
+        $existingUser = User::where('email', $socialUser->email)->first();
 
         if ($existingUser) {
-            auth()->login($existingUser, true);
+            Auth::login($existingUser, true);
         } else {
             $newUser = User::create([
-                'name' => $appleUser->name,
-                'email' => $appleUser->email,
-                'password' => Hash::make('random_generated_password'),
+                'name' => $socialUser->name,
+                'email' => $socialUser->email,
+                'password' => Hash::make('random_generated_password'), // Gere uma senha aleatória
+                'provider_id' => $socialUser->id,
+                'avatar' => $socialUser->avatar,
             ]);
 
-            auth()->login($newUser, true);
+            Auth::login($newUser, true);
         }
-
-        return redirect()->route('home');
     }
 }

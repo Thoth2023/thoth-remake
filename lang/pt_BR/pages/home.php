@@ -18,6 +18,7 @@ return [
     'total_users' => 'Usuários',
     'completed_projects' => 'Projetos Finalizados',
     'ongoing_projects' => 'Projetos em Andamento',
-
+    'terms_and_conditions' => 'Termos e Politica de Privacidade',
+    'back-top' => 'Voltar ao topo',
 ];
 
