@@ -1,5 +1,7 @@
 <?php
 return[
+    'title-page'=>'Perfil do Usuário',
+    'description-page'=>'Altere seus dados pessoais/profissionais nesta página do usuário. <br/> Para exclusão de conta, basta clicar na opção respectiva e lhe auxiliaremos conforme a lei LGPD.',
     'profile' => 'Perfil',
     'username' => 'Nome de Usuário',
     'email' => 'Email',
@@ -17,10 +19,18 @@ return[
     'edit_profile' => 'Editar Perfil',
     'user_information' => 'Informações do Usuário',
     'contact_information' => 'Informações de Contato',
-    'save' => 'Salvar',
+    'save' => 'Salvar Alterações',
     'cancel' => 'Cancelar',
     'delete' => 'Deletar',
     'your_profile' => 'Seu Perfil',
-    'user_name' => 'Nome de Usuário'
+    'user_name' => 'Nome de Usuário',
+    'updated'=>'Perfil de Usuário atualizado com sucesso!',
+    'request_data_deletion'=>'Solicitar Exclusão da Conta',
+    'confirm-exclusion'=>'Tem certeza de que deseja excluir seus dados?',
+    'confirmation' => 'Solicitação de Exclusão de Dados',
+    'confirmation_message' => 'Sua solicitação de exclusão de dados foi recebida. Um e-mail de confirmação foi enviado para sua caixa de entrada.',
+    'exclusion-success'=>'Seus dados foram excluídos com sucesso conforme termos do LGPD.',
+    'message_heading' => 'Conta Excluída (Anonimizada)',
+    'redirect_notice' => 'Você será redirecionado para a página inicial em 15 segundos.',
 
 ];

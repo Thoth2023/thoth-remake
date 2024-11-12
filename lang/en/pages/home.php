@@ -20,6 +20,8 @@ return [
     'ongoing_projects' => 'Ongoing Projects',
     'terms_and_conditions' => 'Terms and Privacy Policy',
     'back-top' => 'Back to Top',
+    'terms_and_lgpd' => 'Privacy and Data Protection Policy',
+
 
 ];
 

@@ -102,7 +102,26 @@
                     <a href="javascript:" class="card-title h4 d-block text-darker">
                         {{ __("pages/terms.privacy") }}
                     </a>
-                    <p>{{ __("pages/terms.privacy_text") }}</p>
+                    <p>{!!  __("pages/terms.privacy_text") !!}</p>
+                </div>
+
+                <div class="card-body pt-2">
+                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                        {{ __("pages/terms.delete_data") }}
+                    </a>
+                    <p>{!!  __("pages/terms.delete_data_text")  !!}</p>
+                </div>
+                <div class="card-body pt-2">
+                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                        {{ __("pages/terms.exclusion_data") }}
+                    </a>
+                    <p>{!!  __("pages/terms.exclusion_data_text")  !!}</p>
+                </div>
+                <div class="card-body pt-2">
+                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                        {{ __("pages/terms.security_data") }}
+                    </a>
+                    <p>{!!  __("pages/terms.security_data_text")  !!}</p>
                 </div>
 
             </div>

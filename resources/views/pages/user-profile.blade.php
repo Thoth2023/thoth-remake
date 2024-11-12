@@ -3,17 +3,43 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => __('pages/profile.your_profile')])
 
-<div class="container mt-8 mb-3">
+<div class="container mt-1 mb-3">
 
-    <div class="card shadow-lg ">
+    <div class="page-header d-flex flex-column border-radius-lg">
+        <div
+            class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
+            style="width: 100%"
+        >
+            <div class="col-lg-6 text-center mx-auto">
+                <h1 class="text-white">
+                    {{ __("pages/profile.title-page") }}
+                </h1>
+                <p class="text-lead text-white">
+                    {!!   __("pages/profile.description-page") !!}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg mt-2">
         <div class="card-body">
             <div class="row gx-4">
                 <div class="col-auto my-auto">
+                    <!-- Campo de avatar com as iniciais -->
+                    <div class="avatar avatar-xl rounded-circle bg-primary d-flex align-items-center justify-content-center text-white" style="width: 80px; height: 80px; font-size: 1.5rem;">
+                        {{ strtoupper(substr(auth()->user()->firstname, 0, 1)) }}{{ strtoupper(substr(auth()->user()->lastname, 0, 1)) }}
+                    </div>
+                </div>
+                <div class="col my-auto">
                     <div class="h-100">
-                        <p class="mb-0 font-weight-bold text-sm">
+                        <h5 class="mb-1">
+                            {{ auth()->user()->firstname }} {{ auth()->user()->lastname }}
+                        </h5>
+                        <span class="font-weight-bold text-sm mb-0">
+                            {{ auth()->user()->institution ? auth()->user()->institution : 'Institution' }}
+                        </span> :: <span class="mb-0 font-weight-bold text-sm">
                             {{ auth()->user()->occupation ? auth()->user()->occupation : 'Occupation' }}
-                        </p>
-
+                        </span>
                     </div>
                 </div>
             </div>
@@ -27,14 +53,20 @@
     <div class="row" style="justify-content: space-around;">
         <div class="col-md-12">
             <div class="card">
-                <form role="form" method="POST" action={{ route('profile.update') }} enctype="multipart/form-data">
-                    @csrf
                     <div class="card-header pb-0">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-between">
                             <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
-                            <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('pages/profile.save') }}</button>
+
+                            <div class="d-flex ms-auto">
+                                <!-- Formulário para exclusão de dados -->
+                                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="requestDataDeletion()">
+                                        <i class="fas fa-trash"></i>  {{ __('pages/profile.request_data_deletion') }}
+                                    </button>
+                            </div>
                         </div>
                     </div>
+                <form role="form" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                    @csrf
                     <div class="card-body">
                         <p class="text-uppercase text-sm">{{ __('pages/profile.user_information') }}</p>
                         <div class="row">
@@ -123,6 +155,13 @@
                                     @enderror
                                 </div>
                             </div>
+                            <br/>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-save"></i>  {{ __('pages/profile.save') }}
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </form>
@@ -131,4 +170,51 @@
     </div>
     @include('layouts.footers.auth.footer')
 </div>
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="dataDeletionConfirmationModal" tabindex="-1" aria-labelledby="dataDeletionConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataDeletionConfirmationModalLabel">{{ __('pages/profile.confirmation') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ __('pages/profile.confirmation_message') }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('js')
+    <script>
+        function requestDataDeletion() {
+            if (confirm('{{ __("pages/profile.confirm-exclusion") }}')) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+                fetch("{{ route('user.requestDataDeletion') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === 'success') {
+                            // Exibe o modal de confirmação
+                            let dataDeletionConfirmationModal = new bootstrap.Modal(document.getElementById('dataDeletionConfirmationModal'));
+                            dataDeletionConfirmationModal.show();
+                        }
+                    })
+                    .catch(error => console.error('Erro:', error));
+            }
+        }
+
+    </script>
+@endpush
+
 @endsection
