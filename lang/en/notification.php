@@ -9,6 +9,14 @@ return [
         'line_2' => "If you didn't request this, please ignore this email.",
         'thanks' => 'Thank you!',
     ],
+    'delete_account' => [
+        'greeting' => 'Hello!',
+        'subject' => 'Confirm Your Account Deletion',
+        'line_1' => 'We received a request to delete your account. If you wish to proceed, please confirm by clicking the button below.',
+        'action' => 'Confirm Account Deletion',
+        'line_2' => 'This link will expire in 24 hours.',
+        'thanks' => 'Thank you for being with us!',
+    ],
 
     'new_message' => 'New message from',
     'new_album' => 'New album of',

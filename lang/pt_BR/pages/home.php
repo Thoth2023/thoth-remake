@@ -20,5 +20,6 @@ return [
     'ongoing_projects' => 'Projetos em Andamento',
     'terms_and_conditions' => 'Termos e Politica de Privacidade',
     'back-top' => 'Voltar ao topo',
+    'terms_and_lgpd' => 'Política de Privacidade e Proteção de Dados',
 ];
 

@@ -24981,6 +24981,11 @@ pre[class*=language-] {
 .status-removed {
     color: blue;
 }
+.modal-transparent {
+    background-color: rgba(255, 255, 255, 0.9); /* Ajuste a opacidade (0.9) conforme desejado */
+    border: none;
+}
+
 
 
 

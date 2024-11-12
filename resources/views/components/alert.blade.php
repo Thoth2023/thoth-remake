@@ -1,7 +1,7 @@
-<div class="px-4 pt-4">
+<div >
     @if ($message = session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <span class="alert-text">{{ session()->get('sucess') }}</span>
+            <span class="alert-text">{{ session()->get('success') }}</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

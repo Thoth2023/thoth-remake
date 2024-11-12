@@ -122,7 +122,58 @@
         </div>
         @include("layouts.footers.auth.footer")
     </div>
+    <!-- Modal LGPD -->
+    <div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content modal-transparent">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __("pages/terms.modal_lgpd") }}</p>
+                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">
+                        Entendi
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @push('js')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(session('show_lgpd_modal'))
+                var lgpdModal = new bootstrap.Modal(document.getElementById('lgpdModal'));
+                lgpdModal.show();
+                @endif
+            });
 
+            function acceptTermsAndLgpd() {
+                fetch("{{ route('accept.lgpd') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            var lgpdModal = bootstrap.Modal.getInstance(document.getElementById('lgpdModal'));
+                            lgpdModal.hide();
+                        }
+                    })
+                    .catch(error => console.error('Erro:', error));
+            }
+        </script>
+    @endpush
     @push('scripts')
         <script>
             $(document).ready(function () {

@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -32,6 +34,7 @@ class User extends Authenticatable
         'lattes_link',
         'role',
         'active',
+        'terms_and_lgpd',
     ];
 
     protected $hidden = [
@@ -94,4 +97,25 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Profile::class, 'profile_id');
     }
+
+    public function deleteUserData()
+    {
+        // Anonimiza os dados do usuário
+        $this->update([
+            'username' => 'anonimo_' . Str::random(8),
+            'firstname' => 'Anônimo',
+            'lastname' => 'Anônimo',
+            'email' => 'deleted' . $this->id . '@example.com',
+            'address' => null,
+            'city' => null,
+            'country' => null,
+            'postal' => null,
+            'institution' => null,
+            'occupation' => null,
+            'lattes_link' => null,
+            'about' => null,
+            'active' => false, // Desativa a conta
+        ]);
+    }
+
 }
