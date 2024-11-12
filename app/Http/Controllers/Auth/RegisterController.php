@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Http\Requests\RegisterRequest; // Certifique-se de que RegisterRequest exista ou crie um novo Validator se não houver
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -59,12 +60,52 @@ class RegisterController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function handleGoogleCallback(Request $request)
     {
-        $googleUser = Socialite::driver('google')->stateless()->user();
-        $this->_registerOrLoginUser($googleUser);
-        return redirect($this->redirectTo);
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+
+            // Procurar o usuário pelo e-mail
+            $user = User::where('email', $googleUser->getEmail())->first();
+
+            if ($user) {
+                // Se o usuário já estiver registrado, faça o login e redirecione para /about
+                Auth::login($user);
+
+                // Verificar se o usuário já aceitou os termos e exibir modal se não aceitou
+                if (!$user->terms_and_lgpd) {
+                    // Define uma sessão para mostrar o modal LGPD após o login
+                    $request->session()->flash('show_lgpd_modal', true);
+                }
+
+                return redirect()->route('about');
+            } else {
+                // Se o usuário não estiver registrado, crie o cadastro e redirecione para /projects
+                $nameParts = explode(' ', $googleUser->name);
+                $firstname = $nameParts[0];
+                $lastname = isset($nameParts[1]) ? $nameParts[1] : '';
+
+                $username = strtolower($firstname . $lastname);
+
+                $newUser = User::create([
+                    'username' => $username,
+                    'firstname' => $firstname,
+                    'lastname' => $lastname,
+                    'email' => $googleUser->getEmail(),
+                    'password' => Hash::make('random_generated_password'), // Gere uma senha aleatória
+                    'country' => $googleUser->user['locale'] ?? null,
+                ]);
+
+                Auth::login($newUser);
+                // Define uma sessão para mostrar o modal LGPD após o login
+                $request->session()->flash('show_lgpd_modal', true);
+                return redirect('/projects');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('login')->withErrors('Erro ao autenticar com o Google.');
+        }
     }
+
 
     // Registro e login via Facebook
     public function redirectToFacebook()
