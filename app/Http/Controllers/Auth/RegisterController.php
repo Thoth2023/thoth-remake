@@ -61,9 +61,23 @@ class RegisterController extends Controller
 
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->stateless()->user();
-        $this->_registerOrLoginUser($googleUser);
-        return redirect($this->redirectTo);
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+
+            // Procurar o usuário pelo e-mail
+            $user = User::where('email', $googleUser->getEmail())->first();
+
+            if ($user) {
+                // Se o usuário já estiver registrado, faça o login e redirecione
+                Auth::login($user);
+                return redirect()->route('about');
+            } else {
+                // Caso o usuário não esteja registrado, redirecionar para registro ou exibir mensagem
+                return redirect()->route('register')->with('error', 'Usuário não encontrado. Por favor, registre-se primeiro.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('login')->withErrors('Erro ao autenticar com o Google.');
+        }
     }
 
     // Registro e login via Facebook
