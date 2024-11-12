@@ -37,6 +37,9 @@ class RegisterController extends Controller
         $user = User::create($attributes);
         auth()->login($user);
 
+        // Define uma sessão para mostrar o modal LGPD após o registro
+        $request->session()->flash('show_lgpd_modal', true);
+
         return redirect('/projects');
     }
 

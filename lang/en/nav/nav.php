@@ -24,4 +24,6 @@ return [
     'my_projects' => 'My Projects',
     'pages' => 'Pages',
     'search_in_thoth' => 'Search in Thoth...',
+    'terms_and_conditions' => 'Terms and <br/>Privacy Policy',
+    'documentation' => 'Documentation',
 ];

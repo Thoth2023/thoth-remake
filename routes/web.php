@@ -61,9 +61,15 @@ Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
 });
 
+Route::get('/message', function () {
+    return view('message');
+})->name('message');
+
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(Localization::class);
+
+
 
 // Pages controllers
 
@@ -277,12 +283,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile')->middleware(Localization::class);
     Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update')->middleware(Localization::class);
+    Route::post('/profile/delete-data', [UserProfileController::class, 'requestDataDeletion'])->name('user.requestDataDeletion')->middleware(Localization::class);
+    Route::get('/confirm-delete-account/{id}', [UserProfileController::class, 'confirmDeleteAccount'])->name('confirm-delete-account')->middleware('signed');
     Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
     Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
     Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
+
+
+
+
 
 Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);

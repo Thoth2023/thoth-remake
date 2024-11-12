@@ -23,5 +23,7 @@ return [
     'my_projects' => 'Meus Projetos',
     'pages' => 'Páginas',
     'search_in_thoth' => 'Pesquisar no Thoth...',
+    'terms_and_conditions' => 'Termos e Politica <br/> de Privacidade',
+    'documentation'=>'Manuais/Documentação'
 ];
 

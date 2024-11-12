@@ -19,8 +19,7 @@
                         <a href="{{ route('about') }}" class="nav-link text-muted">{{ __('nav/footer.about_us') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="https://github.com/Thoth2023/thoth2.0" class="nav-link pe-0 text-muted"
-                            target="_blank">GitHub</a>
+                        <a href="{{ route('terms') }}" class="nav-link text-muted">{{ __("pages/home.terms_and_conditions") }}</a>
                     </li>
                     <li class="nav-item">
                         <a href="https://www.lesse.com.br" class="nav-link pe-0 text-muted" target="_blank">Lesse</a>

@@ -42,6 +42,12 @@ class LoginController extends Controller
         // Verifica as credenciais
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            // Verificar se o usuário já aceitou os termos e exibir modal se não aceitou
+            if (!$user->terms_and_lgpd) {
+                // Define uma sessão para mostrar o modal LGPD após o login
+                $request->session()->flash('show_lgpd_modal', true);
+            }
             return redirect()->intended('about');
         }
 
@@ -49,6 +55,16 @@ class LoginController extends Controller
         return back()->withErrors([
             'password' => __('auth/login.failed'),
         ]);
+    }
+
+    public function acceptLgpd(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user->update(['terms_and_lgpd' => true]);
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 401);
     }
 
     public function logout(Request $request)
