@@ -71,9 +71,6 @@ class RegisterController extends Controller
                 // Se o usuário já estiver registrado, faça o login e redirecione
                 Auth::login($user);
                 return redirect()->route('about');
-            } else {
-                // Caso o usuário não esteja registrado, redirecionar para registro ou exibir mensagem
-                return redirect()->route('register')->with('error', 'Usuário não encontrado. Por favor, registre-se primeiro.');
             }
         } catch (\Exception $e) {
             return redirect()->route('login')->withErrors('Erro ao autenticar com o Google.');
