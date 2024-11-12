@@ -74,14 +74,14 @@
     </head>
 
     <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password"],) ? "bg-white" : "bg-gray-300" }}"
+        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password","message"],) ? "bg-white" : "bg-gray-300" }}"
     >
         @guest
             @yield("content")
         @endguest
 
         @auth
-            @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password"]))
+            @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
                 @yield("content")
             @else
                 @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
