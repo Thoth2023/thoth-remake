@@ -117,7 +117,7 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <!-- Nome do site e copyright à esquerda -->
                     <p class="mb-0 text-muted">
-                        © {{ date('Y') }} Thoth-SLR
+                        © {{ date('Y') }} - Thoth :: Tool for SLR
                     </p>
 
                     <!-- Termos e Política de Privacidade e Voltar ao Topo à direita -->

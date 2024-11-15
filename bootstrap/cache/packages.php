@@ -99,6 +99,17 @@
       'Livewire' => 'Livewire\\Livewire',
     ),
   ),
+  'macellan/laravel-zip' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Macellan\\Zip\\ZipServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Zip' => 'Macellan\\Zip\\ZipFacade',
+    ),
+  ),
   'nesbot/carbon' => 
   array (
     'providers' => 
