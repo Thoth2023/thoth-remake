@@ -6,6 +6,7 @@ use App\Models\BibUpload;
 use App\Models\Database;
 use App\Models\Project\Conducting\StudySelection\PaperDecisionConflict;
 use App\Models\ProjectDatabases;
+use App\Models\StatusQualityAssessment;
 use App\Models\StatusSelection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,10 +20,38 @@ class Papers extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id_bib',
         'title',
+        'author',
+        'book_title',
+        'volume',
+        'pages',
+        'num_pages',
         'abstract',
         'keywords',
-        'doi'
+        'doi',
+        'journal',
+        'issn',
+        'location',
+        'isbn',
+        'address',
+        'type',
+        'bib_key',
+        'url',
+        'publisher',
+        'year',
+        'added_at',
+        'update_at',
+        'data_base',
+        'id',
+        'status_selection',
+        'check_status_selection',
+        'status_qa',
+        'id_gen_score',
+        'check_qa',
+        'score',
+        'status_extraction',
+        'note',
     ];
 
     public function database()
@@ -33,6 +62,11 @@ class Papers extends Model
     public function status_selection()
     {
         return $this->belongsTo(StatusSelection::class, 'status_selection', 'id_status');
+    }
+
+    public function status_qa()
+    {
+        return $this->belongsTo(StatusQualityAssessment::class, 'status_qa', 'id_status');
     }
 
     public function bibUpload()

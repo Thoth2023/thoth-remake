@@ -4,6 +4,7 @@ namespace App\Models\Project\Conducting\QualityAssessment;
 
 use App\Models\Member;
 use App\Models\Paper;
+use App\Models\Project\Conducting\Papers;
 use App\Models\StatusQualityAssessment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,9 +56,12 @@ class PapersQA extends Model
 
     public function status_qa()
     {
-        return $this->belongsTo(StatusQualityAssessment::class, 'id_status');
+        return $this->belongsTo(StatusQualityAssessment::class, 'id_status', 'id_status');
     }
 
-
+    public function papers()
+    {
+        return $this->belongsTo(Papers::class, 'id_paper', 'id_paper');
+    }
 
 }

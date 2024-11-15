@@ -22,12 +22,12 @@
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
             'label' => __("project/header.reporting"),
-            'route' => 'reporting.index',
+            'route' => 'project.reporting.index',
         ],
         'export' => [
             'icon' => 'fas fa-file-export',
-            'label' => 'Export',
-            'route' => null,
+            'label' => __("project/header.export"),
+            'route' => 'project.export.index',
         ],
     ];
 @endphp

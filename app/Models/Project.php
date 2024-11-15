@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
-class Project extends Model 
+class Project extends Model
 
 {
     // since the table was named in the singular and not plural,
@@ -24,7 +24,7 @@ class Project extends Model
     // and would automatically set it
     // TODO change the db to have the primary key named as id
     protected $primaryKey = 'id_project';
-  
+
     public $timestamps = false;
 
     use HasFactory;
@@ -61,7 +61,7 @@ class Project extends Model
             ->using(ProjectLanguage::class)
             ->withPivot('id_project_lang');
     }
-    
+
     public function studyTypes()
     {
         return $this->belongsToMany(StudyType::class, 'project_study_types', 'id_project', 'id_study_type')
@@ -255,7 +255,7 @@ class Project extends Model
         $this->is_finished = true;
         $this->save();
     }
-    
+
     public function isFinished(): bool
     {
         $idproject = $this->id_project; // Assign the value of id_project to $idproject
@@ -276,8 +276,8 @@ class Project extends Model
     {
         return self::where('is_finished', 0)->count();
     }
-    
-    
+
+
 
 
     public static  function validatePlanning($id_project):bool
@@ -294,15 +294,13 @@ class Project extends Model
     public static function validateConducting($id_project): bool
     {
         $question_quality = DB::table('question_quality')->where('id_project', $id_project)->first();
-      
+
         if ($question_quality == null){
             return false;
         }
-    
+
         return true;
     }
-    
-    
 
     public static function validateAll($id_project):bool
     {
@@ -314,6 +312,10 @@ class Project extends Model
         return false;
     }
 
-    
+    public function userByProject()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
 
 }
