@@ -338,13 +338,13 @@ class Latex extends Component
         // Gerar o arquivo LaTeX com o conteúdo atual do textarea
         $latexContent = $this->description;
         $latexFileName = "project_{$this->projectId}.tex";
-        $latexPath = storage_path("app/{$latexFileName}");
+        $latexPath = storage_path("app/public/{$latexFileName}");
         file_put_contents($latexPath, $latexContent);
 
         // Criar o arquivo ZIP
         $zip = new ZipArchive();
         $zipFileName = "project_{$this->projectId}.zip";
-        $zipPath = storage_path("app/{$zipFileName}");
+        $zipPath = storage_path("app/public/{$zipFileName}");
 
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             $zip->addFile($latexPath, "manuscript.tex");
@@ -355,19 +355,18 @@ class Latex extends Component
         }
 
         // Tornar o ZIP disponível publicamente
-        $publicZipPath = asset("storage/{$zipFileName}"); // Use `asset()` para gerar URL pública
+        $publicZipPath = url("storage/{$zipFileName}");
 
         // Redirecionar o usuário para criar um novo projeto no Overleaf
         $overleafUrl = "https://www.overleaf.com/docs?snip_uri=" . urlencode($publicZipPath);
 
-        DeleteFileLatexJob::dispatch($latexPath)->delay(now()->addMinutes(10));
-        DeleteFileLatexJob::dispatch($zipPath)->delay(now()->addMinutes(10));
+        // Agendar exclusão dos arquivos após 10 minutos
+        DeleteFileLatexJob::dispatch($latexPath, $zipPath)->delay(now()->addMinutes(10));
 
+        // Enviar evento para abrir em nova aba
         $this->dispatch('abrirNovaAba', ['url' => $overleafUrl]);
-
-        // Retorna a URL para redirecionamento
-       // return redirect()->to($overleafUrl);
     }
+
 
 
     public function render()
