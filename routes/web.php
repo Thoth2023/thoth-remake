@@ -6,6 +6,7 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
+use App\Http\Controllers\Project\ExportController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
@@ -233,12 +234,11 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
     });
 
     // start of the reporting routes
-    Route::get('/reporting/', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+    Route::get('/reporting/', [ReportingController::class, 'index'])->name('project.reporting.index')->middleware('auth')->middleware(Localization::class);
 
 
-    Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index')->middleware('auth')->middleware(Localization::class);
+    Route::get('/export/', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-
 
 });
 
