@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Export;
 
+use App\Jobs\DeleteFileLatexJob;
 use App\Models\BibUpload;
 use App\Models\Project\Conducting\Papers;
 use App\Models\Project\Conducting\QualityAssessment\PapersQA;
@@ -359,14 +360,9 @@ class Latex extends Component
         // Redirecionar o usuário para criar um novo projeto no Overleaf
         $overleafUrl = "https://www.overleaf.com/docs?snip_uri=" . urlencode($publicZipPath);
 
-        // Excluir os arquivos gerados após o redirecionamento
-        try {
-            unlink($latexPath); // Exclui o arquivo LaTeX
-            unlink($zipPath);   // Exclui o arquivo ZIP
-        } catch (\Exception $e) {
-            // Log ou notificação caso a exclusão falhe
-            Log::error("Erro ao excluir arquivos temporários: " . $e->getMessage());
-        }
+        DeleteFileLatexJob::dispatch($latexPath)->delay(now()->addMinutes(10));
+        DeleteFileLatexJob::dispatch($zipPath)->delay(now()->addMinutes(10));
+
         $this->dispatch('abrirNovaAba', ['url' => $overleafUrl]);
 
         // Retorna a URL para redirecionamento
