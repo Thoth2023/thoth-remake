@@ -45,18 +45,17 @@ class AtualizarDadosSpringer implements ShouldQueue
             if ($response->getStatusCode() === 200) {
                 $xmlData = $response->getBody()->getContents();
 
-                // Logar o XML completo para inspeção
                 Log::info("Resposta XML recebida da API Springer:", ['xml' => $xmlData]);
 
                 $xml = new \SimpleXMLElement($xmlData);
 
-                // Registrar namespaces e verificar se estão corretos
+                // Registrar namespaces
                 $namespaces = $xml->getNamespaces(true);
                 Log::info("Namespaces disponíveis:", $namespaces);
 
-                $xml->registerXPathNamespace('xhtml', $namespaces['xhtml']);
-                $xml->registerXPathNamespace('pam', $namespaces['pam']);
-                $xml->registerXPathNamespace('prism', $namespaces['prism']);
+                $xml->registerXPathNamespace('dc', $namespaces['dc']); // Namespace para autores
+                $xml->registerXPathNamespace('xhtml', $namespaces['xhtml']); // Namespace para abstract
+                $xml->registerXPathNamespace('facet', $namespaces['pam']); // Namespace para keywords (se aplicável)
 
                 // Extrair Abstract
                 $abstractElement = $xml->xpath('//xhtml:body/p');
@@ -69,9 +68,17 @@ class AtualizarDadosSpringer implements ShouldQueue
                     $keywords[] = (string) $keyword;
                 }
 
+                // Extrair Autores
+                $authors = [];
+                $authorElements = $xml->xpath('//dc:creator');
+                foreach ($authorElements as $author) {
+                    $authors[] = (string) $author;
+                }
+
                 Log::info("Dados extraídos:", [
                     'abstract' => $abstract,
-                    'keywords' => $keywords
+                    'keywords' => $keywords,
+                    'authors' => $authors
                 ]);
 
                 // Atualizar no banco de dados
@@ -81,6 +88,7 @@ class AtualizarDadosSpringer implements ShouldQueue
 
                     $paper->abstract = $abstract;
                     $paper->keywords = implode(', ', $keywords);
+                    $paper->author = implode('; ', $authors); // Atualiza os autores
                     $paper->save();
 
                     Log::info("Atualização do paper concluída para o paper ID {$this->paperId}");
@@ -94,6 +102,8 @@ class AtualizarDadosSpringer implements ShouldQueue
             Log::error("Erro ao buscar dados da Springer para o paper ID {$this->paperId}: " . $e->getMessage());
         }
     }
+
+
 
 
 }
