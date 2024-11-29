@@ -11,6 +11,16 @@ class ReferencesTable extends Component
     public $references = [];
     public $paper_reference_id;
 
+    public $backwardCount = 0; // Contador para Backward
+    public $forwardCount = 0;  // Contador para Forward
+
+    #[On('update-references')]
+    public function updateReferences($data)
+    {
+        $this->paper_reference_id = $data['paper_reference_id'] ?? null;
+        $this->loadReferences(); // Recarregar as referências com o novo ID
+    }
+
     #[On('show-success-snowballing')]
     #[On('showPaperSnowballing')]
     public function loadReferences()
@@ -20,9 +30,20 @@ class ReferencesTable extends Component
             $this->references = PaperSnowballing::where('paper_reference_id', $this->paper_reference_id)
                 ->orderBy('id', 'ASC')
                 ->get();
+
+            // Atualizar contadores de tipos
+            $this->backwardCount = PaperSnowballing::where('paper_reference_id', $this->paper_reference_id)
+                ->where('type_snowballing', 'backward')
+                ->count();
+
+            $this->forwardCount = PaperSnowballing::where('paper_reference_id', $this->paper_reference_id)
+                ->where('type_snowballing', 'forward')
+                ->count();
         } else {
             // Caso não tenha um paper_reference_id, não carrega nada ou carrega todas as referências
             $this->references = [];
+            $this->backwardCount = 0;
+            $this->forwardCount = 0;
         }
     }
 

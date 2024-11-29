@@ -50,20 +50,28 @@ class ProcessReferences implements ShouldQueue
 
         foreach ($this->references as $index => $ref) {
             $doi = $ref['DOI'] ?? null;
+            $title = $ref['article-title'] ?? null;
 
-            Log::info("Processando referência #{$index}", [
+           /* Log::info("Processando referência #{$index}", [
                 'DOI' => $doi,
+                'Título' => $title ?? 'Título desconhecido',
                 'raw_reference' => $ref,
-            ]);
+            ]);*/
 
-            if (!$doi) {
-                Log::warning("Referência ignorada: DOI ausente", ['reference' => $ref]);
+            // Ignorar referências sem DOI e título
+            if (is_null($doi) && (is_null($title) || trim($title) === '')) {
+                Log::warning("Referência ignorada: Sem DOI e Título", ['reference' => $ref]);
                 continue;
             }
 
-            // Verifica duplicação
+            // Verifica duplicação por DOI (se presente) ou título
             $existing = PaperSnowballing::query()
-                ->where('doi', $doi)
+                ->when($doi, function ($query) use ($doi) {
+                    $query->where('doi', $doi);
+                })
+                ->when(!$doi && $title, function ($query) use ($title) {
+                    $query->where('title', $title);
+                })
                 ->where(function ($query) {
                     $query->where('paper_reference_id', $this->paper['id_paper'] ?? null)
                         ->orWhere('parent_snowballing_id', $this->paper['id'] ?? null);
@@ -71,7 +79,10 @@ class ProcessReferences implements ShouldQueue
                 ->exists();
 
             if ($existing) {
-                Log::info("Referência duplicada encontrada e ignorada", ['DOI' => $doi]);
+                Log::info("Referência duplicada encontrada e ignorada", [
+                    'DOI' => $doi,
+                    'Título' => $title,
+                ]);
                 continue;
             }
 
@@ -99,7 +110,7 @@ class ProcessReferences implements ShouldQueue
             }
 
             if (!$authors) {
-                Log::warning("Autores ausentes ou inválidos para referência.", ['DOI' => $doi]);
+                Log::warning("Autores ausentes ou inválidos para referência.", ['DOI' => $doi, 'Título' => $title]);
             }
 
             // Insere no banco de dados
@@ -107,7 +118,7 @@ class ProcessReferences implements ShouldQueue
                 'paper_reference_id' => $this->paper['id_paper'] ?? null,
                 'parent_snowballing_id' => $parentSnowballingId,
                 'doi' => $doi,
-                'title' => $ref['article-title'] ?? 'Título desconhecido',
+                'title' => $title ?? 'unknown',
                 'authors' => $authors,
                 'year' => $ref['year'] ?? null,
                 'abstract' => $ref['abstract'] ?? null,
@@ -122,11 +133,13 @@ class ProcessReferences implements ShouldQueue
 
             Log::info("Referência inserida com sucesso", [
                 'DOI' => $doi,
-                'title' => $ref['article-title'] ?? 'Título desconhecido',
+                'Título' => $title ?? 'Título desconhecido',
             ]);
 
-            // Atualiza metadados
-            $this->updateMetadata($newReference, $doi);
+            // Atualiza metadados, se DOI estiver presente
+            if ($doi) {
+                $this->updateMetadata($newReference, $doi);
+            }
         }
 
         Log::info("Job ProcessReferences concluído", [
@@ -176,5 +189,4 @@ class ProcessReferences implements ShouldQueue
             ]);
         }
     }
-
 }

@@ -51,6 +51,11 @@ class PaperModal extends Component
 
         $this->doi = $paper['doi'] ?? null;
 
+        // Atualizar o componente ReferencesTable
+        $this->dispatch('update-references', [
+            'paper_reference_id' => $this->paper['id_paper']
+        ]);
+
         // Dispara o evento para mostrar o modal
         $this->dispatch('show-paper-snowballing');
     }
@@ -127,10 +132,10 @@ class PaperModal extends Component
                 $data = $response->json();
                 $references = $data['message']['reference'] ?? [];
 
-                Log::info("Referências encontradas", [
+                /*Log::info("Referências encontradas", [
                     'total' => count($references),
                     'references' => $references,
-                ]);
+                ]);*/
 
                 if (empty($references)) {
                     $message = "Nenhuma referência encontrada para o DOI.";
@@ -151,6 +156,9 @@ class PaperModal extends Component
                     ],
                     $type
                 );
+
+                // Atualizar o componente ReferencesTable
+                $this->dispatch('update-references');
 
                 $message = ucfirst($type) . " processado com sucesso!";
                 session()->forget('successMessage');
