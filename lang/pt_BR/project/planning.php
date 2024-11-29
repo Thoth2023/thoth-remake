@@ -540,6 +540,8 @@ return [
         'ranges' => [
             'label-updated' => 'Label atualizada com sucesso.',
             'interval-updated' => 'Intervalo atualizado com sucesso.',
+            'deletion-restricted' => 'Não é possível excluir o intervalo ":description". Existem registros/papers associados.',
+            'generated' => 'Intervalos gerados com sucesso.',
         ],
         'general-score' => [
             'title' => 'Pontuação Geral',
