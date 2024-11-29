@@ -119,6 +119,13 @@ class QuestionCutoff extends Component
         $this->dispatch('update-select-minimal-approve');
     }
 
+    #[On('general-scores-generated')]
+    public function reloadGeneralScores()
+    {
+        $projectId = $this->currentProject->id_project;
+        $this->generalScores = GeneralScore::where('id_project', $projectId)->get();
+    }
+
     #[On('update-select-minimal-approve')]
     public function reloadCutoff()
     {

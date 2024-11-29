@@ -110,18 +110,19 @@
                     <div class='w-20 ms-auto'>
                         <span data-search>
                                 <x-select wire:model="selected_questions_score.{{ $question->id_qa }}" wire:change="updateScore({{ $question->id_qa }}, $event.target.value)">
-                                     @if(!isset($selected_questions_score[$question->id_qa]))  <!-- Verifica se não há score salvo -->
-                                    <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
+                                     @if(!isset($selected_questions_score[$question->id_qa]))
+                                        <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
                                     @endif
 
                                     @foreach ($question->qualityScores as $score)
                                         <option value="{{ $score->id_score }}"
                                                 @if(isset($selected_questions_score[$question->id_qa]) && $selected_questions_score[$question->id_qa] == $score->id_score)
                                                     selected
-                                        @endif>
-                                        {{ $score->score_rule }}
-                                    </option>
+                                                @endif>
+                                            {{ $score->score_rule }}
+                                        </option>
                                     @endforeach
+
                                 </x-select>
                         </span>
                     </div>
