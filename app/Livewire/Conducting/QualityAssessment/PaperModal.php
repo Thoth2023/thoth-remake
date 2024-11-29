@@ -44,10 +44,20 @@ class PaperModal extends Component
         // Carregar os scores selecionados previamente
         //$this->loadSelectedScores();
     }
+    public function resetState()
+    {
+        $this->paper = null;
+        $this->selected_questions_score = [];
+        $this->selected_status = "None";
+        $this->note = null;
+    }
 
     #[On('showPaperQuality')]
     public function showPaperQuality($paper)
     {
+        // Limpar estado anterior
+        $this->resetState();
+
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
             ->where('id_project', $this->projectId)
@@ -69,6 +79,9 @@ class PaperModal extends Component
             ->where('id_member', $member->id_members)
             ->first();
         $this->note = $paperQA ? $paperQA->note : '';
+
+        // Carregar os scores selecionados previamente
+        $this->loadSelectedScores();
 
         // Exibe o modal após garantir que os dados foram carregados
         $this->dispatch('show-paper-quality');
@@ -329,7 +342,7 @@ class PaperModal extends Component
         // Obter as avaliações específicas do paper e do membro logado
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
 
         // Carregar as avaliações de QA específicas do paper e do membro

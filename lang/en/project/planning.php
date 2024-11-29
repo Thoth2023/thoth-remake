@@ -542,6 +542,8 @@ return [
         'ranges' => [
             'label-updated' => 'Label updated successfully.',
             'interval-updated' => 'Interval updated successfully.',
+            'deletion-restricted' => 'Cannot delete the interval ":description". There are  associated records/papers depending on this interval.',
+            'generated' => 'Intervals generated successfully.',
         ],
         'general-score' => [
             'title' => 'General Score',
