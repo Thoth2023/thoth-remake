@@ -8,23 +8,25 @@
                         <button type="button" data-bs-dismiss="modal" class="btn">
                             <span aria-hidden="true">X</span>
                         </button>
+                    @endif
                 </div>
+                @if ($paper) {{-- Certifique-se de que a div do modal body esteja dentro do bloco do $paper --}}
                 <div class="modal-body">
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                            <b>{{ __('project/conducting.snowballing.modal.author' )}}: </b>
+                            <b>{{ __('project/conducting.snowballing.modal.author') }}: </b>
                             <p>{{ $paper['author'] }}</p>
                         </div>
-                        <div class="col-2">
-                            <b>{{ __('project/conducting.snowballing.modal.year' )}}:</b>
+                        <div class="col-1">
+                            <b>{{ __('project/conducting.snowballing.modal.year') }}:</b>
                             <p>{{ $paper['year'] }}</p>
                         </div>
                         <div class="col-4">
-                            <b>{{ __('project/conducting.snowballing.modal.database' )}}:</b>
+                            <b>{{ __('project/conducting.snowballing.modal.database') }}:</b>
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi" href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 DOI
@@ -33,43 +35,51 @@
                                 <i class="fa-solid fa-link"></i>
                                 URL
                             </a>
+                            <a class="btn py-1 px-3 btn-outline-primary"
+                               data-toggle="tooltip"
+                               data-original-title="Buscar no Google Scholar"
+                               href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
+                               target="_blank">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                Google Scholar
+                            </a>
+                            <div>
+                                <h6>Snowballing</h6>
+                                <x-select wire:change="handleReferenceType($event.target.value)">
+                                    <option selected disabled>Selecione...</option>
+                                    <option value="backward">Backward</option>
+                                    <option value="forward">Forward</option>
+                                </x-select>
+                            </div>
+                            <p class="text-success" wire:loading>Processando...</p>
                         </div>
+
                         <div class="d-flex gap-1 mb-3">
-                            <b>{{ __('project/conducting.snowballing.modal.status-snowballing' )}}: </b>
+                            <b>{{ __('project/conducting.snowballing.modal.status-snowballing') }}: </b>
                             <b class="{{ 'text-' . strtolower($paper['status_description']) }}">
                                 {{ __("project/conducting.snowballing.status." . strtolower($paper['status_description'])) }}
                             </b>
                         </div>
                         <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.abstract' )}}: </b>
+                            <b>{{ __('project/conducting.snowballing.modal.abstract') }}: </b>
                             <p>{{ $paper['abstract'] }}</p>
                         </div>
                         <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.keywords' )}}: </b>
+                            <b>{{ __('project/conducting.snowballing.modal.keywords') }}: </b>
                             <p>{{ $paper['keywords'] }}</p>
                         </div>
                     </div>
 
-                    <!--Aqui vai os dados do snowballing -->
-
+                    <!-- Aqui vai os dados do snowballing -->
                     <hr />
+                    @livewire('conducting.snowballing.references-table', ['paper_reference_id' => $paper['id_paper']])
 
-                    <p>{{ __('project/conducting.snowballing.modal.option.select' )}}</p>
-
-                    <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.snowballing.modal.option.unclassified' )}}</label>
-
-                        <input type="radio" class="btn-check" wire:model="selected_status" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.snowballing.modal.option.remove' )}}</label>
-
-                        <input type="radio" class="btn-check" wire:model="selected_status" value="Duplicate" name="btnradio" id="btnradio4" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio4">{{ __('project/conducting.snowballing.modal.option.duplicated' )}}</label>
-                    </div>
-                    @endif
                 </div>
+                @endif
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.snowballing.modal.close' )}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        {{ __('project/conducting.snowballing.modal.close') }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -79,7 +89,9 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <h5 class="modal-title" id="successModalLabel">
+                       INFO
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -96,28 +108,26 @@
 @script
 <script>
     $(document).ready(function(){
-        // mostrar o paper
-        $wire.on('show-paper-snowballing', () => {
+        // Mostrar o modal do paper
+        Livewire.on('show-paper-snowballing', () => {
             $('#paperModalSnowballing').modal('show');
         });
-        //mostrar msg de sucesso
+
+        // Mostrar o modal de sucesso
         Livewire.on('show-success-snowballing', () => {
-            $('#paperModalSnowballing').modal('hide'); // Hide the paper modal
-            $('#successModalSnowballing').modal('show'); // Show the success modal
+            $('#paperModalSnowballing').modal('hide');
+            $('#successModalSnowballing').modal('show');
         });
 
-        // fechar modal paper
+        // Reabrir o modal do paper após o modal de sucesso ser fechado
         $('#successModalSnowballing').on('hidden.bs.modal', function () {
-            $('#paperModalSnowballing').modal('show'); // Reopen the paper modal after success modal is closed
+            $('#paperModalSnowballing').modal('show');
         });
     });
-    Livewire.on('reload-paper-snowballing', () => {
-        // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('showPaperSnowballing', @json($paper));
-    });
 
-    $wire.on('paper-modal', ([{ message, type }]) => {
-        toasty({ message, type });
+    // Recarga do modal de paper
+    Livewire.on('reload-paper-snowballing', () => {
+        Livewire.emit('showPaperSnowballing', @json($paper));
     });
 </script>
 @endscript
