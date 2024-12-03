@@ -23,21 +23,19 @@ class QualityAssessment extends Component
 
     public function getPapersPerStatusQuality()
     {
-        $papers = Papers::whereIn('data_base', function ($query) {
-            $query->select('id_database')
-                ->from('project_databases')
-                ->join('bib_upload', 'project_databases.id_project_database', '=', 'bib_upload.id_project_database')
-                ->join('papers', 'papers.id_bib', '=', 'bib_upload.id_bib')
-                ->where('id_project', $this->currentProject->id_project);
-        })
-            // Junção com outras tabelas necessárias
-            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+        $papers = DB::table('papers_qa')
             ->join('status_qa', 'papers_qa.id_status', '=', 'status_qa.id_status')
+            ->join('members', 'papers_qa.id_member', '=', 'members.id_members')
             ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers_qa.id_paper')
             ->leftJoin('paper_decision_conflicts', 'papers_qa.id_paper', '=', 'paper_decision_conflicts.id_paper')
-
-            // Condição para pegar papers com id_status = 1 ou
-            // papers que têm id_status = 2 na tabela papers_selection e conflitos com new_status_paper = 1
+            ->whereIn('papers_qa.id_paper', function ($query) {
+                $query->select('papers.id_paper')
+                    ->from('papers')
+                    ->join('bib_upload', 'papers.id_bib', '=', 'bib_upload.id_bib')
+                    ->join('project_databases', 'bib_upload.id_project_database', '=', 'project_databases.id_project_database')
+                    ->where('project_databases.id_project', $this->currentProject->id_project);
+            })
+            // Condições de filtragem para status
             ->where(function ($query) {
                 $query->where('papers_selection.id_status', 1)
                     ->orWhere(function ($query) {
@@ -46,21 +44,26 @@ class QualityAssessment extends Component
                             ->where('paper_decision_conflicts.new_status_paper', 1);
                     });
             })
-
-            // Selecionar a descrição do status_qa e contar o total de papers
-            ->distinct('papers.id_paper')
-            ->selectRaw('status_qa.status as status_description, COUNT(*) as total')
+            // Filtrar por nível dos membros
+            ->where(function ($query) {
+                $query->where('members.level', 1)
+                    ->orWhere('members.level', 3);
+            })
+            // Selecionar a descrição do status e contar os papers distintos
+            ->selectRaw('status_qa.status as status_description, COUNT(DISTINCT papers_qa.id_paper) as total')
             ->groupBy('status_description')
+            ->orderBy('status_description')
             ->get();
 
         // Mapear os resultados para o formato necessário
-        return $papers->map(function($paper) {
+        return $papers->map(function ($paper) {
             return [
                 'name' => $paper->status_description, // Acessa a descrição do status
                 'y' => $paper->total // Total de papers por status
             ];
         });
     }
+
 
     public function getPapersByGeneralScore()
     {

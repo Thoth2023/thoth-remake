@@ -32,6 +32,14 @@
                                 <i class="fa-solid fa-link"></i>
                                 URL
                             </a>
+                            <a class="btn py-1 px-3 btn-outline-primary"
+                               data-toggle="tooltip"
+                               data-original-title="Buscar no Google Scholar"
+                               href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
+                               target="_blank">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                Google Scholar
+                            </a>
                             @livewire('conducting.study-selection.buttons-update-paper', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
 
