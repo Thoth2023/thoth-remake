@@ -14,6 +14,18 @@ class ReferencesTable extends Component
     public $backwardCount = 0; // Contador para Backward
     public $forwardCount = 0;  // Contador para Forward
 
+    public function mount($data = null)
+    {
+        // Verifica se $data foi passado e contém o campo necessário
+        $this->paper_reference_id = $data['paper_reference_id'] ?? null;
+
+        // Carrega as referências se o ID do paper estiver definido
+        if ($this->paper_reference_id) {
+            $this->loadReferences();
+        }
+    }
+
+
     #[On('update-references')]
     public function updateReferences($data)
     {
