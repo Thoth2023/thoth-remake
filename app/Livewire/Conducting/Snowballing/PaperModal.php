@@ -55,6 +55,7 @@ class PaperModal extends Component
         $this->dispatch('update-references', [
             'paper_reference_id' => $this->paper['id_paper'] ?? null,
         ]);
+        Log::info('Dispatched update-references', ['paper_reference_id' => $this->paper['id_paper'] ?? null]);
 
         // Dispara o evento para mostrar o modal
         $this->dispatch('show-paper-snowballing');
