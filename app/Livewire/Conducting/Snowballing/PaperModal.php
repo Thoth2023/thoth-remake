@@ -53,7 +53,7 @@ class PaperModal extends Component
 
         // Atualizar o componente ReferencesTable
         $this->dispatch('update-references', [
-            'paper_reference_id' => $this->paper['id_paper']
+            'paper_reference_id' => $this->paper['id_paper'] ?? null,
         ]);
 
         // Dispara o evento para mostrar o modal

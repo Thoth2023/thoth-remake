@@ -72,7 +72,9 @@
 
                     <!-- Aqui vai os dados do snowballing -->
                     <hr />
-                    @livewire('conducting.snowballing.references-table', ['paper_reference_id' => $paper['id_paper']])
+                    @livewire('conducting.snowballing.references-table', ['data' => ['paper_reference_id' => $paper['id_paper'] ?? null]])
+
+
 
                 </div>
                 @endif
