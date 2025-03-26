@@ -44,5 +44,17 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-users', function ($user) {
             return $user->role === 'SUPER_USER';
         });
+
+        // Gate para gerenciamento de bancos de dados
+        Gate::define('manage-databases', function ($user) {
+            // Ajuste esta condição conforme suas regras de negócio
+            return $user->role === 'SUPER_USER';
+        });
+
+        // Gate para gerenciamento de levels
+        Gate::define('manage-levels', function ($user) {
+            // Ajuste esta condição conforme suas regras de negócio
+            return $user->role === 'SUPER_USER';
+        });
     }
 }

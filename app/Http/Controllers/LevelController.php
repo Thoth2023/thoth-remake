@@ -4,8 +4,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Level;
 use App\Models\Permission;
+use Illuminate\Support\Facades\Gate;
+
 class LevelController extends Controller
 {
+
+    public function __construct()
+    {
+        // Aplica a verificação de autorização para todos os métodos
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('manage-levels')) {
+                return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar o Gerenciamento de Usuários.');
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $levels = Level::all();
@@ -25,7 +39,7 @@ class LevelController extends Controller
             'level' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
-        
+
 
         Level::create($request->all());
 
