@@ -40,5 +40,9 @@ class AuthServiceProvider extends ServiceProvider
                 ->where('level', 'administrator') // Define que o nível precisa ser "administrator"
                 ->exists();
         });
+        // Define a gate para gerenciamento de usuários (apenas SUPER_USER pode acessar)
+        Gate::define('manage-users', function ($user) {
+            return $user->role === 'SUPER_USER';
+        });
     }
 }
