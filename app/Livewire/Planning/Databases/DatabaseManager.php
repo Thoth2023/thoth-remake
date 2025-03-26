@@ -5,6 +5,7 @@ namespace App\Livewire\Planning\Databases;
 use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Database as DatabaseModel;
+use Illuminate\Support\Facades\Gate;
 
 class DatabaseManager extends Component
 {
@@ -26,6 +27,26 @@ class DatabaseManager extends Component
     ];
 
     /**
+     * Executed when the component is mounted. It checks authorization and sets the data.
+     */
+    public function mount()
+    {
+        // Verifica a autorização
+        if (Gate::denies('manage-databases')) {
+            $this->toast(
+                message: $this->translate('unauthorized'),
+                type: 'error'
+            );
+
+            $this->skipRender(); // Evita a renderização do componente
+            return redirect()->route('dashboard');
+        }
+
+        $this->currentDatabase = null;
+        $this->databases = $this->fetchDatabases();
+    }
+
+    /**
      * Translation of the messages.
      */
     private function translate(string $message, string $key = 'toasts')
@@ -41,20 +62,11 @@ class DatabaseManager extends Component
         $this->dispatch('databases', ToastHelper::dispatch($type, $message));
     }
 
-    /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
-     */
-    public function mount()
-    {
-        $this->currentDatabase = null;
-        $this->databases = $this->fetchDatabases();
-    }
-
     public function fetchDatabases()
     {
-        return DatabaseModel::all();
-
+        return Gate::allows('manage-databases')
+            ? DatabaseModel::all()
+            : collect();
     }
 
     /**
@@ -63,8 +75,11 @@ class DatabaseManager extends Component
     public function approveDatabase($databaseId)
     {
         try {
-            $database = DatabaseModel::findOrFail($databaseId);
+            if (Gate::denies('manage-databases')) {
+                throw new \Exception($this->translate('unauthorized'));
+            }
 
+            $database = DatabaseModel::findOrFail($databaseId);
             $database->state = 'approved';
             $database->save();
 
@@ -77,14 +92,21 @@ class DatabaseManager extends Component
 
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         }
     }
 
     public function rejectDatabase($databaseId)
     {
         try {
-            $database = DatabaseModel::findOrFail($databaseId);
+            if (Gate::denies('manage-databases')) {
+                throw new \Exception($this->translate('unauthorized'));
+            }
 
+            $database = DatabaseModel::findOrFail($databaseId);
             $database->state = 'rejected';
             $database->save();
 
@@ -97,14 +119,21 @@ class DatabaseManager extends Component
 
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         }
     }
 
     public function deleteSuggestion($databaseId)
     {
         try {
-            $database = DatabaseModel::findOrFail($databaseId);
+            if (Gate::denies('manage-databases')) {
+                throw new \Exception($this->translate('unauthorized'));
+            }
 
+            $database = DatabaseModel::findOrFail($databaseId);
             $database->delete();
 
             $this->databases = $this->fetchDatabases();
@@ -116,6 +145,10 @@ class DatabaseManager extends Component
 
         } catch (\Exception $e) {
             $this->addError('database', $e->getMessage());
+            $this->toast(
+                message: $e->getMessage(),
+                type: 'error'
+            );
         }
     }
 
@@ -129,13 +162,12 @@ class DatabaseManager extends Component
             $database['state'] = $state;
         }
     }
+
     /**
      * Render the component.
      */
     public function render()
     {
-        return view(
-            'livewire.planning.databases.database-manager',
-        );
+        return view('livewire.planning.databases.database-manager');
     }
 }
