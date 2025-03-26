@@ -4,10 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class UserManagerController extends Controller
 {
+    public function __construct()
+    {
+        // Aplica a verificação de autorização para todos os métodos
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('manage-users')) {
+                return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar o Gerenciamento de Usuários.');
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $users = User::all();
@@ -67,7 +79,7 @@ class UserManagerController extends Controller
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'occupation' => $request->occupation,
-            'email' => $request->get('email') ,
+            'email' => $request->get('email'),
             'institution' => $request->institution,
             'role' => $role,
         ]);
