@@ -668,6 +668,7 @@ return [
                     'required' => 'The description question quality field is required.',
                 ],
                 'toasts' => [
+                    'duplicate_id' => 'A question with this ID already exists.',
                     'added' => 'Question Quality added successfully.',
                     'updated' => 'Question Quality updated successfully.',
                     'deleted' => 'Question Quality deleted successfully.',
