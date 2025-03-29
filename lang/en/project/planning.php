@@ -253,6 +253,7 @@ return [
             'description' => 'Description',
             'enter_description' => 'Enter research question description',
             'add' => 'Add',
+            'update' => 'Update',
         ],
         'table' => [
             'id' => 'ID',
