@@ -35,21 +35,18 @@ class Question extends Component
     /**
      * Validation rules.
      */
-    protected $rules = [
-        'description' => 'required|string',
-        'type' => 'required|array',
-    ];
-
-    /**
-     * Custom error messages for the validation rules.
-     */
-    protected function messages()
+    public function rules()
     {
         return [
-            'description.required' => 'Este campo é obrigatório',
-            'type.required' => 'Este campo é obrigatório',
+            'questionId' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
+            'description' => 'required',
+            'type' => 'required'
         ];
     }
+
+    protected $messages = [
+        'questionId.regex' => 'O ID deve conter apenas letras e números.',
+    ];
 
     /**
      * Executed when the component is mounted. It sets the
