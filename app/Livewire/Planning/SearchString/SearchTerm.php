@@ -198,8 +198,20 @@ class SearchTerm extends Component
 
     public function addSynonyms()
     {
-        if (!$this->termId['value'] || !$this->synonym) {
-            $this->addError('termId', 'The term id is required');
+        if (empty($this->termId['value'])) {
+            $this->toast(
+                message: __('O termo é obrigatório.'),
+                type: 'error'
+            );
+            return;
+        }
+
+        if (empty($this->synonym)) {
+            $this->toast(
+                message: __('O sinônimo não pode estar vazio.'),
+                type: 'error'
+            );
+            return;
         }
 
         $updateIf = [
