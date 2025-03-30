@@ -7,13 +7,18 @@ use App\Models\Project as ProjectModel;
 use App\Models\ResearchQuestion as ResearchQuestionModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 
 class ResearchQuestions extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $currentQuestion;
     public $questions = [];
+    private $toastMessages = 'project/planning.research-questions.livewire.toasts';
 
     /**
      * Fields to be filled by the form.
@@ -102,6 +107,11 @@ class ResearchQuestions extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [
@@ -164,6 +174,11 @@ class ResearchQuestions extends Component
      */
     public function edit(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentQuestion = ResearchQuestionModel::findOrFail($questionId);
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
@@ -175,6 +190,11 @@ class ResearchQuestions extends Component
      */
     public function delete(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
             $currentQuestion->delete();

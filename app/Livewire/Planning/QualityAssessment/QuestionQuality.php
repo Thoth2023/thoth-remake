@@ -9,11 +9,15 @@ use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
 use App\Models\Project;
 use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Traits\ProjectPermissions;
 
 class QuestionQuality extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.quality-assessment.question-quality.livewire';
-    private $toastMessages = 'project/planning.quality-assessment.question-quality.livewire.toasts';
+    private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
     public $currentProject;
     public $currentQuestion;
     public $questions = [];
@@ -92,6 +96,11 @@ class QuestionQuality extends Component
      */
     public function updateQuestions()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $projectId = $this->currentProject->id_project;
         $this->questions = Question::where('id_project', $projectId)->get();
         $this->dispatch('update-qa-table');
@@ -102,6 +111,11 @@ class QuestionQuality extends Component
     #[On('edit-question-quality')]
     public function edit($questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentQuestion = Question::findOrFail($questionId);
         $this->form['isEditing'] = true;
         $this->questionId = $this->currentQuestion->id;
@@ -112,6 +126,11 @@ class QuestionQuality extends Component
     #[On('delete-question-quality')]
     public function delete($questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentQuestion = Question::findOrFail($questionId);
             $currentQuestion->delete();
@@ -140,6 +159,11 @@ class QuestionQuality extends Component
 
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [

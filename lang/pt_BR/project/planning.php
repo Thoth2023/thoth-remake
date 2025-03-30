@@ -66,7 +66,8 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
-                    'duplicate' => 'Domínio duplicado não é permitido.'
+                    'duplicate' => 'Domínio duplicado não é permitido.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir domínios.'
                 ],
             ]
         ],
@@ -108,6 +109,7 @@ return [
                 'toasts' => [
                     'added' => 'Idioma adicionado com sucesso.',
                     'deleted' => 'Idioma deletado com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir idiomas.',
                 ],
             ]
         ],
@@ -150,6 +152,7 @@ return [
                 'toasts' => [
                     'added' => 'Tipo de estudo adicionado com sucesso.',
                     'deleted' => 'Tipo de estudo deletado com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir tipos de estudo.'
                 ],
             ]
         ],
@@ -205,7 +208,8 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
-                    'duplicate' => 'Palavra-chave duplicada não é permitida.'
+                    'duplicate' => 'Palavra-chave duplicada não é permitida.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir palavras-chave.',
                 ],
             ]
         ],
@@ -238,6 +242,7 @@ return [
                 'toasts' => [
                     'added' => 'Datas do projeto adicionadas com sucesso.',
                     'updated' => 'Datas do projeto atualizadas com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir datas do projeto.'
                 ],
             ]
         ],
@@ -284,6 +289,7 @@ return [
                 'added' => 'Questão de Pesquisa adicionada com sucesso.',
                 'updated' => 'Questão de Pesquisa atualizada com sucesso.',
                 'deleted' => 'Questão de Pesquisa deletada com sucesso.',
+                'denied' => 'Um visualizador não pode adicionar, editar ou excluir questões de pesquisa.'
             ],
         ]
     ],
@@ -307,10 +313,10 @@ return [
         ],
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
-            'help'=>[
+            'help' => [
                 'title' => 'Sugira uma nova Base de Dados',
                 'content' => 'Caso seja necessário para sua pesquisa e ela não esteja na lista atual da Thoth. Vale ressaltar que essa base de dados só ficará disponível para uso após aprovação dos administradores responsáveis pelo sistema.',
-            ] ,
+            ],
             'content' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
             'enter-name' => 'Digite o nome da Base de Dados',
@@ -337,6 +343,7 @@ return [
                 'added' => 'Base de Dados adicionada com sucesso.',
                 'deleted' => 'Base de Dados deletada com sucesso.',
                 'suggested' => 'Sua sugestão foi enviada com sucesso.',
+                'denied' => 'Um visualizador não pode adicionar, editar ou excluir bases de dados.',
             ],
         ],
         'database-manager' => [
@@ -428,6 +435,7 @@ return [
                     'added' => 'Termo de Busca adicionado com sucesso.',
                     'updated' => 'Termo de Busca atualizado com sucesso.',
                     'deleted' => 'Termo de Busca deletado com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir termos de busca.',
                 ],
             ]
         ],
@@ -456,6 +464,7 @@ return [
         'placeholder' => 'Digite a estratégia de busca',
         'save-button' => 'Salvar',
         'success' => 'Estratégia de busca atualizada com sucesso.',
+        'denied' => 'Um visualizador não pode adicionar, editar ou excluir a estratégia de busca.',
     ],
     'criteria' => [
         'title' => 'Critérios de Inclusão/Exclusão',
@@ -531,6 +540,7 @@ return [
                 'updated-inclusion' => 'Regra do critério de inclusão atualizada',
                 'updated-exclusion' => 'Regra do critério de exclusão atualizada',
                 'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
+                'denied' => 'Um visualizador não pode adicionar, editar ou excluir critérios de inclusão/exclusão.',
             ],
         ],
     ],
@@ -625,6 +635,7 @@ return [
                     'added' => 'Pontuação Geral adicionada com sucesso.',
                     'updated' => 'Pontuação Geral atualizada com sucesso.',
                     'deleted' => 'Pontuação Geral deletada com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir pontuações gerais.',
                 ],
             ],
 
@@ -853,7 +864,9 @@ return [
                 'options' => 'Opções',
                 'actions' => 'Ações',
             ]
+        ],
+        'toasts' => [
+            'denied' => 'A viewer cannot add, edit or delete data extraction questions.',
         ]
     ]
 ];
-
