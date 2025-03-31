@@ -38,6 +38,11 @@ class Project extends Model
         'is_finished',
         'feature_review',
         'generic_search_string',
+        'is_public',
+    ];
+
+    protected $casts = [
+        'is_public' => 'boolean',
     ];
 
     public function users()
