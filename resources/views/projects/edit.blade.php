@@ -61,6 +61,20 @@
                          Snowballing
                     </label>
                 </div> 
+
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" name="peer_review" id="peer_review" value="1" {{ old('peer_review') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="peer_review">
+                        Avaliação por Pares
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="reviewer" id="reviewer" value="1" {{ old('reviewer') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="reviewer">
+                        Revisor
+                    </label>
+                </div>
                 
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/edit.edit')}}</button>

@@ -70,6 +70,19 @@
                     <label class="form-check-label" for="feature_review3">
                          Snowballing
                     </label>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" name="peer_review" id="peer_review" value="Revisão por Pares" {{ old('peer_review') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="peer_review">
+                        Avaliação por Pares
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="reviewer" id="reviewer" value="Revisor" {{ old('reviewer') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="reviewer">
+                        Revisor
+                    </label>
                 </div>    
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
