@@ -25,319 +25,330 @@ use PHPUnit\Event\Application\FinishedSubscriber;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the projects.
-     */
-    public function index()
-    {
-        $user = auth()->user();
-        $projects_relation = $user->projects;
+	/**
+	 * Display a listing of the projects.
+	 */
+	public function index()
+	{
+		$user = auth()->user();
+		$projects_relation = $user->projects;
 
-        $projects = Project::where('id_user', $user->id)->get();
-        $merged_projects = $projects_relation->merge($projects);
+		$projects = Project::where('id_user', $user->id)->get();
+		$merged_projects = $projects_relation->merge($projects);
 
-        foreach ($merged_projects as $project) {
-            $project->setUserLevel($user);
-        }
+		foreach ($merged_projects as $project) {
+			$project->setUserLevel($user);
+		}
 
-        return view('projects.index', compact('merged_projects'));
-    }
-
-
-    /**
-     * Show the form for creating a new project.
-     */
-    public function create()
-    {
-        $userProjects = Auth::user()->projects;
-        return view('projects.create', ['projects' => $userProjects]);
-    }
-
-    /**
-     * Store a newly created project in storage.
-     */
-    public function store(ProjectStoreRequest $request)
-    {
-        $request->validated();
-        $user = Auth::user();
-        $project = Project::create([
-            'id_user' => $user->id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'objectives' => $request->objectives,
-            'created_by' => $user->username,
-            'feature_review' => $request->feature_review
-            //'copy_planning'
-        ]);
+		return view('projects.index', compact('merged_projects'));
+	}
 
 
-        if ($request->copy_planning !== 'none') {
-            $sourceProject = Project::findOrFail($request->copy_planning);
-            $project->copyPlanningFrom($sourceProject);
-        } else {
-            $project->save();
-        }
+	/**
+	 * Show the form for creating a new project.
+	 */
+	public function create()
+	{
+		$userProjects = Auth::user()->projects;
+		return view('projects.create', ['projects' => $userProjects]);
+	}
 
-        $activity = "Created the project ".$project->title;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-
-        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
-
-        return redirect('/projects');
-    }
-
-    /**
-     * Display the specified project.
-     */
-    public function show(string $idProject)
-    {
-        $project = Project::findOrFail($idProject);
-
-        // Verificar se o usuário tem permissão para acessar o projeto
-        if (Gate::denies('access-project', $project)) {
-            return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
-        }
-
-        // Obter relação de usuários e atividades caso a permissão seja concedida
-        $users_relation = $project->users()->get();
-        $activities = Activity::where('id_project', $idProject)
-            ->orderBy('created_at', 'DESC')
-            ->get();
-
-        return view('projects.show', compact('project', 'users_relation', 'activities'));
-    }
+	/**
+	 * Store a newly created project in storage.
+	 */
+	public function store(ProjectStoreRequest $request)
+	{
+		$request->validated();
+		$user = Auth::user();
+		$project = Project::create([
+			'id_user' => $user->id,
+			'title' => $request->title,
+			'description' => $request->description,
+			'objectives' => $request->objectives,
+			'created_by' => $user->username,
+			'feature_review' => $request->feature_review
+			//'copy_planning'
+		]);
 
 
-    /**
-     * Show the form for editing the specified project.
-     */
-    public function edit(string $idProject)
-    {
-        $userProjects = Auth::user()->projects;
-        $project = Project::findOrFail($idProject);
-        $user = Auth::user();
+		if ($request->copy_planning !== 'none') {
+			$sourceProject = Project::findOrFail($request->copy_planning);
+			$project->copyPlanningFrom($sourceProject);
+		} else {
+			$project->save();
+		}
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
-        }
+		$activity = "Created the project " . $project->title;
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-        return view('projects.edit', compact('project'), ['projects' => $userProjects]);
-    }
+		$project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
 
-    /**
-     * Update the specified project in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-		{
+		return redirect('/projects');
+	}
+
+	/**
+	 * Display the specified project.
+	 */
+	public function show(string $idProject)
+	{
+		$project = Project::findOrFail($idProject);
+
+		// Verificar se o usuário tem permissão para acessar o projeto
+		if (Gate::denies('access-project', $project)) {
+			return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
+		}
+
+		// Obter relação de usuários e atividades caso a permissão seja concedida
+		$users_relation = $project->users()->get();
+		$activities = Activity::where('id_project', $idProject)
+			->orderBy('created_at', 'DESC')
+			->get();
+
+		return view('projects.show', compact('project', 'users_relation', 'activities'));
+	}
+
+
+	/**
+	 * Show the form for editing the specified project.
+	 */
+	public function edit(string $idProject)
+	{
+		$userProjects = Auth::user()->projects;
+		$project = Project::findOrFail($idProject);
+		$user = Auth::user();
+
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+		}
+
+		return view('projects.edit', compact('project'), ['projects' => $userProjects]);
+	}
+
+	/**
+	 * Update the specified project in storage.
+	 */
+	public function update(Request $request, string $id)
+	{ {
 			dd($request->all());
 		}
-        $project = Project::findOrFail($id);
-        $user = Auth::user();
+		// Validação dos dados
+		$validatedData = $request->validate([
+			'title' => 'required|string|max:255',
+			'description' => 'nullable|string', // acredito que deveria ser longtext
+			'objectives' => 'nullable|string', //	acredito que deveria ser longtext
+			'copy_planning' => 'nullable|exists:projects,id', // Verifica se o projeto existe
+		]);
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
-        }
+		$project = Project::findOrFail($id);
+		$user = Auth::user();
 
-        $project->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'objectives' => $request->objectives,
-        ]);
+		// Verifica se o usuário tem permissão para editar
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+		}
 
-        if ($request->copy_planning !== 'none') {
-            $sourceProject = Project::findOrFail($request->copy_planning);
-            $project->copyPlanningFrom($sourceProject);
-        }
+		// Atualiza os dados do projeto
+		$project->update([
+			'title' => $validatedData['title'],
+			'description' => $validatedData['description'],
+			'objectives' => $validatedData['objectives'],
+		]);
 
-        $activity = "Edited project";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
+		// Copia o planejamento, se necessário
+		if (!empty($validatedData['copy_planning']) && $validatedData['copy_planning'] !== 'none') {
+			$sourceProject = Project::findOrFail($validatedData['copy_planning']);
+			$project->copyPlanningFrom($sourceProject);
+		}
 
-        return redirect('/projects');
-    }
+		// Registra a atividade
+		$activity = "Edited project: " . $project->title;
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-    /**
-     * Remove the specified project from storage.
-     */
-    public function destroy(string $id)
-    {
-        $project = Project::findOrFail($id);
-        $activity = "Deleted project ".$project->id_;
-        $user = Auth::user();
+		return redirect('/projects')->with('success', 'Project updated successfully.');
+	}
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to delete the project.');
-        }
+	/**
+	 * Remove the specified project from storage.
+	 */
+	public function destroy(string $id)
+	{
+		$project = Project::findOrFail($id);
+		$activity = "Deleted project " . $project->id_;
+		$user = Auth::user();
 
-        $project->delete();
-        ActivityLogHelper::insertActivityLog($activity, 1, null, $user->id);
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to delete the project.');
+		}
 
-        return redirect('/projects');
-    }
+		$project->delete();
+		ActivityLogHelper::insertActivityLog($activity, 1, null, $user->id);
 
-    /**
-     * Remove a member from a project.
-     *
-     * @param string $idProject The ID of the project.
-     * @param mixed $idMember The ID of the member.
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function destroy_member(string $idProject, $idMember)
-    {
-        $project = Project::findOrFail($idProject);
-        $project->users()->detach($idMember);
-        $name_member = User::findOrFail($idMember);
-        $user = Auth::user();
+		return redirect('/projects');
+	}
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
-        }
+	/**
+	 * Remove a member from a project.
+	 *
+	 * @param string $idProject The ID of the project.
+	 * @param mixed $idMember The ID of the member.
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+	 */
+	public function destroy_member(string $idProject, $idMember)
+	{
+		$project = Project::findOrFail($idProject);
+		$project->users()->detach($idMember);
+		$name_member = User::findOrFail($idMember);
+		$user = Auth::user();
 
-        $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-        return redirect()->back();
-    }
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
+		}
 
-    /**
-     * Display the form to add a member to a project.
-     *
-     * @param string $idProject The ID of the project.
-     * @return \Illuminate\Contracts\View\View
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function add_member(string $idProject)
-    {
-        $project = Project::findOrFail($idProject);
-        $users_relation = $project->users()->get();
-        $user = Auth::user();
+		$activity = "The admin removed the member " . $name_member->username . " from " . $project->title . ".";
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
+		return redirect()->back();
+	}
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
-        }
+	/**
+	 * Display the form to add a member to a project.
+	 *
+	 * @param string $idProject The ID of the project.
+	 * @return \Illuminate\Contracts\View\View
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+	 */
+	public function add_member(string $idProject)
+	{
+		$project = Project::findOrFail($idProject);
+		$users_relation = $project->users()->get();
+		$user = Auth::user();
 
-        return view('projects.add_member', compact('project', 'users_relation'));
-    }
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+		}
 
-    /**
- * Add a member to a project based on the submitted form data.
- *
- * @param \App\Http\Requests\ProjectAddMemberRequest $request The validated request object.
- * @param string $idProject The ID of the project.
- * @return \Illuminate\Http\RedirectResponse
- * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
- */
-public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
-{
-    $request->validated();
-    $project = Project::findOrFail($idProject);
-    $email_member = $request->get('email_member');
-    $member_id = $this->findIdByEmail($email_member);
-    $name_member = User::findOrFail($member_id);
-    $level_member = $request->get('level_member', 1);  // Default to level 1 if not specified
+		return view('projects.add_member', compact('project', 'users_relation'));
+	}
 
-    $user = Auth::user();
+	/**
+	 * Add a member to a project based on the submitted form data.
+	 *
+	 * @param \App\Http\Requests\ProjectAddMemberRequest $request The validated request object.
+	 * @param string $idProject The ID of the project.
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+	 */
+	public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
+	{
+		$request->validated();
+		$project = Project::findOrFail($idProject);
+		$email_member = $request->get('email_member');
+		$member_id = $this->findIdByEmail($email_member);
+		$name_member = User::findOrFail($member_id);
+		$level_member = $request->get('level_member', 1);  // Default to level 1 if not specified
 
-    if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
-        return redirect()->back()->with('error', 'The user is already associated with the project.');
-    }
+		$user = Auth::user();
 
-    if (!$project->userHasLevel($user, '1')) {
-        return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
-    }
+		if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
+			return redirect()->back()->with('error', 'The user is already associated with the project.');
+		}
 
-    $token = Str::random(40); // Generate a unique token
-    $project->users()->attach($member_id, [
-        'level' => $level_member,
-        'invitation_token' => $token,
-        'status' => 'pending'
-    ]);
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+		}
 
-    Notification::send($name_member, new ProjectInvitationNotification($project, $token));
+		$token = Str::random(40); // Generate a unique token
+		$project->users()->attach($member_id, [
+			'level' => $level_member,
+			'invitation_token' => $token,
+			'status' => 'pending'
+		]);
 
-    $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
-    ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
+		Notification::send($name_member, new ProjectInvitationNotification($project, $token));
 
-    return redirect()->back()->with('success', 'Invitation sent to ' . $name_member->email);
-}
+		$activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
 
-
-
-
-    /**
-     * Update the level of a project member.
-     *
-     * @param \App\Http\Requests\UpdateMemberLevelRequest $request The validated request object.
-     * @param mixed $idProject The ID of the project.
-     * @param mixed $idMember The ID of the member.
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function update_member_level(UpdateMemberLevelRequest $request, $idProject, $idMember)
-    {
-        $project = Project::findOrFail($idProject);
-        $member = $project->users()->findOrFail($idMember);
-        $validatedData = $request->validated();
-        $name_member = User::findOrFail($idMember);
-        $user = Auth::user();
-
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to update the member level.');
-        }
-
-        $member->pivot->level = $validatedData['level_member'];
-        $member->pivot->save();
-
-        $activity = "The admin updated ".$name_member->username." level to ".$validatedData['level_member'].".";
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-
-        return redirect()->back()->with('succes', 'The member level has been changed successfully.');
-    }
-
-    /**
-     * Find the ID of a user based on their email.
-     *
-     * @param string $email The email of the user.
-     * @return mixed The ID of the user.
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function findIdByEmail($email)
-    {
-        $user = User::where('email', $email)->firstOrFail();
-        $userId = $user->id;
-
-        return $userId;
-    }
+		return redirect()->back()->with('success', 'Invitation sent to ' . $name_member->email);
+	}
 
 
-    public function acceptInvitation($idProject, Request $request)
-    {
-        $token = $request->query('token');
 
-        // Busca o registro na tabela 'members'
-        $invitation = DB::table('members')
-                        ->where('invitation_token', $token)
-                        ->where('id_project', $idProject)
-                        ->first();
 
-        if (!$invitation) {
-            return back()->with('error', 'Invalid or expired invitation.');
-        }
+	/**
+	 * Update the level of a project member.
+	 *
+	 * @param \App\Http\Requests\UpdateMemberLevelRequest $request The validated request object.
+	 * @param mixed $idProject The ID of the project.
+	 * @param mixed $idMember The ID of the member.
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+	 */
+	public function update_member_level(UpdateMemberLevelRequest $request, $idProject, $idMember)
+	{
+		$project = Project::findOrFail($idProject);
+		$member = $project->users()->findOrFail($idMember);
+		$validatedData = $request->validated();
+		$name_member = User::findOrFail($idMember);
+		$user = Auth::user();
 
-        // Atualiza o status do convite para 'accepted'
-        DB::table('members')
-            ->where('invitation_token', $token)
-            ->where('id_project', $idProject)
-            ->update([
-                'status' => 'accepted',
-                'invitation_token' => null  // Remove o token após ser aceito
-            ]);
+		if (!$project->userHasLevel($user, '1')) {
+			return redirect()->back()->with('error', 'You do not have permission to update the member level.');
+		}
 
-        $activity = "Accepted invitation to join the project.";
-        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+		$member->pivot->level = $validatedData['level_member'];
+		$member->pivot->save();
 
-        return redirect('/projects')->with('success', 'You have successfully joined the project!');
-    }
+		$activity = "The admin updated " . $name_member->username . " level to " . $validatedData['level_member'] . ".";
+		ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
+
+		return redirect()->back()->with('succes', 'The member level has been changed successfully.');
+	}
+
+	/**
+	 * Find the ID of a user based on their email.
+	 *
+	 * @param string $email The email of the user.
+	 * @return mixed The ID of the user.
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+	 */
+	public function findIdByEmail($email)
+	{
+		$user = User::where('email', $email)->firstOrFail();
+		$userId = $user->id;
+
+		return $userId;
+	}
+
+
+	public function acceptInvitation($idProject, Request $request)
+	{
+		$token = $request->query('token');
+
+		// Busca o registro na tabela 'members'
+		$invitation = DB::table('members')
+			->where('invitation_token', $token)
+			->where('id_project', $idProject)
+			->first();
+
+		if (!$invitation) {
+			return back()->with('error', 'Invalid or expired invitation.');
+		}
+
+		// Atualiza o status do convite para 'accepted'
+		DB::table('members')
+			->where('invitation_token', $token)
+			->where('id_project', $idProject)
+			->update([
+					'status' => 'accepted',
+					'invitation_token' => null  // Remove o token após ser aceito
+				]);
+
+		$activity = "Accepted invitation to join the project.";
+		ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+
+		return redirect('/projects')->with('success', 'You have successfully joined the project!');
+	}
 
 
 }
