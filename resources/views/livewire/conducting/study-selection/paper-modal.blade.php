@@ -47,7 +47,6 @@
 
                         @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
 
-
                     </div>
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
@@ -116,6 +115,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
+                
             </div>
         </div>
     </div>
