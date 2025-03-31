@@ -194,8 +194,6 @@ class ResearchQuestions extends Component
                 message: $e->getMessage(),
                 type: 'error'
             );
-        } finally {
-            $this->resetFields();
         }
     }
 
