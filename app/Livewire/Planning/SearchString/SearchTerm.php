@@ -202,6 +202,10 @@ class SearchTerm extends Component
             $this->addError('termId', 'The term id is required');
         }
 
+        if (empty(trim($this->synonym))) {
+            $this->addError('synonym', 'The synonym is required');
+        }
+
         $updateIf = [
             'id_synonym' => $this->currentSynonym?->id_synonym,
         ];
