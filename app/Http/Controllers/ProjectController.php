@@ -129,6 +129,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
+		{
+			dd($request->all());
+		}
         $project = Project::findOrFail($id);
         $user = Auth::user();
 
