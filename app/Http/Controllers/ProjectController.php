@@ -48,7 +48,6 @@ class ProjectController extends Controller
         return view('livewire.criar-projeto'); // Caminho correto da view do componente
     }
     
-
     /**
      * Store a newly created project in storage.
      */
