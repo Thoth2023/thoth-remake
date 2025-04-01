@@ -12,6 +12,9 @@ use Livewire\Component;
 class StudySelection extends Component
 {
     public $currentProject;
+    public $selected_criterias = [];
+    public $criterias = [];
+
 
     public function mount()
     {
@@ -20,7 +23,30 @@ class StudySelection extends Component
 
         // Busca o projeto e lança uma exceção se não for encontrado
         $this->currentProject = ProjectModel::findOrFail($projectId);
+
+        // Carrega os critérios do banco de dados
+        $this->criterias = EvaluationCriteria::all()->keyBy('id')->toArray();
     }
+
+    public function changePreSelected($criteriaId, $type)
+    {
+        if (!isset($this->criterias[$criteriaId])) {
+            return;
+        }
+
+        // Aqui você pode definir alguma lógica específica para o tipo do critério
+        if ($type === 'Inclusion') {
+            // Exemplo: faz algo se for um critério de inclusão
+        } else {
+            // Exemplo: faz algo diferente para outro tipo
+        }
+
+        // Apenas como exemplo, armazenamos o critério como "selecionado"
+        if (!in_array($criteriaId, $this->selected_criterias)) {
+            $this->selected_criterias[] = $criteriaId;
+        }
+    }
+
 
     public function getPapersPerStatusSelection()
     {
@@ -35,7 +61,7 @@ class StudySelection extends Component
             ->get();
 
         // Mapear os resultados para o formato necessário
-        return $papers->map(function($paper) {
+        return $papers->map(function ($paper) {
             return [
                 'name' => $paper->status_description,
                 'y' => (int) $paper->total // Total de papers por status
@@ -119,6 +145,6 @@ class StudySelection extends Component
         // Obtenha os dados de critérios por usuário
         $criteriaData = $this->getCriteriaPerUser();
 
-        return view('livewire.reporting.study-selection', compact('papersPerStatus','criteriaData','papersByUserAndStatus'));
+        return view('livewire.reporting.study-selection', compact('papersPerStatus', 'criteriaData', 'papersByUserAndStatus'));
     }
 }

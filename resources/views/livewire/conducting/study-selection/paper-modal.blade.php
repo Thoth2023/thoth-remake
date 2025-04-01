@@ -4,16 +4,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     @if ($paper)
-                        <h5 class="modal-title" id="paperModalLabel">{{ $paper['title'] }}</h5>
-                        <button type="button" data-bs-dismiss="modal" class="btn">
-                            <span aria-hidden="true">X</span>
-                        </button>
+                    <h5 class="modal-title" id="paperModalLabel">{{ $paper['title'] }}</h5>
+                    <button type="button" data-bs-dismiss="modal" class="btn">
+                        <span aria-hidden="true">X</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                        @livewire('conducting.study-selection.paper-authors', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
+                            @livewire('conducting.study-selection.paper-authors', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
                         <div class="col-2">
                             <b>{{ __('project/conducting.study-selection.modal.year' )}}:</b>
@@ -33,10 +33,10 @@
                                 URL
                             </a>
                             <a class="btn py-1 px-3 btn-outline-primary"
-                               data-toggle="tooltip"
-                               data-original-title="Buscar no Google Scholar"
-                               href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
-                               target="_blank">
+                                data-toggle="tooltip"
+                                data-original-title="Buscar no Google Scholar"
+                                href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
+                                target="_blank">
                                 <i class="fa-solid fa-graduation-cap"></i>
                                 Google Scholar
                             </a>
@@ -51,36 +51,35 @@
                     </div>
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
-                        <tr>
-                            <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.select' )}}</th>
-                            <th class="w-5 align-middle text-center">ID</th>
-                            <th class="w-70 align-middle text-wrap">{{ __('project/conducting.study-selection.modal.table.description' )}}</th>
-                            <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.type' )}}</th>
-                        </tr>
+                            <tr>
+                                <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.select' )}}</th>
+                                <th class="w-5 align-middle text-center">ID</th>
+                                <th class="w-70 align-middle text-wrap">{{ __('project/conducting.study-selection.modal.table.description' )}}</th>
+                                <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.type' )}}</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach ($criterias as $criteria)
+                            @foreach ($criterias as $criteria)
                             <tr>
                                 <td class="w-5 align-middle text-center">
                                     <input
                                         type="checkbox"
                                         id="criteria-{{ $criteria['id_criteria'] }}"
                                         wire:key="criteria-{{ $criteria['id_criteria'] }}"
-                                        wire:model="selected_criterias"
-                                        wire:change="changePreSelected({{ $criteria['id_criteria'] }}, '{{ $criteria['type'] }}')"
+                                        wire:model.defer="selected_criterias"
                                         value="{{ $criteria['id_criteria'] }}"
-                                        @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif
-                                    >
+                                        @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif>
                                 </td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
                                 <td class="w-70 align-middle text-wrap">{{ $criteria['description'] }}</td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['type'] }}</td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['rule'] }}</td>
                             </tr>
-                        @endforeach
+                            @endforeach
                         </tbody>
                     </table>
                     <hr />
+
                     <div class="d-flex flex-column mt-3">
                         <label>{{ __('project/conducting.study-selection.modal.paper-conflict-note' )}}</label>
                         <textarea
@@ -94,10 +93,12 @@
                     </textarea>
                     </div>
 
+
+
                     <hr />
                     <!-- Verificação do status -->
                     @if($paper['status_selection'] != 1 && $paper['status_selection'] != 2)
-                        <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
+                    <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
                     <p>{{ __('project/conducting.study-selection.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
@@ -111,11 +112,17 @@
                         <label class="btn btn-outline-primary" for="btnradio4">{{ __('project/conducting.study-selection.modal.option.duplicated' )}}</label>
                     </div>
                     @endif
-                @endif
+                    @endif
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary" wire:click="applySelectedCriterias">
+                            Aplicar Seleção
+                        </button>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -140,7 +147,7 @@
 
 @script
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         // Show the paper modal
         $wire.on('show-paper', () => {
             $('#paperModal').modal('show');
@@ -153,7 +160,7 @@
         });
 
         // Handle the closing of success modal to reopen the paper modal
-        $('#successModal').on('hidden.bs.modal', function () {
+        $('#successModal').on('hidden.bs.modal', function() {
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
     });
@@ -166,8 +173,14 @@
         Livewire.emit('show-sucess-quality');
     });
 
-    $wire.on('paper-modal', ([{ message, type }]) => {
-        toasty({ message, type });
+    $wire.on('paper-modal', ([{
+        message,
+        type
+    }]) => {
+        toasty({
+            message,
+            type
+        });
     });
 </script>
 @endscript
