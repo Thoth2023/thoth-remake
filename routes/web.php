@@ -101,6 +101,11 @@ Route::get('/search-project', [SearchProjectController::class, 'searchByTitleOrC
 //Theme routes
 Route::get('/themes', [ThemeController::class, 'readCookie']);
 
+//criação do livewire
+//edição do livewire
+ 
+
+use App\Livewire\Projetos\CriarProjeto;
 // Projects Routes
 Route::get('/projects/{id}' . __('header'))->name('header')->middleware(Localization::class);
 
