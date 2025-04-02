@@ -122,7 +122,30 @@ class ResearchQuestions extends Component
             $value = $this->form['isEditing'] ? 'Updated the research question' : 'Added a research question';
             $toastMessage = $this->message($this->form['isEditing'] ? '.updated' : '.added');
 
+            // CREATE verifications
             if (!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('id', $this->questionId)) {
+                $this->toast(
+                    message: 'This ID is already in use. Please choose a unique ID for the question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+            if(!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('description', $this->description)) {
+                $this->toast(
+                    message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+
+            // UPDATE verifications
+            if (
+                $this->form['isEditing']
+                && $this->currentQuestion->id != $this->questionId
+                && $this->currentProject->researchQuestions->contains('id', $this->questionId)
+            ) {
                 $this->toast(
                     message: 'This ID is already in use. Please choose a unique ID for the question.',
                     type: 'error'
@@ -132,11 +155,11 @@ class ResearchQuestions extends Component
 
             if (
                 $this->form['isEditing']
-                && $this->currentQuestion->id != $this->questionId
-                && $this->currentProject->researchQuestions->contains('id', $this->questionId)
+                && $this->currentQuestion->description != $this->description
+                && $this->currentProject->researchQuestions->contains('description', $this->description)
             ) {
                 $this->toast(
-                    message: 'This ID is already in use. Please choose a unique ID for the question.',
+                    message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
                     type: 'error'
                 );
                 return;

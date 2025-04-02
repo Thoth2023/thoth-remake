@@ -166,6 +166,21 @@ class QuestionQuality extends Component
 
         $this->validate();
 
+        $existingQuestion = Question::where('id', $this->questionId)
+            ->where('id_project', $this->currentProject->id_project)
+            ->when($this->form['isEditing'], function ($query) {
+                $query->where('id_qa', '!=', $this->currentQuestion?->id_qa);
+            })
+            ->first();
+
+        if ($existingQuestion) {
+            $this->toast(
+                message: __('project/planning.quality-assessment.question-quality.livewire.toasts.duplicate_id'),
+                type: 'error'
+            );
+            return;
+        }
+
         $updateIf = [
             'id_qa' => $this->currentQuestion?->id_qa,
         ];

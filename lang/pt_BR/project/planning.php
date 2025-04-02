@@ -676,6 +676,7 @@ return [
                     'required' => 'O campo de descrição da questão de qualidade é obrigatório.',
                 ],
                 'toasts' => [
+                    'duplicate_id' => 'Uma questão com este ID já existe.',
                     'added' => 'Questão de Qualidade adicionada com sucesso.',
                     'updated' => 'Questão de Qualidade atualizada com sucesso.',
                     'deleted' => 'Questão de Qualidade deletada com sucesso.',
