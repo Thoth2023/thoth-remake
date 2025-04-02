@@ -69,6 +69,12 @@ class SearchStringController extends Controller
      */
     public function store_synonym(Request $request, $id_project)
     {
+
+        $request->validate([
+            'termSelect' => 'required|exists:terms,id',
+            'description_synonym' => 'required|string|min:1'
+        ]);
+
         $id_term = $request->input('termSelect');
         $term = Term::findOrFail($id_term);
 
