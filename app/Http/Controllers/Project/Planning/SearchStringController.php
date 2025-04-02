@@ -61,7 +61,11 @@ class SearchStringController extends Controller
             'description' => $request->input('description_term'),
         ]);
 
-        return redirect("/planning/".$id_project."/search-string");
+        $progress = app(PlanningProgressController::class)->calculate($id_project);
+
+        return redirect("/planning/".$id_project."/search-string")
+            ->with('progress', $progress)
+            ->with('success', 'Term added successfully');
     }
 
     /**
@@ -94,7 +98,11 @@ class SearchStringController extends Controller
         $term->description = $request->input('term-description');
         $term->save();
 
-        return redirect()->back();
+        $progress = app(PlanningProgressController::class)->calculate($term->id_project);
+
+        return redirect()->back()
+            ->with('progress', $progress)
+            ->with('success', 'Term updated successfully');
     }
 
     /**
@@ -105,7 +113,11 @@ class SearchStringController extends Controller
         $term = Term::findOrFail($id_term);
         $term->delete();
 
-        return redirect()->back();
+        $progress = app(PlanningProgressController::class)->calculate($id_project);
+
+        return redirect()->back()
+            ->with('progress', $progress)
+            ->with('success', 'Term removed successfully');
     }
 
     /**
