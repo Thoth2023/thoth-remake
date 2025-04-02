@@ -66,8 +66,8 @@ class ProjectController extends Controller
             'description' => $request->description,
             'objectives' => $request->objectives,
             'created_by' => $user->username,
-            'feature_review' => $request->feature_review
-            //'copy_planning'
+            'feature_review' => $request->feature_review,
+            'is_public' => $request->has('is_public')
         ]);
 
 
@@ -140,6 +140,7 @@ class ProjectController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'objectives' => $request->objectives,
+            'is_public' => $request->has('is_public')
         ]);
 
         if ($request->copy_planning !== 'none') {
