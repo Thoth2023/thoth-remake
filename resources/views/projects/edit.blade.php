@@ -84,7 +84,6 @@
 	<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
 	<script>
-
 		// Initialize o Quill faz dois "construtores" para os dois editores
 		document.addEventListener('DOMContentLoaded', function () {
 			var descriptionEditor = new Quill('#descriptionEditor', {

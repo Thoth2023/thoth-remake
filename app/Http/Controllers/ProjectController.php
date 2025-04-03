@@ -136,7 +136,7 @@ class ProjectController extends Controller
 			'title' => 'required|string|max:255',
 			'description' => 'nullable|string', // acredito que deveria ser longtext
 			'objectives' => 'nullable|string', //	acredito que deveria ser longtext
-			'copy_planning' => 'nullable|exists:projects,id', // Verifica se o projeto existe
+			'copy_planning' => 'nullable|exists:projects,id',
 		]);
 
 		$project = Project::findOrFail($id);
