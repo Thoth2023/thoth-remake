@@ -11,10 +11,14 @@
     <div class="modal fade show" style="display: block" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ $project->title }} - {{ __('project.protocol_and_reports') }}</h5>
-                    <button type="button" class="btn-close" wire:click="closeModal" aria-label="Close"></button>
-                </div>
+            <div class="modal-header">
+    <h5 class="modal-title">{{ __('project.public_protocol') }}</h5>
+    <div class="d-flex gap-2">
+        <button wire:click="downloadPdf" class="btn btn-primary btn-sm">
+            {{ __('project.download_pdf') }}
+        </button>
+    </div>
+</div>
                 <div class="modal-body">
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-4" role="tablist">
