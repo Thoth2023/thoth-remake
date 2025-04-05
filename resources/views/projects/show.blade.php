@@ -24,7 +24,6 @@
                         <div class="d-flex align-items-center">
                             <p class="mb-0">{{ __('project/show.project_info') }}</p>
                             <div class="ms-auto">
-                                @livewire('planning.public-protocol', ['project' => $project], key('public-protocol-'.$project->id_project))
                                 <a class="btn btn-primary btn-sm ms-auto" href="{{ route('projects.edit', $project->id_project) }}">
                                     {{ __('project/show.edit') }}
                                 </a>

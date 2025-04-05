@@ -1,8 +1,9 @@
 <div>
     <!-- Botão do Protocolo Público - Só aparece se o projeto for público -->
     @if($project->is_public)
-        <button wire:click="showPublicProtocol" class="btn btn-info btn-sm ms-2">
-            <i class="fas fa-eye"></i> {{ __('project.public_protocol') }}
+        <button wire:click="showPublicProtocol" class="btn py-1 px-3 btn-outline-info" data-toggle="tooltip" data-original-title="Public Protocol">
+            <i class="fas fa-file-alt"></i>
+            {{ __('project.public_protocol') }}
         </button>
     @endif
 

@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'make_public' => 'Tornar projeto público',
+    'public_protocol' => 'Protocolo Público',
+    'protocol_and_reports' => 'Protocolo e Relatórios',
+    'protocol' => 'Protocolo',
+    'reports' => 'Relatórios',
+    'research_questions' => 'Questões de Pesquisa',
+    'search_strategy' => 'Estratégia de Busca',
+    'search_string' => 'String de Busca',
+    'databases' => 'Bases de Dados',
+    'criteria' => 'Critérios de Seleção',
+    'quality_assessment' => 'Avaliação de Qualidade',
+    'data_extraction' => 'Extração de Dados',
+    'overview' => 'Visão Geral',
+    'study_selection' => 'Seleção de Estudos',
+    'quality_results' => 'Resultados da Avaliação de Qualidade',
+    'data_extraction_results' => 'Resultados da Extração de Dados',
+    'reports_coming_soon' => 'Relatórios estarão disponíveis em breve.',
+    'download_pdf' => 'Baixar PDF',
+    'no_research_questions_defined' => 'Nenhuma questão de pesquisa definida',
+    'project_visibility' => 'Visibilidade do Projeto',
+    'visibility_tooltip' => 'Quando ativado, o protocolo do projeto será acessível publicamente.'
+]; 

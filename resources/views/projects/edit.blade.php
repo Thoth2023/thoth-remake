@@ -62,15 +62,25 @@
                     </label>
                 </div> 
 
-                <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" name="is_public" id="is_public" value="1"
-                        {{ $project->is_public ? 'checked' : '' }}>
-                    <label class="form-check-label" for="is_public">
-                        {{ __('project.make_public') }}
-                    </label>
-                </div>
+                <hr class="horizontal dark mt-4">
+                <p class="text-uppercase text-sm">{{ __('project.project_visibility') }}</p>
                 
-                <div class="d-flex align-items-center">
+                <div class="form-check form-switch ps-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <input class="form-check-input ms-0" type="checkbox" role="switch" name="is_public" id="is_public" value="1"
+                            {{ $project->is_public ? 'checked' : '' }}>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-eye"></i>
+                            <label class="form-check-label mb-0" for="is_public">
+                                {{ __('project.make_public') }}
+                            </label>
+                            <i class="fas fa-question-circle text-warning" data-bs-toggle="tooltip" data-bs-placement="right"
+                               title="{{ __('project.visibility_tooltip') }}"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-4">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/edit.edit')}}</button>
                 </div>
             </form>

@@ -83,6 +83,9 @@
                                                             <i class="fas fa-search-plus"></i>
                                                             {{ __("project/projects.project.options.view") }}
                                                         </a>
+                                                        @if($project->is_public)
+                                                            @livewire('planning.public-protocol', ['project' => $project], key('public-protocol-'.$project->id_project))
+                                                        @endif
                                                         <a class="btn py-1 px-3 btn-outline-secondary" data-toggle="tooltip" data-original-title="Edit Project" href="{{ route("projects.edit", $project->id_project) }}">
                                                             <i class="fas fa-edit"></i>
                                                             {{ __("project/projects.project.options.edit") }}
