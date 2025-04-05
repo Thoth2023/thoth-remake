@@ -61,9 +61,12 @@ class OptionController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-extraction')
+            ->with('progress', $progress)
             ->with('success', 'Option added successfully');
     }
 
@@ -113,11 +116,13 @@ class OptionController extends Controller
         );
 
         $option->delete();
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
 
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-extraction')
-            ->with('success', 'Question deleted successfully');
+            ->with('progress', $progress)
+            ->with('success', 'Option deleted successfully');
     }
 
     /**

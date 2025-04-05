@@ -18,12 +18,20 @@ namespace App\Http\Controllers\Project\Planning\Overall;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DomainUpdateRequest;
 use App\Models\Domain;
+use App\Http\Controllers\Project\Planning\PlanningProgressController;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class DomainController extends Controller
 {
+    private PlanningProgressController $progressCalculator;
+
+    public function __construct(PlanningProgressController $progressCalculator)
+    {
+        $this->progressCalculator = $progressCalculator;
+    }
+
     /**
      * Store a newly created domain.
      *
@@ -43,10 +51,13 @@ class DomainController extends Controller
             projectId: $request->id_project
         );
 
+        $progress = $this->progressCalculator->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Domain added successfully');
+            ->with('success', 'Domain added successfully')
+            ->with('progress', $progress);
     }
 
     /**
@@ -81,10 +92,13 @@ class DomainController extends Controller
             projectId: $projectId
         );
 
+        $progress = $this->progressCalculator->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Domain updated successfully');
+            ->with('success', 'Domain updated successfully')
+            ->with('progress', $progress);
     }
 
     /**
@@ -108,10 +122,13 @@ class DomainController extends Controller
             projectId: $projectId
         );
 
+        $progress = $this->progressCalculator->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Domain deleted successfully');
+            ->with('success', 'Domain deleted successfully')
+            ->with('progress', $progress);
     }
 
     /**

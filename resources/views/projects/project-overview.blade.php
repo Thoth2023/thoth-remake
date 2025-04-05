@@ -38,18 +38,20 @@
                 <h5>{{ __('project/overview.progress') }}</h5>
             </div>
             <div class="card-body">
-                <div class="progress-wrapper">
-                    <div class="progress-info">
-                        <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">{{ __('project/overview.planning') }}</span>
-                        </div>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 60%;"></div>
-                    </div>
-                </div>
-            </div>
+            <div class="progress-wrapper">
+    <div class="progress-info">
+        <div class="progress-percentage">
+            <span class="text-sm font-weight-bold">
+                {{ __('project/overview.planning') }}: {{ number_format($progress['overall'] ?? 0, 2) }}%
+            </span>
+        </div>
+    </div>
+    <div class="progress">
+        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $progress['overall'] ?? 0 }}" aria-valuemin="0"
+            aria-valuemax="100" style="width: {{ $progress['overall'] ?? 0 }}%;">
+        </div>
+    </div>
+</div>
             <div class="card-body">
                 <div class="progress-wrapper">
                     <div class="progress-info">
