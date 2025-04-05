@@ -437,6 +437,8 @@ return [
                     'added' => 'Search Term added successfully.',
                     'updated' => 'Search Term updated successfully.',
                     'deleted' => 'Search Term deleted successfully.',
+                    'validation' => 'The search term field is required.',
+                    'synonym' => 'The synonym field is required.',
                     'denied' => 'A viewer cannot add, edit or delete search terms.',
                 ],
             ]
@@ -684,6 +686,7 @@ return [
                     'added' => 'Question Quality added successfully.',
                     'updated' => 'Question Quality updated successfully.',
                     'deleted' => 'Question Quality deleted successfully.',
+                    'min_weight' => 'The weight must be greater than 0.',
                 ],
             ],
 

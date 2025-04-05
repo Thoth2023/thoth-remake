@@ -181,6 +181,14 @@ class QuestionQuality extends Component
             return;
         }
 
+        if ($this->weight < 0) {
+            $this->toast(
+                message: __('project/planning.quality-assessment.question-quality.livewire.toasts.min_weight'),
+                type: 'error'
+            );
+            return;
+        }
+
         $updateIf = [
             'id_qa' => $this->currentQuestion?->id_qa,
         ];
