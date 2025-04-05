@@ -189,6 +189,21 @@ class Criteria extends Component
                     'rule' => $rule,
                 ])->count();
 
+                // Check if there are any criteria of the same type
+                $projectCriterias = CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type' => $type,
+                ])->count();
+
+                // If there are no criteria of the same type, show a error toast message
+                if ($projectCriterias === 0){
+                    $this->toast(
+                        message: __('project/planning.criteria.livewire.toasts.no_criteria'),
+                        type: 'error'
+                    );
+                    return;
+                }
+
                 if ($selectedCount === 0) {
                     CriteriaModel::where($where)
                         ->first()->update(['pre_selected' => 1]);

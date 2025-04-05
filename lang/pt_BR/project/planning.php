@@ -534,6 +534,7 @@ return [
                 'deleted' => 'Critério excluído',
             ],
             'toasts' => [
+                'no_criteria'=> 'Nenhum critério encontrado.',
                 'added' => 'Critério adicionado com sucesso.',
                 'deleted' => 'Critério deletado com sucesso.',
                 'updated' => 'Critério atualizado com sucesso.',
