@@ -222,12 +222,20 @@ class SearchTerm extends Component
             return;
         }
 
-        if (!$this->termId['value'] || !$this->synonym) {
-            $this->addError('termId', 'The term id is required');
+        if (empty($this->termId['value'])) {
+            $this->toast(
+                message: __('project/planning.search-string.term.livewire.toasts.validation'),
+                type: 'error'
+            );
+            return;
         }
 
-        if (empty(trim($this->synonym))) {
-            $this->addError('synonym', 'The synonym is required');
+        if (empty($this->synonym)) {
+            $this->toast(
+                message: __('project/planning.search-string.term.livewire.toasts.synonym'),
+                type: 'error'
+            );
+            return;
         }
 
         $updateIf = [
@@ -291,7 +299,7 @@ class SearchTerm extends Component
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
-        
+
         try {
             $currentSynonym = SynonymModel::findOrFail($termId);
             $currentSynonym->delete();
