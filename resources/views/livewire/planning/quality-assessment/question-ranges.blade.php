@@ -19,6 +19,7 @@
                         max="{{ $sum }}"
                         disabled="{{ !$loop->first }}"
                         style="min-width: 150px"
+                        x-on:keydown="['e', 'E', '+', '-'].includes($event.key) && $event.preventDefault()"
                     />
                     <x-input
                         label="Max"
@@ -30,6 +31,7 @@
                         max="{{ $sum }}"
                         style="min-width: 150px"
                         disabled="{{ $loop->last }}"
+                        x-on:keydown="['e', 'E', '+', '-'].includes($event.key) && $event.preventDefault()"
                     />
                     <div class="btn-group">
                         <x-input

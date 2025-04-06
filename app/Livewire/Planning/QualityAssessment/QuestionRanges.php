@@ -80,6 +80,11 @@ class QuestionRanges extends Component
   public function updateMax($index, $value)
   {
     try {
+      // Validar se o valor é um número válido
+      if (!is_numeric($value)) {
+        throw new \Exception(__('project/planning.quality-assessment.ranges.invalid-number'));
+      }
+
       /**
        * If the new "end" value is the same as the current "end" value,
        * do nothing
@@ -88,8 +93,8 @@ class QuestionRanges extends Component
         return;
       }
 
-      $this->items[$index]['end'] = round($value, 2);
-      $this->items[$index + 1]['start'] = round($value + 0.01, 2);
+      $this->items[$index]['end'] = round((float)$value, 2);
+      $this->items[$index + 1]['start'] = round((float)$value + 0.01, 2);
 
       /**
        * Update the current "end" value
@@ -110,7 +115,7 @@ class QuestionRanges extends Component
       GeneralScore::updateOrCreate([
         'id_general_score' => $this->items[$index + 1]['id_general_score']
       ], [
-        'start' => round($value + 0.01, 2),
+        'start' => round((float)$value + 0.01, 2),
       ]);
 
         $this->dispatch('general-scores-generated');
