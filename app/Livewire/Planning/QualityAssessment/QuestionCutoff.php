@@ -10,11 +10,17 @@ use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use App\Traits\ProjectPermissions;
+
 class QuestionCutoff extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $questions = [];
     public $isCutoffMaxValue;
+    private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
     public $sum = 0;
     public $selectedGeneralScore;
@@ -58,6 +64,10 @@ class QuestionCutoff extends Component
     #[On('update-weight-sum')]
     public function updateSum()
     {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $projectId = $this->currentProject->id_project;
         $this->questions = Question::where('id_project', $projectId)->get();
         $this->sum = $this->questions->sum('weight');
@@ -66,6 +76,11 @@ class QuestionCutoff extends Component
     #[On('update-cutoff')]
     public function updateSumCutoff()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $projectId = $this->currentProject->id_project;
         $this->questions = Question::where('id_project', $projectId)->get();
         $this->sum = $this->questions->sum('weight');
@@ -82,6 +97,12 @@ class QuestionCutoff extends Component
 
     public function updateCutoff()
     {
+        
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            $this->reloadCutoff();
+            return;
+        }
+
         $projectId = $this->currentProject->id_project;
 
         $selectedGeneralScore = is_array($this->selectedGeneralScore) ? $this->selectedGeneralScore['value'] : $this->selectedGeneralScore;
@@ -97,7 +118,7 @@ class QuestionCutoff extends Component
 
         Log::logActivity(
             action: $this->translate('updated'),
-            description:  $selectedGeneralScore,
+            description: $selectedGeneralScore,
             projectId: $projectId
         );
 
@@ -114,7 +135,6 @@ class QuestionCutoff extends Component
             message: $this->translate('updated'),
             type: 'success',
         );
-
 
         $this->dispatch('update-select-minimal-approve');
     }
@@ -135,7 +155,6 @@ class QuestionCutoff extends Component
         if ($cutoff) {
             $this->selectedGeneralScore = $cutoff->id_general_score;
         }
-
     }
 
 
@@ -148,5 +167,4 @@ class QuestionCutoff extends Component
     {
         $this->dispatch('question-cutoff', ToastHelper::dispatch($type, $message));
     }
-
 }

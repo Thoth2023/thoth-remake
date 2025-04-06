@@ -4,7 +4,7 @@
             <h5>{{ __('project/overview.description') }}</h5>
         </div>
         <div class="card-body pt-2">
-            <p>{{ $project->description }}</p>
+            <p>{!! $project->description !!}</p>
         </div>
     </div>
     <div class="card">
@@ -12,7 +12,7 @@
             <h5>{{ __('project/overview.objectives') }}</h5>
         </div>
         <div class="card-body pt-2">
-            <p>{{ $project->objectives }}</p>
+            <p>{!! $project->objectives !!}</p>
         </div>
     </div>
     <div class="card">
@@ -45,11 +45,11 @@
                         </div>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 60%;"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $progress['overall'] }}" aria-valuemin="0"
+                            aria-valuemax="100" style="width: {{ $progress['overall'] }}%;">
+                            {{ $progress['overall'] }}%
+                        </div>
                     </div>
-                </div>
-            </div>
             <div class="card-body">
                 <div class="progress-wrapper">
                     <div class="progress-info">
