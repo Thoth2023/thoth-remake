@@ -34,6 +34,7 @@
                             label="{{ __('project/planning.criteria.form.description') }}"
                             wire:model="description"
                             placeholder="{{ __('project/planning.criteria.form.enter_description') }}"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             required
                         />
                         @error("description")
