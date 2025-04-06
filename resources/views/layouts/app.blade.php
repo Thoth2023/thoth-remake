@@ -198,8 +198,16 @@
                 const toastBody = toastElement.querySelector('.toast-body');
                 const toastTime = toastElement.querySelector('.toast-time');
 
+                function decodeHtmlEntities(str) {
+                    if (!str) return '';
+                    const temp = document.createElement('textarea');
+                    temp.innerHTML = str;
+                    return temp.value;
+                }
+
                 function showToast(message, type) {
-                    toastBody.innerText = message;
+                    const decodedMessage = decodeHtmlEntities(message);
+                    toastBody.innerText = decodedMessage;
                     toastElement.querySelector('.toast-header strong').innerText = type;
                     const toast = new bootstrap.Toast(toastElement);
                     toast.show();
@@ -220,7 +228,6 @@
                         showToast(validationErrors.join(' '), 'Error');
                     @endif
                 }
-
             });
         </script>
 
