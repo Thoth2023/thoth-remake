@@ -43,11 +43,16 @@ class ProjectController extends Controller
         return view('projects.index', compact('merged_projects'));
     }
 
+
+    /**
+     * Show the form for creating a new project.
+     */
     public function create()
     {
-        return view('livewire.criar-projeto'); // Caminho correto da view do componente
+        $userProjects = Auth::user()->projects;
+        return view('projects.create', ['projects' => $userProjects]);
     }
-    
+
     /**
      * Store a newly created project in storage.
      */

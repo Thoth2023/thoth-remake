@@ -180,29 +180,29 @@ window.sidebarType = function(a) {
 
   sidebar.classList.add(color);
 
+  // Chamada para atualizar a cor do texto conforme o fundo
+  atualizarTextoSidebar(color);
+  
 
-  // Remove text-white/text-dark classes
-  if (color == 'bg-white') {
-    var textWhites = document.querySelectorAll('.sidenav .text-white');
-    for (let i = 0; i < textWhites.length; i++) {
-      textWhites[i].classList.remove('text-white');
-      textWhites[i].classList.add('text-dark');
-    }
-  } else {
-    var textDarks = document.querySelectorAll('.sidenav .text-dark');
-    for (let i = 0; i < textDarks.length; i++) {
-      textDarks[i].classList.add('text-white');
-      textDarks[i].classList.remove('text-dark');
-    }
-  }
 
-  if (color == 'bg-default' && bodyDark) {
-    var textDarks = document.querySelectorAll('.navbar-brand .text-dark');
-    for (let i = 0; i < textDarks.length; i++) {
-      textDarks[i].classList.add('text-white');
-      textDarks[i].classList.remove('text-dark');
+
+
+  // Atualiza a cor do texto da sidebar com base na cor de fundo selecionada
+function atualizarTextoSidebar(color) {
+  // Seletor genérico que cobre links, ícones e textos da sidebar
+  const sidebarElements = document.querySelectorAll('.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span');
+
+  sidebarElements.forEach(el => {
+    // Remove classes anteriores
+    el.classList.remove('text-white', 'text-dark', 'text-blue-600');
+
+    if (color === 'bg-white') {
+      el.classList.add('text-blue-600'); // Azul para fundo branco
+    } else {
+      el.classList.add('text-white'); // Branco para fundo escuro
     }
-  }
+  });
+}
 
   // Remove logo-white/logo-dark
 
