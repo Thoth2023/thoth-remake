@@ -35,7 +35,11 @@ class Option extends Component
      * Validation rules.
      */
     protected $rules = [
-        'description' => 'required|string',
+        'description' => [
+          'required',
+          'string',
+          'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',  
+        ],
         'questionId' => 'required|array',
         'questionId.*.value' => 'exists:question_extraction,id',
     ];
