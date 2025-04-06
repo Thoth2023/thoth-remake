@@ -9525,6 +9525,11 @@ textarea.form-control-lg {
     background-color: #e9ecef !important;
 }
 
+.dark-version .bg-secondary-overview {
+    background-color: #111C44 !important; /* Cor do modo escuro */
+    color: #ffffff !important; /* Ajustar a cor do texto*/
+}
+
 .bg-success {
   background-color: #2dce89 !important;
 }
