@@ -85,8 +85,7 @@ class Option extends Component
     {
         $this->optionId = null;
         $this->description = null;
-        $this->questionId['value'] = $this->currentProject
-            ->dataExtractionQuestions->first()->id_de ?? null;
+        $this->questionId = [];
         $this->form['isEditing'] = false;
     }
 

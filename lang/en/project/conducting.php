@@ -205,6 +205,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
@@ -416,6 +417,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
