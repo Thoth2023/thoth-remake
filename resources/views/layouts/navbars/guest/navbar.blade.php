@@ -133,10 +133,10 @@
                                             class="nav-link d-flex align-items-center justify-content-center me-1"
                                         >
                                             <i
-                                                class="fa fa-user opacity-6 me-1"
+                                                class="fa fa-sign-out-alt me-1 text-secondary"
                                             ></i>
-                                            <span class="d-sm-inline d-none">
-                                            {{ __("nav/nav.logout") }}
+                                            <span>
+                                                {{ __('nav/nav.logout') }}
                                             </span>
                                         </a>
                                     </form>
