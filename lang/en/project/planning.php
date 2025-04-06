@@ -527,6 +527,7 @@ return [
             ],
             'type' => [
                 'required' => 'The type field is required.',
+                'in' => 'Select a valid type.'
             ],
             'logs' => [
                 'added' => 'Criteria added',
