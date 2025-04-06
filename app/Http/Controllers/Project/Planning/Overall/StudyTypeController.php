@@ -59,10 +59,13 @@ class StudyTypeController extends Controller
             id_project: $id_project
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Study type added to the project');
+            ->with('success', 'Study type added to the project')
+            ->with('progress', $progress);
     }
 
     /**
@@ -86,10 +89,13 @@ class StudyTypeController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Study type removed from the project');
+            ->with('success', 'Study type removed from the project')
+            ->with('progress', $progress);
     }
 
     /**

@@ -14,8 +14,9 @@
                     id="questionId"
                     label="{{ __('project/planning.data-extraction.question-form.id') }}"
                     wire:model="questionId"
-                    placeholder="Não utilize caracteres especiais"
+                    placeholder="Digite o ID da questão"
                     maxlength="255"
+                    pattern="\d+"
                     required
                 />
                 @error("questionId")
@@ -30,6 +31,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 />
                 @error("description")

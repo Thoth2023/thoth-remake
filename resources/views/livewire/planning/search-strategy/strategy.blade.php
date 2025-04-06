@@ -37,12 +37,18 @@
                     <div x-data
                          x-ref="editor"
                          x-init="
-                                const quill = new Quill($refs.editor, {
-                                    theme: 'snow'
-                                });
+                            const quill = new Quill($refs.editor, {
+                            theme: 'snow'
+                            });
+
                                 quill.on('text-change', function () {
-                                    $wire.set('currentDescription', quill.root.innerHTML);
-                                });"
+                                    // Obtém o texto puro (sem tags HTML)
+                                    const plainText = quill.getText().trim();
+
+                                    // Remove espaços extras e define o valor no Livewire
+                                    $wire.set('currentDescription', plainText);
+                                });
+                            "
                              style="height: 250px;">
                         {!! $currentDescription !!}
                     </div>

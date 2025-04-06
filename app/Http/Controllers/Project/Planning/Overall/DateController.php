@@ -60,10 +60,13 @@ class DateController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Date added successfully');
+            ->with('success', 'Date added successfully')
+            ->with('progress', $progress);
     }
 
     /**
