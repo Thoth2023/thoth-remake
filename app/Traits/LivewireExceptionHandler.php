@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\ValidationException;
 
 trait LivewireExceptionHandler
 {
@@ -14,6 +15,11 @@ trait LivewireExceptionHandler
      */
     public function handleException(Exception $e): void
     {
+        /**
+         * ----------------------------------------------------------------
+         * Query Exceptions
+         * ----------------------------------------------------------------
+         */
         if ($e instanceof QueryException) {
             $errorCode = $e->errorInfo[1] ?? null; // https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html
 
@@ -36,6 +42,22 @@ trait LivewireExceptionHandler
             }
             return;
         }
+        // ----------------------------------------------------------------
+
+        /**
+         * ----------------------------------------------------------------
+         * Validation Exceptions
+         * ----------------------------------------------------------------
+         */
+        if ($e instanceof ValidationException) {
+            $errors = $e->validator->errors()->all();
+            $this->toast(
+                message: implode(' ', $errors),
+                type: 'error'
+            );
+            return;
+        }
+        // ----------------------------------------------------------------
 
         $this->toast(
             message: __('errors.generic'),

@@ -98,8 +98,8 @@ class Criteria extends Component
      */
     public function resetFields()
     {
-        $this->criteriaId = '';
-        $this->description = '';
+        $this->criteriaId = null;
+        $this->description = null;
         $this->type['value'] = null;
         $this->currentCriteria = null;
         $this->form['isEditing'] = false;
