@@ -34,16 +34,19 @@ class ResearchQuestions extends Component
     protected $rules = [
         'currentProject' => 'required',
         'questionId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|max:255',
+        'description' => 'required|string|regex:/^[\pL\s]+$/u|max:255',
     ];
 
     /**
      * Custom error messages for the validation rules.
      */
     protected $messages = [
-        'description.required' => 'The description field is required.',
-        'questionId.required' => 'The ID field is required.',
-        'questionId.regex' => 'The ID field must contain only letters and numbers.',
+        'description.required' => 'O campo descrição é obrigatório.',
+        'description.regex' => 'A descrição deve conter apenas letras e espaços.',
+        'description.max' => 'A descrição não pode ter mais de 255 caracteres.',
+        'questionId.required' => 'O campo ID é obrigatório.',
+        'questionId.regex' => 'O campo ID deve conter apenas letras e números.',
+        'questionId.max' => 'O campo ID não pode ter mais de 20 caracteres.',
     ];
 
     /**

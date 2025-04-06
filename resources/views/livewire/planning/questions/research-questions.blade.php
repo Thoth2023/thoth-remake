@@ -32,14 +32,16 @@
                         {{ __("project/planning.research-questions.form.description") }}
                     </label>
                     <textarea
-                        class="form-control"
-                        maxlength="255"
-                        rows="4"
-                        id="description"
-                        label="{{ __("project/planning.research-questions.form.description") }}"
-                        wire:model="description"
-                        placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
-                    ></textarea>
+    class="form-control"
+    maxlength="255"
+    rows="4"
+    id="description"
+    wire:model="description"
+    placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+    pattern="[A-Za-zÀ-ÿ\s]+"
+    title="A descrição deve conter apenas letras e espaços."
+    required
+></textarea>
                 </div>
                 @error("description")
                     <span class="text-xs text-danger">
