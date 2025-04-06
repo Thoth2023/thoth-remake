@@ -61,6 +61,14 @@
                          Snowballing
                     </label>
                 </div> 
+
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" name="is_public" id="is_public" value="1"
+                        {{ $project->is_public ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_public">
+                        {{ __('project.make_public') }}
+                    </label>
+                </div>
                 
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/edit.edit')}}</button>
