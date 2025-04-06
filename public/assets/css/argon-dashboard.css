@@ -23317,6 +23317,7 @@ p {
 .dark-version .sidenav {
   background: #111C44 !important;
 }
+
 .dark-version .sidenav.bg-transparent {
   background: transparent !important;
 }
@@ -23326,18 +23327,7 @@ p {
 .dark-version .sidenav.bg-transparent .nav .nav-link {
   color: #fff !important;
 }
-.dark-version .sidenav.bg-white {
-  background: #fff !important;
-}
-.dark-version .sidenav.bg-white .navbar-nav .nav-link.active:after {
-  color: rgba(206, 212, 218, 0.7);
-}
-.dark-version .sidenav.bg-white .collapse .nav-item .nav-link:not(.active) i {
-  color: #344767 !important;
-}
-.dark-version .sidenav.bg-white .collapse .nav-item h6, .dark-version .sidenav.bg-white .collapse .nav-item .h6 {
-  color: #344767 !important;
-}
+
 .dark-version .fixed-plugin .btn.bg-gradient-dark, .dark-version .fixed-plugin .btn.btn-outline-dark {
   color: #fff !important;
   border: 1px solid #fff !important;
@@ -23496,11 +23486,7 @@ p {
 .dark-version .dropdown .dropdown-menu .dropdown-item i,
 .dark-version .dropdown .dropdown-menu .dropdown-item .material-icons {
   color: #fff;
-}
-
-body.dark-version {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
+} 
 
 .flatpickr-calendar {
   background: transparent;

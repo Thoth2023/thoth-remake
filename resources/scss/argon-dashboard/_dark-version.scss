@@ -24,7 +24,8 @@
     }
 
     &.bg-white {
-      background: $white !important;
+		background: $dark-version-sidenav-bg-color !important;
+		color: $white !important;
 
       .navbar-nav {
         .nav-link {
@@ -278,5 +279,6 @@
 }
 
 body.dark-version {
-  color: $dark-version-body-color !important;
-}
+	color: rgba(255, 255, 255, 0.8) !important;
+	background-color: #111C44 !important;
+  }
