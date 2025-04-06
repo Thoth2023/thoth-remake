@@ -33,7 +33,7 @@
                     />
                     <div class="btn-group">
                         <x-input
-                            wire:model="items.{{ $loop->index }}.description"
+                            wire:model.lazy="items.{{ $loop->index }}.description"
                             label="Label"
                             placeholder="Good"
                             class="max-input"

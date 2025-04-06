@@ -134,6 +134,10 @@ class QuestionRanges extends Component
       $idGeneralScore = $this->items[$index]['id_general_score'];
       $value = $this->items[$index]['description'];
 
+      if ($this->oldItems[$index]['description'] === $value) {
+        return;
+      }
+
       GeneralScore::updateOrCreate([
         'id_general_score' => $idGeneralScore,
       ], [
@@ -146,6 +150,8 @@ class QuestionRanges extends Component
         message: __('project/planning.quality-assessment.ranges.label-updated'),
         type: 'success'
       );
+
+      $this->oldItems[$index]['description'] = $value;
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),
@@ -219,6 +225,13 @@ class QuestionRanges extends Component
         );
     }
 
+    public function updated($propertyName)
+    {
+        if (preg_match('/items\.(\d+)\.description/', $propertyName, $matches)) {
+            $index = $matches[1];
+            $this->updateLabel($index);
+        }
+    }
 
     public function render()
   {
