@@ -25,6 +25,62 @@
     color: white !important;
 }
 
+.dark-version .override.nav-tabs .nav-item {
+    background-color: #212229; /* Cor de fundo para o modo escuro */
+    border-radius: 10px;
+    color: #ffffff; /* Cor do texto para o modo escuro */
+}
+
+.dark-version .override.nav-tabs .nav-link.active {
+    background-color: #343a40; /* Cor de fundo para o botão ativo no modo escuro */
+    border: 1px solid #dee2e6;
+    color: #ffffff !important; /* Cor do texto para o botão ativo */
+}
+
+.dark-version .override.nav-tabs .nav-link:hover {
+    background-color: #495057; /* Cor de fundo ao passar o mouse no modo escuro */
+    color: #ffffff; /* Cor do texto ao passar o mouse */
+}
+
+.nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-item {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-link:hover {
+    border-radius: 10px;
+}
+
+.nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-link:focus {
+    border: 1px solid #dee2e6 !important;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-link.active {
+    border: 1px solid #212229 !important;
+    background-color: #212229;
+    border-radius: 10px;
+    color: white !important;
+}
+
+.dark-version .nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-item {
+    background-color: #212229; /* Cor de fundo para o modo escuro */
+    border-radius: 10px;
+    color: #ffffff; /* Cor do texto para o modo escuro */
+}
+
+.dark-version .nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-link.active {
+    background-color: #343a40; /* Cor de fundo para o botão ativo no modo escuro */
+    border: 1px solid #dee2e6;
+    color: #ffffff !important; /* Cor do texto para o botão ativo */
+}
+
+.dark-version .nav-wrapper.position-relative.end-0 .override.nav-tabs .nav-link:hover {
+    background-color: #495057; /* Cor de fundo ao passar o mouse no modo escuro */
+    color: #ffffff; /* Cor do texto ao passar o mouse */
+}
+
 .grid-items-1 {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
