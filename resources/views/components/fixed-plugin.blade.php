@@ -1,4 +1,4 @@
-<div class="fixed-plugin">
+<div class="fixed-plugin"> 
     <div class="card shadow-lg">
         <div class="card-header pb-0 pt-3 ">
             <div class="float-start">
@@ -10,14 +10,12 @@
                     <i class="fa fa-close"></i>
                 </button>
             </div>
-            <!-- End Toggle Button -->
         </div>
         <hr class="horizontal dark my-1">
         <div class="card-body pt-sm-3 pt-0 overflow-auto">
             <div>
                 <h6 class="mb-1">{{ __('nav/side.language_selection') }}</h6>
             </div>
-            <!-- Language Selector Dropdown -->
             <div class="dropdown">
                 <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                     <i class="fas fa-globe opacity-6 text-dark me-1" style="color: #FFFFFF !important"></i>
@@ -32,8 +30,6 @@
                     </li>
                 </ul>
             </div>
-            <!-- End Language Selector Dropdown -->
-            <!-- Sidebar Backgrounds -->
             <div>
                 <h6 class="mb-0 mt-3">{{ __('nav/side.sidebar_color') }}</h6>
             </div>
@@ -47,17 +43,19 @@
                     <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
                 </div>
             </a>
-            <!-- Sidenav Type -->
             <div class="mt-3">
                 <h6 class="mb-0">{{ __('nav/side.sidenav_type') }}</h6>
                 <p class="text-sm">{{ __('nav/side.sidenav_choose') }}</p>
             </div>
             <div class="d-flex">
-                <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">{{ __('nav/side.white') }}</button>
-                <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">{{ __('nav/side.dark') }}</button>
+                <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">
+                    {{ __('nav/side.white') }}
+                </button>
+                <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">
+                    {{ __('nav/side.dark') }}
+                </button>
             </div>
             <p class="text-sm d-xl-none d-block mt-2">{{ __('nav/side.sidenav_warning') }}</p>
-            <!-- Navbar Fixed -->
             <div class="d-flex my-3">
                 <h6 class="mb-0">{{ __('nav/side.navbar_fixed') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
@@ -74,7 +72,6 @@
 
             <div class="w-100 text-center">
                 <a href="https://github.com/Thoth2023/thoth2.0" class="btn btn-dark mb-0 me-2" target="_blank">
-                    {{-- &amp;url2=https%3A%2F%2Fwww.updivision.com --}}
                     <i class="fab fa-github me-1" aria-hidden="true"></i> Thoth
                 </a>
                 <a href="https://www.lesse.com.br" class="btn btn-dark mb-0 me-2" target="_blank">
@@ -84,3 +81,26 @@
         </div>
     </div>
 </div>
+
+<!-- Script para persistência do modo escuro/claro -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkbox = document.getElementById('dark-version');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-version');
+            checkbox.checked = true;
+        } else {
+            document.body.classList.remove('dark-version');
+            checkbox.checked = false;
+        }
+
+        checkbox.addEventListener('change', () => {
+            const newTheme = checkbox.checked ? 'dark' : 'light';
+
+            document.body.classList.toggle('dark-version', newTheme === 'dark');
+            localStorage.setItem('theme', newTheme);
+        });
+    });
+</script>
