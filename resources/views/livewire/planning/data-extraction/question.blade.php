@@ -14,7 +14,7 @@
                     id="questionId"
                     label="{{ __('project/planning.data-extraction.question-form.id') }}"
                     wire:model="questionId"
-                    placeholder="Não utilize caracteres especiais"
+                    placeholder="ID"
                     maxlength="255"
                     required
                 />

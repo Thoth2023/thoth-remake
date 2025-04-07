@@ -36,6 +36,7 @@ class Question extends Component
      * Validation rules.
      */
     protected $rules = [
+        'questionId' => ['required', 'max:255', 'regex:/^(?!\s*$)[a-zA-Z0-9\s]+$/'],
         'description' => 'required|string',
         'type' => 'required|array',
     ];
@@ -46,6 +47,8 @@ class Question extends Component
     protected function messages()
     {
         return [
+            'questionId.required' => 'Este campo é obrigatório',
+            'questionId.regex' => 'O ID da questão não pode conter caracteres especiais',
             'description.required' => 'Este campo é obrigatório',
             'type.required' => 'Este campo é obrigatório',
         ];
