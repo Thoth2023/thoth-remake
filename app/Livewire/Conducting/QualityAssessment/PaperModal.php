@@ -238,27 +238,23 @@ class PaperModal extends Component
     {
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)// Certificar-se de que o membro pertence ao projeto atual
             ->first();
-
+    
+        
         //Calcular a soma de todos os `score_partial` de `evaluation_qa` para o `id_paper`
         $totalScore = EvaluationQA::where('id_paper', $paperId)
             ->where('id_member', $member->id_members)
             ->sum('score_partial');
-
+    
         $generalScoreId = $this->findGeneralScoreId($totalScore);
-
-        //questões do projeto atual
+    
         $totalQuestions = Question::where('id_project', $this->currentProject->id_project)->count();
-
-        //avaliações feitas para o paper específico
         $answeredQuestions = EvaluationQA::where('id_paper', $paperId)
             ->where('id_member', $member->id_members)
             ->count();
-
-        // Verifica se todas as questões foram respondidas
         $todasRespostas = ($answeredQuestions === $totalQuestions);
-
+    
         $scores = DB::table('evaluation_qa')
             ->join('question_quality', 'evaluation_qa.id_qa', '=', 'question_quality.id_qa')
             ->join('score_quality as sq1', 'evaluation_qa.id_score_qa', '=', 'sq1.id_score')
@@ -272,8 +268,7 @@ class PaperModal extends Component
                 'sq2.score as score_min_to_app'
             )
             ->get();
-
-        // Verifica se algum score_selecionado é menor que score_min_to_app
+    
         $belowMinScore = false;
         foreach ($scores as $score) {
             if ($score->score_selecionado < $score->score_min_to_app) {
@@ -281,7 +276,9 @@ class PaperModal extends Component
                 break;
             }
         }
+
         //Verifica se o score está num intervalo maior ou menor que o cutoff (score geral) em `qa_cutoff` em general_scores
+    
         $qaCutoff = DB::table('qa_cutoff')
             ->join('general_score', 'qa_cutoff.id_general_score', '=', 'general_score.id_general_score')
             ->where('qa_cutoff.id_project', $this->currentProject->id_project)
@@ -289,34 +286,40 @@ class PaperModal extends Component
             ->first();
 
         // 1 = Accepted, 2 = Rejected
+
         $newStatus = ($totalScore >= $qaCutoff->start && !$belowMinScore) ? 1 : 2;
-
-        //Atualizar `papers_qa`
-        PapersQA::where('id_paper', $paperId)
-                ->where('id_member', $member->id_members)
-                ->update([
-                    'score' => $totalScore,
-                    'id_gen_score' => $generalScoreId,
-                ]);
-
-        if ($todasRespostas === true) {
+    
+        // Verifica se o generalScoreId é válido antes de atualizar
+        if ($generalScoreId !== null && DB::table('general_score')->where('id_general_score', $generalScoreId)->exists()) {
             PapersQA::where('id_paper', $paperId)
                 ->where('id_member', $member->id_members)
                 ->update([
                     'score' => $totalScore,
                     'id_gen_score' => $generalScoreId,
-                    'id_status' => $newStatus,
                 ]);
-        }
-        // Se todas as respostas foram completadas e o nível do membro for 1 (administrador), atualizar a tabela `papers`
-        if ($todasRespostas === true && $member->level == 1) {
-            Papers::where('id_paper', $paperId)->update([
-                'score' => $totalScore,
-                'id_gen_score' => $generalScoreId,
-                'status_qa' => $newStatus,
-            ]);
+    
+            if ($todasRespostas === true) {
+                PapersQA::where('id_paper', $paperId)
+                    ->where('id_member', $member->id_members)
+                    ->update([
+                        'score' => $totalScore,
+                        'id_gen_score' => $generalScoreId,
+                        'id_status' => $newStatus,
+                    ]);
+            }
+    
+            if ($todasRespostas === true && $member->level == 1) {
+                Papers::where('id_paper', $paperId)->update([
+                    'score' => $totalScore,
+                    'id_gen_score' => $generalScoreId,
+                    'status_qa' => $newStatus,
+                ]);
+            }
+        } else {
+            \Log::warning("generalScoreId inválido ou inexistente para o score total: $totalScore (paper_id: $paperId)");
         }
     }
+    
     private function findGeneralScoreId($totalScore)
     {
         //caso o Score for zero ou menor que o menor intervalo
