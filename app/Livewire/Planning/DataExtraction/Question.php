@@ -106,19 +106,19 @@ class Question extends Component
     {
         $this->validate();
 
-        // Verifica se o 'id' da questão já existe no projeto atual (em modo de criação)
-        if (!$this->form['isEditing']) {
-            $existingQuestion = QuestionModel::where('id', $this->questionId)
-                ->where('id_project', $this->currentProject->id_project)
-                ->first();
+        $existingQuestion = QuestionModel::where('id', $this->questionId)
+            ->where('id_project', $this->currentProject->id_project)
+            ->when($this->form['isEditing'], function ($query) {
+                return $query->where('id', '!=', $this->currentQuestion->id);
+            })
+            ->first();
 
-            if ($existingQuestion) {
-                $this->toast(
-                    message: 'Já existe uma questão com este ID neste projeto.',
-                    type: 'error'
-                );
-                return;
-            }
+        if ($existingQuestion) {
+            $this->toast(
+                message: 'Já existe uma questão com este ID neste projeto.',
+                type: 'error'
+            );
+            return;
         }
 
         try {
