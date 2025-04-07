@@ -13,6 +13,7 @@ use Livewire\Component;
 use TCPDF;
 use Illuminate\Support\Facades\View;
 use App\Utils\ToastHelper;
+use Livewire\Attributes\On;
 
 
 class Buttons extends Component
@@ -23,6 +24,7 @@ class Buttons extends Component
     public $exactDuplicateCount = 0;
 
     public $totalDuplicates = 0;
+    public $hasPapers = false;
 
     private function translate(string $message, string $key = 'duplicates')
     {
@@ -474,11 +476,29 @@ class Buttons extends Component
 
     public function mount() {
         $this->projectId = request()->segment(2);
+        $this->checkPapersAvailability();
+    }
 
+    public function checkPapersAvailability()
+    {
+        try {
+            $papers = $this->getPapersExport();
+            $this->hasPapers = $papers->isNotEmpty();
+        } catch (\Exception $e) {
+            $this->hasPapers = false;
+        }
     }
 
     public function render()
     {
+        // Verificar novamente se existem papers disponíveis antes de renderizar
+        $this->checkPapersAvailability();
         return view('livewire.conducting.study-selection.buttons');
+    }
+
+    #[On('papers-updated')]
+    public function updatePapersAvailability($hasPapers)
+    {
+        $this->hasPapers = $hasPapers;
     }
 }

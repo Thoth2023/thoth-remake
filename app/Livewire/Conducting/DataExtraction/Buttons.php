@@ -17,6 +17,7 @@ class Buttons extends Component
 {
 
     public $projectId;
+    public $hasPapers = false;
 
 
     public function exportCsv()
@@ -156,10 +157,23 @@ class Buttons extends Component
 
     public function mount() {
         $this->projectId = request()->segment(2);
+        $this->checkPapersAvailability();
+    }
+
+    public function checkPapersAvailability()
+    {
+        try {
+            $papers = $this->getPapersExport();
+            $this->hasPapers = $papers->isNotEmpty();
+        } catch (\Exception $e) {
+            $this->hasPapers = false;
+        }
     }
 
     public function render()
     {
+        // Verificar novamente se existem papers disponíveis antes de renderizar
+        $this->checkPapersAvailability();
         return view('livewire.conducting.data-extraction.buttons');
     }
 }
