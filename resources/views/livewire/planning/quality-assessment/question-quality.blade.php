@@ -20,9 +20,6 @@
                         name="quality_question_id"
                         list="quality_questionId_suggestions"
                     />
-                    <datalist id="quality_questionId_suggestions">
-                        <!-- Suggestions will appear here as the user types -->
-                    </datalist>
                     @error("questionId")
                         <span class="text-xs text-danger">
                             {{ $message }}
@@ -112,7 +109,6 @@
         
         if (form && input) {
             form.addEventListener('submit', function() {
-                // Force save the current input value to suggestions
                 const value = input.value.trim();
                 if (value) {
                     const storageKey = `suggestions_${input.id || input.name}`;

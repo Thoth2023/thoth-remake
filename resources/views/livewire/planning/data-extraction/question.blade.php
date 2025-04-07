@@ -21,9 +21,6 @@
                     name="de_question_id"
                     list="de_questionId_suggestions"
                 />
-                <datalist id="de_questionId_suggestions">
-                    <!-- Suggestions will appear here as the user types -->
-                </datalist>
                 @error("questionId")
                     <span class="text-xs text-danger">
                         {{ $message }}

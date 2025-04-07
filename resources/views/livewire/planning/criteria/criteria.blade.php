@@ -23,9 +23,6 @@
                             name="criteria_id"
                             list="criteriaId_suggestions"
                         />
-                        <datalist id="criteriaId_suggestions">
-                            <!-- Suggestions will appear here as the user types -->
-                        </datalist>
                         @error("criteriaId")
                         <span class="text-xs text-danger">
                 {{ $message }}
