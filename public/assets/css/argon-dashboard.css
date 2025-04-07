@@ -9527,7 +9527,7 @@ textarea.form-control-lg {
 
 .dark-version .bg-secondary-overview {
     background-color: #111C44 !important; /* Cor do modo escuro */
-    color: #ffffff !important; /* Ajustar a cor do texto*/
+    color: #67748e !important; /* Ajustar a cor do texto*/
 }
 
 .bg-success {
@@ -23361,7 +23361,7 @@ p {
 .dark-version .swal2-popup p,
 .dark-version .dropdown .dropdown-menu p,
 .dark-version .kanban-board p {
-  color: #fff !important;
+  color: #67748e !important;
   opacity: 0.6;
 }
 .dark-version .kanban-item {
@@ -23369,7 +23369,7 @@ p {
   border: 1px solid;
 }
 .dark-version .swal2-html-container {
-  color: #fff !important;
+  color: #67748e !important;
   opacity: 0.6;
 }
 .dark-version h1, .dark-version .h1,
