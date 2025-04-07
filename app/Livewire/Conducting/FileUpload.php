@@ -88,7 +88,7 @@ class FileUpload extends Component
             // Preparar o nome do arquivo para salvar
             $originalName = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
             $cleanName = str_replace(' ', '_', $originalName);
-            $extension = $this->file->getClientOriginalExtension();
+            $extension = strtolower($this->file->getClientOriginalExtension());
             $name = $cleanName . '.' . $extension;
             FacadesLog::info('Preparando o nome do arquivo para salvar.', ['file_name' => $name]);
 
@@ -220,7 +220,7 @@ class FileUpload extends Component
     /**
      * @throws ParserException
      */
-     private function extractBibTexReferences($filePath)
+    private function extractBibTexReferences($filePath)
     {
         $contents = file_get_contents($filePath);
         $parser = new Parser();

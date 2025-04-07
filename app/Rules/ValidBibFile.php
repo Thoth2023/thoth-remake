@@ -9,7 +9,7 @@ class ValidBibFile implements Rule
     public function passes($attribute, $value)
     {
         $extension = $value->getClientOriginalExtension();
-        return in_array($extension, ['bib', 'csv', 'txt']);
+        return in_array($extension, ['bib', 'csv', 'txt', 'CSV']);
     }
 
     public function message()
