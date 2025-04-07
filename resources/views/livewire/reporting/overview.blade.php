@@ -33,7 +33,7 @@
                         type: 'funnel'
                     },
                     title: {
-                        text: 'Systematic mapping study on domain-specific language development tools Funnel'
+                        text: '{{ __('project/reporting.overview.systematic-mapping-study') }}'
                     },
                     plotOptions: {
                         series: {
@@ -110,7 +110,7 @@
                         type: 'line'
                     },
                     title: {
-                        text: 'Project Activities Over Time'
+                        text: '{{ __('project/reporting.overview.project-activities-overtime') }}'
                     },
                     xAxis: {
                         categories: dates // Datas no eixo X
@@ -138,7 +138,7 @@
                         height: 575
                     },
                     title: {
-                        text: 'Stages of the systematic literature review or systematic mapping study',
+                        text: '{{ __('project/reporting.overview.stages-systematic-review') }}',
                         style: {
                             fontSize: '18px' // Tamanho da fonte do título
                         }

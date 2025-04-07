@@ -396,6 +396,7 @@ return [
         'form' => [
             'description' => 'Generic search string',
             'enter-description' => 'Enter search string description',
+            'no-database'=> 'No database found for this project.',
             'add' => 'Add Search String',
             'update' => 'Update Search String',
             'placeholder' => 'Enter the search string',
@@ -834,6 +835,9 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Select a Type',
+            ],
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
             'description' => 'Description',
@@ -856,6 +860,10 @@ return [
                     <li>Description: Database - Type of data: Pick One List. (List: ACM, IEEE, Scopus)</li>
                 </ul>
                 ',
+            ],
+            'question-selection'=> [
+                'title' => 'Select a Question',
+
             ],
             'question' => 'Question',
             'option' => 'Option',

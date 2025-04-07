@@ -12,6 +12,12 @@ return [
         'data_extraction' => 'Extração de Dados',
         'snowballing' => 'Snowballing',
     ],
+
+    'overview'=> [
+        'systematic-mapping-study' => 'Estudo de Mapeamento Sistemático sobre Ferramentas de Desenvolvimento de Linguagem específicas de domínio funil',
+        'stages-systematic-review'=>'Etapas da Revisão Sistemática da literatura ou estudo de mapeamento sistemático',
+        'project-activities-overtime'=> 'Atividades do projeto ao longo do tempo',
+    ],
     'reliability' =>[
         'selection' =>[
             'title' => 'Concordância Seleção de Estudos (Avaliação por pares)',
