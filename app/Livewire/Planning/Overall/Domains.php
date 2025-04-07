@@ -8,6 +8,14 @@ use App\Models\Domain as DomainModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 
+/**
+ * Componente responsável pela gestão de domínios dentro de um projeto.
+ * 
+ * Modificações realizadas por LuizaVelasque:
+ * - Adicionada validação para impedir caracteres especiais no campo "description"
+ * - Melhorias nos comentários para facilitar entendimento e manutenção
+ * - Adicionada mensagem personalizada para erro de regex.
+ */
 class Domains extends Component
 {
     private $translationPath = 'project/planning.overall.domain.livewire';
@@ -18,7 +26,7 @@ class Domains extends Component
     public $domains = [];
 
     /**
-     * Campos preenchidos pelo formulário.
+     * Campo de entrada do formulário.
      */
     public $description;
 
@@ -31,9 +39,6 @@ class Domains extends Component
 
     /**
      * Regras de validação para os campos do formulário.
-     * 
-     * Modificado por LuizaVelasque:
-     * - Adicionado regex para impedir caracteres especiais na descrição.
      */
     protected $rules = [
         'currentProject' => 'required',
@@ -41,7 +46,7 @@ class Domains extends Component
             'required',
             'string',
             'max:255',
-            'regex:/^[a-zA-ZÀ-ú0-9\s]+$/u'
+            'regex:/^[a-zA-ZÀ-ú0-9\s]+$/u' // Apenas letras, números e espaços
         ],
     ];
 
@@ -57,7 +62,8 @@ class Domains extends Component
     }
 
     /**
-     * Executado ao montar o componente. Define o projeto atual e busca os domínios relacionados.
+     * Executado na inicialização do componente.
+     * Define o projeto atual e busca os domínios relacionados.
      */
     public function mount()
     {
@@ -71,7 +77,7 @@ class Domains extends Component
     }
 
     /**
-     * Reseta os campos do formulário para os valores padrões.
+     * Reseta os campos do formulário para os valores padrão.
      */
     public function resetFields()
     {
@@ -81,7 +87,7 @@ class Domains extends Component
     }
 
     /**
-     * Atualiza a lista de domínios do projeto.
+     * Atualiza a lista de domínios do projeto atual.
      */
     public function updateDomains()
     {
@@ -92,7 +98,7 @@ class Domains extends Component
     }
 
     /**
-     * Envia uma mensagem (toast) para a interface.
+     * Envia uma notificação (toast) para a interface.
      */
     public function toast(string $message, string $type)
     {
@@ -100,7 +106,7 @@ class Domains extends Component
     }
 
     /**
-     * Submete o formulário: valida os campos e cria ou atualiza um domínio.
+     * Submete o formulário: valida os dados e cria ou atualiza um domínio.
      */
     public function submit()
     {
@@ -162,7 +168,6 @@ class Domains extends Component
         $this->currentDomain = DomainModel::findOrFail($domainId);
         $this->description = $this->currentDomain->description;
 
-        // Verifica se já existe outro domínio com a mesma descrição dentro do projeto (exceto o que está sendo editado)
         $existingKeyword = DomainModel::where('description', $this->description)
             ->where('id_project', $this->currentProject->id_project)
             ->where('id_domain', '!=', $this->currentDomain->id_domain)
@@ -181,7 +186,7 @@ class Domains extends Component
     }
 
     /**
-     * Exclui um domínio.
+     * Exclui um domínio do projeto.
      */
     public function delete(string $domainId)
     {
@@ -208,17 +213,18 @@ class Domains extends Component
         } finally {
             $this->resetFields();
         }
-
     }
-/**
- * Renderiza o componente.
- */
-public function render()
-{
-    $project = $this->currentProject;
 
-    return view(
-        'livewire.planning.overall.domains',
-        compact('project')
-    );
+    /**
+     * Renderiza o componente com os dados do projeto.
+     */
+    public function render()
+    {
+        $project = $this->currentProject;
+
+        return view(
+            'livewire.planning.overall.domains',
+            compact('project')
+        );
+    }
 }
