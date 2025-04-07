@@ -197,9 +197,13 @@ function atualizarTextoSidebar(color) {
     el.classList.remove('text-white', 'text-dark', 'text-blue-600');
 
     if (color === 'bg-white') {
-      el.classList.add('text-blue-600'); // Azul para fundo branco
+      if (isDark) {
+        el.classList.add('text-dark'); // Texto escuro visível no fundo branco mesmo no dark mode
+      } else {
+        el.classList.add('text-blue-600'); // Texto azul se estiver no modo claro
+      }
     } else {
-      el.classList.add('text-white'); // Branco para fundo escuro
+      el.classList.add('text-white'); // Texto branco para qualquer fundo escuro
     }
   });
 }
@@ -676,6 +680,7 @@ window.darkMode = function(el) {
   } else {
     body.classList.remove('dark-version');
     sidebar.classList.add('bg-white');
+    sidebar.classList.remove('bg-default');
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;

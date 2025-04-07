@@ -2924,7 +2924,7 @@ window.darkMode = function (el) {
   } else {
     body.classList.remove('dark-version');
     sidebar.classList.add('bg-white');
-
+    sidebar.classList.remove('bg-default');
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;
@@ -3016,6 +3016,12 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border_dark.length; i++) {
       card_border_dark[i].classList.remove('border-dark');
     }
+
+    const sidenavIcons = document.querySelectorAll('.sidenav .nav-link i');
+    sidenavIcons.forEach(el => {
+      el.classList.remove('text-white');
+      el.classList.add('text-dark');
+    });
 
     el.removeAttribute("checked");
   }
