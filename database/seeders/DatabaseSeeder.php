@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BasesSearchSeeder::class);
         $this->call(PermissionSeeder::class);
 
-       DB::table('levels')->insert([
+        DB::table('levels')->insert([
             ['id_level' => 1, 'level' => 'Administrator'],
             ['id_level' => 2, 'level' => 'Viewer'],
             ['id_level' => 3, 'level' => 'Researcher'],
@@ -31,21 +31,26 @@ class DatabaseSeeder extends Seeder
             ['id_module' => 4, 'description' => 'Export'],
             ['id_module' => 5, 'description' => 'Super Administrator'],
         ]);
+
+        // Refatoração e adição de linguagens extras:
         DB::table('language')->insert([
-            'description' => 'Portuguese',
+            ['description' => 'Portuguese'],
+            ['description' => 'English'],
+            ['description' => 'Spanish'],
+            ['description' => 'French'],
+            ['description' => 'Russian'],
+            ['description' => 'German'],
+            ['description' => 'Chinese'],
+            ['description' => 'Italian'],
+            ['description' => 'Japanese'],
+            ['description' => 'Arabic'],
+            ['description' => 'Dutch'],
+            ['description' => 'Korean'],
+            ['description' => 'Hindi'],
+            ['description' => 'Greek'],
+            ['description' => 'Turkish'],
         ]);
-        DB::table('language')->insert([
-            'description' => 'English',
-        ]);
-        DB::table('language')->insert([
-            'description' => 'Spanish',
-        ]);
-        DB::table('language')->insert([
-            'description' => 'French',
-        ]);
-        DB::table('language')->insert([
-            'description' => 'Russian',
-        ]);
+
         DB::table('study_type')->insert([
             ['id_study_type' => 1, 'description' => 'Book'],
             ['id_study_type' => 2, 'description' => 'Thesis'],
@@ -89,6 +94,5 @@ class DatabaseSeeder extends Seeder
             ['description' => 'Unclassified'],
             ['description' => 'Removed'],
         ]);
-
     }
 }
