@@ -1,3 +1,7 @@
+@php
+    $progress = $progress ?? ['overall' => 0];
+@endphp
+
 <div class="card-group justify-content-center">
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
@@ -46,7 +50,7 @@
                     </div>
                     <div class="progress">
                         <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $progress['overall'] }}" aria-valuemin="0"
-                            aria-valuemax="100" style="width: {{ $progress['overall'] }}%;">
+                            aria-valuemax="100" style="width: {{ $progress['overall'] ?? 0 }}%;">
                             {{ $progress['overall'] }}%
                         </div>
                     </div>
