@@ -123,7 +123,7 @@ class SearchTerm extends Component
         try {
             $value = $this->form['isEditing'] ? 'Updated the term' : 'Added a term';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
-                ? '.updated' : '.added'));
+                    ? '.updated' : '.added'));
 
             $updatedOrCreated = SearchTermModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
@@ -198,8 +198,16 @@ class SearchTerm extends Component
 
     public function addSynonyms()
     {
-        if (!$this->termId['value'] || !$this->synonym) {
+        // validacao do termo
+        if (!$this->termId['value']) {
             $this->addError('termId', 'The term id is required');
+            return;
+        }
+
+        //validacao do sinonimo
+        if (empty(trim($this->synonym))) {
+            $this->addError('synonym', 'The synonym is required');
+            return;
         }
 
         $updateIf = [
@@ -209,7 +217,7 @@ class SearchTerm extends Component
         try {
             $value = $this->form['isEditing'] ? 'Updated the synonym' : 'Added a synonym';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
-                ? '.updated' : '.added'));
+                    ? '.updated' : '.added'));
 
             $created = SynonymModel::updateOrCreate($updateIf, [
                 'id_term' => $this->termId['value'],
@@ -236,7 +244,6 @@ class SearchTerm extends Component
             $this->resetFields();
         }
     }
-
     /**
      * Fill the form fields with the given data.
      */
