@@ -2826,6 +2826,18 @@ window.darkMode = function (el) {
   if (!el.getAttribute("checked")) {
     body.classList.add('dark-version');
 
+    if (sidebar.classList.contains('bg-white')) {
+      var sidebarElements = document.querySelectorAll(
+        '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+      );
+      for (var i = 0; i < sidebarElements.length; i++) {
+        const el = sidebarElements[i];
+        el.classList.remove('text-white', 'text-blue-600');
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      }
+    }
+
     if (navbarBrandImg.includes('logo-ct-dark.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
       navbarBrand.src = navbarBrandImgNew;
@@ -3034,6 +3046,13 @@ window.darkMode = function (el) {
       }
     }
 
+    var theads = document.querySelectorAll('thead th');
+    for (var i = 0; i < theads.length; i++) {
+      theads[i].classList.remove('text-white');
+      theads[i].classList.remove('opacity-8');
+      theads[i].classList.add('text-secondary');
+    }
+    
     el.removeAttribute("checked");
   }
 };
