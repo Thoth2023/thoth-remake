@@ -148,13 +148,13 @@ class PaperModal extends Component
             $paper->save();
 
             session()->forget('successMessage');
-            session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
+            session()->flash('successMessage', __("project.conducting.quality-assessment.messages.status_quality_updated", ['status' => $status->status]));
         } else {
             session()->forget('successMessage');
-            session()->flash('successMessage', "Status updated for your selection. New status: " . $status->status);
+            session()->flash('successMessage', __("project.conducting.quality-assessment.messages.status_updated_for_selection", ['status' => $status->status]));
         }
         session()->forget('successMessage');
-        session()->flash('successMessage', "Status Quality updated successfully. New status: " . $status->status);
+        session()->flash('successMessage', __("project.conducting.quality-assessment.messages.status_quality_updated", ['status' => $status->status]));
         // Mostra o modal de sucesso
         $this->dispatch('show-success-quality');
     }
@@ -211,7 +211,7 @@ class PaperModal extends Component
         $this->loadSelectedScores();
 
         session()->forget('successMessage');
-        session()->flash('successMessage', "Evaluation Quality Score updated successfully.");
+        session()->flash('successMessage', __("project.conducting.quality-assessment.messages.evaluation_quality_score_updated"));
 
         // Se desejar, você pode adicionar uma mensagem de sucesso ou atualizar algum estado
         $this->dispatch('reload-paper-modal');

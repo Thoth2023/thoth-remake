@@ -535,6 +535,11 @@ return [
                 ],
             ],
         ],
+        'duplicate_id' => 'The provided ID already exists in this project.',
+        'updated_success' => 'Criteria updated successfully.',
+        'not_found' => 'Criteria not found.',
+        'deleted_success' => 'Criteria deleted successfully.',
+        'preselected_updated' => 'Pre-selected value updated successfully.',
     ],
     'quality-assessment' => [
         'title' => 'Quality Assessment',

@@ -120,7 +120,9 @@ return [
             'success'=>'Success',
 
         ],
-
+        'messages' => [
+            'criteria_updated' => 'Criteria updated successfully. New status: :status',
+        ],
         'status' => [
             'duplicate' => 'Duplicate',
             'removed' => 'Removed',

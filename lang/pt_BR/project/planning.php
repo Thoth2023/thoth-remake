@@ -533,6 +533,11 @@ return [
                 'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
             ],
         ],
+        'duplicate_id' => 'O ID fornecido já existe neste projeto.',
+        'updated_success' => 'Critério atualizado com sucesso.',
+        'not_found' => 'Critério não encontrado.',
+        'deleted_success' => 'Critério excluído com sucesso.',
+        'preselected_updated' => 'Valor pré-selecionado atualizado com sucesso.',
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
