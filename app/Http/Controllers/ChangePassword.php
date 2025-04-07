@@ -10,43 +10,57 @@ use Illuminate\Support\Facades\Log;
 
 class ChangePassword extends Controller
 {
-
-    protected $user;
-
-    public function __construct()
-    {
-        Auth::logout();
-
-        $id = intval(request()->id);
-        $this->user = User::find($id);
-    }
-
+    /**
+     * Exibe a tela para alteração de senha.
+     */
     public function show()
     {
         return view('auth.change-password');
     }
 
+    /**
+     * Atualiza a senha do usuário com base no e-mail informado.
+     *
+     * Última modificação por Luiza Velasque.
+     * - Corrigida validação de campos.
+     * - Adicionado hash da senha antes de salvar.
+     * - Removido logout no construtor.
+     * - Corrigida busca segura de usuário.
+     */
     public function update(Request $request)
     {
         $attributes = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'min:5'],
-            'confirm-password' => ['same:password'],
+            'confirm_password' => ['same:password'], // Corrigido o nome do campo
         ]);
 
-        if ($this->user && $this->user->email === $attributes['email']) {
-            // Apenas atribui a nova senha sem `Hash::make`, pois o model já cuida do hashing
-            $this->user->password = $attributes['password'];
+        // Busca o usuário pelo e-mail fornecido
+        $user = User::where('email', $attributes['email'])->first();
 
-            if ($this->user->save()) {
-                return redirect('login')->with('success', __('auth/change-password.messages.success'));
-            } else {
-                return back()->with('error', __('auth/change-password.messages.error'));
+        if ($user) {
+            try {
+                // Garante o hash da nova senha antes de salvar
+                $user->password = Hash::make($attributes['password']);
+
+                $user->save();
+
+                return redirect('login')->with(
+                    'success',
+                    __('auth/change-password.messages.success')
+                );
+            } catch (\Throwable $e) {
+                Log::error("Erro ao atualizar senha: " . $e->getMessage());
+                return back()->with(
+                    'error',
+                    __('auth/change-password.messages.error')
+                );
             }
-        } else {
-            return back()->with('error', __('auth/change-password.messages.error'));
         }
+
+        return back()->with(
+            'error',
+            __('auth/change-password.messages.error')
+        );
     }
 }
-
-
