@@ -561,6 +561,22 @@ function getEventTarget(e) {
   return e.target || e.srcElement;
 }
 
+// Fix dropdown style when shown
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('.dropdown').forEach(drop => {
+    drop.addEventListener('show.bs.dropdown', function () {
+      const menu = this.querySelector('.dropdown-menu');
+      if (menu) {
+        menu.style.maxHeight = 'none';
+        menu.style.overflowY = 'visible';
+        menu.style.position = 'absolute';
+        menu.style.inset = 'unset';
+        menu.style.zIndex = '1050';
+      }
+    });
+  });
+});
+
 // End tabs navigation
 
 // Light Mode / Dark Mode

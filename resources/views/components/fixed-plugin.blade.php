@@ -19,8 +19,13 @@
             </div>
             <!-- Language Selector Dropdown -->
             <div class="dropdown">
-                <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                    <i class="fas fa-globe opacity-6 text-dark me-1" style="color: #FFFFFF !important"></i>
+                <a
+                    href="#"
+                    class="nav-link dropdown-toggle px-2 text-dark"
+                    data-bs-toggle="dropdown"
+                    id="navbarDropdownMenuLink2"
+                >
+                    <i class="fas fa-globe me-1"></i>
                     {{ __('nav/nav.language') }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
@@ -32,6 +37,7 @@
                     </li>
                 </ul>
             </div>
+
             <!-- End Language Selector Dropdown -->
             <!-- Sidebar Backgrounds -->
             <div>

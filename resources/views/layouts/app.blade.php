@@ -71,11 +71,45 @@
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          @livewireStyles
+
+        
+        <style>
+            /* Permite scroll vertical */
+            html, body {
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 100% !important;
+                overflow-y: auto;
+            }
+
+
+            /* Remove o scroll horizontal aleatorio que o Perfect Scrollbar cria*/
+            .ps__rail-x {
+                display: none !important;
+                height: 0 !important;
+            }
+
+            /*faz os elementos não conseguirem ultrapassar a largura da tela*/
+            .container-fluid,
+            .navbar,
+            .navbar-collapse{
+                max-width: 100% !important;
+            }
+
+        </style>
+
+
+
+
+    @stack('styles')
+
+
     </head>
 
-    <body
-        class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password","message"],) ? "bg-white" : "bg-gray-300" }}"
+    <body class="g-sidenav-show overflow-x-hidden {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password","message"],) ? "bg-white" : "bg-gray-300" }}"
     >
+
         @guest
             @yield("content")
         @endguest
