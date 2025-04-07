@@ -156,11 +156,4 @@
       0 => 'Spatie\\Permission\\PermissionServiceProvider',
     ),
   ),
-  'spatie/php-structure-discoverer' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\StructureDiscoverer\\StructureDiscovererServiceProvider',
-    ),
-  ),
 );
