@@ -172,6 +172,29 @@ class QuestionScore extends Component
     }
   }
 
+  public function updatedScoreRule($value)
+  {
+      switch ($value) {
+          case 'sim':
+              $this->score = 100;
+              break;
+          case 'partial':
+              $this->score = 50;
+              break;
+          case 'nao':
+              $this->score = 0;
+              break;
+          default:
+              $this->score = 50;
+              break;
+      }
+
+      // $this->toast(
+      //     message: __('project/planning.quality-assessment.question-score.form.rule-selected', ['rule' => $value]),
+      //     type: 'info'
+      // );
+  }
+
   public function render()
   {
     return view('livewire.planning.quality-assessment.question-score');
