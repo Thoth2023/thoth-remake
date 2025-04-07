@@ -21,9 +21,12 @@ use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
 use App\Utils\CheckProjectDataPlanning;
+use App\Traits\ProjectPermissions;
 
 class FileUpload extends Component
 {
+
+    use ProjectPermissions;
     use WithFileUploads;
 
     private $translationPath = 'project/conducting.import-studies.livewire';
@@ -79,6 +82,11 @@ class FileUpload extends Component
      */
     public function save()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             // Validações iniciais
             $this->validate();
@@ -276,6 +284,11 @@ class FileUpload extends Component
 
     public function deleteFile($id)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+        
         $file = BibUpload::findOrFail($id);
 
         try {

@@ -13,13 +13,17 @@ use App\Models\StatusQualityAssessment;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Traits\ProjectPermissions;
 
 class PaperModal extends Component
 {
 
+    use ProjectPermissions;
+
     public $currentProject;
     public $projectId;
     public $paper;
+    public $canEdit = false;
 
     public $questions;
 
@@ -55,6 +59,9 @@ class PaperModal extends Component
     #[On('showPaperQuality')]
     public function showPaperQuality($paper)
     {
+
+        $this->canEdit = $this->userCanEdit();
+        
         // Limpar estado anterior
         $this->resetState();
 

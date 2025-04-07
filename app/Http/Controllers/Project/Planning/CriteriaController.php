@@ -56,10 +56,13 @@ class CriteriaController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'criteria')
-            ->with('success', 'Criteria added successfully');
+            ->with('success', 'Criteria added successfully')
+            ->with('progress', $progress);   
     }
 
 
@@ -126,10 +129,13 @@ class CriteriaController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'criteria')
             ->with('success', __('project.planning.criteria.deleted_success'));
+
     }
 
     /**

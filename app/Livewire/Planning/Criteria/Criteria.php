@@ -8,9 +8,13 @@ use App\Models\Project as ProjectModel;
 use App\Models\Criteria as CriteriaModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Criteria extends Component
 {
+
+    use ProjectPermissions;
+
     private $toastMessages = 'project/planning.criteria.livewire.toasts';
 
     public $currentProject;
@@ -101,6 +105,11 @@ class Criteria extends Component
 
     public function changePreSelected($id, $type)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $preselected = CriteriaModel::where('id_criteria', $id)->first()->pre_selected == 1 ? 0 : 1;
         CriteriaModel::where('id_criteria', $id)->update(['pre_selected' => $preselected]);
 
@@ -141,6 +150,19 @@ class Criteria extends Component
 
     public function selectRule($rule, $type)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            $this->inclusion_rule['value'] = CriteriaModel::where(
+                'id_project',
+                $this->currentProject->id_project
+            )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
+            $this->exclusion_rule['value'] = CriteriaModel::where(
+                'id_project',
+                $this->currentProject->id_project
+            )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
+            return;
+        }
+
         $where = [
             'id_project' => $this->currentProject->id_project,
             'rule' => $rule,
@@ -181,6 +203,11 @@ class Criteria extends Component
      */
     public function updateCriterias()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->criterias = CriteriaModel::where(
             'id_project',
             $this->currentProject->id_project
@@ -219,6 +246,11 @@ class Criteria extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         if (strcmp($this->type['value'], 'NONE') === 0) {
@@ -293,6 +325,11 @@ class Criteria extends Component
      */
     public function edit(string $criteriaId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentCriteria = CriteriaModel::findOrFail($criteriaId);
         $this->criteriaId = $this->currentCriteria->id;
         $this->description = $this->currentCriteria->description;
@@ -305,6 +342,11 @@ class Criteria extends Component
      */
     public function delete(string $criteriaId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentCriteria = CriteriaModel::findOrFail($criteriaId);
             $currentCriteria->delete();
@@ -334,6 +376,11 @@ class Criteria extends Component
      */
     public function updateCriteriaRule($type)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->exclusion_rule['value'] = CriteriaModel::where([
             'id_project' => $this->currentProject->id_project,
             'type' => 'Exclusion'
