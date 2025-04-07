@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Planning\Overall;
 
-
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
@@ -19,38 +18,46 @@ class Domains extends Component
     public $domains = [];
 
     /**
-     * Fields to be filled by the form.
+     * Campos preenchidos pelo formulário.
      */
     public $description;
 
     /**
-     * Form state.
+     * Estado do formulário (edição ou criação).
      */
     public $form = [
         'isEditing' => false,
     ];
 
     /**
-     * Validation rules.
+     * Regras de validação para os campos do formulário.
+     * 
+     * Modificado por LuizaVelasque:
+     * - Adicionado regex para impedir caracteres especiais na descrição.
      */
     protected $rules = [
         'currentProject' => 'required',
-        'description' => 'required|string|max:255',
+        'description' => [
+            'required',
+            'string',
+            'max:255',
+            'regex:/^[a-zA-ZÀ-ú0-9\s]+$/u'
+        ],
     ];
 
     /**
-     * Custom error messages for the validation rules.
+     * Mensagens de erro personalizadas.
      */
     protected function messages()
     {
         return [
             'description.required' => __($this->translationPath . '.description.required'),
+            'description.regex' => __('Descrição não pode conter caracteres especiais.'),
         ];
     }
 
     /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
+     * Executado ao montar o componente. Define o projeto atual e busca os domínios relacionados.
      */
     public function mount()
     {
@@ -64,7 +71,7 @@ class Domains extends Component
     }
 
     /**
-     * Reset the fields to the default values.
+     * Reseta os campos do formulário para os valores padrões.
      */
     public function resetFields()
     {
@@ -74,7 +81,7 @@ class Domains extends Component
     }
 
     /**
-     * Update the items.
+     * Atualiza a lista de domínios do projeto.
      */
     public function updateDomains()
     {
@@ -85,7 +92,7 @@ class Domains extends Component
     }
 
     /**
-     * Dispatch a toast message to the view.
+     * Envia uma mensagem (toast) para a interface.
      */
     public function toast(string $message, string $type)
     {
@@ -93,8 +100,7 @@ class Domains extends Component
     }
 
     /**
-     * Submit the form. It validates the input fields
-     * and creates or updates an item.
+     * Submete o formulário: valida os campos e cria ou atualiza um domínio.
      */
     public function submit()
     {
@@ -103,6 +109,7 @@ class Domains extends Component
         $updateIf = [
             'id_domain' => $this->currentDomain?->id_domain,
         ];
+
         $existingKeyword = DomainModel::where('description', $this->description)
             ->where('id_project', $this->currentProject->id_project)
             ->first();
@@ -115,6 +122,7 @@ class Domains extends Component
             );
             return;
         }
+
         try {
             $value = $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
@@ -147,17 +155,17 @@ class Domains extends Component
     }
 
     /**
-     * Fill the form fields with the given data.
+     * Preenche os campos do formulário com os dados do domínio selecionado para edição.
      */
     public function edit(string $domainId)
     {
         $this->currentDomain = DomainModel::findOrFail($domainId);
         $this->description = $this->currentDomain->description;
 
-        // Verificar se existe outro domínio com a mesma descrição dentro do projeto, exceto o que está sendo editado
+        // Verifica se já existe outro domínio com a mesma descrição dentro do projeto (exceto o que está sendo editado)
         $existingKeyword = DomainModel::where('description', $this->description)
             ->where('id_project', $this->currentProject->id_project)
-            ->where('id_domain', '!=', $this->currentDomain->id_domain) // Excluir o domínio atual da verificação
+            ->where('id_domain', '!=', $this->currentDomain->id_domain)
             ->first();
 
         if ($existingKeyword) {
@@ -173,7 +181,7 @@ class Domains extends Component
     }
 
     /**
-     * Delete an item.
+     * Exclui um domínio.
      */
     public function delete(string $domainId)
     {
@@ -200,20 +208,17 @@ class Domains extends Component
         } finally {
             $this->resetFields();
         }
-    }
 
-    /**
-     * Render the component.
-     */
-    public function render()
-    {
-        $project = $this->currentProject;
-
-        return view(
-            'livewire.planning.overall.domains',
-            compact(
-                'project',
-            )
-        )->extends('layouts.app');
     }
+/**
+ * Renderiza o componente.
+ */
+public function render()
+{
+    $project = $this->currentProject;
+
+    return view(
+        'livewire.planning.overall.domains',
+        compact('project')
+    );
 }
