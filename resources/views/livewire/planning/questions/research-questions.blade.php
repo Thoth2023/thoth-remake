@@ -17,7 +17,13 @@
                     wire:model="questionId"
                     placeholder="ID"
                     required
+                    autocomplete="on"
+                    name="research_question_id"
+                    list="research_questionId_suggestions"
                 />
+                <datalist id="research_questionId_suggestions">
+                    <!-- Suggestions will appear here as the user types -->
+                </datalist>
                 @error("questionId")
                     <span class="text-xs text-danger">
                         {{ $message }}
@@ -155,3 +161,35 @@
         });
     </script>
 @endscript
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[wire\\:submit]');
+    const input = document.querySelector('#questionId');
+    
+    if (form && input) {
+        form.addEventListener('submit', function() {
+            // Force save the current input value to suggestions
+            const value = input.value.trim();
+            if (value) {
+                const storageKey = `suggestions_${input.id || input.name}`;
+                let suggestions = [];
+                
+                if (localStorage.getItem(storageKey)) {
+                    suggestions = JSON.parse(localStorage.getItem(storageKey));
+                }
+                
+                if (!suggestions.includes(value)) {
+                    suggestions.push(value);
+                    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                }
+                
+                // Automatically refresh suggestions without showing an alert
+                setTimeout(() => {
+                    refreshSuggestions('questionId', 'research_question_id', 'research_questionId_suggestions', false);
+                }, 200);
+            }
+        });
+    }
+});
+</script>
