@@ -10,29 +10,28 @@
         </div>
         <div class="card-body">
             <form wire:submit="submit" novalidate>
-                <div class="d-flex flex-wrap gap-2">
+                <div class="d-flex flex-column gap-2">
                     <div class="d-flex flex-column gap-1">
-                        <div style="min-width: 250px">
-                            <x-select
-                                label="{{ __('project/planning.quality-assessment.question-score.question.title') }}"
-                                wire:model="questionId"
-                                required
-                                search
-                                disabled="{{ $form['isEditing'] }}"
-                            >
-                                <option selected disabled>
-                                    {{ __("project/planning.quality-assessment.question-score.question.placeholder") }}
+                        <x-select
+                            label="{{ __('project/planning.quality-assessment.question-score.question.title') }}"
+                            id="questionId"
+                            wire:model="questionId"
+                            required
+                            search
+                            disabled="{{ $form['isEditing'] }}"
+                        >
+                            <option selected disabled>
+                                {{ __("project/planning.quality-assessment.question-score.question.placeholder") }}
+                            </option>
+                            @foreach ($questions as $question)
+                                <option
+                                    value="{{ $question->id_qa }}"
+                                    <?= $question->id_qa == ($questionId["value"] ?? "") ? "selected" : "" ?>
+                                >
+                                    {{ $question->id }}
                                 </option>
-                                @foreach ($questions as $question)
-                                    <option
-                                        value="{{ $question->id_qa }}"
-                                        <?= $question->id_qa == ($questionId["value"] ?? "") ? "selected" : "" ?>
-                                    >
-                                        {{ $question->id }}
-                                    </option>
-                                @endforeach
-                            </x-select>
-                        </div>
+                            @endforeach
+                        </x-select>
                         @error("questionId")
                             <span class="text-xs text-danger">
                                 {{ $message }}
@@ -40,42 +39,35 @@
                         @enderror
                     </div>
                     <div class="d-flex flex-column gap-1">
-                        <x-input
+                        <label for="score-rule" class="form-control-label required">
+                            {{ __('project/planning.quality-assessment.question-score.score_rule.title') }}
+                        </label>
+                        <select
                             id="score-rule"
-                            label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
-                            maxlength="20"
-                            min="0"
-                            placeholder="Partial"
-                            wire:model="scoreRule"
+                            wire:model.lazy="scoreRule"
+                            class="form-control"
                             required
-                        />
+                        >
+                            <option value="">{{ __('Selecione uma regra') }}</option>
+                            <option value="sim">{{ __('Sim') }}</option>
+                            <option value="partial">{{ __('Parcial') }}</option>
+                            <option value="nao">{{ __('Não') }}</option>
+                        </select>
                         @error("scoreRule")
                             <span class="text-xs text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
-                </div>
-                <div class="d-flex align-items-center flex-wrap gap-3 mt-3">
                     <div class="d-flex flex-column gap-1">
-                        <div style="min-width: 150px">
-                            <div
-                                class="d-flex align-items-start justify-content-between"
-                            >
-                                <label
-                                    for="range-score"
-                                    class="m-0 p-0 required"
-                                >
-                                    {{ __("project/planning.quality-assessment.question-score.range.score") }}
-                                </label>
-                                <span class="text-xs" id="range-score">
-                                    {{ $score ?? 50 }}%
-                                </span>
-                            </div>
+                        <label for="range-score" class="form-control-label required">
+                            {{ __("project/planning.quality-assessment.question-score.range.score") }}
+                        </label>
+                        <div class="d-flex align-items-center gap-2">
                             <input
                                 id="range-score"
                                 type="range"
-                                class="form-range my-1"
+                                class="form-range"
                                 min="0"
                                 max="100"
                                 step="5"
@@ -83,6 +75,9 @@
                                 oninput="updateRangeValue(this.value)"
                                 required
                             />
+                            <span class="text-xs" id="range-score">
+                                {{ $score ?? 50 }}%
+                            </span>
                         </div>
                         @error("score")
                             <span class="text-xs text-danger">
@@ -90,25 +85,26 @@
                             </span>
                         @enderror
                     </div>
-                </div>
-                <div class="d-flex flex-column mt-2">
-                    <label for="question" class="mb-1 mx-0 required">
-                        {{ __("project/planning.research-questions.form.description") }}
-                    </label>
-                    <textarea
-                        id="question"
-                        wire:model="description"
-                        class="form-control"
-                        maxlength="255"
-                        rows="2"
-                        placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
-                        required
-                    ></textarea>
-                    @error("description")
-                        <span class="text-xs text-danger mt-1">
-                            {{ $message }}
-                        </span>
-                    @enderror
+                    <div class="d-flex flex-column gap-1">
+                        <label for="description" class="form-control-label required">
+                            {{ __("project/planning.research-questions.form.description") }}
+                        </label>
+                        <textarea
+                            id="description"
+                            wire:model="description"
+                            class="form-control"
+                            maxlength="255"
+                            rows="2"
+                            placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                            pattern="[a-zA-ZÀ-ÿ0-9\s]+"
+                            required
+                        ></textarea>
+                        @error("description")
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
                 </div>
                 <x-helpers.submit-button
                     isEditing="{{ $form['isEditing'] }}"

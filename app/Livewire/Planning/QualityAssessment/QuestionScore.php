@@ -40,9 +40,9 @@ class QuestionScore extends Component
    */
   protected $rules = [
     'questionId' => 'array|required',
-    'scoreRule' => 'required|string|max:25',
+    'scoreRule' => 'required|string|max:25|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
     'score' => 'required|numeric',
-    'description' => 'required|string|max:255',
+    'description' => 'required|string|max:255|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
   ];
 
   /**
@@ -54,9 +54,11 @@ class QuestionScore extends Component
       'questionId.required' => __('common.required'),
       'questionId.array' => __('common.required'),
       'scoreRule.required' => __('common.required'),
+      'scoreRule.regex' => 'A regra de pontuação só pode conter letras e espaços.',
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
-    ];
+      'description.regex' => 'A descrição só pode conter letras, números e espaços.',
+  ];
   }
 
   public function mount()
@@ -168,6 +170,29 @@ class QuestionScore extends Component
         type: 'error'
       );
     }
+  }
+
+  public function updatedScoreRule($value)
+  {
+      switch ($value) {
+          case 'sim':
+              $this->score = 100;
+              break;
+          case 'partial':
+              $this->score = 50;
+              break;
+          case 'nao':
+              $this->score = 0;
+              break;
+          default:
+              $this->score = 50;
+              break;
+      }
+
+      // $this->toast(
+      //     message: __('project/planning.quality-assessment.question-score.form.rule-selected', ['rule' => $value]),
+      //     type: 'info'
+      // );
   }
 
   public function render()
