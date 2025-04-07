@@ -10,7 +10,7 @@ return [
 
     'progress' => 'Progress of Systematic Review',
     'planning' => 'Planning',
-    'import_studies' => 'Import Studies',
+    'conducting' => 'Conducting',
     'study_selection' => 'Study Selection',
     'quality_assessment' => 'Quality Assessment',
     'data_extraction' => 'Data Extraction',

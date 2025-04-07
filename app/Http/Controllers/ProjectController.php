@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
@@ -104,7 +105,11 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('projects.show', compact('project', 'users_relation', 'activities'));
+        // Calculando progresso de Condução
+        $conductingProgressController = new ConductingProgressController();
+        $conductingProgress = $conductingProgressController->calculateProgress($idProject);
+
+        return view('projects.show', compact('project', 'users_relation', 'activities', 'conductingProgress'));
     }
 
 

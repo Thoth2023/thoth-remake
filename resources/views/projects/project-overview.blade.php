@@ -54,12 +54,12 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">{{ __('project/overview.import_studies') }}</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.conducting') }}</span>
                         </div>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 70%;"></div>
+                        <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $conductingProgress }}" aria-valuemin="0"
+                            aria-valuemax="100" style="width: {{ $conductingProgress }}%;"></div>
                     </div>
                 </div>
             </div>
