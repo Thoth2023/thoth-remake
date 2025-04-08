@@ -20,5 +20,7 @@ return [
     'reports_coming_soon' => 'Reports will be available soon.',
     'research_questions' => 'Research Questions',
     'download_pdf' => 'Download PDF',
-    'no_research_questions_defined' => 'No research questions defined'
+    'no_research_questions_defined' => 'No research questions defined',
+    'project_visibility' => 'Project Visibility',
+    'visibility_tooltip' => 'When enabled, the project protocol will be publicly accessible.'
 ];
