@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Notifications\NewProjectNotification;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -56,35 +57,45 @@ class ProjectController extends Controller
     /**
      * Store a newly created project in storage.
      */
-    public function store(ProjectStoreRequest $request)
-    {
-        $request->validated();
-        $user = Auth::user();
-        $project = Project::create([
-            'id_user' => $user->id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'objectives' => $request->objectives,
-            'created_by' => $user->username,
-            'feature_review' => $request->feature_review
-            //'copy_planning'
-        ]);
+    
 
+public function store(ProjectStoreRequest $request)
+{
+    $request->validated();
+    $user = Auth::user();
+    
+    // Criando o projeto
+    $project = Project::create([
+        'id_user' => $user->id,
+        'title' => $request->title,
+        'description' => $request->description,
+        'objectives' => $request->objectives,
+        'created_by' => $user->username,
+        'feature_review' => $request->feature_review
+    ]);
 
-        if ($request->copy_planning !== 'none') {
-            $sourceProject = Project::findOrFail($request->copy_planning);
-            $project->copyPlanningFrom($sourceProject);
-        } else {
-            $project->save();
-        }
-
-        $activity = "Created the project ".$project->title;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
-
-        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
-
-        return redirect('/projects');
+    // Verifica se deve copiar o planejamento de outro projeto
+    if ($request->copy_planning !== 'none') {
+        $sourceProject = Project::findOrFail($request->copy_planning);
+        $project->copyPlanningFrom($sourceProject);
+    } else {
+        $project->save();
     }
+
+    // Registra atividade
+    $activity = "Created the project " . $project->title;
+    ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
+
+    // Associa usuário ao projeto
+    $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
+
+    // **Envia a notificação**
+    $user->notify(new NewProjectNotification($project));
+
+    return redirect()->route('projects.show', ['id' => $project->id_project]);
+    
+}
+
 
     /**
      * Display the specified project.

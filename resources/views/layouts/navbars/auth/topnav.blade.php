@@ -1,4 +1,5 @@
 <!-- Navbar -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
         {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}"
     id="navbarBlur" data-scroll="false">
@@ -47,85 +48,119 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-bell cursor-pointer"></i>
+    <a href="javascript:;" class="nav-link text-white p-0 position-relative" id="dropdownMenuButton"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-bell cursor-pointer"></i>
+        @if(auth()->user()->unreadNotifications->count() > 0)
+        <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
+            {{ auth()->user()->unreadNotifications->count() }}
+        </span>
+        @endif
+    </a>
+        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton" style="max-height: 400px; overflow-y: auto;">
+        @forelse(auth()->user()->notifications as $notification)
+        <li class="mb-2 notification-item" data-notification-id="{{ $notification->id }}">
+    <div class="d-flex align-items-center justify-content-between">
+        <a class="dropdown-item border-radius-md flex-grow-1" href="{{ $notification->data['url'] }}">
+            <div class="d-flex py-1">
+                            <div class="icon icon-shape icon-sm shadow border-radius-md bg-{{ $notification->data['color'] ?? 'primary' }} text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="{{ $notification->data['icon'] ?? 'fa fa-bell' }} text-white opacity-10"></i>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <h6 class="text-sm font-weight-normal mb-1">
+                                    <span class="font-weight-bold">{{ $notification->data['title'] }}</span>
+                                </h6>
+                                <p class="text-xs text-secondary mb-0">
+                                    <i class="fa fa-clock me-1"></i>
+                                    {{ $notification->data['time'] ?? $notification->created_at->diffForHumans() }}
+                                </p>
+                            </div>
+                        </div>
                     </a>
-                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                        aria-labelledby="dropdownMenuButton">
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">{{ __('notification.new_message') }}</span> Laur
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            13 minutes ago
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">{{ __('notification.new_album') }}</span> Travis Scott
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            1 day
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <title>credit-card</title>
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF"
-                                                    fill-rule="nonzero">
-                                                    <g transform="translate(1716.000000, 291.000000)">
-                                                        <g transform="translate(453.000000, 454.000000)">
-                                                            <path class="color-background"
-                                                                d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                opacity="0.593633743"></path>
-                                                            <path class="color-background"
-                                                                d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                            </path>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                        {{ __('notification.pyment_success') }}
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            2 days
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                    <button class="btn btn-link text-danger delete-notification me-2" 
+                data-notification-id="{{ $notification->id }}"
+                title="Excluir notificação">
+            <i class="fas fa-times"></i>
+        </button>
+                </div>
+            </li>
+        @empty
+            <li class="mb-2">
+                <div class="dropdown-item border-radius-md text-center">
+                    <p class="text-sm text-secondary mb-0">{{ __('No notifications') }}</p>
+                </div>
+            </li>
+        @endforelse
+    </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <!-- End Navbar -->
+
+@push('js')
+<script>
+document.querySelector('.dropdown-menu').addEventListener('click', async function(e) {
+    if (e.target.closest('.delete-notification')) {
+        e.preventDefault();
+        const btn = e.target.closest('.delete-notification');
+        const notificationId = btn.dataset.notificationId;
+        
+        if (confirm('Are you sure you want to delete this notification?')) {
+            try {
+                const response = await fetch(`/notifications/${notificationId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Remove a notificação da lista
+                    btn.closest('.notification-item').remove();
+                    
+                    // Atualiza o contador
+                    const badge = document.querySelector('.notification-badge');
+                    if (data.unread_count > 0) {
+                        badge.textContent = data.unread_count;
+                    } else {
+                        badge.remove();
+                    }
+                } else {
+                    alert(data.message || 'Error deleting notification');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete notification');
+            }
+        }
+    }
+});
+</script>
+@endpush
+
+@push('css')
+<style>
+    .delete-notification {
+        padding: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    
+    .notification-item:hover .delete-notification {
+        opacity: 1;
+    }
+    
+    .notification-item {
+        transition: background-color 0.2s;
+    }
+    
+    .notification-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+</style>
+@endpush

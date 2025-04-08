@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Route;
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\NotificationController;
 
 
 //use App\Http\Controllers\Auth\LoginController;
@@ -71,7 +72,13 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(Localization::class);
 
 
+Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead']);
+Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
 
+
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
+     ->name('notifications.destroy')
+     ->middleware('auth');
 // Pages controllers
 
 // Auth Controllers
