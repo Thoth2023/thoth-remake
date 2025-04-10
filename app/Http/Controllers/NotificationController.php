@@ -71,4 +71,15 @@ class NotificationController extends Controller
             'count' => auth()->user()->unreadNotifications->count()
         ]);
     }
+
+    // Adicione este método ao NotificationController
+public function getNotifications()
+{
+    $notifications = Auth::user()->notifications()->orderBy('created_at', 'desc')->get();
+    
+    return response()->json([
+        'notifications' => $notifications,
+        'unread_count' => Auth::user()->unreadNotifications->count()
+    ]);
+}
 }

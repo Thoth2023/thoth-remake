@@ -74,7 +74,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(
 
 Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead']);
 Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
-
+Route::get('/projects/{id}/accept-invitation', [ProjectController::class, 'acceptInvitation'])
+     ->name('projects.accept-invitation');
 
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
      ->name('notifications.destroy')
@@ -124,8 +125,6 @@ Route::put('/projects/{id}/add-member', [ProjectController::class, 'add_member_p
 Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController::class, 'destroy_member'])->name('projects.destroy_member');
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
-Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
-
 
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {

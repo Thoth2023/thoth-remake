@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Notifications\NewProjectNotification;
+use App\Notifications\NewMemberNotification;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -261,10 +262,14 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
         'status' => 'pending'
     ]);
 
-    Notification::send($name_member, new ProjectInvitationNotification($project, $token));
+    // Envia notificação de convite
+    $name_member->notify(new ProjectInvitationNotification($project, $token));
+
+    // Envia notificação de novo membro (opcional - pode remover se não quiser notificar antes da aceitação)
+    // $name_member->notify(new NewMemberNotification($project, $user->username));
 
     $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
-    ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
+    ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
     return redirect()->back()->with('success', 'Invitation sent to ' . $name_member->email);
 }
@@ -319,33 +324,38 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
 
     public function acceptInvitation($idProject, Request $request)
-    {
-        $token = $request->query('token');
+{
+    $token = $request->query('token');
 
-        // Busca o registro na tabela 'members'
-        $invitation = DB::table('members')
-                        ->where('invitation_token', $token)
-                        ->where('id_project', $idProject)
-                        ->first();
+    $invitation = DB::table('members')
+                   ->where('invitation_token', $token)
+                   ->where('id_project', $idProject)
+                   ->first();
 
-        if (!$invitation) {
-            return back()->with('error', 'Invalid or expired invitation.');
-        }
-
-        // Atualiza o status do convite para 'accepted'
-        DB::table('members')
-            ->where('invitation_token', $token)
-            ->where('id_project', $idProject)
-            ->update([
-                'status' => 'accepted',
-                'invitation_token' => null  // Remove o token após ser aceito
-            ]);
-
-        $activity = "Accepted invitation to join the project.";
-        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
-
-        return redirect('/projects')->with('success', 'You have successfully joined the project!');
+    if (!$invitation) {
+        return back()->with('error', 'Invalid or expired invitation.');
     }
+
+    DB::table('members')
+        ->where('invitation_token', $token)
+        ->where('id_project', $idProject)
+        ->update([
+            'status' => 'accepted',
+            'invitation_token' => null
+        ]);
+
+    // Envia notificação para o novo membro
+    $project = Project::findOrFail($idProject);
+    $admin = User::find($invitation->id_user); // Quem enviou o convite
+    $newMember = User::find($invitation->id_user);
+    
+    $newMember->notify(new NewMemberNotification($project, $admin->username));
+
+    $activity = "Accepted invitation to join the project.";
+    ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+
+    return redirect('/projects')->with('success', 'You have successfully joined the project!');
+}
 
 
 }

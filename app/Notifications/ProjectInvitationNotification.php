@@ -6,9 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\DatabaseMessage;
 use App\Models\Project;
 
-class ProjectInvitationNotification extends Notification
+class ProjectInvitationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -36,7 +37,7 @@ class ProjectInvitationNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database']; //  Removido 'mail' para testar notificação interna
     }
 
     /**
@@ -45,15 +46,42 @@ class ProjectInvitationNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+
+     /*
     public function toMail($notifiable)
-{
-    $url = url("/project/{$this->project->id_project}/accept-invitation?token={$this->token}"); // Certifique-se de que 'id_project' é o nome correto do campo ID no modelo Project.
+    {
+        $url = route('projects.accept-invitation', [
+            'id' => $this->project->id_project,
+            'token' => $this->token
+        ]);
 
-    return (new MailMessage)
-                ->greeting('Hello ' . $notifiable->username) // Certifique-se de que username é a propriedade correta
-                ->line('You have been invited to join the project: ' . $this->project->title)
-                ->action('Accept Invitation', $url)
-                ->line('If you have any questions, reply to this email.');
-}
-
+        return (new MailMessage)
+            ->subject('Convite para o projeto: ' . $this->project->title)
+            ->greeting('Olá ' . $notifiable->username . '!')
+            ->line('Você recebeu um convite para participar do projeto: ' . $this->project->title)
+            ->action('Aceitar Convite', $url)
+            ->line('Este link expirará em 7 dias.')
+            ->line('Se você não solicitou este convite, pode ignorar este e-mail.');
+    }
+*/
+    /**
+     * Get the database representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\DatabaseMessage
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'title' => 'Convite para projeto',
+            'message' => 'Você foi convidado para o projeto "' . $this->project->title . '"',
+            'url' => route('projects.accept-invitation', [
+                'id' => $this->project->id_project,
+                'token' => $this->token
+            ]),
+            'time' => now()->diffForHumans(),
+            'icon' => 'fa fa-envelope',
+            'color' => 'info'
+        ];
+    }
 }

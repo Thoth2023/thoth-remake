@@ -35,13 +35,5 @@ class NewProjectNotification extends Notification
     ];
 }
 
-    /*
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('Novo Projeto Criado!')
-            ->line('O projeto "' . $this->project->name . '" foi criado.')
-            ->action('Ver Projeto', route('projects.show', $this->project->id));
-    }
-     */
+    
 }

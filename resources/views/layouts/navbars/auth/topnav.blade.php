@@ -48,50 +48,67 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
-    <a href="javascript:;" class="nav-link text-white p-0 position-relative" id="dropdownMenuButton"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa fa-bell cursor-pointer"></i>
-        @if(auth()->user()->unreadNotifications->count() > 0)
-        <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
-            {{ auth()->user()->unreadNotifications->count() }}
-        </span>
-        @endif
-    </a>
-        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton" style="max-height: 400px; overflow-y: auto;">
-        @forelse(auth()->user()->notifications as $notification)
-        <li class="mb-2 notification-item" data-notification-id="{{ $notification->id }}">
-    <div class="d-flex align-items-center justify-content-between">
-        <a class="dropdown-item border-radius-md flex-grow-1" href="{{ $notification->data['url'] }}">
-            <div class="d-flex py-1">
-                            <div class="icon icon-shape icon-sm shadow border-radius-md bg-{{ $notification->data['color'] ?? 'primary' }} text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="{{ $notification->data['icon'] ?? 'fa fa-bell' }} text-white opacity-10"></i>
-                            </div>
-                            <div class="d-flex flex-column justify-content-center">
-                                <h6 class="text-sm font-weight-normal mb-1">
-                                    <span class="font-weight-bold">{{ $notification->data['title'] }}</span>
-                                </h6>
-                                <p class="text-xs text-secondary mb-0">
-                                    <i class="fa fa-clock me-1"></i>
-                                    {{ $notification->data['time'] ?? $notification->created_at->diffForHumans() }}
-                                </p>
-                            </div>
-                        </div>
+                    <a href="javascript:;" class="nav-link text-white p-0 position-relative" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell cursor-pointer"></i>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                        <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                            <span class="visually-hidden">unread notifications</span>
+                        </span>
+                        @endif
                     </a>
-                    <button class="btn btn-link text-danger delete-notification me-2" 
-                data-notification-id="{{ $notification->id }}"
-                title="Excluir notificação">
-            <i class="fas fa-times"></i>
-        </button>
-                </div>
-            </li>
-        @empty
-            <li class="mb-2">
-                <div class="dropdown-item border-radius-md text-center">
-                    <p class="text-sm text-secondary mb-0">{{ __('No notifications') }}</p>
-                </div>
-            </li>
-        @endforelse
-    </ul>
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton" style="max-height: 400px; overflow-y: auto;">
+                        @forelse(auth()->user()->notifications->take(10) as $notification)
+                            <li class="mb-2 notification-item @if($notification->unread()) unread-notification @endif" 
+                                data-notification-id="{{ $notification->id }}">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <a class="dropdown-item border-radius-md flex-grow-1 mark-as-read" 
+                                    href="{{ $notification->data['url'] ?? '#' }}"
+                                    data-notification-id="{{ $notification->id }}">
+                                        <div class="d-flex py-1">
+                                            <div class="icon icon-shape icon-sm shadow border-radius-md bg-{{ $notification->data['color'] ?? 'primary' }} text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="{{ $notification->data['icon'] ?? 'fa fa-bell' }} text-white opacity-10"></i>
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="font-weight-bold">{{ $notification->data['title'] ?? 'Nova notificação' }}</span>
+                                                </h6>
+                                                <p class="text-xs text-secondary mb-0">
+                                                    <i class="fa fa-clock me-1"></i>
+                                                    {{ $notification->data['time'] ?? $notification->created_at->diffForHumans() }}
+                                                </p>
+                                                @if(isset($notification->data['message']))
+                                                <p class="text-xs text-muted mt-1 mb-0">
+                                                    {{ $notification->data['message'] }}
+                                                </p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <button class="btn btn-link text-danger delete-notification me-2" 
+                                            data-notification-id="{{ $notification->id }}"
+                                            title="Excluir notificação">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        @empty
+                            <li class="mb-2">
+                                <div class="dropdown-item border-radius-md text-center">
+                                    <p class="text-sm text-secondary mb-0">{{ __('Nenhuma notificação') }}</p>
+                                </div>
+                            </li>
+                        @endforelse
+                        @if(auth()->user()->notifications->count() > 10)
+                            <li class="text-center mt-2">
+                                <a href="{{ route('notifications.all') }}" class="text-sm text-primary">
+                                    Ver todas as notificações
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
                 </li>
             </ul>
         </div>
@@ -101,43 +118,124 @@
 
 @push('js')
 <script>
-document.querySelector('.dropdown-menu').addEventListener('click', async function(e) {
-    if (e.target.closest('.delete-notification')) {
-        e.preventDefault();
-        const btn = e.target.closest('.delete-notification');
-        const notificationId = btn.dataset.notificationId;
-        
-        if (confirm('Are you sure you want to delete this notification?')) {
-            try {
-                const response = await fetch(`/notifications/${notificationId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
+document.addEventListener('DOMContentLoaded', function() {
+    const notificationMenu = document.querySelector('.dropdown-menu');
+    
+    if (notificationMenu) {
+        // Marcar como lido ao clicar
+        notificationMenu.addEventListener('click', async function(e) {
+            // Exclusão de notificação
+            if (e.target.closest('.delete-notification')) {
+                e.preventDefault();
+                e.stopPropagation();
+                const btn = e.target.closest('.delete-notification');
+                await handleDeleteNotification(btn);
+                return;
+            }
+            
+            // Marcar como lido
+            if (e.target.closest('.mark-as-read')) {
+                const link = e.target.closest('.mark-as-read');
+                const notificationId = link.dataset.notificationId;
+                
+                try {
+                    await fetch(`/notifications/${notificationId}/mark-as-read`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    // Remove a classe de não lido
+                    const notificationItem = link.closest('.notification-item');
+                    if (notificationItem) {
+                        notificationItem.classList.remove('unread-notification');
                     }
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Remove a notificação da lista
-                    btn.closest('.notification-item').remove();
                     
                     // Atualiza o contador
-                    const badge = document.querySelector('.notification-badge');
-                    if (data.unread_count > 0) {
-                        badge.textContent = data.unread_count;
-                    } else {
-                        badge.remove();
-                    }
-                } else {
-                    alert(data.message || 'Error deleting notification');
+                    updateNotificationBadge();
+                } catch (error) {
+                    console.error('Error marking as read:', error);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Failed to delete notification');
+            }
+        });
+        
+        // Função para deletar notificação
+        async function handleDeleteNotification(btn) {
+            const notificationId = btn.dataset.notificationId;
+            
+            if (confirm('Tem certeza que deseja excluir esta notificação?')) {
+                try {
+                    const response = await fetch(`/notifications/${notificationId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Remove a notificação da lista
+                        btn.closest('.notification-item').remove();
+                        
+                        // Atualiza o contador
+                        updateNotificationBadge();
+                        
+                        // Se não houver mais notificações, mostra mensagem
+                        if (document.querySelectorAll('.notification-item').length === 0) {
+                            notificationMenu.innerHTML = `
+                                <li class="mb-2">
+                                    <div class="dropdown-item border-radius-md text-center">
+                                        <p class="text-sm text-secondary mb-0">{{ __('Nenhuma notificação') }}</p>
+                                    </div>
+                                </li>
+                            `;
+                        }
+                    } else {
+                        alert(data.message || 'Erro ao excluir notificação');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Falha ao excluir notificação');
+                }
             }
         }
+        
+        // Função para atualizar o badge de notificações
+        function updateNotificationBadge() {
+            const badge = document.querySelector('.notification-badge');
+            const unreadCount = document.querySelectorAll('.unread-notification').length;
+            
+            if (unreadCount > 0) {
+                if (badge) {
+                    badge.textContent = unreadCount;
+                } else {
+                    // Cria o badge se não existir
+                    const bellIcon = document.querySelector('.fa-bell').parentNode;
+                    bellIcon.innerHTML += `
+                        <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
+                            ${unreadCount}
+                            <span class="visually-hidden">unread notifications</span>
+                        </span>
+                    `;
+                }
+            } else if (badge) {
+                badge.remove();
+            }
+        }
+    }
+    
+    // Atualizar notificações periodicamente (opcional)
+    if (typeof Echo !== 'undefined') {
+        // Configuração para atualização em tempo real se estiver usando Laravel Echo
+        Echo.private(`App.Models.User.${auth().id}`)
+            .notification((notification) => {
+                // Atualiza a lista de notificações
+                location.reload(); // Ou implemente uma atualização mais refinada
+            });
     }
 });
 </script>
