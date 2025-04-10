@@ -730,6 +730,10 @@ return [
                 'title' => 'Regra de Pontuação',
                 'placeholder' => 'Insira a Regra de Pontuação',
             ],
+            'extra_score_rule' => [
+                'title' => 'Regra de Pontuação Extra',
+                'placeholder' => 'Insira a Regra de Pontuação Extra',
+            ],
             'form' => [
                 'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
                 'add' => 'Adicionar Pontuação de Qualidade',

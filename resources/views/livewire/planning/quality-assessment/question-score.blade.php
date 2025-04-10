@@ -46,6 +46,7 @@
                             id="score-rule"
                             wire:model.lazy="scoreRule"
                             class="form-control"
+                            onchange="updateScoreBasedOnRule(this.value)"
                             required
                         >
                             <option value="">{{ __('Selecione uma regra') }}</option>
@@ -60,6 +61,21 @@
                         @enderror
                     </div>
                     <div class="d-flex flex-column gap-1">
+                        <x-input
+                            id="extra-score-rule"
+                            label="{{ __('project/planning.quality-assessment.question-score.extra_score_rule.title') }}"
+                            maxlength="20"
+                            min="0"
+                            placeholder="Digite uma regra extra"
+                            wire:model="extraScoreRule"
+                        />
+                        @error("extraScoreRule")
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="d-flex flex-column gap-1">
                         <label for="range-score" class="form-control-label required">
                             {{ __("project/planning.quality-assessment.question-score.range.score") }}
                         </label>
@@ -67,7 +83,7 @@
                             <input
                                 id="range-score"
                                 type="range"
-                                class="form-range"
+                                class="form-range my-1"
                                 min="0"
                                 max="100"
                                 step="5"
@@ -126,10 +142,57 @@
 
 @push("scripts")
     <script>
-        function updateRangeValue(value) {
-            const labelText = document.getElementById('range-score');
-            document.getElementById('range-score').textContent = value + '%';
-        }
+        window.onload = function () {
+            function updateRangeValue(value) {
+                const rangeLabel = document.getElementById('range-score');
+                if (rangeLabel) {
+                    rangeLabel.textContent = value + '%';
+                } else {
+                    console.error("Elemento 'range-score' não encontrado.");
+                }
+            }
+
+            function updatedScoreBasedOnRule(rule) {
+                const rangeInput = document.getElementById('range-score');
+                const rangeLabel = document.getElementById('range-score');
+
+                if (rangeInput && rangeLabel) {
+                    let scoreValue = 50;
+                    if (rule === 'sim') {
+                        scoreValue = 100;
+                    } else if (rule === 'partial') {
+                        scoreValue = 50;
+                    } else if (rule === 'nao') {
+                        scoreValue = 0;
+                    }
+
+                    rangeInput.value = scoreValue;
+                    rangeLabel.textContent = scoreValue + '%';
+
+                    @this.set('score', scoreValue);
+                } else {
+                    console.error("Elementos 'range-score' não encontrados.");
+                }
+            }
+
+            const scoreRuleDropdown = document.getElementById('score-rule');
+            if (scoreRuleDropdown) {
+                scoreRuleDropdown.onchange = function () {
+                    updatedScoreBasedOnRule(this.value);
+                };
+            } else {
+                console.error("Elemento 'score-rule' não encontrado.");
+            }
+
+            const rangeInput = document.getElementById('range-score');
+            if (rangeInput) {
+                rangeInput.oninput = function () {
+                    updateRangeValue(this.value);
+                };
+            } else {
+                console.error("Elemento 'range-score' não encontrado.");
+            }
+        };
     </script>
 @endpush
 
