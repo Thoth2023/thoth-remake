@@ -6,6 +6,17 @@
       0 => 'Algolia\\ScoutExtended\\ScoutExtendedServiceProvider',
     ),
   ),
+  'anhskohbo/no-captcha' => 
+  array (
+    'aliases' => 
+    array (
+      'NoCaptcha' => 'Anhskohbo\\NoCaptcha\\Facades\\NoCaptcha',
+    ),
+    'providers' => 
+    array (
+      0 => 'Anhskohbo\\NoCaptcha\\NoCaptchaServiceProvider',
+    ),
+  ),
   'barryvdh/laravel-debugbar' => 
   array (
     'aliases' => 

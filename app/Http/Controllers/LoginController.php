@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Anhskohbo\NoCaptcha\NoCaptcha;
 
 class LoginController extends Controller
 {
@@ -26,6 +29,35 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
+
+        if (Session::get('show_captcha')) {
+            $validator = Validator::make($request->all(), [
+                'g-recaptcha-response' => 'required|captcha',
+            ]);
+
+            if ($validator->fails()) {
+                return back()->withErrors(['captcha' => 'Por favor, confirme que você não é um robô.']);
+            }
+        }
+
+        if (Auth::attempt($credentials)) {
+            Session::forget('login_attempts');
+            Session::forget('show_captcha');
+            $request->session()->regenerate();
+
+            return redirect()->intended('dashboard');
+        }
+
+        $attempts = Session::get('login_attempts', 0) + 1;
+        Session::put('login_attempts', $attempts);
+
+        if ($attempts >= 3) {
+            Session::put('show_captcha', true);
+        }
+
+
+
 
         // Verifica se o usuário existe
         $user = User::where('email', $request->email)->first();

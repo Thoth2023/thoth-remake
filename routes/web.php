@@ -269,7 +269,9 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
     Route::get('/login', [LoginController::class, 'show'])->name('login')->middleware(Localization::class);
-    Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
+    Route::post('/login', [LoginController::class, 'login'])
+        ->name('login.perform')
+        ->middleware(['throttle:3,1', Localization::class]);
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
     Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
@@ -303,3 +305,4 @@ Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->
 Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
 Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
 Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);
+

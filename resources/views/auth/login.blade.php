@@ -43,6 +43,17 @@
                                             <label class="form-check-label"
                                                 for="remember">{{ __('auth/login.remember_me') }}</label>
                                         </div>
+
+                                        @if (session('show_captcha'))
+                                            <div class="form-group">
+                                                {!! NoCaptcha::renderJs() !!}
+                                                {!! NoCaptcha::display() !!}
+                                                @error('g-recaptcha-response')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        @endif
+
                                         <div class="text-center">
                                             <button type="submit"
                                                 class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ __('auth/login.sign_in_button') }}</button>
