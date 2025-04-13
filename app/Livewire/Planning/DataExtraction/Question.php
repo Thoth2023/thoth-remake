@@ -174,6 +174,7 @@ class Question extends Component
     #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
+        $this->resetFields();
         $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)
             ->where('id_de', $questionId)
             ->first();
