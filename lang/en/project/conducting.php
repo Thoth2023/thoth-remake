@@ -471,7 +471,21 @@ return [
              <ul>
              <li><b>Note:</b> If you want to conduct <b>"Peer Review"</b>, it is necessary to invite the researchers and add them to the project before importing the studies (papers).</li>
              <li>To add researchers, navigate to <b>"My Projects->Team"</b></li>
-             </ul>'
+             </ul>
+             <br>
+             <b>CSV Format Guidelines:</b><br>
+             Your CSV file must include the following column headers:<br>
+             <ul>
+                 <li>"<b>Item Title</b>" – used as the paper title</li>
+                 <li>"<b>Authors</b>" – list of authors</li>
+                 <li>"<b>Item DOI</b>" – Digital Object Identifier</li>
+                 <li>"URL" – link to the paper</li>
+                 <li>"Publication Year" –  publication year</li>
+                 <li>"Book Series Title" – optional book series name</li>
+                 <li>"Journal Volume" – optional journal volume</li>
+                 <li>"Publication Title" – optional journal or publication name</li>
+             </ul>
+             <b>Important:</b> If any of the fields in <b>bold</b> are missing or empty, the import will <b>not</b> occur.'
         ],
         'table' => [
             'database' => 'Database',
