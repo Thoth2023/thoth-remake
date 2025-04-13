@@ -14,8 +14,8 @@
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                            <b>{{ __('project/conducting.study-selection.modal.author' )}}:</b>
-                            <p>{{ $paper['author'] }}</p>
+                            @livewire('conducting.study-selection.paper-authors', ['paperId' => $paper['id_paper'],
+                            'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
                         <div class="col-2">
                             <b>{{ __('project/conducting.study-selection.modal.year' )}}:</b>
@@ -54,7 +54,6 @@
                         $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
 
                     </div>
-
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
                             <tr>
@@ -78,9 +77,8 @@
                                         wire:key="criteria-{{ $criteria['id_criteria'] }}"
                                         wire:model="selected_criterias"
                                         wire:change="changePreSelected({{ $criteria['id_criteria'] }}, '{{ $criteria['type'] }}')"
-                                        value="{{ $criteria['id_criteria'] }}"
-                                        @if(in_array($criteria['id_criteria'],$selected_criterias)) checked @endif
-                                        @if(!$canEdit) disabled @endif>
+                                        value="{{ $criteria['id_criteria'] }}" @if(in_array($criteria['id_criteria'],
+                                        $selected_criterias)) checked @endif @if(!$canEdit) disabled @endif>
                                 </td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
                                 <td class="w-70 align-middle text-wrap">{{ $criteria['description'] }}</td>
