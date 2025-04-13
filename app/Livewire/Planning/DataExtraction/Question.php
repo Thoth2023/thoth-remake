@@ -76,6 +76,7 @@ class Question extends Component
         $this->description = '';
         $this->type['value'] = '';
         $this->form['isEditing'] = false;
+        $this->currentQuestion = null;
     }
 
     /**
