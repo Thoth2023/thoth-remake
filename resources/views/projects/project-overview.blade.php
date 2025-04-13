@@ -1,3 +1,7 @@
+@php
+    $progress = $progress ?? ['overall' => 0];
+@endphp
+
 <div class="card-group justify-content-center">
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
