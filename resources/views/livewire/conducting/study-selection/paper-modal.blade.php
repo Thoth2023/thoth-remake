@@ -14,8 +14,8 @@
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                            @livewire('conducting.study-selection.paper-authors', ['paperId' => $paper['id_paper'],
-                            'projectId' => $this->projectId], key($paper['id_paper']))
+                            <b>{{ __('project/conducting.study-selection.modal.author' )}}:</b>
+                            <p>{{ $paper['author'] }}</p>
                         </div>
                         <div class="col-2">
                             <b>{{ __('project/conducting.study-selection.modal.year' )}}:</b>
