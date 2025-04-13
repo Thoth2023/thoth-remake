@@ -10,12 +10,14 @@
                     <i class="fa fa-close"></i>
                 </button>
             </div>
+             <!-- End Toggle Button -->
         </div>
         <hr class="horizontal dark my-1">
         <div class="card-body pt-sm-3 pt-0 overflow-auto">
             <div>
                 <h6 class="mb-1">{{ __('nav/side.language_selection') }}</h6>
             </div>
+            <!-- Language Selector Dropdown -->
             <div class="dropdown">
                 <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                     <i class="fas fa-globe opacity-6 text-dark me-1" style="color: #FFFFFF !important"></i>
@@ -30,6 +32,8 @@
                     </li>
                 </ul>
             </div>
+            <!-- End Language Selector Dropdown -->
+            <!-- Sidebar Backgrounds -->
             <div>
                 <h6 class="mb-0 mt-3">{{ __('nav/side.sidebar_color') }}</h6>
             </div>
@@ -43,6 +47,7 @@
                     <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
                 </div>
             </a>
+            <!-- Sidenav Type -->
             <div class="mt-3">
                 <h6 class="mb-0">{{ __('nav/side.sidenav_type') }}</h6>
                 <p class="text-sm">{{ __('nav/side.sidenav_choose') }}</p>
@@ -56,6 +61,7 @@
                 </button>
             </div>
             <p class="text-sm d-xl-none d-block mt-2">{{ __('nav/side.sidenav_warning') }}</p>
+            <!-- Navbar Fixed -->
             <div class="d-flex my-3">
                 <h6 class="mb-0">{{ __('nav/side.navbar_fixed') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
@@ -101,6 +107,43 @@
 
             document.body.classList.toggle('dark-version', newTheme === 'dark');
             localStorage.setItem('theme', newTheme);
+        });
+    });
+</script>
+
+<script>
+    // Script para persistência da cor da sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+        const colorBadges = document.querySelectorAll('.switch-trigger .badge');
+        const savedSidebarColor = localStorage.getItem('sidebar-color');
+
+        if (savedSidebarColor) {
+            const sidebar = document.querySelector('.sidenav');
+            sidebar.setAttribute('data-color', savedSidebarColor);
+
+            // Atualiza os badges
+            colorBadges.forEach(badge => {
+                if (badge.dataset.color === savedSidebarColor) {
+                    badge.classList.add('active');
+                } else {
+                    badge.classList.remove('active');
+                }
+            });
+        }
+
+        colorBadges.forEach(badge => {
+            badge.addEventListener('click', () => {
+                const newColor = badge.dataset.color;
+                const sidebar = document.querySelector('.sidenav');
+
+                // Atualiza atributo data-color
+                sidebar.setAttribute('data-color', newColor);
+                localStorage.setItem('sidebar-color', newColor);
+
+                // Atualiza badges ativos
+                colorBadges.forEach(b => b.classList.remove('active'));
+                badge.classList.add('active');
+            });
         });
     });
 </script>
