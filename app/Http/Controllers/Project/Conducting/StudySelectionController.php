@@ -12,11 +12,11 @@ use App\Models\StatusSelection;
 use Illuminate\Http\Request;
 
 class StudySelectionController extends Controller
+{
 
-{   
 
-
-    public function index($projectId) {
+    public function index($projectId)
+    {
 
         $projectId = request()->segment(2);
 
@@ -29,13 +29,29 @@ class StudySelectionController extends Controller
         }
 
         $papers = Papers::whereIn('id_bib', $idsBib)->get();
-    
+
         return view('project.conducting.study-selection.index', [
             'papers' => $papers,
         ]);
     }
 
-    
-    
-    
+    public function translationStudySelection($file, $locale = null)
+    {
+        // pega o padrao do app caso nao seja passado o locale
+        $locale = $locale ?? app()->getLocale();
+
+        // nome base do arquivo
+        $safeFile = basename($file);
+
+        // arquivo de tradução
+        $path = resource_path("lang/{$locale}/project/{$safeFile}.php");
+
+        // verificacao se o arquivo de traduçao existe
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'Arquivo de tradução não encontrado.'], 404);
+        }
+
+        // retorna um json com o conteudo do arquivo
+        return response()->json(require $path);
+    }
 }

@@ -1,4 +1,8 @@
-  <div wire:model="count" >
+@php
+    $studySelectionPath = 'project/conducting.study-selection';
+@endphp
+
+<div wire:model="count" >
     <div class="mt-1">
         <div class="progress mb-4" style="height: 20px;">
             <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ $unclassifiedPercentage }}%;" aria-valuenow="{{ $unclassifiedPercentage }}" aria-valuemin="0" aria-valuemax="100">
@@ -21,20 +25,20 @@
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>{{ __('project/conducting.study-selection.status.unclassified' )}}:</strong> {{ count($unclassified) }}
+                <strong>{{ translationStudySelection("{$studySelectionPath}.status.unclassified")}}:</strong> {{ count($unclassified) }}
             </div>
             <div class="col text-success">
-                <strong>{{ __('project/conducting.study-selection.status.accepted' )}}:</strong> {{ count($accepted) }}
+                <strong>{{ translationStudySelection("{$studySelectionPath}.status.accepted")}}:</strong> {{ count($accepted) }}
             </div>
             <div class="col text-danger">
-                <strong>{{ __('project/conducting.study-selection.status.rejected' )}}:</strong> {{ count($rejected) }}
+                <strong>{{ translationStudySelection("{$studySelectionPath}.status.rejected")}}:</strong> {{ count($rejected) }}
             </div>
             <div class="col text-info">
-                <strong>{{ __('project/conducting.study-selection.status.removed' )}}:</strong> {{ count($removed) }}
+                <strong>{{ translationStudySelection("{$studySelectionPath}.status.removed")}}:</strong> {{ count($removed) }}
             </div>
 
             <div class="col text-warning">
-                <strong>{{ __('project/conducting.study-selection.status.duplicate' )}}:</strong> {{ count($duplicates) }}
+                <strong>{{ translationStudySelection("{$studySelectionPath}.status.duplicate")}}:</strong> {{ count($duplicates) }}
             </div>
             <div class="col">
                 <strong>Total:</strong> {{ count($papers) }}
