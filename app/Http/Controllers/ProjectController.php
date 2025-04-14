@@ -31,8 +31,17 @@ class ProjectController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $projects_relation = $user->projects;
+        
+        // Buscar todos os projetos do usuário
+        $all_projects = $user->projects;
+        
+        // Filtrar apenas projetos com status 'accepted' ou null
+        $projects_relation = $all_projects->filter(function($project) {
+            $pivotStatus = $project->pivot->status ?? null;
+            return $pivotStatus === 'accepted' || $pivotStatus === null;
+        });
 
+        // Buscar projetos onde o usuário é o proprietário
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
 
@@ -81,7 +90,7 @@ class ProjectController extends Controller
         $activity = "Created the project ".$project->title;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
+        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1, 'status' => 'accepted']);
 
         return redirect('/projects');
     }
@@ -206,7 +215,7 @@ class ProjectController extends Controller
     public function add_member(string $idProject)
     {
         $project = Project::findOrFail($idProject);
-        $users_relation = $project->users()->get();
+        $users_relation = $project->users()->withPivot('level', 'status', 'invitation_token')->get();
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
@@ -311,10 +320,11 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
     {
         $token = $request->query('token');
 
-        // Busca o registro na tabela 'members'
+        // Verifica se o token é válido e pertence ao projeto
         $invitation = DB::table('members')
                         ->where('invitation_token', $token)
                         ->where('id_project', $idProject)
+                        ->where('status', 'pending') // Adicionar verificação de status pendente
                         ->first();
 
         if (!$invitation) {

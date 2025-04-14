@@ -16,6 +16,15 @@
             width: 100%;
             max-width: 100%;
         }
+        
+        .status-container {
+            display: flex;
+            align-items: center;
+            height: 38px; /* Altura aproximada do botão */
+            margin-top: 5px;
+            position: relative;
+            top: -10px;
+        }
     </style>
     <div class="card shadow-lg mx-4">
         @include('components.alert')
@@ -81,14 +90,14 @@
                                 <div class="modal-body">
                                     <div class="py-3 text-center">
                                         <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i>
-                                            {{__('pages/add_member.select_level')}}</h4>
-                                        <p>
-                                            <strong>{{__('pages/add_member.level_administrator')}} </strong>{{__('pages/add_member.level_administrator_description')}}<br />
-                                            <strong>{{__('pages/add_member.level_viewer')}}</strong>{{__('pages/add_member.level_viewer_description')}}<br />
-                                            <strong>{{__('pages/add_member.level_researcher')}} </strong>{{__('pages/add_member.level_researcher_description')}}<br />
-                                            <strong>{{__('pages/add_member.level_reviser')}} </strong>{{__('pages/add_member.level_reviser_description')}}<br />
-                                        <p></p>
-                                        </p>
+                                            {{__('pages/add_member.instruction_level')}}</h4>
+                                        <p>{{__('pages/add_member.instruction_level_text')}}</p>
+                                        <ul class="text-left">
+                                            <li>{{__('pages/add_member.level_1')}}</li>
+                                            <li>{{__('pages/add_member.level_2')}}</li>
+                                            <li>{{__('pages/add_member.level_3')}}</li>
+                                            <li>{{__('pages/add_member.level_4')}}</li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -104,20 +113,17 @@
                         <option value=4>{{__('pages/add_member.reviser')}}</option>
                     </select>
                 </div>
-                <div class="d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary btn ms-auto" name="add">{{__('pages/add_member.add')}}</button>
-                </div>
+                <button type="submit" class="btn btn-primary">{{__('pages/add_member.add')}}</button>
             </form>
-
+        </div>
+        <div class="table-responsive p-0">
             <table class="table align-items-center justify-content-center mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            {{__('pages/add_member.name')}}</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Email</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            {{__('pages/add_member.level')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{__('pages/add_member.name')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{__('pages/add_member.email')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{__('pages/add_member.level')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{__('pages/add_member.status')}}</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             {{__('pages/add_member.delete')}}</th>
                     </tr>
@@ -138,6 +144,9 @@
                             @if ($member->pivot->level == 1)
                                 <td>
                                     <p class="text-sm font-weight-bold mb-0">{{__('pages/add_member.admin')}}</p>
+                                </td>
+                                <td>
+                                    <!-- Administradores não mostram tags de status -->
                                 </td>
                                 <td></td>
                             @else
@@ -168,6 +177,27 @@
                                             </div>
                                         </div>
                                     </form>
+                                </td>
+                                <td>
+                                    @php
+                                        $status = $member->pivot->status ?? null;
+                                        $statusText = __('pages/add_member.status_accepted');
+                                        $statusClass = 'bg-success';
+                                        
+                                        if ($status === 'pending') {
+                                            $statusText = __('pages/add_member.status_pending');
+                                            $statusClass = 'bg-warning';
+                                        } elseif ($status === 'declined') {
+                                            $statusText = __('pages/add_member.status_declined');
+                                            $statusClass = 'bg-danger';
+                                        } elseif ($status === 'accepted' || $status === null) {
+                                            $statusText = __('pages/add_member.status_accepted');
+                                            $statusClass = 'bg-success';
+                                        }
+                                    @endphp
+                                    <div class="status-container">
+                                        <span class="badge {{ $statusClass }}">{{ $statusText }}</span>
+                                    </div>
                                 </td>
                                 <td class="text-center col-md-4">
                                     <div class="row">
