@@ -25,7 +25,7 @@ class QuestionScore extends Component
   public $questionId;
   public $scoreRule;
   public $score;
-  public $extraScoreRule;
+  public $scoreRuleOptions = ['sim', 'partial', 'nao'];
   public $description;
 
 
@@ -42,7 +42,6 @@ class QuestionScore extends Component
   protected $rules = [
     'questionId' => 'array|required',
     'scoreRule' => 'required|string|max:25|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
-    'extraScoreRule' => 'nullable|string|max:25|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
     'score' => 'required|numeric',
     'description' => 'required|string|max:255|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
   ];
@@ -57,7 +56,6 @@ class QuestionScore extends Component
       'questionId.array' => __('common.required'),
       'scoreRule.required' => __('common.required'),
       'scoreRule.regex' => 'A regra de pontuação só pode conter letras e espaços.',
-      'extraScoreRule.regex' => 'A regra de pontuação extra só pode conter letras e espaços.',
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
       'description.regex' => 'A descrição só pode conter letras, números e espaços.',
@@ -87,7 +85,6 @@ class QuestionScore extends Component
     $this->currentQuestionScore = QualityScore::findOrFail($questionScoreId);
     $this->questionId["value"] = $this->currentQuestionScore->id_qa;
     $this->scoreRule = $this->currentQuestionScore->score_rule;
-    $this->extraScoreRule = $this->currentQuestionScore->extra_score_rule;
     $this->score = $this->currentQuestionScore->score;
     $this->description = $this->currentQuestionScore->description;
     $this->form['isEditing'] = true;
@@ -98,7 +95,6 @@ class QuestionScore extends Component
     $this->currentQuestionScore = null;
     $this->questionId = null;
     $this->scoreRule = '';
-    $this->extraScoreRule = '';
     $this->score = 50;
     $this->description = '';
     $this->form['isEditing'] = false;
@@ -136,7 +132,6 @@ class QuestionScore extends Component
         $alreadyExists = QualityScoreModel::where([
           'id_qa' => $this->questionId["value"],
           'score_rule' => $this->scoreRule,
-          'extra_score_rule' => $this->extraScoreRule,
         ])->exists();
 
         if ($alreadyExists) {
@@ -152,7 +147,6 @@ class QuestionScore extends Component
         'id_score' => $this->currentQuestionScore?->id_score,
       ], [
         'score_rule' => trim($this->scoreRule),
-        'extra_score_rule' => trim($this->extraScoreRule),
         'description' => $this->description,
         'score' => $this->score,
         'id_qa' => $this->questionId["value"],
@@ -181,25 +175,26 @@ class QuestionScore extends Component
 
   public function updatedScoreRule($value)
   {
-      switch ($value) {
-          case 'sim':
-              $this->score = 100;
-              break;
-          case 'partial':
-              $this->score = 50;
-              break;
-          case 'nao':
-              $this->score = 0;
-              break;
-          default:
-              $this->score = 50;
-              break;
+      if (in_array($value, ['Sim', 'Parcial', 'Não'])) {
+          switch ($value) {
+              case 'Sim':
+                  $this->score = 100;
+                  break;
+              case 'Parcial':
+                  $this->score = 50;
+                  break;
+              case 'Não':
+                  $this->score = 0;
+                  break;
+          }
+      } else {
+          $this->score = 50;
       }
+  }
 
-      // $this->toast(
-      //     message: __('project/planning.quality-assessment.question-score.form.rule-selected', ['rule' => $value]),
-      //     type: 'info'
-      // );
+  public function updatedScore($value)
+  {
+      $this->score = $value;
   }
 
   public function render()
