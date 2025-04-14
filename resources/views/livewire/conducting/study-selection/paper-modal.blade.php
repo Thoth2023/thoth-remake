@@ -66,10 +66,9 @@
                                         type="checkbox"
                                         id="criteria-{{ $criteria['id_criteria'] }}"
                                         wire:key="criteria-{{ $criteria['id_criteria'] }}"
-                                        wire:model="selected_criterias"
-                                        wire:change="changePreSelected({{ $criteria['id_criteria'] }}, '{{ $criteria['type'] }}')"
+                                        wire:model="temp_selected_criterias"
                                         value="{{ $criteria['id_criteria'] }}"
-                                        @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif
+                                        @if(in_array($criteria['id_criteria'], $temp_selected_criterias)) checked @endif
                                     >
                                 </td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
@@ -80,6 +79,11 @@
                         @endforeach
                         </tbody>
                     </table>
+                    <div class="text-end mb-3">
+                        <button wire:click="saveSelectedCriterias" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Critérios
+                        </button>
+                    </div>
                     <hr />
                     <div class="d-flex flex-column mt-3">
                         <label>{{ __('project/conducting.study-selection.modal.paper-conflict-note' )}}</label>
@@ -114,7 +118,7 @@
                 @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
