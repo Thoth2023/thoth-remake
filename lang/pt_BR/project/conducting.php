@@ -87,7 +87,7 @@ return [
             'paper-conflict'=>'Resolver Conflitos: Decisão em Grupo - Critério de I/E',
             'paper-conflict-note'=>'Nota/Justificativa',
             'paper-conflict-writer'=>'Escreva sua nota/justificativa...',
-            'sucess-decision'=>'Decisão em Grupo salva com sucesso.',
+            'success-decision'=>'Decisão em Grupo salva com sucesso.',
             'error-status'=>'Selecione sua Decisão Final',
             'last-confirmation' => 'Confirmado por',
             'confirmation-date' => 'em',

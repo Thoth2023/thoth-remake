@@ -141,10 +141,13 @@
 @script
 <script>
     $(document).ready(function(){
+
         // Show the paper modal
         $wire.on('show-paper', () => {
-            $('#paperModal').modal('show');
-        });
+            setTimeout(() => {
+                $('#paperModal').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
 
         // Show the success modal on success event
         Livewire.on('show-success', () => {
@@ -159,11 +162,11 @@
     });
     Livewire.on('reload-papers', () => {
         // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('show-sucess');
+        Livewire.emit('show-success');
     });
-    Livewire.on('show-sucess', () => {
+    Livewire.on('show-success', () => {
         // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('show-sucess-quality');
+        Livewire.emit('show-success-quality');
     });
 
     $wire.on('paper-modal', ([{ message, type }]) => {

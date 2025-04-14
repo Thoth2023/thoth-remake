@@ -88,7 +88,7 @@ return [
             'paper-conflict'=>'Resolve Paper Conflicts: Group Decision - I/E Criteria ',
             'paper-conflict-note'=>'Note',
             'paper-conflict-writer'=>'Write note...',
-            'sucess-decision'=>'Group Decision successfully',
+            'success-decision'=>'Group Decision successfully',
             'error-status' => 'Select your Final Decision',
             'last-confirmation' => 'Last Confirmation',
             'confirmation-date' => 'in',

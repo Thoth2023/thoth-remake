@@ -110,10 +110,11 @@
 @script
 <script>
     $(document).ready(function(){
-        // Mostrar o modal do paper
-        Livewire.on('show-paper-snowballing', () => {
-            $('#paperModalSnowballing').modal('show');
-        });
+        $wire.on('show-paper-snowballing', () => {
+            setTimeout(() => {
+                $('#paperModalSnowballing').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
 
         // Mostrar o modal de sucesso
         Livewire.on('show-success-snowballing', () => {
