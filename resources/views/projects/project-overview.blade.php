@@ -67,7 +67,7 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">{{ __('project/overview.study_selection') }}</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.quality_assessment') }}</span>
                         </div>
                     </div>
                     <div class="progress">
@@ -80,7 +80,7 @@
                 <div class="progress-wrapper">
                     <div class="progress-info">
                         <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">{{ __('project/overview.quality_assessment') }}</span>
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.snowballing') }}</span>
                         </div>
                     </div>
                     <div class="progress">

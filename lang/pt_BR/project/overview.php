@@ -11,8 +11,8 @@ return [
     'progress' => 'Progresso da Revisão Sistemática',
     'planning' => 'Planejamento',
     'conducting' => 'Condução',
-    'study_selection' => 'Seleção de Estudos',
     'quality_assessment' => 'Avaliação de Qualidade',
+    'snowballing' => 'Snowballing',
     'data_extraction' => 'Extração de Dados',
 
     'activity_record' => 'Registro de Atividades',

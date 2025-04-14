@@ -11,8 +11,8 @@ return [
     'progress' => 'Progress of Systematic Review',
     'planning' => 'Planning',
     'conducting' => 'Conducting',
-    'study_selection' => 'Study Selection',
     'quality_assessment' => 'Quality Assessment',
+    'snowballing' => 'Snowballing',
     'data_extraction' => 'Data Extraction',
 
     'activity_record' => 'Activity Record',
