@@ -69,8 +69,6 @@ class FileUpload extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
-
-
     }
 
     public function resetFields()
@@ -80,11 +78,91 @@ class FileUpload extends Component
     }
 
     /**
+     * Verificar duplicatas antes da importação
+     */
+    private function checkForDuplicates($papers)
+    {
+        $duplicatePapers = [];
+        $existingDois = $this->getExistingDois();
+        $existingTitles = $this->getExistingTitles();
+
+        foreach ($papers as $index => $paper) {
+            // Verificar duplicação por DOI (se disponível)
+            if (!empty($paper['doi']) && in_array($paper['doi'], $existingDois)) {
+                $duplicatePapers[$index] = [
+                    'reason' => 'DOI duplicado: ' . $paper['doi'],
+                    'title' => $paper['title'] ?? 'Sem título'
+                ];
+                continue;
+            }
+
+            // Verificar duplicação por título
+            if (!empty($paper['title']) && in_array(strtolower(trim($paper['title'])), $existingTitles)) {
+                $duplicatePapers[$index] = [
+                    'reason' => 'Título duplicado',
+                    'title' => $paper['title'] ?? 'Sem título'
+                ];
+                continue;
+            }
+        }
+
+        return $duplicatePapers;
+    }
+
+    /**
+     * Obter DOIs existentes associados ao projeto atual
+     */
+    private function getExistingDois()
+    {
+        try {
+            // Obter os IDs dos bancos de dados do projeto
+            $idsDatabase = ProjectDatabasesModel::where('id_project', $this->currentProject->id_project)
+                ->pluck('id_database')
+                ->toArray();
+
+            // Obter os DOIs dos papers associados a esses bancos de dados
+            return \App\Models\Project\Conducting\Papers::whereIn('data_base', $idsDatabase)
+                ->whereNotNull('doi')
+                ->where('doi', '!=', '')
+                ->pluck('doi')
+                ->toArray();
+        } catch (\Exception $e) {
+            FacadesLog::error('Erro ao obter DOIs existentes', ['error' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    /**
+     * Obter títulos existentes no projeto
+     */
+    private function getExistingTitles()
+    {
+        try {
+            // Obter os IDs dos bancos de dados do projeto
+            $idsDatabase = ProjectDatabasesModel::where('id_project', $this->currentProject->id_project)
+                ->pluck('id_database')
+                ->toArray();
+
+            // Obter os títulos dos papers já existentes
+            return \App\Models\Project\Conducting\Papers::whereIn('data_base', $idsDatabase)
+                ->whereNotNull('title')
+                ->where('title', '!=', '')
+                ->pluck('title')
+                ->map(function ($title) {
+                    return strtolower(trim($title));
+                })
+                ->toArray();
+        } catch (\Exception $e) {
+            FacadesLog::error('Erro ao obter títulos existentes', ['error' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    /**
      * @throws ParserException
      */
     public function save()
     {
-
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
@@ -128,9 +206,42 @@ class FileUpload extends Component
                 }
 
                 try {
-                    // Salvar o arquivo no sistema de arquivos
-                    $this->file->storeAs('files', $name);
-                    FacadesLog::info('Arquivo salvo no sistema de arquivos com sucesso.', ['file_name' => $name]);
+                    // Antes de criar o BibUpload, verificar duplicatas
+                    $filePath = storage_path('app/temp/' . $name);
+                    $this->file->storeAs('temp', $name); // Armazena temporariamente
+
+                    // Extrair referências do arquivo para verificação
+                    $papers = [];
+                    if (in_array($extension, ['bib', 'txt'])) {
+                        $papers = $this->extractBibTexReferences($filePath);
+                    } else {
+                        $papers = $this->extractCsvReferences($filePath);
+                    }
+
+                    // Verificar duplicatas
+                    $duplicates = $this->checkForDuplicates($papers);
+
+                    if (!empty($duplicates)) {
+                        // Existem papers duplicados, cancelar importação
+                        $duplicateCount = count($duplicates);
+
+                        FacadesLog::warning('Tentativa de upload com DOIs duplicados', 
+                            ['file_name' => $name, 'duplicates' => count($duplicates)]);
+
+                        // Limpar arquivo temporário
+                        Storage::delete('temp/' . $name);
+
+                        $toastMessage = __($this->toastMessages . '.duplicated_papers', 
+                            ['count' => $duplicateCount]);
+                        $this->toast(
+                            message: $toastMessage,
+                            type: 'error'
+                        );
+                        return;
+                    }
+
+                    // Se não houver duplicatas, mover arquivo para local permanente
+                    rename(storage_path('app/temp/' . $name), storage_path('app/files/' . $name));
 
                     // Criar a entrada de BibUpload para o arquivo
                     $bibUpload = BibUpload::create([
@@ -188,7 +299,6 @@ class FileUpload extends Component
                     $this->dispatch('import-success');
                     $this->dispatch('refreshPapersCount');
                     FacadesLog::info('Eventos de importação e atualização de contagem de papers despachados com sucesso.');
-
                 } catch (\Exception $e) {
                     // Lidar com erros no processo de criação de BibUpload ou despachar job/processamento CSV
                     $errorMessage = $e->getMessage();
@@ -202,7 +312,6 @@ class FileUpload extends Component
 
                     $this->handleException($e);
                 }
-
             } else {
                 // Mensagem de erro caso o banco de dados do projeto não seja encontrado
                 FacadesLog::error('Banco de dados do projeto não encontrado.', ['project_id' => $this->currentProject->id_project]);
@@ -222,13 +331,10 @@ class FileUpload extends Component
         }
     }
 
-
-
-
     /**
      * @throws ParserException
      */
-     private function extractBibTexReferences($filePath)
+    private function extractBibTexReferences($filePath)
     {
         $contents = file_get_contents($filePath);
         $parser = new Parser();
@@ -263,7 +369,7 @@ class FileUpload extends Component
             'type' => $csvRow['Content Type'] ?? '',
             'citation-key' => '',
             'title' => !empty($csvRow['Item Title']) ? $csvRow['Item Title'] : null,
-            'author' =>!empty($csvRow['Authors']) ? $csvRow['Authors'] : null,
+            'author' => !empty($csvRow['Authors']) ? $csvRow['Authors'] : null,
             'booktitle' => $csvRow['Book Series Title'] ?? '',
             'volume' => $csvRow['Journal Volume'] ?? '',
             'pages' => '',
@@ -314,7 +420,6 @@ class FileUpload extends Component
                 //atualizar os demais módulos
                 $this->dispatch('import-success');
                 $this->dispatch('refreshPapersCount');
-
             });
         } catch (\Exception $e) {
             $toastMessage = __($this->toastMessages . '.file_delete_error', ['message' => $e->getMessage()]);

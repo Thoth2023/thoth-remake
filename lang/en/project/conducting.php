@@ -521,6 +521,7 @@ return [
                 'file_delete_error' => 'An error occurred while deleting the file: :message',
                 'file_already_exists' => 'A file with this name already exists in this database. Please avoid duplicates!',
                 'denied' => 'A viewer cannot import or delete studies.',
+                'duplicated_papers' => 'Duplicate papers were found in the file. Please check the file and remove them.',
             ],
         ],
 

@@ -347,6 +347,7 @@ return [
                 'file_delete_error' => 'Ocorreu um erro ao excluir o arquivo: :message',
                 'file_already_exists' => 'Um arquivo com este nome já foi adicionado nesta Base de Dados. Evite duplicações!',
                 'denied' => 'Um visualizador não pode adicionar ou excluir papers.',
+                'duplicated_papers' => 'Papers duplicados foram encontrados no arquivo. Por favor, cheque o arquivo e remova-os.',
             ],
         ],
 
