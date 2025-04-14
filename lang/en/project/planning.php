@@ -535,6 +535,7 @@ return [
                 'deleted' => 'Criteria deleted',
             ],
             'toasts' => [
+                'reset_paper_evaluations' => 'All paper evaluations have been reset to "Not Evaluated".',
                 'no_criteria'=> 'No criteria found.',
                 'added' => 'Criteria added successfully',
                 'deleted' => 'Criteria deleted successfully',
