@@ -151,14 +151,14 @@
                     <p>{{ __('project/conducting.data-extraction.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="btnradio" id="btnradio3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio3">{{ __('project/conducting.data-extraction.modal.option.to_do' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="status" id="status-to-do" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="status-to-do">{{ __('project/conducting.data-extraction.modal.option.to_do' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="btnradio" id="btnradio1" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.data-extraction.modal.option.done' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="status" id="status-done" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="status-done">{{ __('project/conducting.data-extraction.modal.option.done' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio6" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio6">{{ __('project/conducting.data-extraction.modal.option.removed' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="status" id="status-removed" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="status-removed">{{ __('project/conducting.data-extraction.modal.option.removed' )}}</label>
                     </div>
                 @endif
             </div>
