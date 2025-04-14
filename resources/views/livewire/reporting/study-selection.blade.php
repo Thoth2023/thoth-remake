@@ -12,6 +12,7 @@
         <div id="status_per_members" style="height: 400px;" class="card my-2 p-2"></div>
     </figure>
 </div>
+
 @section('scripts')
     @parent
     @push('js')

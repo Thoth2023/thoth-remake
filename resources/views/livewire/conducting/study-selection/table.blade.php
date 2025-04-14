@@ -72,6 +72,7 @@
                 class="list-group-item d-flex row w-100"
             >
                 <div class='w-10 pl-2'>
+
                     <span data-search>{{ $paper['id'] }}</span>
                 </div>
                 <div class='w-55' role='button' wire:click.prevent="openPaper({{ $paper }})">
