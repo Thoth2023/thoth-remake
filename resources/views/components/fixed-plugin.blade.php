@@ -68,7 +68,7 @@
             <div class="mt-2 mb-5 d-flex">
                 <h6 class="mb-0">{{ __('nav/side.light_dark') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
-                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this) ">
                 </div>
             </div>
 

@@ -141,11 +141,12 @@
                                         </a>
                                     </form>
                                 </li>
-                                <li class="nav-item px-3 d-flex align-items-center">
-                                  <a href="javascript:;" class="nav-link text-dark p-0">
-                                    <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
-                                  </a>
-                                </li>
+                                <li class="nav-item px-2 d-flex align-items-center">
+  <a href="javascript:;" class="nav-link text-dark p-0 d-flex align-items-center">
+    <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
+    <span class="d-sm-inline d-none">Configuração</span>
+  </a>
+</li>
 
                             @endauth
                         </ul>
