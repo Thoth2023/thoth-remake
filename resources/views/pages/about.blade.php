@@ -24,22 +24,50 @@
                         <!-- Novas Funcionalidades -->
                         <div class="card-body pt-2">
                             <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
+
+                            <!-- Segurança -->
+                            <h6 class="mt-4 mb-2 text-muted">🔐 Segurança</h6>
                             <ul class="list-unstyled">
                                 <li><i class="fas fa-unlock-alt me-2 text-primary"></i>{{ __("pages/about.recover_password") }}</li>
-                                <li><i class="fas fa-bug me-2 text-danger"></i>{{ __("pages/about.bug_databases") }}</li>
-                                <li><i class="fas fa-lightbulb me-2 text-warning"></i>{{ __("pages/about.suggest_databases") }}</li>
-                                <li><i class="fas fa-question-circle me-2 text-info"></i>{{ __("pages/about.new_qa") }}</li>
-                                <li><i class="fas fa-paint-brush me-2 text-success"></i>{{ __("pages/about.new_interface") }}</li>
-                                <li><i class="fas fa-code me-2 text-secondary"></i>{{ __("pages/about.new_framework") }}</li>
+                                <li><i class="fas fa-bug me-2 text-primary"></i>{{ __("pages/about.bug_databases") }}</li>
+                            </ul>
+
+                            <!-- Funcionalidades adicionais -->
+                            <h6 class="mt-4 mb-2 text-muted">✨ Funcionalidades adicionais</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-lightbulb me-2 text-primary"></i>{{ __("pages/about.suggest_databases") }}</li>
+                                <li><i class="fas fa-question-circle me-2 text-primary"></i>{{ __("pages/about.new_qa") }}</li>
+                                <li><i class="fas fa-paint-brush me-2 text-primary"></i>{{ __("pages/about.new_interface") }}</li>
+                                <li><i class="fas fa-code me-2 text-primary"></i>{{ __("pages/about.new_framework") }}</li>
+                            </ul>
+
+                            <!-- Internacionalização e Usabilidade -->
+                            <h6 class="mt-4 mb-2 text-muted">🌐 Internacionalização e Usabilidade</h6>
+                            <ul class="list-unstyled">
                                 <li><i class="fas fa-globe me-2 text-primary"></i>{{ __("pages/about.internationalization") }}</li>
-                                <li><i class="fas fa-mouse-pointer me-2 text-dark"></i>{{ __("pages/about.usability") }}</li>
-                                <li><i class="fas fa-users-cog me-2 text-info"></i>{{ __("pages/about.users_management") }}</li>
-                                <li><i class="fas fa-id-badge me-2 text-warning"></i>{{ __("pages/about.profile_management") }}</li>
-                                <li><i class="fas fa-user-plus me-2 text-success"></i>{{ __("pages/about.members_invitation") }}</li>
-                                <li><i class="fas fa-mobile-alt me-2 text-danger"></i>{{ __("pages/about.pwa") }}</li>
-                                <li><i class="fas fa-snowflake me-2 text-info"></i>{{ __("pages/about.snowballing") }}</li>
+                                <li><i class="fas fa-mouse-pointer me-2 text-primary"></i>{{ __("pages/about.usability") }}</li>
+                            </ul>
+
+                            <!-- Gestão de usuários e convites -->
+                            <h6 class="mt-4 mb-2 text-muted">👥 Gestão de usuários e convites</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-users-cog me-2 text-primary"></i>{{ __("pages/about.users_management") }}</li>
+                                <li><i class="fas fa-id-badge me-2 text-primary"></i>{{ __("pages/about.profile_management") }}</li>
+                                <li><i class="fas fa-user-plus me-2 text-primary"></i>{{ __("pages/about.members_invitation") }}</li>
+                            </ul>
+
+                            <!-- Funcionalidades móveis e Snowballing -->
+                            <h6 class="mt-4 mb-2 text-muted">📱 Funcionalidades móveis e Snowballing</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-mobile-alt me-2 text-primary"></i>{{ __("pages/about.pwa") }}</li>
+                                <li><i class="fas fa-snowflake me-2 text-primary"></i>{{ __("pages/about.snowballing") }}</li>
+                            </ul>
+
+                            <!-- APIs e busca -->
+                            <h6 class="mt-4 mb-2 text-muted">🔎 APIs e Busca</h6>
+                            <ul class="list-unstyled">
                                 <li><i class="fas fa-search me-2 text-primary"></i>{{ __("pages/about.algolia_api") }}</li>
-                                <li><i class="fas fa-database me-2 text-secondary"></i>{{ __("pages/about.crossref_api") }}</li>
+                                <li><i class="fas fa-database me-2 text-primary"></i>{{ __("pages/about.crossref_api") }}</li>
                             </ul>
                         </div>
 
@@ -59,7 +87,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title text-darker">{{ __("pages/about.activity_view") }}</h5>
-                                            <p><i class="fas fa-history me-2 text-warning"></i>{{ __("pages/about.activity_view_description") }}</p>
+                                            <p><i class="fas fa-history me-2 text-primary"></i>{{ __("pages/about.activity_view_description") }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +95,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title text-darker">{{ __("pages/about.progress_display") }}</h5>
-                                            <p><i class="fas fa-chart-line me-2 text-success"></i>{{ __("pages/about.progress_display_description") }}</p>
+                                            <p><i class="fas fa-chart-line me-2 text-primary"></i>{{ __("pages/about.progress_display_description") }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +106,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title text-darker">{{ __("pages/about.protocol_management") }}</h5>
-                                            <p><i class="fas fa-cogs me-2 text-secondary"></i>{{ __("pages/about.protocol_management_description") }}</p>
+                                            <p><i class="fas fa-cogs me-2 text-primary"></i>{{ __("pages/about.protocol_management_description") }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +114,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title text-darker">{{ __("pages/about.study_import") }}</h5>
-                                            <p><i class="fas fa-file-import me-2 text-info"></i>{{ __("pages/about.study_import_description") }}</p>
+                                            <p><i class="fas fa-file-import me-2 text-primary"></i>{{ __("pages/about.study_import_description") }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +122,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title text-darker">{{ __("pages/about.selection_of_studies") }}</h5>
-                                            <p><i class="fas fa-check-circle me-2 text-danger"></i>{{ __("pages/about.selection_of_studies_description") }}</p>
+                                            <p><i class="fas fa-check-circle me-2 text-primary"></i>{{ __("pages/about.selection_of_studies_description") }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +160,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     @push('js')
