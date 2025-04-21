@@ -98,6 +98,11 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class, 'profile_id');
     }
 
+    public function notes()
+{
+    return $this->hasMany(Note::class);
+}
+
     public function deleteUserData()
     {
         // Anonimiza os dados do usuário

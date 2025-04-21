@@ -211,6 +211,8 @@
     Livewire.on('reload-paper-quality', () => {
         Livewire.emit('showPaperQuality', @json($paper));
     });
+
+    
 </script>
 @endscript
 

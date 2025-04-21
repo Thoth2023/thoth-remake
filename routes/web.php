@@ -42,22 +42,19 @@ use Illuminate\Support\Facades\Route;
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\NoteController;
 
+Route::resource('notes', NoteController::class);
 
-//use App\Http\Controllers\Auth\LoginController; c
-//use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+    Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
+    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+});
+ 
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
 });
