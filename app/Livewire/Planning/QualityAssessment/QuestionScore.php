@@ -124,55 +124,56 @@ class QuestionScore extends Component
     $this->validate();
 
     try {
-      $value = $this->form['isEditing'] ? 'Updated the quality score ' : 'Added a quality score';
-      $toastMessage = __($this->toastMessages . ($this->form['isEditing']
-        ? '.updated' : '.added'));
+        $value = $this->form['isEditing'] ? 'Updated the quality score ' : 'Added a quality score';
+        $toastMessage = __($this->toastMessages . ($this->form['isEditing']
+            ? '.updated' : '.added'));
 
-      if (!$this->form['isEditing']) {
-        $alreadyExists = QualityScoreModel::where([
-          'id_qa' => $this->questionId["value"],
-          'score_rule' => $this->scoreRule,
-        ])->exists();
+        if (!$this->form['isEditing']) {
+            $alreadyExists = QualityScoreModel::where([
+                'id_qa' => $this->questionId["value"],
+                'score' => $this->score,
+            ])->exists();
 
-        if ($alreadyExists) {
-          $this->toast(
-            message: $this->translate()['unique-score-rule'],
-            type: 'info'
-          );
-          return;
+            if ($alreadyExists) {
+                $this->toast(
+                    message: __('A regra de pontuação com este valor já existe para esta questão.'),
+                    type: 'info'
+                );
+                return;
+            }
         }
-      }
 
-      $create = QualityScoreModel::updateOrCreate([
-        'id_score' => $this->currentQuestionScore?->id_score,
-      ], [
-        'score_rule' => trim($this->scoreRule),
-        'description' => $this->description,
-        'score' => $this->score,
-        'id_qa' => $this->questionId["value"],
-      ]);
+        $create = QualityScoreModel::updateOrCreate([
+            'id_score' => $this->currentQuestionScore?->id_score,
+        ], [
+            'score_rule' => trim($this->scoreRule),
+            'description' => $this->description,
+            'score' => $this->score,
+            'id_qa' => $this->questionId["value"],
+        ]);
 
-      Log::logActivity(
-        action: $value,
-        description: $create->description,
-        projectId: $this->currentProject->id_project
-      );
+        Log::logActivity(
+            action: $value,
+            description: $create->description,
+            projectId: $this->currentProject->id_project
+        );
 
-      $this->toast(
-        message: $toastMessage,
-        type: 'success'
-      );
+        $this->toast(
+            message: $toastMessage,
+            type: 'success'
+        );
 
-      $this->dispatch('update-qa-table');
-      $this->resetFields();
+        $this->dispatch('update-qa-table');
+        $this->resetFields();
     } catch (\Exception $e) {
-      $this->toast(
-        message: $e->getMessage(),
-        type: 'error'
-      );
+        $this->toast(
+            message: $e->getMessage(),
+            type: 'error'
+        );
     }
   }
 
+  
   public function updatedScoreRule($value)
   {
       if (in_array($value, ['Sim', 'Parcial', 'Não'])) {

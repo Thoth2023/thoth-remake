@@ -71,7 +71,7 @@ class QuestionQaTable extends Component
 
       $this->populateQuestions();
       $this->toast(
-        message: 'Minimal score deleted successfully.',
+        message: 'Pontuação excluída com sucesso.',
         type: 'success'
       );
       $this->dispatch('update-weight-sum');
