@@ -161,6 +161,22 @@
             </div>
         </div>
     </div>
+<!-- Box de Citação do Thoth - Minimalista com laranja queimado e azul escuro -->
+<div class="p-5 mt-5 rounded-4 shadow-sm" style="background-color: #1e253b; color: #f5f6fa; border: 1px solid #2e3755;">
+    <h4 class="fw-semibold mb-3" style="font-size: 1.5rem; color: #e67e22;">Cite o Thoth em sua pesquisa</h4>
+    
+    <p class="mb-4" style="color: #c4c8d4; font-size: 0.95rem; max-width: 680px;">
+        Se o Thoth foi útil na sua revisão sistemática ou artigo acadêmico, considere citá-lo. Sua citação contribui para o reconhecimento e a continuidade deste projeto na comunidade científica.
+    </p>
+
+    <div class="bg-white bg-opacity-10 p-3 rounded-3 mb-4" style="font-style: italic; color: #4a6fa5;">
+        Thoth, <cite>Sistema de Apoio a Revisões Sistemáticas</cite>, 2025.
+    </div>
+
+    <a href="https://thoth.com/citation" class="text-decoration-none" style="color: #a6b3d0; font-size: 0.9rem;">
+        Saiba mais sobre como citar o Thoth →
+    </a>
+</div>
 
     @push('js')
         <script>
