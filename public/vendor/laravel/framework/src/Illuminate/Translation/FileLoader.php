@@ -142,7 +142,7 @@ class FileLoader implements Loader
                     $decoded = json_decode($this->files->get($full), true);
 
                     if (is_null($decoded) || json_last_error() !== JSON_ERROR_NONE) {
-                        throw new RuntimeException("Translation file [{$full}] contains an invalid JSON structure.");
+                        throw new RuntimeException("TranslationController file [{$full}] contains an invalid JSON structure.");
                     }
 
                     $output = array_merge($output, $decoded);

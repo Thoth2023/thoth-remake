@@ -2,22 +2,22 @@
     <div class="card-header mt-2 mb-0 pb-0">
         <x-helpers.modal
             target="search-string"
-            modalTitle="{{ __('project/planning.search-string.title') }}"
-            modalContent="{{ __('project/planning.search-string.help') }}"
+            modalTitle="{{ translationPlanning('search-string.title') }}"
+            modalContent="{{ translationPlanning('search-string.help') }}"
         />
         <button
             class="btn btn-sm btn-primary mt-2"
             wire:click="generateAllSearchStrings"
         >
             <i class="fa fa-plus"></i>
-            {{ __("project/planning.search-string.generate-all") }}
+            {{ translationPlanning('search-string.generate-all') }}
         </button>
     </div>
     <div class="card-body">
         <div>
             <div class="d-flex flex-column">
                 <label for="description" class="form-control-label mx-0 mb-1">
-                    {{ __("project/planning.search-string.form.description") }}
+                    {{ translationPlanning('search-string.form.description') }}
                 </label>
                 <textarea
                     class="form-control"
@@ -25,7 +25,7 @@
                     rows="4"
                     id="description"
                     wire:model="genericDescription"
-                    placeholder="{{ __("project/planning.search-string.form.enter-description") }}"
+                    placeholder="{{ translationPlanning('search-string.form.enter-description') }}"
                     wire:change="saveGenericSearchString"
                 ></textarea>
             </div>
@@ -43,7 +43,7 @@
                         maxlength="750"
                         rows="4"
                         wire:model="descriptions.{{ $loop->index }}"
-                        placeholder="{{ __("project/planning.search-string.form.enter-description") }}"
+                        placeholder="{{ translationPlanning('search-string.form.enter-description') }}"
                         wire:change="saveSearchString({{ $projectDatabase->id_database }}, {{ $loop->index }})"
                     ></textarea>
                 </div>

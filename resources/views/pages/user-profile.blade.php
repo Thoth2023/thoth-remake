@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => __('pages/profile.your_profile')])
+@include('layouts.navbars.auth.topnav', ['title' => translationProfile('your_profile')])
 
 <div class="container mt-1 mb-3">
 
@@ -12,10 +12,10 @@
         >
             <div class="col-lg-6 text-center mx-auto">
                 <h1 class="text-white">
-                    {{ __("pages/profile.title-page") }}
+                    {{ translationProfile('title-page') }}
                 </h1>
                 <p class="text-lead text-white">
-                    {!!   __("pages/profile.description-page") !!}
+                    {!!   translationProfile('description-page') !!}
                 </p>
             </div>
         </div>
@@ -55,12 +55,12 @@
             <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center justify-content-between">
-                            <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
+                            <p class="mb-0">{{ translationProfile('edit_profile') }}</p>
 
                             <div class="d-flex ms-auto">
                                 <!-- Formulário para exclusão de dados -->
                                     <button type="button" class="btn btn-danger btn-sm me-2" onclick="requestDataDeletion()">
-                                        <i class="fas fa-trash"></i>  {{ __('pages/profile.request_data_deletion') }}
+                                        <i class="fas fa-trash"></i>  {{ translationProfile('request_data_deletion') }}
                                     </button>
                             </div>
                         </div>
@@ -68,85 +68,85 @@
                 <form role="form" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
-                        <p class="text-uppercase text-sm">{{ __('pages/profile.user_information') }}</p>
+                        <p class="text-uppercase text-sm">{{ translationProfile('user_information') }}</p>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.username') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('username') }}</label>
                                     <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.email') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('email') }}</label>
                                     <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.first_name') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('first_name') }}</label>
                                     <input class="form-control" type="text" name="firstname" value="{{ old('firstname', auth()->user()->firstname) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.last_name') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('last_name') }}</label>
                                     <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}">
                                 </div>
                             </div>
                         </div>
                         <hr class="horizontal dark">
-                        <p class="text-uppercase text-sm">{{ __('pages/profile.contact_information') }}</p>
+                        <p class="text-uppercase text-sm">{{ translationProfile('contact_information') }}</p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="address" class="form-control-label">{{ __('pages/profile.address') }}</label>
+                                    <label for="address" class="form-control-label">{{ translationProfile('address') }}</label>
                                     <input id="autocomplete" class="form-control" type="text" name="address" value="{{ old('address', auth()->user()->address) }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.city') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('city') }}</label>
                                     <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.country') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('country') }}</label>
                                     <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.postal_code') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('postal_code') }}</label>
                                     <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}">
                                 </div>
                             </div>
                         </div>
                         <hr class="horizontal dark">
-                        <p class="text-uppercase text-sm">{{ __('pages/profile.about_me') }}</p>
+                        <p class="text-uppercase text-sm">{{ translationProfile('about_me') }}</p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.about_me') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('about_me') }}</label>
                                     <input class="form-control" type="text" name="about" value="{{ old('about', auth()->user()->about) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.occupation') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('occupation') }}</label>
                                     <input class="form-control" type="text" name="occupation" value="{{ old('occupation', auth()->user()->occupation) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.institution') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('institution') }}</label>
                                     <input class="form-control" type="text" name="institution" value="{{ old('institution', auth()->user()->institution) }}">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ __('pages/profile.lattes_link') }}</label>
+                                    <label for="example-text-input" class="form-control-label">{{ translationProfile('lattes_link') }}</label>
                                     <input class="form-control" type="text" id="lattes_link" name="lattes_link" value="{{ old('lattes_link', auth()->user()->lattes_link) }}">
                                     @error("lattes_link")
                                         <span class="text-xs text-danger">
@@ -158,7 +158,7 @@
                             <br/>
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-success btn-sm">
-                                    <i class="fas fa-save"></i>  {{ __('pages/profile.save') }}
+                                    <i class="fas fa-save"></i>  {{ translationProfile('save') }}
                                 </button>
                             </div>
 
@@ -175,11 +175,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="dataDeletionConfirmationModalLabel">{{ __('pages/profile.confirmation') }}</h5>
+                <h5 class="modal-title" id="dataDeletionConfirmationModalLabel">{{ translationProfile('confirmation') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {{ __('pages/profile.confirmation_message') }}
+                {{ translationProfile('confirmation_message') }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
@@ -191,7 +191,7 @@
 @push('js')
     <script>
         function requestDataDeletion() {
-            if (confirm('{{ __("pages/profile.confirm-exclusion") }}')) {
+            if (confirm('{{ translationProfile('confirm-exclusion') }}')) {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
                 fetch("{{ route('user.requestDataDeletion') }}", {

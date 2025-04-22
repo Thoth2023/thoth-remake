@@ -6,14 +6,14 @@
                     <div>
                         <div class="card-header">
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="mb-0">{{ __('project/planning.criteria.title') }}</p>
+                                <p class="mb-0">{{ translationPlanning('criteria.title') }}</p>
                                 @include ('components.help-button', ['dataTarget' => 'CriteriaHelpModal'])
                                 <!-- Help Button Description -->
                                 @include('components.help-modal', [
                                     'modalId' => 'CriteriaHelpModal',
                                     'modalLabel' => 'exampleModalLabel',
-                                    'modalTitle' => __('project/planning.criteria.help.title'),
-                                    'modalContent' => __('project/planning.criteria.help.content'),
+                                    'modalTitle' => translationPlanning('criteria.help.title'),
+                                    'modalContent' => translationPlanning('criteria.help.content'),
                                 ])
                             </div>
                         </div>

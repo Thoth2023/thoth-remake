@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="bibtex"
-            modalTitle="{{ __('project/export.header.bibtex.title') }}"
-            modalContent="{!! __('project/export.header.bibtex.help-content') !!}"
+            modalTitle="{{ translationExport('header.bibtex.title') }}"
+            modalContent="{!! translationExport('header.bibtex.help-content') !!}"
         />
     </div>
 
@@ -46,7 +46,7 @@
                 style="height: 400px;"
                 id="description"
                 wire:model="description_bibtex"
-                placeholder="{{ __('project/export.header.bibtex.enter_description') }}"
+                placeholder="{{ translationExport('header.bibtex.enter_description') }}"
                 readonly
             ></textarea>
         </div>

@@ -6,7 +6,7 @@
                     <div>
                         <div class="card-header">
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="mb-0">{{ __('project/planning.search-strategy.title') }}</p>
+                                <p class="mb-0">{{ translationPlanning('search-strategy.title') }}</p>
                                 @include ('components.help-button', [
                                     'dataTarget' => 'SearchStrategyHelpModal',
                                 ])
@@ -14,8 +14,8 @@
                                 @include('components.help-modal', [
                                     'modalId' => 'SearchStrategyHelpModal',
                                     'modalLabel' => 'exampleModalLabel',
-                                    'modalTitle' => __('project/planning.search-strategy.help.title'),
-                                    'modalContent' => __('project/planning.search-strategy.help.content'),
+                                    'modalTitle' => translationPlanning('search-strategy.help.title'),
+                                    'modalContent' => translationPlanning('search-strategy.help.content'),
                                 ])
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 @method('PUT')
                                 <div class="form-group">
                                     <textarea name="search_strategy" class="form-control @error('search_strategy') is-invalid @enderror"
-                                        id="searchStrategyTextarea" rows="8" placeholder="{{ __('project/planning.search-strategy.placeholder') }}">{{ $project->searchStrategy->description ?? old('search_strategy') }}</textarea>
+                                        id="searchStrategyTextarea" rows="8" placeholder="{{ translationPlanning('search-strategy.placeholder') }}">{{ $project->searchStrategy->description ?? old('search_strategy') }}</textarea>
 
                                     @error('search_strategy')
                                         <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
 
                                 <div class="d-flex align-items-center mt-4">
                                     <button type="submit" class="btn btn-success mt-3">
-                                        {{ __('project/planning.search-strategy.save-button') }}
+                                        {{ translationPlanning('search-strategy.save-button') }}
                                     </button>
                                 </div>
                             </form>

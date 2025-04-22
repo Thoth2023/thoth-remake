@@ -4,16 +4,16 @@
             <div id="papers_per_quality" style="height: 300px;" class="card my-2 p-2 ">
                 <x-helpers.modal
                     target="reliability-agreement"
-                    modalTitle="{{ __('project/reporting.reliability.agreement.title') }}"
-                    modalContent="{!!  __('project/reporting.reliability.agreement.content') !!} "
+                    modalTitle="{{ translationReporting('reliability.agreement.title') }}"
+                    modalContent="{!!  translationReporting('reliability.agreement.content') !!} "
                 />
                 <div id="papers_concordance" style="height: 290px;" class="card my-2 p-2"></div>
             </div>
             <div id="papers_gen_score" style="height: 300px;" class="card my-2 p-2 ">
                 <x-helpers.modal
                     target="reliability-kappa"
-                    modalTitle="{{ __('project/reporting.reliability.kappa.title') }}"
-                    modalContent="{!!  __('project/reporting.reliability.kappa.content') !!} "
+                    modalTitle="{{ translationReporting('reliability.kappa.title') }}"
+                    modalContent="{!!  translationReporting('reliability.kappa.content') !!} "
                 />
                 <div id="kappa_concordance" style="height: 290px;" class="card my-2 p-2"></div>
             </div>
@@ -26,8 +26,8 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="reliability-selection"
-                modalTitle="{{ __('project/reporting.reliability.selection.title') }}"
-                modalContent="{!!  __('project/reporting.reliability.selection.content') !!} "
+                modalTitle="{{ translationReporting('reliability.selection.title') }}"
+                modalContent="{!!  translationReporting('reliability.selection.content') !!} "
             />
         </div>
         @livewire('reporting.peer-review-selection-table')
@@ -38,8 +38,8 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="reliability-quality"
-                modalTitle="{{ __('project/reporting.reliability.quality.title') }}"
-                modalContent="{!!  __('project/reporting.reliability.quality.content') !!} "
+                modalTitle="{{ translationReporting('reliability.quality.title') }}"
+                modalContent="{!!  translationReporting('reliability.quality.content') !!} "
             />
         </div>
         @livewire('reporting.peer-review-quality-table')

@@ -40,7 +40,7 @@
                             class="{{ Route::currentRouteName() == "page" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-tv-2"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __('nav/nav.home') }}</span>
+                    <span class="nav-link-text ms-1">{{ translationNav('home') }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -55,7 +55,7 @@
                             class="{{ Route::currentRouteName() == "projects.index" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-single-copy-04"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __('nav/nav.my_projects') }}</span>
+                    <span class="nav-link-text ms-1">{{ translationNav('my_projects') }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -70,7 +70,7 @@
                             class="{{ Route::currentRouteName() == "profile" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-single-02"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __('nav/nav.profile') }}</span>
+                    <span class="nav-link-text ms-1">{{ translationNav('profile') }}</span>
                 </a>
             </li>
 
@@ -86,7 +86,7 @@
                             class="{{ Route::currentRouteName() == "about" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-bulb-61"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __('nav/nav.about') }}</span>
+                    <span class="nav-link-text ms-1">{{ translationNav('about') }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -101,7 +101,7 @@
                             class="{{ Route::currentRouteName() == "help" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-satisfied"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{{ __('nav/nav.help') }}</span>
+                    <span class="nav-link-text ms-1">{{ translationNav('help') }}</span>
                 </a>
             </li>
 
@@ -117,7 +117,7 @@
                     >
                         <i class="text-dark text-sm opacity-10 fas fa-book"></i>
                     </div>
-                    <span class="nav-link-text ms-1">{!! __('nav/nav.documentation') !!}</span>
+                    <span class="nav-link-text ms-1">{!! translationNav('documentation') !!}</span>
                 </a>
             </li>
 
@@ -133,7 +133,7 @@
                             class="{{ Route::currentRouteName() == "terms" ? "text-primary" : "text-dark" }} text-sm opacity-10 fas fa-file-contract"
                         ></i>
                     </div>
-                    <span class="nav-link-text ms-1">{!!  __('nav/nav.terms_and_conditions') !!}</span>
+                    <span class="nav-link-text ms-1">{!!  translationNav('terms_and_conditions') !!}</span>
                 </a>
             </li>
 

@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-strategy"
-            modalTitle="{{ __('project/planning.search-strategy.title') }}"
-            modalContent="{!!  __('project/planning.search-strategy.help.content') !!}"
+            modalTitle="{{ translationPlanning('search-strategy.title') }}"
+            modalContent="{!!  translationPlanning('search-strategy.help.content') !!}"
         />
     </div>
 
@@ -31,7 +31,7 @@
                     for="search-strategy-description"
                     class="form-control-label mx-0 mb-1 required"
                 >
-                    {{ __("project/planning.research-questions.form.description") }}
+                    {{ translationPlanning('research-questions.form.description') }}
                 </label>
                 <div wire:ignore>
                     <div x-data
@@ -60,7 +60,7 @@
                     class="btn btn-success mt-3"
                     wire:loading.attr="disabled"
                 >
-                    {{ __("project/planning.search-strategy.save-button") }}
+                    {{ translationPlanning('search-strategy.save-button') }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>

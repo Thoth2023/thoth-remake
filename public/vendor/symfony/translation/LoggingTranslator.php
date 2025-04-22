@@ -121,9 +121,9 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
         }
 
         if ($catalogue->has($id, $domain)) {
-            $this->logger->debug('Translation use fallback catalogue.', ['id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()]);
+            $this->logger->debug('TranslationController use fallback catalogue.', ['id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()]);
         } else {
-            $this->logger->warning('Translation not found.', ['id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()]);
+            $this->logger->warning('TranslationController not found.', ['id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()]);
         }
     }
 }

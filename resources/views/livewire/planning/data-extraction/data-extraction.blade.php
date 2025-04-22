@@ -7,16 +7,16 @@
                     <tr class="p-0 m-0">
                         <th class="p-1 rounded-l-sm" style="width: 20px"></th>
                         <th scope="col" class="p-1">
-                            {{ __("project/planning.data-extraction.table.header.id") }}
+                            {{ translationPlanning("data-extraction.table.header.id") }}
                         </th>
                         <th scope="col" class="p-1">
-                            {{ __("project/planning.data-extraction.table.header.description") }}
+                            {{ translationPlanning("data-extraction.table.header.description") }}
                         </th>
                         <th scope="col" class="p-1">
-                            {{ __("project/planning.data-extraction.table.header.question-type") }}
+                            {{ translationPlanning("data-extraction.table.header.question-type") }}
                         </th>
                         <th scope="col" class="p-1 rounded-r-sm">
-                            {{ __("project/planning.data-extraction.table.header.actions") }}
+                            {{ translationPlanning("data-extraction.table.header.actions") }}
                         </th>
                     </tr>
                 </thead>

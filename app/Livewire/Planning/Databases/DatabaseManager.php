@@ -47,7 +47,7 @@ class DatabaseManager extends Component
     }
 
     /**
-     * Translation of the messages.
+     * TranslationController of the messages.
      */
     private function translate(string $message, string $key = 'toasts')
     {

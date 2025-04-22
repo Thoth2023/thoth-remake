@@ -1,7 +1,7 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => __("nav/topnav.planning")])
+    @include("layouts.navbars.auth.topnav", ["title" => translationTopnav('planning')])
 
     <div class="row mt-4 mx-4">
         @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
@@ -12,46 +12,46 @@
                     @include(
                         "project.components.project-tabs",
                         [
-                            "header" => __("project/planning.planning"),
+                            "header" => translationPlanning('planning'),
                             "tabs" => [
                                 [
                                     "id" => "overall-info-tab",
-                                    "label" => __("project/planning.overall.title"),
+                                    "label" => translationPlanning('overall.title'),
                                     "href" => "#overall-info",
                                 ],
                                 [
                                     "id" => "research-questions-tab",
-                                    "label" => __("project/planning.research-questions.title"),
+                                    "label" => translationPlanning('research-questions.title'),
                                     "href" => "#research-questions",
                                 ],
                                 [
                                     "id" => "data-bases-tab",
-                                    "label" => __("project/planning.databases.title"),
+                                    "label" => translationPlanning('databases.title'),
                                     "href" => "#data-bases",
                                 ],
                                 [
                                     "id" => "search-string-tab",
-                                    "label" => __("project/planning.search-string.title"),
+                                    "label" => translationPlanning('search-string.title'),
                                     "href" => "#search-string",
                                 ],
                                 [
                                     "id" => "search-strategy-tab",
-                                    "label" => __("project/planning.search-strategy.title"),
+                                    "label" => translationPlanning('search-strategy.title'),
                                     "href" => "#search-strategy",
                                 ],
                                 [
                                     "id" => "criteria-tab",
-                                    "label" => __("project/planning.criteria.title"),
+                                    "label" => translationPlanning('criteria.title'),
                                     "href" => "#criteria",
                                 ],
                                 [
                                     "id" => "quality-assessment-tab",
-                                    "label" => __("project/planning.quality-assessment.title"),
+                                    "label" => translationPlanning('quality-assessment.title'),
                                     "href" => "#quality-assessment",
                                 ],
                                 [
                                     "id" => "data-extraction-tab",
-                                    "label" => __("project/planning.data-extraction.title"),
+                                    "label" => translationPlanning('data-extraction.title'),
                                     "href" => "#data-extraction",
                                 ],
                             ],

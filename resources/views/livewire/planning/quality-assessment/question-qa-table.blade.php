@@ -5,19 +5,19 @@
                 <tr class="p-0 m-0">
                     <th class="p-1 pl-3 rounded-l-sm" style="width: 30px"></th>
                     <th scope="col" class="p-1">
-                        {{ __("project/planning.data-extraction.table.header.id") }}
+                        {{ translationPlanning('data-extraction.table.header.id') }}
                     </th>
                     <th scope="col" class="p-1">
-                        {{ __("project/planning.data-extraction.table.header.description") }}
+                        {{ translationPlanning('data-extraction.table.header.description') }}
                     </th>
                     <th scope="col" class="p-1">
-                        {{ __("project/planning.quality-assessment.question-quality.weight") }}
+                        {{ translationPlanning('quality-assessment.question-quality.weight') }}
                     </th>
                     <th scope="col" class="text-center p-1">
-                        {{ __("project/planning.quality-assessment.min-general-score.title") }}
+                        {{ translationPlanning('quality-assessment.min-general-score.title') }}
                     </th>
                     <th scope="col" class="text-center p-1 rounded-r-sm">
-                        {{ __("project/planning.data-extraction.table.header.actions") }}
+                        {{ translationPlanning('data-extraction.table.header.actions') }}
                     </th>
                 </tr>
             </thead>
@@ -50,7 +50,7 @@
                                                 disabled
                                                 value="-1"
                                             >
-                                                {{ __("project/planning.quality-assessment.question-score.select.rule") }}
+                                                {{ translationPlanning('quality-assessment.question-score.select.rule') }}
                                             </option>
                                             @foreach ($question->qualityScores as $score)
                                                 <option
@@ -98,25 +98,25 @@
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.quality-assessment.question-score.score_rule.title") }}
+                                            {{ translationPlanning('quality-assessment.question-score.score_rule.title') }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.quality-assessment.question-score.description.title") }}
+                                            {{ translationPlanning('quality-assessment.question-score.description.title') }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.quality-assessment.question-score.range.score") }}
+                                            {{ translationPlanning('quality-assessment.question-score.range.score') }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.data-extraction.table.header.actions") }}
+                                            {{ translationPlanning('data-extraction.table.header.actions') }}
                                         </th>
                                     </tr>
                                 </thead>

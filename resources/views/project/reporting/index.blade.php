@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => __('nav/topnav.reporting')])
+    @include('layouts.navbars.auth.topnav', ['title' => translationTopnav('reporting')])
 
     <div class="row mt-4 mx-4">
 
@@ -11,41 +11,41 @@
             <div class="row">
                 <div class="col-12">
                     @include('project.components.project-tabs', [
-                        'header' => __('project/reporting.reporting'),
+                        'header' => translationReporting('reporting'),
                         'tabs' => [
                             [
                                 'id' => 'overview-tab',
-                                'label' => __('project/reporting.header.overview'),
+                                'label' => translationReporting('header.overview'),
                                 'href' => '#overview'
                             ],
                             [
                                 'id' => 'import-studies-tab',
-                                'label' => __('project/reporting.header.import_studies'),
+                                'label' => translationReporting('header.import_studies'),
                                 'href' => '#import-studies',
                             ],
                             [
                                 'id' => 'study-selection-tab',
-                                'label' => __('project/reporting.header.study_selection'),
+                                'label' => translationReporting('header.study_selection'),
                                 'href' => '#study-selection',
                             ],
                             [
                                 'id' => 'quality-assessment-tab',
-                                'label' => __('project/reporting.header.quality_assessment'),
+                                'label' => translationReporting('header.quality_assessment'),
                                 'href' => '#quality-assessment',
                             ],
                             [
                                 'id' => 'data-extraction-tab',
-                                'label' => __('project/reporting.header.data_extraction'),
+                                'label' => translationReporting('header.data_extraction'),
                                 'href' => '#data-extraction',
                             ],
                             [
                                 'id' => 'reliability-tab',
-                                'label' => __('project/reporting.header.reliability'),
+                                'label' => translationReporting('header.reliability'),
                                 'href' => '#reliability',
                             ],
                              [
                                 'id' => 'snowballing-tab',
-                                'label' => __('project/reporting.header.snowballing'),
+                                'label' => translationReporting('header.snowballing'),
                                 'href' => '#snowballing',
                             ],
                         ],

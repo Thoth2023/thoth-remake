@@ -13,14 +13,14 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-4">
-                            <b>{{ __('project/conducting.quality-assessment.modal.author' )}}: </b>
+                            <b>{{ translationConducting('quality-assessment.modal.author' )}}: </b>
                             <p>{{ $paper['author'] }}</p>
                         </div>
                         <div class="col-2">
-                            <b>{{ __('project/conducting.quality-assessment.modal.year' )}}:</b>
+                            <b>{{ translationConducting('quality-assessment.modal.year' )}}:</b>
                             <p>{{ $paper['year'] }}</p>
                         </div><div class="col-4">
-                            <b>{{ __('project/conducting.quality-assessment.modal.database' )}}:</b>
+                            <b>{{ translationConducting('quality-assessment.modal.database' )}}:</b>
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
                         <div class="col-2">
@@ -43,16 +43,16 @@
                         </div>
 
                         <div class="col-12">
-                            <b>{{ __('project/conducting.quality-assessment.modal.abstract' )}}: </b>
+                            <b>{{ translationConducting('quality-assessment.modal.abstract' )}}: </b>
                             <p>{{ $paper['abstract'] }}</p>
                         </div>
                         <div class="col-12">
-                            <b>{{ __('project/conducting.quality-assessment.modal.keywords' )}}: </b>
+                            <b>{{ translationConducting('quality-assessment.modal.keywords' )}}: </b>
                             <p>{{ $paper['keywords'] }}</p>
                         </div>
                     </div>
                     <span class="card-header pb-0">
-                        <h5 >{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
+                        <h5 >{{ translationConducting('quality-assessment.modal.quality-questions' )}}</h5>
                         <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
                         @livewire('conducting.quality-assessment.quality-score', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
                     </span>
@@ -62,22 +62,22 @@
 
                             <div class='w-10 pl-2'>
                                 <b>
-                                    {{ __('project/conducting.quality-assessment.table.id' )}}
+                                    {{ translationConducting('quality-assessment.table.id' )}}
                                 </b>
                             </div>
                             <div class='w-50 pl-2 pr-2'>
                                 <b >
-                                    {{ __('project/conducting.quality-assessment.modal.table.description' )}}
+                                    {{ translationConducting('quality-assessment.modal.table.description' )}}
                                 </b>
                             </div>
                             <div class='w-20 pl-2 ms-auto'>
                                 <b >
-                                    {!!__('project/conducting.quality-assessment.modal.table.min-to-app' )!!}
+                                    {!!translationConducting('quality-assessment.modal.table.min-to-app' )!!}
                                 </b>
                             </div>
                             <div class='w-20 pl-2 ms-auto'>
                                 <b >
-                                    {{ __('project/conducting.quality-assessment.modal.table.score' )}}
+                                    {{ translationConducting('quality-assessment.modal.table.score' )}}
                                 </b>
                             </div>
 
@@ -111,7 +111,7 @@
                         <span data-search>
                                 <x-select wire:model="selected_questions_score.{{ $question->id_qa }}" wire:change="updateScore({{ $question->id_qa }}, $event.target.value)">
                                      @if(!isset($selected_questions_score[$question->id_qa]))
-                                        <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
+                                        <option selected disabled>{{ translationConducting('quality-assessment.modal.select-score') }}</option>
                                     @endif
 
                                     @foreach ($question->qualityScores as $score)
@@ -133,14 +133,14 @@
                     <hr />
 
                     <div class="d-flex flex-column mt-3">
-                        <label>{{ __('project/conducting.quality-assessment.resolve.paper-conflict-note') }}</label>
+                        <label>{{ translationConducting('quality-assessment.resolve.paper-conflict-note') }}</label>
                         <textarea
                             id="note"
                             class="form-control"
                             rows="2"
                             wire:model="note"
                             wire:blur="saveNote"
-                            placeholder="{{ __('project/conducting.quality-assessment.resolve.paper-conflict-writer') }}"
+                            placeholder="{{ translationConducting('quality-assessment.resolve.paper-conflict-writer') }}"
                             required>
                         </textarea>
                     </div>
@@ -150,14 +150,14 @@
 
                     @if($selected_status !== 'Accepted' && $selected_status !== 'Rejected')
                         <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
-                        <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
+                        <p>{{ translationConducting('quality-assessment.modal.option.select' )}}</p>
 
                         <div class="btn-group mt-2" role="group">
                             <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
+                            <label class="btn btn-outline-primary" for="btnradio2">{{ translationConducting('study-selection.modal.option.unclassified' )}}</label>
 
                             <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
+                            <label class="btn btn-outline-primary" for="btnradio1">{{ translationConducting('study-selection.modal.option.remove' )}}</label>
 
                         </div>
                     @endif
@@ -165,7 +165,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.quality-assessment.modal.close' )}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ translationConducting('quality-assessment.modal.close' )}}</button>
                 </div>
             </div>
         </div>

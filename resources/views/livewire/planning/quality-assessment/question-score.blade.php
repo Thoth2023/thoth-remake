@@ -3,8 +3,8 @@
         <div class="card-header pb-0">
             <x-helpers.modal
                 target="question-score"
-                modalTitle="{{ __('project/planning.quality-assessment.question-score.title') }}"
-                modalContent="{!! __('project/planning.quality-assessment.question-score.help.content') !!}"
+                modalTitle="{{ translationPlanning('quality-assessment.question-score.title') }}"
+                modalContent="{!! translationPlanning('quality-assessment.question-score.help.content') !!}"
                 class="modal-sm"
             />
         </div>
@@ -14,14 +14,14 @@
                     <div class="d-flex flex-column gap-1">
                         <div style="min-width: 250px">
                             <x-select
-                                label="{{ __('project/planning.quality-assessment.question-score.question.title') }}"
+                                label="{{ translationPlanning('quality-assessment.question-score.question.title') }}"
                                 wire:model="questionId"
                                 required
                                 search
                                 disabled="{{ $form['isEditing'] }}"
                             >
                                 <option selected disabled>
-                                    {{ __("project/planning.quality-assessment.question-score.question.placeholder") }}
+                                    {{ translationPlanning('quality-assessment.question-score.question.placeholder') }}
                                 </option>
                                 @foreach ($questions as $question)
                                     <option
@@ -42,7 +42,7 @@
                     <div class="d-flex flex-column gap-1">
                         <x-input
                             id="score-rule"
-                            label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
+                            label="{{ translationPlanning('quality-assessment.question-score.score_rule.title') }}"
                             maxlength="20"
                             min="0"
                             placeholder="Partial"
@@ -66,7 +66,7 @@
                                     for="range-score"
                                     class="m-0 p-0 required"
                                 >
-                                    {{ __("project/planning.quality-assessment.question-score.range.score") }}
+                                    {{ translationPlanning('quality-assessment.question-score.range.score') }}
                                 </label>
                                 <span class="text-xs" id="range-score">
                                     {{ $score ?? 50 }}%
@@ -93,7 +93,7 @@
                 </div>
                 <div class="d-flex flex-column mt-2">
                     <label for="question" class="mb-1 mx-0 required">
-                        {{ __("project/planning.research-questions.form.description") }}
+                        {{ translationPlanning('research-questions.form.description') }}
                     </label>
                     <textarea
                         id="question"
@@ -101,7 +101,7 @@
                         class="form-control"
                         maxlength="255"
                         rows="2"
-                        placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                        placeholder="{{ translationPlanning('research-questions.form.enter_description') }}"
                         required
                     ></textarea>
                     @error("description")
@@ -116,8 +116,8 @@
                 >
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.quality-assessment.question-score.form.update")
-                            : __("project/planning.quality-assessment.question-score.form.add")
+                            ? translationPlanning("quality-assessment.question-score.form.update")
+                            : translationPlanning(" quality-assessment.question-score.form.add")
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>

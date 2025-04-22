@@ -21,20 +21,20 @@
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>{{ __('project/conducting.snowballing.status.unclassified' )}}:</strong> {{ count($unclassified) }}
+                <strong>{{ translationConducting('snowballing.status.unclassified' )}}:</strong> {{ count($unclassified) }}
             </div>
             <div class="col text-success">
-                <strong>{{ __('project/conducting.snowballing.status.accepted' )}}:</strong> {{ count($accepted) }}
+                <strong>{{ translationConducting('snowballing.status.accepted' )}}:</strong> {{ count($accepted) }}
             </div>
             <div class="col text-danger">
-                <strong>{{ __('project/conducting.snowballing.status.rejected' )}}:</strong> {{ count($rejected) }}
+                <strong>{{ translationConducting('snowballing.status.rejected' )}}:</strong> {{ count($rejected) }}
             </div>
             <div class="col text-info">
-                <strong>{{ __('project/conducting.snowballing.status.removed' )}}:</strong> {{ count($removed) }}
+                <strong>{{ translationConducting('snowballing.status.removed' )}}:</strong> {{ count($removed) }}
             </div>
 
             <div class="col text-warning">
-                <strong>{{ __('project/conducting.snowballing.status.duplicate' )}}:</strong> {{ count($duplicates) }}
+                <strong>{{ translationConducting('snowballing.status.duplicate' )}}:</strong> {{ count($duplicates) }}
             </div>
             <div class="col">
                 <strong>Total:</strong> {{ count($papers) }}

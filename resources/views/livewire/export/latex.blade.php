@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="latex"
-            modalTitle="{{ __('project/export.header.latex.title') }}"
-            modalContent="{!! __('project/export.header.latex.help-content') !!}"
+            modalTitle="{{ translationExport('header.latex.title') }}"
+            modalContent="{!! translationExport('header.latex.help-content') !!}"
         />
     </div>
 
@@ -37,7 +37,7 @@
                 class="form-control overflow-auto"
                 style="height: 400px;"
                 id="description"
-                placeholder="{{ __('project/export.header.latex.enter_description') }}"
+                placeholder="{{ translationExport('header.latex.enter_description') }}"
                 readonly
             >{{ $description }}</textarea>
         </div>

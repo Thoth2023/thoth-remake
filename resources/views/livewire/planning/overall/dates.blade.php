@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-domains"
-            modalTitle="{{ __('project/planning.overall.dates.help.title') }}"
-            modalContent="{{ __('project/planning.overall.dates.help.content') }}"
+            modalTitle="{{ translationPlanning('overall.dates.help.title') }}"
+            modalContent="{{ translationPlanning('overall.dates.help.content') }}"
         />
     </div>
     <div class="card-body">
@@ -12,7 +12,7 @@
                 <x-input
                     wire:model="startDate"
                     type="date"
-                    label="{{ __('project/planning.overall.dates.start_date') }}"
+                    label="{{ translationPlanning('overall.dates.start_date') }}"
                     required
                 />
                 @error("startDate")
@@ -24,7 +24,7 @@
                 <x-input
                     wire:model="endDate"
                     type="date"
-                    label="{{ __('project/planning.overall.dates.end_date') }}"
+                    label="{{ translationPlanning('overall.dates.end_date') }}"
                     required
                 />
                 @error("endDate")
@@ -35,7 +35,7 @@
             </div>
             <div>
                 <x-helpers.submit-button>
-                    {{ __("project/planning.overall.dates.add_date") }}
+                    {{ translationPlanning("overall.dates.add_date") }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>

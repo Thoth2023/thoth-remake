@@ -17,17 +17,17 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        {{ __("pages/user-manager.Name") }} </th>
+                                        {{ translationUserManager("pages/user-manager.Name') }} </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        {{ __("pages/user-manager.Role") }} </th>
+                                        {{ translationUserManager('Role') }} </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        {{ __("pages/user-manager.Institution") }}</th>
+                                        {{ translationUserManager('Institution') }}</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        {{ __("pages/user-manager.Country") }}</th>
+                                        {{ translationUserManager('Country') }}</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        {{ __("pages/user-manager.Status") }}</th>
+                                        {{ translationUserManager('Status') }}</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        {{ __("pages/user-manager.Actions") }}</th>
+                                        {{ translationUserManager('Actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,9 +42,9 @@
                                         </td>
                                         <td>
                                             @if($user->role == 'SUPER_USER')
-                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.super_user') }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ translationUserManager('super_user') }}</p>
                                             @elseif($user->role == 'USER')
-                                                <p class="text-sm font-weight-bold mb-0">{{ __('pages/user-manager.user') }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ translationUserManager('user') }}</p>
                                             @else
                                                 <p class="text-sm font-weight-bold mb-0">{{ $user->role }}</p>
                                             @endif
@@ -56,14 +56,14 @@
                                             <p class="text-sm font-weight-bold mb-0">{{ $user->country }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-sm font-weight-bold mb-0">{{ $user->active ? __("pages/user-manager.Yes") : __("pages/user-manager.No") }}</td></p>
+                                            <p class="text-sm font-weight-bold mb-0">{{ $user->active ? translationUserManager('Yes') : translationUserManager('No') }}</td></p>
                                         </td>
                                         <td class="align-middle text-end">
                                             <div class="d-flex px-3 py-1 justify-content-center align-items-center">
                                                 <a href="{{ route('user.edit', ['user' => $user]) }}" class="text-sm font-weight-bold mb-0">
-                                                    {{ __("pages/user-manager.Edit") }}</a>
+                                                    {{ translationUserManager('Edit') }}</a>
                                                 <a href="{{ route('user.deactivate', ['user' => $user]) }}" class="text-sm font-weight-bold mb-0 ps-2">
-                                                    {{ $user->active ? __('pages/user-manager.Deactivate') : __('pages/user-manager.Activate') }}</a>
+                                                    {{ $user->active ? translationUserManager('Deactivate') : translationUserManager('Activate') }}</a>
                                             </div>
                                         </td>
                                     </tr>

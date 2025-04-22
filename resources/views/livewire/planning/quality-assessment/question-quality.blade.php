@@ -2,8 +2,8 @@
     <div class="card-header pb-0">
         <x-helpers.modal
             target="question-quality"
-            modalTitle="{{ __('project/planning.quality-assessment.question-quality.title') }}"
-            modalContent="{!! __('project/planning.quality-assessment.question-quality.help.content') !!}"
+            modalTitle="{{ translationPlanning('quality-assessment.question-quality.title') }}"
+            modalContent="{!! translationPlanning('quality-assessment.question-quality.help.content') !!}"
         />
     </div>
     <div class="card-body pb-1">
@@ -12,7 +12,7 @@
                 <div class="d-flex flex-column gap-1">
                     <x-input
                         id="question-quality-id"
-                        label="{{ __('project/planning.quality-assessment.question-quality.id') }}"
+                        label="{{ translationPlanning('quality-assessment.question-quality.id') }}"
                         placeholder="QA01"
                         wire:model="questionId"
                         required
@@ -27,7 +27,7 @@
                 <div class="d-flex flex-column gap-1">
                     <x-input
                         id="weight"
-                        label="{{ __('project/planning.quality-assessment.question-quality.weight') }}"
+                        label="{{ translationPlanning('quality-assessment.question-quality.weight') }}"
                         type="number"
                         maxlength="3"
                         min="0"
@@ -44,14 +44,14 @@
             </div>
             <div class="d-flex flex-column mt-2">
                 <label for="question" class="mb-1 mx-0 required">
-                    {{ __("project/planning.research-questions.form.description") }}
+                    {{ translationPlanning('research-questions.form.description') }}
                 </label>
                 <textarea
                     id="question"
                     class="form-control"
                     maxlength="255"
                     rows="2"
-                    placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                    placeholder="{{ translationPlanning('research-questions.form.enter_description') }}"
                     wire:model="description"
                     required
                 ></textarea>
@@ -67,8 +67,8 @@
             >
                 {{
                     $form["isEditing"]
-                        ? __("project/planning.quality-assessment.question-quality.update")
-                        : __("project/planning.quality-assessment.question-quality.add")
+                        ? translationPlanning('quality-assessment.question-quality.update')
+                        : translationPlanning('quality-assessment.question-quality.add')
                 }}
                 <div wire:loading>
                     <i class="fas fa-spinner fa-spin"></i>

@@ -25,7 +25,7 @@
                     class="btn bg-gradient-primary"
                     data-bs-dismiss="modal"
                 >
-                    {{ __("project/planning.button.close") }}
+                    {{ translationPlanning("button.close") }}
                 </button>
             </div>
         </div>

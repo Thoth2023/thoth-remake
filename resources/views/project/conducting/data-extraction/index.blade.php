@@ -4,8 +4,8 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="quality-assessment"
-                modalTitle="{{ __('project/conducting.data-extraction.title') }}"
-                modalContent="{!! __('project/conducting.data-extraction.help.content') !!} "
+                modalTitle="{{ translationConducting('data-extraction.title') }}"
+                modalContent="{!! translationConducting('data-extraction.help.content') !!} "
             />
         </div>
         <br/>

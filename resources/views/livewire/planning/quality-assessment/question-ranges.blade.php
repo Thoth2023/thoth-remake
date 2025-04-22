@@ -2,8 +2,8 @@
     <div class="card-header pb-0">
         <x-helpers.modal
             target="question-quality"
-            modalTitle="{{ __('project/planning.quality-assessment.general-score.title') }}"
-            modalContent="{!! __('project/planning.quality-assessment.general-score.help.content') !!}"
+            modalTitle="{{ translationPlanning('quality-assessment.general-score.title') }}"
+            modalContent="{!! translationPlanning('quality-assessment.general-score.help.content') !!}"
         />
     </div>
     <div class="card-body pb-1">
@@ -68,7 +68,7 @@
                     style="max-width: fit-content; margin-top: 1rem"
                 >
                     <i class="fa fa-plus mr"></i>
-                    {{ __("project/planning.quality-assessment.generate-intervals") }}
+                    {{ translationPlanning('quality-assessment.generate-intervals') }}
                 </button>
                 <x-input
                     type="number"

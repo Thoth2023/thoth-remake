@@ -16,10 +16,10 @@
                         <a href="{{ route('help') }}" class="nav-link text-muted">FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('about') }}" class="nav-link text-muted">{{ __('nav/footer.about_us') }}</a>
+                        <a href="{{ route('about') }}" class="nav-link text-muted">{{ translationFooter('about_us') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('terms') }}" class="nav-link text-muted">{{ __("pages/home.terms_and_conditions") }}</a>
+                        <a href="{{ route('terms') }}" class="nav-link text-muted">{{ TranslationHome('terms_and_conditions') }}</a>
                     </li>
                     <li class="nav-item">
                         <a href="https://www.lesse.com.br" class="nav-link pe-0 text-muted" target="_blank">Lesse</a>

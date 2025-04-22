@@ -4,8 +4,8 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="snowballing"
-                modalTitle="{{ __('project/conducting.snowballing.title') }}"
-                modalContent="{!!  __('project/conducting.snowballing.help.content') !!} "
+                modalTitle="{{ translationConducting('snowballing.title') }}"
+                modalContent="{!!  translationConducting('snowballing.help.content') !!} "
             />
         </div>
         <br/>

@@ -10,10 +10,10 @@
             >
                 <div class="col-lg-6 text-center mx-auto">
                     <h1 class="text-white" style="font-size: 2rem">
-                        {{ __("project/planning.databases.database-manager.title") }}
+                        {{ translationPlanning("databases.database-manager.title") }}
                     </h1>
                     <p class="text-lead text-white">
-                        {{ __("project/planning.databases.database-manager.description") }}
+                        {{ translationPlanning("databases.database-manager.description") }}
                     </p>
                 </div>
             </div>

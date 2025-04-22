@@ -16,8 +16,8 @@
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                             <div class="card card-plain">
                                 <div class="pb-3 text-start">
-                                    <h4 class="font-weight-bolder">{{ __('auth/reset-password.title') }}</h4>
-                                    <p class="mb-0">{{ __('auth/reset-password.description') }}</p>
+                                    <h4 class="font-weight-bolder">{{ translationResetPassword('title') }}</h4>
+                                    <p class="mb-0">{{ translationResetPassword('description') }}</p>
                                 </div>
                                 <div class="pb-4">
                                     <form role="form" method="POST" action="{{ route('reset.perform') }}">
@@ -25,7 +25,7 @@
                                         @method('post')
                                         <div class="flex flex-col mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg"
-                                                placeholder="{{ __('auth/reset-password.email') }}"
+                                                placeholder="{{ translationResetPassword('email') }}"
                                                 value="{{ old('email') }}" aria-label="{{ __('auth.failed') }}">
                                             @error('email')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">
-                                                {{ __('auth/reset-password.send_reset_link') }}
+                                                {{ translationResetPassword('send_reset_link') }}
                                             </button>
                                         </div>
                                     </form>
@@ -49,8 +49,8 @@
                                 class="position-relative bg-gradient-light h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden">
                                 <span class="mask bg-gradient-faded-dark opacity-8"></span>
                                 <h4 class="mt-5 text-white font-weight-bolder position-relative">
-                                    {{ __('auth/login.app_description') }}</h4>
-                                <p class="text-white position-relative">{{ __('auth/login.app_description_long') }}</p>
+                                    {{ translationLogin('app_description') }}</h4>
+                                <p class="text-white position-relative">{{ translationLogin('app_description_long') }}</p>
                             </div>
                         </div>
                     </div>

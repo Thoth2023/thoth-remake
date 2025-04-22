@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-domains"
-            modalTitle="{{ __('project/planning.overall.study_type.help.title') }}"
-            modalContent="{{ __('project/planning.overall.study_type.help.content') }}"
+            modalTitle="{{ translationPlanning('overall.study_type.help.title') }}"
+            modalContent="{{ translationPlanning('overall.study_type.help.content') }}"
         />
     </div>
     <div class="card-body">
@@ -11,11 +11,11 @@
             <div class="form-group">
                 <x-select
                     wire:model="studyType"
-                    label="{{ __('project/planning.overall.study_type.help.title') }}"
+                    label="{{ translationPlanning('overall.study_type.help.title') }}"
                     required
                 >
                     <option selected disabled>
-                        {{ __("project/planning.overall.study_type.list.select.placeholder") }}
+                        {{ translationPlanning('overall.study_type.list.select.placeholder') }}
                     </option>
                     @foreach ($studies as $studyType)
                         <option value="{{ $studyType->id_study_type }}">
@@ -31,7 +31,7 @@
             </div>
             <div>
                 <x-helpers.submit-button>
-                    {{ __("project/planning.overall.study_type.add") }}
+                    {{ translationPlanning('overall.study_type.add') }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>
@@ -58,7 +58,7 @@
                 </div>
             @empty
                 <x-helpers.description>
-                    {{ __("project/planning.overall.study_type.list.empty") }}
+                    {{ translationPlanning('overall.study_type.list.empty') }}
                 </x-helpers.description>
             @endforelse
         </div>

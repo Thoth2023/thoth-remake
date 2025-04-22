@@ -4,8 +4,8 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="file-upload"
-                modalTitle="{{ __('project/conducting.import-studies.title') }}"
-                modalContent="{!!  __('project/conducting.import-studies.help.content') !!}"
+                modalTitle="{{ translationConducting('import-studies.title') }}"
+                modalContent="{!!  translationConducting('import-studies.help.content') !!}"
             />
         </div>
         <div class="card-body">
@@ -13,7 +13,7 @@
                 <div class="d-flex flex-column">
                     <form wire:submit.prevent="save">
                         <label for="fileUpload" class="form-control-label mx-0 mb-1 mt-3">
-                            {{ __("project/conducting.import-studies.form.upload") }}
+                            {{ translationConducting("import-studies.form.upload") }}
                         </label>
                         <input
                             type="file"
@@ -33,11 +33,11 @@
                         <x-select
                             class="w-md-25 w-50"
                             id="databaseSelect"
-                            label="{{ __('project/conducting.import-studies.form.selected-database') }}"
+                            label="{{ translationConducting('import-studies.form.selected-database') }}"
                             wire:model="selectedDatabase.value"
                         >
                             <option selected disabled>
-                                {{ __("project/conducting.import-studies.form.selected-database") }}
+                                {{ translationConducting("import-studies.form.selected-database") }}
                             </option>
                             @foreach ($databases as $database)
                                 <option
@@ -59,7 +59,7 @@
                             type="submit"
                             wire:loading.attr="disabled"
                         >
-                            {{ __("project/conducting.import-studies.form.add") }}
+                            {{ translationConducting("import-studies.form.add") }}
                             <div wire:loading>
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
@@ -73,10 +73,10 @@
                     <thead class="table-light sticky-top custom-gray-text" style="color: #676a72">
                     <tr>
                         <th style="border-radius: 0.75rem 0 0 0; padding: 0.5rem 1rem;">
-                            {{ __("project/conducting.import-studies.table.database") }}
+                            {{ translationConducting("import-studies.table.database") }}
                         </th>
                         <th style="padding: 0.5rem 0.75rem">
-                            {{ __("project/conducting.import-studies.table.files-uploaded") }}
+                            {{ translationConducting("import-studies.table.files-uploaded") }}
                         </th>
                     </tr>
                     </thead>
@@ -104,7 +104,7 @@
                                         @endforeach
                                     </ul>
                                 @else
-                                    <p>{{ __("project/conducting.import-studies.table.no-files") }}</p>
+                                    <p>{{ translationConducting("import-studies.table.no-files") }}</p>
                                 @endif
                             </td>
                         </tr>

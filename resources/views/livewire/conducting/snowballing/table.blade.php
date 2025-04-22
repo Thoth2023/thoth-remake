@@ -2,7 +2,7 @@
     <br/>
     <div class="row">
         <div class="col-4">
-            <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="{{ __('project/conducting.snowballing.buttons.search-papers' )}}" aria-label="Search" />
+            <x-search.input class="form-control" target="search-papers" wire:model.debounce.500ms="search" placeholder="{{ translationConducting('snowballing.buttons.search-papers' )}}" aria-label="Search" />
         </div>
         <div class="col-8 text-end">
             @livewire('conducting.snowballing.buttons')
@@ -13,7 +13,7 @@
 
             <div class='w-10 pl-2'>
                 <b wire:click.prevent="sortBy('id')" role="button">
-                    {{ __('project/conducting.snowballing.table.id' )}}
+                    {{ translationConducting('snowballing.table.id' )}}
                     @if(isset($sorts['id']))
                         @if($sorts['id'] === 'asc')
                             ↑
@@ -25,7 +25,7 @@
             </div>
             <div class='w-55 pl-2 pr-2'>
                 <b wire:click.prevent="sortBy('title')" role="button">
-                    {{ __('project/conducting.snowballing.table.title' )}}
+                    {{ translationConducting('snowballing.table.title' )}}
                     @if(isset($sorts['title']))
                         @if($sorts['title'] === 'asc')
                             ↑
@@ -38,7 +38,7 @@
 
             <div class='w-20 pl-2 pr-2 ms-auto'>
                 <b wire:click.prevent="sortBy('year')" role="button">
-                    {{ __('project/conducting.snowballing.table.year') }}
+                    {{ translationConducting('snowballing.table.year') }}
                     @if(isset($sorts['year']))
                         @if($sorts['year'] === 'asc')
                             ↑
@@ -50,7 +50,7 @@
             </div>
             <div class='pr-5 w-15 ms-auto'>
                 <b wire:click.prevent="sortBy('status')" role="button">
-                    {{ __('project/conducting.snowballing.table.status') }}
+                    {{ translationConducting('snowballing.table.status') }}
                     @if(isset($sorts['status']))
                         @if($sorts['status'] === 'asc')
                             ↑
@@ -82,37 +82,37 @@
                 </div>
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                        {{ __("project/conducting.snowballing.status." . strtolower($paper['status_description'])) }}
+                        {{ translationConducting('snowballing.status." . strtolower($paper['status_description'])) }}
                     </b>
                     <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
                     @if($paper->peer_review_accepted)
 
-                        <i class="fa-solid fa-users" title=" {{ __('project/conducting.quality-assessment.resolve.resolved-decision') }}"></i>
+                        <i class="fa-solid fa-users" title=" {{ translationConducting('quality-assessment.resolve.resolved-decision') }}"></i>
 
                     @endif
                 </div>
             </x-search.item>
         @empty
             <x-helpers.description>
-                {{ __("project/conducting.snowballing.papers.empty")}}
+                {{ translationConducting('snowballing.papers.empty")}}
             </x-helpers.description>
         @endforelse
         <x-search.empty target="search-papers">
-            {{ __("project/conducting.snowballing.papers.no-results") }}
+            {{ translationConducting('snowballing.papers.no-results") }}
         </x-search.empty>
     </ul>
     <br/>
 
     <div class="d-flex ms-auto" style="width: 70%;">
-        <span class="ms-auto" style="width: 10%;"> {{ __('project/conducting.snowballing.buttons.filter-by' )}}:</span>
+        <span class="ms-auto" style="width: 10%;"> {{ translationConducting('snowballing.buttons.filter-by' )}}:</span>
 
         <select class="form-select me-2" style="width: 25%; margin-bottom: 0rem" wire:model="selectedStatus">
-            <option value="">{{ __('project/conducting.snowballing.buttons.select-status' )}}</option>
+            <option value="">{{ translationConducting('snowballing.buttons.select-status' )}}</option>
             @foreach($statuses as $id => $description)
-                <option value="{{ $id }}">{{ __("project/conducting.snowballing.status." . strtolower($description)) }}</option>
+                <option value="{{ $id }}">{{ translationConducting('snowballing.status." . strtolower($description)) }}</option>
             @endforeach
         </select>
-        <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">{{ __('project/conducting.snowballing.buttons.filter' )}}</button>
+        <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">{{ translationConducting('snowballing.buttons.filter' )}}</button>
     </div>
     <br/>
     {{ $papers->links() }}

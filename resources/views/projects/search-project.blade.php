@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => __('nav/topnav.projects')])
+    @include('layouts.navbars.auth.topnav', ['title' => translationTopnav('projects')])
 
     <div class="container-fluid py-4">
         <div class="container-fluid py-4">
@@ -9,7 +9,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header pb-0">
-                            <h4><i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i> {{ __('project/search.results_of')}}
+                            <h4><i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i> {{ translationSearch('results_of')}}
                                 {{ $searchProject }}</h4>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -18,16 +18,16 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                {{ __('project/search.project.table.headers.title') }}</th>
+                                                {{ translationSearch('project.table.headers.title') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                {{ __('project/search.project.table.headers.created_by') }}</th>
+                                                {{ translationSearch('project.table.headers.created_by') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                                {{ __('project/search.project.table.headers.completion') }}</th>
+                                                {{ translationSearch('project.table.headers.completion') }}</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                                {{ __('project/search.project.table.headers.options') }}</th>
+                                                {{ translationSearch('project.table.headers.options') }}</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -65,7 +65,7 @@
                                                         data-original-title="View Project"
                                                         href="{{ route("projects.show", $project->id_project) }}"
                                                     >
-                                                        <i class="fas fa-search-plus"> </i> {{ __("project/projects.project.options.view") }}
+                                                        <i class="fas fa-search-plus"> </i> {{ translationProjects('project.options.view") }}
                                                     </a>
                                                     <a
                                                         class="btn py-1 px-3 btn-outline-secondary"
@@ -73,7 +73,7 @@
                                                         data-original-title="Edit Project"
                                                         href="{{ route("projects.edit", $project->id_project) }}"
                                                     >
-                                                        <i class="fas fa-edit"> </i> {{ __("project/projects.project.options.edit") }}
+                                                        <i class="fas fa-edit"> </i> {{ translationProjects('project.options.edit") }}
                                                     </a>
 
                                                     <a
@@ -82,7 +82,7 @@
                                                         data-original-title="Add member"
                                                         href="{{ route("projects.add", $project->id_project) }}"
                                                     >
-                                                        <i class="fas fa-user-check"> </i> {{ __("project/projects.project.options.add_member") }}
+                                                        <i class="fas fa-user-check"> </i> {{ translationProjects('project.options.add_member") }}
                                                     </a>
                                                     <form
                                                         id="delete-project-{{ $project->id_project }}"
@@ -94,10 +94,10 @@
                                                         @method("DELETE")
                                                     </form>
                                                     <x-helpers.confirm-modal
-                                                        modalTitle="{{ __('project/projects.project.modal.delete.title') }}"
-                                                        modalContent="{{ __('project/projects.project.modal.delete.content') }}"
-                                                        textClose="{{ __('project/projects.project.modal.delete.close') }}"
-                                                        textConfirm="{{ __('project/projects.project.modal.delete.confirm') }}"
+                                                        modalTitle="{{ translationProjects('project.modal.delete.title') }}"
+                                                        modalContent="{{ translationProjects('project.modal.delete.content') }}"
+                                                        textClose="{{ translationProjects('project.modal.delete.close') }}"
+                                                        textConfirm="{{ translationProjects('project.modal.delete.confirm') }}"
                                                         class="font-weight-bold  btn btn-link text-danger  px-1 py-0 mb-0"
                                                         onConfirmNativeClick="document.getElementById('delete-project-{{ $project->id_project }}').submit();"
                                                     >
@@ -114,7 +114,7 @@
                                                     colspan="5"
                                                     class="text-center"
                                                 >
-                                                    {{ __("project/projects.project.table.empty") }}
+                                                    {{ translationProjects('project.table.empty") }}
                                                 </td>
                                             </tr>
                                         @endforelse

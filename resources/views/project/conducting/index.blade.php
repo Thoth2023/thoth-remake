@@ -15,7 +15,7 @@
                 <div class="col-12">
                     @if (session()->has('error'))
                         <div class='card card-body col-md-12 mt-3'>
-                            <h3 class="h5 mb-3">{{ __('project/conducting.study-selection.tasks') }}</h3>
+                            <h3 class="h5 mb-3">{{ translationConducting('study-selection.tasks') }}</h3>
                             <div class="alert alert-warning">
                                 {{ session('error') }}
                             </div>
@@ -24,34 +24,34 @@
                     @include(
                         "project.components.project-tabs",
                         [
-                            'header' => __('project/conducting.conducting.title'),
+                            'header' => translationConducting('conducting.title'),
                             "tabs" => collect([
                                 [
                                     'id' => 'import-studies-tab',
-                                    'label' =>__('project/conducting.header.import_studies'),
+                                    'label' =>translationConducting('header.import_studies'),
                                     'href' => '#import-studies',
                                 ],
                                 [
                                     'id' => 'study-selection-tab',
-                                    'label' => __('project/conducting.header.study_selection'),
+                                    'label' => translationConducting('header.study_selection'),
                                     'href' => '#study-selection',
                                 ],
                                 [
                                     'id' => 'quality-assessment-tab',
-                                    'label' => __('project/conducting.header.quality_assessment'),
+                                    'label' => translationConducting('header.quality_assessment'),
                                     'href' => '#quality-assessment',
                                 ],
 
                             ])->when(strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false, function ($collection) {
                                 return $collection->push([
                                     'id' => 'snowballing-tab',
-                                    'label' => __('project/conducting.header.snowballing'),
+                                    'label' => translationConducting('header.snowballing'),
                                     'href' => '#snowballing',
                                 ]);
 
                             })->push([
                                 'id' => 'data-extraction-tab',
-                                'label' => __('project/conducting.header.data_extraction'),
+                                'label' => translationConducting('header.data_extraction'),
                                 'href' => '#data-extraction',
 
                             ]),

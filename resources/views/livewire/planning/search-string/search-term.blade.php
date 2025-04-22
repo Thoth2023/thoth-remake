@@ -3,8 +3,8 @@
         <div class="card-header mb-2 pb-0">
             <x-helpers.modal
                 target="search-string"
-                modalTitle="{{ __('project/planning.search-string.term.title') }}"
-                modalContent="{{ __('project/planning.search-string.term.help') }}"
+                modalTitle="{{ translationPlanning('search-string.term.title') }}"
+                modalContent="{{ translationPlanning('search-string.term.help') }}"
             />
         </div>
         <div class="card-body">
@@ -14,9 +14,9 @@
                         class="w-md-25 w-100"
                         maxlength="50"
                         id="description"
-                        label="{{ __('project/planning.search-string.term.form.title') }}"
+                        label="{{ translationPlanning('search-string.term.form.title') }}"
                         wire:model="description"
-                        placeholder="{{ __('project/planning.search-string.term.form.placeholder') }}"
+                        placeholder="{{ translationPlanning('search-string.term.form.placeholder') }}"
                         required
                     />
                     @error("description")
@@ -31,8 +31,8 @@
                     >
                         {{
                             $form["isEditing"]
-                                ? __("project/planning.search-string.term.form.update")
-                                : __("project/planning.search-string.term.form.add")
+                                ? translationPlanning('search-string.term.form.update')
+                                : translationPlanning('search-string.term.form.add')
                         }}
                         <div wire:loading>
                             <i class="fas fa-spinner fa-spin"></i>
@@ -44,12 +44,12 @@
                 <div class="w-md-50 w-100">
                     <x-select
                         wire:model="termId"
-                        label="{{ __('project/planning.search-string.term.form.select') }}"
+                        label="{{ translationPlanning('search-string.term.form.select') }}"
                         wire:change="getSynonymSuggestions($event.target.value)"
                         required
                     >
                         <option selected disabled>
-                            {{ __("project/planning.search-string.term.form.select-placeholder") }}
+                            {{ translationPlanning('search-string.term.form.select-placeholder') }}
                         </option>
                         @foreach ($terms as $term)
                             <option
@@ -76,9 +76,9 @@
                                 class="w-100"
                                 maxlength="50"
                                 id="synonym"
-                                label="{{ __('project/planning.search-string.synonym.form.title') }}"
+                                label="{{ translationPlanning('search-string.synonym.form.title') }}"
                                 wire:model="synonym"
-                                placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                                placeholder="{{ translationPlanning('search-string.synonym.form.placeholder') }}"
                                 required
                             />
                             @error("synonym")
@@ -110,7 +110,7 @@
                         <div class="w-25" style="margin-bottom: 5px">
                             <x-select
                                 wire:model="languageSynonyms"
-                                label="{{ __('project/planning.search-string.term.form.language') }}"
+                                label="{{ translationPlanning('search-string.term.form.language') }}"
                                 wire:change="generateSynonyms"
                             >
                                 <option
@@ -138,7 +138,7 @@
                     >
                         @if (($termId["value"] ?? null) && count($synonymSuggestions) === 0)
                             <span class="text-sm text-warning">
-                                {{ __("project/planning.search-string.term.form.no-suggestions") }}
+                                {{ translationPlanning('search-string.term.form.no-suggestions') }}
                             </span>
                         @endif
 
@@ -149,7 +149,7 @@
                                 >
                                     <x-input
                                         value="{{ $suggestion }}"
-                                        placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                                        placeholder="{{ translationPlanning('search-string.synonym.form.placeholder') }}"
                                         class="my-0"
                                     />
                                     <button
@@ -187,7 +187,7 @@
                             "
                         ></th>
                         <th>
-                            {{ __("project/planning.search-string.term.table.description") }}
+                            {{ translationPlanning('search-string.term.table.description') }}
                         </th>
                         <th
                             style="
@@ -195,7 +195,7 @@
                                 padding: 0.5rem 1rem;
                             "
                         >
-                            {{ __("project/planning.search-string.term.table.actions") }}
+                            {{ translationPlanning('search-string.term.table.actions') }}
                         </th>
                     </thead>
                     <tbody>
@@ -268,7 +268,7 @@
                             <tr>
                                 <td colspan="3" class="text-center py-4">
                                     <x-helpers.description>
-                                        {{ __("project/planning.search-string.term.table.empty") }}
+                                        {{ translationPlanning('search-string.term.table.empty') }}
                                     </x-helpers.description>
                                 </td>
                             </tr>

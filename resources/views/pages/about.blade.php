@@ -11,10 +11,10 @@
             >
                 <div class="col-lg-6 text-center mx-auto">
                     <h1 class="text-white">
-                        {{ __("pages/about.about") }}
+                        {{ translationAbout('about') }}
                     </h1>
                     <p class="text-lead text-white">
-                        {{ __("pages/about.description") }}
+                        {{ translationAbout('description') }}
                     </p>
                 </div>
             </div>
@@ -35,24 +35,24 @@
                                 href="javascript:"
                                 class="card-title h5 d-block text-darker"
                             >
-                                {{ __("pages/about.new_features") }}
+                                {{ translationAbout('new_features') }}
                             </a>
                             <ul>
-                                <li>{{ __("pages/about.recover_password") }}</li>
-                                <li>{{ __("pages/about.bug_databases") }}</li>
-                                <li>{{ __("pages/about.suggest_databases") }}</li>
-                                <li>{{ __("pages/about.new_qa") }}</li>
-                                <li>{{ __("pages/about.new_interface") }}</li>
-                                <li>{{ __("pages/about.new_framework") }}</li>
-                                <li>{{ __("pages/about.internationalization") }}</li>
-                                <li>{{ __("pages/about.usability") }}</li>
-                                <li>{{ __("pages/about.users_management") }}</li>
-                                <li>{{ __("pages/about.profile_management") }}</li>
-                                <li>{{ __("pages/about.members_invitation") }}</li>
-                                <li>{{ __("pages/about.pwa") }}</li>
-                                <li>{{ __("pages/about.snowballing") }}</li>
-                                <li>{{ __("pages/about.algolia_api") }}</li>
-                                <li>{{ __("pages/about.crossref_api") }}</li>
+                                <li>{{ translationAbout('recover_password') }}</li>
+                                <li>{{ translationAbout('bug_databases') }}</li>
+                                <li>{{ translationAbout('suggest_databases') }}</li>
+                                <li>{{ translationAbout('new_qa') }}</li>
+                                <li>{{ translationAbout('new_interface') }}</li>
+                                <li>{{ translationAbout('new_framework') }}</li>
+                                <li>{{ translationAbout('internationalization') }}</li>
+                                <li>{{ translationAbout('usability') }}</li>
+                                <li>{{ translationAbout('users_management') }}</li>
+                                <li>{{ translationAbout('profile_management') }}</li>
+                                <li>{{ translationAbout('members_invitation') }}</li>
+                                <li>{{ translationAbout('pwa') }}</li>
+                                <li>{{ translationAbout('snowballing') }}</li>
+                                <li>{{ translationAbout('algolia_api') }}</li>
+                                <li>{{ translationAbout('crossref_api') }}</li>
                             </ul>
                         </div>
                     </div>
@@ -61,28 +61,28 @@
                             href="javascript:"
                             class="card-title h5 d-block text-darker"
                         >
-                            {{ __("pages/about.development") }}
+                            {{ translationAbout('development') }}
                         </a>
-                        <p>{{ __("pages/about.development_description") }}</p>
+                        <p>{{ translationAbout('development_description') }}</p>
                     </div>
                     <div class="card-body pt-2">
                         <a
                             href="javascript:"
                             class="card-title h5 d-block text-darker"
                         >
-                            {{ __("pages/about.open_source_project") }}
+                            {{ translationAbout('open_source_project') }}
                         </a>
                         <a
                             class="nav-link d-flex align-items-center me-2"
                             href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE"
                         >
-                            {{ __("pages/about.mit_license") }}
+                            {{ translationAbout('mit_license') }}
                         </a>
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.technologies_used") }}
+                            {{ translationAbout('technologies_used') }}
                         </a>
                         <ul>
                             <li>PHP Language</li>
@@ -105,10 +105,10 @@
                             href="javascript:"
                             class="card-title h5 d-block text-darker"
                         >
-                            {{ __("pages/about.about_the_tool") }}
+                            {{ translationAbout('about_the_tool') }}
                         </a>
                         <p>
-                            {{ __("pages/about.about_the_tool_description") }}
+                            {{ translationAbout('about_the_tool_description') }}
                         </p>
 
                         <img
@@ -121,86 +121,86 @@
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.cross_platform") }}
+                            {{ translationAbout('cross_platform') }}
                         </a>
                         <p>
-                            {{ __("pages/about.cross_platform_description") }}
+                            {{ translationAbout('cross_platform_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.automate_process") }}
+                            {{ translationAbout('automate_process') }}
                         </a>
                         <p>
-                            {{ __("pages/about.cross_platform_description") }}
+                            {{ translationAbout('cross_platform_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.search_string") }}
+                            {{ translationAbout('search_string') }}
                         </a>
                         <p>
-                            {{ __("pages/about.search_string_description") }}
+                            {{ translationAbout('search_string_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.management_selection") }}
+                            {{ translationAbout('management_selection') }}
                         </a>
                         <p>
-                            {{ __("pages/about.management_selection_description") }}
+                            {{ translationAbout('management_selection_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.management_quality") }}
+                            {{ translationAbout('management_quality') }}
                         </a>
                         <p>
-                            {{ __("pages/about.management_quality_description") }}
+                            {{ translationAbout('management_quality_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.data_generation") }}
+                            {{ translationAbout('data_generation') }}
                         </a>
                         <p>
-                            {{ __("pages/about.data_generation_description") }}
+                            {{ translationAbout('data_generation_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.graphs_tables_generation") }}
+                            {{ translationAbout('graphs_tables_generation') }}
                         </a>
                         <p>
-                            {{ __("pages/about.graphs_tables_generation_description") }}
+                            {{ translationAbout('graphs_tables_generation_description') }}
                         </p>
 
                         <a
                             href="javascript:"
                             class="card-title h6 d-block text-darker"
                         >
-                            {{ __("pages/about.report_generation") }}
+                            {{ translationAbout('report_generation') }}
                         </a>
                         <p>
-                            {{ __("pages/about.report_generation_description") }}
+                            {{ translationAbout('report_generation_description') }}
                         </p>
                         <p>
-                            {{ __("pages/about.report_generation_description2") }}
+                            {{ translationAbout('report_generation_description2') }}
                         </p>
                         <p>
-                            {{ __("pages/about.report_generation_description3") }}
+                            {{ translationAbout('report_generation_description3') }}
                         </p>
                         <ul>
                             <li>
@@ -208,10 +208,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.multiple_member_management") }}
+                                    {{ translationAbout('multiple_member_management') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.multiple_member_management_description") }}
+                                    {{ translationAbout('multiple_member_management_description') }}
                                 </p>
                             </li>
                             <li>
@@ -219,10 +219,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.manage_projects") }}
+                                    {{ translationAbout('manage_projects') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.manage_projects_description") }}
+                                    {{ translationAbout('manage_projects_description') }}
                                 </p>
                             </li>
                             <li>
@@ -230,10 +230,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.activity_view") }}
+                                    {{ translationAbout('activity_view') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.activity_view_description") }}
+                                    {{ translationAbout('activity_view_description') }}
                                 </p>
                             </li>
                             <li>
@@ -241,10 +241,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.progress_display") }}
+                                    {{ translationAbout('progress_display') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.progress_display_description") }}
+                                    {{ translationAbout('progress_display_description') }}
                                 </p>
                             </li>
                             <li>
@@ -252,10 +252,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.protocol_management") }}
+                                    {{ translationAbout('protocol_management') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.protocol_management_description") }}
+                                    {{ translationAbout('protocol_management_description') }}
                                 </p>
                             </li>
                             <li>
@@ -263,10 +263,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.study_import") }}
+                                    {{ translationAbout('study_import') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.study_import_description") }}
+                                    {{ translationAbout('study_import_description') }}
                                 </p>
                             </li>
                             <li>
@@ -274,10 +274,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.selection_of_studies") }}
+                                    {{ translationAbout('selection_of_studies') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.selection_of_studies_description") }}
+                                    {{ translationAbout('selection_of_studies_description') }}
                                 </p>
                             </li>
                             <li>
@@ -285,10 +285,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.checking_duplicate_studies") }}
+                                    {{ translationAbout('checking_duplicate_studies') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.checking_duplicate_studies_description") }}
+                                    {{ translationAbout('checking_duplicate_studies_description') }}
                                 </p>
                             </li>
                             <li>
@@ -296,10 +296,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.selection_ranking_information") }}
+                                    {{ translationAbout('selection_ranking_information') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.selection_ranking_information_description") }}
+                                    {{ translationAbout('selection_ranking_information_description') }}
                                 </p>
                             </li>
                             <li>
@@ -307,10 +307,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.study_information_visualization") }}
+                                    {{ translationAbout('study_information_visualization') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.study_information_visualization_description") }}
+                                    {{ translationAbout('study_information_visualization_description') }}
                                 </p>
                             </li>
                             <li>
@@ -318,10 +318,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.status_for_each_member") }}
+                                    {{ translationAbout('status_for_each_member') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.status_for_each_member_description") }}
+                                    {{ translationAbout('status_for_each_member_description') }}
                                 </p>
                             </li>
                             <li>
@@ -329,10 +329,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.conflicts_in_selection") }}
+                                    {{ translationAbout('conflicts_in_selection') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.conflicts_in_selection_description") }}
+                                    {{ translationAbout('conflicts_in_selection_description') }}
                                 </p>
                             </li>
                             <li>
@@ -340,10 +340,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.resolution_of_conflicts_in_selection") }}
+                                    {{ translationAbout('resolution_of_conflicts_in_selection') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.resolution_of_conflicts_in_selection_description") }}
+                                    {{ translationAbout('resolution_of_conflicts_in_selection_description') }}
                                 </p>
                             </li>
                             <li>
@@ -351,10 +351,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.quality_assessment_of_studies") }}
+                                    {{ translationAbout('quality_assessment_of_studies') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.quality_assessment_of_studies_description") }}
+                                    {{ translationAbout('quality_assessment_of_studies_description') }}
                                 </p>
                             </li>
                             <li>
@@ -362,10 +362,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.quality_conflicts") }}
+                                    {{ translationAbout('quality_conflicts') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.quality_conflicts_description") }}
+                                    {{ translationAbout('quality_conflicts_description') }}
                                 </p>
                             </li>
                             <li>
@@ -373,10 +373,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.data_extraction") }}
+                                    {{ translationAbout('data_extraction') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.data_extraction_description") }}
+                                    {{ translationAbout('data_extraction_description') }}
                                 </p>
                             </li>
                             <li>
@@ -384,10 +384,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.report") }}
+                                    {{ translationAbout('report') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.report_description") }}
+                                    {{ translationAbout('report_description') }}
                                 </p>
                             </li>
                             <li>
@@ -395,10 +395,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.export_to_latex") }}
+                                    {{ translationAbout('export_to_latex') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.export_to_latex_description") }}
+                                    {{ translationAbout('export_to_latex_description') }}
                                 </p>
                             </li>
                             <li>
@@ -406,10 +406,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.export_to_bibtex") }}
+                                    {{ translationAbout('export_to_bibtex') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.export_to_bibtex_description") }}
+                                    {{ translationAbout('export_to_bibtex_description') }}
                                 </p>
                             </li>
                             <li>
@@ -417,10 +417,10 @@
                                     href="javascript:"
                                     class="card-title h5 d-block text-darker"
                                 >
-                                    {{ __("pages/about.improvement_of_search_strings") }}
+                                    {{ translationAbout('improvement_of_search_strings') }}
                                 </a>
                                 <p>
-                                    {{ __("pages/about.improvement_of_search_strings_description") }}
+                                    {{ translationAbout('improvement_of_search_strings_description') }}
                                 </p>
                             </li>
                         </ul>
@@ -434,12 +434,12 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content modal-transparent">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}</h5>
+                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ translationHome('terms_and_lgpd') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ __("pages/terms.modal_lgpd") }}</p>
-                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
+                    <p>{{ translationTerms('modal_lgpd') }}</p>
+                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ translationHome('terms_and_conditions') }}</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">

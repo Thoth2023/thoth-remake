@@ -1,7 +1,7 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
 
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => __("project/projects.project.title")])
+@include("layouts.navbars.auth.topnav", ["title" => translationProjects('project.title')])
 
     <div class="container-fluid py-2">
         <div class="container-fluid py-2">
@@ -13,13 +13,13 @@
                                 <div class="col-md-6">
                                     <h4>
                                         <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
-                                        {{ __("project/projects.project.table.title") }}
+                                        {{ translationProjects('project.table.title') }}
                                     </h4>
                                 </div>
                                 <div class="col-md-6 text-end">
                                     <a class="btn bg-gradient-dark mb-0" href="{{ route("projects.create") }}">
                                         <i class="fas fa-plus"></i>
-                                        &nbsp;&nbsp;{{ __("project/projects.project.new") }}
+                                        &nbsp;&nbsp;{{ translationProjects('project.new') }}
                                     </a>
                                 </div>
                             </div>
@@ -30,17 +30,17 @@
                                     <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            {{ __("project/projects.project.table.headers.title") }}
+                                            {{ translationProjects('project.table.headers.title') }}
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            {{ __("project/projects.project.table.headers.created_by") }}
+                                            {{ translationProjects('project.table.headers.created_by') }}
                                         </th>
 
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                            {{ __("project/projects.project.table.headers.completion") }}
+                                            {{ translationProjects('project.table.headers.completion') }}
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                            {{ __("project/projects.project.table.headers.options") }}
+                                            {{ translationProjects('project.table.headers.options') }}
                                         </th>
                                         <th></th>
                                     </tr>
@@ -81,22 +81,22 @@
                                                     <div class="d-flex align-items-center justify-content-end gap-1">
                                                         <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="View Project" href="{{ route("projects.show", $project->id_project) }}">
                                                             <i class="fas fa-search-plus"></i>
-                                                            {{ __("project/projects.project.options.view") }}
+                                                            {{ translationProjects('project.options.view') }}
                                                         </a>
                                                         <a class="btn py-1 px-3 btn-outline-secondary" data-toggle="tooltip" data-original-title="Edit Project" href="{{ route("projects.edit", $project->id_project) }}">
                                                             <i class="fas fa-edit"></i>
-                                                            {{ __("project/projects.project.options.edit") }}
+                                                            {{ translationProjects('project.options.edit') }}
                                                         </a>
                                                         <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Add member" href="{{ route("projects.add", $project->id_project) }}">
                                                             <i class="fas fa-user-check"></i>
-                                                            {{ __("project/projects.project.options.add_member") }}
+                                                            {{ translationProjects('project.options.add_member') }}
                                                         </a>
                                                     </div>
                                                     <form id="delete-project-{{ $project->id_project }}" action="{{ route("projects.destroy", $project) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method("DELETE")
                                                     </form>
-                                                    <x-helpers.confirm-modal modalTitle="{{ __('project/projects.project.modal.delete.title') }}" modalContent="{{ __('project/projects.project.modal.delete.content') }}" textClose="{{ __('project/projects.project.modal.delete.close') }}" textConfirm="{{ __('project/projects.project.modal.delete.confirm') }}" class="font-weight-bold btn btn-link text-danger px-1 py-0 mb-0" onConfirmNativeClick="document.getElementById('delete-project-{{ $project->id_project }}').submit();">
+                                                    <x-helpers.confirm-modal modalTitle="{{ translationProjects('project.modal.delete.title') }}" modalContent="{{ translationProjects('project.modal.delete.content') }}" textClose="{{ translationProjects('project.modal.delete.close') }}" textConfirm="{{ translationProjects('project.modal.delete.confirm') }}" class="font-weight-bold btn btn-link text-danger px-1 py-0 mb-0" onConfirmNativeClick="document.getElementById('delete-project-{{ $project->id_project }}').submit();">
                                                         <a class="btn py-1 px-3 btn-outline-danger">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
@@ -108,7 +108,7 @@
                                     @empty
                                         <tr>
                                             <td colspan="5" class="text-center">
-                                                {{ __("project/projects.project.table.empty") }}
+                                                {{ translationProjects('project.table.empty') }}
                                             </td>
                                         </tr>
                                     @endforelse
@@ -127,12 +127,12 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content modal-transparent">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}</h5>
+                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ translationHome('terms_and_lgpd') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ __("pages/terms.modal_lgpd") }}</p>
-                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
+                    <p>{{ translationTerms('pages/terms.modal_lgpd') }}</p>
+                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ translationHome('terms_and_conditions') }}</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">

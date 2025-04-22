@@ -1,7 +1,7 @@
 <div class="d-flex gap-1 mb-3">
-    <b>{{ __('project/conducting.quality-assessment.modal.status-quality' )}}: </b>
+    <b>{{ translationConducting('quality-assessment.modal.status-quality' )}}: </b>
     <b class="{{ 'text-' . strtolower($status_description) }}">
-        {{ __("project/conducting.quality-assessment.status." . strtolower($status_description)) }}
+        {{ translationConducting("quality-assessment.status." . strtolower($status_description)) }}
     </b>
 </div>
 @script

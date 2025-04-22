@@ -11,7 +11,7 @@
 
 /*
  * Authors:
- * - Walser Translation Team ml@translate-wae.ch
+ * - Walser TranslationController Team ml@translate-wae.ch
  */
 return array_replace_recursive(require __DIR__.'/en.php', [
     'formats' => [

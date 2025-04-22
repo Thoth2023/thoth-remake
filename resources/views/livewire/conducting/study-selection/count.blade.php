@@ -1,6 +1,3 @@
-@php
-    $studySelectionPath = 'project/conducting.study-selection';
-@endphp
 
 <div wire:model="count" >
     <div class="mt-1">
@@ -25,20 +22,20 @@
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>{{ translationStudySelection("{$studySelectionPath}.status.unclassified")}}:</strong> {{ count($unclassified) }}
+                <strong>{{ translationConducting("study-selection.status.unclassified")}}:</strong> {{ count($unclassified) }}
             </div>
             <div class="col text-success">
-                <strong>{{ translationStudySelection("{$studySelectionPath}.status.accepted")}}:</strong> {{ count($accepted) }}
+                <strong>{{ translationConducting("study-selection.status.accepted")}}:</strong> {{ count($accepted) }}
             </div>
             <div class="col text-danger">
-                <strong>{{ translationStudySelection("{$studySelectionPath}.status.rejected")}}:</strong> {{ count($rejected) }}
+                <strong>{{ translationConducting("study-selection.status.rejected")}}:</strong> {{ count($rejected) }}
             </div>
             <div class="col text-info">
-                <strong>{{ translationStudySelection("{$studySelectionPath}.status.removed")}}:</strong> {{ count($removed) }}
+                <strong>{{ translationConducting("study-selection.status.removed")}}:</strong> {{ count($removed) }}
             </div>
 
             <div class="col text-warning">
-                <strong>{{ translationStudySelection("{$studySelectionPath}.status.duplicate")}}:</strong> {{ count($duplicates) }}
+                <strong>{{ translationConducting("study-selection.status.duplicate")}}:</strong> {{ count($duplicates) }}
             </div>
             <div class="col">
                 <strong>Total:</strong> {{ count($papers) }}

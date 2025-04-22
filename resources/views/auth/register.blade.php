@@ -10,8 +10,8 @@
                     style="background-color: rgba(85, 101, 128, 1); width: 100%">
 
                     <div class="col-lg-6 text-center mx-auto">
-                        <h1 class="text-white">{{ __("auth/register.welcome") }}</h1>
-                        <p class="text-lead text-white">{{ __("auth/register.description") }}</p>
+                        <h1 class="text-white">{{ translationRegister('welcome') }}</h1>
+                        <p class="text-lead text-white">{{ translationRegister('description') }}</p>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="col-xl-12 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0">
                         <div class="card-header text-center pt-4">
-                            <h5>{{ __('auth/register.register_with') }}</h5>
+                            <h5>{{ translationRegister('register_with') }}</h5>
                         </div>
                         <div class="row px-xl-5 px-sm-4 px-3">
 
@@ -51,7 +51,7 @@
 
                             <div class="mt-2 position-relative text-center">
                                 <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
-                                    {{ __('auth/register.or') }}
+                                    {{ translationRegister('or') }}
                                 </p>
                             </div>
                         </div>
@@ -61,48 +61,48 @@
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
 
                                     <input type="text" name="firstname" class="form-control"
-                                        placeholder="{{ __('auth/register.firstname') }}"
-                                        aria-label="{{ __('auth.register.firstname') }}" value="{{ old('firstname') }}">
+                                        placeholder="{{ translationRegister('firstname') }}"
+                                        aria-label="{{ translationRegister('firstname') }}" value="{{ old('firstname') }}">
                                     @error('firstname')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="text" name="lastname" class="form-control"
-                                        placeholder="{{ __('auth/register.lastname') }}"
-                                        aria-label="{{ __('auth.register.lastname') }}" value="{{ old('lastname') }}">
+                                        placeholder="{{ translationRegister('lastname') }}"
+                                        aria-label="{{ translationRegister('lastname') }}" value="{{ old('lastname') }}">
                                     @error('lastname')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="text" name="institution" class="form-control"
-                                        placeholder="{{ __('auth/register.institution') }}"
-                                        aria-label="{{ __('auth.register.institution') }}" value="{{ old('institution') }}">
+                                        placeholder="{{ translationRegister('institution') }}"
+                                        aria-label="{{ translationRegister('institution') }}" value="{{ old('institution') }}">
                                     @error('institution')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="email" name="email" class="form-control"
-                                        placeholder="{{ __('auth/register.email') }}"
-                                        aria-label="{{ __('auth.register.email') }}" value="{{ old('email') }}">
+                                        placeholder="{{ translationRegister('email') }}"
+                                        aria-label="{{ translationRegister('email') }}" value="{{ old('email') }}">
                                     @error('email')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="text" name="username" class="form-control"
-                                        placeholder="{{ __('auth/register.username') }}"
-                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
+                                        placeholder="{{ translationRegister('username') }}"
+                                        aria-label="{{ translationRegister('username') }}" value="{{ old('username') }}">
                                     @error('username')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="password" name="password" class="form-control"
-                                        placeholder="{{ __('auth/register.password') }}"
-                                        aria-label="{{ __('auth.register.password') }}">
+                                        placeholder="{{ translationRegister('password') }}"
+                                        aria-label="{{ translationRegister('password') }}">
                                     @error('password')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
@@ -111,9 +111,9 @@
                                     <input class="form-check-input" type="checkbox" name="terms" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         <!-- TODO: Add link to terms and conditions -->
-                                        {{ __('auth/register.i_agree') }}
+                                        {{ translationRegister('i_agree') }}
                                         <a href="{{ route('terms') }}" class="text-dark font-weight-bolder">
-                                            {{ __('auth/register.terms_and_conditions') }}
+                                            {{ translationRegister('terms_and_conditions') }}
                                         </a>
                                     </label>
                                     @error('terms')
@@ -127,13 +127,13 @@
 
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-dark w-50 my-4 mb-2">
-                                        {{ __('auth/register.sign_up') }}
+                                        {{ translationRegister('sign_up') }}
                                     </button>
                                 </div>
                                 <p class="text-sm mt-3 mb-0 col-xl-6 col-lg-5 col-md-6 mx-auto">
-                                    {{ __('auth/register.already_have_account') }}
+                                    {{ translationRegister('already_have_account') }}
                                     <a href="{{ route('login') }}" class="text-dark font-weight-bolder">
-                                        {{ __('auth/register.sign_in', ['login_link' => route('login')]) }}
+                                        {{ translationRegister('sign_in', ['login_link' => route('login')]) }}
                                     </a>
                                 </p>
                                 <br/><br/>

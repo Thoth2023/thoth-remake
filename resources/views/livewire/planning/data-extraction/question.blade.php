@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="data-extraction"
-            modalTitle="{{ __('project/planning.data-extraction.question-form.title') }}"
-            modalContent="{!!   __('project/planning.data-extraction.question-form.help.content') !!}"
+            modalTitle="{{ translationPlanning('data-extraction.question-form.title') }}"
+            modalContent="{!!   translationPlanning('data-extraction.question-form.help.content') !!}"
             modalclass="modal-xl"
         />
     </div>
@@ -12,7 +12,7 @@
             <div class="form-group mt-3 d-flex flex-column gap-4">
                 <x-input
                     id="questionId"
-                    label="{{ __('project/planning.data-extraction.question-form.id') }}"
+                    label="{{ translationPlanning('data-extraction.question-form.id') }}"
                     wire:model="questionId"
                     placeholder="Não utilize caracteres especiais"
                     maxlength="255"
@@ -26,7 +26,7 @@
 
                 <x-input
                     id="description"
-                    label="{{ __('project/planning.data-extraction.question-form.description') }}"
+                    label="{{ translationPlanning('data-extraction.question-form.description') }}"
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
@@ -40,7 +40,7 @@
 
                 <x-select
                     wire:model="type"
-                    label="{{ __('project/planning.data-extraction.question-form.type') }}"
+                    label="{{ translationPlanning('data-extraction.question-form.type') }}"
                     required
                 >
                     <option
@@ -68,8 +68,8 @@
                 <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.data-extraction.question-form.edit-question")
-                            : __("project/planning.data-extraction.question-form.add-question")
+                            ? translationPlanning('data-extraction.question-form.edit-question')
+                            : translationPlanning('data-extraction.question-form.add-question')
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>

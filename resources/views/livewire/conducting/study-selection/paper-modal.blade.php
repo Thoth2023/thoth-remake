@@ -1,8 +1,3 @@
-@php
-    $studySelectionPath = 'project/conducting.study-selection';
-@endphp
-
-
 <div>
     <div class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
          aria-hidden="true">
@@ -23,11 +18,11 @@
                             'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
                         <div class="col-2">
-                            <b>{{ translationStudySelection("{$studySelectionPath}.modal.year") }}:</b>
+                            <b>{{ translationConducting("study-selection.modal.year") }}:</b>
                             <p>{{ $paper['year'] }}</p>
                         </div>
                         <div class="col-4">
-                            <b>{{ translationStudySelection("${studySelectionPath}.modal.database") }}:</b>
+                            <b>{{ translationConducting("study-selection.modal.database") }}:</b>
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
                         <div class="col-2">
@@ -63,10 +58,10 @@
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
                         <tr>
-                            <th class="w-5 align-middle text-center">{{ translationStudySelection("{$studySelectionPath}.modal.table.select") }}</th>
+                            <th class="w-5 align-middle text-center">{{ translationConducting("study-selection.modal.table.select") }}</th>
                             <th class="w-5 align-middle text-center">ID</th>
-                            <th class="w-70 align-middle text-wrap">{{ translationStudySelection("{$studySelectionPath}.modal.table.description") }}</th>
-                            <th class="w-5 align-middle text-center">{{ translationStudySelection("{$studySelectionPath}.modal.table.type") }}</th>
+                            <th class="w-70 align-middle text-wrap">{{ translationConducting("study-selection.modal.table.description") }}</th>
+                            <th class="w-5 align-middle text-center">{{ translationConducting("study-selection.modal.table.type") }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -94,47 +89,47 @@
 
                     <hr />
                     <div class="d-flex flex-column mt-3">
-                        <label>{{ translationStudySelection("{$studySelectionPath}.modal.paper-conflict-note") }}</label>
+                        <label>{{ translationConducting('study-selection.modal.paper-conflict-note') }}</label>
                         <textarea
                             id="note"
                             class="form-control"
                             rows="2"
                             wire:model="note"
                             wire:blur="saveNote"
-                            placeholder="{{ translationStudySelection("{$studySelectionPath}.modal.paper-conflict-writer") }}"
+                            placeholder="{{ translationConducting("study-selection.modal.paper-conflict-writer") }}"
                             required>
                         </textarea>
                     </div>
 
                     <hr />
                     @if($paper['status_selection'] != 1 && $paper['status_selection'] != 2)
-                        <p>{{ translationStudySelection("{$studySelectionPath}.modal.option.select") }}</p>
+                        <p>{{ translationConducting("study-selection.modal.option.select") }}</p>
 
                         <div class="btn-group mt-2" role="group">
                             <input type="radio" class="btn-check" wire:model="selected_status"
                                    wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2"
                                    autocomplete="off">
                             <label class="btn btn-outline-primary"
-                                   for="btnradio2">{{ translationStudySelection("{$studySelectionPath}.modal.option.unclassified") }}</label>
+                                   for="btnradio2">{{ translationConducting("study-selection.modal.option.unclassified") }}</label>
 
                             <input type="radio" class="btn-check" wire:model="selected_status"
                                    wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1"
                                    autocomplete="off">
                             <label class="btn btn-outline-primary"
-                                   for="btnradio1">{{ translationStudySelection("{$studySelectionPath}.modal.option.remove") }}</label>
+                                   for="btnradio1">{{ translationConducting("study-selection.modal.option.remove") }}</label>
 
                             <input type="radio" class="btn-check" wire:model="selected_status"
                                    wire:change="updateStatusManual" value="Duplicate" name="btnradio" id="btnradio4"
                                    autocomplete="off">
                             <label class="btn btn-outline-primary"
-                                   for="btnradio4">{{ translationStudySelection("{$studySelectionPath}.modal.option.duplicated") }}</label>
+                                   for="btnradio4">{{ translationConducting("study-selection.modal.option.duplicated") }}</label>
                         </div>
                     @endif
                     @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ translationStudySelection("{$studySelectionPath}.modal.close") }}</button>
+                            data-bs-dismiss="modal">{{ translationConducting("study-selection.modal.close") }}</button>
                 </div>
             </div>
         </div>

@@ -46,7 +46,7 @@
                                     <i
                                         class="fa fa-chart-pie opacity-6 text-dark me-1"
                                     ></i>
-                                    {{ __("nav/nav.home") }}
+                                    {{ translationNav("home") }}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -57,7 +57,7 @@
                                     <i
                                         class="ni ni-bulb-61 opacity-6 text-dark me-1"
                                     ></i>
-                                    {{ __("nav/nav.about") }}
+                                    {{ translationNav("about") }}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -68,7 +68,7 @@
                                     <i
                                         class="ni ni-satisfied opacity-6 text-dark me-1"
                                     ></i>
-                                    {{ __("nav/nav.help") }}
+                                    {{ translationNav("help") }}
                                 </a>
                             </li>
                             @guest
@@ -80,7 +80,7 @@
                                         <i
                                             class="fas fa-user-circle opacity-6 text-dark me-1"
                                         ></i>
-                                        {{ __("nav/nav.sign_up") }}
+                                        {{ translationNav("sign_up") }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -91,7 +91,7 @@
                                         <i
                                             class="fas fa-key opacity-6 text-dark me-1"
                                         ></i>
-                                        {{ __("nav/nav.sign_in") }}
+                                        {{ translationNav("sign_in") }}
                                     </a>
                                 </li>
                             @endguest
@@ -105,7 +105,7 @@
                                         <i
                                             class="fas fa-user-circle opacity-6 text-dark me-1"
                                         ></i>
-                                        {{ __("nav/nav.profile") }}
+                                        {{ translationNav("profile") }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -116,7 +116,7 @@
                                         <i
                                             class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"
                                         ></i>
-                                        {{ __("nav/nav.projects") }}
+                                        {{ translationNav("projects") }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -136,7 +136,7 @@
                                                 class="fa fa-user opacity-6 me-1"
                                             ></i>
                                             <span class="d-sm-inline d-none">
-                                            {{ __("nav/nav.logout") }}
+                                            {{ translationNav("logout") }}
                                             </span>
                                         </a>
                                     </form>
@@ -151,7 +151,7 @@
                                 data-bs-toggle="dropdown"
                                 id="navbarDropdownMenuLink2"
                             >
-                                {{ __("nav/nav.language") }}
+                                {{ translationNav("language") }}
                             </a>
                             <ul
                                 class="dropdown-menu"

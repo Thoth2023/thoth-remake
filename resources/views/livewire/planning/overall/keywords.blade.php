@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-domains"
-            modalTitle="{{ __('project/planning.overall.keyword.help.title') }}"
-            modalContent="{{ __('project/planning.overall.keyword.help.content') }}"
+            modalTitle="{{ translationPlanning('overall.keyword.help.title') }}"
+            modalContent="{{ translationPlanning('overall.keyword.help.content') }}"
         />
     </div>
     <div class="card-body">
@@ -11,9 +11,9 @@
             <div class="form-group">
                 <x-input
                     id="description"
-                    label="{{ __('project/planning.overall.keyword.description') }}"
+                    label="{{ translationPlanning('overall.keyword.description') }}"
                     wire:model="description"
-                    placeholder="{{ __('project/planning.overall.keyword.enter_description') }}"
+                    placeholder="{{ translationPlanning('overall.keyword.enter_description') }}"
                     required
                 />
                 @error("description")
@@ -26,8 +26,8 @@
                 <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.overall.keyword.update")
-                            : __("project/planning.overall.keyword.add")
+                            ? translationPlanning('overall.keyword.update')
+                            : translationPlanning('overall.keyword.add')
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
@@ -66,11 +66,11 @@
                 </x-search.item>
             @empty
                 <x-helpers.description>
-                    {{ __("project/planning.overall.keyword.list.empty") }}
+                    {{ translationPlanning('overall.keyword.list.empty') }}
                 </x-helpers.description>
             @endforelse
             <x-search.empty target="search-keywords">
-                {{ __("project/planning.overall.no-results") }}
+                {{ translationPlanning('overall.no-results') }}
             </x-search.empty>
         </div>
     </div>

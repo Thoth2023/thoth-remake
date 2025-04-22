@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => __('project/create.create_project') ])
+    @include('layouts.navbars.auth.topnav', ['title' => translationCreate('create_project') ])
     <div class="card shadow-lg mx-4">
         <div class="container-fluid py-4">
             <p class="text-uppercase text-sm">Create Project</p>
@@ -38,15 +38,15 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="copy_planning">{{ __('project/create.copy_planning') }}</label>
+                    <label for="copy_planning">{{ translationCreate('copy_planning') }}</label>
                     <select class="form-control" id="copy_planning" name="copy_planning">
                         @if(count($projects) > 0)
-                            <option value="none">{{ __('project/create.none') }}</option>
+                            <option value="none">{{ translationCreate('none') }}</option>
                             @foreach($projects as $project)
                                 <option value="{{ $project->id_project }}">{{ $project->title }}</option>
                             @endforeach
                         @else
-                            <option value="none">{{ __('project/create.noProjects') }}</option>
+                            <option value="none">{{ translationCreate('noProjects') }}</option>
                         @endif
                     </select>
                 </div>
@@ -63,14 +63,14 @@
                     <label class="form-check-label" for="feature_review2">
                         Systematic review and Snowballing
                     </label>
-                </div> 
+                </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review3"  value= "Snowballing">
                     {{ old('feature_review') == 'Snowballing' ? 'checked' : '' }}</input>
                     <label class="form-check-label" for="feature_review3">
                          Snowballing
                     </label>
-                </div>    
+                </div>
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
                 </div>

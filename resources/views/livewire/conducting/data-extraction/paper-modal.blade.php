@@ -13,14 +13,14 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-4">
-                        <b>{{ __('project/conducting.data-extraction.modal.author' )}}: </b>
+                        <b>{{ translationConducting('data-extraction.modal.author' )}}: </b>
                         <p>{{ $paper['author'] }}</p>
                     </div>
                     <div class="col-2">
-                        <b>{{ __('project/conducting.data-extraction.modal.year' )}}:</b>
+                        <b>{{ translationConducting('data-extraction.modal.year' )}}:</b>
                         <p>{{ $paper['year'] }}</p>
                     </div><div class="col-4">
-                        <b>{{ __('project/conducting.data-extraction.modal.database' )}}:</b>
+                        <b>{{ translationConducting('data-extraction.modal.database' )}}:</b>
                         <p>{{ $paper['database_name'] }}</p>
                     </div>
                     <div class="col-2">
@@ -43,11 +43,11 @@
                     </div>
                     @livewire('conducting.data-extraction.paper-status', ['paper' => $paper['id_paper']],key($paper['id_paper']))
                     <div class="col-12">
-                        <b>{{ __('project/conducting.data-extraction.modal.abstract' )}}: </b>
+                        <b>{{ translationConducting('data-extraction.modal.abstract' )}}: </b>
                         <p>{{ $paper['abstract'] }}</p>
                     </div>
                     <div class="col-12">
-                        <b>{{ __('project/conducting.data-extraction.modal.keywords' )}}: </b>
+                        <b>{{ translationConducting('data-extraction.modal.keywords' )}}: </b>
                         <p>{{ $paper['keywords'] }}</p>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                                 <x-select wire:model="selectedOptions.{{ $question->id_de }}"
                                           wire:change="saveOptionAnswer({{ $question->id_de }}, $event.target.value)">
                                     @if(!isset($selectedOptions[$question->id_de]))  <!-- Verifica se não há opção salva -->
-                                    <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
+                                    <option selected disabled>{{ translationConducting('quality-assessment.modal.select-score') }}</option>
                                     @endif
                                     @foreach ($question->options as $option)
 
@@ -148,22 +148,22 @@
 
                 <hr />
 
-                    <p>{{ __('project/conducting.data-extraction.modal.option.select' )}}</p>
+                    <p>{{ translationConducting('data-extraction.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
                         <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="btnradio" id="btnradio3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio3">{{ __('project/conducting.data-extraction.modal.option.to_do' )}}</label>
+                        <label class="btn btn-outline-primary" for="btnradio3">{{ translationConducting('data-extraction.modal.option.to_do' )}}</label>
 
                         <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="btnradio" id="btnradio1" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.data-extraction.modal.option.done' )}}</label>
+                        <label class="btn btn-outline-primary" for="btnradio1">{{ translationConducting('data-extraction.modal.option.done' )}}</label>
 
                         <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio6" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio6">{{ __('project/conducting.data-extraction.modal.option.removed' )}}</label>
+                        <label class="btn btn-outline-primary" for="btnradio6">{{ translationConducting('data-extraction.modal.option.removed' )}}</label>
                     </div>
                 @endif
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.data-extraction.modal.close' )}}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ translationConducting('data-extraction.modal.close' )}}</button>
             </div>
         </div>
     </div>

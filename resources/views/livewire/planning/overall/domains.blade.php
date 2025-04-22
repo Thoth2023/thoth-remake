@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-domains"
-            modalTitle="{{ __('project/planning.overall.domain.help.title') }}"
-            modalContent="{!! __('project/planning.overall.domain.help.content') !!}"
+            modalTitle="{{ translationPlanning('overall.domain.help.title') }}"
+            modalContent="{!! translationPlanning('overall.domain.help.content') !!}"
         />
     </div>
     <div class="card-body">
@@ -11,9 +11,9 @@
             <div class="form-group">
                 <x-input
                     id="description"
-                    label="{{ __('project/planning.overall.domain.description') }}"
+                    label="{{ translationPlanning('overall.domain.description') }}"
                     wire:model="description"
-                    placeholder="{{ __('project/planning.overall.domain.list.headers.enter_description') }}"
+                    placeholder="{{ translationPlanning('overall.domain.list.headers.enter_description') }}"
                     maxlength="255"
                     required
                 />
@@ -27,8 +27,8 @@
                 <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}">
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.overall.domain.update")
-                            : __("project/planning.overall.domain.add")
+                            ? translationPlanning("overall.domain.update")
+                            : translationPlanning("overall.domain.add")
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
@@ -67,11 +67,11 @@
                 </x-search.item>
                 @empty
                 <x-helpers.description>
-                    {{ __("project/planning.overall.domain.list.empty") }}
+                    {{ translationPlanning("overall.domain.list.empty") }}
                 </x-helpers.description>
             @endforelse
             <x-search.empty target="search-domains">
-                {{ __("project/planning.overall.no-results") }}
+                {{ translationPlanning("overall.no-results") }}
             </x-search.empty>
         </div>
     </div>

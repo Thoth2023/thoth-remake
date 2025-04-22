@@ -1,10 +1,7 @@
-@php
-    $studySelectionPath = 'project/conducting.study-selection';
-@endphp
 
 <div>
     <span>
-        <b>{{ translationStudySelection("{$studySelectionPath}.modal.author" )}}: </b>
+        <b>{{ translationConducting("study-selection.modal.author")}}:</b>
         <p>{{ $author }}</p>
     </span>
 </div>

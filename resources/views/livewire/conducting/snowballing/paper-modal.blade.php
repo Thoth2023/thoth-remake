@@ -15,15 +15,15 @@
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                            <b>{{ __('project/conducting.snowballing.modal.author') }}: </b>
+                            <b>{{ translationConducting('snowballing.modal.author') }}: </b>
                             <p>{{ $paper['author'] }}</p>
                         </div>
                         <div class="col-1">
-                            <b>{{ __('project/conducting.snowballing.modal.year') }}:</b>
+                            <b>{{ translationConducting('snowballing.modal.year') }}:</b>
                             <p>{{ $paper['year'] }}</p>
                         </div>
                         <div class="col-4">
-                            <b>{{ __('project/conducting.snowballing.modal.database') }}:</b>
+                            <b>{{ translationConducting('snowballing.modal.database') }}:</b>
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
                         <div class="col-3">
@@ -55,17 +55,17 @@
                         </div>
 
                         <div class="d-flex gap-1 mb-3">
-                            <b>{{ __('project/conducting.snowballing.modal.status-snowballing') }}: </b>
+                            <b>{{ translationConducting('snowballing.modal.status-snowballing') }}: </b>
                             <b class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                                {{ __("project/conducting.snowballing.status." . strtolower($paper['status_description'])) }}
+                                {{ translationConducting('snowballing.status." . strtolower($paper['status_description'])) }}
                             </b>
                         </div>
                         <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.abstract') }}: </b>
+                            <b>{{ translationConducting('snowballing.modal.abstract') }}: </b>
                             <p>{{ $paper['abstract'] }}</p>
                         </div>
                         <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.keywords') }}: </b>
+                            <b>{{ translationConducting('snowballing.modal.keywords') }}: </b>
                             <p>{{ $paper['keywords'] }}</p>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                 @endif
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        {{ __('project/conducting.snowballing.modal.close') }}
+                        {{ translationConducting('snowballing.modal.close') }}
                     </button>
                 </div>
             </div>

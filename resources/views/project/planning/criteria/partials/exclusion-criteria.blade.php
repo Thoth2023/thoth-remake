@@ -1,18 +1,18 @@
 <div class="card-group col-lg-6">
     <div class="card">
         <div class="card-header">
-<h6>{{ __('project/planning.criteria.exclusion-table.title') }}</h6>
+<h6>{{ translationPlanning('criteria.exclusion-table.title') }}</h6>
         </div>
         <div class="card-body">
 <div class="table-responsive p-0" id="exclusion_criteria">
     <table class="table align-items-center justify-content-center mb-0">
         <thead>
             <tr>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('project/planning.criteria.exclusion-table.select') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ translationPlanning('criteria.exclusion-table.select') }}</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    {{ __('project/planning.criteria.exclusion-table.id') }}</th>
+                    {{ translationPlanning('criteria.exclusion-table.id') }}</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    {{ __('project/planning.criteria.exclusion-table.description') }}</th>
+                    {{ translationPlanning('criteria.exclusion-table.description') }}</th>
                 <th colspan="2"></th>
             </tr>
         </thead>
@@ -51,7 +51,7 @@
                         <button style="padding: 7px;" type="button"
                                 class="btn btn-outline-secondary btn-group-sm btn-sm m-1"  data-bs-toggle="modal"
                             data-bs-target="#modal-form{{ $criterion->id_criteria }}"
-                            data-original-title="{{ __('project/planning.criteria.exclusion-table.edit') }}">{{ __('project/planning.criteria.exclusion-table.edit') }}</button>
+                            data-original-title="{{ translationPlanning('criteria.exclusion-table.edit') }}">{{ translationPlanning('criteria.exclusion-table.edit') }}</button>
                         <!-- Modal Here Edition -->
                         @include('project.planning.criteria.partials.edit-modal')
                         <!-- Modal Ends Here -->
@@ -63,14 +63,14 @@
                             @method('DELETE')
                             <button style="padding: 7px;" type="submit"
                                     class="btn btn-outline-danger btn-group-sm btn-sm m-1"  data-toggle="tooltip"
-                                data-original-title="{{ __('project/planning.criteria.exclusion-table.delete') }}">{{ __('project/planning.criteria.exclusion-table.delete') }}</button>
+                                data-original-title="{{ translationPlanning('criteria.exclusion-table.delete') }}">{{ translationPlanning('criteria.exclusion-table.delete') }}</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
                     <td colspan="5" class="text-center">
-                        {{ __('project/planning.criteria.exclusion-table.no-criteria') }}</td>
+                        {{ translationPlanning('criteria.exclusion-table.no-criteria') }}</td>
                 </tr>
             @endforelse
         </tbody>
@@ -78,11 +78,11 @@
 
     <div class="col-md-2">
         <br>
-        <label class="form-control-label">{{ __('project/planning.criteria.exclusion-table.rule') }}</label>
+        <label class="form-control-label">{{ translationPlanning('criteria.exclusion-table.rule') }}</label>
         <select class="form-control" name="exclusion_rule">
-            <option value="all">{{ __('project/planning.criteria.exclusion-table.all') }}</option>
-            <option value="any">{{ __('project/planning.criteria.exclusion-table.any') }}</option>
-            <option value="at_least">{{ __('project/planning.criteria.exclusion-table.at-least') }}</option>
+            <option value="all">{{ translationPlanning('criteria.exclusion-table.all') }}</option>
+            <option value="any">{{ translationPlanning('criteria.exclusion-table.any') }}</option>
+            <option value="at_least">{{ translationPlanning('criteria.exclusion-table.at-least') }}</option>
         </select>
         <br>
     </div>

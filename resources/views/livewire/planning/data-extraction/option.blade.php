@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="data-extraction"
-            modalTitle="{{ __('project/planning.data-extraction.option-form.title') }}"
-            modalContent="{!! __('project/planning.data-extraction.option-form.help.content') !!}"
+            modalTitle="{{ translationPlanning('data-extraction.option-form.title') }}"
+            modalContent="{!! translationPlanning('data-extraction.option-form.help.content') !!}"
         />
     </div>
     <div class="card-body">
@@ -12,7 +12,7 @@
                 <div class="d-flex flex-column gap-1">
                     <x-select
                         id="questionId"
-                        label="{{ __('project/planning.data-extraction.option-form.question') }}"
+                        label="{{ translationPlanning('data-extraction.option-form.question') }}"
                         wire:model="questionId"
                         required
                     >
@@ -39,7 +39,7 @@
 
                 <x-input
                     id="description"
-                    label="{{ __('project/planning.data-extraction.option-form.option') }}"
+                    label="{{ translationPlanning('data-extraction.option-form.option') }}"
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
@@ -55,8 +55,8 @@
                 <x-helpers.submit-button :isEditing="$form['isEditing']">
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.data-extraction.option-form.edit-option")
-                            : __("project/planning.data-extraction.option-form.add-option")
+                            ? translationPlanning('data-extraction.option-form.edit-option')
+                            : translationPlanning('data-extraction.option-form.add-option')
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
