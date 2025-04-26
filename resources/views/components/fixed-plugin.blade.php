@@ -112,6 +112,46 @@
 </script>
 
 <script>
+    // Script para persistência do tipo de sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebarButtons = document.querySelectorAll('[onclick="sidebarType(this)"]');
+        const savedSidebarType = localStorage.getItem('sidebar-type');
+
+        if (savedSidebarType) {
+            document.querySelector('.sidenav').classList.remove('bg-white', 'bg-default');
+            document.querySelector('.sidenav').classList.add(savedSidebarType);
+
+            // Atualiza o estado dos botões
+            sidebarButtons.forEach(btn => {
+                if (btn.dataset.class === savedSidebarType) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        sidebarButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const sidebar = document.querySelector('.sidenav');
+                const newClass = button.dataset.class;
+
+                // Troca a classe no sidebar
+                sidebar.classList.remove('bg-white', 'bg-default');
+                sidebar.classList.add(newClass);
+
+                // Salva no localStorage
+                localStorage.setItem('sidebar-type', newClass);
+
+                // Atualiza botões
+                sidebarButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<script>
     // Script para persistência da cor da sidebar
     document.addEventListener('DOMContentLoaded', () => {
         const colorBadges = document.querySelectorAll('.switch-trigger .badge');
