@@ -16,6 +16,11 @@
                     <p class="text-lead text-white">
                         {{ __("pages/about.description") }}
                     </p>
+                    <div class="mt-4">
+                        <a href="{{ route('collaborators') }}" class="btn btn-primary">
+                            <i class="fas fa-users me-2"></i>{{ __("pages/collaborators.collaborators") }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
