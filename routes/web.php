@@ -118,6 +118,7 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+Route::get('/project/{idProject}/decline-invitation', [ProjectController::class, 'declineInvitation'])->name('projects.decline_invitation');
 
 
 // Project Routes
