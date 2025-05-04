@@ -17,8 +17,11 @@
                         {{ __("pages/about.description") }}
                     </p>
                     <div class="mt-4">
-                        <a href="{{ route('collaborators') }}" class="btn btn-primary">
+                        <a href="{{ route('collaborators') }}" class="btn btn-primary me-2">
                             <i class="fas fa-users me-2"></i>{{ __("pages/collaborators.collaborators") }}
+                        </a>
+                        <a href="{{ route('donations') }}" class="btn btn-success">
+                            <i class="fas fa-hand-holding-heart me-2"></i>{{ __("pages/donations.donations") }}
                         </a>
                     </div>
                 </div>

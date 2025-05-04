@@ -4,6 +4,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\CollaboratorsController;
+use App\Http\Controllers\DonationsController;
 use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
@@ -84,6 +85,9 @@ Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')-
 
 // Collaborators routes
 Route::get('/colaboradores', [CollaboratorsController::class, 'index'])->name('collaborators')->middleware(Localization::class);
+
+// Donations routes
+Route::get('/doacoes', [DonationsController::class, 'index'])->name('donations')->middleware(Localization::class);
 
 // Help routes
 Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);
