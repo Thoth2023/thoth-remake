@@ -34,6 +34,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SearchProjectController;
 use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
@@ -293,9 +294,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
 
-
-
-
+Route::get('/search', [SearchController::class, 'search'])->name('search')->middleware(Localization::class);
 
 Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
