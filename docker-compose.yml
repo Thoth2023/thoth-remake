@@ -33,9 +33,9 @@ services:
         container_name: db
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE:-thoth}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
+            MYSQL_DATABASE: thoth_teste_2
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
             MYSQL_USER: ${DB_USERNAME:-username}
         volumes:
             - ./.docker/mysql/dbdata:/var/lib/mysql

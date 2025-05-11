@@ -21,7 +21,8 @@ class ChatController extends Controller
     {
         return Mensagem::create([
             'projeto_id' => $projeto_id,
-            'usuario' => $request->usuario,
+            //'usuario' => $request->usuario,
+            'usuario' => auth()->user()->name,
             'mensagem' => $request->mensagem,
         ]);
     }

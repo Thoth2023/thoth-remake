@@ -220,9 +220,9 @@
     @livewireScripts
 
 
-        @auth
+    @auth
     <script>
-        const usuarioLogado = @json(Auth::user()->name);
+        window.usuarioLogado = @json(auth()->user());
     </script>
     @endauth
 
@@ -230,21 +230,31 @@
 
     @auth
     <!-- CHAT flutuante -->
-    <div id="chat-container" style="position:fixed; bottom:0; right:15px; width:300px; z-index:9999;">
-        <div id="chat-header" style="background:#007bff;color:#fff;padding:8px;cursor:pointer;">
-            Chat do Projeto
-            <span id="chat-notif" style="float:right;background:red;padding:2px 5px;border-radius:10px;display:none;">!</span>
+    <div id="chat-container" style="position:fixed; bottom:20px; right:20px; width:320px; z-index:9999; font-family:inherit;">
+        <div id="chat-header" class="bg-gradient-faded-dark text-white p-3 rounded-top shadow cursor-pointer d-flex justify-content-between align-items-center">
+            <span>Chat do Projeto</span>
+            <span id="chat-notif" class="bg-danger text-white px-2 py-1 rounded-circle d-none">!</span>
         </div>
-        <div id="chat-body" style="border:1px solid #ccc;background:#fff;height:250px;overflow:auto;display:none;padding:10px;">
-            <div id="chat-messages" style="height:150px; overflow-y: auto;"></div>
-            <textarea id="chat-input" placeholder="Digite sua mensagem..." style="width:100%;height:50px;"></textarea>
-            <button id="chat-send" style="width:100%;margin-top:5px;">Enviar</button>
+
+        <div id="chat-body" class="bg-white border rounded-bottom shadow" style="display:none;">
+            <div id="chat-messages" class="p-3" style="height:180px; overflow-y: auto; font-size:14px;"></div>
+            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                <textarea id="chat-input" placeholder="Digite sua mensagem..."
+                    class="form-control"
+                    style="flex: 1; height: 50px; resize: none;"></textarea>
+                <button id="chat-send" class="btn btn-primary" style="height: 50px; white-space: nowrap;">
+                    Enviar
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
+
         document.addEventListener("DOMContentLoaded", function() {
             let chatOpen = false;
+            let usuarioLogado = window.usuarioLogado || 'Anônimo';
+
 
             const chatHeader = document.getElementById('chat-header');
             const chatBody = document.getElementById('chat-body');
@@ -254,10 +264,14 @@
             const chatMessages = document.getElementById('chat-messages');
 
             const projetoId = {{ $projeto_id ?? 1 }};
-            const usuarioLogado = {@json(Auth::user()->name)};
-
+            //const usuarioLogado = @json(Auth::user()->name);
+            //console.log("Usuário logado:", usuarioLogado);
 
             chatHeader.addEventListener('click', function() {
+                alert('Clique detectado', "Usuário logado:", usuarioLogado)
+                console.log("Usuário logado:", usuarioLogado)
+                console.log(projetoId)
+
                 chatOpen = !chatOpen;
                 chatBody.style.display = chatOpen ? 'block' : 'none';
                 if (chatOpen) {

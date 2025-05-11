@@ -311,3 +311,6 @@ Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebook
 Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
 Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);
 
+Route::get('/user/authenticated', function () {
+    return auth()->user();
+});
