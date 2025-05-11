@@ -158,5 +158,30 @@
                 });
             });
         </script>
+
+        @if(count($papersPerStatus) == 0)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('papers_per_quality').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_evaluated_studies") }}</p>';
+            });
+        </script>
+        @endif
+
+        @if(count($papersByGeneralScore) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('papers_gen_score').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_evaluated_studies") }}</p>';
+                });
+            </script>
+        @endif
+
+        @if(count($papersByUserAndStatusQuality) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('status_per_members_quality').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_papers_evaluated_by_anyone") }}</p>';
+                });
+            </script>
+        @endif
+
     @endpush
 @endsection

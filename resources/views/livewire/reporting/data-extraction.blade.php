@@ -19,6 +19,17 @@
         </div>
     </div>
 </div>
+@php
+    $radarChartDataArray = json_decode($radarChartData, true);
+    $responsesTimes = $radarChartDataArray['data'];
+    $wasResponse = false;
+    foreach ($responsesTimes as $responseTimes) {
+        if($responseTimes > 0) {
+            $wasResponse = true;
+            break;
+        }
+    }
+@endphp
 
 @section('scripts')
     @parent
@@ -34,7 +45,6 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const wordCloudData = {!! $wordCloudData !!}; // Dados gerados pelo controller
-
                 Highcharts.chart('dataextraction', {
                     accessibility: {
                         screenReaderSection: {
@@ -128,5 +138,29 @@
 
             });
         </script>
+
+        @if(count(json_decode($wordCloudData, true)) == 0)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('dataextraction').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_extracted_data_by_anyone") }}</p>';
+            });
+        </script>
+        @endif
+
+        @if(count(json_decode($packedBubbleData, true)) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('packedbubblechart').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_extracted_data_by_anyone") }}</p>';
+                });
+            </script>
+        @endif
+
+        @if(!$wasResponse)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('radarchart').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_extracted_data_by_anyone") }}</p>';
+                });
+            </script>
+        @endif
     @endpush
 @endsection
