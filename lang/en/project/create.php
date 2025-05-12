@@ -22,7 +22,9 @@ return [
     'option5' => 'Option 5',
     'noProjects' => 'User does not have any created projects yet',
 
-    'systematic-review' => 'Systematic Review',
+    'systematic_review' => 'Systematic review',
+    'systematic_review_and_snowballing' => 'Systematic review and Snowballing',
+    'snowballing' => 'Snowballing',
 
-    'create' => 'Create'
+    'create' => 'Create project'
 ];
