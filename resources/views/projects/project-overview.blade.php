@@ -111,13 +111,20 @@
             </div>
             <div style="max-height:390px; overflow-y: auto;">
                 @if (!empty($activities))
-                    @foreach ($activities as $activity)
-                        <div class="card p-0 mx-3 mt-3 border rounded-3">
+                    @foreach ($activities->take(10) as $activity)
+                        <div class="card p-0 mx-3 mt-3 border rounded-3 text-start">
                             <div class="card-header bg-light rounded-top pt-3 pb-3">
                                 <strong>{{ $activity->user->username }}</strong>
                             </div>
                             <div class="card-body bg-white pt-3 pb-3">{{ $activity->activity }}</div>
-                            <div class="card-footer text-muted pt-2 pb-2"><small>{{ $activity->created_at }}</small>
+                            <div class="card-footer text-muted pt-2 pb-2"><small>
+                                    @php
+                                        $locale = app()->getLocale();
+                                        $date = \Carbon\Carbon::parse($activity->created_at)->locale($locale);
+                                        $format = $locale === 'pt_BR' || $locale === 'pt' ? 'd/m/Y H:i' : 'm/d/Y h:i A';
+                                    @endphp
+                                    {{ $date->translatedFormat($format) }}
+                                </small>
                             </div>
                         </div>
                     @endforeach
