@@ -16,5 +16,9 @@ return [
     'data_extraction' => 'Data Extraction',
 
     'activity_record' => 'Activity Record',
-
+    'view_full_history' => 'View full history',
+    'full_activity_history' => 'Full activity history',
+    'no_activities' => 'No activities recorded.',
+    'export' => 'Export data',
+    'close' => 'Close',
 ];
