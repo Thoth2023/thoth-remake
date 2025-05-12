@@ -19,4 +19,5 @@ return [
     'view_full_history' => 'Ver histórico completo',
     'full_activity_history' => 'Histórico completo de atividades',
     'no_activities' => 'Nenhuma atividade registrada.',
+    'close' => 'Fechar',
 ];

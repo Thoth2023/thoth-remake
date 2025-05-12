@@ -130,7 +130,7 @@
                     @endforeach
 
                     <div class="text-center mt-3">
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#allActivitiesModal">
+                        <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#allActivitiesModal">
                             {{ __('project/overview.view_full_history') }}
                         </button>
                     </div>
@@ -172,7 +172,9 @@
                             @endif
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                {{ __('project/overview.close') }}
+                            </button>
                         </div>
                        </div>
                     </div>
