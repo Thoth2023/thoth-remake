@@ -65,9 +65,10 @@
             <div class="d-flex my-3">
                 <h6 class="mb-0">{{ __('nav/side.navbar_fixed') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
-                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed">
                 </div>
             </div>
+
             <hr class="horizontal dark my-sm-4">
             <div class="mt-2 mb-5 d-flex">
                 <h6 class="mb-0">{{ __('nav/side.light_dark') }}</h6>
@@ -75,7 +76,6 @@
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
                 </div>
             </div>
-
             <div class="w-100 text-center">
                 <a href="https://github.com/Thoth2023/thoth2.0" class="btn btn-dark mb-0 me-2" target="_blank">
                     <i class="fab fa-github me-1" aria-hidden="true"></i> Thoth
@@ -184,6 +184,72 @@
                 colorBadges.forEach(b => b.classList.remove('active'));
                 badge.classList.add('active');
             });
+        });
+    });
+</script>
+
+<script>
+    // Script para persistência da opção "Navbar Fixed"
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbarFixedCheckbox = document.getElementById('navbarFixed');
+        const savedNavbarFixed = localStorage.getItem('navbar-fixed');
+
+        if (savedNavbarFixed === 'true') {
+            navbarFixedCheckbox.checked = true;
+            navbarFixed(navbarFixedCheckbox); // ativa o modo fixo
+        } else {
+            navbarFixedCheckbox.checked = false;
+            navbarFixed(navbarFixedCheckbox); // garante que está desativado
+        }
+
+        navbarFixedCheckbox.addEventListener('change', () => {
+            const isChecked = navbarFixedCheckbox.checked;
+            localStorage.setItem('navbar-fixed', isChecked.toString());
+            navbarFixed(navbarFixedCheckbox); // aplica mudança visual
+        });
+    });
+</script>
+
+<script>
+    //Script para correspondência entre os estilos dos elementos
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkbox = document.getElementById('dark-version');
+        const body = document.body;
+        const sidebar = document.querySelector('.sidenav');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+
+        function applyTheme(theme) {
+            const isDark = theme === 'dark';
+
+            // Modo dark no body
+            body.classList.toggle('dark-version', isDark);
+
+            // Altera o tipo da sidebar
+            sidebar.classList.remove('bg-white', 'bg-default');
+            sidebar.classList.add(isDark ? 'bg-default' : 'bg-white');
+
+            // Atualiza botões de tipo de sidebar
+            document.querySelectorAll('[onclick="sidebarType(this)"]').forEach(btn => {
+                if (btn.dataset.class === (isDark ? 'bg-default' : 'bg-white')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Salva preferências
+            localStorage.setItem('theme', theme);
+            localStorage.setItem('sidebar-type', isDark ? 'bg-default' : 'bg-white');
+        }
+
+        // Aplica tema salvo
+        applyTheme(savedTheme);
+        checkbox.checked = savedTheme === 'dark';
+
+        // Lida com mudança manual
+        checkbox.addEventListener('change', () => {
+            const newTheme = checkbox.checked ? 'dark' : 'light';
+            applyTheme(newTheme);
         });
     });
 </script>
