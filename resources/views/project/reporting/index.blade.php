@@ -51,6 +51,52 @@
             }
         @endphp
 
+        @php
+            $tabs = [
+                [
+                    'id' => 'overview-tab',
+                    'label' => __('project/reporting.header.overview'),
+                    'href' => '#overview'
+                ],
+                [
+                    'id' => 'import-studies-tab',
+                    'label' => __('project/reporting.header.import_studies'),
+                    'href' => '#import-studies',
+                ],
+                [
+                    'id' => 'study-selection-tab',
+                    'label' => __('project/reporting.header.study_selection'),
+                    'href' => '#study-selection',
+                ],
+                [
+                    'id' => 'quality-assessment-tab',
+                    'label' => __('project/reporting.header.quality_assessment'),
+                    'href' => '#quality-assessment',
+                ],
+                [
+                    'id' => 'data-extraction-tab',
+                    'label' => __('project/reporting.header.data_extraction'),
+                    'href' => '#data-extraction',
+                ],
+                [
+                    'id' => 'reliability-tab',
+                    'label' => __('project/reporting.header.reliability'),
+                    'href' => '#reliability',
+                ],
+            ];
+
+            if (
+                $project->feature_review === 'Systematic review and Snowballing' ||
+                $project->feature_review === 'Snowballing'
+            ) {
+                $tabs[] = [
+                    'id' => 'snowballing-tab',
+                    'label' => __('project/reporting.header.snowballing'),
+                    'href' => '#snowballing',
+                ];
+            }
+        @endphp
+
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
