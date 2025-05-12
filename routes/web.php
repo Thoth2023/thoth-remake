@@ -27,6 +27,7 @@ use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
 use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
 use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
+use App\Http\Controllers\Project\ActivityController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
@@ -119,6 +120,7 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
 
+Route::get('/projects/{project}/export-activities', [ActivityController::class, 'export'])->name('projects.exportActivities');
 
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {

@@ -172,12 +172,15 @@
                             @endif
                         </div>
                         <div class="modal-footer">
+                            <a href="{{ route('projects.exportActivities', ['project' => $project->id_project]) }}" class="btn btn-warning btn-sm">
+                                {{ __('project/overview.export') }}
+                            </a>
                             <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
                                 {{ __('project/overview.close') }}
                             </button>
                         </div>
                        </div>
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>
