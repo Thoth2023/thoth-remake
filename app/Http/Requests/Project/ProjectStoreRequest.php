@@ -23,7 +23,7 @@ class ProjectStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|regex:/^[a-zA-Z0-9]+$/',
             'description' => 'required|string',
             'objectives' => 'required|string',
 

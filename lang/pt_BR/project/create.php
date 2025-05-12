@@ -22,5 +22,9 @@ return [
     'option5' => 'Opção 5',
     'noProjects' => 'Usuário ainda não possui projetos criados',
 
-    'create' => 'Criar'
+    'systematic_review' => 'Revisão sistemática',
+    'systematic_review_and_snowballing' => 'Revisão sistemática e Snowballing',
+    'snowballing' => 'Snowballing',
+
+    'create' => 'Criar projeto'
 ];
