@@ -99,7 +99,7 @@
 
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                        {{ translationConducting('data-extraction.status." . strtolower($paper['status_description'])) }}
+                        {{ translationConducting('data-extraction.status.' . strtolower($paper['status_description'])) }}
                     </b>
                     <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
                     @if($paper->peer_review_accepted)
@@ -111,11 +111,11 @@
             </x-search.item>
         @empty
             <x-helpers.description>
-                {{ translationConducting('data-extraction.papers.empty")}}
+                {{ translationConducting('data-extraction.papers.empty')}}
             </x-helpers.description>
         @endforelse
         <x-search.empty target="search-papers">
-            {{ translationConducting('data-extraction.papers.no-results") }}
+            {{ translationConducting('data-extraction.papers.no-results') }}
         </x-search.empty>
     </ul>
     <br/>
@@ -131,7 +131,7 @@
         <select class="form-select me-2" style="width: 25%; margin-bottom: 0rem" wire:model="selectedStatus">
             <option value="">{{ translationConducting('data-extraction.buttons.select-status' )}}</option>
             @foreach($statuses as $id => $description)
-                <option value="{{ $id }}">{{ translationConducting('data-extraction.status." . strtolower($description)) }}</option>
+                <option value="{{ $id }}">{{ translationConducting('data-extraction.status.' . strtolower($description)) }}</option>
             @endforeach
         </select>
         <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">{{ translationConducting('data-extraction.buttons.filter' )}}</button>

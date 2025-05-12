@@ -59,7 +59,7 @@
                             </div>
                             <div class='w-20 ms-auto'>
                                 <b class="{{ 'text-' . strtolower($evaluation['status']) }}">
-                                    {{ translationConducting('study-selection.status." . strtolower($evaluation['status'])) }}
+                                    {{ translationConducting('study-selection.status.' . strtolower($evaluation['status'])) }}
                                 </b>
                             </div>
                             </x-search.item>

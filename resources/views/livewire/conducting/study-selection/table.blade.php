@@ -54,7 +54,7 @@
             </div>
             <div class='pr-5 w-15 ms-auto'>
                 <b wire:click.prevent="sortBy('status')" role="button">
-                    {{ translationConducting("study-selection.table.status") }}
+                    {{ translationConducting('study-selection.table.status') }}
                     @if(isset($sorts['status']))
                         @if($sorts['status'] === 'asc')
                             ↑
@@ -87,7 +87,7 @@
                 </div>
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                        {{ translationConducting('study-selection.status." . strtolower($paper['status_description'])) }}
+                        {{ translationConducting('study-selection.status.' . strtolower($paper['status_description'])) }}
                     </b>
                     @if($isAdministrator)
                         @if($paper->has_conflict && !$paper->is_confirmed)
@@ -107,11 +107,11 @@
             </x-search.item>
         @empty
             <x-helpers.description>
-                {{ translationConducting('study-selection.papers.empty")}}
+                {{ translationConducting('study-selection.papers.empty')}}
             </x-helpers.description>
         @endforelse
         <x-search.empty target="search-papers">
-            {{ translationConducting('study-selection.papers.no-results") }}
+            {{ translationConducting('study-selection.papers.no-results') }}
         </x-search.empty>
     </ul>
     <br/>
@@ -128,7 +128,7 @@
         <select class="form-select me-2" style="width: 25%; margin-bottom: 0rem" wire:model="selectedStatus">
             <option value="">{{ translationConducting("study-selection.buttons.select-status")}}</option>
             @foreach($statuses as $id => $description)
-                <option value="{{ $id }}">{{ translationConducting('study-selection.status." . strtolower($description)) }}</option>
+                <option value="{{ $id }}">{{ translationConducting('study-selection.status.' . strtolower($description)) }}</option>
             @endforeach
         </select>
         <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">{{ translationConducting("study-selection.buttons.filter")}}</button>

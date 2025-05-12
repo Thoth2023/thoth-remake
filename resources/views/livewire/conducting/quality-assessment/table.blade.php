@@ -98,7 +98,7 @@
 
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                        {{ translationConducting('quality-assessment.status." . strtolower($paper['status_description'])) }}
+                        {{ translationConducting('quality-assessment.status.' . strtolower($paper['status_description'])) }}
                     </b>
                     <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
                     @if($paper->peer_review_accepted)
@@ -124,11 +124,11 @@
             </x-search.item>
         @empty
             <x-helpers.description>
-                {{ translationConducting('quality-assessment.papers.empty")}}
+                {{ translationConducting('quality-assessment.papers.empty')}}
             </x-helpers.description>
         @endforelse
         <x-search.empty target="search-papers">
-            {{ translationConducting('quality-assessment.papers.no-results") }}
+            {{ translationConducting('quality-assessment.papers.no-results') }}
         </x-search.empty>
     </ul>
     <br/>
@@ -138,7 +138,7 @@
         <select class="form-select me-2" style="width: 25%; margin-bottom: 0rem" wire:model="selectedStatus">
             <option value="">{{ translationConducting('quality-assessment.buttons.select-status' )}}</option>
             @foreach($statuses as $id => $description)
-                <option value="{{ $id }}">{{ translationConducting('quality-assessment.status." . strtolower($description)) }}</option>
+                <option value="{{ $id }}">{{ translationConducting('quality-assessment.status.' . strtolower($description)) }}</option>
             @endforeach
         </select>
         <button class="btn btn-primary ms-2" style="margin-bottom: 0rem" wire:click="applyFilters">{{ translationConducting('quality-assessment.buttons.filter' )}}</button>

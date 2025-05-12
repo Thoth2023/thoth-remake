@@ -57,7 +57,7 @@
                         <div class="d-flex gap-1 mb-3">
                             <b>{{ translationConducting('snowballing.modal.status-snowballing') }}: </b>
                             <b class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                                {{ translationConducting('snowballing.status." . strtolower($paper['status_description'])) }}
+                                {{ translationConducting('snowballing.status.' . strtolower($paper['status_description'])) }}
                             </b>
                         </div>
                         <div class="col-12">
