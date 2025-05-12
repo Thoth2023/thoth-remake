@@ -39,11 +39,11 @@ use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TranslationController;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
-
 
 //use App\Http\Controllers\Auth\LoginController;
 //use Illuminate\Support\Facades\Route;
@@ -59,9 +59,15 @@ use App\Http\Controllers\ThemeController;
 |
 */
 
-Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
-Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
-Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
+    Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
+    Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
+});
+
+
 
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
@@ -72,6 +78,14 @@ Route::get('/message', function () {
 })->name('message');
 
 Auth::routes();
+
+
+Route::get(
+    '/api/translations/studyselection/{file}/{locale?}',
+    [StudySelectionController::class, 'translationStudySelection']
+);
+
+//Route::get('/api/translations/{file}/{locale?}', [TranslationController::class, 'load']);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(Localization::class);
 
@@ -235,7 +249,6 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
                 ->only(['index'])
                 ->names(['index' => 'project.planning.data-extraction.data-extraction.index']);
         });
-
     });
 
     // start of the reporting routes
@@ -244,7 +257,6 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 
     Route::get('/export/', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-
 });
 
 //SUPER USER ROUTES
@@ -265,7 +277,7 @@ Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.u
 Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
 Route::middleware(['auth', 'role:super-user'])->group(function () {
-Route::resource('permissions', PermissionController::class);
+    Route::resource('permissions', PermissionController::class);
 });
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -274,15 +286,12 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
     Route::get('/login', [LoginController::class, 'show'])->name('login')->middleware(Localization::class);
-    Route::post('/login', [LoginController::class, 'login'])
-        ->name('login.perform')
-        ->middleware(['throttle:3,1', Localization::class]);
+    Route::post('/login', [LoginController::class, 'login'])->name('login.perform')->middleware(Localization::class);
     Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
     Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
     Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
     Route::post('/change-password/{id}', [ChangePassword::class, 'update'])->name('change.perform');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
-
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -310,7 +319,3 @@ Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->
 Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
 Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
 Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);
-
-Route::get('/user/authenticated', function () {
-    return auth()->user();
-});
