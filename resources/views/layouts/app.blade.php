@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -81,31 +80,44 @@
         @endguest
 
         @auth
-            @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
+            @if (in_array(request()->route()->getName(), ["login", "register", "reset-password", "change-password", "message"]))
                 @yield("content")
             @else
-                @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
+                @if (! in_array(request()->route()->getName(), ["profile", "home", "about", "help", "database-manager"]))
                     <div
                         class="bg-gradient-faded-dark opacity-8 position-absolute w-100"
                         style="min-height: 280px"
                     ></div>
-                @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
+                @elseif (in_array(request()->route()->getName(), ["profile-static", "profile"]))
                     <div
                         class="bg-gradient-faded-dark position-absolute w-100 min-height-300 top-0"
                     >
-                        >
                         <span class="mask bg-primary opacity-8"></span>
                     </div>
                 @endif
+
                 @include("layouts.navbars.auth.sidenav")
+
                 <main class="main-content">
                     <div class="container">
                         @yield("content")
+
+                        {{-- para exibir o chat apenas nas paginas do projeto --}}
+                        @if (
+                            request()->routeIs('projects.show') ||
+                            str_starts_with(request()->route()->getName(), 'project.')
+                        )
+                            @isset($project)
+                                @include('components.chat', ['projeto_id' => $project->id_project])
+                            @endisset
+                        @endif
                     </div>
                 </main>
+
                 @include("components.fixed-plugin")
             @endif
         @endauth
+
 
         <!-- PWA service worker -->
         <script>
