@@ -5,6 +5,7 @@
 
 <div class="container mt-8 mb-3">
 
+	<!-- Displays the card header with the authenticated user's name and the name of the user being edited -->
     <div class="card shadow-lg ">
         <div class="card-body">
             <div class="row gx-4">
@@ -24,6 +25,7 @@
         </div>
     </div>
 
+	<!-- // Displays a user registration form with input fields for username, email, and password, including validation error messages -->
     <br>
     <div id="alert">
         @include('components.alert')

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+	<!-- Displays the user management table with options to add, edit, activate or deactivate users -->
     @include('layouts.navbars.auth.topnav', ['title' => __("nav/side.user_manager")])
     <div class="row mt-4 mx-4">
         <div class="col-12">

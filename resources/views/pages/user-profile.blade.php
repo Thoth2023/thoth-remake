@@ -21,11 +21,11 @@
         </div>
     </div>
 
+	<!-- Displays user avatar with initials and basic profile info-->
     <div class="card shadow-lg mt-2">
         <div class="card-body">
             <div class="row gx-4">
                 <div class="col-auto my-auto">
-                    <!-- Campo de avatar com as iniciais -->
                     <div class="avatar avatar-xl rounded-circle bg-primary d-flex align-items-center justify-content-center text-white" style="width: 80px; height: 80px; font-size: 1.5rem;">
                         {{ strtoupper(substr(auth()->user()->firstname, 0, 1)) }}{{ strtoupper(substr(auth()->user()->lastname, 0, 1)) }}
                     </div>
@@ -46,6 +46,7 @@
         </div>
     </div>
 
+	<!-- Displays the user profile edit form with personal, contact, and professional information -->
     <br>
     <div id="alert">
         @include('components.alert')
@@ -188,6 +189,7 @@
     </div>
 </div>
 
+<!-- Handles user data deletion request with confirmation and modal display -->
 @push('js')
     <script id="requestDataDeletionScript">
         if (!window.requestDataDeletionLoaded) {

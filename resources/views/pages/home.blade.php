@@ -12,6 +12,7 @@
     @endif
 </div>
 
+<!-- Displays a page with a header, description, and a dynamic grid of cards with icons and translated text -->
 <div  class="container mt-8 mb-3">
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8" style="width: 100%">
@@ -63,7 +64,8 @@
             </div>
         </div>
     </div>
-
+	
+	<!-- Row displaying four statistics cards: total projects, total users, completed projects, and ongoing projects -->
     <div class="row mt-3">
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
@@ -88,7 +90,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
@@ -143,6 +144,7 @@
 </div>
 @endsection
 
+
 @push("js")
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -152,6 +154,7 @@
         const totalFinishedProjects = {{ $total_finished_projects }};
         const totalOngoingProjects = {{ $total_ongoing_projects }};
 
+		// Function to animate the value from start to end
         function animateValue(id, start, end, duration) {
             const range = end - start;
             let current = start;
@@ -172,6 +175,7 @@
             }, stepTime);
         }
 
+		// Function to check if the element is in the viewport
         function isElementInViewport(el) {
             const rect = el.getBoundingClientRect();
             return (
@@ -182,6 +186,7 @@
             );
         }
 
+		// Function to animate the value when the element is visible
         function animateIfVisible(id, value) {
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -196,6 +201,7 @@
             observer.observe(target);
         }
 
+		// Animate the values when the elements are visible
         animateIfVisible('user-count', totalUsers);
         animateIfVisible('project-count', totalProjects);
         animateIfVisible('total-finished-projects-count', totalFinishedProjects);

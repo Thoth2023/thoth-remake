@@ -67,7 +67,6 @@
         <!--editor de richtexto Quill -->
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          @livewireStyles
@@ -80,6 +79,8 @@
             @yield("content")
         @endguest
 
+
+		<!-- Renders layout and background styles -->
         @auth
             @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
                 @yield("content")
@@ -167,6 +168,7 @@
             }
         </script>
 
+		<!-- Show a bootstrap toast for the message -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const toastContainer = document.querySelector('.toast-container');
