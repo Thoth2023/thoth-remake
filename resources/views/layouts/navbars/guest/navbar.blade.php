@@ -143,31 +143,11 @@
                                 </li>
                             @endauth
                         </ul>
-                        <!-- Language Selector Dropdown -->
-                        <div class="dropdown">
-                            <a
-                                href="#"
-                                class="btn btn-secondary dropdown-toggle mb-0"
-                                data-bs-toggle="dropdown"
-                                id="navbarDropdownMenuLink2"
-                            >
-                                {{ __("nav/nav.language") }}
+                        <li class="nav-item px-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-white p-0">
+                                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" style="color: #344767;"></i>
                             </a>
-                            <ul
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdownMenuLink2"
-                            >
-
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('localization', 'en') }}">English</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('localization', 'pt_BR') }}">Português (Brasil)</a>
-                                    </li>
-
-                            </ul>
-                        </div>
-                        <!-- End Language Selector Dropdown -->
+                        </li>
                     </div>
                 </div>
             </nav>
