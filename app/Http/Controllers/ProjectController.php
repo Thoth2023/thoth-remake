@@ -37,8 +37,16 @@ class ProjectController extends Controller
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
 
+        $conductingProgressController = new ConductingProgressController();
+
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
+
+            $conductingProgress = $conductingProgressController->calculateProgress($project->id);
+
+            // $totalProgess = Planing + Conducting + Quality Assessment + Snowballing + Data Extract
+            $calculateProgress = (0 * 0.2) + ($conductingProgress * 0.2) + (0 * 0.2) + (0 * 0.2) + (0 * 0.2);
+            $project->totalProgress = round($calculateProgress, 2);
         }
 
         return view('projects.index', compact('merged_projects'));
