@@ -106,7 +106,7 @@
         <div class="card">
             <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
                 <h5>{{ __('project/overview.activity_record') }}</h5>
-           </div>
+            </div>
             <div style="max-height:390px; overflow-y: auto;">
                 @if (!empty($activities))
                     @foreach ($activities->take(10) as $activity)
@@ -126,7 +126,60 @@
                             </div>
                         </div>
                     @endforeach
+
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#allActivitiesModal">
+                            {{ __('project/overview.view_full_history') }}
+                        </button>
+                    </div>
                 @endif
+
+                <div class="modal fade" id="allActivitiesModal" tabindex="-1" aria-labelledby="allActivitiesModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="allActivitiesModalLabel">{{ __('project/overview.full_activity_history') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @if (!empty($activities) && $activities->count())
+                                @foreach ($activities as $activity)
+                                    <div class="card p-0 mb-3 border rounded-3 text-start">
+                                        <div class="card-header bg-light rounded-top py-2">
+                                            <strong>{{ $activity->user->username }}</strong>
+                                        </div>
+                                        <div class="card-body bg-white py-2">
+                                            {{ $activity->activity }}
+                                        </div>
+                                        <div class="card-footer text-muted py-2">
+                                            <small>
+                                                @php
+                                                    $locale = app()->getLocale();
+                                                    $date = \Carbon\Carbon::parse($activity->created_at)->locale($locale);
+                                                    $format = $locale === 'pt_BR' || $locale === 'pt' ? 'd/m/Y H:i' : 'm/d/Y h:i A';
+                                                @endphp
+                                                {{ $date->translatedFormat($format) }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="text-center text-muted py-3">
+                                    {{ __('project/overview.no_activities') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ route('projects.exportActivities', ['project' => $project->id_project]) }}" class="btn btn-warning btn-sm">
+                                {{ __('project/overview.export') }}
+                            </a>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                {{ __('project/overview.close') }}
+                            </button>
+                        </div>
+                       </div>
+                    </div>  
+                </div>
             </div>
         </div>
     </div>
