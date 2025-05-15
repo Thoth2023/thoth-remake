@@ -29,6 +29,9 @@ class QuestionQaTable extends Component
     $this->dispatch('qa-table', ToastHelper::dispatch($type, $message));
   }
 
+  /**
+   * Fetches all questions with their quality scores for the current project.
+   */
   #[On('update-qa-table')]
   public function populateQuestions()
   {
@@ -46,7 +49,10 @@ class QuestionQaTable extends Component
   {
     $this->dispatch('edit-question-score', $questionScoreId);
   }
-
+  
+  /**
+   * Updates or creates the minimum score required for a question to be applicable.
+   */
   public function updateMinimalScore($questionId, $minToApp)
   {
     Question::updateOrCreate([
@@ -63,6 +69,9 @@ class QuestionQaTable extends Component
     );
   }
 
+   /**
+     * Deletes a specific quality score for a question.
+     */
   public function deleteQuestionScore($questionScoreId)
   {
     try {
@@ -83,11 +92,17 @@ class QuestionQaTable extends Component
     }
   }
 
+  /**
+   * Dispatches an event to delete a question quality entry.
+   */
   public function deleteQuestionQuality($questionId)
   {
     $this->dispatch('delete-question-quality', $questionId);
   }
 
+  /**
+   * Render the component.
+   */
   public function render()
   {
     return view('livewire.planning.quality-assessment.question-qa-table');

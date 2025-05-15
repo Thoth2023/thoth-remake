@@ -35,13 +35,14 @@ class QuestionCutoff extends Component
         // Atualize para pegar apenas os GeneralScores vinculados ao projeto
         $this->generalScores = GeneralScore::where('id_project', $projectId)->get();
 
-        // Mensagem quando não há pontuações gerais
+        // Handle empty state message
         if ($this->generalScores->isEmpty()) {
             $this->generalScoresMessage = __('project/planning.quality-assessment.min-general-score.form.empty');
         } else {
             $this->generalScoresMessage = null;
         }
 
+        // Load or create cutoff data
         if (Cutoff::where('id_project', $projectId)->exists()) {
             $cutoff = Cutoff::where('id_project', $projectId)->first();
             $this->cutoff = $cutoff->score;
@@ -55,6 +56,9 @@ class QuestionCutoff extends Component
         }
     }
 
+    /**
+     * Updates the total weight sum of all questions.
+     */
     #[On('update-weight-sum')]
     public function updateSum()
     {
@@ -63,6 +67,10 @@ class QuestionCutoff extends Component
         $this->sum = $this->questions->sum('weight');
     }
 
+    /**
+     * Refreshes the total weight sum of questions and re-evaluates the cutoff,
+     * without enforcing max value constraints.
+     */
     #[On('update-cutoff')]
     public function updateSumCutoff()
     {
@@ -80,13 +88,17 @@ class QuestionCutoff extends Component
         }*/
     }
 
+    /**
+     * Updates the selected general score in the cutoff record.
+     * Validates input and logs the update.
+     */
     public function updateCutoff()
     {
         $projectId = $this->currentProject->id_project;
 
         $selectedGeneralScore = is_array($this->selectedGeneralScore) ? $this->selectedGeneralScore['value'] : $this->selectedGeneralScore;
 
-        // Validação
+        // Validate if a general score is selected
         if (is_null($this->selectedGeneralScore) || $this->selectedGeneralScore === 0) {
             $this->toast(
                 message: $this->translate('required'),
@@ -101,13 +113,13 @@ class QuestionCutoff extends Component
             projectId: $projectId
         );
 
-        // Atualize ou crie o cutoff (id mínimo para aprovar em table cutoff)
+        // Update or create cutoff value
         Cutoff::updateOrCreate(
             ['id_project' => $projectId],
             ['id_general_score' => $selectedGeneralScore]
         );
 
-        // Recarregar o valor do select a partir do banco de dados
+        // Reload updated value and notify
         $this->reloadCutoff();
 
         $this->toast(
@@ -119,6 +131,9 @@ class QuestionCutoff extends Component
         $this->dispatch('update-select-minimal-approve');
     }
 
+    /**
+     * Reloads the list of general scores.
+     */
     #[On('general-scores-generated')]
     public function reloadGeneralScores()
     {
@@ -126,6 +141,9 @@ class QuestionCutoff extends Component
         $this->generalScores = GeneralScore::where('id_project', $projectId)->get();
     }
 
+     /**
+     * Reloads the selected general score cutoff value.
+     */
     #[On('update-select-minimal-approve')]
     public function reloadCutoff()
     {
@@ -138,7 +156,9 @@ class QuestionCutoff extends Component
 
     }
 
-
+    /**
+     * Render the component.
+     */
     public function render()
     {
         return view('livewire.planning.quality-assessment.question-cutoff');
