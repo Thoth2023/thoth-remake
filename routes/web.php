@@ -120,6 +120,10 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
 
 
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+     ->name('notifications.read');
+
+
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {
 

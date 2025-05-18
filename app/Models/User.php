@@ -56,6 +56,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
     }
 
+    public function notifications()
+{
+    return $this->hasMany(ProjectNotification::class)->latest();
+}
+
     // Relacionamento com projetos com nível de acesso específico (usando o campo `level`)
     public function projectsWithLevels()
     {

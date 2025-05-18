@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use App\Notifications\ProjectInvitationNotification;
 use Illuminate\Support\Facades\Notification;
 
+use App\Models\ProjectNotification; 
 use PHPUnit\Event\Application\FinishedSubscriber;
 
 
@@ -227,6 +228,7 @@ class ProjectController extends Controller
 			return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
 		}
 
+<<<<<<< Updated upstream
 		return view('projects.add_member', compact('project', 'users_relation'));
 	}
 
@@ -248,11 +250,39 @@ class ProjectController extends Controller
 		$level_member = $request->get('level_member', 1);  // Default to level 1 if not specified
 
 		$user = Auth::user();
+=======
+    /**
+ * Add a member to a project based on the submitted form data.
+ *
+ * @param \App\Http\Requests\ProjectAddMemberRequest $request The validated request object.
+ * @param string $idProject The ID of the project.
+ * @return \Illuminate\Http\RedirectResponse
+ * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+ */
+public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
+{
+    $request->validated();
+    
+    // Carrega o projeto usando o id_project
+    $project = Project::findOrFail($idProject);
+    
+    $email_member = $request->get('email_member');
+    $member_id = $this->findIdByEmail($email_member);
+    $name_member = User::findOrFail($member_id);
+    $user = Auth::user();
+    $level_member = $request->get('level_member', 1);
+
+    // Validações
+    if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
+        return redirect()->back()->with('error', 'The user is already associated with the project.');
+    }
+>>>>>>> Stashed changes
 
 		if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
 			return redirect()->back()->with('error', 'The user is already associated with the project.');
 		}
 
+<<<<<<< Updated upstream
 		if (!$project->userHasLevel($user, '1')) {
 			return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
 		}
@@ -265,6 +295,28 @@ class ProjectController extends Controller
 		]);
 
 		Notification::send($name_member, new ProjectInvitationNotification($project, $token));
+=======
+    $token = Str::random(40);
+    $project->users()->attach($member_id, [
+        'level' => $level_member,
+        'invitation_token' => $token,
+        'status' => 'pending'
+    ]);
+
+    // Criação da notificação usando id_project
+    ProjectNotification::create([
+        'user_id'    => $member_id,
+        'project_id' => $project->id_project, // Usando o nome correto do campo
+        'type'      => 'invitation',
+        'message'   => "Você foi convidado para o projeto: {$project->title}",
+        'read'      => false
+    ]);
+
+    Notification::send($name_member, new ProjectInvitationNotification($project, $token));
+
+    $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
+    ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
+>>>>>>> Stashed changes
 
 		$activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
 		ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
