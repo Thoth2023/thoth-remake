@@ -119,6 +119,8 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
 
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+     ->name('notifications.read');
 
 Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
      ->name('notifications.read');

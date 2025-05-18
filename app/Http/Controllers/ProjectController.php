@@ -224,6 +224,7 @@ class ProjectController extends Controller
 		$users_relation = $project->users()->get();
 		$user = Auth::user();
 
+<<<<<<< Updated upstream
 		if (!$project->userHasLevel($user, '1')) {
 			return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
 		}
@@ -259,6 +260,10 @@ class ProjectController extends Controller
  * @return \Illuminate\Http\RedirectResponse
  * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
  */
+=======
+        return view('projects.add_member', compact('project', 'users_relation'));
+    }
+>>>>>>> Stashed changes
 public function add_member_project(ProjectAddMemberRequest $request, string $idProject)
 {
     $request->validated();
@@ -303,12 +308,20 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
         'status' => 'pending'
     ]);
 
+<<<<<<< Updated upstream
     // Criação da notificação usando id_project
     ProjectNotification::create([
         'user_id'    => $member_id,
         'project_id' => $project->id_project, // Usando o nome correto do campo
         'type'      => 'invitation',
         'message'   => "Você foi convidado para o projeto: {$project->title}",
+=======
+    ProjectNotification::create([
+        'user_id'    => $member_id, // ID do usuário convidado
+        'project_id' => $project->id,
+        'type'      => 'invitation',
+        'message'   => "Você foi adicionado ao projeto: {$project->title}",
+>>>>>>> Stashed changes
         'read'      => false
     ]);
 

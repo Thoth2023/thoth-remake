@@ -48,6 +48,7 @@
                 </li>
                 <!-- Ícone do Sino com Contador -->
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
+<<<<<<< Updated upstream
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-bell cursor-pointer position-relative">
                             @if(auth()->user()->notifications->where('read', false)->count() > 0)
@@ -61,6 +62,24 @@
                     <!-- Dropdown de Notificações -->
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         @forelse(auth()->user()->notifications->where('read', false)->take(5) as $notification)
+=======
+                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell cursor-pointer position-relative">
+                            @auth
+                            @if(auth()->user()->notifications()->where('read', false)->count() > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                    {{ auth()->user()->notifications()->where('read', false)->count() }}
+                                </span>
+                            @endif
+                            @endauth
+                        </i>
+                    </a>
+                    <!-- Dropdown de notificações -->
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4">
+                        @auth
+                        @forelse(auth()->user()->notifications()->where('read', false)->latest()->take(5)->get() as $notification)
+>>>>>>> Stashed changes
                             <li class="mb-2">
                                 <a href="{{ route('projects.show', $notification->project_id) }}" 
                                 class="dropdown-item border-radius-md {{ $notification->read ? '' : 'fw-bold' }}"
@@ -85,7 +104,25 @@
                                 </div>
                             </li>
                         @endforelse
+<<<<<<< Updated upstream
+=======
+                        @endauth
+>>>>>>> Stashed changes
                     </ul>
+
+                    @push('scripts')
+                    <script>
+                        function markAsRead(id) {
+                            fetch(`/notifications/${id}/read`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                }
+                            });
+                        }
+                    </script>
+                    @endpush
                 </li>
 
                 <!-- Script para marcar como lida -->
