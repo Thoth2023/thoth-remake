@@ -43,6 +43,7 @@ use Illuminate\Support\Facades\Route;
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\DashboardController;
 
 
 //use App\Http\Controllers\Auth\LoginController; c
@@ -302,3 +303,6 @@ Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->
 Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
 Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
 Route::get('auth/apple/callback', [RegisterController::class, 'handleAppleCallback']);
+
+// Dashboard de Progresso Visual
+Route::middleware(['auth', Localization::class])->get('/project/{projectId}/dashboard', [DashboardController::class, 'index'])->name('project.dashboard');
