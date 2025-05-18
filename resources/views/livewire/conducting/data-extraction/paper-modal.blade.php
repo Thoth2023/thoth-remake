@@ -58,6 +58,7 @@
                             wire:key="{{ $question->description }}"
                             target="search-papers"
                             class="list-group-item d-flex row w-100"
+                            disabled="{{ !$canEdit }}"
                         >
                             <div class='w-10 pl-2'>
                                 <span data-search><strong>{{ $question->id }}</strong></span>
@@ -72,46 +73,53 @@
                             <div class='w-100 mt-2'>
                                 <div wire:ignore.self>
                                     <div x-data="{ timeoutId: null }"
-                                         x-ref="editor{{ $question->id_de }}"
-                                         x-init="
+                                        x-ref="editor{{ $question->id_de }}"
+                                        x-init="
                                             const quill{{ $question->id_de }} = new Quill($refs.editor{{ $question->id_de }}, {
                                                 theme: 'snow'
                                             });
+                                            // Set editor to read-only mode if user can't edit
+                                            quill{{ $question->id_de }}.enable(@js($canEdit));
+                                            
                                             // Preenche o editor com o texto salvo
                                             quill{{ $question->id_de }}.clipboard.dangerouslyPasteHTML(@js($textAnswers[$question->id] ?? ''));
-                                           // Função de debounce para esperar 3 segundos após parar de digitar
-                                            function debounceSave(questionId, content) {
-                                                if (this.timeoutId) {
-                                                    clearTimeout(this.timeoutId);
+                                            
+                                            // Only setup event handlers if user can edit
+                                            if (@js($canEdit)) {
+                                                // Função de debounce para esperar 3 segundos após parar de digitar
+                                                function debounceSave(questionId, content) {
+                                                    if (this.timeoutId) {
+                                                        clearTimeout(this.timeoutId);
+                                                    }
+                                                    this.timeoutId = setTimeout(() => {
+                                                        $wire.set('textAnswers.' + questionId, content);
+                                                        $wire.saveTextAnswer(questionId, content);
+                                                    }, 3000);
                                                 }
-                                                this.timeoutId = setTimeout(() => {
+                                                // Evento de blur para salvar o texto quando o editor perde foco
+                                                quill{{ $question->id_de }}.root.addEventListener('blur', function () {
+                                                    const questionId = @js($question->id_de);
+                                                    const content = quill{{ $question->id_de }}.root.innerHTML;
                                                     $wire.set('textAnswers.' + questionId, content);
                                                     $wire.saveTextAnswer(questionId, content);
-                                                }, 3000);
+                                                });
+                                                // Evento para aplicar debounce ao alterar o texto
+                                                quill{{ $question->id_de }}.on('text-change', function () {
+                                                    const questionId = @js($question->id_de);
+                                                    const content = quill{{ $question->id_de }}.root.innerHTML;
+                                                    debounceSave(questionId, content);
+                                                });
                                             }
-                                            // Evento de blur para salvar o texto quando o editor perde foco
-                                            quill{{ $question->id_de }}.root.addEventListener('blur', function () {
-                                                const questionId = @js($question->id_de);
-                                                const content = quill{{ $question->id_de }}.root.innerHTML;
-                                                $wire.set('textAnswers.' + questionId, content);
-                                                $wire.saveTextAnswer(questionId, content);
-                                            });
-                                            // Evento para aplicar debounce ao alterar o texto
-                                            quill{{ $question->id_de }}.on('text-change', function () {
-                                                const questionId = @js($question->id_de);
-                                                const content = quill{{ $question->id_de }}.root.innerHTML;
-                                                debounceSave(questionId, content);
-                                            });
-                                         "
-                                         style="height: 100px;">
+                                        "
+                                        style="height: 100px;">
                                     </div>
                                 </div>
-
                             </div><br/>
                         @elseif(optional($question->question_type)->type == 'Pick One List')
                             <div class='w-100 mt-2'>
                                 <x-select wire:model="selectedOptions.{{ $question->id_de }}"
-                                          wire:change="saveOptionAnswer({{ $question->id_de }}, $event.target.value)">
+                                          wire:change="saveOptionAnswer({{ $question->id_de }}, $event.target.value)"
+                                          disabled="{{ !$canEdit }}">
                                     @if(!isset($selectedOptions[$question->id_de]))  <!-- Verifica se não há opção salva -->
                                     <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
                                     @endif
@@ -151,13 +159,13 @@
                     <p>{{ __('project/conducting.data-extraction.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="btnradio" id="btnradio3" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="btnradio" id="btnradio3" autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary" for="btnradio3">{{ __('project/conducting.data-extraction.modal.option.to_do' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="btnradio" id="btnradio1" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="btnradio" id="btnradio1" autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.data-extraction.modal.option.done' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio6" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio6" autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary" for="btnradio6">{{ __('project/conducting.data-extraction.modal.option.removed' )}}</label>
                     </div>
                 @endif

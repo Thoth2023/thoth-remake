@@ -59,10 +59,13 @@ class LanguageController extends Controller
             id_project: $id_project
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($id_project);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Language added to the project');
+            ->with('success', 'Language added to the project')
+            ->with('progress', $progress);
     }
 
     /**
@@ -86,11 +89,14 @@ class LanguageController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Language removed from the project');
-    }
+            ->with('success', 'Language removed from the project')
+            ->with('progress', $progress);
+        }
 
     /**
      * Log activity for the specified language.

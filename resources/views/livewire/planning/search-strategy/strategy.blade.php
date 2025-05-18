@@ -1,3 +1,9 @@
+<?php
+
+use App\Traits\ProjectPermissions;
+
+?>
+
 <div class="card">
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
@@ -38,7 +44,8 @@
                          x-ref="editor"
                          x-init="
                                 const quill = new Quill($refs.editor, {
-                                    theme: 'snow'
+                                    theme: 'snow',
+                                    readOnly: {{ !$this->userCanEdit() ? 'true' : 'false' }}
                                 });
                                 quill.on('text-change', function () {
                                     $wire.set('currentDescription', quill.root.innerHTML);
@@ -59,6 +66,7 @@
                     type="submit"
                     class="btn btn-success mt-3"
                     wire:loading.attr="disabled"
+                    {{ !$this->userCanEdit() ? 'disabled' : '' }}
                 >
                     {{ __("project/planning.search-strategy.save-button") }}
                     <div wire:loading>

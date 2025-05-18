@@ -47,7 +47,6 @@
 
                         @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
 
-
                     </div>
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
@@ -70,6 +69,7 @@
                                         wire:change="changePreSelected({{ $criteria['id_criteria'] }}, '{{ $criteria['type'] }}')"
                                         value="{{ $criteria['id_criteria'] }}"
                                         @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif
+                                        @if(!$canEdit) disabled @endif
                                     >
                                 </td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
@@ -90,6 +90,7 @@
                             wire:model="note"
                             wire:blur="saveNote"
                             placeholder="{{ __('project/conducting.study-selection.modal.paper-conflict-writer' )}}"
+                            @if(!$canEdit) disabled @endif
                             required>
                     </textarea>
                     </div>
@@ -101,13 +102,13 @@
                     <p>{{ __('project/conducting.study-selection.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Duplicate" name="btnradio" id="btnradio4" autocomplete="off">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Duplicate" name="btnradio" id="btnradio4" autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary" for="btnradio4">{{ __('project/conducting.study-selection.modal.option.duplicated' )}}</label>
                     </div>
                     @endif
@@ -116,6 +117,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
+                
             </div>
         </div>
     </div>

@@ -30,6 +30,7 @@ return [
             'edit' => 'Edit',
             'view' => 'Open',
             'add_member' => 'Team',
+            'open_project' => 'Open Project',
         ],
     ],
 ];

@@ -11,16 +11,20 @@ use App\Models\Term;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 use App\Models\ProjectDatabase;
+use App\Traits\ProjectPermissions;
 
 class SearchString extends Component
 {
-    private $toastMessages = 'project/planning.search-string.livewire.toasts';
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $currentSearchString;
     public $strings = [];
     public $genericDescription;
     public $searchStringId;
     public $databases = [];
+    private $toastMessages = 'project/planning.search-string.livewire.toasts';
 
     public $descriptions = [];
 
@@ -91,8 +95,6 @@ class SearchString extends Component
         foreach ($projectDatabases as $index => $database) {
             $this->descriptions[$index] = $database->search_string;
         }
-
-
     }
 
     /**
@@ -115,7 +117,6 @@ class SearchString extends Component
             'id_project',
             $this->currentProject->id_project
         )->get();
-
     }
 
     public function loadProjectDatabases()
@@ -133,7 +134,6 @@ class SearchString extends Component
     {
         if ($this->currentProject->id_project == $projectId) {
             $this->loadProjectDatabases();
-
         }
     }
 
@@ -150,6 +150,11 @@ class SearchString extends Component
      */
     public function edit(string $searchStringId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+        
         $this->currentSearchString = SearchStringModel::findOrFail($searchStringId);
         $this->description = $this->currentSearchString->description;
     }
@@ -159,6 +164,10 @@ class SearchString extends Component
      */
     public function delete(string $searchStringId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
         try {
             $currentSearchString = SearchStringModel::findOrFail($searchStringId);
             $currentSearchString->delete();

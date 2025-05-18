@@ -54,10 +54,13 @@ class ResearchQuestionsController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'research-questions')
-            ->with('success', 'Research question added successfully');
+            ->with('success', 'Research question added successfully')
+            ->with('progress', $progress);
     }
 
     /**
@@ -121,10 +124,13 @@ class ResearchQuestionsController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'research-questions')
-            ->with('success', 'Research question deleted successfully');
+            ->with('success', 'Research question deleted successfully')
+            ->with('progress', $progress);
     }
 
     /**

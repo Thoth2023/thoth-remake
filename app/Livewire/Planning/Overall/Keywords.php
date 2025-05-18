@@ -7,9 +7,13 @@ use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Keyword as KeywordModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Traits\ProjectPermissions;
 
 class Keywords extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.overall.keyword.livewire';
     private $toastMessages = 'project/planning.overall.keyword.livewire.toasts';
 
@@ -97,6 +101,10 @@ class Keywords extends Component
      */
     public function submit()
     {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [
@@ -148,6 +156,10 @@ class Keywords extends Component
      */
     public function edit(string $keywordId)
     {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentKeyword = KeywordModel::findOrFail($keywordId);
         $this->description = $this->currentKeyword->description;
 
@@ -173,6 +185,10 @@ class Keywords extends Component
      */
     public function delete(string $keywordId)
     {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $currentKeyword = KeywordModel::findOrFail($keywordId);
         $currentKeyword->delete();
 

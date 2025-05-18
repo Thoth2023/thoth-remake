@@ -14,13 +14,17 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Traits\ProjectPermissions;
 
 class PaperModal extends Component
 {
 
+    use ProjectPermissions;
+
     public $currentProject;
     public $projectId;
     public $paper = null;
+    public $canEdit = false;
 
     public $selected_status = "None";
 
@@ -39,6 +43,8 @@ class PaperModal extends Component
     #[On('showPaperSnowballing')]
     public function showPaperSnowballing($paper)
     {
+
+        $this->canEdit = $this->userCanEdit();
 
         $this->paper = $paper;
 

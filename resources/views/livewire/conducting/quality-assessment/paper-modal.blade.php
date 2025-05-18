@@ -19,7 +19,8 @@
                         <div class="col-2">
                             <b>{{ __('project/conducting.quality-assessment.modal.year' )}}:</b>
                             <p>{{ $paper['year'] }}</p>
-                        </div><div class="col-4">
+                        </div>
+                        <div class="col-4">
                             <b>{{ __('project/conducting.quality-assessment.modal.database' )}}:</b>
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
@@ -33,10 +34,10 @@
                                 URL
                             </a>
                             <a class="btn py-1 px-3 btn-outline-primary"
-                               data-toggle="tooltip"
-                               data-original-title="Buscar no Google Scholar"
-                               href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
-                               target="_blank">
+                                data-toggle="tooltip"
+                                data-original-title="Buscar no Google Scholar"
+                                href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
+                                target="_blank">
                                 <i class="fa-solid fa-graduation-cap"></i>
                                 Google Scholar
                             </a>
@@ -52,7 +53,7 @@
                         </div>
                     </div>
                     <span class="card-header pb-0">
-                        <h5 >{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
+                        <h5>{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
                         <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
                         @livewire('conducting.quality-assessment.quality-score', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
                     </span>
@@ -66,17 +67,17 @@
                                 </b>
                             </div>
                             <div class='w-50 pl-2 pr-2'>
-                                <b >
+                                <b>
                                     {{ __('project/conducting.quality-assessment.modal.table.description' )}}
                                 </b>
                             </div>
                             <div class='w-20 pl-2 ms-auto'>
-                                <b >
+                                <b>
                                     {!!__('project/conducting.quality-assessment.modal.table.min-to-app' )!!}
                                 </b>
                             </div>
                             <div class='w-20 pl-2 ms-auto'>
-                                <b >
+                                <b>
                                     {{ __('project/conducting.quality-assessment.modal.table.score' )}}
                                 </b>
                             </div>
@@ -85,49 +86,50 @@
                     </ul>
 
                     <ul class='list-group list-group-flush'>
-                    @foreach ($questions as $question)
-                            <x-search.item
-                                wire:key="{{ $question->description }}"
-                                target="search-papers"
-                                class="list-group-item d-flex row w-100"
-                            >
-                    <div class='w-10 pl-2'>
-                        <span data-search>{{ $question->id }}</span>
-                    </div>
-                    <div class='w-50' >
-                        <span data-search>{{ $question->description }}</span>
-                    </div>
-                    <div class='w-20 ms-auto'>
-                             @foreach ($question->qualityScores as $score_min)
-                                 @if ($score_min->id_score == $question->min_to_app)
-                                <span data-search>   {{ $score_min->score_rule }}</span>
-                                 @endif
-                              @endforeach
-                                @if ($question->min_to_app == NULL)
-                                     <span data-search>  N/A </span>
+                        @foreach ($questions as $question)
+                        <x-search.item
+                            wire:key="{{ $question->description }}"
+                            target="search-papers"
+                            class="list-group-item d-flex row w-100">
+                            <div class='w-10 pl-2'>
+                                <span data-search>{{ $question->id }}</span>
+                            </div>
+                            <div class='w-50'>
+                                <span data-search>{{ $question->description }}</span>
+                            </div>
+                            <div class='w-20 ms-auto'>
+                                @foreach ($question->qualityScores as $score_min)
+                                @if ($score_min->id_score == $question->min_to_app)
+                                <span data-search> {{ $score_min->score_rule }}</span>
                                 @endif
-                    </div>
-                    <div class='w-20 ms-auto'>
-                        <span data-search>
-                                <x-select wire:model="selected_questions_score.{{ $question->id_qa }}" wire:change="updateScore({{ $question->id_qa }}, $event.target.value)">
-                                     @if(!isset($selected_questions_score[$question->id_qa]))
+                                @endforeach
+                                @if ($question->min_to_app == NULL)
+                                <span data-search> N/A </span>
+                                @endif
+                            </div>
+                            <div class='w-20 ms-auto'>
+                                <span data-search>
+                                    <x-select
+                                        disabled="{{ !$canEdit }}"
+                                        wire:model="selected_questions_score.{{ $question->id_qa }}"
+                                        wire:change="updateScore({{ $question->id_qa }}, $event.target.value)">
+                                        @if(!isset($selected_questions_score[$question->id_qa]))
                                         <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
-                                    @endif
+                                        @endif
 
-                                    @foreach ($question->qualityScores as $score)
+                                        @foreach ($question->qualityScores as $score)
                                         <option value="{{ $score->id_score }}"
-                                                @if(isset($selected_questions_score[$question->id_qa]) && $selected_questions_score[$question->id_qa] == $score->id_score)
-                                                    selected
-                                                @endif>
+                                            @if(isset($selected_questions_score[$question->id_qa]) && $selected_questions_score[$question->id_qa] == $score->id_score)
+                                            selected
+                                            @endif>
                                             {{ $score->score_rule }}
                                         </option>
-                                    @endforeach
-
-                                </x-select>
-                        </span>
-                    </div>
-                            </x-search.item>
-                    @endforeach
+                                        @endforeach
+                                    </x-select>
+                                </span>
+                            </div>
+                        </x-search.item>
+                        @endforeach
                     </ul>
 
                     <hr />
@@ -141,6 +143,7 @@
                             wire:model="note"
                             wire:blur="saveNote"
                             placeholder="{{ __('project/conducting.quality-assessment.resolve.paper-conflict-writer') }}"
+                            @if(!$canEdit) disabled @endif
                             required>
                         </textarea>
                     </div>
@@ -149,17 +152,17 @@
                     <!-- Verificação do status -->
 
                     @if($selected_status !== 'Accepted' && $selected_status !== 'Rejected')
-                        <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
-                        <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
+                    <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
+                    <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
 
-                        <div class="btn-group mt-2" role="group">
-                            <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
+                    <div class="btn-group mt-2" role="group">
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off" @if(!$canEdit) disabled @endif>
+                        <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
 
-                            <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off" @if(!$canEdit) disabled @endif>
+                        <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
 
-                        </div>
+                    </div>
                     @endif
 
                     @endif
@@ -189,7 +192,7 @@
 </div>
 @script
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         // Mostrar o modal do paper
         Livewire.on('show-paper-quality', () => {
             $('#paperModalQuality').modal('show');
@@ -202,7 +205,7 @@
         });
 
         // Reabrir o modal do paper após o modal de sucesso ser fechado
-        $('#successModalQuality').on('hidden.bs.modal', function () {
+        $('#successModalQuality').on('hidden.bs.modal', function() {
             $('#paperModalQuality').modal('show');
         });
     });
@@ -213,4 +216,3 @@
     });
 </script>
 @endscript
-

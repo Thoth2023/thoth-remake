@@ -7,13 +7,18 @@ use App\Models\Project as ProjectModel;
 use App\Models\ResearchQuestion as ResearchQuestionModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 
 class ResearchQuestions extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $currentQuestion;
     public $questions = [];
+    private $toastMessages = 'project/planning.research-questions.livewire.toasts';
 
     /**
      * Fields to be filled by the form.
@@ -102,6 +107,11 @@ class ResearchQuestions extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [
@@ -112,7 +122,30 @@ class ResearchQuestions extends Component
             $value = $this->form['isEditing'] ? 'Updated the research question' : 'Added a research question';
             $toastMessage = $this->message($this->form['isEditing'] ? '.updated' : '.added');
 
+            // CREATE verifications
             if (!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('id', $this->questionId)) {
+                $this->toast(
+                    message: 'This ID is already in use. Please choose a unique ID for the question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+            if(!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('description', $this->description)) {
+                $this->toast(
+                    message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+
+            // UPDATE verifications
+            if (
+                $this->form['isEditing']
+                && $this->currentQuestion->id != $this->questionId
+                && $this->currentProject->researchQuestions->contains('id', $this->questionId)
+            ) {
                 $this->toast(
                     message: 'This ID is already in use. Please choose a unique ID for the question.',
                     type: 'error'
@@ -122,11 +155,11 @@ class ResearchQuestions extends Component
 
             if (
                 $this->form['isEditing']
-                && $this->currentQuestion->id != $this->questionId
-                && $this->currentProject->researchQuestions->contains('id', $this->questionId)
+                && $this->currentQuestion->description != $this->description
+                && $this->currentProject->researchQuestions->contains('description', $this->description)
             ) {
                 $this->toast(
-                    message: 'This ID is already in use. Please choose a unique ID for the question.',
+                    message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
                     type: 'error'
                 );
                 return;
@@ -164,6 +197,11 @@ class ResearchQuestions extends Component
      */
     public function edit(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentQuestion = ResearchQuestionModel::findOrFail($questionId);
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
@@ -175,6 +213,11 @@ class ResearchQuestions extends Component
      */
     public function delete(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
             $currentQuestion->delete();

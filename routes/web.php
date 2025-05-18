@@ -119,6 +119,12 @@ Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectCont
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
 
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+     ->name('notifications.read');
+
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+     ->name('notifications.read');
+
 
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {
@@ -243,6 +249,7 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 });
 
 //SUPER USER ROUTES
+Route::middleware(['auth', 'role:is_super_user'])->group(function () {
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
@@ -259,7 +266,9 @@ Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('level
 Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
-Route::middleware(['auth', 'role:super-user'])->group(function () {
+
+
+
 Route::resource('permissions', PermissionController::class);
 });
 

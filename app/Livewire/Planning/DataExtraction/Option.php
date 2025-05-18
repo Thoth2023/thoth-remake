@@ -9,9 +9,13 @@ use App\Models\Project\Planning\DataExtraction\Option as OptionModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\ProjectPermissions;
 
 class Option extends Component
 {
+
+    use ProjectPermissions;
+    public $toastMessages = 'project/planning.data-extraction.toasts';
     public $currentProject;
     public $currentOption;
     public $options = [];
@@ -67,6 +71,14 @@ class Option extends Component
     }
 
     /**
+     * Dispatch a toast message to the view.
+     */
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('options', ToastHelper::dispatch($type, $message));
+    }
+
+    /**
      * Reset the fields to the default values.
      */
     private function resetFields()
@@ -84,18 +96,15 @@ class Option extends Component
     #[On('update-question-select')]
     public function updateOptions()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->options = OptionModel::whereHas('question', function ($query) {
             $query->where('id_project', $this->currentProject->id_project);
         })->get();
         $this->dispatch('update-table');
-    }
-
-    /**
-     * Dispatch a toast message to the view.
-     */
-    public function toast(string $message, string $type)
-    {
-        $this->dispatch('options', ToastHelper::dispatch($type, $message));
     }
 
     /**
@@ -104,6 +113,11 @@ class Option extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [
@@ -147,12 +161,16 @@ class Option extends Component
     #[On('data-extraction-table-edit-option')]
     public function edit(string $optionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentOption = OptionModel::findOrFail($optionId);
         $this->optionId = $this->currentOption->id;
         $this->description = $this->currentOption->description;
         $this->questionId['value'] = $this->currentOption->id_de;
         $this->form['isEditing'] = true;
-
     }
 
     /**
@@ -161,6 +179,11 @@ class Option extends Component
     #[On('data-extraction-table-delete-option')]
     public function delete(string $optionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentOption = OptionModel::findOrFail($optionId);
             $currentOption->delete();
@@ -201,5 +224,3 @@ class Option extends Component
         )->extends('layouts.app');
     }
 }
-
-

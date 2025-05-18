@@ -6,9 +6,13 @@ use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Traits\ProjectPermissions;
 
 class Dates extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.overall.dates.livewire';
     private $toastMessages = 'project/planning.overall.dates.livewire.toasts';
 
@@ -68,6 +72,11 @@ class Dates extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $dates = ProjectModel::first(['start_date', 'end_date'])

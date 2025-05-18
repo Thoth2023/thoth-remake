@@ -8,9 +8,13 @@ use App\Models\Project as ProjectModel;
 use App\Models\Domain as DomainModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Domains extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.overall.domain.livewire';
     private $toastMessages = 'project/planning.overall.domain.livewire.toasts';
 
@@ -98,6 +102,11 @@ class Domains extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [
@@ -151,6 +160,11 @@ class Domains extends Component
      */
     public function edit(string $domainId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentDomain = DomainModel::findOrFail($domainId);
         $this->description = $this->currentDomain->description;
 
@@ -177,6 +191,11 @@ class Domains extends Component
      */
     public function delete(string $domainId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentDomain = DomainModel::findOrFail($domainId);
             $currentDomain->delete();

@@ -81,6 +81,7 @@
                 <div class='w-20 ms-auto'>
                     <span data-search>{{ $paper['database_name'] }}</span>
                 </div>
+
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.study-selection.status." . strtolower($paper['status_description'])) }}

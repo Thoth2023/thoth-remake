@@ -12,9 +12,13 @@ use App\Models\StatusExtraction;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Traits\ProjectPermissions;
 
 class PaperModal extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $projectId;
     public $paper;
@@ -23,6 +27,7 @@ class PaperModal extends Component
     public $evaluation;
     public $textAnswers = [];
     public $selectedOptions = [];
+    public $canEdit = false;
 
     public function mount()
     {
@@ -70,6 +75,10 @@ class PaperModal extends Component
     #[On('showPaperExtraction')]
     public function showPaperExtraction($paper)
     {
+
+        // Verifica se o usuário tem permissão para visualizar o paper
+        $this->canEdit = $this->userCanEdit();
+
         $this->paper = $paper;
 
         $databaseName = DB::table('data_base')

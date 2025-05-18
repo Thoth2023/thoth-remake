@@ -8,9 +8,13 @@ use App\Models\StudyType as StudyTypeModel;
 use App\Models\Project as ProjectModel;
 use App\Models\ProjectStudyType as ProjectStudyTypeModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Traits\ProjectPermissions;
 
 class Studies extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.overall.study_type.livewire';
     private $toastMessages = 'project/planning.overall.study_type.livewire.toasts';
 
@@ -66,6 +70,11 @@ class Studies extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         try {
@@ -105,6 +114,11 @@ class Studies extends Component
      */
     public function delete(string $studyTypeId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+        
         $studyType = ProjectStudyTypeModel::where('id_project', $this->currentProject->id_project)
             ->where('id_study_type', $studyTypeId)
             ->first();

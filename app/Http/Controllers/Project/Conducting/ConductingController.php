@@ -52,10 +52,9 @@ class ConductingController extends Controller
 
         //Verificar Campos necessários cadastrados no Planning
         CheckProjectDataPlanning::checkProjectData($id_project);
-
+        
         // Consulta databases do projeto
         $databases = $project->databases()->get();
-
         return view('project.conducting.index', [
             'project' => $project,
             'studies' => $studies,

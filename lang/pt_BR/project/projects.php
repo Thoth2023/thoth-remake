@@ -29,6 +29,7 @@ return [
             'edit' => 'Editar',
             'view' => 'Abrir',
             'add_member' => 'Colaboradores',
+            'open_project' => 'Abrir Projeto',
         ],
     ],
 ];
