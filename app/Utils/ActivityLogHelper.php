@@ -11,8 +11,17 @@ class ActivityLogHelper
 {
     public static function insertActivityLog($activity, $id_module, $id_project, $id_user = null)
     {
+        if (is_array($activity)) {
+            $activityKey = $activity['key'];
+            $activityParams = json_encode($activity['params']);
+        } else {
+            $activityKey = $activity;
+            $activityParams = null;
+        }
+
         Activity::create([
-            'activity' => $activity,
+            'activity' => $activityKey,
+            'activity_params' => $activityParams,
             'id_module' => $id_module,
             'id_project' => $id_project,
             'id_user' => $id_user ?? Auth::user()->id,
@@ -39,6 +48,8 @@ class ActivityLogHelper
             ->orderBy('created_at', 'DESC')
             ->get();
 
+        $locale = app()->getLocale();
+
         $headers = [
             "Content-type" => "text/csv",
             "Content-Disposition" => "attachment; filename=activities.csv",
@@ -47,21 +58,34 @@ class ActivityLogHelper
             "Expires" => "0"
         ];
 
-        $columns = ['User', 'Activity', 'Date'];
+        $columns = [
+        __('project/overview.user'),
+        __('project/overview.activity'),
+        __('project/overview.date'),
+        ];
 
-        $callback = function() use ($activities, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
+        $callback = function() use ($activities, $columns, $locale) {
+        $file = fopen('php://output', 'w');
+        fputcsv($file, $columns);
 
-            foreach ($activities as $activity) {
-                fputcsv($file, [
-                    $activity->user->username ?? '',
-                    $activity->activity,
-                    $activity->created_at->format('d/m/Y H:i:s'),
-                ]);
-            }
-            fclose($file);
-        };
+        foreach ($activities as $activity) {
+            $date = \Carbon\Carbon::parse($activity->created_at)->locale($locale);
+            $format = ($locale === 'pt_BR' || $locale === 'pt') ? 'd/m/Y H:i:s' : 'm/d/Y h:i:s A';
+
+            $params = $activity->activity_params ? json_decode($activity->activity_params, true) : [];
+            $translatedActivity = __(
+                'project/overview.'.$activity->activity,
+                $params
+            );
+
+            fputcsv($file, [
+                $activity->user->username ?? '',
+                $translatedActivity,
+                $date->translatedFormat($format),
+            ]);
+        }
+        fclose($file);
+    };
 
         return response()->stream($callback, 200, $headers);
     }

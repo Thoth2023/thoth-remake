@@ -21,4 +21,12 @@ return [
     'no_activities' => 'Nenhuma atividade registrada.',
     'export' => 'Exportar dados',
     'close' => 'Fechar',
+
+    // Activity Log messages
+    'project_created' => 'Criou o projeto :title',
+    'project_edited' => 'Editou o projeto :title',
+    'admin_removed_member' => 'O administrador removeu o membro :member do projeto :project.',
+    'sent_invitation' => 'Enviou convite para :member participar do projeto :project.',
+    'admin_updated_member_level' => 'O administrador atualizou o nível de :member para :level.',
+    'accepted_invitation' => 'Aceitou o convite para participar do projeto.',
 ];

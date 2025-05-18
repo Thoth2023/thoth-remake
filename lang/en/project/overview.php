@@ -21,4 +21,12 @@ return [
     'no_activities' => 'No activities recorded.',
     'export' => 'Export data',
     'close' => 'Close',
+
+    // Activity Log messages
+    'project_created' => 'Created the project :title',
+    'project_edited' => 'Edited project :title',
+    'admin_removed_member' => 'The admin removed the member :member from :project.',
+    'sent_invitation' => 'Sent invitation to :member to join the project :project.',
+    'admin_updated_member_level' => 'The admin updated :member level to :level.',
+    'accepted_invitation' => 'Accepted invitation to join the project.',
 ];
