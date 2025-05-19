@@ -49,7 +49,7 @@
 }
 
 #chat-body.open {
-    max-height: 1000px; /* Grande o suficiente para conter tudo */
+    max-height: 1000px;
 }
 
 #chat-messages {
@@ -103,6 +103,35 @@
     font-weight: bold;
     font-size: 13px;
 }
+
+.chat-message {
+    background: #e9ecef;
+    padding: 8px;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.chat-text {
+    flex: 1;
+    word-break: break-word;
+}
+
+.chat-time {
+    font-size: 11px;
+    color: #888;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
 
 #chat-send:hover {
     background-color: #0056b3;
