@@ -9,30 +9,61 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    public function __construct()
+    public function users($projetoId)
     {
-        $this->middleware('auth');
+        // Lista todos os usuários do projeto, exceto o próprio
+        return Projeto::findOrFail($projetoId)
+            ->users()
+            ->where('id', '!=', auth()->id())
+            ->select('id', 'name')
+            ->get();
     }
 
-    public function index($projeto_id)
+    public function messages(Request $request, $projetoId)
     {
-        return view('chat', compact('projeto_id'));
+        $destinatarioId = $request->query('user_id');
+
+     return Mensagem::where('projeto_id', $projetoId)
+        ->orderBy('created_at')
+        ->get()
+        ->map(function ($msg) {
+            return [
+                'usuario' => $msg->usuario ?? 'Usuário',
+                'mensagem' => $msg->mensagem,
+                'tipo' => $msg->tipo ?? 'texto',
+                'created_at' => $msg->created_at->format('H:i'),
+            ];
+        });
     }
 
-    public function fetchMessages($projeto_id)
+    public function store(Request $request, $projetoId)
     {
-        return Mensagem::where('projeto_id', $projeto_id)->get();
-    }
-
-    public function sendMessage(Request $request, $projeto_id)
-    {
-        //$usuario = "Usuário Teste"; // Nome do usuário fixo
-        $usuario = Auth::user()->username ?? 'Desconhecido';
-
-        return Mensagem::create([
-            'projeto_id' => $projeto_id,
-            'usuario' => $usuario,
+        Mensagem::create([
+            'projeto_id' => $projetoId,
+            'usuario' => Auth::user()->name,
             'mensagem' => $request->mensagem,
+            'tipo' => 'texto',
         ]);
+
+        return response()->json(['status' => 'ok']);
     }
+
+    public function upload(Request $request, $projetoId)
+    {
+        $request->validate([
+            'arquivo' => 'required|file|max:5120', // até 5MB
+        ]);
+
+        $path = $request->file('arquivo')->store('chat', 'public');
+
+        Mensagem::create([
+            'projeto_id' => $projetoId,
+            'usuario' => Auth::user()->name,
+            'mensagem' => $request->mensagem,
+            'tipo' => 'texto',
+        ]);
+
+        return response()->json(['status' => 'ok']);
+    }
+
 }

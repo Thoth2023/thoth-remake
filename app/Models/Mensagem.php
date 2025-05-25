@@ -10,8 +10,15 @@ class Mensagem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['projeto_id', 'usuario', 'mensagem'];
+    protected $fillable = ['projeto_id', 'remetente_id', 'mensagem', 'tipo'];
+
+
 
 
     protected $table = 'mensagens';
+
+    public function remetente()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'remetente_id');
+    }
 }

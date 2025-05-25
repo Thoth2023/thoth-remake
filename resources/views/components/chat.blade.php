@@ -21,7 +21,18 @@ b
             <div style="display: flex; gap: 5px; margin-top: 5px;">
                 <textarea id="mensagem" placeholder="Digite sua mensagem..."
                     class="form-control"
-                    style="flex: 1; height: 50px; resize: none;"></textarea>
+                    style="flex: 1; height: 50px; resize: none;">
+                </textarea>
+
+
+                <input type="file" id="arquivo" style="display: none;" />
+                    <button type="button"
+                            onclick="document.getElementById('arquivo').click()"
+                            class="btn"
+                            style="height: 50px; width: 50px; background-color: #444; border: none; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-paperclip" style="color: white;"></i>
+                    </button>
+
                 <button onclick="enviar()" class="btn btn-primary" style="height: 50px;">Enviar</button>
             </div>
         </div>
@@ -69,7 +80,12 @@ const projetoId = "{{ $projeto_id }}";
         const data = await res.json();
         chatBox.innerHTML = '';
         data.forEach(msg => {
-            chatBox.innerHTML += `<div><strong>${msg.usuario}</strong>: ${msg.mensagem} <small>(${msg.created_at})</small></div>`;
+            //chatBox.innerHTML += `<div><strong>${msg.usuario}</strong>: ${msg.mensagem} <small>(${msg.created_at})</small></div>`;
+            if (msg.tipo === 'arquivo') {
+                chatBox.innerHTML += `<div><strong>${msg.usuario}</strong>: <a href="/storage/${msg.mensagem}" target="_blank">📎 Arquivo</a> <small>(${msg.created_at})</small></div>`;
+            } else {
+                chatBox.innerHTML += `<div><strong>${msg.usuario}</strong>: ${msg.mensagem} <small>(${msg.created_at})</small></div>`;
+            }
         });
         chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -161,6 +177,27 @@ const projetoId = "{{ $projeto_id }}";
         const alturaDisponivel = container.offsetHeight - header.offsetHeight - inputArea.offsetHeight;
         chatBox.style.height = `${alturaDisponivel}px`;
     }
+
+    //Envio de arquivo
+    document.getElementById('arquivo').addEventListener('change', async function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('arquivo', file);
+
+        await fetch(`/chat/${projetoId}/upload`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: formData
+        });
+
+        document.getElementById('arquivo').value = '';
+        carregarMensagens();
+    });
 
 
 </script>

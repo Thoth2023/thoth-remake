@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('terms_and_lgpd')->default(false);
+        Schema::table('chat_messages', function (Blueprint $table) {
+            $table->string('tipo')->default('texto');
         });
     }
 
