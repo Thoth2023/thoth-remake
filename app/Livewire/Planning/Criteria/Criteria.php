@@ -79,22 +79,46 @@ class Criteria extends Component
      */
     public function mount()
     {
-        $projectId = request()->segment(2);
-        $this->currentProject = ProjectModel::findOrFail($projectId);
-        $this->currentCriteria = null;
-        $this->criterias = CriteriaModel::where(
-            'id_project',
-            $this->currentProject->id_project
-        )->get();
-        $this->inclusion_rule['value'] = CriteriaModel::where(
-            'id_project',
-            $this->currentProject->id_project
-        )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
-        $this->exclusion_rule['value'] = CriteriaModel::where(
-            'id_project',
-            $this->currentProject->id_project
-        )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
-        $this->type['value'] = null;
+        try {
+            $projectId = request()->segment(2);
+
+            // Verifica se o projeto existe
+            $this->currentProject = ProjectModel::findOrFail($projectId);
+
+            // Inicializa os critérios
+            $this->criterias = CriteriaModel::where(
+                'id_project',
+                $this->currentProject->id_project
+            )->get();
+
+            // Define as regras de inclusão e exclusão com fallback
+            $this->inclusion_rule['value'] = CriteriaModel::where(
+                'id_project',
+                $this->currentProject->id_project
+            )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
+
+            $this->exclusion_rule['value'] = CriteriaModel::where(
+                'id_project',
+                $this->currentProject->id_project
+            )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
+
+            // Define o tipo padrão
+            $this->type['value'] = 'NONE';
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Caso o projeto não seja encontrado
+            $this->toast(
+                message: __('O projeto não foi encontrado.'),
+                type: 'error'
+            );
+            return redirect()->route('projects.index'); // Redireciona para a lista de projetos
+        } catch (\Exception $e) {
+            // Captura outros erros inesperados
+            $this->toast(
+                message: __('Ocorreu um erro ao carregar os dados: ') . $e->getMessage(),
+                type: 'error'
+            );
+        }
+
     }
 
     /**
