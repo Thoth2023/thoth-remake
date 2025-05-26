@@ -2221,7 +2221,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     // if we are on windows OS we activate the perfectScrollbar function
     if (document.getElementsByClassName('main-content')[0]) {
       var mainpanel = document.querySelector('.main-content');
-      var ps = new PerfectScrollbar(mainpanel);
+      // var ps = new PerfectScrollbar(mainpanel);
     }
 
     ;
