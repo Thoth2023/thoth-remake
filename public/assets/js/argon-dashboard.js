@@ -2221,7 +2221,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     // if we are on windows OS we activate the perfectScrollbar function
     if (document.getElementsByClassName('main-content')[0]) {
       var mainpanel = document.querySelector('.main-content');
-      var ps = new PerfectScrollbar(mainpanel);
+      // var ps = new PerfectScrollbar(mainpanel);
     }
 
     ;
@@ -2378,7 +2378,6 @@ window.sidebarColor = function (a) {
   }
 }; // Set Sidebar Type
 
-
 window.sidebarType = function (a) {
   var parent = a.parentElement.children;
   var color = a.getAttribute("data-class");
@@ -2408,7 +2407,6 @@ window.sidebarType = function (a) {
 
   if (color === 'bg-white') {
     var elements = document.querySelectorAll('.sidenav .text-white, .sidenav .text-dark, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
-
     for (var i = 0; i < elements.length; i++) {
       elements[i].classList.remove('text-white');
       elements[i].classList.remove('text-dark');
@@ -2462,9 +2460,9 @@ window.sidebarType = function (a) {
       navbarBrand.src = navbarBrandImgNew;
     }
   }
-}; // Set Navbar Fixed
+}; 
 
-
+// Set Navbar Fixed
 window.navbarFixed = function (el) {
   var classes = ['position-sticky', 'bg-white', 'left-auto', 'top-2', 'z-index-sticky'];
   var navbar = document.getElementById('navbarBlur');
@@ -2891,12 +2889,12 @@ window.darkMode = function (el) {
       }
     }
 
-    for (var i = 0; i < text_nav_link.length; i++) {
+   /* for (var i = 0; i < text_nav_link.length; i++) {
       if (text_nav_link[i].classList.contains('text-dark')) {
         text_nav_link[i].classList.remove('text-dark');
         text_nav_link[i].classList.add('text-white');
       }
-    }
+    }*/
 
     for (var i = 0; i < secondary.length; i++) {
       if (secondary[i].classList.contains('text-secondary')) {
@@ -2922,6 +2920,7 @@ window.darkMode = function (el) {
       sidebarWhite[i].classList.remove('bg-white');
     }*/
 
+
     for (var i = 0; i < svg.length; i++) {
       if (svg[i].hasAttribute('fill')) {
         svg[i].setAttribute('fill', '#fff');
@@ -2931,12 +2930,27 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border.length; i++) {
       card_border[i].classList.add('border-dark');
     }
+    var sidebarElements = document.querySelectorAll(
+      '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+    );
+
+    for (var i = 0; i < sidebarElements.length; i++) {
+      const el = sidebarElements[i];
+      el.classList.remove('text-white', 'text-dark', 'text-blue-600');
+      el.style.removeProperty('color');
+    
+      if (sidebar.classList.contains('bg-white')) {
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      } else {
+        el.classList.add('text-white');
+      }
+    }
 
     el.setAttribute("checked", "true");
   } else {
     body.classList.remove('dark-version');
     //sidebar.classList.add('bg-white');
-
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;

@@ -8,11 +8,16 @@ use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use App\Traits\ProjectPermissions;
 
 class QuestionQaTable extends Component
 {
+
+  use ProjectPermissions;
+
   public $currentProject;
   public $questions = [];
+  private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
   public function mount()
   {
@@ -42,11 +47,21 @@ class QuestionQaTable extends Component
 
   public function editQuestionQuality($questionId)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->dispatch('edit-question-quality', $questionId);
   }
 
   public function editQuestionScore($questionScoreId)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->dispatch('edit-question-score', $questionScoreId);
   }
   
@@ -55,6 +70,11 @@ class QuestionQaTable extends Component
    */
   public function updateMinimalScore($questionId, $minToApp)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     Question::updateOrCreate([
       'id_qa' => $questionId
     ], [
@@ -74,6 +94,11 @@ class QuestionQaTable extends Component
      */
   public function deleteQuestionScore($questionScoreId)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     try {
       $currentQuestionScore = QualityScore::findOrFail($questionScoreId);
       $currentQuestionScore->delete();
@@ -97,6 +122,11 @@ class QuestionQaTable extends Component
    */
   public function deleteQuestionQuality($questionId)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->dispatch('delete-question-quality', $questionId);
   }
 
