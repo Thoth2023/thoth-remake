@@ -9,11 +9,15 @@ use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
 use App\Models\Project;
 use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Traits\ProjectPermissions;
 
 class QuestionQuality extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.quality-assessment.question-quality.livewire';
-    private $toastMessages = 'project/planning.quality-assessment.question-quality.livewire.toasts';
+    private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
     public $currentProject;
     public $currentQuestion;
     public $questions = [];
@@ -38,8 +42,8 @@ class QuestionQuality extends Component
     protected $rules = [
         'currentProject' => 'required',
         'questionId' => 'required|string|max:10|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|max:255',
-        'weight' => 'required|numeric',
+        'description' => 'required|string|max:255|regex:/^[a-zA-Z0-9]+$/',
+        'weight' => 'required|regex:/^\d+(\.\d{1,2})?$/',
     ];
 
     /**
@@ -92,6 +96,11 @@ class QuestionQuality extends Component
      */
     public function updateQuestions()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $projectId = $this->currentProject->id_project;
         $this->questions = Question::where('id_project', $projectId)->get();
         $this->dispatch('update-qa-table');
@@ -102,6 +111,11 @@ class QuestionQuality extends Component
     #[On('edit-question-quality')]
     public function edit($questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentQuestion = Question::findOrFail($questionId);
         $this->form['isEditing'] = true;
         $this->questionId = $this->currentQuestion->id;
@@ -112,6 +126,11 @@ class QuestionQuality extends Component
     #[On('delete-question-quality')]
     public function delete($questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentQuestion = Question::findOrFail($questionId);
             $currentQuestion->delete();
@@ -140,7 +159,35 @@ class QuestionQuality extends Component
 
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
+
+        $existingQuestion = Question::where('id', $this->questionId)
+            ->where('id_project', $this->currentProject->id_project)
+            ->when($this->form['isEditing'], function ($query) {
+                $query->where('id_qa', '!=', $this->currentQuestion?->id_qa);
+            })
+            ->first();
+
+        if ($existingQuestion) {
+            $this->toast(
+                message: __('project/planning.quality-assessment.question-quality.livewire.toasts.duplicate_id'),
+                type: 'error'
+            );
+            return;
+        }
+
+        if ($this->weight <= 0) {
+            $this->toast(
+                message: __('project/planning.quality-assessment.question-quality.livewire.toasts.min_weight'),
+                type: 'error'
+            );
+            return;
+        }
 
         $updateIf = [
             'id_qa' => $this->currentQuestion?->id_qa,
