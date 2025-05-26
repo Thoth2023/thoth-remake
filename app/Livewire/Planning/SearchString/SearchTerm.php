@@ -11,9 +11,13 @@ use App\Models\Synonym as SynonymModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 use Illuminate\Support\Facades\Http;
+use App\Traits\ProjectPermissions;
 
 class SearchTerm extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.search-string.term.livewire';
     private $toastMessages = 'project/planning.search-string.term.livewire.toasts';
 
@@ -47,7 +51,8 @@ class SearchTerm extends Component
      */
     protected $rules = [
         'currentProject' => 'required',
-        'description' => 'required|string|max:255',
+        'description' => 'required|string|regex:/^[\pL\s]+$/u|max:255',
+        'synonym' => 'nullable|string|regex:/^[\pL\s]+$/u|max:255',
     ];
 
     /**
@@ -56,7 +61,11 @@ class SearchTerm extends Component
     protected function messages()
     {
         return [
-            'description.required' => __($this->translationPath . '.description.required'),
+            'description.required' => __('O campo descrição é obrigatório.'),
+            'description.regex' => __('A descrição deve conter apenas letras e espaços.'),
+            'description.max' => __('A descrição não pode ter mais de 255 caracteres.'),
+            'synonym.regex' => __('O sinônimo deve conter apenas letras e espaços.'),
+            'synonym.max' => __('O sinônimo não pode ter mais de 255 caracteres.'),
         ];
     }
 
@@ -114,6 +123,11 @@ class SearchTerm extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         $updateIf = [
@@ -156,6 +170,11 @@ class SearchTerm extends Component
      */
     public function edit(string $termId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentTerm = SearchTermModel::findOrFail($termId);
         $this->description = $this->currentTerm->description;
         $this->form['isEditing'] = true;
@@ -171,6 +190,11 @@ class SearchTerm extends Component
      */
     public function delete(string $termId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentTerm = SearchTermModel::findOrFail($termId);
             $currentTerm->delete();
@@ -198,8 +222,14 @@ class SearchTerm extends Component
 
     public function addSynonyms()
     {
+        $this->validateOnly('synonym');
+
         if (!$this->termId['value'] || !$this->synonym) {
             $this->addError('termId', 'The term id is required');
+        }
+
+        if (empty(trim($this->synonym))) {
+            $this->addError('synonym', 'The synonym is required');
         }
 
         $updateIf = [
@@ -242,6 +272,11 @@ class SearchTerm extends Component
      */
     public function editSynonym($termId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentSynonym = SynonymModel::findOrFail($termId);
         $this->currentTerm = SearchTermModel::findOrFail($this->currentSynonym->id_term)->first();
         $this->synonym = $this->currentSynonym->description;
@@ -254,6 +289,11 @@ class SearchTerm extends Component
      */
     public function deleteSynonym(string $termId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+        
         try {
             $currentSynonym = SynonymModel::findOrFail($termId);
             $currentSynonym->delete();

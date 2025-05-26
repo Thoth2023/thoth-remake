@@ -47,6 +47,7 @@
                             min="0"
                             placeholder="Partial"
                             wire:model="scoreRule"
+                            pattern="[a-zA-ZÀ-ÿ\s]+"
                             required
                         />
                         @error("scoreRule")
@@ -102,6 +103,7 @@
                         maxlength="255"
                         rows="2"
                         placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                        pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                         required
                     ></textarea>
                     @error("description")

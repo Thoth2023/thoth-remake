@@ -15,3 +15,4 @@ yarn-error.log
 /.vscode
 /.docker
 .DS_Store
+config/app.php

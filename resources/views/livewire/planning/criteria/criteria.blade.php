@@ -21,9 +21,9 @@
                             required
                         />
                         @error("criteriaId")
-                        <span class="text-xs text-danger">
-                {{ $message }}
-            </span>
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
                         @enderror
                     </div>
 
@@ -34,12 +34,13 @@
                             label="{{ __('project/planning.criteria.form.description') }}"
                             wire:model="description"
                             placeholder="{{ __('project/planning.criteria.form.enter_description') }}"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             required
                         />
                         @error("description")
-                        <span class="text-xs text-danger">
-                {{ $message }}
-            </span>
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
                         @enderror
                     </div>
                 </div>
@@ -67,6 +68,11 @@
                             {{ __("project/planning.criteria.form.select-exclusion") }}
                         </option>
                     </x-select>
+                    @error("type.value")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
                 <div>
                     <x-helpers.submit-button

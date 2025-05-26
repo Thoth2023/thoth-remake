@@ -9,15 +9,20 @@ use App\Models\Project\Planning\DataExtraction\Question as QuestionModel;
 use App\Models\Project\Planning\DataExtraction\QuestionTypes as QuestionTypesModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Question extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $currentQuestion;
     public $questions = [];
     public $questionId;
     public $type;
     public $questionTypes = [];
+    private $toastMessages = 'project/planning.data-extraction.toasts';
 
     /**
      * Fields to be filled by the form.
@@ -36,7 +41,15 @@ class Question extends Component
      * Validation rules.
      */
     protected $rules = [
-        'description' => 'required|string',
+        'description' => [
+            'required',
+            'string',
+            'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+        ],
+        'questionId' => [
+            'required',
+            'numeric',
+        ],
         'type' => 'required|array',
     ];
 
@@ -46,10 +59,17 @@ class Question extends Component
     protected function messages()
     {
         return [
+            'questionId.required' => 'O campo ID é obrigatório.',
+            'questionId.numeric' => 'O ID deve conter apenas números.',
             'description.required' => 'Este campo é obrigatório',
+            'description.regex' => 'A descrição só pode conter letras, números e espaços.',
             'type.required' => 'Este campo é obrigatório',
         ];
     }
+
+    protected $messages = [
+        'questionId.regex' => 'O ID deve conter apenas letras e números.',
+    ];
 
     /**
      * Executed when the component is mounted. It sets the
@@ -83,6 +103,11 @@ class Question extends Component
      */
     public function updateQuestions()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->questions = QuestionModel::where(
             'id_project',
             $this->currentProject->id_project
@@ -104,6 +129,11 @@ class Question extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         // Verifica se o 'id' da questão já existe no projeto atual (em modo de criação)
@@ -173,6 +203,10 @@ class Question extends Component
     #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)
             ->where('id_de', $questionId)
             ->first();
@@ -212,6 +246,11 @@ class Question extends Component
     #[On('data-extraction-table-delete-question')]
     public function delete(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id_de', $questionId)->first();
             $currentQuestion->delete();
