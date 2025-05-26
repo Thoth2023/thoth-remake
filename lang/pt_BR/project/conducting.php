@@ -152,6 +152,9 @@ return [
             'table-duplicate-no' => 'NÃO',
 
         ],
+        'messages' => [
+            'criteria_updated' => 'Critério atualizado com sucesso. Novo status: :status',
+        ],
         'toasts' => [
             'denied' => 'Um visualizador não pode editar a seleção de estudos',
         ]
@@ -199,6 +202,7 @@ return [
             'select-status' => 'Mostrar todos os Status...',
             'select-type' => 'Mostrar todos os Tipos...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -383,6 +387,7 @@ return [
             'select-database' => 'Mostrar todos as Bases',
             'select-status' => 'Mostrar todos Status...',
             'search-papers' => 'Buscar estudos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -471,7 +476,11 @@ return [
                 'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
-
+        'messages' => [
+            'evaluation_quality_score_updated' => 'Pontuação de Avaliação de Qualidade atualizada com sucesso.',
+            'status_quality_updated' => 'Status de Qualidade atualizado com sucesso. Novo status: :status',
+            'status_updated_for_selection' => 'Status atualizado para sua seleção. Novo status: :status',
+        ],
     ],
 
     'data-extraction' => [
@@ -511,6 +520,7 @@ return [
             'select-database' => 'Mostrar todas as Bases de Dados',
             'select-status' => 'Mostrar todos os Status...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',

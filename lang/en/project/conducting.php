@@ -120,7 +120,9 @@ return [
             'success' => 'Success',
 
         ],
-
+        'messages' => [
+            'criteria_updated' => 'Criteria updated successfully. New status: :status',
+        ],
         'status' => [
             'duplicate' => 'Duplicate',
             'removed' => 'Removed',
@@ -205,6 +207,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
@@ -278,6 +281,11 @@ return [
             'close' => 'Close',
             'error' => 'Error',
             'success' => 'Success',
+        ],
+        'messages' => [
+            'evaluation_quality_score_updated' => 'Evaluation Quality Score updated successfully.',
+            'status_quality_updated' => 'Status Quality updated successfully. New status: :status',
+            'status_updated_for_selection' => 'Status updated for your selection. New status: :status',
         ],
         'status' => [
             'duplicate' => 'Duplicate',
@@ -416,6 +424,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
