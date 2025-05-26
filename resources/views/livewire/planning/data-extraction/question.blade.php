@@ -20,6 +20,10 @@
                     autocomplete="on"
                     name="de_question_id"
                     list="de_questionId_suggestions"
+                    maxlength="255"
+                    pattern="\d+"
+                    required
+
                 />
                 @error("questionId")
                     <span class="text-xs text-danger">
@@ -33,6 +37,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 />
                 @error("description")
@@ -50,7 +55,7 @@
                         <?= $currentQuestion === null ? "selected" : "" ?>
                         disabled
                     >
-                        {{ __("Selecione um tipo") }}
+                        {{ __('project/planning.data-extraction.question-form.type-selection.title') }}
                     </option>
                     @foreach ($questionTypes as $questionType)
                         <option

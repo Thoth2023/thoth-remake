@@ -15,6 +15,7 @@
                         label="{{ __('project/planning.quality-assessment.question-quality.id') }}"
                         placeholder="QA01"
                         wire:model="questionId"
+                        pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                         required
                         autocomplete="on"
                         name="quality_question_id"
@@ -36,6 +37,7 @@
                         min="0"
                         placeholder="2"
                         wire:model="weight"
+                        pattern="[0-9]+"
                         required
                     />
                     @error("weight")
@@ -56,6 +58,7 @@
                     rows="2"
                     placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
                     wire:model="description"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 ></textarea>
                 @error("description")

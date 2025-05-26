@@ -12,23 +12,23 @@
         <div>
             <label>
                 <input type="checkbox" wire:model="selectedOptions" wire:change="generateLatex" value="planning">
-                Planning
+                {{ __("project/export.header.latex.content-options.planning") }}
             </label>
             <label>
                 <input type="checkbox" wire:model="selectedOptions" wire:change="generateLatex" value="import_studies">
-                Import Studies
+                {{ __("project/export.header.latex.content-options.import-studies") }}
             </label>
             <label>
                 <input type="checkbox" wire:model="selectedOptions" wire:change="generateLatex" value="study_selection">
-                Study Selection
+                {{ __("project/export.header.latex.content-options.study-selection") }}
             </label>
             <label>
                 <input type="checkbox" wire:model="selectedOptions" wire:change="generateLatex" value="quality_assessment">
-                Quality Assessment
+                {{ __("project/export.header.latex.content-options.quality-assessment") }}
             </label>
             <label>
                 <input type="checkbox" wire:model="selectedOptions" wire:change="generateLatex" value="snowballing">
-                Snowballing
+                {{ __("project/export.header.latex.content-options.snowballing") }}
             </label>
         </div>
 
