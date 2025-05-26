@@ -106,8 +106,12 @@
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                             class="nav-link d-flex align-items-center justify-content-center me-1"
                                         >
-                                            <i class="fa fa-user opacity-6 me-1"></i>
-                                            <span class="d-sm-inline d-none">{{ __("nav/nav.logout") }}</span>
+                                            <i
+                                                class="fa fa-sign-out-alt me-1 text-secondary"
+                                            ></i>
+                                            <span>
+                                                {{ __('nav/nav.logout') }}
+                                            </span>
                                         </a>
                                     </form>
                                 </li>
