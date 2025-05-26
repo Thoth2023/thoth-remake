@@ -17,14 +17,39 @@ use App\Utils\ToastHelper;
 class Buttons extends Component
 {
 
+    private $translationPath = 'project/conducting.data-extraction.buttons';
+    private $toastMessages = 'project/conducting.data-extraction.buttons';
+
     public $projectId;
 
+
+    protected function messages()
+    {
+        return [
+            'no-papers' => __($this->translationPath . '.no-papers'),
+        ];
+    }
+
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('buttons', ToastHelper::dispatch($type, $message));
+    }
 
     public function exportCsv()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $csvData = $this->formatCsv($papers);
-        return response()->streamDownload(function() use ($csvData) {
+        return response()->streamDownload(function () use ($csvData) {
             echo $csvData;
         }, 'studies-qa.csv');
     }
@@ -32,8 +57,18 @@ class Buttons extends Component
     public function exportXml()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $xmlData = $this->formatXml($papers);
-        return response()->streamDownload(function() use ($xmlData) {
+        return response()->streamDownload(function () use ($xmlData) {
             echo $xmlData;
         }, 'studies-qa.xml');
     }
@@ -42,8 +77,18 @@ class Buttons extends Component
     {
 
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+        
         $pdfData = $this->formatPdf($papers);
-        return response()->streamDownload(function() use ($pdfData) {
+        return response()->streamDownload(function () use ($pdfData) {
             echo $pdfData;
         }, 'studies-qa.pdf');
     }
@@ -70,7 +115,8 @@ class Buttons extends Component
             ->join('members', 'members.id_members', '=', 'papers_qa.id_member')
             ->join('users', 'members.id_user', '=', 'users.id')
             ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers_qa.id_paper')
-            ->select('papers.*',
+            ->select(
+                'papers.*',
                 'papers.id as id_paper',
                 'data_base.name as database_name',
                 'general_score.description as general_score',
@@ -78,9 +124,10 @@ class Buttons extends Component
                 'users.firstname',
                 'users.lastname',
                 'paper_decision_conflicts.new_status_paper',
-                'status_qa.status as status_description')
+                'status_qa.status as status_description'
+            )
 
-            ->leftJoin('paper_decision_conflicts', function($join) {
+            ->leftJoin('paper_decision_conflicts', function ($join) {
                 $join->on('papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
                     ->where('paper_decision_conflicts.phase', '=', 'quality'); // Filtrar pela fase 'quality'
             })
@@ -173,7 +220,8 @@ class Buttons extends Component
     }
 
 
-    public function mount() {
+    public function mount()
+    {
         $this->projectId = request()->segment(2);
     }
 

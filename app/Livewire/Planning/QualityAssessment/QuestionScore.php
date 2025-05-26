@@ -10,10 +10,14 @@ use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Models\Project\Planning\QualityAssessment\QualityScore as QualityScoreModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class QuestionScore extends Component
 {
-  private $toastMessages = 'project/planning.quality-assessment.question-score.toasts';
+
+  use ProjectPermissions;
+
+  private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
   public $currentProject;
   public $currentQuestionScore;
   public $questions = [];
@@ -40,9 +44,9 @@ class QuestionScore extends Component
    */
   protected $rules = [
     'questionId' => 'array|required',
-    'scoreRule' => 'required|string|max:25',
+    'scoreRule' => 'required|string|max:25|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
     'score' => 'required|numeric',
-    'description' => 'required|string|max:255',
+    'description' => 'required|string|max:255|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
   ];
 
   /**
@@ -54,9 +58,11 @@ class QuestionScore extends Component
       'questionId.required' => __('common.required'),
       'questionId.array' => __('common.required'),
       'scoreRule.required' => __('common.required'),
+      'scoreRule.regex' => 'A regra de pontuação só pode conter letras e espaços.',
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
-    ];
+      'description.regex' => 'A descrição só pode conter letras, números e espaços.',
+  ];
   }
 
   public function mount()
@@ -72,6 +78,11 @@ class QuestionScore extends Component
   #[On('update-score-questions')]
   public function updateQuestions()
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $projectId = $this->currentProject->id_project;
     $this->questions = Question::where('id_project', $projectId)->get();
   }
@@ -79,6 +90,11 @@ class QuestionScore extends Component
   #[On('edit-question-score')]
   public function editQuestionScore($questionScoreId)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->currentQuestionScore = QualityScore::findOrFail($questionScoreId);
     $this->questionId["value"] = $this->currentQuestionScore->id_qa;
     $this->scoreRule = $this->currentQuestionScore->score_rule;
@@ -118,6 +134,11 @@ class QuestionScore extends Component
    */
   public function submit()
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->validate();
 
     try {

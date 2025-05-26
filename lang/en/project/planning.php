@@ -67,6 +67,7 @@ return [
                     'updated' => 'Domain updated successfully.',
                     'deleted' => 'Domain deleted successfully.',
                     'duplicate' => 'Domain duplicated is not allowed.',
+                    'denied' => 'A viewer cannot add, edit or delete domains.'
                 ],
             ]
         ],
@@ -108,6 +109,7 @@ return [
                 'toasts' => [
                     'added' => 'Language added successfully.',
                     'deleted' => 'Language deleted successfully.',
+                    'denied' => 'A viewer cannot add, edit or delete languages.'
                 ],
             ]
         ],
@@ -151,6 +153,7 @@ return [
                 'toasts' => [
                     'added' => 'Study type added successfully.',
                     'deleted' => 'Study type deleted successfully.',
+                    'denied' => 'A viewer cannot add, edit or delete study types.',
                 ],
             ]
         ],
@@ -205,7 +208,8 @@ return [
                     'added' => 'Keyword added successfully.',
                     'updated' => 'Keyword updated successfully.',
                     'deleted' => 'Keyword deleted successfully.',
-                    'duplicate' => 'Keyword duplicated is not allowed.'
+                    'duplicate' => 'Keyword duplicated is not allowed.',
+                    'denied' => 'A viewer cannot add, edit or delete keywords.'
                 ],
             ]
         ],
@@ -237,6 +241,7 @@ return [
                 ],
                 'toasts' => [
                     'updated' => 'Dates updated successfully.',
+                    'denied' => 'A viewer cannot add, edit or delete dates.',
                 ],
             ]
         ],
@@ -253,6 +258,7 @@ return [
             'description' => 'Description',
             'enter_description' => 'Enter research question description',
             'add' => 'Add',
+            'update' => 'Update',
         ],
         'table' => [
             'id' => 'ID',
@@ -282,6 +288,7 @@ return [
                 'added' => 'Research Question added successfully.',
                 'updated' => 'Research Question updated successfully.',
                 'deleted' => 'Research Question deleted successfully.',
+                'denied' => 'A viewer cannot add, edit or delete research questions.',
             ],
         ]
     ],
@@ -305,10 +312,10 @@ return [
         ],
         'suggest-new' => [
             'title' => 'Suggest a New Database',
-            'help'=>[
+            'help' => [
                 'title' => 'Suggest a New Database',
                 'content' => "Suggest a new database if it is necessary for your research and it is not included in Thoth's current list. It is important to note that this database will only be available for use after approval by the system administrators.",
-            ] ,
+            ],
             'name-label' => 'Database Name',
             'enter-name' => 'Enter database name',
             'link-label' => 'Database Link',
@@ -333,6 +340,7 @@ return [
                 'added' => 'Database added successfully.',
                 'deleted' => 'Database deleted successfully.',
                 'suggested' => 'Database suggestion sent successfully.',
+                'denied' => 'A viewer cannot add, edit or delete databases.',
             ],
         ],
         'database-manager' => [
@@ -388,6 +396,7 @@ return [
         'form' => [
             'description' => 'Generic search string',
             'enter-description' => 'Enter search string description',
+            'no-database'=> 'No database found for this project.',
             'add' => 'Add Search String',
             'update' => 'Update Search String',
             'placeholder' => 'Enter the search string',
@@ -429,6 +438,9 @@ return [
                     'added' => 'Search Term added successfully.',
                     'updated' => 'Search Term updated successfully.',
                     'deleted' => 'Search Term deleted successfully.',
+                    'validation' => 'The search term field is required.',
+                    'synonym' => 'The synonym field is required.',
+                    'denied' => 'A viewer cannot add, edit or delete search terms.',
                 ],
             ]
         ],
@@ -456,7 +468,8 @@ return [
         ],
         'placeholder' => 'Enter the search strategy',
         'save-button' => 'Save',
-        'success'=> 'Search strategy updated successfully.',
+        'success' => 'Search strategy updated successfully.',
+        'denied' => 'A viewer cannot add, edit or delete search strategy.',
     ],
     'criteria' => [
         'title' => 'Inclusion/Exclusion Criteria',
@@ -517,6 +530,7 @@ return [
             ],
             'type' => [
                 'required' => 'The type field is required.',
+                'in' => 'Select a valid type.'
             ],
             'logs' => [
                 'added' => 'Criteria added',
@@ -524,12 +538,15 @@ return [
                 'deleted' => 'Criteria deleted',
             ],
             'toasts' => [
+                'reset_paper_evaluations' => 'All paper evaluations have been reset to "Not Evaluated".',
+                'no_criteria'=> 'No criteria found.',
                 'added' => 'Criteria added successfully',
                 'deleted' => 'Criteria deleted successfully',
                 'updated' => 'Criteria updated successfully',
                 'updated-inclusion' => 'Inclusion criteria rule updated',
                 'updated-exclusion' => 'Exclusion criteria rule updated',
                 'unique-id' => 'This ID is already in use. Please choose another an unique ID.',
+                'denied' => 'A viewer cannot add, edit or delete criteria.',
                 'type' => [
                     'required' => 'The type field is required.',
                 ],
@@ -628,6 +645,7 @@ return [
                     'added' => 'General Score added successfully.',
                     'updated' => 'General Score updated successfully.',
                     'deleted' => 'General Score deleted successfully.',
+                    'denied' => 'A viewer cannot add, edit or delete general scores.',
                 ],
             ],
 
@@ -668,9 +686,11 @@ return [
                     'required' => 'The description question quality field is required.',
                 ],
                 'toasts' => [
+                    'duplicate_id' => 'A question with this ID already exists.',
                     'added' => 'Question Quality added successfully.',
                     'updated' => 'Question Quality updated successfully.',
                     'deleted' => 'Question Quality deleted successfully.',
+                    'min_weight' => 'The weight must be greater than 0.',
                 ],
             ],
 
@@ -820,6 +840,9 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Select a Type',
+            ],
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
             'description' => 'Description',
@@ -843,6 +866,10 @@ return [
                 </ul>
                 ',
             ],
+            'question-selection'=> [
+                'title' => 'Select a Question',
+
+            ],
             'question' => 'Question',
             'option' => 'Option',
             'add-option' => 'Add Option',
@@ -856,6 +883,9 @@ return [
                 'options' => 'Options',
                 'actions' => 'Actions',
             ]
+        ],
+        'toasts' => [
+            'denied' => 'A viewer cannot add, edit or delete data extraction questions.',
         ]
     ]
 ];

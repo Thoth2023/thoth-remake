@@ -33,7 +33,20 @@ class DomainUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required|string',
+            'id_project' => 'required|exists:projects,id',
+            'description' => [
+                'required',
+                'string',
+                'regex:/^[\pL\s]+$/u',
+                'max:255',
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'description.regex' => 'A descrição deve conter apenas palavras.',
         ];
     }
 }

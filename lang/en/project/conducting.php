@@ -14,7 +14,7 @@ return [
         'data_extraction' => 'Data Extraction',
 
     ],
-    'check' =>[
+    'check' => [
         'domain' => 'Data for "Domain" not registered for this review project.',
         'language' => 'Data for "Language" not registered for this review project.',
         'study-types' => 'Data for "Study Types" not registered for this review project.',
@@ -51,7 +51,7 @@ return [
             <p>Note: If the review does not involve Peer Review, these options will not appear.</p>
             '
         ],
-        'tasks'=>'Complete these tasks to advance',
+        'tasks' => 'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -85,10 +85,10 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
-            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision - I/E Criteria ',
-            'paper-conflict-note'=>'Note',
-            'paper-conflict-writer'=>'Write note...',
-            'sucess-decision'=>'Group Decision successfully',
+            'paper-conflict' => 'Resolve Paper Conflicts: Group Decision - I/E Criteria ',
+            'paper-conflict-note' => 'Note',
+            'paper-conflict-writer' => 'Write note...',
+            'sucess-decision' => 'Group Decision successfully',
             'error-status' => 'Select your Final Decision',
             'last-confirmation' => 'Last Confirmation',
             'confirmation-date' => 'in',
@@ -104,20 +104,20 @@ return [
 
             ],
             'option' => [
-                'select'=>'Select an option',
+                'select' => 'Select an option',
                 'remove' => 'Remove',
                 'accepted' => 'Accepted',
                 'rejected' => 'Rejected',
                 'duplicated' => 'Duplicate',
                 'unclassified' => 'Unclassified',
-                'final-decision' =>'Final Decision Group about paper?',
+                'final-decision' => 'Final Decision Group about paper?',
             ],
-            'save'=>'Save',
-            'update'=>'Update',
-            'confirm'=>'Confirm',
-            'close'=>'Close',
-            'error'=>'Error',
-            'success'=>'Success',
+            'save' => 'Save',
+            'update' => 'Update',
+            'confirm' => 'Confirm',
+            'close' => 'Close',
+            'error' => 'Error',
+            'success' => 'Success',
 
         ],
 
@@ -130,11 +130,11 @@ return [
             'rejected' => 'Rejected',
             'accepted' => 'Accepted'
         ],
-        'count'=>[
-            'toasts' =>[
-                'no-databases'=>'No databases found for this project.',
-                'no-papers'=>'No papers imported for this project.',
-                'data-refresh'=>'Data refreshed successfully',
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'No databases found for this project.',
+                'no-papers' => 'No papers imported for this project.',
+                'data-refresh' => 'Data refreshed successfully',
             ],
         ],
         'duplicates' => [
@@ -155,6 +155,9 @@ return [
             'table-duplicate-yes' => 'YES',
             'table-duplicate-no' => 'NO',
         ],
+        'toasts' => [
+            'denied' => 'A viewer cannot edit the study selection.',
+        ]
 
     ],
 
@@ -175,7 +178,7 @@ return [
             <p>Note: If the review does not involve Peer Review, these options will not appear.</p>
             '
         ],
-        'tasks'=>'Complete these tasks to advance',
+        'tasks' => 'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -202,6 +205,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
@@ -212,9 +216,9 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
-            'select-score'=> 'Select...',
-            'quality-score'=> 'Score',
-            'quality-description'=> 'Quality',
+            'select-score' => 'Select...',
+            'quality-score' => 'Score',
+            'quality-description' => 'Quality',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',
@@ -222,18 +226,18 @@ return [
                 'min-to-app' => 'Minimal to<br/>Approve',
             ],
             'option' => [
-                'select'=>'Select an option',
+                'select' => 'Select an option',
                 'remove' => 'Remove',
                 'accepted' => 'Accepted',
                 'rejected' => 'Rejected',
                 'duplicated' => 'Duplicate',
                 'unclassified' => 'Unclassified',
             ],
-            'save'=>'Save',
-            'close'=>'Close',
+            'save' => 'Save',
+            'close' => 'Close',
 
         ],
-        'resolve'=>[
+        'resolve' => [
             'author' => 'Author',
             'year' => 'Year',
             'database' => 'Database',
@@ -241,11 +245,11 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
-            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision - QA',
-            'paper-conflict-note'=>'Note',
-            'paper-conflict-writer'=>'Write note...',
-            'success-decision'=>'Group Decision successfully',
-            'resolved-decision'=>'Accepted for Peer Review (Group Decision) in the previous stage.',
+            'paper-conflict' => 'Resolve Paper Conflicts: Group Decision - QA',
+            'paper-conflict-note' => 'Note',
+            'paper-conflict-writer' => 'Write note...',
+            'success-decision' => 'Group Decision successfully',
+            'resolved-decision' => 'Accepted for Peer Review (Group Decision) in the previous stage.',
             'error-status' => 'Select your Final Decision',
             'last-confirmation' => 'Last Confirmation',
             'confirmation-date' => 'in',
@@ -261,20 +265,20 @@ return [
 
             ],
             'option' => [
-                'select'=>'Select an option',
+                'select' => 'Select an option',
                 'remove' => 'Remove',
                 'accepted' => 'Accepted',
                 'rejected' => 'Rejected',
                 'duplicated' => 'Duplicate',
                 'unclassified' => 'Unclassified',
-                'final-decision' =>'Final Decision Group about paper?',
+                'final-decision' => 'Final Decision Group about paper?',
             ],
-            'save'=>'Save',
-            'update'=>'Update',
-            'confirm'=>'Confirm',
-            'close'=>'Close',
-            'error'=>'Error',
-            'success'=>'Success',
+            'save' => 'Save',
+            'update' => 'Update',
+            'confirm' => 'Confirm',
+            'close' => 'Close',
+            'error' => 'Error',
+            'success' => 'Success',
         ],
         'status' => [
             'duplicate' => 'Duplicate',
@@ -285,11 +289,11 @@ return [
             'rejected' => 'Rejected',
             'accepted' => 'Accepted'
         ],
-        'count'=>[
-            'toasts' =>[
-                'no-databases'=>'No databases found for this project.',
-                'no-papers'=>'No papers imported for this project.',
-                'data-refresh'=>'Data refreshed successfully',
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'No databases found for this project.',
+                'no-papers' => 'No papers imported for this project.',
+                'data-refresh' => 'Data refreshed successfully',
             ]
         ]
     ],
@@ -308,7 +312,7 @@ return [
             <p>Note: If the review does not involve Peer Review, this icon will not appear.</p>
             '
         ],
-        'tasks'=>'Complete these tasks to advance',
+        'tasks' => 'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -348,15 +352,15 @@ return [
                 'type' => 'Type',
             ],
             'option' => [
-                'select'=>'Select an option',
+                'select' => 'Select an option',
                 'remove' => 'Remove',
                 'accepted' => 'Accepted',
                 'rejected' => 'Rejected',
                 'duplicated' => 'Duplicate',
                 'unclassified' => 'Unclassified',
             ],
-            'save'=>'Save',
-            'close'=>'Close',
+            'save' => 'Save',
+            'close' => 'Close',
 
         ],
         'status' => [
@@ -368,11 +372,11 @@ return [
             'rejected' => 'Rejected',
             'accepted' => 'Accepted'
         ],
-        'count'=>[
-            'toasts' =>[
-                'no-databases'=>'No databases found for this project.',
-                'no-papers'=>'No papers imported for this project.',
-                'data-refresh'=>'Data refreshed successfully',
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'No databases found for this project.',
+                'no-papers' => 'No papers imported for this project.',
+                'data-refresh' => 'Data refreshed successfully',
             ]
         ]
     ],
@@ -389,7 +393,7 @@ return [
             <p>Note: If the review does not involve Peer Review, these options will not appear.</p>
             '
         ],
-        'tasks'=>'Complete these tasks to advance',
+        'tasks' => 'Complete these tasks to advance',
         'papers' => [
             'empty' => 'No papers have been added yet.',
             'no-results' => 'No results found.'
@@ -413,6 +417,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
@@ -427,15 +432,15 @@ return [
                 'type' => 'Type',
             ],
             'option' => [
-                'select'=>'Select an option',
+                'select' => 'Select an option',
                 'removed' => 'Removed',
                 'done' => 'Done',
                 'to_do' => 'To Do',
                 'to do' => 'To Do',
                 'unclassified' => 'Unclassified',
             ],
-            'save'=>'Save',
-            'close'=>'Close',
+            'save' => 'Save',
+            'close' => 'Close',
 
         ],
         'status' => [
@@ -445,11 +450,11 @@ return [
             'to do' => 'To Do',
 
         ],
-        'count'=>[
-            'toasts' =>[
-                'no-databases'=>'No databases found for this project.',
-                'no-papers'=>'No papers imported for this project.',
-                'data-refresh'=>'Data refreshed successfully',
+        'count' => [
+            'toasts' => [
+                'no-databases' => 'No databases found for this project.',
+                'no-papers' => 'No papers imported for this project.',
+                'data-refresh' => 'Data refreshed successfully',
             ]
         ]
     ],
@@ -463,7 +468,7 @@ return [
             'delete' => 'Delete',
         ],
 
-       'help' => [
+        'help' => [
             'content' => 'Upload files in ".bib" or ".csv" format and import the files according to the database defined in the plan.<br>
              <ul>
              <li><b>Note:</b> If you want to conduct <b>"Peer Review"</b>, it is necessary to invite the researchers and add them to the project before importing the studies (papers).</li>
@@ -476,7 +481,7 @@ return [
             'actions' => 'Actions',
             'file' => 'File',
             'files-uploaded' => 'Files uploaded',
-            'no-files'=>'No files uploaded for this database.',
+            'no-files' => 'No files uploaded for this database.',
             'delete' => 'Delete',
         ],
 
@@ -485,15 +490,15 @@ return [
                 'database_associated_papers_imported' => 'Database associated papers imported',
                 'deleted_file_and_papers' => 'Deleted file and :count associated papers',
             ],
-            'selectedDatabase'=>[
-                'value'=>[
-                    'required'=>'The database field is required.',
-                    'exists' =>'The selected database does not exist.',
+            'selectedDatabase' => [
+                'value' => [
+                    'required' => 'The database field is required.',
+                    'exists' => 'The selected database does not exist.',
                 ]
             ],
             'file' => [
                 'required' => 'The description field is required.',
-                'mimes'=>'The file must be a type of: bib, csv, txt.',
+                'mimes' => 'The file must be a type of: bib, csv, txt.',
                 'max' => 'The file size must not exceed 10MB.',
             ],
             'toasts' => [
@@ -503,6 +508,7 @@ return [
                 'file_deleted_success' => 'File deleted successfully. :count papers associated were also deleted.',
                 'file_delete_error' => 'An error occurred while deleting the file: :message',
                 'file_already_exists' => 'A file with this name already exists in this database. Please avoid duplicates!',
+                'denied' => 'A viewer cannot import or delete studies.',
             ],
         ],
 
