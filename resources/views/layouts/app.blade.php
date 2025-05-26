@@ -81,31 +81,28 @@
         @endguest
 
         @auth
-            @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
+    @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
+        @yield("content")
+    @else
+        @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
+            <div class="bg-gradient-faded-dark opacity-8 position-absolute w-100" style="min-height: 280px"></div>
+        @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
+            <div class="bg-gradient-faded-dark position-absolute w-100 min-height-300 top-0">
+                <span class="mask bg-primary opacity-8"></span>
+            </div>
+        @endif
+        @include("layouts.navbars.auth.sidenav")
+        <main class="main-content">
+            <div class="container">
                 @yield("content")
-            @else
-                @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
-                    <div
-                        class="bg-gradient-faded-dark opacity-8 position-absolute w-100"
-                        style="min-height: 280px"
-                    ></div>
-                @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
-                    <div
-                        class="bg-gradient-faded-dark position-absolute w-100 min-height-300 top-0"
-                    >
-                        >
-                        <span class="mask bg-primary opacity-8"></span>
-                    </div>
-                @endif
-                @include("layouts.navbars.auth.sidenav")
-                <main class="main-content">
-                    <div class="container">
-                        @yield("content")
-                    </div>
-                </main>
-                @include("components.fixed-plugin")
-            @endif
-        @endauth
+            </div>
+        </main>
+    @endif
+@endauth
+
+{{--Incluído fora do @auth: aparece para todos --}}
+@include("components.fixed-plugin")
+
 
         <!-- PWA service worker -->
         <script>
