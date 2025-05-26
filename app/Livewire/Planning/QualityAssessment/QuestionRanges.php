@@ -23,6 +23,23 @@ class QuestionRanges extends Component
   public $intervals = 5;
   private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
+  protected $rules = [
+    'items.*.description' => 'required|string|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+    'intervals' => 'required|integer|min:2|max:10',
+  ];
+
+  protected function messages()
+  {
+      return [
+          'items.*.description.required' => 'O campo descrição é obrigatório.',
+          'items.*.description.regex' => 'A descrição só pode conter letras, números e espaços.',
+          'intervals.required' => 'O número de intervalos é obrigatório.',
+          'intervals.integer' => 'O número de intervalos deve ser um número inteiro.',
+          'intervals.min' => 'O número de intervalos deve ser no mínimo 2.',
+          'intervals.max' => 'O número de intervalos deve ser no máximo 10.',
+      ];
+  }
+
   public function populateItems()
   {
     $projectId = $this->currentProject->id_project;
@@ -162,6 +179,10 @@ class QuestionRanges extends Component
     }
     
     try {
+      $this->validate([
+        "items.$index.description" => 'required|string|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+      ]);
+
       $idGeneralScore = $this->items[$index]['id_general_score'];
       $value = $this->items[$index]['description'];
 

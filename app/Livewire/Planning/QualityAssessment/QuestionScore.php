@@ -44,9 +44,9 @@ class QuestionScore extends Component
    */
   protected $rules = [
     'questionId' => 'array|required',
-    'scoreRule' => 'required|string|max:25',
+    'scoreRule' => 'required|string|max:25|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
     'score' => 'required|numeric',
-    'description' => 'required|string|max:255',
+    'description' => 'required|string|max:255|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
   ];
 
   /**
@@ -58,9 +58,11 @@ class QuestionScore extends Component
       'questionId.required' => __('common.required'),
       'questionId.array' => __('common.required'),
       'scoreRule.required' => __('common.required'),
+      'scoreRule.regex' => 'A regra de pontuação só pode conter letras e espaços.',
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
-    ];
+      'description.regex' => 'A descrição só pode conter letras, números e espaços.',
+  ];
   }
 
   public function mount()

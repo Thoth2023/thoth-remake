@@ -39,6 +39,7 @@
                             label="Label"
                             placeholder="Good"
                             class="max-input"
+                            pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                             style="
                                 min-width: 75px;
                                 border-radius: 10px 0 0 10px;

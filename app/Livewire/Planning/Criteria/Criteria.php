@@ -47,8 +47,9 @@ class Criteria extends Component
         return [
             'currentProject' => 'required',
             'criteriaId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
-            'description' => 'required|string|max:255',
-            'type.value' => 'required|in:Inclusion,Exclusion'
+            'description' => 'required|string|regex:/^[\pL\s]+$/u|max:255',
+            'type' => 'required|array',
+            'type.*.value' => 'string'
         ];
     }
 
