@@ -5,6 +5,9 @@ namespace App\Livewire\Planning\Criteria;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
+use App\Models\Project\Conducting\StudySelection\PapersSelection as PapersSelectionModel;
+use App\Models\Member as MemberModel;
+use App\Models\EvaluationCriteria as EvaluationCriteriaModel;
 use App\Models\Criteria as CriteriaModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
@@ -192,13 +195,64 @@ class Criteria extends Component
                     'rule' => $rule,
                 ])->count();
 
+                // Check if there are any criteria of the same type
+                $projectCriterias = CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type' => $type,
+                ])->count();
+
+                // If there are no criteria of the same type, show a error toast message
+                if ($projectCriterias === 0){
+                    $this->toast(
+                        message: __('project/planning.criteria.livewire.toasts.no_criteria'),
+                        type: 'error'
+                    );
+                    return;
+                }
+
                 if ($selectedCount === 0) {
                     CriteriaModel::where($where)
                         ->first()->update(['pre_selected' => 1]);
                 }
                 break;
         }
+
+        $this->resetPaperEvaluations();
         $this->updateCriterias();
+    }
+
+    private function resetPaperEvaluations()
+    {
+
+        // Get all members related to the current project
+        $members = MemberModel::where('id_project', $this->currentProject->id_project)
+            ->pluck('id_members'); // Retrieve all member IDs for the project
+
+        // Get all evaluation records related to the members of the current project
+        $papersSelection = PapersSelectionModel::whereIn('id_member', $members)
+            ->where('id_status', '!=', 3) // Exclude already "not evaluated" papers
+            ->get();
+
+        // Delete inclusion and exclusion criteria selected in the evaluation_criteria table
+        EvaluationCriteriaModel::whereIn('id_member', $members)
+            ->whereIn('id_paper', $papersSelection->pluck('id_paper')) // Filter by affected papers
+            ->delete();
+
+        // Check if there are evaluation records made by members,
+        // if none exist, there is nothing to do
+        if ($papersSelection->count() === 0) {
+            return;
+        }
+
+        // Update the selection status to "not evaluated"
+        foreach ($papersSelection as $paperSelection) {
+            $paperSelection->update(['id_status' => 3]);
+        }
+
+        $this->toast(
+            message: __('project/planning.criteria.livewire.toasts.reset_paper_evaluations'),
+            type: 'success'
+        );
     }
 
     /**
@@ -301,10 +355,15 @@ class Criteria extends Component
             );
 
             $this->selectRule($updatedOrCreated->rule, $this->type['value']);
+
             $this->toast(
                 message: $toastMessage,
                 type: 'success'
             );
+
+            // Reset the evaluations case already existed any evaluation made before the creation or editing of any criteria
+            $this->resetPaperEvaluations();
+
         } catch (\Exception $e) {
             $this->handleException($e);
         } finally {
@@ -352,6 +411,10 @@ class Criteria extends Component
                 message: $this->translate('deleted'),
                 type: 'success'
             );
+
+            // Reset the evaluations case already existed any evaluation made before the delete of any criteria
+            $this->resetPaperEvaluations();
+
             $this->updateCriterias();
         } catch (\Exception $e) {
             $this->toast(

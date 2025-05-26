@@ -14,7 +14,8 @@
                     id="questionId"
                     label="{{ __('project/planning.data-extraction.question-form.id') }}"
                     wire:model="questionId"
-                    placeholder="Digite o ID da questão"
+                    placeholder="{{ __('project/planning.data-extraction.question-form.dont-use') }}"
+
                     maxlength="255"
                     pattern="\d+"
                     required
@@ -49,7 +50,7 @@
                         <?= $currentQuestion === null ? "selected" : "" ?>
                         disabled
                     >
-                        {{ __("Selecione um tipo") }}
+                        {{ __('project/planning.data-extraction.question-form.type-selection.title') }}
                     </option>
                     @foreach ($questionTypes as $questionType)
                         <option

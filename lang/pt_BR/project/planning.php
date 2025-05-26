@@ -397,6 +397,7 @@ return [
         'form' => [
             'description' => 'String de Busca Genérica',
             'enter-description' => 'Digite a string de busca genérica',
+            'no-database'=> 'Sem base de dados encontrados neste projeto.',
             'add' => 'Adicionar String de Busca',
             'update' => 'Atualizar String de Busca',
             'placeholder' => 'Digite a string de busca',
@@ -517,7 +518,7 @@ return [
             'all' => 'Todos',
             'any' => 'Qualquer',
             'at-least' => 'Pelo menos',
-            'empty' => 'No criteria found',
+            'empty' => 'Sem critérios cadastrados',
             'actions' => 'Ações',
         ],
         'livewire' => [
@@ -538,6 +539,7 @@ return [
                 'deleted' => 'Critério excluído',
             ],
             'toasts' => [
+                'no_criteria'=> 'Nenhum critério encontrado.',
                 'added' => 'Critério adicionado com sucesso.',
                 'deleted' => 'Critério deletado com sucesso.',
                 'updated' => 'Critério atualizado com sucesso.',
@@ -836,6 +838,10 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Selecione um tipo',
+
+            ],
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
@@ -856,6 +862,10 @@ return [
                     <li>Descrição: Resumo - Tipo de dado: Texto.</li>
                     <li>Descrição: Base de Dados - Tipo de dado: Lista de Escolha Única. (Lista: ACM, IEEE, Scopus)</li>
                 </ul>',
+            ],
+            'question-selection'=> [
+                'title' => 'Selecione uma pergunta',
+
             ],
             'question' => 'Pergunta',
             'option' => 'Opção',
