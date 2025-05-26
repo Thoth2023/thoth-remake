@@ -12,6 +12,9 @@ use App\Models\Database;
 use App\Models\Term;
 use App\Models\Criteria;
 use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Models\Project\Planning\QualityAssessment\GeneralScore as GeneralScoreModel;
+use App\Models\Project\Planning\QualityAssessment\QualityScore as QualityScoreModel;
+use App\Models\Project\Planning\QualityAssessment\Cutoff as CutoffScoreModel;
 use App\Http\Requests\Project\Planning\DataExtraction\Question\StoreQuestionRequest;
 use App\Http\Requests\Project\Planning\DataExtraction\Question\UpdateQuestionRequest;
 use App\Models\Project\Planning\DataExtraction\Question as DataExtractionQuestionAlias;
@@ -27,7 +30,15 @@ class PlanningProgressController
      */
     public function calculate(string $projectId): array
     {
-        $totalSections = 12; // Número total de seções no planejamento
+        // Informações gerais = 5 itens
+        // Questões de pesquisa = 1
+        // Base de dados = 1
+        // Termos = 1
+        // Estratégia de busca = 1
+        // Critérios = 1
+        // Avaliação de qualidade = 5
+        // Extração = 2    
+        $totalSections = 15; // Número total de seções no planejamento
         $completedSections = 0;
     
         // Verificar se pelo menos um domínio foi adicionado
@@ -41,6 +52,8 @@ class PlanningProgressController
         $dateProgress = Project::where('id_project', $projectId)
         ->whereNotNull('start_date')
         ->whereNotNull('end_date')
+        ->where('start_date', '!=', '')
+        ->where('end_date', '!=', '')
         ->exists() ? 1 : 0;
         
         $researchQuestionProgress = ResearchQuestion::where('id_project', $projectId)->exists() ? 1 : 0;
@@ -57,6 +70,16 @@ class PlanningProgressController
 
         $criteriaProgress = Criteria::where('id_project', $projectId)->exists() ? 1 : 0;
         $qualityAssessmentProgress = DataExtractionQuestionAlias::where('id_project', $projectId)->exists() ? 1 : 0;
+        
+        $qualityScoreProgress = QualityScoreModel::whereHas('question', function ($query) use ($projectId) {
+            $query->where('id_project', $projectId);
+        })->exists() ? 1 : 0;
+
+        $cutoffProgress = CutoffScoreModel::whereHas('generalScore', function ($query) use ($projectId) {
+            $query->where('id_project', $projectId);
+        })->exists() ? 1 : 0;
+
+        $generalScoreProgress = GeneralScoreModel::where('id_project', $projectId)->exists() ? 1 : 0;
         $questionProgress = Question::where('id_project', $projectId)->exists() ? 1 : 0;
 
         // Calcular o número de seções preenchidas
@@ -71,6 +94,9 @@ class PlanningProgressController
         $completedSections += $searchStrategyProgress;
         $completedSections += $criteriaProgress;
         $completedSections += $qualityAssessmentProgress;
+        $completedSections += $qualityScoreProgress;
+        $completedSections += $generalScoreProgress;
+        $completedSections += $cutoffProgress;
         $completedSections += $questionProgress;
 
         // Calcular o progresso geral como uma porcentagem
@@ -89,6 +115,9 @@ class PlanningProgressController
             'searchStrategy' => ($searchStrategyProgress / $totalSections) * 100,
             'criteria' => ($criteriaProgress / $totalSections) * 100,
             'qualityAssessment' => ($qualityAssessmentProgress / $totalSections) * 100,
+            'qualityScore' => ($qualityScoreProgress / $totalSections) * 100,
+            'generalScore' => ($generalScoreProgress / $totalSections) * 100,
+            'cutoff' => ($cutoffProgress / $totalSections) * 100,
             'dataExtraction' => ($questionProgress / $totalSections) * 100,
         ];
     }
