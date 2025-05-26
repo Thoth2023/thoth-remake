@@ -152,6 +152,9 @@ return [
             'table-duplicate-no' => 'NÃO',
 
         ],
+        'messages' => [
+            'criteria_updated' => 'Critério atualizado com sucesso. Novo status: :status',
+        ],
         'toasts' => [
             'denied' => 'Um visualizador não pode editar a seleção de estudos',
         ]
@@ -473,7 +476,11 @@ return [
                 'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
-
+        'messages' => [
+            'evaluation_quality_score_updated' => 'Pontuação de Avaliação de Qualidade atualizada com sucesso.',
+            'status_quality_updated' => 'Status de Qualidade atualizado com sucesso. Novo status: :status',
+            'status_updated_for_selection' => 'Status atualizado para sua seleção. Novo status: :status',
+        ],
     ],
 
     'data-extraction' => [

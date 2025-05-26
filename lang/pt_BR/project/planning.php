@@ -549,6 +549,11 @@ return [
                 'denied' => 'Um visualizador não pode adicionar, editar ou excluir critérios de inclusão/exclusão.',
             ],
         ],
+        'duplicate_id' => 'O ID fornecido já existe neste projeto.',
+        'updated_success' => 'Critério atualizado com sucesso.',
+        'not_found' => 'Critério não encontrado.',
+        'deleted_success' => 'Critério excluído com sucesso.',
+        'preselected_updated' => 'Valor pré-selecionado atualizado com sucesso.',
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
