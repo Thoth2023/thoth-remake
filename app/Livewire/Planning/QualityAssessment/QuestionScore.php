@@ -10,10 +10,14 @@ use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Models\Project\Planning\QualityAssessment\QualityScore as QualityScoreModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class QuestionScore extends Component
 {
-  private $toastMessages = 'project/planning.quality-assessment.question-score.toasts';
+
+  use ProjectPermissions;
+
+  private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
   public $currentProject;
   public $currentQuestionScore;
   public $questions = [];
@@ -74,6 +78,11 @@ class QuestionScore extends Component
   #[On('update-score-questions')]
   public function updateQuestions()
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $projectId = $this->currentProject->id_project;
     $this->questions = Question::where('id_project', $projectId)->get();
   }
@@ -81,6 +90,11 @@ class QuestionScore extends Component
   #[On('edit-question-score')]
   public function editQuestionScore($questionScoreId)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->currentQuestionScore = QualityScore::findOrFail($questionScoreId);
     $this->questionId["value"] = $this->currentQuestionScore->id_qa;
     $this->scoreRule = $this->currentQuestionScore->score_rule;
@@ -120,6 +134,11 @@ class QuestionScore extends Component
    */
   public function submit()
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $this->validate();
 
     try {

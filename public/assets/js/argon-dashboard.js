@@ -2378,7 +2378,6 @@ window.sidebarColor = function (a) {
   }
 }; // Set Sidebar Type
 
-
 window.sidebarType = function (a) {
   var parent = a.parentElement.children;
   var color = a.getAttribute("data-class");
@@ -2406,34 +2405,34 @@ window.sidebarType = function (a) {
 
   sidebar.classList.add(color); // Remove text-white/text-dark classes
 
-  if (color == 'bg-white') {
-    var textWhites = document.querySelectorAll('.sidenav .text-white');
-
-    for (var _i = 0; _i < textWhites.length; _i++) {
-      textWhites[_i].classList.remove('text-white');
-
-      textWhites[_i].classList.add('text-dark');
+  if (color === 'bg-white') {
+    var elements = document.querySelectorAll('.sidenav .text-white, .sidenav .text-dark, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
+  
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove('text-white');
+      elements[i].classList.remove('text-dark');
+  
+      if (bodyDark) {
+        elements[i].classList.add('text-dark');
+        elements[i].style.setProperty('color', '#111827', 'important');
+      } else {
+        elements[i].classList.add('text-dark');
+        elements[i].style.removeProperty('color');
+      }
     }
   } else {
-    var textDarks = document.querySelectorAll('.sidenav .text-dark');
-
-    for (var _i2 = 0; _i2 < textDarks.length; _i2++) {
-      textDarks[_i2].classList.add('text-white');
-
-      textDarks[_i2].classList.remove('text-dark');
+    var elements = document.querySelectorAll('.sidenav .text-dark, .sidenav .text-white, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
+  
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove('text-dark');
+      elements[i].classList.remove('text-white');
+      elements[i].classList.add('text-white');
+      elements[i].style.removeProperty('color');
     }
   }
+  
 
-  if (color == 'bg-default' && bodyDark) {
-    var textDarks = document.querySelectorAll('.navbar-brand .text-dark');
-
-    for (var _i3 = 0; _i3 < textDarks.length; _i3++) {
-      textDarks[_i3].classList.add('text-white');
-
-      textDarks[_i3].classList.remove('text-dark');
-    }
-  } // Remove logo-white/logo-dark
-
+  // Remove logo-white/logo-dark
 
   if (color == 'bg-white' && bodyWhite) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
@@ -2462,9 +2461,9 @@ window.sidebarType = function (a) {
       navbarBrand.src = navbarBrandImgNew;
     }
   }
-}; // Set Navbar Fixed
+}; 
 
-
+// Set Navbar Fixed
 window.navbarFixed = function (el) {
   var classes = ['position-sticky', 'bg-white', 'left-auto', 'top-2', 'z-index-sticky'];
   var navbar = document.getElementById('navbarBlur');
@@ -2879,12 +2878,12 @@ window.darkMode = function (el) {
       }
     }
 
-    for (var i = 0; i < text_nav_link.length; i++) {
+   /* for (var i = 0; i < text_nav_link.length; i++) {
       if (text_nav_link[i].classList.contains('text-dark')) {
         text_nav_link[i].classList.remove('text-dark');
         text_nav_link[i].classList.add('text-white');
       }
-    }
+    }*/
 
     for (var i = 0; i < secondary.length; i++) {
       if (secondary[i].classList.contains('text-secondary')) {
@@ -2906,9 +2905,9 @@ window.darkMode = function (el) {
       btn_text_dark[i].classList.add('text-white');
     }
 
-    for (var i = 0; i < sidebarWhite.length; i++) {
-      sidebarWhite[i].classList.remove('bg-white');
-    }
+    //for (var i = 0; i < sidebarWhite.length; i++) {
+    //  sidebarWhite[i].classList.remove('bg-white');
+    //}
 
     for (var i = 0; i < svg.length; i++) {
       if (svg[i].hasAttribute('fill')) {
@@ -2919,12 +2918,28 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border.length; i++) {
       card_border[i].classList.add('border-dark');
     }
+    var sidebarElements = document.querySelectorAll(
+      '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+    );
+
+    for (var i = 0; i < sidebarElements.length; i++) {
+      const el = sidebarElements[i];
+      el.classList.remove('text-white', 'text-dark', 'text-blue-600');
+      el.style.removeProperty('color');
+    
+      if (sidebar.classList.contains('bg-white')) {
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      } else {
+        el.classList.add('text-white');
+      }
+    }
 
     el.setAttribute("checked", "true");
   } else {
     body.classList.remove('dark-version');
-    sidebar.classList.add('bg-white');
-
+    //sidebar.classList.add('bg-white');
+    //sidebar.classList.add('bg-default');
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;
@@ -3016,7 +3031,6 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border_dark.length; i++) {
       card_border_dark[i].classList.remove('border-dark');
     }
-
     el.removeAttribute("checked");
   }
 };

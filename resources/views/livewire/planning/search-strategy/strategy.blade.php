@@ -1,3 +1,9 @@
+<?php
+
+use App\Traits\ProjectPermissions;
+
+?>
+
 <div class="card">
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
@@ -40,7 +46,6 @@
                             const quill = new Quill($refs.editor, {
                             theme: 'snow'
                             });
-
                                 quill.on('text-change', function () {
                                     // Obtém o texto puro (sem tags HTML)
                                     const plainText = quill.getText().trim();
@@ -65,6 +70,7 @@
                     type="submit"
                     class="btn btn-success mt-3"
                     wire:loading.attr="disabled"
+                    {{ !$this->userCanEdit() ? 'disabled' : '' }}
                 >
                     {{ __("project/planning.search-strategy.save-button") }}
                     <div wire:loading>

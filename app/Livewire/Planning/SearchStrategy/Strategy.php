@@ -7,12 +7,18 @@ use App\Models\Project as ProjectModel;
 use App\Models\SearchStrategy as SearchStrategyModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Strategy extends Component
 {
+    use ProjectPermissions;
+
     public $projectId;
+    public $currentProject;
     public $searchStrategy;
     public $currentDescription;
+
+    private $toastMessages = 'project/planning.search-strategy';
 
 
     protected $rules = [
@@ -31,6 +37,7 @@ class Strategy extends Component
     {
         $projectId = request()->segment(2);
         $this->projectId = $projectId;
+        $this->currentProject = ProjectModel::findOrFail($this->projectId);
         $this->searchStrategy = SearchStrategyModel::where('id_project', $this->projectId)->firstOrNew([]);
         $this->currentDescription = $this->searchStrategy->description;
     }

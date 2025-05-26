@@ -4,7 +4,7 @@
             <h5>{{ __('project/overview.description') }}</h5>
         </div>
         <div class="card-body pt-2">
-            <p>{{ $project->description }}</p>
+            <p>{!! $project->description !!}</p>
         </div>
     </div>
     <div class="card">
@@ -12,7 +12,7 @@
             <h5>{{ __('project/overview.objectives') }}</h5>
         </div>
         <div class="card-body pt-2">
-            <p>{{ $project->objectives }}</p>
+            <p>{!! $project->objectives !!}</p>
         </div>
     </div>
     <div class="card">
