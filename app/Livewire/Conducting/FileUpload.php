@@ -193,6 +193,13 @@ class FileUpload extends Component
                     // Lidar com erros no processo de criação de BibUpload ou despachar job/processamento CSV
                     $errorMessage = $e->getMessage();
                     FacadesLog::error('Erro ao salvar o arquivo ou processar BibUpload.', ['error' => $errorMessage]);
+
+                    // Deleta o bibUpload se houver erro
+                    if (isset($bibUpload) && $bibUpload->exists()) {
+                        $bibUpload->delete();
+                        FacadesLog::info('Registro BibUpload deletado após falha no processamento.', ['id_bib' => $bibUpload->id_bib]);
+                    }
+
                     $this->handleException($e);
                 }
 
@@ -255,15 +262,15 @@ class FileUpload extends Component
         return [
             'type' => $csvRow['Content Type'] ?? '',
             'citation-key' => '',
-            'title' => $csvRow['Item Title'] ?? '',
-            'author' => $csvRow['Authors'] ?? '',
+            'title' => !empty($csvRow['Item Title']) ? $csvRow['Item Title'] : null,
+            'author' =>!empty($csvRow['Authors']) ? $csvRow['Authors'] : null,
             'booktitle' => $csvRow['Book Series Title'] ?? '',
             'volume' => $csvRow['Journal Volume'] ?? '',
             'pages' => '',
             'numpages' => '',
             'abstract' => '',
             'keywords' => '',
-            'doi' => $csvRow['Item DOI'] ?? '',
+            'doi' => !empty($csvRow['Item DOI']) ? $csvRow['Item DOI'] : null,
             'journal' => $csvRow['Publication Title'] ?? '',
             'issn' => '',
             'location' => '',

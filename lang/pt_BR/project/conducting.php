@@ -301,7 +301,21 @@ return [
                      <ul>
                      <li><b>Obs.:</b> Se você deseja realizar <b>"Avaliação por Pares"</b>, é necessário convidar os pesquisadores  e adicionar ao projeto antes de importar os estudos (papers)</li>
                      <li>Para adicionar pesquisadores, navegue até <b>"Meus Projetos->Colaboradores"</b></li>
-                     </ul>'
+                     </ul>
+                     <br>
+                     <b>Orientações para o formato CSV:</b><br>
+                     O arquivo CSV deve conter os seguintes cabeçalhos de coluna:<br>
+                     <ul>
+                         <li>"<b>Item Title</b>" – usado como o título do estudo</li>
+                         <li>"<b>Authors</b>" – lista de autores</li>
+                         <li>"<b>Item DOI</b>" – identificador digital do objeto</li>
+                         <li>"URL" – link opcional para o estudo</li>
+                         <li>"Publication Year" – ano de publicação</li>
+                         <li>"Book Series Title" – nome da série de livros</li>
+                         <li>"Journal Volume" – volume do periódico</li>
+                         <li>"Publication Title" – nome do periódico ou publicação</li>
+                     </ul>
+                     <b>Atenção:</b> Se algum dos campos em <b>negrito</b> estiver ausente ou vazio, a importação <b>não será realizada</b>.'
         ],
         'table' => [
             'database' => 'Base de dados',
