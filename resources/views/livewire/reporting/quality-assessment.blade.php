@@ -41,7 +41,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per Status Quality'
+                        text: '{{ __('project/reporting.quality-assessment.papers-status-quality.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -60,7 +60,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.quality-assessment.papers-status-quality.content') }}',
                         colorByPoint: true,
                         data: papersPerStatus // Dados dinâmicos
                     }]
@@ -74,7 +74,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per General Score'
+                        text: '{{ __('project/reporting.quality-assessment.papers-general-score.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -93,7 +93,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.quality-assessment.papers-general-score.content') }}',
                         colorByPoint: true,
                         data: @json($papersByGeneralScore) // Dados gerados pela consulta
                     }]
@@ -129,18 +129,18 @@
                         type: 'bar'
                     },
                     title: {
-                        text: 'Número de Papers por Usuário e Status Quality'
+                        text: '{{ __('project/reporting.quality-assessment.number-papers-user-status-quality.title') }}'
                     },
                     xAxis: {
                         categories: users,
                         title: {
-                            text: 'Usuários'
+                            text: '{{ __('project/reporting.quality-assessment.number-papers-user-status-quality.users') }}'
                         }
                     },
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Número de Papers'
+                            text: '{{ __('project/reporting.quality-assessment.number-papers-user-status-quality.number-papers') }}'
                         }
                     },
                     legend: {

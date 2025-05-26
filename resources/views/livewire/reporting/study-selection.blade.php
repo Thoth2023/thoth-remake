@@ -36,7 +36,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per Status Selection'
+                        text: '{{ __('project/reporting.study-selection.papers-per-selection.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -55,7 +55,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.study-selection.papers-per-selection.content') }}',
                         colorByPoint: true,
                         data: papersPerStatus // Dados dinâmicos
                     }]
@@ -84,18 +84,18 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Critérios assinalados por Usuário'
+                        text: '{{ __('project/reporting.study-selection.criteria-marked-user.title') }}'
                     },
                     xAxis: {
                         categories: criterias,
                         title: {
-                            text: 'Critérios Assinalados na Seleção de Estudos'
+                            text: '{{ __('project/reporting.study-selection.criteria-marked-user.criteria-identified-study-selection') }}'
                         }
                     },
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Quantidade de vezes'
+                            text: '{{ __('project/reporting.study-selection.criteria-marked-user.number-times') }}'
                         }
                     },
                     plotOptions: {
@@ -114,9 +114,9 @@
                             const criteriaId = criterias[this.point.index]; // Critério atual
                             const criteriaName = criteriaData[criteriaId].criteria_name; // Pegue o nome do critério
 
-                            return `<b>Critério:</b> ${criteriaId} - ${criteriaName}<br/>` +
-                                `<b>Usuário:</b> ${this.series.name}<br/>` +
-                                `<b>Valor:</b> ${this.y}`;
+                            return `<b>{{ __('project/reporting.study-selection.criteria-marked-user.criteria') }}:</b> ${criteriaId} - ${criteriaName}<br/>` +
+                                `<b>{{ __('project/reporting.study-selection.criteria-marked-user.user') }}:</b> ${this.series.name}<br/>` +
+                                `<b>{{ __('project/reporting.study-selection.criteria-marked-user.value') }}:</b> ${this.y}`;
                         }
                     },
                     series: series // Dados formatados dos usuários e suas contagens
@@ -150,18 +150,18 @@
                             type: 'bar'
                         },
                         title: {
-                            text: 'Número de Papers por Usuário e Status Selection'
+                            text: '{{ __('project/reporting.study-selection.number-papers-user-status-selection.title') }}'
                         },
                         xAxis: {
                             categories: users,
                             title: {
-                                text: 'Usuários'
+                                text: '{{ __('project/reporting.study-selection.number-papers-user-status-selection.users') }}'
                             }
                         },
                         yAxis: {
                             min: 0,
                             title: {
-                                text: 'Número de Papers'
+                                text: '{{ __('project/reporting.study-selection.number-papers-user-status-selection.number-papers') }}'
                             }
                         },
                         legend: {

@@ -27,8 +27,8 @@
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class="nav-link text-white font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">{{ __('nav/nav.logout') }}</span>
+                            <i class="fa fa-sign-out-alt me-ms-1"></i>
+                            <span>{{ __('nav/nav.logout') }}</span>
                         </a>
                     </form>
                 </li>

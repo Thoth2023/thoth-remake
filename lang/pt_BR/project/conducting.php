@@ -152,6 +152,9 @@ return [
             'table-duplicate-no' => 'NÃO',
 
         ],
+        'messages' => [
+            'criteria_updated' => 'Critério atualizado com sucesso. Novo status: :status',
+        ],
         'toasts' => [
             'denied' => 'Um visualizador não pode editar a seleção de estudos',
         ]
@@ -199,6 +202,7 @@ return [
             'select-status' => 'Mostrar todos os Status...',
             'select-type' => 'Mostrar todos os Tipos...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -297,7 +301,21 @@ return [
                      <ul>
                      <li><b>Obs.:</b> Se você deseja realizar <b>"Avaliação por Pares"</b>, é necessário convidar os pesquisadores  e adicionar ao projeto antes de importar os estudos (papers)</li>
                      <li>Para adicionar pesquisadores, navegue até <b>"Meus Projetos->Colaboradores"</b></li>
-                     </ul>'
+                     </ul>
+                     <br>
+                     <b>Orientações para o formato CSV:</b><br>
+                     O arquivo CSV deve conter os seguintes cabeçalhos de coluna:<br>
+                     <ul>
+                         <li>"<b>Item Title</b>" – usado como o título do estudo</li>
+                         <li>"<b>Authors</b>" – lista de autores</li>
+                         <li>"<b>Item DOI</b>" – identificador digital do objeto</li>
+                         <li>"URL" – link opcional para o estudo</li>
+                         <li>"Publication Year" – ano de publicação</li>
+                         <li>"Book Series Title" – nome da série de livros</li>
+                         <li>"Journal Volume" – volume do periódico</li>
+                         <li>"Publication Title" – nome do periódico ou publicação</li>
+                     </ul>
+                     <b>Atenção:</b> Se algum dos campos em <b>negrito</b> estiver ausente ou vazio, a importação <b>não será realizada</b>.'
         ],
         'table' => [
             'database' => 'Base de dados',
@@ -383,6 +401,7 @@ return [
             'select-database' => 'Mostrar todos as Bases',
             'select-status' => 'Mostrar todos Status...',
             'search-papers' => 'Buscar estudos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -471,7 +490,11 @@ return [
                 'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
-
+        'messages' => [
+            'evaluation_quality_score_updated' => 'Pontuação de Avaliação de Qualidade atualizada com sucesso.',
+            'status_quality_updated' => 'Status de Qualidade atualizado com sucesso. Novo status: :status',
+            'status_updated_for_selection' => 'Status atualizado para sua seleção. Novo status: :status',
+        ],
     ],
 
     'data-extraction' => [
@@ -511,6 +534,7 @@ return [
             'select-database' => 'Mostrar todas as Bases de Dados',
             'select-status' => 'Mostrar todos os Status...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',

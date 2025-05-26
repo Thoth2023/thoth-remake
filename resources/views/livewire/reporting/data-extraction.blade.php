@@ -60,8 +60,8 @@
                         name: 'Occurrences'
                     }],
                     title: {
-                        text: 'Data Extraction Wordcloud',
-                        align: 'left'
+                        text: '{{ __('project/reporting.data-extraction.data-extraction-wordcloud') }}',
+                        align: 'center'
                     },
                     tooltip: {
                         headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
@@ -76,7 +76,7 @@
                         height: '65%'
                     },
                     title: {
-                        text: 'Respostas de Extração de Dados - Packed Bubble',
+                        text: '{{ __('project/reporting.data-extraction.data-extraction-answer-packed-bubble') }}',
                         align: 'left'
                     },
                     tooltip: {
@@ -116,7 +116,7 @@
                         type: 'line'
                     },
                     title: {
-                        text: 'Comparação de Respostas por Questão',
+                        text: '{{ __('project/reporting.data-extraction.comparasion-answers-question.title') }}',
                         align: 'left'
                     },
                     xAxis: {
@@ -130,7 +130,7 @@
                         min: 0
                     },
                     series: [{
-                        name: 'Respostas',
+                        name: '{{ __('project/reporting.data-extraction.comparasion-answers-question.content') }}',
                         data: radarChartData.data,
                         pointPlacement: 'on'
                     }]
