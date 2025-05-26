@@ -109,6 +109,10 @@ class Criteria extends Component
         $this->form['isEditing'] = false;
     }
 
+    /**
+     * Toggle the "pre_selected" state of a criterion and update the corresponding rule
+     * based on the selection count.
+     */
     public function changePreSelected($id, $type)
     {
 
@@ -154,6 +158,10 @@ class Criteria extends Component
         $this->updateCriterias();
     }
 
+    /**
+     * Updates the selection rule,
+     * and adjusts the "pre_selected" values.
+     */
     public function selectRule($rule, $type)
     {
 

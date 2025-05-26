@@ -89,6 +89,7 @@ class Question extends Component
         $this->description = '';
         $this->type['value'] = '';
         $this->form['isEditing'] = false;
+        $this->currentQuestion = null;
     }
 
     /**
@@ -129,7 +130,7 @@ class Question extends Component
 
         $this->validate();
 
-        // Verifica se o 'id' da questão já existe no projeto atual (em modo de criação)
+        // Prevent duplicate question ID on creation
         if (!$this->form['isEditing']) {
             $existingQuestion = QuestionModel::where('id', $this->questionId)
                 ->where('id_project', $this->currentProject->id_project)
@@ -150,7 +151,7 @@ class Question extends Component
                 ? 'Questão atualizada com sucesso!' : 'Questão adicionada com sucesso!';
 
             if ($this->form['isEditing']) {
-                // Atualiza a questão existente
+                // Update existing question
                 $this->currentQuestion->update([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -158,7 +159,7 @@ class Question extends Component
                     'description' => $this->description,
                 ]);
             } else {
-                // Cria uma nova questão
+                // Create new question
                 QuestionModel::create([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -196,6 +197,9 @@ class Question extends Component
     #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
+
+        $this->resetFields();
+
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
@@ -212,10 +216,10 @@ class Question extends Component
             return;
         }
 
-        // Verifica se o 'questionId' já existe em outra questão do mesmo projeto
+        // Check if another question with the same ID exists in this project
         $existingQuestion = QuestionModel::where('id', $this->questionId)
             ->where('id_project', $this->currentProject->id_project)
-            ->where('id', '!=', $this->currentQuestion->id) // Garante que não é a mesma questão
+            ->where('id', '!=', $this->currentQuestion->id)
             ->first();
 
         if ($existingQuestion) {
@@ -226,7 +230,7 @@ class Question extends Component
             return;
         }
 
-        // Preenche os campos do formulário com os dados da questão atual
+        // Fill the form with current question's data
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
         $this->type['value'] = $this->currentQuestion->type;
@@ -284,10 +288,3 @@ class Question extends Component
         )->extends('layouts.app');
     }
 }
-
-
-//     public function render()
-//     {
-//         return view('livewire.planning.data-extraction.data-extraction');
-//     }
-// }
