@@ -42,8 +42,8 @@ class QuestionQuality extends Component
     protected $rules = [
         'currentProject' => 'required',
         'questionId' => 'required|string|max:10|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|max:255',
-        'weight' => 'required|numeric',
+        'description' => 'required|string|max:255|regex:/^[a-zA-Z0-9]+$/',
+        'weight' => 'required|regex:/^\d+(\.\d{1,2})?$/',
     ];
 
     /**
@@ -176,6 +176,14 @@ class QuestionQuality extends Component
         if ($existingQuestion) {
             $this->toast(
                 message: __('project/planning.quality-assessment.question-quality.livewire.toasts.duplicate_id'),
+                type: 'error'
+            );
+            return;
+        }
+
+        if ($this->weight <= 0) {
+            $this->toast(
+                message: __('project/planning.quality-assessment.question-quality.livewire.toasts.min_weight'),
                 type: 'error'
             );
             return;

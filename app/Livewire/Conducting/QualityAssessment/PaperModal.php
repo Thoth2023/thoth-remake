@@ -61,7 +61,7 @@ class PaperModal extends Component
     {
 
         $this->canEdit = $this->userCanEdit();
-        
+
         // Limpar estado anterior
         $this->resetState();
 
@@ -222,7 +222,7 @@ class PaperModal extends Component
 
         // Se desejar, você pode adicionar uma mensagem de sucesso ou atualizar algum estado
         $this->dispatch('reload-paper-modal');
-        $this->dispatch('show-success-quality');
+        $this->dispatch('show-success-quality', 'Score atualizado com sucesso.');
         $this->dispatch('show-success-quality-score');
     }
 

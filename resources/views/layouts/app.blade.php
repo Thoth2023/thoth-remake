@@ -81,31 +81,28 @@
         @endguest
 
         @auth
-            @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
+    @if (in_array(request()->route()->getName(),["login", "register", "reset-password", "change-password","message"]))
+        @yield("content")
+    @else
+        @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
+            <div class="bg-gradient-faded-dark opacity-8 position-absolute w-100" style="min-height: 280px"></div>
+        @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
+            <div class="bg-gradient-faded-dark position-absolute w-100 min-height-300 top-0">
+                <span class="mask bg-primary opacity-8"></span>
+            </div>
+        @endif
+        @include("layouts.navbars.auth.sidenav")
+        <main class="main-content">
+            <div class="container">
                 @yield("content")
-            @else
-                @if (! in_array(request()->route()->getName(),["profile", "home", "about", "help", "database-manager"]))
-                    <div
-                        class="bg-gradient-faded-dark opacity-8 position-absolute w-100"
-                        style="min-height: 280px"
-                    ></div>
-                @elseif (in_array(request()->route()->getName(),["profile-static", "profile"]))
-                    <div
-                        class="bg-gradient-faded-dark position-absolute w-100 min-height-300 top-0"
-                    >
-                        >
-                        <span class="mask bg-primary opacity-8"></span>
-                    </div>
-                @endif
-                @include("layouts.navbars.auth.sidenav")
-                <main class="main-content">
-                    <div class="container">
-                        @yield("content")
-                    </div>
-                </main>
-                @include("components.fixed-plugin")
-            @endif
-        @endauth
+            </div>
+        </main>
+    @endif
+@endauth
+
+{{--Incluído fora do @auth: aparece para todos --}}
+@include("components.fixed-plugin")
+
 
         <!-- PWA service worker -->
         <script>
@@ -198,8 +195,16 @@
                 const toastBody = toastElement.querySelector('.toast-body');
                 const toastTime = toastElement.querySelector('.toast-time');
 
+                function decodeHtmlEntities(str) {
+                    if (!str) return '';
+                    const temp = document.createElement('textarea');
+                    temp.innerHTML = str;
+                    return temp.value;
+                }
+
                 function showToast(message, type) {
-                    toastBody.innerText = message;
+                    const decodedMessage = decodeHtmlEntities(message);
+                    toastBody.innerText = decodedMessage;
                     toastElement.querySelector('.toast-header strong').innerText = type;
                     const toast = new bootstrap.Toast(toastElement);
                     toast.show();
@@ -220,7 +225,6 @@
                         showToast(validationErrors.join(' '), 'Error');
                     @endif
                 }
-
             });
         </script>
 

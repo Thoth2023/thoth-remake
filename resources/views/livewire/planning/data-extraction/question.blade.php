@@ -14,9 +14,9 @@
                     id="questionId"
                     label="{{ __('project/planning.data-extraction.question-form.id') }}"
                     wire:model="questionId"
-                    placeholder="Não utilize caracteres especiais"
+                    placeholder="ID"
                     maxlength="255"
-                    pattern="[a-zA-Z0-9]+"
+                    pattern="\d+"
                     required
                 />
                 @error("questionId")
@@ -31,6 +31,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 />
                 @error("description")
@@ -48,7 +49,7 @@
                         <?= $currentQuestion === null ? "selected" : "" ?>
                         disabled
                     >
-                        {{ __("Selecione um tipo") }}
+                        {{ __('project/planning.data-extraction.question-form.type-selection.title') }}
                     </option>
                     @foreach ($questionTypes as $questionType)
                         <option

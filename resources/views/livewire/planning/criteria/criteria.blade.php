@@ -19,9 +19,9 @@
                             placeholder="ID"
                             required />
                         @error("criteriaId")
-                        <span class="text-xs text-danger">
-                            {{ $message }}
-                        </span>
+                            <span class="text-xs text-danger">
+                                {{ $message }}
+                            </span>
                         @enderror
                     </div>
 
@@ -68,6 +68,11 @@
                             {{ __("project/planning.criteria.form.select-exclusion") }}
                         </option>
                     </x-select>
+                    @error("type.value")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
                 <div>
                     <x-helpers.submit-button

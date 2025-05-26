@@ -396,6 +396,7 @@ return [
         'form' => [
             'description' => 'Generic search string',
             'enter-description' => 'Enter search string description',
+            'no-database'=> 'No database found for this project.',
             'add' => 'Add Search String',
             'update' => 'Update Search String',
             'placeholder' => 'Enter the search string',
@@ -437,6 +438,8 @@ return [
                     'added' => 'Search Term added successfully.',
                     'updated' => 'Search Term updated successfully.',
                     'deleted' => 'Search Term deleted successfully.',
+                    'validation' => 'The search term field is required.',
+                    'synonym' => 'The synonym field is required.',
                     'denied' => 'A viewer cannot add, edit or delete search terms.',
                 ],
             ]
@@ -527,6 +530,7 @@ return [
             ],
             'type' => [
                 'required' => 'The type field is required.',
+                'in' => 'Select a valid type.'
             ],
             'logs' => [
                 'added' => 'Criteria added',
@@ -534,6 +538,8 @@ return [
                 'deleted' => 'Criteria deleted',
             ],
             'toasts' => [
+                'reset_paper_evaluations' => 'All paper evaluations have been reset to "Not Evaluated".',
+                'no_criteria'=> 'No criteria found.',
                 'added' => 'Criteria added successfully',
                 'deleted' => 'Criteria deleted successfully',
                 'updated' => 'Criteria updated successfully',
@@ -684,6 +690,7 @@ return [
                     'added' => 'Question Quality added successfully.',
                     'updated' => 'Question Quality updated successfully.',
                     'deleted' => 'Question Quality deleted successfully.',
+                    'min_weight' => 'The weight must be greater than 0.',
                 ],
             ],
 
@@ -833,6 +840,9 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Select a Type',
+            ],
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
             'description' => 'Description',
@@ -855,6 +865,10 @@ return [
                     <li>Description: Database - Type of data: Pick One List. (List: ACM, IEEE, Scopus)</li>
                 </ul>
                 ',
+            ],
+            'question-selection'=> [
+                'title' => 'Select a Question',
+
             ],
             'question' => 'Question',
             'option' => 'Option',

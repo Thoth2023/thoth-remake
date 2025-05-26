@@ -181,7 +181,9 @@ class PaperModal extends Component
         session()->flash('successMessage', "Criteria updated successfully. New status: " . $this->getPaperStatusDescription($this->paper['status_selection']));
 
         // Atualiza a view para mostrar o alert
-        $this->dispatch('show-success');
+        $message = 'Nota salva com sucesso.';
+        session()->flash('successMessage', $message);
+        $this->dispatch('show-success',$message);
         $this->dispatch('refreshPaperStatus');
     }
 
