@@ -1,6 +1,6 @@
 <div class="card d-inline-flex mt-5 mb-3 w-100">
     <div class="card-body">
-        <a href="javascript:" class="card-title h5 d-block text-darker">
+        <a href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
             {{ __("project/planning.databases.database-manager.table.title") }}
         </a>
     </div>
