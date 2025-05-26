@@ -4,6 +4,7 @@
 @include("layouts.navbars.guest.navbar", ["title" => __("pages/home.home")])
 
 <div class="container mt-2">
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
