@@ -25,7 +25,12 @@ class KeywordUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|string',
+            'description' => [
+                'required',
+                'string',
+                'regex:/^[\pL\s]+$/u',
+                'max:255',
+            ],
         ];
     }
 }

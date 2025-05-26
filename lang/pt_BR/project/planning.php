@@ -530,6 +530,7 @@ return [
             ],
             'type' => [
                 'required' => 'Selecionar um tipo é obrigatório.',
+                'in' => 'Selecione um tipo válido.',
             ],
             'logs' => [
                 'added' => 'Critério adicionado',
