@@ -21,3 +21,4 @@ public/build/assets/app-8a9a9028.js
 .gitignore
 tests/Feature/CriteriaMountTest.php
 public/build/manifest.json
+
