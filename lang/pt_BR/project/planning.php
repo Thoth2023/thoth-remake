@@ -435,7 +435,10 @@ return [
                     'added' => 'Termo de Busca adicionado com sucesso.',
                     'updated' => 'Termo de Busca atualizado com sucesso.',
                     'deleted' => 'Termo de Busca deletado com sucesso.',
+                    'validation' => 'O termo de busca é inválido. Por favor, insira um termo de busca válido.',
                     'denied' => 'Um visualizador não pode adicionar, editar ou excluir termos de busca.',
+                    'synonym' => 'O sinônimo é inválido. Por favor, insira um sinônimo válido.',
+
                 ],
             ]
         ],
@@ -681,6 +684,7 @@ return [
                     'added' => 'Questão de Qualidade adicionada com sucesso.',
                     'updated' => 'Questão de Qualidade atualizada com sucesso.',
                     'deleted' => 'Questão de Qualidade deletada com sucesso.',
+                    'min_weight' => 'O peso mínimo deve ser maior que 0.',
                 ],
             ],
 
