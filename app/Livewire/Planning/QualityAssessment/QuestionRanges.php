@@ -186,6 +186,10 @@ class QuestionRanges extends Component
       $idGeneralScore = $this->items[$index]['id_general_score'];
       $value = $this->items[$index]['description'];
 
+      if ($this->oldItems[$index]['description'] === $value) {
+        return;
+      }
+
       GeneralScore::updateOrCreate([
         'id_general_score' => $idGeneralScore,
       ], [
@@ -198,6 +202,8 @@ class QuestionRanges extends Component
         message: __('project/planning.quality-assessment.ranges.label-updated'),
         type: 'success'
       );
+
+      $this->oldItems[$index]['description'] = $value;
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),
@@ -237,45 +243,13 @@ class QuestionRanges extends Component
       }
     }
 
-    // Excluir registros antigos de GeneralScore
-    GeneralScore::where('id_project', $this->currentProject->id_project)->delete();
-
-    // Gerar novos intervalos
-    $sum = $this->sum;
-    $items = [];
-    $min = 0.01;
-    $max = round($sum / $this->intervals, 2);
-
-    for ($i = 0; $i < $this->intervals; $i++) {
-      $itemToAdd = [
-        'start' => $min,
-        'end' => $max,
-        'description' => 'Item ' . ($i + 1),
-        'id_project' => $this->currentProject->id_project,
-      ];
-
-      $itemCreated = GeneralScore::create($itemToAdd);
-      $items[] = array_merge($itemCreated->toArray(), [
-        'id_project' => $this->currentProject->id_project,
-      ]);
-
-      $min = round($max + 0.01, 2);
-      $max = round($max + $sum / $this->intervals, 2);
+    public function updated($propertyName)
+    {
+        if (preg_match('/items\.(\d+)\.description/', $propertyName, $matches)) {
+            $index = $matches[1];
+            $this->updateLabel($index);
+        }
     }
-
-    $this->items = $items;
-    $this->oldItems = $this->items;
-
-    // Notificar outros componentes sobre a atualização dos intervalos
-    $this->dispatch('general-scores-generated');
-
-
-    $this->toast(
-      message: __('project/planning.quality-assessment.ranges.generated'),
-      type: 'success'
-    );
-  }
-
 
   public function render()
   {
