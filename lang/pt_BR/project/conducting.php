@@ -199,6 +199,7 @@ return [
             'select-status' => 'Mostrar todos os Status...',
             'select-type' => 'Mostrar todos os Tipos...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -383,6 +384,7 @@ return [
             'select-database' => 'Mostrar todos as Bases',
             'select-status' => 'Mostrar todos Status...',
             'search-papers' => 'Buscar estudos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -511,6 +513,7 @@ return [
             'select-database' => 'Mostrar todas as Bases de Dados',
             'select-status' => 'Mostrar todos os Status...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
