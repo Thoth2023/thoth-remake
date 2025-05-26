@@ -41,15 +41,8 @@ class Question extends Component
      * Validation rules.
      */
     protected $rules = [
-        'description' => [
-            'required',
-            'string',
-            'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
-        ],
-        'questionId' => [
-            'required',
-            'numeric',
-        ],
+        'questionId' => ['required', 'max:255', 'regex:/^(?!\s*$)[a-zA-Z0-9\s]+$/'],
+        'description' => 'required|string',
         'type' => 'required|array',
     ];
 
@@ -59,8 +52,8 @@ class Question extends Component
     protected function messages()
     {
         return [
-            'questionId.required' => 'O campo ID é obrigatório.',
-            'questionId.numeric' => 'O ID deve conter apenas números.',
+            'questionId.required' => 'Este campo é obrigatório',
+            'questionId.regex' => 'O ID da questão não pode conter caracteres especiais',
             'description.required' => 'Este campo é obrigatório',
             'description.regex' => 'A descrição só pode conter letras, números e espaços.',
             'type.required' => 'Este campo é obrigatório',

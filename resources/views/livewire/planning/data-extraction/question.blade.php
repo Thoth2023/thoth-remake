@@ -14,8 +14,7 @@
                     id="questionId"
                     label="{{ __('project/planning.data-extraction.question-form.id') }}"
                     wire:model="questionId"
-                    placeholder="{{ __('project/planning.data-extraction.question-form.dont-use') }}"
-
+                    placeholder="ID"
                     maxlength="255"
                     pattern="\d+"
                     required
