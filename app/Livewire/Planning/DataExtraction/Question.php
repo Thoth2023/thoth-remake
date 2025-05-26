@@ -40,12 +40,30 @@ class Question extends Component
     /**
      * Validation rules.
      */
-    public function rules()
+    protected $rules = [
+        'description' => [
+            'required',
+            'string',
+            'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+        ],
+        'questionId' => [
+            'required',
+            'numeric',
+        ],
+        'type' => 'required|array',
+    ];
+
+    /**
+     * Custom error messages for the validation rules.
+     */
+    protected function messages()
     {
         return [
-            'questionId' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
-            'description' => 'required',
-            'type' => 'required'
+            'questionId.required' => 'O campo ID é obrigatório.',
+            'questionId.numeric' => 'O ID deve conter apenas números.',
+            'description.required' => 'Este campo é obrigatório',
+            'description.regex' => 'A descrição só pode conter letras, números e espaços.',
+            'type.required' => 'Este campo é obrigatório',
         ];
     }
 

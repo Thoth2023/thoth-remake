@@ -15,8 +15,9 @@
                     label="{{ __('project/planning.data-extraction.question-form.id') }}"
                     wire:model="questionId"
                     placeholder="{{ __('project/planning.data-extraction.question-form.dont-use') }}"
+
                     maxlength="255"
-                    pattern="[a-zA-Z0-9]+"
+                    pattern="\d+"
                     required
                 />
                 @error("questionId")
@@ -31,6 +32,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 />
                 @error("description")

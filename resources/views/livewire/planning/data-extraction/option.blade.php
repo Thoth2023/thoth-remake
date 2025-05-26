@@ -43,6 +43,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 />
                 @error("description")

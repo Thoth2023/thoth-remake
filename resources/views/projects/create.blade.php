@@ -19,6 +19,7 @@
 				</div>
 				<!-- alterar o formato das caixas de texto de textarea para quill -->
 
+
 				<div class="form-group">
 					<label for="descriptionEditor">{{ __('project/create.description') }}</label>
 					<div id="descriptionEditor" class="form-control @error('description') is-invalid @enderror"
