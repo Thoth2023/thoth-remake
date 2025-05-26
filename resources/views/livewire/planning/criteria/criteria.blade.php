@@ -17,7 +17,12 @@
                             label="{{ __('project/planning.criteria.form.id') }}"
                             wire:model="criteriaId"
                             placeholder="ID"
-                            required />
+                            required
+                            autocomplete="on"
+                            name="criteria_id"
+                            list="criteriaId_suggestions"
+                        />
+
                         @error("criteriaId")
                             <span class="text-xs text-danger">
                                 {{ $message }}
@@ -330,4 +335,37 @@
         });
     </script>
     @endscript
+
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[wire\\:submit]');
+    const input = document.querySelector('#criteriaId');
+    
+    if (form && input) {
+        form.addEventListener('submit', function() {
+            // Force save the current input value to suggestions
+            const value = input.value.trim();
+            if (value) {
+                const storageKey = `suggestions_${input.id || input.name}`;
+                let suggestions = [];
+                
+                if (localStorage.getItem(storageKey)) {
+                    suggestions = JSON.parse(localStorage.getItem(storageKey));
+                }
+                
+                if (!suggestions.includes(value)) {
+                    suggestions.push(value);
+                    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                }
+                
+                // Automatically refresh suggestions without showing an alert
+                setTimeout(() => {
+                    refreshSuggestions('criteriaId', 'criteria_id', 'criteriaId_suggestions', false);
+                }, 200);
+            }
+        });
+    }
+});
+</script>
