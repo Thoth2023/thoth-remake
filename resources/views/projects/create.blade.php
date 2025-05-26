@@ -81,5 +81,96 @@
         </div>
     </div>
 
-@endsection
+				<div class="form-group">
+					<label for="descriptionEditor">Description</label>
+					<div id="descriptionEditor" class="form-control @error('description') is-invalid @enderror"
+						style="min-height: 150px;">
+						{!! old('description') !!}
+					</div>
+					<input type="hidden" name="description" id="descriptionInput">
+					@error('description')
+						<span class="invalid-feedback" role="alert">
+							{{ $message }}
+						</span>
+					@enderror
+				</div>
 
+				<div class="form-group">
+					<label for="objectivesEditor">Objectives</label>
+					<div id="objectivesEditor" class="form-control @error('objectives') is-invalid @enderror"
+						style="min-height: 150px;">
+						{!! old('objectives') !!}
+					</div>
+					<input type="hidden" name="objectives" id="objectivesInput">
+					@error('objectives')
+						<span class="invalid-feedback" role="alert">
+							{{ $message }}
+						</span>
+					@enderror
+				</div>
+				<div class="form-group">
+					<label for="copy_planning">{{ __('project/create.copy_planning') }}</label>
+					<select class="form-control" id="copy_planning" name="copy_planning">
+						@if(count($projects) > 0)
+							<option value="none">{{ __('project/create.none') }}</option>
+							@foreach($projects as $project)
+								<option value="{{ $project->id_project }}">{{ $project->title }}</option>
+							@endforeach
+						@else
+							<option value="none">{{ __('project/create.noProjects') }}</option>
+						@endif
+					</select>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="feature_review" id="feature_review1"
+						value="Systematic review">
+					{{ old('feature_review') == 'Systematic review' ? 'checked' : '' }}</input>
+					<label class="form-check-label" for="feature_review1">
+						Systematic review
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="feature_review" id="feature_review2"
+						value="Systematic review and Snowballing">
+					{{ old('feature_review') == 'Systematic review and Snowballing' ? 'checked' : '' }}</input>
+					<label class="form-check-label" for="feature_review2">
+						Systematic review and Snowballing
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="feature_review" id="feature_review3"
+						value="Snowballing">
+					{{ old('feature_review') == 'Snowballing' ? 'checked' : '' }}</input>
+					<label class="form-check-label" for="feature_review3">
+						Snowballing
+					</label>
+				</div>
+				<div class="d-flex align-items-center">
+					<button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
+				</div>
+			</form>
+			@include('layouts.footers.auth.footer')
+		</div>
+	</div>
+
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Quill for the Description field
+        var descriptionEditor = new Quill('#descriptionEditor', {
+            theme: 'snow'
+        });
+        // Sync the content of the editor with the hidden field
+        descriptionEditor.on('text-change', function () {
+            document.querySelector('#descriptionInput').value = descriptionEditor.root.innerHTML;
+        });
+
+        // Initialize Quill for the Objectives field
+        var objectivesEditor = new Quill('#objectivesEditor', {
+            theme: 'snow'
+        });
+        objectivesEditor.on('text-change', function () {
+            document.querySelector('#objectivesInput').value = objectivesEditor.root.innerHTML;
+        });
+    });
+</script>
+@endsection

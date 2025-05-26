@@ -609,6 +609,7 @@
                 "issues": "https://github.com/amphp/parser/issues",
                 "source": "https://github.com/amphp/parser/tree/v1.1.1"
             },
+
             "funding": [
                 {
                     "url": "https://github.com/amphp",
@@ -1097,6 +1098,50 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "daverandom/libdns",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DaveRandom/LibDNS.git",
+                "reference": "b84c94e8fe6b7ee4aecfe121bfe3b6177d303c8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DaveRandom/LibDNS/zipball/b84c94e8fe6b7ee4aecfe121bfe3b6177d303c8a",
+                "reference": "b84c94e8fe6b7ee4aecfe121bfe3b6177d303c8a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "php": ">=7.1"
+            },
+            "suggest": {
+                "ext-intl": "Required for IDN support"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "LibDNS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "DNS protocol implementation written in pure PHP",
+            "keywords": [
+                "dns"
+            ],
+            "support": {
+                "issues": "https://github.com/DaveRandom/LibDNS/issues",
+                "source": "https://github.com/DaveRandom/LibDNS/tree/v2.1.0"
+            },
+            "time": "2024-04-12T12:12:48+00:00"
         },
         {
             "name": "daverandom/libdns",
@@ -2703,6 +2748,7 @@
                 "source": "https://github.com/laravel/scout"
             },
             "time": "2025-04-01T14:58:03+00:00"
+
         },
         {
             "name": "laravel/serializable-closure",
@@ -2767,6 +2813,7 @@
         },
         {
             "name": "laravel/socialite",
+
             "version": "v5.19.0",
             "source": {
                 "type": "git",
@@ -2836,6 +2883,7 @@
                 "source": "https://github.com/laravel/socialite"
             },
             "time": "2025-03-27T17:26:42+00:00"
+
         },
         {
             "name": "laravel/tinker",
@@ -5377,9 +5425,77 @@
                 "scheduler"
             ],
             "support": {
-                "issues": "https://github.com/revoltphp/event-loop/issues",
-                "source": "https://github.com/revoltphp/event-loop/tree/v1.0.7"
+                "issues": "https://github.com/renanbr/bibtex-parser/issues",
+                "source": "https://github.com/renanbr/bibtex-parser/tree/2.2.0"
             },
+            "time": "2023-08-25T11:21:46+00:00"
+        },
+        {
+            "name": "revolt/event-loop",
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/revoltphp/event-loop.git",
+                "reference": "09bf1bf7f7f574453efe43044b06fafe12216eb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/revoltphp/event-loop/zipball/09bf1bf7f7f574453efe43044b06fafe12216eb3",
+                "reference": "09bf1bf7f7f574453efe43044b06fafe12216eb3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "jetbrains/phpstorm-stubs": "^2019.3",
+                "phpunit/phpunit": "^9",
+                "psalm/phar": "^5.15"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Revolt\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Piotrowski",
+                    "email": "aaron@trowski.com"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "ceesjank@gmail.com"
+                },
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering"
+                },
+                {
+                    "name": "Niklas Keller",
+                    "email": "me@kelunik.com"
+                }
+            ],
+            "description": "Rock-solid event loop for concurrent PHP applications.",
+            "keywords": [
+                "async",
+                "asynchronous",
+                "concurrency",
+                "event",
+                "event-loop",
+                "non-blocking",
+                "scheduler"
+            ],
             "time": "2025-01-25T19:27:39+00:00"
         },
         {
@@ -5558,6 +5674,7 @@
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
                 "source": "https://github.com/spatie/laravel-package-tools/tree/1.92.0"
+
             },
             "funding": [
                 {
@@ -5566,6 +5683,7 @@
                 }
             ],
             "time": "2025-03-27T08:34:10+00:00"
+
         },
         {
             "name": "spatie/laravel-permission",
@@ -6029,6 +6147,7 @@
                 }
             ],
             "time": "2025-03-01T13:00:38+00:00"
+
         },
         {
             "name": "symfony/event-dispatcher",
@@ -7555,6 +7674,7 @@
                 }
             ],
             "time": "2024-11-13T13:31:26+00:00"
+
         },
         {
             "name": "symfony/translation",

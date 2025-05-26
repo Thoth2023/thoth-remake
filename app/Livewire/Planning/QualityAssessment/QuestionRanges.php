@@ -9,14 +9,19 @@ use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Utils\ToastHelper;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use App\Traits\ProjectPermissions;
 
 class QuestionRanges extends Component
 {
+
+  use ProjectPermissions;
+
   public $currentProject;
   public $items = [];
   public $oldItems = [];
   public $sum = 0;
   public $intervals = 5;
+  private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
   public function populateItems()
   {
@@ -54,12 +59,22 @@ class QuestionRanges extends Component
   #[On('update-weight-sum')]
   public function updateSum()
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     $projectId = $this->currentProject->id_project;
     $this->sum = Question::where('id_project', $projectId)->sum('weight');
   }
 
   public function updateMin($index, $value)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     try {
       $this->items[$index]['start'] = $value;
 
@@ -68,7 +83,7 @@ class QuestionRanges extends Component
       ], [
         'start' => $value,
       ]);
-        $this->dispatch('general-scores-generated');
+      $this->dispatch('general-scores-generated');
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),
@@ -79,6 +94,11 @@ class QuestionRanges extends Component
 
   public function updateMax($index, $value)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
+    }
+
     try {
       /**
        * If the new "end" value is the same as the current "end" value,
@@ -113,7 +133,7 @@ class QuestionRanges extends Component
         'start' => round($value + 0.01, 2),
       ]);
 
-        $this->dispatch('general-scores-generated');
+      $this->dispatch('general-scores-generated');
 
       $this->toast(
         message: __('project/planning.quality-assessment.ranges.interval-updated'),
@@ -130,6 +150,12 @@ class QuestionRanges extends Component
 
   public function updateLabel($index)
   {
+
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      $this->items[$index]['description'] = $this->oldItems[$index]['description'];
+      return;
+    }
+    
     try {
       $idGeneralScore = $this->items[$index]['id_general_score'];
       $value = $this->items[$index]['description'];
@@ -140,7 +166,7 @@ class QuestionRanges extends Component
         'description' => $value,
       ]);
 
-        $this->dispatch('update-select-minimal-approve');
+      $this->dispatch('update-select-minimal-approve');
 
       $this->toast(
         message: __('project/planning.quality-assessment.ranges.label-updated'),
@@ -154,73 +180,78 @@ class QuestionRanges extends Component
     }
   }
 
-    public function generateIntervals()
-    {
-        if ($this->intervals < 2) {
-            $this->intervals = 2;
-        }
+  public function generateIntervals()
+  {
 
-        if ($this->intervals > 10) {
-            $this->intervals = 10;
-        }
-
-        // Verificar dependências antes de excluir
-        $generalScores = GeneralScore::where('id_project', $this->currentProject->id_project)->get();
-
-        foreach ($generalScores as $generalScore) {
-            if ($generalScore->papers()->exists()) {
-                $this->toast(
-                    message: __('project/planning.quality-assessment.ranges.deletion-restricted', [
-                        'description' => $generalScore->description,
-                    ]),
-                    type: 'error'
-                );
-
-                return; // Abortar operação
-            }
-        }
-
-        // Excluir registros antigos de GeneralScore
-        GeneralScore::where('id_project', $this->currentProject->id_project)->delete();
-
-        // Gerar novos intervalos
-        $sum = $this->sum;
-        $items = [];
-        $min = 0.01;
-        $max = round($sum / $this->intervals, 2);
-
-        for ($i = 0; $i < $this->intervals; $i++) {
-            $itemToAdd = [
-                'start' => $min,
-                'end' => $max,
-                'description' => 'Item ' . ($i + 1),
-                'id_project' => $this->currentProject->id_project,
-            ];
-
-            $itemCreated = GeneralScore::create($itemToAdd);
-            $items[] = array_merge($itemCreated->toArray(), [
-                'id_project' => $this->currentProject->id_project,
-            ]);
-
-            $min = round($max + 0.01, 2);
-            $max = round($max + $sum / $this->intervals, 2);
-        }
-
-        $this->items = $items;
-        $this->oldItems = $this->items;
-
-        // Notificar outros componentes sobre a atualização dos intervalos
-        $this->dispatch('general-scores-generated');
-
-
-        $this->toast(
-            message: __('project/planning.quality-assessment.ranges.generated'),
-            type: 'success'
-        );
+    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+      return;
     }
 
+    if ($this->intervals < 2) {
+      $this->intervals = 2;
+    }
 
-    public function render()
+    if ($this->intervals > 10) {
+      $this->intervals = 10;
+    }
+
+    // Verificar dependências antes de excluir
+    $generalScores = GeneralScore::where('id_project', $this->currentProject->id_project)->get();
+
+    foreach ($generalScores as $generalScore) {
+      if ($generalScore->papers()->exists()) {
+        $this->toast(
+          message: __('project/planning.quality-assessment.ranges.deletion-restricted', [
+            'description' => $generalScore->description,
+          ]),
+          type: 'error'
+        );
+
+        return; // Abortar operação
+      }
+    }
+
+    // Excluir registros antigos de GeneralScore
+    GeneralScore::where('id_project', $this->currentProject->id_project)->delete();
+
+    // Gerar novos intervalos
+    $sum = $this->sum;
+    $items = [];
+    $min = 0.01;
+    $max = round($sum / $this->intervals, 2);
+
+    for ($i = 0; $i < $this->intervals; $i++) {
+      $itemToAdd = [
+        'start' => $min,
+        'end' => $max,
+        'description' => 'Item ' . ($i + 1),
+        'id_project' => $this->currentProject->id_project,
+      ];
+
+      $itemCreated = GeneralScore::create($itemToAdd);
+      $items[] = array_merge($itemCreated->toArray(), [
+        'id_project' => $this->currentProject->id_project,
+      ]);
+
+      $min = round($max + 0.01, 2);
+      $max = round($max + $sum / $this->intervals, 2);
+    }
+
+    $this->items = $items;
+    $this->oldItems = $this->items;
+
+    // Notificar outros componentes sobre a atualização dos intervalos
+    $this->dispatch('general-scores-generated');
+
+
+    $this->toast(
+      message: __('project/planning.quality-assessment.ranges.generated'),
+      type: 'success'
+    );
+  }
+
+
+  public function render()
   {
     return view('livewire.planning.quality-assessment.question-ranges');
   }
