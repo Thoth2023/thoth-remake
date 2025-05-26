@@ -16,14 +16,39 @@ use App\Utils\ToastHelper;
 class Buttons extends Component
 {
 
+    private $translationPath = 'project/conducting.data-extraction.buttons';
+    private $toastMessages = 'project/conducting.data-extraction.buttons';
+
     public $projectId;
 
 
+    protected function messages()
+    {
+        return [
+            'no-papers' => __($this->translationPath . '.no-papers'),
+        ];
+    }
+
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('buttons', ToastHelper::dispatch($type, $message));
+    }
+
     public function exportCsv()
     {
-        $papers = $this->getPapersExport($this->projectId);
+        $papers = $this->getPapersExport();
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $csvData = $this->formatCsv($papers);
-        return response()->streamDownload(function() use ($csvData) {
+        return response()->streamDownload(function () use ($csvData) {
             echo $csvData;
         }, 'studies-extraction.csv');
     }
@@ -31,8 +56,18 @@ class Buttons extends Component
     public function exportXml()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $xmlData = $this->formatXml($papers);
-        return response()->streamDownload(function() use ($xmlData) {
+        return response()->streamDownload(function () use ($xmlData) {
             echo $xmlData;
         }, 'studies-extraction.xml');
     }
@@ -41,8 +76,18 @@ class Buttons extends Component
     {
 
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $pdfData = $this->formatPdf($papers);
-        return response()->streamDownload(function() use ($pdfData) {
+        return response()->streamDownload(function () use ($pdfData) {
             echo $pdfData;
         }, 'studies-extraction.pdf');
     }
@@ -82,13 +127,15 @@ class Buttons extends Component
             ->where('papers.status_qa', 1)
             ->where('papers_qa.id_member', $member->id_members)
             ->distinct()
-            ->select('papers.id as id_paper',
+            ->select(
+                'papers.id as id_paper',
                 'papers.title',
                 'papers.year',
                 'data_base.name as database_name',
                 'users.firstname',
                 'users.lastname',
-                'status_extraction.description as status_description')
+                'status_extraction.description as status_description'
+            )
             ->get();
     }
 
@@ -154,7 +201,8 @@ class Buttons extends Component
     }
 
 
-    public function mount() {
+    public function mount()
+    {
         $this->projectId = request()->segment(2);
     }
 

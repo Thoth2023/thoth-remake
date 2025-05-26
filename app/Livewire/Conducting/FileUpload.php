@@ -21,10 +21,15 @@ use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
 use App\Utils\CheckProjectDataPlanning;
+use App\Traits\ProjectPermissions;
+use App\Traits\LivewireExceptionHandler;
 
 class FileUpload extends Component
 {
+
+    use ProjectPermissions;
     use WithFileUploads;
+    use LivewireExceptionHandler;
 
     private $translationPath = 'project/conducting.import-studies.livewire';
     private $toastMessages = 'project/conducting.import-studies.livewire.toasts';
@@ -79,6 +84,11 @@ class FileUpload extends Component
      */
     public function save()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             // Validações iniciais
             $this->validate();
@@ -183,12 +193,7 @@ class FileUpload extends Component
                     // Lidar com erros no processo de criação de BibUpload ou despachar job/processamento CSV
                     $errorMessage = $e->getMessage();
                     FacadesLog::error('Erro ao salvar o arquivo ou processar BibUpload.', ['error' => $errorMessage]);
-
-                    $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
-                    $this->toast(
-                        message: $toastMessage,
-                        type: 'error'
-                    );
+                    $this->handleException($e);
                 }
 
             } else {
@@ -206,11 +211,7 @@ class FileUpload extends Component
             $errorMessage = $e->getMessage();
             FacadesLog::error('Erro geral ao tentar salvar o arquivo.', ['error' => $errorMessage]);
 
-            $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
-            $this->toast(
-                message: $toastMessage,
-                type: 'error'
-            );
+            $this->handleException($e);
         }
     }
 
@@ -276,6 +277,11 @@ class FileUpload extends Component
 
     public function deleteFile($id)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $file = BibUpload::findOrFail($id);
 
         try {

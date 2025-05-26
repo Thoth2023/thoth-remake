@@ -18,7 +18,7 @@
                         wire:model="selectedOption"
                         wire:change="generateBibtex"
                     >
-                    Study Selection
+                    {{ __("project/export.header.bibtex.content-options.study-selection") }}
                 </label>
                 <label>
                     <input
@@ -28,7 +28,7 @@
                         wire:model="selectedOption"
                         wire:change="generateBibtex"
                     >
-                    Quality Assessment
+                    {{ __("project/export.header.bibtex.content-options.quality-assessment") }}
                 </label>
                 <label>
                     <input
@@ -38,7 +38,7 @@
                         wire:model="selectedOption"
                         wire:change="generateBibtex"
                     >
-                    Snowballing
+                    {{ __("project/export.header.bibtex.content-options.snowballing") }}
                 </label>
             </div>
             <textarea
