@@ -16,6 +16,7 @@
                     wire:model="questionId"
                     placeholder="Não utilize caracteres especiais"
                     maxlength="255"
+                    pattern="[a-zA-Z0-9]+"
                     required
                 />
                 @error("questionId")

@@ -343,9 +343,8 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
         $activity = "Accepted invitation to join the project.";
         ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
-
-        return redirect('/projects')->with('success', 'You have successfully joined the project!');
-    }
+		return redirect('/projects')->with('success', 'You have successfully joined the project!');
+	}
 
 
 }
