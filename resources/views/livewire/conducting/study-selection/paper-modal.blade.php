@@ -71,10 +71,10 @@
                                 <td class="w-5 align-middle text-center">
                                     <input type="checkbox" id="criteria-{{ $criteria['id_criteria'] }}"
                                         wire:key="criteria-{{ $criteria['id_criteria'] }}"
-                                        wire:model.defer="selected_criterias"
+                                        wire:model="temp_selected_criterias"
                                         value="{{ $criteria['id_criteria'] }}"
-                                        @if(in_array($criteria['id_criteria'], $selected_criterias)) checked @endif
-                                        @if(!$canEdit) disabled @endif
+                                        @if(in_array($criteria['id_criteria'], $temp_selected_criterias)) checked @endif
+
                                     >
                                 </td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
@@ -85,6 +85,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="text-end mb-3">
+                        <button wire:click="saveSelectedCriterias" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Critérios
+                        </button>
+                    </div>
                     <hr />
 
                     <div class="d-flex flex-column mt-3">
