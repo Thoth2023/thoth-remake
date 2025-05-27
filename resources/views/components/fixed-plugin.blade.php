@@ -1,3 +1,4 @@
+
 <!-- Container principal fixo que abriga o painel flutuante -->
 <div class="fixed-plugin">
     <div class="card shadow-lg"> <!-- Cartão com sombra -->
@@ -88,9 +89,10 @@
             <div class="d-flex my-3">
                 <h6 class="mb-0">{{ __('nav/side.navbar_fixed') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
-                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed">
                 </div>
             </div>
+
 
             <!-- Separador -->
             <hr class="horizontal dark my-sm-4">
@@ -102,8 +104,6 @@
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
                 </div>
             </div>
-
-            <!-- Botões de links externos (GitHub e site da Lesse) -->
             <div class="w-100 text-center">
                 <a href="https://github.com/Thoth2023/thoth2.0" class="btn btn-dark mb-0 me-2" target="_blank">
                     <i class="fab fa-github me-1" aria-hidden="true"></i> Thoth
@@ -116,3 +116,170 @@
         </div>
     </div>
 </div>
+
+<!-- Script para persistência do modo escuro/claro -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkbox = document.getElementById('dark-version');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-version');
+            checkbox.checked = true;
+        } else {
+            document.body.classList.remove('dark-version');
+            checkbox.checked = false;
+        }
+
+        checkbox.addEventListener('change', () => {
+            const newTheme = checkbox.checked ? 'dark' : 'light';
+
+            document.body.classList.toggle('dark-version', newTheme === 'dark');
+            localStorage.setItem('theme', newTheme);
+        });
+    });
+</script>
+
+<script>
+    // Script para persistência do tipo de sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebarButtons = document.querySelectorAll('[onclick="sidebarType(this)"]');
+        const savedSidebarType = localStorage.getItem('sidebar-type');
+
+        if (savedSidebarType) {
+            document.querySelector('.sidenav').classList.remove('bg-white', 'bg-default');
+            document.querySelector('.sidenav').classList.add(savedSidebarType);
+
+            // Atualiza o estado dos botões
+            sidebarButtons.forEach(btn => {
+                if (btn.dataset.class === savedSidebarType) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        sidebarButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const sidebar = document.querySelector('.sidenav');
+                const newClass = button.dataset.class;
+
+                // Troca a classe no sidebar
+                sidebar.classList.remove('bg-white', 'bg-default');
+                sidebar.classList.add(newClass);
+
+                // Salva no localStorage
+                localStorage.setItem('sidebar-type', newClass);
+
+                // Atualiza botões
+                sidebarButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<script>
+    // Script para persistência da cor da sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+        const colorBadges = document.querySelectorAll('.switch-trigger .badge');
+        const savedSidebarColor = localStorage.getItem('sidebar-color');
+
+        if (savedSidebarColor) {
+            const sidebar = document.querySelector('.sidenav');
+            sidebar.setAttribute('data-color', savedSidebarColor);
+
+            // Atualiza os badges
+            colorBadges.forEach(badge => {
+                if (badge.dataset.color === savedSidebarColor) {
+                    badge.classList.add('active');
+                } else {
+                    badge.classList.remove('active');
+                }
+            });
+        }
+
+        colorBadges.forEach(badge => {
+            badge.addEventListener('click', () => {
+                const newColor = badge.dataset.color;
+                const sidebar = document.querySelector('.sidenav');
+
+                // Atualiza atributo data-color
+                sidebar.setAttribute('data-color', newColor);
+                localStorage.setItem('sidebar-color', newColor);
+
+                // Atualiza badges ativos
+                colorBadges.forEach(b => b.classList.remove('active'));
+                badge.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<script>
+    // Script para persistência da opção "Navbar Fixed"
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbarFixedCheckbox = document.getElementById('navbarFixed');
+        const savedNavbarFixed = localStorage.getItem('navbar-fixed');
+
+        if (savedNavbarFixed === 'true') {
+            navbarFixedCheckbox.checked = true;
+            navbarFixed(navbarFixedCheckbox); // ativa o modo fixo
+        } else {
+            navbarFixedCheckbox.checked = false;
+            navbarFixed(navbarFixedCheckbox); // garante que está desativado
+        }
+
+        navbarFixedCheckbox.addEventListener('change', () => {
+            const isChecked = navbarFixedCheckbox.checked;
+            localStorage.setItem('navbar-fixed', isChecked.toString());
+            navbarFixed(navbarFixedCheckbox); // aplica mudança visual
+        });
+    });
+</script>
+
+<script>
+    //Script para correspondência entre os estilos dos elementos
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkbox = document.getElementById('dark-version');
+        const body = document.body;
+        const sidebar = document.querySelector('.sidenav');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+
+        function applyTheme(theme) {
+            const isDark = theme === 'dark';
+
+            // Modo dark no body
+            body.classList.toggle('dark-version', isDark);
+
+            // Altera o tipo da sidebar
+            sidebar.classList.remove('bg-white', 'bg-default');
+            sidebar.classList.add(isDark ? 'bg-default' : 'bg-white');
+
+            // Atualiza botões de tipo de sidebar
+            document.querySelectorAll('[onclick="sidebarType(this)"]').forEach(btn => {
+                if (btn.dataset.class === (isDark ? 'bg-default' : 'bg-white')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Salva preferências
+            localStorage.setItem('theme', theme);
+            localStorage.setItem('sidebar-type', isDark ? 'bg-default' : 'bg-white');
+        }
+
+        // Aplica tema salvo
+        applyTheme(savedTheme);
+        checkbox.checked = savedTheme === 'dark';
+
+        // Lida com mudança manual
+        checkbox.addEventListener('change', () => {
+            const newTheme = checkbox.checked ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+    });
+</script>
+

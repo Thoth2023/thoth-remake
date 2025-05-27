@@ -41,15 +41,8 @@ class Question extends Component
      * Validation rules.
      */
     protected $rules = [
-        'description' => [
-            'required',
-            'string',
-            'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
-        ],
-        'questionId' => [
-            'required',
-            'numeric',
-        ],
+        'questionId' => ['required', 'max:255', 'regex:/^(?!\s*$)[a-zA-Z0-9\s]+$/'],
+        'description' => 'required|string',
         'type' => 'required|array',
     ];
 
@@ -59,8 +52,8 @@ class Question extends Component
     protected function messages()
     {
         return [
-            'questionId.required' => 'O campo ID é obrigatório.',
-            'questionId.numeric' => 'O ID deve conter apenas números.',
+            'questionId.required' => 'Este campo é obrigatório',
+            'questionId.regex' => 'O ID da questão não pode conter caracteres especiais',
             'description.required' => 'Este campo é obrigatório',
             'description.regex' => 'A descrição só pode conter letras, números e espaços.',
             'type.required' => 'Este campo é obrigatório',
@@ -96,6 +89,7 @@ class Question extends Component
         $this->description = '';
         $this->type['value'] = '';
         $this->form['isEditing'] = false;
+        $this->currentQuestion = null;
     }
 
     /**
@@ -136,7 +130,7 @@ class Question extends Component
 
         $this->validate();
 
-        // Verifica se o 'id' da questão já existe no projeto atual (em modo de criação)
+        // Prevent duplicate question ID on creation
         if (!$this->form['isEditing']) {
             $existingQuestion = QuestionModel::where('id', $this->questionId)
                 ->where('id_project', $this->currentProject->id_project)
@@ -157,7 +151,7 @@ class Question extends Component
                 ? 'Questão atualizada com sucesso!' : 'Questão adicionada com sucesso!';
 
             if ($this->form['isEditing']) {
-                // Atualiza a questão existente
+                // Update existing question
                 $this->currentQuestion->update([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -165,7 +159,7 @@ class Question extends Component
                     'description' => $this->description,
                 ]);
             } else {
-                // Cria uma nova questão
+                // Create new question
                 QuestionModel::create([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -203,6 +197,9 @@ class Question extends Component
     #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
+
+        $this->resetFields();
+
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
@@ -219,10 +216,10 @@ class Question extends Component
             return;
         }
 
-        // Verifica se o 'questionId' já existe em outra questão do mesmo projeto
+        // Check if another question with the same ID exists in this project
         $existingQuestion = QuestionModel::where('id', $this->questionId)
             ->where('id_project', $this->currentProject->id_project)
-            ->where('id', '!=', $this->currentQuestion->id) // Garante que não é a mesma questão
+            ->where('id', '!=', $this->currentQuestion->id)
             ->first();
 
         if ($existingQuestion) {
@@ -233,7 +230,7 @@ class Question extends Component
             return;
         }
 
-        // Preenche os campos do formulário com os dados da questão atual
+        // Fill the form with current question's data
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
         $this->type['value'] = $this->currentQuestion->type;
@@ -291,10 +288,3 @@ class Question extends Component
         )->extends('layouts.app');
     }
 }
-
-
-//     public function render()
-//     {
-//         return view('livewire.planning.data-extraction.data-extraction');
-//     }
-// }

@@ -18,6 +18,7 @@
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+        @if(!empty($papersPerDatabase))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 Highcharts.chart('papers_per_database', {
@@ -107,5 +108,13 @@
             });
 
         </script>
+        @else
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('papers_per_database').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_imported_studies") }}</p>';
+                document.getElementById('container-papers-by-year-and-database').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_imported_studies") }}</p>';;
+            });
+        </script>
+        @endif
     @endpush
 @endsection

@@ -48,15 +48,15 @@
 					@enderror
 				</div>
 				<div class="form-group">
-					<label for="copy_planning">{{ __('project/create.copy_planning') }}</label>
+					<label for="copy_planning">@lang('project/create.copy_planning')</label>
 					<select class="form-control" id="copy_planning" name="copy_planning">
 						@if(count($projects) > 0)
-							<option value="none">{{ __('project/create.none') }}</option>
+							<option value="none">@lang('project/create.none') </option>
 							@foreach($projects as $project)
 								<option value="{{ $project->id_project }}">{{ $project->title }}</option>
 							@endforeach
 						@else
-							<option value="none">{{ __('project/create.noProjects') }}</option>
+							<option value="none">@lang('project/create.noProjects')</option>
 						@endif
 					</select>
 				</div>
@@ -65,7 +65,7 @@
 						value="Systematic review">
 					{{ old('feature_review') == 'Systematic review' ? 'checked' : '' }}</input>
 					<label class="form-check-label" for="feature_review1">
-                    {{ __('project/create.systematic-review') }}
+              {{ __('project/create.systematic-review') }}
 					</label>
 				</div>
 				<div class="form-check">
@@ -81,7 +81,7 @@
 						value="Snowballing">
 					{{ old('feature_review') == 'Snowballing' ? 'checked' : '' }}</input>
 					<label class="form-check-label" for="feature_review3">
-						Snowballing
+						@lang('project/create.snowballing')
 					</label>
 				</div>
 				<div class="d-flex align-items-center">

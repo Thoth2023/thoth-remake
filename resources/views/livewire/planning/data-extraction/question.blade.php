@@ -12,13 +12,18 @@
             <div class="form-group mt-3 d-flex flex-column gap-4">
                 <x-input
                     id="questionId"
-                    label="{{ __('project/planning.data-extraction.question-form.id') }}"
+                    class="form-control w-md-25 w-100"
+                    type="text"
+                    maxlength="20"
                     wire:model="questionId"
-                    placeholder="{{ __('project/planning.data-extraction.question-form.dont-use') }}"
-
+                    placeholder="ID"
+                    autocomplete="on"
+                    name="de_question_id"
+                    list="de_questionId_suggestions"
                     maxlength="255"
                     pattern="\d+"
                     required
+
                 />
                 @error("questionId")
                     <span class="text-xs text-danger">
@@ -90,3 +95,69 @@
         });
     </script>
 @endscript
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[wire\\:submit]');
+    const input = document.querySelector('#questionId');
+    
+    if (form && input) {
+        // Save every keypress, not just on submit
+        input.addEventListener('input', function() {
+            const value = input.value.trim();
+            if (value) {
+                const storageKey = `suggestions_${input.id || input.name}`;
+                let suggestions = [];
+                
+                if (localStorage.getItem(storageKey)) {
+                    suggestions = JSON.parse(localStorage.getItem(storageKey));
+                }
+                
+                if (!suggestions.includes(value)) {
+                    suggestions.push(value);
+                    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                    
+                    // Force immediate refresh of suggestions
+                    const datalist = document.getElementById('de_questionId_suggestions');
+                    if (datalist) {
+                        // Clear existing options and re-add them
+                        datalist.innerHTML = '';
+                        suggestions.forEach(suggestion => {
+                            const option = document.createElement('option');
+                            option.value = suggestion;
+                            datalist.appendChild(option);
+                        });
+                    }
+                    
+                    // Hack: force browser to "reset" its autocomplete understanding
+                    input.setAttribute('autocomplete', 'off');
+                    setTimeout(() => input.setAttribute('autocomplete', 'on'), 10);
+                }
+            }
+        });
+        
+        form.addEventListener('submit', function() {
+            // Save the current value
+            const value = input.value.trim();
+            if (value) {
+                const storageKey = `suggestions_${input.id || input.name}`;
+                let suggestions = [];
+                
+                if (localStorage.getItem(storageKey)) {
+                    suggestions = JSON.parse(localStorage.getItem(storageKey));
+                }
+                
+                if (!suggestions.includes(value)) {
+                    suggestions.push(value);
+                    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                }
+                
+                // Automatically refresh suggestions without showing an alert
+                setTimeout(() => {
+                    refreshSuggestions('questionId', 'de_question_id', 'de_questionId_suggestions', false);
+                }, 200);
+            }
+        });
+    }
+});
+</script>

@@ -107,7 +107,9 @@ class QuestionQuality extends Component
         $this->dispatch('update-weight-sum');
         $this->dispatch('update-score-questions');
     }
-
+    /**
+     * Fills the form fields with data from the selected question for editing.
+     */
     #[On('edit-question-quality')]
     public function edit($questionId)
     {
@@ -122,7 +124,9 @@ class QuestionQuality extends Component
         $this->weight = $this->currentQuestion->weight;
         $this->description = $this->currentQuestion->description;
     }
-
+    /**
+     * Deletes the selected quality question.
+     */
     #[On('delete-question-quality')]
     public function delete($questionId)
     {
@@ -157,6 +161,10 @@ class QuestionQuality extends Component
         }
     }
 
+    /**
+     * Validates and submits the form data.
+     * Creates or updates a quality question based on form state.
+     */
     public function submit()
     {
 
@@ -227,6 +235,9 @@ class QuestionQuality extends Component
         }
     }
 
+    /**
+     * Render the component.
+     */
     public function render()
     {
         return view('livewire.planning.quality-assessment.question-quality');
