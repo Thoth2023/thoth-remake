@@ -190,6 +190,9 @@ class Table extends Component
             }
         }
 
+        // Emitir evento para atualizar o estado dos botões
+        $this->dispatch('papers-updated', hasPapers: $papers->isNotEmpty());
+        
         return view('livewire.conducting.snowballing.table', compact('papers', 'databases', 'statuses'));
     }
 
