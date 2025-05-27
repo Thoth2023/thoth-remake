@@ -45,7 +45,7 @@
                             </a>
                             <div>
                                 <h6>Snowballing</h6>
-                                <x-select wire:change="handleReferenceType($event.target.value)">
+                                <x-select wire:change="handleReferenceType($event.target.value)" disabled="{{ !$canEdit }}">
                                     <option selected disabled>Selecione...</option>
                                     <option value="backward">Backward</option>
                                     <option value="forward">Forward</option>
