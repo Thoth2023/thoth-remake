@@ -1,21 +1,22 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <link
         rel="apple-touch-icon"
         sizes="76x76"
-        href="{{ asset("img/apple-icon.png") }}" />
+        href="{{ asset("img/apple-icon.png") }}"
+    />
     <link
         rel="icon"
         type="image/png"
-        href="{{ asset("img/favicon.png") }}" />
+        href="{{ asset("img/favicon.png") }}"
+    />
     <title>Thoth :: Tool for SLR</title>
     <!-- PWA  -->
     <meta name="theme-color" content="#c9c5b1" />
@@ -25,34 +26,45 @@
     <!-- Fonts and icons -->
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
-        rel="stylesheet" />
+        rel="stylesheet"
+    />
     <!-- Nucleo Icons -->
     <link
         href="{{ asset("assets/css/nucleo-icons.css") }}"
-        rel="stylesheet" />
+        rel="stylesheet"
+    />
     <link
         href="{{ asset("assets/css/nucleo-svg.css") }}"
-        rel="stylesheet" />
+        rel="stylesheet"
+    />
 
     <link
         href="{{ asset("assets/css/nucleo-svg.css") }}"
-        rel="stylesheet" />
+        rel="stylesheet"
+    />
 
     <link
         href="{{ asset("assets/fontawesome-free-6.6.0-web/css/all.min.css") }}"
-        rel="stylesheet" />
+        rel="stylesheet"
+    />
 
     <!-- CSS Files -->
     <link
         id="pagestyle"
         href="{{ asset("assets/css/argon-dashboard.css") }}"
-        rel="stylesheet" />
+        rel="stylesheet"
+    />
     <link rel="stylesheet" href="{{ asset("assets/css/select.css") }}" />
     <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
 
+    <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+
+
+
     <!-- Google reCaptcha-->
     @if(request()->is('register'))
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+        <script
+            src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
     @endif
 
 
@@ -66,7 +78,7 @@
 </head>
 
 <body
-    class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password","message"],) ? "bg-white" : "bg-gray-300" }}">
+class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password","message"],) ? "bg-white" : "bg-gray-300" }}">
     @guest
     @yield("content")
     @endguest
@@ -90,6 +102,16 @@
     <main class="main-content">
         <div class="container">
             @yield("content")
+
+            {{-- para exibir o chat apenas nas paginas do projeto --}}
+            @if (
+                request()->routeIs('projects.show') ||
+                str_starts_with(request()->route()->getName(), 'project.')
+            )
+                @isset($project)
+                    @include('components.chat', ['projeto_id' => $project->id_project])
+                @endisset
+            @endif
         </div>
     </main>
     @include("components.fixed-plugin")
@@ -878,6 +900,5 @@
         });
         </script>
     </body>
-
 </html>
 
