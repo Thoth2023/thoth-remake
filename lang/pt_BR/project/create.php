@@ -2,11 +2,9 @@
 
 return [
 
-    'create_project' => 'Criar Projeto',
-
-    'title' => 'Titulo',
-    'enter_title' => 'Digite o titulo',
-
+    'create_project' => 'Criar Projeto',   
+    'title' => 'Título',
+    'enter_title' => 'Digite o título',
     'description' => 'Descrição',
     'enter_description' => 'Digite a descrição',
 
@@ -22,6 +20,8 @@ return [
     'option5' => 'Opção 5',
     'noProjects' => 'Usuário ainda não possui projetos criados',
 
-    'systematic-review'=> 'Revisão Sistemática',
+    'systematicReview' => 'Revisão sistemática',
+    'systematicAndSnowballing' => 'Revisão sistemática e Bola de Neve',
+    'snowballing' => 'Bola de Neve',
     'create' => 'Criar'
 ];
