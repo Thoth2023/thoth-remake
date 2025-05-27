@@ -179,5 +179,30 @@
                     });
                 });
         </script>
+
+        @if(count($papersPerStatus) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('papers_per_selection').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_selected_studies") }}</p>';
+                });
+            </script>
+        @endif
+
+        @if(count($criteriaData) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('total_per_criterias').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_criteria_signed_by_anyone") }}</p>';
+                });
+            </script>
+        @endif
+
+        @if(count($papersByUserAndStatus) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('status_per_members').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_selected_studies") }}</p>';
+                });
+            </script>
+        @endif
+
     @endpush
 @endsection
