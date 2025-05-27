@@ -2,17 +2,15 @@
 
 return [
 
-    'create_project' => 'Criar Projeto',
-    
+    'create_project' => 'Criar Projeto',   
     'title' => 'Título',
     'enter_title' => 'Digite o título',
-    
     'description' => 'Descrição',
     'enter_description' => 'Digite a descrição',
-    
+
     'objectives' => 'Objetivos',
     'enter_objectives' => 'Digite os objetivos',
-    
+
     'copy_planning' => 'Copiar Planejamento',
     'none' => 'Nenhum',
     'option1' => 'Opção 1',
@@ -25,6 +23,5 @@ return [
     'systematicReview' => 'Revisão sistemática',
     'systematicAndSnowballing' => 'Revisão sistemática e Bola de Neve',
     'snowballing' => 'Bola de Neve',
-
     'create' => 'Criar'
 ];

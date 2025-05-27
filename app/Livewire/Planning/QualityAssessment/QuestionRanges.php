@@ -23,6 +23,23 @@ class QuestionRanges extends Component
   public $intervals = 5;
   private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
+  protected $rules = [
+    'items.*.description' => 'required|string|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+    'intervals' => 'required|integer|min:2|max:10',
+  ];
+
+  protected function messages()
+  {
+      return [
+          'items.*.description.required' => 'O campo descrição é obrigatório.',
+          'items.*.description.regex' => 'A descrição só pode conter letras, números e espaços.',
+          'intervals.required' => 'O número de intervalos é obrigatório.',
+          'intervals.integer' => 'O número de intervalos deve ser um número inteiro.',
+          'intervals.min' => 'O número de intervalos deve ser no mínimo 2.',
+          'intervals.max' => 'O número de intervalos deve ser no máximo 10.',
+      ];
+  }
+
   public function populateItems()
   {
     $projectId = $this->currentProject->id_project;
@@ -100,6 +117,11 @@ class QuestionRanges extends Component
     }
 
     try {
+      // Validar se o valor é um número válido
+      if (!is_numeric($value)) {
+        throw new \Exception(__('project/planning.quality-assessment.ranges.invalid-number'));
+      }
+
       /**
        * If the new "end" value is the same as the current "end" value,
        * do nothing
@@ -108,8 +130,8 @@ class QuestionRanges extends Component
         return;
       }
 
-      $this->items[$index]['end'] = round($value, 2);
-      $this->items[$index + 1]['start'] = round($value + 0.01, 2);
+      $this->items[$index]['end'] = round((float)$value, 2);
+      $this->items[$index + 1]['start'] = round((float)$value + 0.01, 2);
 
       /**
        * Update the current "end" value
@@ -130,7 +152,7 @@ class QuestionRanges extends Component
       GeneralScore::updateOrCreate([
         'id_general_score' => $this->items[$index + 1]['id_general_score']
       ], [
-        'start' => round($value + 0.01, 2),
+        'start' => round((float)$value + 0.01, 2),
       ]);
 
       $this->dispatch('general-scores-generated');
@@ -157,8 +179,16 @@ class QuestionRanges extends Component
     }
     
     try {
+      $this->validate([
+        "items.$index.description" => 'required|string|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+      ]);
+
       $idGeneralScore = $this->items[$index]['id_general_score'];
       $value = $this->items[$index]['description'];
+
+      if ($this->oldItems[$index]['description'] === $value) {
+        return;
+      }
 
       GeneralScore::updateOrCreate([
         'id_general_score' => $idGeneralScore,
@@ -172,6 +202,8 @@ class QuestionRanges extends Component
         message: __('project/planning.quality-assessment.ranges.label-updated'),
         type: 'success'
       );
+
+      $this->oldItems[$index]['description'] = $value;
     } catch (\Exception $e) {
       $this->toast(
         message: $e->getMessage(),
@@ -211,45 +243,13 @@ class QuestionRanges extends Component
       }
     }
 
-    // Excluir registros antigos de GeneralScore
-    GeneralScore::where('id_project', $this->currentProject->id_project)->delete();
-
-    // Gerar novos intervalos
-    $sum = $this->sum;
-    $items = [];
-    $min = 0.01;
-    $max = round($sum / $this->intervals, 2);
-
-    for ($i = 0; $i < $this->intervals; $i++) {
-      $itemToAdd = [
-        'start' => $min,
-        'end' => $max,
-        'description' => 'Item ' . ($i + 1),
-        'id_project' => $this->currentProject->id_project,
-      ];
-
-      $itemCreated = GeneralScore::create($itemToAdd);
-      $items[] = array_merge($itemCreated->toArray(), [
-        'id_project' => $this->currentProject->id_project,
-      ]);
-
-      $min = round($max + 0.01, 2);
-      $max = round($max + $sum / $this->intervals, 2);
+    public function updated($propertyName)
+    {
+        if (preg_match('/items\.(\d+)\.description/', $propertyName, $matches)) {
+            $index = $matches[1];
+            $this->updateLabel($index);
+        }
     }
-
-    $this->items = $items;
-    $this->oldItems = $this->items;
-
-    // Notificar outros componentes sobre a atualização dos intervalos
-    $this->dispatch('general-scores-generated');
-
-
-    $this->toast(
-      message: __('project/planning.quality-assessment.ranges.generated'),
-      type: 'success'
-    );
-  }
-
 
   public function render()
   {

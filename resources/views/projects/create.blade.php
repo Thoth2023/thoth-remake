@@ -4,13 +4,13 @@
 	@include('layouts.navbars.auth.topnav', ['title' => __('project/create.create_project')])
 	<div class="card shadow-lg mx-4">
 		<div class="container-fluid py-4">
-			<p class="text-uppercase text-sm">@lang('project/create.create_project')</p>
+			<p class="text-uppercase text-sm">{{ __('project/create.create_project') }}</p>
 			<form method="POST" action="{{ route('projects.store') }}">
 				@csrf
 				<div class="form-group">
-					<label for="titleInput">@lang('project/create.title')</label>
+					<label for="titleInput">{{ __('project/create.title') }}</label>
 					<input name="title" type="text" class="form-control @error('title') is-invalid @enderror"
-						id="titleInput" placeholder="@lang('project/create.enter_title')" value="{{ old('title') }}">
+						id="titleInput" placeholder="{{ __('project/create.enter_title') }}" value="{{ old('title') }}">
 					@error('title')
 						<span class="invalid-feedback" role="alert">
 							{{ $message }}
@@ -19,8 +19,9 @@
 				</div>
 				<!-- alterar o formato das caixas de texto de textarea para quill -->
 
+
 				<div class="form-group">
-					<label for="descriptionEditor">@lang('project/create.description')</label>
+					<label for="descriptionEditor">{{ __('project/create.description') }}</label>
 					<div id="descriptionEditor" class="form-control @error('description') is-invalid @enderror"
 						style="min-height: 150px;">
 						{!! old('description') !!}
@@ -34,7 +35,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="objectivesEditor">@lang('project/create.objectives')</label>
+					<label for="objectivesEditor">{{ __('project/create.objectives') }}</label>
 					<div id="objectivesEditor" class="form-control @error('objectives') is-invalid @enderror"
 						style="min-height: 150px;">
 						{!! old('objectives') !!}
@@ -64,7 +65,7 @@
 						value="Systematic review">
 					{{ old('feature_review') == 'Systematic review' ? 'checked' : '' }}</input>
 					<label class="form-check-label" for="feature_review1">
-						@lang('project/create.systematicReview')
+              {{ __('project/create.systematic-review') }}
 					</label>
 				</div>
 				<div class="form-check">
@@ -72,7 +73,7 @@
 						value="Systematic review and Snowballing">
 					{{ old('feature_review') == 'Systematic review and Snowballing' ? 'checked' : '' }}</input>
 					<label class="form-check-label" for="feature_review2">
-						@lang('project/create.systematicAndSnowballing')
+                    {{ __('project/create.systematic-review') }} and Snowballing
 					</label>
 				</div>
 				<div class="form-check">
@@ -84,7 +85,7 @@
 					</label>
 				</div>
 				<div class="d-flex align-items-center">
-					<button type="submit" class="btn btn-primary btn-sm ms-auto">@lang('project/create.create')</button>
+					<button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/create.create') }}</button>
 				</div>
 			</form>
 			@include('layouts.footers.auth.footer')
