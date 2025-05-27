@@ -125,8 +125,10 @@
 <script>
     $(document).ready(function(){
         $wire.on('show-duplicates-modal', () => {
-            $('#duplicatesModal').modal('show');
-        });
+            setTimeout(() => {
+                $('#duplicatesModal').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
 
         $wire.on('show-success-duplicates', () => {
             $('#duplicatesModal').modal('hide');

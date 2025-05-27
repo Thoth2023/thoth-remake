@@ -160,11 +160,13 @@
 
 @script
 <script>
-    $(document).ready(function() {
+    $(document).ready(function(){
         // Show the paper modal
         $wire.on('show-paper', () => {
-            $('#paperModal').modal('show');
-        });
+            setTimeout(() => {
+                $('#paperModal').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
 
         // Show the success modal on success event
         Livewire.on('show-success', () => {
@@ -177,16 +179,13 @@
             $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
         });
     });
-
-    // Show toast on success event
-    Livewire.on('show-success', (message) => {
-        $('#paperModal').modal('hide'); // Hide the paper modal
-        if (message) {
-            toasty({
-                message: message,
-                type: 'success'
-            });
-        }
+    Livewire.on('reload-papers', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-success');
+    });
+    Livewire.on('show-success', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-success-quality');
     });
 });
 Livewire.on('reload-papers', () => {
