@@ -38,6 +38,7 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
@@ -57,6 +58,10 @@ use App\Http\Controllers\ThemeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
+Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
+Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
 
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
@@ -243,6 +248,7 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 });
 
 //SUPER USER ROUTES
+Route::middleware(['auth', 'role:is_super_user'])->group(function () {
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
@@ -259,7 +265,9 @@ Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('level
 Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
-Route::middleware(['auth', 'role:super-user'])->group(function () {
+
+
+
 Route::resource('permissions', PermissionController::class);
 });
 

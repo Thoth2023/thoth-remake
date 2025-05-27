@@ -16,14 +16,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Traits\ProjectPermissions;
 
 
 class PaperModal extends Component
 {
 
+    use ProjectPermissions;
+
     public $currentProject;
     public $projectId;
     public $paper = null;
+    public $canEdit = false;
 
     public $criterias;
 
@@ -42,6 +46,9 @@ class PaperModal extends Component
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
     {
+
+        $this->canEdit = $this->userCanEdit();
+
         $this->criterias = $criterias;
         $this->paper = $paper;
 
@@ -119,7 +126,6 @@ class PaperModal extends Component
         // Mostra o modal de sucesso
         $this->dispatch('show-success');
         $this->dispatch('refreshPaperStatus');
-
     }
 
     public function saveNote()
