@@ -19,60 +19,75 @@
                             <span class="navbar-toggler-bar bar3"></span>
                         </span>
                     </button>
-
-                    <!-- Links de navegação -->
+                    
+                    <!-- Itens do menu (colapsáveis) -->
                     <div class="collapse navbar-collapse" id="navigation">
+
+                        <!-- Lista de links principais centralizados -->
                         <ul class="navbar-nav mx-auto d-flex align-items-center justify-content-center">
-
+                            
+                            <!-- Link para Home -->
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center me-1 active" href="{{ route('home') }}">
+                                <a class="nav-link d-flex align-items-center me-1 active" href="{{ route("home") }}">
                                     <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                                    {{ __('nav/nav.home') }}
+                                    {{ __("nav/nav.home") }}
                                 </a>
                             </li>
 
+                            <!-- Link para página Sobre -->
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center me-1 active" href="{{ route('about') }}">
+                                <a class="nav-link d-flex align-items-center me-1 active" href="{{ route("about") }}">
                                     <i class="ni ni-bulb-61 opacity-6 text-dark me-1"></i>
-                                    {{ __('nav/nav.about') }}
+                                    {{ __("nav/nav.about") }}
                                 </a>
                             </li>
 
+                            <!-- Link para página de Ajuda -->
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center me-1 active" href="{{ route('help') }}">
+                                <a class="nav-link d-flex align-items-center me-1 active" href="{{ route("help") }}">
                                     <i class="ni ni-satisfied opacity-6 text-dark me-1"></i>
-                                    {{ __('nav/nav.help') }}
+                                    {{ __("nav/nav.help") }}
                                 </a>
                             </li>
 
+                            <!-- Se o usuário NÃO estiver autenticado -->
                             @guest
+                                <!-- Link para Cadastro -->
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-1" href="{{ route('register') }}">
+                                    <a class="nav-link d-flex align-items-center justify-content-center me-1" href="{{ route("register") }}">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.sign_up') }}
+                                        {{ __("nav/nav.sign_up") }}
                                     </a>
                                 </li>
+                                <!-- Link para Login -->
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-1" href="{{ route('login') }}">
+                                    <a class="nav-link d-flex align-items-center justify-content-center me-1" href="{{ route("login") }}">
                                         <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.sign_in') }}
+                                        {{ __("nav/nav.sign_in") }}
                                     </a>
                                 </li>
                             @endguest
 
+                            <!-- Se o usuário estiver autenticado -->
                             @auth
+                                <!-- Link para Perfil -->
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-1" href="{{ route('profile') }}">
+
+                                    <a class="nav-link d-flex align-items-center justify-content-center" href="{{ route("profile") }}">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.profile') }}
+                                        {{ __("nav/nav.profile") }}
                                     </a>
                                 </li>
+
+                                <!-- Link para Projetos -->
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-1" href="{{ route('projects.index') }}">
-                                        <i class="ni ni-single-copy-04 opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.projects') }}
+                                    <a class="nav-link d-flex align-items-center justify-content-center" href="{{ route("projects.index") }}">
+                                        <i class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"></i>
+                                        {{ __("nav/nav.projects") }}
                                     </a>
                                 </li>
+
+                                <!-- Botão para Logout com formulário -->
                                 <li class="nav-item">
                                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                         @csrf
@@ -83,7 +98,13 @@
                                     </form>
                                 </li>
                             @endauth
-
+                            <!-- ✅ Botão de Configuração sempre visível -->
+                            <li class="nav-item px-2 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-dark p-0 d-flex align-items-center">
+                                    <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
+                                    <span class="d-sm-inline d-none">Configuração</span>
+                                </a>
+                            </li>
                             <!-- Dropdown Idioma -->
                             <li class="nav-item dropdown">
                                 <a
@@ -103,11 +124,12 @@
                                 </ul>
                             </li>
                         </ul>
+
                     </div>
 
                 </div>
             </nav>
-            <!-- End Navbar -->
+            <!-- Fim da Navbar -->
         </div>
     </div>
 </div>
