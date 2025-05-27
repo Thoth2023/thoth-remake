@@ -21,7 +21,6 @@
             </div>
 
         </div>
-
     </div>
 </div>
 
@@ -204,4 +203,76 @@
             }
         }, 5000);
     });
+    
+document.addEventListener("DOMContentLoaded", function() {
+    let chatOpen = false;
+
+    const chatHeader = document.getElementById('chat-header');
+    const chatBody = document.getElementById('chat-body');
+    const chatNotif = document.getElementById('chat-notif');
+    const chatSend = document.getElementById('chat-send');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    const projetoId = {{ $projeto_id ?? 1 }};
+    const usuarioLogado = @json(Auth::user()->name);
+
+    chatHeader.addEventListener('click', function() {
+        console.log("Clique detectado");
+        chatOpen = !chatOpen;
+        chatBody.style.display = chatOpen ? 'block' : 'none';
+        if (chatOpen) {
+            chatNotif.style.display = 'none';
+            carregarMensagens();
+        }
+    });
+
+    function carregarMensagens() {
+        fetch(`/chat/${projetoId}/messages`)
+            .then(resp => resp.json())
+            .then(data => {
+                chatMessages.innerHTML = '';
+                data.forEach(msg => {
+                    chatMessages.innerHTML += `<div><strong>${msg.usuario}</strong>: ${msg.mensagem}</div>`;
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+    }
+
+    chatSend.addEventListener('click', function() {
+        const mensagem = chatInput.value.trim();
+        if (!mensagem) return;
+
+        fetch(`/chat/${projetoId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                usuario: usuarioLogado,
+                mensagem: mensagem
+            })
+        }).then(() => {
+            chatInput.value = '';
+            carregarMensagens();
+        });
+    });
+
+    carregarMensagens();
+
+    setInterval(() => {
+        if (!chatOpen) {
+            fetch(`/chat/${projetoId}/messages`)
+                .then(resp => resp.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        chatNotif.style.display = 'inline';
+                    }
+                });
+        } else {
+            carregarMensagens();
+        }
+    }, 5000);
+});
 </script>

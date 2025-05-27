@@ -28,7 +28,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per Database'
+                        text: '{{ __('project/reporting.imported-studies.papers-database.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -47,7 +47,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.imported-studies.papers-database.content') }}',
                         colorByPoint: true,
                         data: @json($papersPerDatabase) // Dados do Livewire convertidos para JSON
                     }]
@@ -74,20 +74,20 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Number of Papers by Year',
+                        text: '{{ __('project/reporting.imported-studies.number-papers-year.title') }}',
                         align: 'left'
                     },
                     xAxis: {
                         categories: years, // Usamos os anos como categorias no eixo X
                         title: {
-                            text: 'Year'
+                            text: '{{ __('project/reporting.imported-studies.number-papers-year.year') }}'
                         }
                     },
                     yAxis: {
                         allowDecimals: false,
                         min: 0,
                         title: {
-                            text: 'Number of Papers'
+                            text: '{{ __('project/reporting.imported-studies.number-papers-year.number-of-papers') }}'
                         }
                     },
                     plotOptions: {

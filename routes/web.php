@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TranslationController;
 
+
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
@@ -60,13 +61,11 @@ use App\Http\Controllers\ThemeController;
 */
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
     Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
     Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
 });
-
 
 
 Route::middleware(Localization::class)->get('/', function () {
@@ -260,6 +259,7 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 });
 
 //SUPER USER ROUTES
+Route::middleware(['auth', 'role:is_super_user'])->group(function () {
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
