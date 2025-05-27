@@ -33,9 +33,14 @@
 
             <!-- Dropdown de idiomas -->
             <div class="dropdown">
-                <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                    <i class="fas fa-globe opacity-6 text-dark me-1" style="color: #FFFFFF !important"></i>
-                    {{ __('nav/nav.language') }} <!-- Texto do idioma atual -->
+                <a
+                    href="#"
+                    class="nav-link dropdown-toggle px-2 text-dark"
+                    data-bs-toggle="dropdown"
+                    id="navbarDropdownMenuLink2"
+                >
+                    <i class="fas fa-globe me-1"></i>
+                    {{ __('nav/nav.language') }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                     <!-- Opção: Inglês -->
@@ -48,8 +53,11 @@
                     </li>
                 </ul>
             </div>
+            <!-- End Language Selector Dropdown -->
+            <!-- Sidebar Backgrounds -->
 
             <!-- Seção de seleção de cor da sidebar -->
+
             <div>
                 <h6 class="mb-0 mt-3">{{ __('nav/side.sidebar_color') }}</h6>
             </div>

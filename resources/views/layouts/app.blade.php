@@ -1,6 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <head>
+        <meta charset="utf-8" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="{{ asset("img/apple-icon.png") }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="{{ asset("img/favicon.png") }}"
+        />
+        <title>Thoth :: Tool for SLR</title>
+        <!-- PWA  -->
+        <meta name="theme-color" content="#c9c5b1" />
+        <link rel="apple-touch-icon" href="{{ asset("logo.PNG") }}" />
+        <link rel="manifest" href="{{ asset("/manifest.json") }}" />
+
+        <!-- Fonts and icons -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
+            rel="stylesheet"
+        />
+        <!-- Nucleo Icons -->
+        <link
+            href="{{ asset("assets/css/nucleo-icons.css") }}"
+            rel="stylesheet"
+        />
+        <link
+            href="{{ asset("assets/css/nucleo-svg.css") }}"
+            rel="stylesheet"
+        />
+
+        <link
+            href="{{ asset("assets/css/nucleo-svg.css") }}"
+            rel="stylesheet"
+        />
+
+        <link
+            href="{{ asset("assets/fontawesome-free-6.6.0-web/css/all.min.css") }}"
+            rel="stylesheet"
+        />
+
+        <!-- CSS Files -->
+        <link
+            id="pagestyle"
+            href="{{ asset("assets/css/argon-dashboard.css") }}"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="{{ asset("assets/css/select.css") }}" />
+        <link rel="stylesheet" href="{{ asset("assets/css/styles.css") }}" />
+
+        <!-- Google reCaptcha-->
+        @if(request()->is('register'))
+            <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+        @endif
+
+
+        <!--editor de richtexto Quill -->
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
+        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+         @livewireStyles
+
+        
+        <style>
+            /* Permite scroll vertical */
+            html, body {
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 100% !important;
+                overflow-y: auto;
+            }
+
+
+            /* Remove o scroll horizontal aleatorio que o Perfect Scrollbar cria*/
+            .ps__rail-x {
+                display: none !important;
+                height: 0 !important;
+            }
+
+            /*faz os elementos não conseguirem ultrapassar a largura da tela*/
+            .container-fluid,
+            .navbar,
+            .navbar-collapse{
+                max-width: 100% !important;
+            }
+
+        </style>
+
+
+
+
+    @stack('styles')
+
+
+    </head>
+
+    <body class="g-sidenav-show overflow-x-hidden {{ in_array( request()->route()->getName(),["login", "reset-password", "change-password","message"],) ? "bg-white" : "bg-gray-300" }}"
+    >
+
+        @guest
+
 <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
