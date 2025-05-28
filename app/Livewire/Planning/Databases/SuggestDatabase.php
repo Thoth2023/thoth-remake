@@ -8,10 +8,15 @@ use App\Models\Project as ProjectModel;
 use App\Models\Database as DatabaseModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Traits\ProjectPermissions;
 
 class SuggestDatabase extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
+    private $toastMessages = 'project/planning.databases.livewire.toasts';
 
     /**
      * Fields to be filled by the form.
@@ -77,6 +82,11 @@ class SuggestDatabase extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         try {

@@ -49,6 +49,10 @@
                             placeholder="{{ __('Selecione ou digite uma regra') }}"
                             wire:model.lazy="scoreRule"
                             onchange="handleScoreRuleChange(this.value)"
+                            label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
+                            maxlength="20"
+                            min="0"
+                            pattern="[a-zA-ZÀ-ÿ\s]+"
                             required
                         />
                         <datalist id="score-rule-options">
