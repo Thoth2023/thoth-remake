@@ -45,11 +45,11 @@
                         </div>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $progress['overall'] }}" aria-valuemin="0"
-                            aria-valuemax="100" style="width: {{ $progress['overall'] }}%;">
-                            {{ $progress['overall'] }}%
-                        </div>
+                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 60%;"></div>
                     </div>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="progress-wrapper">
                     <div class="progress-info">
