@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
@@ -44,8 +45,16 @@ class ProjectController extends Controller
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
 
+        $conductingProgressController = new ConductingProgressController();
+
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
+
+            $conductingProgress = $conductingProgressController->calculateProgress($project->id);
+
+            // $totalProgess = Planing + Conducting + Quality Assessment + Snowballing + Data Extract
+            $calculateProgress = (0 * 0.2) + ($conductingProgress * 0.2) + (0 * 0.2) + (0 * 0.2) + (0 * 0.2);
+            $project->totalProgress = round($calculateProgress, 2);
         }
 
         return view('projects.index', compact('merged_projects'));
@@ -112,10 +121,11 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        // Calcular o progresso do planejamento
-        $progress = $this->progressCalculator->calculate($idProject);
+        // Calculando progresso de Condução
+        $conductingProgressController = new ConductingProgressController();
+        $conductingProgress = $conductingProgressController->calculateProgress($idProject);
 
-        return view('projects.show', compact('project', 'users_relation', 'activities', 'progress'));
+        return view('projects.show', compact('project', 'users_relation', 'activities', 'conductingProgress'));
     }
 
 

@@ -49,37 +49,42 @@
                         </div>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $progress['overall'] }}" aria-valuemin="0"
-                            aria-valuemax="100" style="width: {{ $progress['overall'] ?? 0 }}%;">
-                            {{ $progress['overall'] }}%
+                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="progress-wrapper">
+                    <div class="progress-info">
+                        <div class="progress-percentage">
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.conducting') }}</span>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="progress-wrapper">
-                            <div class="progress-info">
-                                <div class="progress-percentage">
-                                    <span
-                                        class="text-sm font-weight-bold">{{ __('project/overview.import_studies') }}</span>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60"
-                                    aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div>
-                            </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $conductingProgress }}" aria-valuemin="0"
+                            aria-valuemax="100" style="width: {{ $conductingProgress }}%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="progress-wrapper">
+                    <div class="progress-info">
+                        <div class="progress-percentage">
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.quality_assessment') }}</span>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="progress-wrapper">
-                            <div class="progress-info">
-                                <div class="progress-percentage">
-                                    <span
-                                        class="text-sm font-weight-bold">{{ __('project/overview.study_selection') }}</span>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60"
-                                    aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
-                            </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 50%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="progress-wrapper">
+                    <div class="progress-info">
+                        <div class="progress-percentage">
+                            <span class="text-sm font-weight-bold">{{ __('project/overview.snowballing') }}</span>
                         </div>
                     </div>
                     <div class="card-body">
@@ -132,3 +137,5 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>

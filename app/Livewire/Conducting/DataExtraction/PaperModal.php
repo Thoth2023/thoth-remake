@@ -43,31 +43,29 @@ class PaperModal extends Component
             ->where('id_project', $this->projectId)
             ->get();
 
+        $this->textAnswers = [];
+        $this->selectedOptions = [];
+
         foreach ($this->questions as $question) {
-            if (optional($question->question_type)->type == 'Text') {
-                // Carrega respostas de texto
+            $type = optional($question->question_type)->type;
+
+            if ($type == 'Text') {
                 $evaluation = EvaluationExTxt::where('id_qe', $question->id_de)
                     ->where('id_paper', $this->paper['id_paper'])
                     ->first();
                 $this->textAnswers[$question->id] = $evaluation ? $evaluation->text : '';
 
-            } elseif (optional($question->question_type)->type == 'Pick One List') {
-                // Carrega seleção de uma única opção
+            } elseif ($type == 'Pick One List') {
                 $evaluation = EvaluationExOp::where('id_qe', $question->id_de)
-                ->where('id_paper', $this->paper['id_paper'])
+                    ->where('id_paper', $this->paper['id_paper'])
                     ->first();
-                // Armazena o ID da opção selecionada
                 $this->selectedOptions[$question->id_de] = $evaluation ? $evaluation->id_option : null;
 
-                $this->selectedOptions[$question->id_de] = $evaluation ? $evaluation->id_option : null;
-            } elseif (optional($question->question_type)->type == 'Multiple Choice List') {
-                // Carrega opções múltiplas
+            } elseif ($type == 'Multiple Choice List') {
                 $this->selectedOptions[$question->id_de] = EvaluationExOp::where('id_qe', $question->id_de)
                     ->where('id_paper', $this->paper['id_paper'])
                     ->pluck('id_option')
                     ->toArray();
-            } else {
-                $this->selectedOptions[$question->id_de] = $this->selectedOptions[$question->id_de] ?? [];
             }
         }
     }
