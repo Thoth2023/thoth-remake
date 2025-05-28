@@ -53,7 +53,8 @@ class User extends Authenticatable
     // Relacionamento com projetos através da tabela `members`
     public function projects()
     {
-        return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project');
+        return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project')
+            ->withPivot('level', 'status', 'invitation_token');
     }
 
     // Relacionamento com projetos com nível de acesso específico (usando o campo `level`)

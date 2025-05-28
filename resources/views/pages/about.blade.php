@@ -1,6 +1,7 @@
 @extends("layouts.app")
 
 @section("content")
+
     @include("layouts.navbars.guest.navbar", ["title" => "Início"])
 
     <div class="container mt-8 mb-3">
@@ -11,6 +12,7 @@
                     <h1 class="text-white">{{ __("pages/about.about") }}</h1>
                     <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
                 </div>
+
             </div>
         </div>
 
@@ -23,6 +25,7 @@
 
                         <!-- Novas Funcionalidades -->
                         <div class="card-body pt-2">
+
                             <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
 
                             <!-- Segurança -->

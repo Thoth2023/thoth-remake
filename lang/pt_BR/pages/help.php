@@ -34,6 +34,7 @@ return [
     'question10' => '📈 A Thoth oferece a geração de gráficos, tabelas e relatórios? Como esses resultados podem ser compartilhados?',
     'answer10' => 'Sim, a Thoth oferece a geração automática de gráficos, tabelas e relatórios. Essas representações visuais ajudam a visualizar clara e objetivamente o progresso e os resultados das etapas de revisão sistemática. Os resultados podem ser compartilhados exportando relatórios em diferentes formatos, como PDF ou Word, facilitando a comunicação de resultados com colegas e supervisores.',
 
+
     // Contato com suporte
     'support_title' => '📩 Contato com Suporte',
     'support_text' => 'Caso você tenha dúvidas que não foram respondidas acima, ou esteja enfrentando problemas técnicos, entre em contato com a nossa equipe de suporte:',
@@ -77,3 +78,4 @@ return [
     'feedback' => 'Nosso compromisso é melhorar continuamente, e seu feedback é fundamental para isso. Não hesite em nos enviar sugestões ou opiniões!',
     'credits' => 'Desenvolvido por estudantes de Engenharia de Software da Universidade Federal do Pampa (UNIPAMPA).',
 ];
+

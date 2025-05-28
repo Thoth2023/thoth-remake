@@ -42,7 +42,6 @@ class PaperModal extends Component
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
     }
-
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
     {
@@ -308,6 +307,23 @@ class PaperModal extends Component
             return 3; // Unclassified
         }
     }
+
+
+    public function nextPaper(){
+        $this->paper = Papers::where('id_paper', '>', $this->paper['id_paper'])
+            ->where('data_base', $this->paper['data_base'])
+            ->orderBy('id_paper')
+            ->first();
+
+        if ($this->paper) {
+            $this->dispatch('close-paper');
+            
+            $this->showPaper($this->paper, $this->criterias);
+        } else {
+            session()->flash('errorMessage', 'No more papers available.');
+        }
+    }
+
 
     public function render()
     {

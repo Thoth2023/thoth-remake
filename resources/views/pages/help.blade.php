@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     @include('layouts.navbars.guest.navbar', ['title' => 'Help'])
 
     <div class="container mt-8 mb-3">
@@ -19,8 +20,8 @@
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-8 mb-5 shadow-lg rounded-4">
                     <div class="card-body pt-2">
-                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
-                            Thoth 2.0
+                        <a href="javascript:" class="card-title h4 d-block text-darker">
+                            {{ __('pages/help.common_questions') }}
                         </a>
                         <div class="card-body pt-2">
                         <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
@@ -211,4 +212,6 @@
             </div>
         </div>
     </div>
+
 @endsection
+

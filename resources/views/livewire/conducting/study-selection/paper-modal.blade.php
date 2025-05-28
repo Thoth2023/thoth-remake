@@ -14,7 +14,8 @@
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                            @livewire('conducting.study-selection.paper-authors', ['paperId' => $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
+                            <b>{{ __('project/conducting.study-selection.modal.author' )}}:</b>
+                            <p>{{ $paper['author'] }}</p>
                         </div>
                         <div class="col-2">
                             <b>{{ __('project/conducting.study-selection.modal.year' )}}:</b>
@@ -140,6 +141,14 @@
                     <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
+                <div class="d-flex justify-content-between px-4">
+                    <button type="button" class="btn btn-outline-secondary" wire:click="previousPaper">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" wire:click="nextPaper">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -171,7 +180,7 @@
             setTimeout(() => {
                 $('#paperModal').modal('show');
             }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
-        }); 
+        });
 
         // Show the success modal on success event
         Livewire.on('show-success', () => {
