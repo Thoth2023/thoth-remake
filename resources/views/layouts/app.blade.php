@@ -33,6 +33,7 @@
         <!-- Quill (editor de texto rico) -->
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+         <link rel="icon" href="{{ asset('images/thoth-icon.png') }}" type="image/png">
 
         <!-- Bibliotecas extras -->
         <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>

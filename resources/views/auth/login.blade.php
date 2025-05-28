@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <main class="main-content  mt-0">
+    <main class="main-content mt-0">
         <section>
             <div class="page-header min-vh-100">
                 <div class="container">
@@ -62,7 +62,7 @@
                                 </div>
 
                                 <div class="position-relative text-center">
-                                    <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                                    <p class="text-sm font-weight-bold mb-2 text-primary text-border d-inline z-index-2 bg-white px-3">
                                         {{ __('auth/register.or') }}
                                     </p>
                                 </div>
@@ -95,11 +95,17 @@
                         <div
                             class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                             <div
-                                class="position-relative bg-gradient-light h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden">
+                                class="position-relative bg-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
+                                style="background-color: #0b2447 !important; font-family: 'Merriweather', serif;">
                                 <span class="mask bg-gradient-faded-dark opacity-8"></span>
-                                <h4 class="mt-5 text-white font-weight-bolder position-relative">
-                                    {{ __('auth/login.app_description') }}</h4>
-                                <p class="text-white position-relative">{{ __('auth/login.app_description_long') }}</p>
+                                <h4 class="mt-5 text-white font-weight-bolder position-relative" style="font-family: 'Merriweather', serif;">
+                                    Bem-vindo ao futuro do conhecimento</h4>
+                                <p class="text-white position-relative" style="font-family: 'Merriweather', serif; font-size: 1.125rem;">
+                                    Descubra uma plataforma que une tecnologia e sabedoria para transformar a forma como você aprende e cresce.
+                                </p>
+                                <p class="text-white fst-italic mt-4" style="font-size: 1.1rem; font-family: 'Merriweather', serif;">
+                                    <strong>Thoth:</strong> "Com Thoth, a sabedoria eterna ilumina o caminho do conhecimento."
+                                </p>
                             </div>
                         </div>
                     </div>
