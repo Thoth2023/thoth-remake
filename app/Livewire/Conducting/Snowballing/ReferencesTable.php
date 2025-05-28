@@ -20,7 +20,6 @@ class ReferencesTable extends Component
 
     }
 
-
     #[On('update-references')]
     public function updateReferences($data)
     {
