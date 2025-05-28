@@ -13,16 +13,29 @@ use Livewire\Component;
 use TCPDF;
 use Illuminate\Support\Facades\View;
 use App\Utils\ToastHelper;
+use Livewire\Attributes\On;
 
 
 class Buttons extends Component
 {
+    
+    private $translationPath = 'project/conducting.data-extraction.buttons';
+    private $toastMessages = 'project/conducting.data-extraction.buttons';
+
     public $projectId;
     public $duplicates = []; // Armazena os papers duplicados organizados por título
     public $uniquePapers = [];
     public $exactDuplicateCount = 0;
 
     public $totalDuplicates = 0;
+    public $hasPapers = false;
+
+    protected function messages()
+    {
+        return [
+            'no-papers' => __($this->translationPath . '.no-papers'),
+        ];
+    }
 
     private function translate(string $message, string $key = 'duplicates')
     {
@@ -295,6 +308,16 @@ class Buttons extends Component
     public function exportCsv()
     {
         $papers = $this->getPapersExport($this->projectId);
+        
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $csvData = $this->formatCsv($papers);
         return response()->streamDownload(function() use ($csvData) {
             echo $csvData;
@@ -304,6 +327,16 @@ class Buttons extends Component
     public function exportXml()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $xmlData = $this->formatXml($papers);
         return response()->streamDownload(function() use ($xmlData) {
             echo $xmlData;
@@ -313,6 +346,16 @@ class Buttons extends Component
     public function exportPdf()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+        
         $pdfData = $this->formatPdf($papers);
         return response()->streamDownload(function() use ($pdfData) {
             echo $pdfData;
@@ -474,11 +517,29 @@ class Buttons extends Component
 
     public function mount() {
         $this->projectId = request()->segment(2);
+        $this->checkPapersAvailability();
+    }
 
+    public function checkPapersAvailability()
+    {
+        try {
+            $papers = $this->getPapersExport();
+            $this->hasPapers = $papers->isNotEmpty();
+        } catch (\Exception $e) {
+            $this->hasPapers = false;
+        }
     }
 
     public function render()
     {
+        // Verificar novamente se existem papers disponíveis antes de renderizar
+        $this->checkPapersAvailability();
         return view('livewire.conducting.study-selection.buttons');
+    }
+
+    #[On('papers-updated')]
+    public function updatePapersAvailability($hasPapers)
+    {
+        $this->hasPapers = $hasPapers;
     }
 }

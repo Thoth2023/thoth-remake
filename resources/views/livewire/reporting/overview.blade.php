@@ -33,7 +33,7 @@
                         type: 'funnel'
                     },
                     title: {
-                        text: 'Systematic mapping study on domain-specific language development tools Funnel'
+                        text: '{{ __('project/reporting.overview.systematic-mapping-study.title') }}'
                     },
                     plotOptions: {
                         series: {
@@ -52,13 +52,13 @@
                         enabled: false
                     },
                     series: [{
-                        "name": "Studies",
+                        "name": "{{ __('project/reporting.overview.systematic-mapping-study.studies') }}",
                         "data": [
-                            ["Imported Studies", {{$importedStudiesCount}}],
-                            ["Not Duplicate", {{ $notDuplicateStudiesCount }}],
-                            ["Status Selection", {{$studiesSelectionCount}}],
-                            ["Status Quality",  {{$studiesQualityCount}}],
-                            ["Status Extraction",  {{$studiesExtractionCount}}]
+                            ["{{ __('project/reporting.overview.systematic-mapping-study.imported-studies') }}", {{$importedStudiesCount}}],
+                            ["{{ __('project/reporting.overview.systematic-mapping-study.not-duplicate') }}", {{ $notDuplicateStudiesCount }}],
+                            ["{{ __('project/reporting.overview.systematic-mapping-study.status-selection') }}", {{$studiesSelectionCount}}],
+                            ["{{ __('project/reporting.overview.systematic-mapping-study.status-quality') }}",  {{$studiesQualityCount}}],
+                            ["{{ __('project/reporting.overview.systematic-mapping-study.status-extration') }}",  {{$studiesExtractionCount}}]
                         ]
                     }],
                     responsive: {
@@ -91,7 +91,7 @@
                 // Criando a série para o gráfico de linha
                 const seriesData = [
                     {
-                        name: 'Project',
+                        name: '{{ __('project/reporting.overview.project') }}',
                         data: projectTotalActivities // Dados das atividades totais do projeto por data
                     }
                 ];
@@ -110,14 +110,14 @@
                         type: 'line'
                     },
                     title: {
-                        text: 'Project Activities Over Time'
+                        text: '{{ __('project/reporting.overview.project-activities-overtime') }}'
                     },
                     xAxis: {
                         categories: dates // Datas no eixo X
                     },
                     yAxis: {
                         title: {
-                            text: 'Total Activities'
+                            text: '{{ __('project/reporting.overview.total-activities') }}'
                         }
                     },
                     plotOptions: {
@@ -138,7 +138,7 @@
                         height: 575
                     },
                     title: {
-                        text: 'Stages of the systematic literature review or systematic mapping study',
+                        text: '{{ __('project/reporting.overview.stages-systematic-review') }}',
                         style: {
                             fontSize: '18px' // Tamanho da fonte do título
                         }
@@ -165,23 +165,23 @@
                         ],
                         nodes: [{
                             id: 'Search in Digital Libraries',
-                            title: 'Search in Digital Libraries',
-                            name: 'Databases',
+                            title: '{{ __('project/reporting.overview.systematic-mapping-study.database.content') }}',
+                            name: '{{ __('project/reporting.overview.systematic-mapping-study.database.title') }}',
                             color: '#D0D0D0'
                         }, {
                             id: 'Duplicates Removal',
-                            title: '{{ $duplicateStudiesCount }} Duplicates Removal',
-                            name: 'Duplicates',
+                            title: '{{ $duplicateStudiesCount }} {{ __('project/reporting.overview.systematic-mapping-study.duplicates.content') }}',
+                            name: '{{ __('project/reporting.overview.systematic-mapping-study.duplicates.title') }}',
                             color: '#F7C5C5'
                         }, {
                             id: 'Inclusion/Exclusion Criteria',
-                            title: '{{$studiesSelectionRejectedCount}} I/E removed',
-                            name: 'Study Selection',
+                            title: '{{$studiesSelectionRejectedCount}} {{ __('project/reporting.overview.systematic-mapping-study.study-selection.content') }}',
+                            name: '{{ __('project/reporting.overview.systematic-mapping-study.study-selection.title') }}',
                             color: '#F8E8A2'
                         }, {
                             id: 'QA Assessment',
-                            title: '{{$studiesQualityRejectedCount}} QA rejected',
-                            name: 'Quality Assessment',
+                            title: '{{$studiesQualityRejectedCount}} {{ __('project/reporting.overview.systematic-mapping-study.quality-assessment.content') }}',
+                            name: '{{ __('project/reporting.overview.systematic-mapping-study.quality-assessment.title') }}',
                             color: '#D5FAD9'
                         }, {
                             id: 'Data Extraction',
@@ -190,20 +190,20 @@
                             color: '#D5FAD9'
                         }, {
                             id: 'imported studies',
-                            name: '{{$importedStudiesCount}} imported studies',
+                            name: '{{$importedStudiesCount}} {{ __('project/reporting.overview.systematic-mapping-study.imported-studies') }}',
                             color: '#ffffff'
                         }, {
                             id: 'studies included',
-                            name: '{{$notDuplicateStudiesCount }} studies',
+                            name: '{{$notDuplicateStudiesCount }} {{ __('project/reporting.overview.systematic-mapping-study.studies') }}',
                             color: '#ffffff'
                         }, {
                             id: 'I/E studies',
-                            name: '{{$studiesSelectionCount}} studies I/E included',
+                            name: '{{$studiesSelectionCount}} {{ __('project/reporting.overview.systematic-mapping-study.studies-I/E-included') }}',
                             color: '#ffffff'
                         }, {
                             id: 'DE studies',
-                            name: '{{$studiesQualityCount}} studies accepted',
-                            title: '#Avaiable Data Extraction',
+                            name: '{{$studiesQualityCount}} {{ __('project/reporting.overview.systematic-mapping-study.studies-accepted.content') }}',
+                            title: '{{ __('project/reporting.overview.systematic-mapping-study.studies-accepted.title') }}',
                             color: '#ffffff'
                         }],
                         dataLabels: {
