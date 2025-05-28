@@ -2,6 +2,7 @@
 
 @section("content")
     @include("layouts.navbars.auth.topnav", ["title" => "Dashboard"])
+	<!-- Section displaying cards with financial and user statistics for the day, users, clients, and sales -->
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -149,6 +150,7 @@
                 </div>
             </div>
         </div>
+		<!-- Section displaying sales overview chart and carousel with promotional images and captions -->
         <div class="row mt-4">
             <div class="col-lg-7 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-100">
@@ -287,6 +289,7 @@
                 </div>
             </div>
         </div>
+		<!-- Table displaying sales data by country with flags, sales count, value, and bounce rate -->
         <div class="row mt-4">
             <div class="col-lg-7 mb-lg-0 mb-4">
                 <div class="card">
@@ -527,6 +530,7 @@
                     </div>
                 </div>
             </div>
+			<!-- Category list with icons and data displaying different sections such as Devices, Tickets, Error Logs, and Happy Users -->
             <div class="col-lg-5">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
@@ -677,6 +681,7 @@
 @endsection
 
 @push("js")
+	<!-- Script to render a line chart using Chart.js, with gradient fill and custom styling -->
     <script src="./assets/js/plugins/chartjs.min.js"></script>
     <script>
         var ctx1 = document.getElementById('chart-line').getContext('2d');

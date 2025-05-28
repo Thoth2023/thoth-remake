@@ -69,8 +69,6 @@ class FileUpload extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
-
-
     }
 
     public function resetFields()
@@ -188,7 +186,6 @@ class FileUpload extends Component
                     $this->dispatch('import-success');
                     $this->dispatch('refreshPapersCount');
                     FacadesLog::info('Eventos de importação e atualização de contagem de papers despachados com sucesso.');
-
                 } catch (\Exception $e) {
                     // Lidar com erros no processo de criação de BibUpload ou despachar job/processamento CSV
                     $errorMessage = $e->getMessage();
@@ -202,7 +199,6 @@ class FileUpload extends Component
 
                     $this->handleException($e);
                 }
-
             } else {
                 // Mensagem de erro caso o banco de dados do projeto não seja encontrado
                 FacadesLog::error('Banco de dados do projeto não encontrado.', ['project_id' => $this->currentProject->id_project]);
@@ -228,7 +224,7 @@ class FileUpload extends Component
     /**
      * @throws ParserException
      */
-     private function extractBibTexReferences($filePath)
+    private function extractBibTexReferences($filePath)
     {
         $contents = file_get_contents($filePath);
         $parser = new Parser();
@@ -261,23 +257,23 @@ class FileUpload extends Component
     {
         return [
             'type' => $csvRow['Content Type'] ?? '',
-            'citation-key' => '',
+            'citation-key' => !empty($csvRow['Citation Key']) ? $csvRow['Citation Key'] : null,
             'title' => !empty($csvRow['Item Title']) ? $csvRow['Item Title'] : null,
-            'author' =>!empty($csvRow['Authors']) ? $csvRow['Authors'] : null,
+            'author' => !empty($csvRow['Authors']) ? $csvRow['Authors'] : null,
             'booktitle' => $csvRow['Book Series Title'] ?? '',
             'volume' => $csvRow['Journal Volume'] ?? '',
-            'pages' => '',
-            'numpages' => '',
-            'abstract' => '',
-            'keywords' => '',
+            'pages' => $csvRow['Number of Pages'] ?? '',
+            'numpages' => $csvRow['Number of Pages'] ?? '',
+            'abstract' => $csvRow['Abstract'] ?? '',
+            'keywords' => $csvRow['Keywords'] ?? '',
             'doi' => !empty($csvRow['Item DOI']) ? $csvRow['Item DOI'] : null,
             'journal' => $csvRow['Publication Title'] ?? '',
-            'issn' => '',
-            'location' => '',
-            'isbn' => '',
-            'address' => '',
+            'issn' => $csvRow['ISSN'] ?? '',
+            'location' => $csvRow['Publication Place'] ?? '',
+            'isbn' => $csvRow['ISBN'] ?? '',
+            'address' => $csvRow['Address'] ?? '',
             'url' => $csvRow['URL'] ?? '',
-            'publisher' => '',
+            'publisher' => $csvRow['Publisher'] ?? '',
             'year' => $csvRow['Publication Year'] ?? '',
         ];
     }
@@ -314,7 +310,6 @@ class FileUpload extends Component
                 //atualizar os demais módulos
                 $this->dispatch('import-success');
                 $this->dispatch('refreshPapersCount');
-
             });
         } catch (\Exception $e) {
             $toastMessage = __($this->toastMessages . '.file_delete_error', ['message' => $e->getMessage()]);

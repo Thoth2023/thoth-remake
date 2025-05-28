@@ -11,7 +11,6 @@
             width: 100%;
             max-width: 100%;
         }
-        
         .status-container {
             display: flex;
             align-items: center;

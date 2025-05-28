@@ -3,6 +3,7 @@
 @section('content')
     @include('layouts.navbars.guest.navbar', ['title' => 'Help'])
     <div class="container mt-8 mb-3">
+		<!-- Displays a page header with a title and description -->
         <div class="page-header d-flex flex-column pt-4 pb-9 border-radius-lg">
             <div
                 class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
@@ -16,6 +17,7 @@
                 </div>
             </div>
         </div>
+		<!-- Displays a card with a title and description -->
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-8 mb-5">
@@ -28,6 +30,7 @@
                                 {{ __('pages/help.common_questions') }}
                             </a>
                         </div>
+						<!-- Accordion item for a collapsible question-answer section with dynamic content -->
                         <div class="accordion" id="accordionExample">
                             <div class="accordion-item1">
                                 <h2 class="accordion-header">
