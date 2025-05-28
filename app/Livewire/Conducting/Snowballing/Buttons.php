@@ -11,17 +11,45 @@ use Illuminate\Support\Facades\View;
 use Livewire\Component;
 use TCPDF;
 use App\Utils\ToastHelper;
+use Livewire\Attributes\On;
 
 
 class Buttons extends Component
 {
 
+    private $translationPath = 'project/conducting.data-extraction.buttons';
+    private $toastMessages = 'project/conducting.data-extraction.buttons';
+
     public $projectId;
+    public $hasPapers = false;
+
+
+    protected function messages()
+    {
+        return [
+            'no-papers' => __($this->translationPath . '.no-papers'),
+        ];
+    }
+
+    public function toast(string $message, string $type)
+    {
+        $this->dispatch('buttons', ToastHelper::dispatch($type, $message));
+    }
 
 
     public function exportCsv()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $csvData = $this->formatCsv($papers);
         return response()->streamDownload(function() use ($csvData) {
             echo $csvData;
@@ -31,6 +59,16 @@ class Buttons extends Component
     public function exportXml()
     {
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+        
         $xmlData = $this->formatXml($papers);
         return response()->streamDownload(function() use ($xmlData) {
             echo $xmlData;
@@ -41,6 +79,16 @@ class Buttons extends Component
     {
 
         $papers = $this->getPapersExport($this->projectId);
+
+        // Verifica se existem papers para exportar
+        if ($papers->isEmpty()) {
+            $this->toast(
+                message: $this->toastMessages . '.no-papers',
+                type: 'error'
+            );
+            return;
+        }
+
         $pdfData = $this->formatPdf($papers);
         return response()->streamDownload(function() use ($pdfData) {
             echo $pdfData;
@@ -154,10 +202,29 @@ class Buttons extends Component
 
     public function mount() {
         $this->projectId = request()->segment(2);
+        $this->checkPapersAvailability();
+    }
+
+    public function checkPapersAvailability()
+    {
+        try {
+            $papers = $this->getPapersExport();
+            $this->hasPapers = $papers->isNotEmpty();
+        } catch (\Exception $e) {
+            $this->hasPapers = false;
+        }
     }
 
     public function render()
     {
+        // Verificar novamente se existem papers disponíveis antes de renderizar
+        $this->checkPapersAvailability();
         return view('livewire.conducting.snowballing.buttons');
+    }
+
+    #[On('papers-updated')]
+    public function updatePapersAvailability($hasPapers)
+    {
+        $this->hasPapers = $hasPapers;
     }
 }

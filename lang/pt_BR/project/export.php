@@ -23,6 +23,14 @@ return [
 
 <p>Este recurso facilita a criação, organização e edição de documentos relacionados ao projeto, integrando as informações do sistema de maneira prática e eficiente.</p>
 ',
+            'content-options'=> [
+                'planning' => 'Planejamento',
+                'import-studies' => 'Importar Estudos',
+                'study-selection'=> 'Seleção de Estudos',
+                'quality-assessment' => 'Avaliação de Qualidade',
+                'snowballing' => 'Snowballing',
+            ],
+            'enter_description' => 'Selecione as opções para gerar o conteúdo latex...',
         ],
         'bibtex' => [
             'title' => 'Referências BibTex',
@@ -61,6 +69,11 @@ return [
         <li>Certifique-se de que as informações do seu projeto estejam completas para garantir a exportação correta das referências.</li>
     </ul>
 </div>',
+            'content-options'=> [
+                'study-selection' => 'Seleção de Estudos',
+                'quality-assessment' => 'Avaliação de Qualidade',
+                'snowballing' => 'Snowballing',
+            ],
             'enter_description' => 'Selecione as opções para gerar as referências...',
         ],
     ],
