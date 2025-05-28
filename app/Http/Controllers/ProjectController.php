@@ -366,5 +366,38 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 		return redirect('/projects')->with('success', 'You have successfully joined the project!');
 	}
 
+    /**
+     * Permite ao usuário recusar o convite de um projeto
+     * @param string $idProject
+     * @param Request $request
+     */
+    public function declineInvitation($idProject, Request $request)
+    {
+        $token = $request->query('token');
+
+        $invitation = DB::table('members')
+            ->where('invitation_token', $token)
+            ->where('id_project', $idProject)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$invitation) {
+            return back()->with('error', 'Convite inválido ou expirado.');
+        }
+
+        DB::table('members')
+            ->where('invitation_token', $token)
+            ->where('id_project', $idProject)
+            ->update([
+                'status' => 'declined',
+                'invitation_token' => null
+            ]);
+
+        $activity = "Recusou o convite para participar do projeto.";
+        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+
+        return redirect('/projects')->with('success', 'Você recusou o convite para participar do projeto.');
+    }
+
 
 }

@@ -11,7 +11,6 @@
             width: 100%;
             max-width: 100%;
         }
-
         .status-container {
             display: flex;
             align-items: center;
@@ -174,7 +173,7 @@
                                         $status = $member->pivot->status ?? null;
                                         $statusText = __('pages/add_member.status_accepted');
                                         $statusClass = 'bg-success';
-
+                                        
                                         if ($status === 'pending') {
                                             $statusText = __('pages/add_member.status_pending');
                                             $statusClass = 'bg-warning';
