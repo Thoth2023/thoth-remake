@@ -9,9 +9,14 @@ use App\Models\Database as DatabaseModel;
 use App\Models\ProjectDatabase as ProjectDatabaseModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Databases extends Component
 {
+
+    use ProjectPermissions;
+
+    private $toastMessages = 'project/planning.databases.livewire.toasts';
     public $currentProject;
     public $currentDatabase;
     public $databases = [];
@@ -93,6 +98,11 @@ class Databases extends Component
 
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         try {
@@ -137,6 +147,11 @@ class Databases extends Component
      */
     public function delete(string $databaseId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $projectDatabase = ProjectDatabaseModel::where('id_project', $this->currentProject->id_project)
             ->where('id_database', $databaseId)
             ->first();

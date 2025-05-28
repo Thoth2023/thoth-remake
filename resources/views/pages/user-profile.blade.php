@@ -74,6 +74,8 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.username') }}</label>
                                     <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
+
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -86,12 +88,18 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.first_name') }}</label>
                                     <input class="form-control" type="text" name="firstname" value="{{ old('firstname', auth()->user()->firstname) }}">
+                                        @error('firstname')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.last_name') }}</label>
                                     <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}">
+                                        @error('lastname')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -108,18 +116,27 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.city') }}</label>
                                     <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}">
+                                        @error('city')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.country') }}</label>
                                     <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}">
+                                        @error('country')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.postal_code') }}</label>
                                     <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}">
+                                        @error('postal')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -136,6 +153,9 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.occupation') }}</label>
                                     <input class="form-control" type="text" name="occupation" value="{{ old('occupation', auth()->user()->occupation) }}">
+                                        @error('occupation')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
