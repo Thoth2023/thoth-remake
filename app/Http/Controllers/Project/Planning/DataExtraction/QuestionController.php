@@ -47,10 +47,13 @@ class QuestionController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-extraction')
-            ->with('success', 'Question added successfully');
+            ->with('success', 'Question added successfully')
+            ->with('progress', $progress);
     }
 
     /**
@@ -101,11 +104,13 @@ class QuestionController extends Controller
         );
 
         $question->delete();
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
 
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-extraction')
-            ->with('success', 'Question deleted successfully');
+            ->with('success', 'Question deleted successfully')
+            ->with('progress', $progress);
     }
 
     /**

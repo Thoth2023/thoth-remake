@@ -15,6 +15,8 @@
                             <span class="navbar-toggler-bar bar3"></span>
                         </span>
                     </button>
+
+                    <!-- Itens do menu (colapsáveis) -->
                     <div class="collapse navbar-collapse" id="navigation">
                         <!-- FIX: Campo de busca com largura ajustada -->
                         <div class="d-flex align-items-center ms-auto me-3" style="max-width: 250px; width: 100%;">
@@ -35,25 +37,33 @@
                                     {{ __('nav/nav.home') }}
                                 </a>
                             </li>
+
+                            <!-- Link para página Sobre -->
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center me-1 active" href="{{ route('about') }}">
                                     <i class="ni ni-bulb-61 opacity-6 text-dark me-1"></i>
                                     {{ __('nav/nav.about') }}
                                 </a>
                             </li>
+
+                            <!-- Link para página de Ajuda -->
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center me-1 active" href="{{ route('help') }}">
                                     <i class="ni ni-satisfied opacity-6 text-dark me-1"></i>
                                     {{ __('nav/nav.help') }}
                                 </a>
                             </li>
+
+                            <!-- Se o usuário NÃO estiver autenticado -->
                             @guest
+                                <!-- Link para Cadastro -->
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center justify-content-center me-1" href="{{ route('register') }}">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                                         {{ __('nav/nav.sign_up') }}
                                     </a>
                                 </li>
+                                <!-- Link para Login -->
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center justify-content-center me-1" href="{{ route('login') }}">
                                         <i class="fas fa-key opacity-6 text-dark me-1"></i>
@@ -62,19 +72,25 @@
                                 </li>
                             @endguest
 
+                            <!-- Se o usuário estiver autenticado -->
                             @auth
+                                <!-- Link para Perfil -->
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center justify-content-center" href="{{ route('profile') }}">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                                         {{ __('nav/nav.profile') }}
                                     </a>
                                 </li>
+
+                                <!-- Link para Projetos -->
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center justify-content-center" href="{{ route('projects.index') }}">
                                         <i class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"></i>
                                         {{ __('nav/nav.projects') }}
                                     </a>
                                 </li>
+
+                                <!-- Botão para Logout com formulário -->
                                 <li class="nav-item">
                                     <form role="form" method="post" action="{{ route('logout') }}" id="logout-form">
                                         @csrf
@@ -87,6 +103,14 @@
                                     </form>
                                 </li>
                             @endauth
+
+                            <!-- ✅ Botão de Configuração sempre visível -->
+                            <li class="nav-item px-2 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-dark p-0 d-flex align-items-center">
+                                    <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
+                                    <span class="d-sm-inline d-none">Configuração</span>
+                                </a>
+                            </li>
                         </ul>
 
                         <!-- Language Selector Dropdown -->
@@ -99,11 +123,11 @@
                                 <li><a class="dropdown-item" href="{{ route('localization', 'pt_BR') }}">Português (Brasil)</a></li>
                             </ul>
                         </div>
-                        <!-- End Language Selector Dropdown -->
+                        <!-- Fim do dropdown de idiomas -->
                     </div>
                 </div>
             </nav>
-            <!-- End Navbar -->
+            <!-- Fim da Navbar -->
         </div>
     </div>
 </div>

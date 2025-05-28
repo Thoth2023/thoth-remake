@@ -44,10 +44,13 @@ class KeywordController extends Controller
             id_project: $request->id_project
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Keyword added successfully');
+            ->with('success', 'Keyword added successfully')
+            ->with('progress', $progress);
     }
 
     /**
@@ -113,10 +116,13 @@ class KeywordController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'overall-info')
-            ->with('success', 'Keyword deleted successfully');
+            ->with('success', 'Keyword deleted successfully')
+            ->with('progress', $progress);
     }
 
     /**

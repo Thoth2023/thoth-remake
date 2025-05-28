@@ -66,10 +66,13 @@ class DatabaseController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-bases')
-            ->with('success', 'Database added to the project');
+            ->with('success', 'Database added to the project')
+            ->with('progress', $progress);
     }
 
     /**
@@ -100,10 +103,13 @@ class DatabaseController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-bases')
-            ->with('success', 'Database removed from the project');
+            ->with('success', 'Database removed from the project')
+            ->with('progress', $progress);
     }
 
     /**
@@ -131,10 +137,13 @@ class DatabaseController extends Controller
             id_project: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'data-bases')
-            ->with('success', 'Database Suggested successfully');
+            ->with('success', 'Database Suggested successfully')
+            ->with('progress', $progress);
     }
 
     /**
