@@ -141,6 +141,14 @@
                     <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
+                <div class="d-flex justify-content-between px-4">
+                    <button type="button" class="btn btn-outline-secondary" wire:click="previousPaper">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" wire:click="nextPaper">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
