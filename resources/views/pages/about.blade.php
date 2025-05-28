@@ -3,6 +3,7 @@
 @section("content")
 @include("layouts.navbars.guest.navbar", ["title" => "Home"])
 
+
 <div class="container mt-8 mb-3">
     <!-- cabeçalho -->
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
@@ -10,6 +11,7 @@
             <div class="col-lg-6 text-center mx-auto">
                 <h1 class="text-white">{{ __("pages/about.about") }}</h1>
                 <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
+
             </div>
         </div>
         <div class="row">
@@ -244,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
     @endif
 });
 
+// Function to accept terms and LGPD
 function acceptTermsAndLgpd() {
     fetch("{{ route('accept.lgpd') }}", {
             method: 'POST',

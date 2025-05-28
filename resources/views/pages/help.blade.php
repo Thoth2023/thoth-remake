@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 @include('layouts.navbars.guest.navbar', ['title' => 'Help'])
 <div class="container mt-8 mb-3">
     <div class="page-header d-flex flex-column pt-4 pb-9 border-radius-lg">
@@ -24,6 +25,7 @@
                         <a href="javascript:" class="card-title h4 d-block text-darker">
                             {{ __('pages/help.common_questions') }}
                         </a>
+
                     </div>
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
@@ -31,6 +33,7 @@
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     <a href="javascript:" class="card-title h5 d-block text-darker">
+
                                         {{ __('pages/help.question1') }}
                                     </a>
                                 </button>

@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Project;
+use Illuminate\Support\HtmlString;
 
 class ProjectInvitationNotification extends Notification
 {
@@ -45,15 +46,18 @@ class ProjectInvitationNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-{
-    $url = url("/project/{$this->project->id_project}/accept-invitation?token={$this->token}"); // Certifique-se de que 'id_project' é o nome correto do campo ID no modelo Project.
 
-    return (new MailMessage)
-                ->greeting('Hello ' . $notifiable->username) // Certifique-se de que username é a propriedade correta
-                ->line('You have been invited to join the project: ' . $this->project->title)
-                ->action('Accept Invitation', $url)
-                ->line('If you have any questions, reply to this email.');
-}
+    public function toMail($notifiable)
+    {
+        $acceptUrl = url("/project/{$this->project->id_project}/accept-invitation?token={$this->token}");
+        $declineUrl = url("/project/{$this->project->id_project}/decline-invitation?token={$this->token}");
+
+        return (new MailMessage)
+            ->greeting('Hello ' . $notifiable->username)
+            ->line('You have been invited to join the project: ' . $this->project->title)
+            ->action('Accept Invitation', $acceptUrl)
+            ->line(new HtmlString('If you do not wish to participate, you can <a href="' . $declineUrl . '">decline the invitation</a>.'))
+            ->line('If you have any questions, reply to this email.');
+    }
 
 }
