@@ -16,10 +16,18 @@
                     @if (session()->has('error'))
                         <div class='card card-body col-md-12 mt-3'>
                             <h3 class="h5 mb-3">{{ __('project/conducting.study-selection.tasks') }}</h3>
-                            <div class="alert alert-warning">
-                                {{ session('error') }}
+                            <div class="alert alert-warning" id="errorMessage">
+                                {!! session('error') !!}
                             </div>
                         </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const errorElement = document.getElementById('errorMessage');
+                                if (errorElement) {
+                                    errorElement.innerText = decodeHtmlEntities(errorElement.innerText);
+                                }
+                            });
+                        </script>
                     @else
                     @include(
                         "project.components.project-tabs",

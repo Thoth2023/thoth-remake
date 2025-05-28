@@ -9,12 +9,14 @@ use App\Models\ProjectDatabases;
 use Livewire\Component;
 use TCPDF;
 use Illuminate\Support\Facades\View;
+use Livewire\Attributes\On;
 
 
 class PeerReviewQualityButtons extends Component
 {
 
     public $projectId;
+    public $hasPapers = false;
 
 
     public function exportCsv()
@@ -170,10 +172,29 @@ class PeerReviewQualityButtons extends Component
 
     public function mount() {
         $this->projectId = request()->segment(2);
+        $this->checkPapersAvailability();
+    }
+
+    public function checkPapersAvailability()
+    {
+        try {
+            $papers = $this->getPapersExport();
+            $this->hasPapers = $papers->isNotEmpty();
+        } catch (\Exception $e) {
+            $this->hasPapers = false;
+        }
     }
 
     public function render()
     {
+        // Verificar novamente se existem papers disponíveis antes de renderizar
+        $this->checkPapersAvailability();
         return view('livewire.reporting.peer-review-quality-buttons');
+    }
+
+    #[On('papers-updated')]
+    public function updatePapersAvailability($hasPapers)
+    {
+        $this->hasPapers = $hasPapers;
     }
 }

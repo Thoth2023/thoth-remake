@@ -23,6 +23,13 @@ return [
 
 <p>This feature simplifies the creation, organization, and editing of project-related documents by integrating system information in a practical and efficient way.</p>
 ',
+            'content-options'=> [
+                'planning' => 'Planning',
+                'import-studies' => 'Import Studies',
+                'study-selection'=> 'Study Selection',
+                'quality-assessment' => 'Quality Assessment',
+                'snowballing' => 'Snowballing',
+            ],
             'enter_description' => 'Select options to generate the latex content...',
         ],
         'bibtex' => [
@@ -62,7 +69,12 @@ return [
         <li>Ensure that your project information is complete to guarantee the correct export of references.</li>
     </ul>
 </div>',
-       'enter_description' => 'Select options to generate the references...',
+        'content-options'=> [
+            'study-selection' => 'Study Selection',
+            'quality-assessment' => 'Quality Assessment',
+            'snowballing' => 'Snowballing',
+        ],
+        'enter_description' => 'Select options to generate the references...',
         ],
     ],
     'button' => [

@@ -127,8 +127,11 @@
     $(document).ready(function(){
         // Show the paper modal
         $wire.on('show-paper-quality-conflict', () => {
-            $('#paperModalConflictQuality').modal('show');
-        });
+            setTimeout(() => {
+                $('#paperModalConflictQuality').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
+
         // Show the success modal on success event
         Livewire.on('show-success-conflicts-quality', () => {
             $('#paperModalConflictQuality').modal('hide'); // Hide the paper modal

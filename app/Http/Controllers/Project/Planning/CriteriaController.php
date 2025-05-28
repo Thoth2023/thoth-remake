@@ -27,7 +27,7 @@ class CriteriaController extends Controller
             return redirect()
                 ->back()
                 ->with('activePlanningTab', 'criteria')
-                ->with('error', 'Project not found');
+                ->with('error', __('project/planning.criteria.not_found'));
         }
 
         $project = Project::findOrFail($projectId);
@@ -38,7 +38,7 @@ class CriteriaController extends Controller
                 ->back()
                 ->with('activePlanningTab', 'criteria')
                 ->withErrors([
-                    'duplicate' => 'The provided ID already exists in this project.',
+                    'duplicate' => __('project/planning.criteria.duplicate_id'),
                 ]);
         }
 
@@ -56,10 +56,13 @@ class CriteriaController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'criteria')
-            ->with('success', 'Criteria added successfully');
+            ->with('success', 'Criteria added successfully')
+            ->with('progress', $progress);   
     }
 
 
@@ -81,7 +84,7 @@ class CriteriaController extends Controller
 
         if ($existingCriteria) {
             return back()->withErrors([
-                'duplicate' => 'The provided ID already exists in this project.',
+                'duplicate' => __('project/planning.criteria.duplicate_id'),
             ]);
         }
 
@@ -96,7 +99,7 @@ class CriteriaController extends Controller
         return redirect()
             ->back()
             ->with('activePlanningTab', 'criteria')
-            ->with('success', 'Criteria updated successfully');
+            ->with('success', __('project/planning.criteria.updated_success'));
     }
 
     /**
@@ -112,7 +115,7 @@ class CriteriaController extends Controller
         if ($criterion->id_project != $projectId) {
             return redirect()
                 ->back()
-                ->with('error', 'Criteria not found');
+                ->with('error', __('project/planning.criteria.not_found'));
         }
 
 
@@ -126,10 +129,13 @@ class CriteriaController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'criteria')
-            ->with('success', 'Criteria deleted successfully');
+            ->with('success', __('project.planning.criteria.deleted_success'));
+
     }
 
     /**
@@ -160,7 +166,7 @@ class CriteriaController extends Controller
         return redirect()
             ->back()
             ->with('activePlanningTab', 'criteria')
-            ->with('success', 'Pre-selected value updated successfully');
+            ->with('success', __('project/planning.criteria.preselected_updated'));
     }
 
     /**
