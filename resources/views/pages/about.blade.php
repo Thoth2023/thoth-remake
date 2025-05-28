@@ -3,6 +3,7 @@
 @section("content")
     @include("layouts.navbars.guest.navbar", ["title" => "Home"])
 
+	<!-- Container for displaying the "About" page with various sections on features, technologies, development -->
     <div class="container mt-8 mb-3">
         <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
             <div
@@ -529,6 +530,7 @@
                 @endif
             });
 
+			// Function to accept terms and LGPD
             function acceptTermsAndLgpd() {
                 fetch("{{ route('accept.lgpd') }}", {
                     method: 'POST',

@@ -16,6 +16,7 @@
             </div>
         </div>
     </div>
+	<!-- Displays various sections of the terms using cards. Each section includes a title and a description. -->
     <div class="row">
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
             <div class="card d-inline-flex p-3 mt-5">

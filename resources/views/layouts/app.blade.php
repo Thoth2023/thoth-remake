@@ -901,4 +901,3 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
         </script>
     </body>
 </html>
-
