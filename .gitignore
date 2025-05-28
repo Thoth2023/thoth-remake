@@ -15,3 +15,10 @@ yarn-error.log
 /.vscode
 /.docker
 .DS_Store
+app/Http/Requests/RegisterRequest.php
+public/build/manifest.json
+public/build/assets/app-8a9a9028.js
+.gitignore
+tests/Feature/CriteriaMountTest.php
+public/build/manifest.json
+

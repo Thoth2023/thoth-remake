@@ -1,16 +1,11 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => __('pages/add_member.add_member')])
-    <style>
-        .levelMemberSelect2 {
-            width: 120px;
-        }
-        
-        /* Add styles for table responsiveness */
-        .table-responsive {
-            overflow-x: auto;
-        }
+@include('layouts.navbars.auth.topnav', ['title' => __('pages/add_member.add_member')])
+<style>
+    .levelMemberSelect2 {
+        width: 120px;
+    }
 
         .table-responsive table {
             width: 100%;
@@ -61,16 +56,11 @@
                                     <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
+                            </div>
                         </div>
                     </div>
-                    <input name="email_member" type="text"
-                        class="form-control @error('email_member') is-invalid @enderror" id="emailMemberInput"
-                        placeholder="{{__('pages/add_member.enter_email')}}">
-                    @error('email_member')
-                        <span class="invalid-feedback" role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="levelMemberSelect">{{__('pages/add_member.level')}}</label>
@@ -103,6 +93,9 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                             </div>
                         </div>
                     </div>
@@ -170,10 +163,8 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="btn btn-success btn-sm ms-auto"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right"
-                                                    title="Confirm member level change">Confirm</button>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this member?</p>
                                             </div>
                                         </div>
                                     </form>
@@ -239,13 +230,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    @endif
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    @include('layouts.footers.auth.footer')
+</div>
+@include('layouts.footers.auth.footer')
 @endsection

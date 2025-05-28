@@ -18,6 +18,7 @@ return [
     'reviser' => 'Revisor',
     'level_select' => 'Selecione um Nível',
     'add' => 'Adicionar',
+    'open_project' => 'Abrir Projeto',
     'level_administrator' => 'Nível Administrador:',
     'level_administrator_description' => 'O nível de administrador possui permissões para editar, excluir, visualizar e adicionar membros por meio do projeto correlacionado a ele.',
     'level_viewer' => 'Nível Visualizador:',
