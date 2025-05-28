@@ -18,6 +18,7 @@
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+        @if(!empty($papersPerDatabase))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 Highcharts.chart('papers_per_database', {
@@ -28,7 +29,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per Database'
+                        text: '{{ __('project/reporting.imported-studies.papers-database.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -47,7 +48,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.imported-studies.papers-database.content') }}',
                         colorByPoint: true,
                         data: @json($papersPerDatabase) // Dados do Livewire convertidos para JSON
                     }]
@@ -74,20 +75,20 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Number of Papers by Year',
+                        text: '{{ __('project/reporting.imported-studies.number-papers-year.title') }}',
                         align: 'left'
                     },
                     xAxis: {
                         categories: years, // Usamos os anos como categorias no eixo X
                         title: {
-                            text: 'Year'
+                            text: '{{ __('project/reporting.imported-studies.number-papers-year.year') }}'
                         }
                     },
                     yAxis: {
                         allowDecimals: false,
                         min: 0,
                         title: {
-                            text: 'Number of Papers'
+                            text: '{{ __('project/reporting.imported-studies.number-papers-year.number-of-papers') }}'
                         }
                     },
                     plotOptions: {
@@ -107,5 +108,13 @@
             });
 
         </script>
+        @else
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('papers_per_database').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_imported_studies") }}</p>';
+                document.getElementById('container-papers-by-year-and-database').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_imported_studies") }}</p>';;
+            });
+        </script>
+        @endif
     @endpush
 @endsection

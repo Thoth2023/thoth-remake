@@ -6,7 +6,7 @@
     <div class="card-body">
         <form wire:submit="submit" class="d-flex flex-column">
             <div class="d-flex flex-column gap-2 form-group">
-                <div class="d-flex gap-2 form-group">
+                <div class="gap-2 form-group">
                     <!-- Primeira Div -->
                     <div class="w-25">
                         <x-input maxlength="20" id="criteriaId" label="{{ __('project/planning.criteria.form.id') }}"
@@ -22,7 +22,7 @@
                     <div class="w-75">
                         <x-input id="description" label="{{ __('project/planning.criteria.form.description') }}"
                             wire:model="description"
-                            placeholder="{{ __('project/planning.criteria.form.enter_description') }}" required />
+                            placeholder="{{ __('project/planning.criteria.form.enter_description') }}" required />p
                         @error("description")
                         <span class="text-xs text-danger">
                             {{ $message }}
@@ -30,6 +30,7 @@
                         @enderror
                     </div>
                 </div>
+
 
                 <div class="d-flex flex-column w-40 ">
                     <x-select wire:model="type" label="{{ __('project/planning.criteria.form.type') }}" search required>
@@ -43,6 +44,11 @@
                             {{ __("project/planning.criteria.form.select-exclusion") }}
                         </option>
                     </x-select>
+                    @error("type.value")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
                 <div>
                     <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}" fitContent>
@@ -59,7 +65,7 @@
             </div>
 
         </form>
-        <div class="grid-items-2 gap-4">
+        <div class="d-flex flex-column gap-4">
             <div class="flex-column d-flex px-2 py-1">
                 <h6 class="px-2">
                     {{ __("project/planning.criteria.inclusion-table.title") }}
@@ -243,6 +249,7 @@
     </div>
     @script
     <script>
+
     $wire.on('criteria', ([{
         message,
         type
@@ -255,3 +262,38 @@
     </script>
     @endscript
 </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[wire\\:submit]');
+    const input = document.querySelector('#criteriaId');
+    
+    if (form && input) {
+        form.addEventListener('submit', function() {
+            // Force save the current input value to suggestions
+            const value = input.value.trim();
+            if (value) {
+                const storageKey = `suggestions_${input.id || input.name}`;
+                let suggestions = [];
+                
+                if (localStorage.getItem(storageKey)) {
+                    suggestions = JSON.parse(localStorage.getItem(storageKey));
+                }
+                
+                if (!suggestions.includes(value)) {
+                    suggestions.push(value);
+                    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                }
+                
+                // Automatically refresh suggestions without showing an alert
+                setTimeout(() => {
+                    refreshSuggestions('criteriaId', 'criteria_id', 'criteriaId_suggestions', false);
+                }, 200);
+            }
+        });
+    }
+});
+</script>
+

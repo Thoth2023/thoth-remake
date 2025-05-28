@@ -16,18 +16,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Traits\ProjectPermissions;
 
 
 class PaperModal extends Component
 {
 
+    use ProjectPermissions;
+
     public $currentProject;
     public $projectId;
     public $paper = null;
+    public $canEdit = false;
 
     public $criterias;
 
     public $selected_criterias = [];
+    public $temp_selected_criterias = [];
 
     public $selected_status = "None";
     public $note;
@@ -41,6 +46,9 @@ class PaperModal extends Component
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
     {
+
+        $this->canEdit = $this->userCanEdit();
+
         $this->criterias = $criterias;
         $this->paper = $paper;
 
@@ -52,7 +60,7 @@ class PaperModal extends Component
 
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
 
         //carregar todos os critérios de uma vez
@@ -60,6 +68,8 @@ class PaperModal extends Component
             ->where('id_member', $member->id_members)
             ->pluck('id_criteria')
             ->toArray();
+            
+        $this->temp_selected_criterias = $this->selected_criterias;
 
         //status selecionado com base no status salvo no banco de dados
         $this->selected_status = $this->paper['status_description'];
@@ -116,7 +126,6 @@ class PaperModal extends Component
         // Mostra o modal de sucesso
         $this->dispatch('show-success');
         $this->dispatch('refreshPaperStatus');
-
     }
 
     public function saveNote()
@@ -149,32 +158,46 @@ class PaperModal extends Component
         $this->dispatch('refreshPaperStatus');
     }
 
-    public function changePreSelected($criteriaId, $type)
+    public function saveSelectedCriterias()
     {
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
-        $isSelected = in_array($criteriaId, $this->selected_criterias);
 
-        if ($isSelected) {
-            EvaluationCriteria::create([
-                'id_paper' => $this->paper['id_paper'],
-                'id_criteria' => $criteriaId,
-                'id_member' => $member->id_members,
-            ]);
-        } else {
+        // Encontrar critérios que foram desmarcados
+        $removedCriterias = array_diff($this->selected_criterias, $this->temp_selected_criterias);
+        
+        // Encontrar critérios que foram marcados
+        $addedCriterias = array_diff($this->temp_selected_criterias, $this->selected_criterias);
+
+        // Remover critérios desmarcados
+        foreach ($removedCriterias as $criteriaId) {
             EvaluationCriteria::where('id_paper', $this->paper['id_paper'])
                 ->where('id_criteria', $criteriaId)
                 ->where('id_member', $member->id_members)
                 ->delete();
         }
 
-        $this->updatePaperStatus($type);
-        session()->forget('successMessage');
-        session()->flash('successMessage', "Criteria updated successfully. New status: " . $this->getPaperStatusDescription($this->paper['status_selection']));
+        // Adicionar novos critérios marcados
+        foreach ($addedCriterias as $criteriaId) {
+            EvaluationCriteria::create([
+                'id_paper' => $this->paper['id_paper'],
+                'id_criteria' => $criteriaId,
+                'id_member' => $member->id_members,
+            ]);
+        }
 
-        // Atualiza a view para mostrar o alert
+        // Atualizar selected_criterias com os valores temporários
+        $this->selected_criterias = $this->temp_selected_criterias;
+
+        // Atualizar o status do paper
+        $criteria = Criteria::find(reset($addedCriterias));
+        if ($criteria) {
+            $this->updatePaperStatus($criteria->type);
+        }
+
+        session()->flash('successMessage', 'Critérios salvos com sucesso');
         $this->dispatch('show-success');
         $this->dispatch('refreshPaperStatus');
     }

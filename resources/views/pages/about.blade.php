@@ -12,18 +12,114 @@
                 <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
+                <div class="card d-inline-flex p-3 mt-5">
+                    <div class="card-body pt-2">
+                        <a
+                            href="#"
+                            onclick="event.preventDefault();"
+                            class="card-title h4 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
+                        >
+                            Thoth 2.0
+                        </a>
 
-    <!-- Conteúdo principal -->
-    <div class="row">
-        <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
-            <div class="card d-inline-flex p-3 mt-5">
+                        <div class="card-body pt-2">
+                            <a
+                                href="#"
+                                onclick="event.preventDefault();"
+                                class="card-title h5 d-block text-darker"
+                                style="cursor: default; transition: color 0.2s;"
+                            >
+                                {{ __("pages/about.new_features") }}
+                            </a>
+                            <ul>
+                                <li>{{ __("pages/about.recover_password") }}</li>
+                                <li>{{ __("pages/about.bug_databases") }}</li>
+                                <li>{{ __("pages/about.suggest_databases") }}</li>
+                                <li>{{ __("pages/about.new_qa") }}</li>
+                                <li>{{ __("pages/about.new_interface") }}</li>
+                                <li>{{ __("pages/about.new_framework") }}</li>
+                                <li>{{ __("pages/about.internationalization") }}</li>
+                                <li>{{ __("pages/about.usability") }}</li>
+                                <li>{{ __("pages/about.users_management") }}</li>
+                                <li>{{ __("pages/about.profile_management") }}</li>
+                                <li>{{ __("pages/about.members_invitation") }}</li>
+                                <li>{{ __("pages/about.pwa") }}</li>
+                                <li>{{ __("pages/about.snowballing") }}</li>
+                                <li>{{ __("pages/about.algolia_api") }}</li>
+                                <li>{{ __("pages/about.crossref_api") }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body pt-2">
+                        <a
+                            href="#"
+                            onclick="event.preventDefault();"
+                            class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
+                        >
+                            {{ __("pages/about.development") }}
+                        </a>
+                        <p>{{ __("pages/about.development_description") }}</p>
+                    </div>
+                    <div class="card-body pt-2">
+                        <a
+                            href="#"
+                            onclick="event.preventDefault();"
+                            class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
+                        >
+                            {{ __("pages/about.open_source_project") }}
+                        </a>
+                        <a
+                            class="nav-link d-flex align-items-center me-2"
+                            href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE"
+                        >
+                            {{ __("pages/about.mit_license") }}
+                        </a>
+                        <a
+                            href="#"
+                            onclick="event.preventDefault();"
+                            class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
+                        >
+                            {{ __("pages/about.technologies_used") }}
+                        </a>
+                        <ul>
+                            <li>PHP Language</li>
+                            <li>MySQL</li>
+                            <li>Git</li>
+                            <li>Laravel Framework</li>
+                            <li>Docker</li>
+                            <li>Bootstrap</li>
+                            <li>Migrations</li>
+                            <li>PHPSpreadSheet</li>
+                            <li>League/CSV</li>
+                            <li>PHPUnit</li>
+                            <li>JavaScript</li>
+                            <li>Git Actions</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body pt-2">
+                        <a
+                            href="#"
+                            onclick="event.preventDefault();"
+                            class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
+                        >
+                            {{ __("pages/about.about_the_tool") }}
+                        </a>
+                        <p>
+                            {{ __("pages/about.about_the_tool_description") }}
+                        </p>
 
                 <!-- Título da Ferramenta -->
                 <div class="card-body pt-2">
                     <h4 class="card-title text-darker">Thoth 2.0</h4>
                 </div>
-
                 <!-- Novidades -->
                 <div class="card-body pt-2">
                     <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
