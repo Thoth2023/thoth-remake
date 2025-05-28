@@ -46,7 +46,7 @@
 
     Livewire.on('import-success', () => {
         // Recarregar o componente Livewire para refletir as mudanças
-        Livewire.emit('show-sucess');
+        Livewire.emit('show-success');
     });
 </script>
 @endscript
