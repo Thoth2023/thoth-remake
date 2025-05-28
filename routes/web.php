@@ -38,11 +38,31 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-//analisar esta 2 próximas linhas
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TranslationController;
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\NoteController;
+//use App\Http\Controllers\Auth\LoginController;
+//use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
+    Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
+    Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
+});
 
 Route::resource('notes', NoteController::class);
 
@@ -54,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
     Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
 });
- 
+
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
 });
@@ -64,6 +84,14 @@ Route::get('/message', function () {
 })->name('message');
 
 Auth::routes();
+
+
+Route::get(
+    '/api/translations/studyselection/{file}/{locale?}',
+    [StudySelectionController::class, 'translationStudySelection']
+);
+
+//Route::get('/api/translations/{file}/{locale?}', [TranslationController::class, 'load']);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(Localization::class);
 
@@ -227,7 +255,6 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
                 ->only(['index'])
                 ->names(['index' => 'project.planning.data-extraction.data-extraction.index']);
         });
-
     });
 
     // start of the reporting routes
@@ -236,10 +263,10 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 
     Route::get('/export/', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-
 });
 
 //SUPER USER ROUTES
+Route::middleware(['auth', 'role:is_super_user'])->group(function () {
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
@@ -257,7 +284,7 @@ Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.u
 Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
 Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
 Route::middleware(['auth', 'role:super-user'])->group(function () {
-Route::resource('permissions', PermissionController::class);
+    Route::resource('permissions', PermissionController::class);
 });
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -272,7 +299,6 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
     Route::post('/change-password/{id}', [ChangePassword::class, 'update'])->name('change.perform');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
-
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -289,10 +315,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
-
-
-
-
 
 Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);

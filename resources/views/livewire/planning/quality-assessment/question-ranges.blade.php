@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Última atualização por: Luiza Velasque
     Descrição: Ajustado o funcionamento de campos numéricos e adicionados comentários explicativos.
 --}}
@@ -28,6 +28,7 @@
                         max="{{ $sum }}"
                         disabled="{{ !$loop->first }}" {{-- Desabilita o "Min" exceto no primeiro item --}}
                         style="min-width: 150px"
+                        x-on:keydown="['e', 'E', '+', '-'].includes($event.key) && $event.preventDefault()"
                     />
 
                     {{-- Campo de valor máximo da faixa --}}
@@ -41,13 +42,14 @@
                         min="0"
                         max="{{ $sum }}"
                         style="min-width: 150px"
-                        disabled="{{ $loop->last }}" {{-- Desabilita o "Max" no último item --}}
+                        disabled="{{ $loop->last }}"
+                        x-on:keydown="['e', 'E', '+', '-'].includes($event.key) && $event.preventDefault()"
                     />
 
                     {{-- Campo e botão para editar o nome/descrição da faixa --}}
                     <div class="btn-group">
                         <x-input
-                            wire:model="items.{{ $loop->index }}.description"
+                            wire:model.lazy="items.{{ $loop->index }}.description"
                             label="Label"
                             placeholder="Good"
                             class="max-input"
