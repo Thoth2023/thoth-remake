@@ -15,21 +15,21 @@ return [
 
     ],
     'check' => [
-        'domain' => 'Data for "Domain" not registered for this review project.',
-        'language' => 'Data for "Language" not registered for this review project.',
-        'study-types' => 'Data for "Study Types" not registered for this review project.',
-        'research-questions' => 'Data for "Research Questions" not registered for this review project.',
-        'databases' => 'Data for "Database" not registered for this review project.',
-        'term' => 'Data for "Search Terms" in the Search String not registered for this review project.',
-        'search-strategy' => 'Data for "Search Strategy" not registered for this review project.',
-        'criteria' => 'Data for "Inclusion or Exclusion Criteria" not registered for this review project.',
-        'general-score' => 'Data for "General Score/Intervals" in Quality Assessment not registered for this review project.',
-        'cutoff' => 'Data for "Minimum Score for Approval" not registered or "general score" is empty for this review project.',
-        'score-min' => 'There are questions with "Minimum Quality Score for Approval" not defined for this review project.',
-        'question-qa' => 'Data for "Quality Questions" not registered or "Minimum Score for Approval" not defined for this review project.',
-        'score-qa' => 'Data for "Quality Score" not registered for this review project.',
-        'data-extraction' => 'Data for "Data Extraction Questions" not registered for this review project.',
-        'option-extraction' => 'No "Options" registered for the data extraction questions of this review project.'
+        'domain' => 'Register the data for "Domain" for this review project.',
+        'language' => 'Register the data for "Language" for this review project.',
+        'study-types' => 'Register the data for "Study Types" for this review project.',
+        'research-questions' => 'Register the data for "Research Questions" for this review project.',
+        'databases' => 'Register the data for "Database" for this review project.',
+        'term' => 'Register the data for "Search Terms" in the Search String for this review project.',
+        'search-strategy' => 'Register the data for "Search Strategy" for this review project.',
+        'criteria' => 'Register the data for "Inclusion or Exclusion Criteria" for this review project.',
+        'general-score' => 'Register the data for "General Score/Intervals" in the Quality Assessment for this review project.',
+        'cutoff' => 'Register the data for "Minimum Score for Approval" or complete the "General Score" for this review project.',
+        'score-min' => 'Define the "Minimum Quality Score for Approval" for the questions in this review project.',
+        'question-qa' => 'Register the "Quality Questions" or define the "Minimum Score for Approval" for this review project.',
+        'score-qa' => 'Register the data for "Quality Score" for this review project.',
+        'data-extraction' => 'Register the "Data Extraction Questions" for this review project.',
+        'option-extraction' => 'Register the "Options" for the data extraction questions of this review project.'
     ],
     'study-selection' => [
         'title' => 'Study Selection',
@@ -85,10 +85,10 @@ return [
             'abstract' => 'Abstract',
             'keywords' => 'Keywords',
             'rejected' => 'Rejected',
-            'paper-conflict' => 'Resolve Paper Conflicts: Group Decision - I/E Criteria ',
-            'paper-conflict-note' => 'Note',
-            'paper-conflict-writer' => 'Write note...',
-            'sucess-decision' => 'Group Decision successfully',
+            'paper-conflict'=>'Resolve Paper Conflicts: Group Decision - I/E Criteria ',
+            'paper-conflict-note'=>'Note',
+            'paper-conflict-writer'=>'Write note...',
+            'success-decision'=>'Group Decision successfully',
             'error-status' => 'Select your Final Decision',
             'last-confirmation' => 'Last Confirmation',
             'confirmation-date' => 'in',
@@ -120,7 +120,9 @@ return [
             'success' => 'Success',
 
         ],
-
+        'messages' => [
+            'criteria_updated' => 'Criteria updated successfully. New status: :status',
+        ],
         'status' => [
             'duplicate' => 'Duplicate',
             'removed' => 'Removed',
@@ -205,6 +207,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
@@ -278,6 +281,11 @@ return [
             'close' => 'Close',
             'error' => 'Error',
             'success' => 'Success',
+        ],
+        'messages' => [
+            'evaluation_quality_score_updated' => 'Evaluation Quality Score updated successfully.',
+            'status_quality_updated' => 'Status Quality updated successfully. New status: :status',
+            'status_updated_for_selection' => 'Status updated for your selection. New status: :status',
         ],
         'status' => [
             'duplicate' => 'Duplicate',
@@ -416,6 +424,7 @@ return [
             'select-database' => 'Show all Databases',
             'select-status' => 'Show all Statuses...',
             'search-papers' => 'Search papers...',
+            'no-papers' => 'No studies available for export.',
         ],
         'modal' => [
             'author' => 'Author',
@@ -471,7 +480,21 @@ return [
              <ul>
              <li><b>Note:</b> If you want to conduct <b>"Peer Review"</b>, it is necessary to invite the researchers and add them to the project before importing the studies (papers).</li>
              <li>To add researchers, navigate to <b>"My Projects->Team"</b></li>
-             </ul>'
+             </ul>
+             <br>
+             <b>CSV Format Guidelines:</b><br>
+             Your CSV file must include the following column headers:<br>
+             <ul>
+                 <li>"<b>Item Title</b>" – used as the paper title</li>
+                 <li>"<b>Authors</b>" – list of authors</li>
+                 <li>"<b>Item DOI</b>" – Digital Object Identifier</li>
+                 <li>"URL" – link to the paper</li>
+                 <li>"Publication Year" –  publication year</li>
+                 <li>"Book Series Title" – optional book series name</li>
+                 <li>"Journal Volume" – optional journal volume</li>
+                 <li>"Publication Title" – optional journal or publication name</li>
+             </ul>
+             <b>Important:</b> If any of the fields in <b>bold</b> are missing or empty, the import will <b>not</b> occur.'
         ],
         'table' => [
             'database' => 'Database',

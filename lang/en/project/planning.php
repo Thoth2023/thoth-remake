@@ -396,6 +396,7 @@ return [
         'form' => [
             'description' => 'Generic search string',
             'enter-description' => 'Enter search string description',
+            'no-database'=> 'No database found for this project.',
             'add' => 'Add Search String',
             'update' => 'Update Search String',
             'placeholder' => 'Enter the search string',
@@ -529,6 +530,7 @@ return [
             ],
             'type' => [
                 'required' => 'The type field is required.',
+                'in' => 'Select a valid type.'
             ],
             'logs' => [
                 'added' => 'Criteria added',
@@ -536,6 +538,8 @@ return [
                 'deleted' => 'Criteria deleted',
             ],
             'toasts' => [
+                'reset_paper_evaluations' => 'All paper evaluations have been reset to "Not Evaluated".',
+                'no_criteria'=> 'No criteria found.',
                 'added' => 'Criteria added successfully',
                 'deleted' => 'Criteria deleted successfully',
                 'updated' => 'Criteria updated successfully',
@@ -548,6 +552,11 @@ return [
                 ],
             ],
         ],
+        'duplicate_id' => 'The provided ID already exists in this project.',
+        'updated_success' => 'Criteria updated successfully.',
+        'not_found' => 'Criteria not found.',
+        'deleted_success' => 'Criteria deleted successfully.',
+        'preselected_updated' => 'Pre-selected value updated successfully.',
     ],
     'quality-assessment' => [
         'title' => 'Quality Assessment',
@@ -836,6 +845,9 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Select a Type',
+            ],
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
             'description' => 'Description',
@@ -858,6 +870,10 @@ return [
                     <li>Description: Database - Type of data: Pick One List. (List: ACM, IEEE, Scopus)</li>
                 </ul>
                 ',
+            ],
+            'question-selection'=> [
+                'title' => 'Select a Question',
+
             ],
             'question' => 'Question',
             'option' => 'Option',

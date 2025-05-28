@@ -39,7 +39,11 @@ class Option extends Component
      * Validation rules.
      */
     protected $rules = [
-        'description' => 'required|string',
+        'description' => [
+          'required',
+          'string',
+          'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',  
+        ],
         'questionId' => 'required|array',
         'questionId.*.value' => 'exists:question_extraction,id',
     ];
@@ -85,8 +89,7 @@ class Option extends Component
     {
         $this->optionId = null;
         $this->description = null;
-        $this->questionId['value'] = $this->currentProject
-            ->dataExtractionQuestions->first()->id_de ?? null;
+        $this->questionId = [];
         $this->form['isEditing'] = false;
     }
 

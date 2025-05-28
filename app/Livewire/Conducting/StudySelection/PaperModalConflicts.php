@@ -139,7 +139,7 @@ class PaperModalConflicts extends Component
         $paper->status_selection = $newStatus->id_status;
         $paper->save();
 
-        session()->flash('successMessage', __('project/conducting.study-selection.modal.sucess-decision'));
+        session()->flash('successMessage', __('project/conducting.study-selection.modal.success-decision'));
 
 
         // Exibir o modal de sucesso

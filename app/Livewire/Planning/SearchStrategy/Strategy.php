@@ -22,7 +22,15 @@ class Strategy extends Component
 
 
     protected $rules = [
-        'currentDescription' => 'required|string',
+        'currentDescription' => [
+            'required',
+            'string',
+        ],
+    ];
+    
+    protected $messages = [
+        'currentDescription.required' => 'O campo descrição é obrigatório.',
+        'currentDescription.regex' => 'A descrição deve conter pelo menos uma letra e não pode conter apenas caracteres especiais ou números.',
     ];
 
     public function mount()
@@ -44,12 +52,14 @@ class Strategy extends Component
 
     public function submit()
     {
+        $this->validate([
+            'currentDescription' => 'required|string',
+        ]);
 
-        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+        if (!$this->isValidDescription($this->currentDescription)) {
+            $this->addError('currentDescription', 'A descrição deve conter pelo menos uma letra e não pode conter apenas caracteres especiais ou números.');
             return;
         }
-
-        $this->validate();
 
         try {
             $project = ProjectModel::findOrFail($this->projectId);
@@ -72,6 +82,23 @@ class Strategy extends Component
                 type: 'error'
             );
         }
+    }
+
+    private function isValidDescription(string $description): bool
+    {
+        $trimmedDescription = trim($description);
+
+        // Verifica se contém pelo menos uma letra
+        if (!preg_match('/[a-zA-ZÀ-ÿ]/', $trimmedDescription)) {
+            return false;
+        }
+
+        // Verifica se é composta apenas por números e/ou caracteres especiais
+        if (preg_match('/^[\d\W]+$/', $trimmedDescription)) {
+            return false;
+        }
+    
+        return true;
     }
 
     public function render()

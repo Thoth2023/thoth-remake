@@ -197,10 +197,23 @@
 </div>
 @script
 <script>
-$(document).ready(function() {
-    // Mostrar o modal do paper
-    $wire.on('show-paper-quality', () => {
-        $('#paperModalQuality').modal('show');
+    $(document).ready(function(){
+        $wire.on('show-paper-quality', () => {
+            setTimeout(() => {
+                $('#paperModalQuality').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
+
+        // Mostrar o modal de sucesso
+        Livewire.on('show-success-quality', () => {
+            $('#paperModalQuality').modal('hide');
+            $('#successModalQuality').modal('show');
+        });
+
+        // Reabrir o modal do paper após o modal de sucesso ser fechado
+        $('#successModalQuality').on('hidden.bs.modal', function () {
+            $('#paperModalQuality').modal('show');
+        });
     });
 
     // Mostrar toast de sucesso ao invés de um modal

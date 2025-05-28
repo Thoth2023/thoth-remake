@@ -36,7 +36,9 @@
                                 <i class="fa-solid fa-link"></i>
                                 URL
                             </a>
-                            <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip"
+                            <a class="btn py-1 px-3 btn-outline-primary"
+                                data-toggle="tooltip"
+
                                 data-original-title="Buscar no Google Scholar"
                                 href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
                                 target="_blank">
@@ -57,16 +59,11 @@
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
                             <tr>
-                                <th class="w-5 align-middle text-center">
-                                    {{ __('project/conducting.study-selection.modal.table.select' )}}
-                                </th>
+                                <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.select' )}}</th>
                                 <th class="w-5 align-middle text-center">ID</th>
-                                <th class="w-70 align-middle text-wrap">
-                                    {{ __('project/conducting.study-selection.modal.table.description' )}}
-                                </th>
-                                <th class="w-5 align-middle text-center">
-                                    {{ __('project/conducting.study-selection.modal.table.type' )}}
-                                </th>
+                                <th class="w-70 align-middle text-wrap">{{ __('project/conducting.study-selection.modal.table.description' )}}</th>
+                                <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.type' )}}</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -75,10 +72,11 @@
                                 <td class="w-5 align-middle text-center">
                                     <input type="checkbox" id="criteria-{{ $criteria['id_criteria'] }}"
                                         wire:key="criteria-{{ $criteria['id_criteria'] }}"
-                                        wire:model="selected_criterias"
-                                        wire:change="changePreSelected({{ $criteria['id_criteria'] }}, '{{ $criteria['type'] }}')"
-                                        value="{{ $criteria['id_criteria'] }}" @if(in_array($criteria['id_criteria'],
-                                        $selected_criterias)) checked @endif @if(!$canEdit) disabled @endif>
+                                        wire:model="temp_selected_criterias"
+                                        value="{{ $criteria['id_criteria'] }}"
+                                        @if(in_array($criteria['id_criteria'], $temp_selected_criterias)) checked @endif
+
+                                    >
                                 </td>
                                 <td class="w-5 align-middle text-center">{{ $criteria['id'] }}</td>
                                 <td class="w-70 align-middle text-wrap">{{ $criteria['description'] }}</td>
@@ -88,7 +86,13 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="text-end mb-3">
+                        <button wire:click="saveSelectedCriterias" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Critérios
+                        </button>
+                    </div>
                     <hr />
+
                     <div class="d-flex flex-column mt-3">
                         <label>{{ __('project/conducting.study-selection.modal.paper-conflict-note' )}}</label>
                         <textarea id="note" class="form-control" rows="2" wire:model="note" wire:blur="saveNote"
@@ -96,6 +100,8 @@
                             @if(!$canEdit) disabled @endif required>
                     </textarea>
                     </div>
+
+
 
                     <hr />
                     <!-- Verificação do status -->
@@ -124,12 +130,17 @@
                     </div>
                     @endif
                     @endif
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary" wire:click="applySelectedCriterias">
+                            Aplicar Seleção
+                        </button>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -155,21 +166,32 @@
 
 @script
 <script>
-$(document).ready(function() {
-    // Show the paper modal
-    $wire.on('show-paper', () => {
-        $('#paperModal').modal('show');
-    });
+    $(document).ready(function(){
+        // Show the paper modal
+        $wire.on('show-paper', () => {
+            setTimeout(() => {
+                $('#paperModal').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        });
 
-    // Show toast on success event
-    Livewire.on('show-success', (message) => {
-        $('#paperModal').modal('hide'); // Hide the paper modal
-        if (message) {
-            toasty({
-                message: message,
-                type: 'success'
-            });
-        }
+        // Show the success modal on success event
+        Livewire.on('show-success', () => {
+            $('#paperModal').modal('hide'); // Hide the paper modal
+            $('#successModal').modal('show'); // Show the success modal
+        });
+
+        // Handle the closing of success modal to reopen the paper modal
+        $('#successModal').on('hidden.bs.modal', function() {
+            $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
+        });
+    });
+    Livewire.on('reload-papers', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-success');
+    });
+    Livewire.on('show-success', () => {
+        // Recarregar o componente Livewire para refletir as mudanças
+        Livewire.emit('show-success-quality');
     });
 });
 Livewire.on('reload-papers', () => {
@@ -181,13 +203,14 @@ Livewire.on('show-sucess', () => {
     Livewire.emit('show-sucess-quality');
 });
 
-$wire.on('paper-modal', ([{
-    message,
-    type
-}]) => {
-    toasty({
+    $wire.on('paper-modal', ([{
         message,
         type
+    }]) => {
+        toasty({
+            message,
+            type
+        });
     });
 });
 </script>
