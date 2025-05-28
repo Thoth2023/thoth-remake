@@ -99,6 +99,9 @@ class DatabaseManager extends Component
         }
     }
 
+    /**
+     * Reject a database suggestion.
+     */
     public function rejectDatabase($databaseId)
     {
         try {
@@ -126,6 +129,9 @@ class DatabaseManager extends Component
         }
     }
 
+    /**
+     * Deletes a suggested database.
+     */
     public function deleteSuggestion($databaseId)
     {
         try {
