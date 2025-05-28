@@ -25,16 +25,20 @@
                 <div class="card d-inline-flex p-3 mt-5">
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:;"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h4 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             Thoth 2.0
                         </a>
 
                         <div class="card-body pt-2">
                             <a
-                                href="javascript:"
+                                href="#"
+                                onclick="event.preventDefault();"
                                 class="card-title h5 d-block text-darker"
+                                style="cursor: default; transition: color 0.2s;"
                             >
                                 {{ __("pages/about.new_features") }}
                             </a>
@@ -59,8 +63,10 @@
                     </div>
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.development") }}
                         </a>
@@ -68,8 +74,10 @@
                     </div>
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.open_source_project") }}
                         </a>
@@ -80,8 +88,10 @@
                             {{ __("pages/about.mit_license") }}
                         </a>
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.technologies_used") }}
                         </a>
@@ -103,8 +113,10 @@
 
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.about_the_tool") }}
                         </a>
@@ -119,8 +131,10 @@
                         />
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.cross_platform") }}
                         </a>
@@ -129,8 +143,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.automate_process") }}
                         </a>
@@ -139,8 +155,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.search_string") }}
                         </a>
@@ -149,8 +167,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.management_selection") }}
                         </a>
@@ -159,8 +179,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.management_quality") }}
                         </a>
@@ -169,8 +191,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.data_generation") }}
                         </a>
@@ -179,8 +203,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.graphs_tables_generation") }}
                         </a>
@@ -189,8 +215,10 @@
                         </p>
 
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.report_generation") }}
                         </a>
@@ -206,8 +234,10 @@
                         <ul>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.multiple_member_management") }}
                                 </a>
@@ -217,8 +247,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.manage_projects") }}
                                 </a>
@@ -228,8 +260,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.activity_view") }}
                                 </a>
@@ -239,8 +273,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.progress_display") }}
                                 </a>
@@ -250,8 +286,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.protocol_management") }}
                                 </a>
@@ -261,8 +299,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.study_import") }}
                                 </a>
@@ -272,8 +312,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.selection_of_studies") }}
                                 </a>
@@ -283,8 +325,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.checking_duplicate_studies") }}
                                 </a>
@@ -294,8 +338,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.selection_ranking_information") }}
                                 </a>
@@ -305,8 +351,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.study_information_visualization") }}
                                 </a>
@@ -316,8 +364,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.status_for_each_member") }}
                                 </a>
@@ -327,8 +377,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.conflicts_in_selection") }}
                                 </a>
@@ -338,8 +390,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.resolution_of_conflicts_in_selection") }}
                                 </a>
@@ -349,8 +403,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.quality_assessment_of_studies") }}
                                 </a>
@@ -360,8 +416,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.quality_conflicts") }}
                                 </a>
@@ -371,8 +429,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.data_extraction") }}
                                 </a>
@@ -382,8 +442,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.report") }}
                                 </a>
@@ -393,8 +455,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.export_to_latex") }}
                                 </a>
@@ -404,8 +468,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.export_to_bibtex") }}
                                 </a>
@@ -415,8 +481,10 @@
                             </li>
                             <li>
                                 <a
-                                    href="javascript:"
+                                    href="#"
+                                    onclick="event.preventDefault();"
                                     class="card-title h5 d-block text-darker"
+                                    style="cursor: default; transition: color 0.2s;"
                                 >
                                     {{ __("pages/about.improvement_of_search_strings") }}
                                 </a>

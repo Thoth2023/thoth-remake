@@ -22,11 +22,11 @@
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-8 mb-5">
                     <div class="card-body pt-2">
-                        <a href="javascript:;" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                             Thoth 2.0
                         </a>
                         <div class="card-body pt-2">
-                            <a href="javascript:" class="card-title h4 d-block text-darker">
+                        <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                                 {{ __('pages/help.common_questions') }}
                             </a>
                         </div>
@@ -41,7 +41,7 @@
                                         </a>
                                     </button>
                                 </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                <div id="collapseOne" class="accordion-collapse collapse"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                     {{ __('pages/help.answer1') }}

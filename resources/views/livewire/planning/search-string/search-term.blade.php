@@ -17,6 +17,7 @@
                         label="{{ __('project/planning.search-string.term.form.title') }}"
                         wire:model="description"
                         placeholder="{{ __('project/planning.search-string.term.form.placeholder') }}"
+                        pattern="[A-Za-zÀ-ÿ\s]+"
                         required
                     />
                     @error("description")
@@ -60,14 +61,14 @@
                             </option>
                         @endforeach
                     </x-select>
-                    @error("language")
+                    @error("termId")
                         <span class="text-xs text-danger">
                             {{ $message }}
                         </span>
                     @enderror
                 </div>
                 <form
-                    wire:submit="addSynonyms"
+                    wire:submit.prevent="addSynonyms"
                     class="d-flex flex-column w-100"
                 >
                     <div class="d-flex gap-3" style="margin-bottom: 5px">
@@ -79,6 +80,7 @@
                                 label="{{ __('project/planning.search-string.synonym.form.title') }}"
                                 wire:model="synonym"
                                 placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
+                                pattern="[A-Za-zÀ-ÿ\s]+"
                                 required
                             />
                             @error("synonym")

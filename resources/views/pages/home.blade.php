@@ -4,6 +4,7 @@
 @include("layouts.navbars.guest.navbar", ["title" => __("pages/home.home")])
 
 <div class="container mt-2">
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -31,7 +32,7 @@
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
             <div class="card d-inline-flex mt-5">
                 <div class="card-body">
-                    <a href="javascript:" class="card-title h5 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/home.thoth") }}
                     </a>
                     <p class="card-description mb-0">
@@ -50,7 +51,7 @@
                 as $key => $icon)
                 <div class="card rounded-3 p-3 d-flex flex-column h-100">
                     <div class="card-body pt-2 d-flex flex-column">
-                        <a href="javascript:" class="card-title h5 d-flex align-items-center gap-2 text-darker">
+                        <a href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                             <i class="{{ $icon }}"></i>
                             {{ __("pages/home." . $key) }}
                         </a>
@@ -70,7 +71,7 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-project-diagram fa-2x mb-2"></i>
                         <h2 class="h2 card-title mt-auto"><span id="project-count">0</span></h2>
                         <h6 class="h6 card-text">{{ __("pages/home.total_projects") }} </h6>
@@ -82,7 +83,7 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-users fa-2x mb-2"></i>
                         <h2 class="card-title mt-auto hover-text"><span id="user-count">0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
@@ -93,7 +94,7 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-check-circle fa-2x mb-2"></i>
                         <h2 class="card-title mt-auto"><span id="total-finished-projects-count">0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
@@ -104,7 +105,7 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-spinner fa-2x mb-2"></i>
                         <h2 class="card-title mt-auto"><span id="total-ongoing-projects-count">0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>

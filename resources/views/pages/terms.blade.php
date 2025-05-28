@@ -21,7 +21,7 @@
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
             <div class="card d-inline-flex p-3 mt-5">
                 <div class="card-body pt-2">
-                    <a href="javascript:;" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.what") }}
                     </a>
                     <p>
@@ -33,19 +33,19 @@
                     <p>{{ __("pages/terms.author") }}</p>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.authoral") }}
                     </a>
                     <p>{{ __("pages/terms.authoral_text") }}</p>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.who") }}
                     </a>
                     <p>{{ __("pages/terms.who_text") }}</p>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.commitment") }}
                     </a>
                     <p>{{ __("pages/terms.commitment_text") }}</p>
@@ -94,32 +94,32 @@
                     </ul>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.responsability") }}
                     </a>
                     <p>{{ __("pages/terms.responsability_text") }}</p>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.privacy") }}
                     </a>
                     <p>{!!  __("pages/terms.privacy_text") !!}</p>
                 </div>
 
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.delete_data") }}
                     </a>
                     <p>{!!  __("pages/terms.delete_data_text")  !!}</p>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.exclusion_data") }}
                     </a>
                     <p>{!!  __("pages/terms.exclusion_data_text")  !!}</p>
                 </div>
                 <div class="card-body pt-2">
-                    <a href="javascript:" class="card-title h4 d-block text-darker">
+                    <a href="#" onclick="event.preventDefault();" class="card-title h4 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/terms.security_data") }}
                     </a>
                     <p>{!!  __("pages/terms.security_data_text")  !!}</p>
