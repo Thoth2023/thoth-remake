@@ -25211,6 +25211,11 @@ p {
   background-image: linear-gradient(195deg, #323a54, #1a2035);
 }
 
+.dark-version .bg-secondary-overview {
+    background-color: #111C44 !important; /* Cor do modo escuro */
+    color: #ffffff !important; /* Ajustar a cor do texto*/
+}
+
 .dark-version .card,
 .dark-version .swal2-popup,
 .dark-version .dropdown .dropdown-menu,
