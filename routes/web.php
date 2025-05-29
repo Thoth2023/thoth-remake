@@ -268,6 +268,7 @@ Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('us
 Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
 Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
 Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
+});
 
 Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
 Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
@@ -309,10 +310,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
-
-
-
-
 
 Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
