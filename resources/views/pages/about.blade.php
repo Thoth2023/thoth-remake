@@ -1,22 +1,17 @@
 @extends("layouts.app")
 
 @section("content")
-    @include("layouts.navbars.guest.navbar", ["title" => "Home"])
+@include("layouts.navbars.guest.navbar", ["title" => "Home"])
 
-    <div class="container mt-8 mb-3">
-        <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
-            <div
-                class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
-                style="width: 100%"
-            >
-                <div class="col-lg-6 text-center mx-auto">
-                    <h1 class="text-white">
-                        {{ __("pages/about.about") }}
-                    </h1>
-                    <p class="text-lead text-white">
-                        {{ __("pages/about.description") }}
-                    </p>
-                </div>
+
+<div class="container mt-8 mb-3">
+    <!-- cabeçalho -->
+    <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
+        <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 w-100">
+            <div class="col-lg-6 text-center mx-auto">
+                <h1 class="text-white">{{ __("pages/about.about") }}</h1>
+                <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
+
             </div>
         </div>
         <div class="row">
@@ -24,16 +19,20 @@
                 <div class="card d-inline-flex p-3 mt-5">
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:;"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h4 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             Thoth 2.0
                         </a>
 
                         <div class="card-body pt-2">
                             <a
-                                href="javascript:"
+                                href="#"
+                                onclick="event.preventDefault();"
                                 class="card-title h5 d-block text-darker"
+                                style="cursor: default; transition: color 0.2s;"
                             >
                                 {{ __("pages/about.new_features") }}
                             </a>
@@ -58,8 +57,10 @@
                     </div>
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.development") }}
                         </a>
@@ -67,8 +68,10 @@
                     </div>
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.open_source_project") }}
                         </a>
@@ -79,8 +82,10 @@
                             {{ __("pages/about.mit_license") }}
                         </a>
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.technologies_used") }}
                         </a>
@@ -102,8 +107,10 @@
 
                     <div class="card-body pt-2">
                         <a
-                            href="javascript:"
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.about_the_tool") }}
                         </a>
@@ -111,374 +118,152 @@
                             {{ __("pages/about.about_the_tool_description") }}
                         </p>
 
-                        <img
-                            src="/img/about/AboutTool.PNG"
-                            class="img-fluid"
-                            alt="Imagem"
-                        />
+                <!-- Título da Ferramenta -->
+                <div class="card-body pt-2">
+                    <h4 class="card-title text-darker">Thoth 2.0</h4>
+                </div>
+                <!-- Novidades -->
+                <div class="card-body pt-2">
+                    <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
+                    <ul>
+                        @foreach([
+                        'recover_password', 'bug_databases', 'suggest_databases', 'new_qa',
+                        'new_interface', 'new_framework', 'internationalization', 'usability',
+                        'users_management', 'profile_management', 'members_invitation', 'pwa',
+                        'snowballing', 'algolia_api', 'crossref_api'
+                        ] as $feature)
+                        <li>{{ __("pages/about.$feature") }}</li>
+                        @endforeach
+                    </ul>
+                </div>
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.cross_platform") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.cross_platform_description") }}
-                        </p>
+                <!-- Desenvolvimento -->
+                <div class="card-body pt-2">
+                    <h5 class="card-title text-darker">{{ __("pages/about.development") }}</h5>
+                    <p>{{ __("pages/about.development_description") }}</p>
+                </div>
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.automate_process") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.cross_platform_description") }}
-                        </p>
+                <!-- Código aberto e tecnologias -->
+                <div class="card-body pt-2">
+                    <h5 class="card-title text-darker">{{ __("pages/about.open_source_project") }}</h5>
+                    <a class="nav-link d-flex align-items-center me-2"
+                        href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE">
+                        {{ __("pages/about.mit_license") }}
+                    </a>
+                    <h6 class="card-title text-darker mt-3">{{ __("pages/about.technologies_used") }}</h6>
+                    <ul>
+                        @foreach([
+                        'PHP Language', 'MySQL', 'Git', 'Laravel Framework', 'Docker',
+                        'Bootstrap', 'Migrations', 'PHPSpreadSheet', 'League/CSV',
+                        'PHPUnit', 'JavaScript', 'Git Actions'
+                        ] as $tech)
+                        <li>{{ $tech }}</li>
+                        @endforeach
+                    </ul>
+                </div>
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.search_string") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.search_string_description") }}
-                        </p>
+                <!-- Sobre a Ferramenta -->
+                <div class="card-body pt-2">
+                    <h5 class="card-title text-darker">{{ __("pages/about.about_the_tool") }}</h5>
+                    <p>{{ __("pages/about.about_the_tool_description") }}</p>
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.management_selection") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.management_selection_description") }}
-                        </p>
+                    <img src="/img/about/AboutTool.PNG" class="img-fluid" alt="Imagem" />
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.management_quality") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.management_quality_description") }}
-                        </p>
+                    @foreach([
+                    'cross_platform', 'automate_process', 'search_string',
+                    'management_selection', 'management_quality', 'data_generation',
+                    'graphs_tables_generation', 'report_generation'
+                    ] as $section)
+                    <h6 class="card-title text-darker mt-3">{{ __("pages/about.$section") }}</h6>
+                    <p>{{ __("pages/about.{$section}_description") }}</p>
+                    @endforeach
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.data_generation") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.data_generation_description") }}
-                        </p>
+                    <p>{{ __("pages/about.report_generation_description2") }}</p>
+                    <p>{{ __("pages/about.report_generation_description3") }}</p>
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.graphs_tables_generation") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.graphs_tables_generation_description") }}
-                        </p>
-
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ __("pages/about.report_generation") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.report_generation_description") }}
-                        </p>
-                        <p>
-                            {{ __("pages/about.report_generation_description2") }}
-                        </p>
-                        <p>
-                            {{ __("pages/about.report_generation_description3") }}
-                        </p>
-                        <ul>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.multiple_member_management") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.multiple_member_management_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.manage_projects") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.manage_projects_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.activity_view") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.activity_view_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.progress_display") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.progress_display_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.protocol_management") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.protocol_management_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.study_import") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.study_import_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.selection_of_studies") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.selection_of_studies_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.checking_duplicate_studies") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.checking_duplicate_studies_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.selection_ranking_information") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.selection_ranking_information_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.study_information_visualization") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.study_information_visualization_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.status_for_each_member") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.status_for_each_member_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.conflicts_in_selection") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.conflicts_in_selection_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.resolution_of_conflicts_in_selection") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.resolution_of_conflicts_in_selection_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.quality_assessment_of_studies") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.quality_assessment_of_studies_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.quality_conflicts") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.quality_conflicts_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.data_extraction") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.data_extraction_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.report") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.report_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.export_to_latex") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.export_to_latex_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.export_to_bibtex") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.export_to_bibtex_description") }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ __("pages/about.improvement_of_search_strings") }}
-                                </a>
-                                <p>
-                                    {{ __("pages/about.improvement_of_search_strings_description") }}
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul>
+                        @foreach([
+                        'multiple_member_management',
+                        'manage_projects',
+                        'activity_view',
+                        'progress_display',
+                        'protocol_management',
+                        'study_import',
+                        'selection_of_studies',
+                        'checking_duplicate_studies',
+                        'selection_ranking_information',
+                        'study_information_visualization',
+                        'status_for_each_member',
+                        'conflicts_in_selection',
+                        'resolution_of_conflicts_in_selection',
+                        'quality_assessment_of_studies',
+                        'quality_conflicts',
+                        'data_extraction',
+                        'report',
+                        'export_to_latex',
+                        'export_to_bibtex',
+                        'improvement_of_search_strings'
+                        ] as $item)
+                        <li>
+                            <h5 class="card-title text-darker">{{ __("pages/about.$item") }}</h5>
+                            <p>{{ __("pages/about.{$item}_description") }}</p>
+                        </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal LGPD -->
-    <div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content modal-transparent">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ __("pages/terms.modal_lgpd") }}</p>
-                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">
-                        Entendi
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                </div>
+</div>
+
+<!-- Modal LGPD -->
+<div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content modal-transparent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lgpdModalLabel">
+                    <i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __("pages/terms.modal_lgpd") }}</p>
+                <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">Entendi</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
-    @push('js')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                @if(session('show_lgpd_modal'))
-                var lgpdModal = new bootstrap.Modal(document.getElementById('lgpdModal'));
-                lgpdModal.show();
-                @endif
-            });
+</div>
 
-            function acceptTermsAndLgpd() {
-                fetch("{{ route('accept.lgpd') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            var lgpdModal = bootstrap.Modal.getInstance(document.getElementById('lgpdModal'));
-                            lgpdModal.hide();
-                        }
-                    })
-                    .catch(error => console.error('Erro:', error));
+@push('js')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    @if(session('show_lgpd_modal'))
+    new bootstrap.Modal(document.getElementById('lgpdModal')).show();
+    @endif
+});
+
+// Function to accept terms and LGPD
+function acceptTermsAndLgpd() {
+    fetch("{{ route('accept.lgpd') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                bootstrap.Modal.getInstance(document.getElementById('lgpdModal')).hide();
             }
-        </script>
-    @endpush
+        })
+        .catch(error => console.error('Erro:', error));
+}
+</script>
+@endpush
 @endsection

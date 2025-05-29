@@ -7,6 +7,7 @@ return [
     'enter_email' => 'Enter The email',
     'select_level' => 'Select level',
     'name' => 'Name',
+    'email' => 'Email',
     'delete' => 'Delete',
     'instruction_email' => 'Instruction help for enter e-mail',
     //insruction level
@@ -27,7 +28,10 @@ return [
     'level_administrator' => 'Level Administrator:',
     'level_administrator_description' => 'The administrator level has permissions to edit, delete, view and add members through the project correlated to it.',
     'admin' => 'Administrator',
-
+    'status_accepted' => 'Accepted',
+    'status_pending' => 'Pending',
+    'status_declined' => 'Declined',
+    'status' => 'Status',
 ];
 
 ?>
