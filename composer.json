@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-simplexml": "*",
         "ext-zip": "*",
         "algolia/algoliasearch-client-php": "^3.4",

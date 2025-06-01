@@ -8,9 +8,13 @@ use App\Models\Language as LanguageModel;
 use App\Models\Project as ProjectModel;
 use App\Models\ProjectLanguage as ProjectLanguageModel;
 use App\Utils\ActivityLogHelper as Log;
+use App\Traits\ProjectPermissions;
 
 class Languages extends Component
 {
+
+    use ProjectPermissions;
+
     private $translationPath = 'project/planning.overall.language.livewire';
     private $toastMessages = 'project/planning.overall.language.livewire.toasts';
 
@@ -65,6 +69,11 @@ class Languages extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         try {
@@ -105,6 +114,11 @@ class Languages extends Component
      */
     public function delete(string $languageId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $language = ProjectLanguageModel::where('id_project', $this->currentProject->id_project)
             ->where('id_language', $languageId)
             ->first();
