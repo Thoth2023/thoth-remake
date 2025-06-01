@@ -7,6 +7,7 @@ use App\Models\Project as ProjectModel;
 use App\Models\ResearchQuestion as ResearchQuestionModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 /**
  * Componente Livewire responsável por gerenciar as perguntas de pesquisa
@@ -17,12 +18,14 @@ use App\Utils\ToastHelper;
  */
 class ResearchQuestions extends Component
 {
+
     /**
      * Projeto atualmente selecionado.
      * Currently selected project.
      *
      * @var ProjectModel
      */
+
     public $currentProject;
 
     /**
@@ -38,6 +41,7 @@ class ResearchQuestions extends Component
      * List of all research questions for the project.
      */
     public $questions = [];
+    private $toastMessages = 'project/planning.research-questions.livewire.toasts';
 
     /**
      * Campos do formulário: descrição e ID da pergunta.
@@ -67,7 +71,7 @@ class ResearchQuestions extends Component
     protected $rules = [
         'currentProject' => 'required',
         'questionId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|max:255',
+        'description' => 'required|string|regex:/^[\pL\s]+$/u|max:255',
     ];
 
     /**
@@ -77,9 +81,12 @@ class ResearchQuestions extends Component
      * @var array
      */
     protected $messages = [
-        'description.required' => 'The description field is required.',
-        'questionId.required' => 'The ID field is required.',
-        'questionId.regex' => 'The ID field must contain only letters and numbers.',
+        'description.required' => 'O campo descrição é obrigatório.',
+        'description.regex' => 'A descrição deve conter apenas letras e espaços.',
+        'description.max' => 'A descrição não pode ter mais de 255 caracteres.',
+        'questionId.required' => 'O campo ID é obrigatório.',
+        'questionId.regex' => 'O campo ID deve conter apenas letras e números.',
+        'questionId.max' => 'O campo ID não pode ter mais de 20 caracteres.',
     ];
 
     /**
@@ -154,6 +161,11 @@ class ResearchQuestions extends Component
      */
     public function submit()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->validate();
 
         // Define a condição de atualização se estiver editando
@@ -166,6 +178,7 @@ class ResearchQuestions extends Component
             $value = $this->form['isEditing'] ? 'Updated the research question' : 'Added a research question';
             $toastMessage = $this->message($this->form['isEditing'] ? '.updated' : '.added');
 
+
             // Verifica duplicidade de ID ao criar nova pergunta
             // Checks for duplicate ID when creating new question
             if (!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('id', $this->questionId)) {
@@ -176,8 +189,17 @@ class ResearchQuestions extends Component
                 return;
             }
 
+
             // Verifica duplicidade ao editar e trocar o ID
             // Checks for duplicate ID when editing and changing the ID
+            if(!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('description', $this->description)) {
+                $this->toast(
+                    message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
+                    type: 'error'
+                );
+                return;
+            }
+
             if (
                 $this->form['isEditing']
                 && $this->currentQuestion->id != $this->questionId
@@ -190,8 +212,22 @@ class ResearchQuestions extends Component
                 return;
             }
 
+
             // Cria ou atualiza a pergunta de pesquisa
             // Creates or updates the research question
+            if (
+                $this->form['isEditing']
+                && $this->currentQuestion->description != $this->description
+                && $this->currentProject->researchQuestions->contains('description', $this->description)
+            ) {
+                $this->toast(
+                    message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
+                    type: 'error'
+                );
+                return;
+            }
+
+
             $updatedOrCreated = ResearchQuestionModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'id' => $this->questionId,
@@ -235,6 +271,11 @@ class ResearchQuestions extends Component
      */
     public function edit(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->currentQuestion = ResearchQuestionModel::findOrFail($questionId);
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
@@ -249,6 +290,11 @@ class ResearchQuestions extends Component
      */
     public function delete(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         try {
             $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
             $currentQuestion->delete();
@@ -273,9 +319,7 @@ class ResearchQuestions extends Component
                 message: $e->getMessage(),
                 type: 'error'
             );
-        } finally {
-            $this->resetFields();
-        }
+        } 
     }
 
     /**

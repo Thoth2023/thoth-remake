@@ -9,6 +9,7 @@
                     <div class="card-header pb-0">
                         <h6>Authors table</h6>
                     </div>
+					<!-- Table displaying authors, their roles, status, and employment details -->
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -29,7 +30,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+										<!-- Table row displaying user details including profile picture, role, status, employment date, and edit option -->
                                         <td>
+											
                                             <div class="d-flex px-2 py-1">
                                                 <div>
                                                     <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
@@ -57,6 +60,7 @@
                                             </a>
                                         </td>
                                     </tr>
+									<!-- Table row displaying user details including profile picture, role, status, employment date, and edit option -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
@@ -86,6 +90,7 @@
                                             </a>
                                         </td>
                                     </tr>
+									<!-- Table row displaying user details for Laurent Perrier including profile picture, role, status, employment date, and edit option -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
@@ -144,6 +149,7 @@
                                             </a>
                                         </td>
                                     </tr>
+									<!-- Table row displaying user details for Richard Gran, including profile picture, role, status, employment date, and edit option -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
@@ -173,6 +179,7 @@
                                             </a>
                                         </td>
                                     </tr>
+									<!-- Table row displaying user details for Miriam Eric, including profile picture, role, status, employment date, and edit option -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
@@ -210,6 +217,7 @@
                 </div>
             </div>
         </div>
+		<!-- Table displaying project details such as project name, budget, status, completion percentage, and actions -->
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -237,6 +245,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+										<!-- Table row displaying project information with project name, budget, status, and completion progress -->
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div>
@@ -272,6 +281,7 @@
                                             </button>
                                         </td>
                                     </tr>
+									<!-- Table row displaying project information with project name, budget, status, and completion progress for "Invision" -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -309,6 +319,7 @@
                                             </button>
                                         </td>
                                     </tr>
+									<!-- Table row displaying project information with project name, budget, status, and completion progress for "Jira" -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -346,6 +357,7 @@
                                             </button>
                                         </td>
                                     </tr>
+									<!-- Table row displaying project information with project name, budget, status, and completion progress for "Slack" -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -383,6 +395,7 @@
                                             </button>
                                         </td>
                                     </tr>
+									<!-- Table row displaying project information with project name, budget, status, and completion progress for "Webdev" -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -420,6 +433,7 @@
                                             </button>
                                         </td>
                                     </tr>
+									<!-- Table row displaying project information with project name, budget, status, and completion progress for "Adobe XD" -->
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">

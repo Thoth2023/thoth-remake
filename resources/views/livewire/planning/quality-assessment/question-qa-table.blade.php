@@ -1,49 +1,50 @@
-<div class="card" style="border-radius: 20px 20px 0px 0px">
-    <div class="mt-0 mx-0" style="max-height: none; overflow-y: auto;">
-        <table class="table table-custom-hover m-0">
+<div class="card" style="border-radius: 20px 20px 0px 0px; min-height: 300px;">
+    <div class="mt-0 mx-0" style="max-height: none; overflow-y: auto; min-height: 300px;">
+        <table class="table table-custom-hover m-0" style="width: 100%; table-layout: auto; min-height: 300px;">
             <thead class="table-light">
-                <tr class="p-0 m-0">
-                    <th class="p-1 pl-3 rounded-l-sm" style="width: 30px"></th>
-                    <th scope="col" class="p-1">
+                <tr>
+                    <th class="p-1 pl-3" style="width: 5%; text-align: center; vertical-align: middle;"></th>
+                    <th scope="col" class="p-1" style="width: 10%; text-align: center; vertical-align: middle;">
                         {{ __("project/planning.data-extraction.table.header.id") }}
                     </th>
-                    <th scope="col" class="p-1">
+                    <th scope="col" class="p-1" style="width: 15%; text-align: center; vertical-align: middle;">
                         {{ __("project/planning.data-extraction.table.header.description") }}
                     </th>
-                    <th scope="col" class="p-1">
+                    <th scope="col" class="p-1" style="width: 10%; text-align: center; vertical-align: middle;">
                         {{ __("project/planning.quality-assessment.question-quality.weight") }}
                     </th>
-                    <th scope="col" class="text-center p-1">
+                    <th scope="col" class="text-center p-1" style="width: 15%; text-align: center; vertical-align: middle;">
                         {{ __("project/planning.quality-assessment.min-general-score.title") }}
                     </th>
-                    <th scope="col" class="text-center p-1 rounded-r-sm">
+                    <th scope="col" class="text-center p-1" style="width: 10%; text-align: center; vertical-align: middle;">
                         {{ __("project/planning.data-extraction.table.header.actions") }}
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($questions as $question)
-                    <tr>
-                        <td>
+                    <tr style="border-top: 1px solid #dee2e6;">
+                        <td class="p-2" style="text-align: center; vertical-align: middle;">
                             @if ($question->qualityScores->isNotEmpty())
                                 <x-table.accordion-button />
                             @endif
                         </td>
-                        <td>
+                        <td class="p-2" style="text-align: center; vertical-align: middle;">
                             {{ $question->id }}
                         </td>
-                        <td class="text-wrap" style="max-width: 330px">
+                        <td class="text-wrap p-2" style="max-width: 100%; white-space: normal; text-align: center; vertical-align: middle;">
                             {{ $question->description }}
                         </td>
-                        <td>
+                        <td class="p-2" style="text-align: center; vertical-align: middle;">
                             {{ $question->weight }}
                         </td>
-                        <td>
+                        <td class="p-2" style="text-align: center; vertical-align: middle;">
                             <div class="d-flex justify-content-center">
                                 @if ($question->qualityScores->isNotEmpty())
                                     <div class="w-100">
                                         <x-select
                                             wire:change="updateMinimalScore({{ $question->id_qa }}, $event.target.value)"
+                                            style="z-index: 1050; position: relative; width: 100%;"
                                         >
                                             <option
                                                 selected
@@ -66,7 +67,7 @@
                                 @endif
                             </div>
                         </td>
-                        <td>
+                        <td class="p-2" style="text-align: center; vertical-align: middle;">
                             <div
                                 class="c-flex c-items-center c-justify-center gap-1"
                                 style="min-width: fit-content"
@@ -80,7 +81,7 @@
                                 </button>
                                 <x-helpers.confirm-modal
                                     modalTitle="Delete Quality Score"
-                                    modalContent="This action <strong>cannot</strong> be undone. This will remove the quality score permanently."
+                                    modalContent="Essa ação <strong>não pode</strong> ser desfeita. Isso irá remover a pontuação de qualidade permanentemente."
                                     class="btn btn-outline-danger py-1 px-3 m-0"
                                     onConfirm="deleteQuestionQuality({{ $question->id_qa }})"
                                 >
@@ -131,7 +132,7 @@
                                                 </span>
                                             </td>
                                             <td
-                                                class="text-wrap"
+                                                class="c-flex c-items-center c-justify-center"
                                                 style="max-width: 250px"
                                             >
                                                 {{ $question->description }}
