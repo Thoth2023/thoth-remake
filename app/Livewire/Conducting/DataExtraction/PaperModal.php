@@ -12,9 +12,13 @@ use App\Models\StatusExtraction;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Traits\ProjectPermissions;
 
 class PaperModal extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $projectId;
     public $paper;
@@ -23,6 +27,7 @@ class PaperModal extends Component
     public $evaluation;
     public $textAnswers = [];
     public $selectedOptions = [];
+    public $canEdit = false;
 
     public function mount()
     {
@@ -38,31 +43,29 @@ class PaperModal extends Component
             ->where('id_project', $this->projectId)
             ->get();
 
+        $this->textAnswers = [];
+        $this->selectedOptions = [];
+
         foreach ($this->questions as $question) {
-            if (optional($question->question_type)->type == 'Text') {
-                // Carrega respostas de texto
+            $type = optional($question->question_type)->type;
+
+            if ($type == 'Text') {
                 $evaluation = EvaluationExTxt::where('id_qe', $question->id_de)
                     ->where('id_paper', $this->paper['id_paper'])
                     ->first();
                 $this->textAnswers[$question->id] = $evaluation ? $evaluation->text : '';
 
-            } elseif (optional($question->question_type)->type == 'Pick One List') {
-                // Carrega seleção de uma única opção
+            } elseif ($type == 'Pick One List') {
                 $evaluation = EvaluationExOp::where('id_qe', $question->id_de)
-                ->where('id_paper', $this->paper['id_paper'])
+                    ->where('id_paper', $this->paper['id_paper'])
                     ->first();
-                // Armazena o ID da opção selecionada
                 $this->selectedOptions[$question->id_de] = $evaluation ? $evaluation->id_option : null;
 
-                $this->selectedOptions[$question->id_de] = $evaluation ? $evaluation->id_option : null;
-            } elseif (optional($question->question_type)->type == 'Multiple Choice List') {
-                // Carrega opções múltiplas
+            } elseif ($type == 'Multiple Choice List') {
                 $this->selectedOptions[$question->id_de] = EvaluationExOp::where('id_qe', $question->id_de)
                     ->where('id_paper', $this->paper['id_paper'])
                     ->pluck('id_option')
                     ->toArray();
-            } else {
-                $this->selectedOptions[$question->id_de] = $this->selectedOptions[$question->id_de] ?? [];
             }
         }
     }
@@ -70,6 +73,10 @@ class PaperModal extends Component
     #[On('showPaperExtraction')]
     public function showPaperExtraction($paper)
     {
+
+        // Verifica se o usuário tem permissão para visualizar o paper
+        $this->canEdit = $this->userCanEdit();
+
         $this->paper = $paper;
 
         $databaseName = DB::table('data_base')
