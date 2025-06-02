@@ -11,33 +11,54 @@ use App\Models\Project;
 use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Traits\ProjectPermissions;
 
+/**
+ * Componente Livewire para gerenciar questões de qualidade.
+ * 
+ * Este componente permite criar, editar e excluir questões de qualidade
+ * associadas ao projeto, incluindo seus pesos e descrições.
+ */
 class QuestionQuality extends Component
 {
 
     use ProjectPermissions;
 
+    /** @var string Caminho base para traduções do componente */
     private $translationPath = 'project/planning.quality-assessment.question-quality.livewire';
+
+    /** @var string Caminho para as mensagens de toast */
     private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
+
+    /** @var Project Projeto atual sendo avaliado */
     public $currentProject;
+
+    /** @var Question|null Questão atual sendo editada */
     public $currentQuestion;
+
+    /** @var array Lista de questões do projeto */
     public $questions = [];
 
     /**
-     * Fields to be filled by the form.
+     * Campos a serem preenchidos pelo formulário.
      */
+    /** @var string ID da questão */
     public $questionId;
+
+    /** @var string Descrição da questão */
     public $description;
+
+    /** @var float Peso da questão */
     public $weight;
 
     /**
-     * Form state.
+     * Estado do formulário.
      */
+    /** @var array Estado do formulário */
     public $form = [
         'isEditing' => false,
     ];
 
     /**
-     * Validation rules.
+     * Regras de validação.
      */
     protected $rules = [
         'currentProject' => 'required',
@@ -47,7 +68,9 @@ class QuestionQuality extends Component
     ];
 
     /**
-     * Custom error messages for the validation rules.
+     * Mensagens de erro personalizadas para as regras de validação.
+     *
+     * @return array Mensagens de erro
      */
     protected function messages()
     {
@@ -59,8 +82,7 @@ class QuestionQuality extends Component
     }
 
     /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
+     * Inicializa o componente, carregando o projeto e suas questões.
      */
     public function mount()
     {
@@ -72,7 +94,7 @@ class QuestionQuality extends Component
     }
 
     /**
-     * Reset the fields to the default values.
+     * Reseta os campos do formulário para seus valores padrão.
      */
     public function resetFields()
     {
@@ -84,7 +106,10 @@ class QuestionQuality extends Component
     }
 
     /**
-     * Dispatch a toast message to the view.
+     * Dispara uma notificação toast para o usuário.
+     *
+     * @param string $message Mensagem a ser exibida
+     * @param string $type Tipo de toast (success, error, etc)
      */
     public function toast(string $message, string $type)
     {
@@ -92,7 +117,7 @@ class QuestionQuality extends Component
     }
 
     /**
-     * Update the items.
+     * Atualiza a lista de questões e dispara eventos relacionados.
      */
     public function updateQuestions()
     {
@@ -108,7 +133,9 @@ class QuestionQuality extends Component
         $this->dispatch('update-score-questions');
     }
     /**
-     * Fills the form fields with data from the selected question for editing.
+     * Preenche os campos do formulário com dados da questão selecionada para edição.
+     *
+     * @param int $questionId ID da questão a ser editada
      */
     #[On('edit-question-quality')]
     public function edit($questionId)
@@ -125,7 +152,9 @@ class QuestionQuality extends Component
         $this->description = $this->currentQuestion->description;
     }
     /**
-     * Deletes the selected quality question.
+     * Exclui a questão de qualidade selecionada.
+     *
+     * @param int $questionId ID da questão a ser excluída
      */
     #[On('delete-question-quality')]
     public function delete($questionId)
@@ -162,8 +191,8 @@ class QuestionQuality extends Component
     }
 
     /**
-     * Validates and submits the form data.
-     * Creates or updates a quality question based on form state.
+     * Valida e submete os dados do formulário.
+     * Cria ou atualiza uma questão de qualidade baseado no estado do formulário.
      */
     public function submit()
     {
@@ -236,7 +265,9 @@ class QuestionQuality extends Component
     }
 
     /**
-     * Render the component.
+     * Renderiza o componente.
+     *
+     * @return \Illuminate\View\View
      */
     public function render()
     {
