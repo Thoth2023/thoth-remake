@@ -9,32 +9,64 @@ use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 use App\Traits\ProjectPermissions;
 
-
+/**
+ * Componente Livewire responsável por gerenciar as perguntas de pesquisa
+ * associadas a um projeto na etapa de planejamento.
+ *
+ * Livewire component responsible for managing research questions
+ * associated with a project during the planning stage.
+ */
 class ResearchQuestions extends Component
 {
 
-    use ProjectPermissions;
+    /**
+     * Projeto atualmente selecionado.
+     * Currently selected project.
+     *
+     * @var ProjectModel
+     */
 
     public $currentProject;
+
+    /**
+     * Pergunta de pesquisa que está sendo editada (se houver).
+     * Research question currently being edited (if any).
+     *
+     * @var ResearchQuestionModel|null
+     */
     public $currentQuestion;
+
+        /**
+     * Lista de perguntas de pesquisa do projeto.
+     * List of all research questions for the project.
+     */
     public $questions = [];
     private $toastMessages = 'project/planning.research-questions.livewire.toasts';
 
     /**
-     * Fields to be filled by the form.
+     * Campos do formulário: descrição e ID da pergunta.
+     * Form fields: question description and ID.
+     *
+     * @var string
      */
     public $description;
     public $questionId;
 
     /**
-     * Form state.
+     * Estado do formulário (ex: se está em modo de edição).
+     * Form state (e.g., if editing mode is active).
+     *
+     * @var array
      */
     public $form = [
         'isEditing' => false,
     ];
 
     /**
-     * Validation rules.
+     * Regras de validação para os campos do formulário.
+     * Validation rules for form fields.
+     *
+     * @var array
      */
     protected $rules = [
         'currentProject' => 'required',
@@ -43,7 +75,10 @@ class ResearchQuestions extends Component
     ];
 
     /**
-     * Custom error messages for the validation rules.
+     * Mensagens de erro personalizadas para a validação.
+     * Custom error messages for validation.
+     *
+     * @var array
      */
     protected $messages = [
         'description.required' => 'O campo descrição é obrigatório.',
@@ -55,8 +90,11 @@ class ResearchQuestions extends Component
     ];
 
     /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
+     * Executado ao montar o componente.
+     * Carrega o projeto e suas perguntas de pesquisa.
+     *
+     * Called when the component is mounted.
+     * Loads the project and its research questions.
      */
     public function mount()
     {
@@ -70,7 +108,8 @@ class ResearchQuestions extends Component
     }
 
     /**
-     * Reset the fields to the default values.
+     * Reseta os campos do formulário e o estado de edição.
+     * Resets form fields and editing state.
      */
     public function resetFields()
     {
@@ -81,7 +120,8 @@ class ResearchQuestions extends Component
     }
 
     /**
-     * Update the items.
+     * Atualiza a lista de perguntas de pesquisa do projeto.
+     * Updates the list of research questions for the project.
      */
     public function updateQuestions()
     {
@@ -92,21 +132,32 @@ class ResearchQuestions extends Component
     }
 
     /**
-     * Dispatch a toast message to the view.
+     * Dispara uma notificação (toast) para a interface.
+     * Sends a toast notification to the frontend.
+     *
+     * @param string $message Mensagem da notificação / Toast message
+     * @param string $type Tipo da notificação (success, error, etc.) / Notification type
      */
     public function toast(string $message, string $type)
     {
         $this->dispatch('research-questions', ToastHelper::dispatch($type, $message));
     }
 
+    /**
+     * Retorna uma mensagem traduzida do arquivo de tradução.
+     * Returns a translated message from the language file.
+     *
+     * @param string $message
+     * @return string
+     */
     private function message(string $message)
     {
         return __('project/planning.research-questions.livewire.toasts' . $message);
     }
 
     /**
-     * Submit the form. It validates the input fields
-     * and creates or updates an item.
+     * Submete o formulário para criar ou atualizar uma pergunta.
+     * Validates and submits the form to create or update a question.
      */
     public function submit()
     {
@@ -117,6 +168,8 @@ class ResearchQuestions extends Component
 
         $this->validate();
 
+        // Define a condição de atualização se estiver editando
+        // Sets the update condition if in editing mode
         $updateIf = [
             'id_research_question' => $this->currentQuestion?->id_research_question,
         ];
@@ -125,7 +178,9 @@ class ResearchQuestions extends Component
             $value = $this->form['isEditing'] ? 'Updated the research question' : 'Added a research question';
             $toastMessage = $this->message($this->form['isEditing'] ? '.updated' : '.added');
 
-            // CREATE verifications
+
+            // Verifica duplicidade de ID ao criar nova pergunta
+            // Checks for duplicate ID when creating new question
             if (!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('id', $this->questionId)) {
                 $this->toast(
                     message: 'This ID is already in use. Please choose a unique ID for the question.',
@@ -134,6 +189,9 @@ class ResearchQuestions extends Component
                 return;
             }
 
+
+            // Verifica duplicidade ao editar e trocar o ID
+            // Checks for duplicate ID when editing and changing the ID
             if(!$this->form['isEditing'] && $this->currentProject->researchQuestions->contains('description', $this->description)) {
                 $this->toast(
                     message: 'There cannot be duplicate research questions. Please consider changing the description of this research question.',
@@ -142,8 +200,6 @@ class ResearchQuestions extends Component
                 return;
             }
 
-
-            // UPDATE verifications
             if (
                 $this->form['isEditing']
                 && $this->currentQuestion->id != $this->questionId
@@ -156,6 +212,9 @@ class ResearchQuestions extends Component
                 return;
             }
 
+
+            // Cria ou atualiza a pergunta de pesquisa
+            // Creates or updates the research question
             if (
                 $this->form['isEditing']
                 && $this->currentQuestion->description != $this->description
@@ -168,35 +227,47 @@ class ResearchQuestions extends Component
                 return;
             }
 
+
             $updatedOrCreated = ResearchQuestionModel::updateOrCreate($updateIf, [
                 'id_project' => $this->currentProject->id_project,
                 'id' => $this->questionId,
                 'description' => $this->description,
             ]);
 
+            // Registra a ação no log de atividades
+            // Logs the activity
             Log::logActivity(
                 action: $value,
                 description: $updatedOrCreated->description,
                 projectId: $this->currentProject->id_project
             );
 
+            // Atualiza a lista e mostra toast de sucesso
+            // Updates list and shows success toast
             $this->updateQuestions();
             $this->toast(
                 message: $toastMessage,
                 type: 'success'
             );
         } catch (\Exception $e) {
+            // Em caso de erro, mostra toast de erro
+            // Shows error toast in case of exception
             $this->toast(
                 message: $e->getMessage(),
                 type: 'error'
             );
         } finally {
+            // Reseta os campos do formulário
+            // Resets form fields
             $this->resetFields();
         }
     }
 
     /**
-     * Fill the form fields with the given data.
+     * Preenche os campos do formulário para edição de uma pergunta.
+     * Fills form fields for editing a specific question.
+     *
+     * @param string $questionId
      */
     public function edit(string $questionId)
     {
@@ -212,7 +283,10 @@ class ResearchQuestions extends Component
     }
 
     /**
-     * Delete an item.
+     * Exclui uma pergunta do projeto e registra a ação.
+     * Deletes a research question and logs the action.
+     *
+     * @param string $questionId
      */
     public function delete(string $questionId)
     {
@@ -224,12 +298,17 @@ class ResearchQuestions extends Component
         try {
             $currentQuestion = ResearchQuestionModel::findOrFail($questionId);
             $currentQuestion->delete();
+
+            // Registra a exclusão
+            // Logs deletion
             Log::logActivity(
                 action: 'Deleted the question',
                 description: $currentQuestion->description,
                 projectId: $this->currentProject->id_project
             );
 
+            // Mostra toast e atualiza a lista
+            // Shows toast and refreshes list
             $this->toast(
                 message: $this->message('.deleted'),
                 type: 'success'
@@ -244,7 +323,8 @@ class ResearchQuestions extends Component
     }
 
     /**
-     * Render the component.
+     * Renderiza a view do componente.
+     * Renders the component view.
      */
     public function render()
     {

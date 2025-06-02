@@ -11,23 +11,48 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Traits\ProjectPermissions;
 
+/**
+ * Componente Livewire para gerenciar intervalos de pontuação geral.
+ * 
+ * Este componente permite criar e gerenciar intervalos de pontuação para avaliação
+ * de qualidade, incluindo seus valores mínimos, máximos e descrições.
+ */
 class QuestionRanges extends Component
 {
 
   use ProjectPermissions;
 
+  /** @var Project Projeto atual sendo avaliado */
   public $currentProject;
+
+  /** @var array Lista de intervalos de pontuação */
   public $items = [];
+
+  /** @var array Cópia dos intervalos para comparação */
   public $oldItems = [];
+
+  /** @var float Soma total dos pesos das questões */
   public $sum = 0;
+
+  /** @var int Número de intervalos desejados */
   public $intervals = 5;
+
+  /** @var string Caminho para as mensagens de toast */
   private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
+  /**
+   * Regras de validação para os campos do formulário.
+   */
   protected $rules = [
     'items.*.description' => 'required|string|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
     'intervals' => 'required|integer|min:2|max:10',
   ];
 
+  /**
+   * Mensagens de erro personalizadas para as regras de validação.
+   *
+   * @return array Mensagens de erro
+   */
   protected function messages()
   {
       return [
@@ -40,6 +65,9 @@ class QuestionRanges extends Component
       ];
   }
 
+  /**
+   * Popula a lista de intervalos com dados do banco de dados.
+   */
   public function populateItems()
   {
     $projectId = $this->currentProject->id_project;
@@ -56,6 +84,9 @@ class QuestionRanges extends Component
     $this->oldItems = $this->items;
   }
 
+  /**
+   * Inicializa o componente, carregando o projeto e seus intervalos.
+   */
   public function mount()
   {
     $projectId = request()->segment(2);
@@ -66,13 +97,20 @@ class QuestionRanges extends Component
   }
 
   /**
-   * Dispatch a toast message to the view.
+   * Dispara uma notificação toast para o usuário.
+   *
+   * @param string $message Mensagem a ser exibida
+   * @param string $type Tipo de toast (success, error, etc)
    */
   public function toast(string $message, string $type)
   {
     $this->dispatch('qa-ranges', ToastHelper::dispatch($type, $message));
   }
 
+  /**
+   * Atualiza a soma total dos pesos das questões.
+   * Disparado quando os pesos são modificados.
+   */
   #[On('update-weight-sum')]
   public function updateSum()
   {
@@ -85,6 +123,12 @@ class QuestionRanges extends Component
     $this->sum = Question::where('id_project', $projectId)->sum('weight');
   }
 
+  /**
+   * Atualiza o valor mínimo de um intervalo.
+   *
+   * @param int $index Índice do intervalo
+   * @param float $value Novo valor mínimo
+   */
   public function updateMin($index, $value)
   {
 
@@ -109,6 +153,12 @@ class QuestionRanges extends Component
     }
   }
 
+  /**
+   * Atualiza o valor máximo de um intervalo e ajusta o próximo intervalo.
+   *
+   * @param int $index Índice do intervalo
+   * @param float $value Novo valor máximo
+   */
   public function updateMax($index, $value)
   {
 
@@ -123,8 +173,8 @@ class QuestionRanges extends Component
       }
 
       /**
-       * If the new "end" value is the same as the current "end" value,
-       * do nothing
+       * Se o novo valor "end" for igual ao valor atual "end",
+       * não faz nada
        */
       if ($this->items[$index]['end'] == $this->oldItems[$index]['end']) {
         return;
@@ -134,7 +184,7 @@ class QuestionRanges extends Component
       $this->items[$index + 1]['start'] = round((float)$value + 0.01, 2);
 
       /**
-       * Update the current "end" value
+       * Atualiza o valor atual de "end"
        */
       GeneralScore::updateOrCreate([
         'id_general_score' => $this->items[$index]['id_general_score']
@@ -147,7 +197,7 @@ class QuestionRanges extends Component
       }
 
       /**
-       * Update the next "start" value
+       * Atualiza o valor de "start" do próximo intervalo
        */
       GeneralScore::updateOrCreate([
         'id_general_score' => $this->items[$index + 1]['id_general_score']
@@ -170,6 +220,11 @@ class QuestionRanges extends Component
     }
   }
 
+  /**
+   * Atualiza a descrição de um intervalo.
+   *
+   * @param int $index Índice do intervalo
+   */
   public function updateLabel($index)
   {
 
@@ -212,9 +267,12 @@ class QuestionRanges extends Component
     }
   }
 
+  /**
+   * Gera novos intervalos baseado no número especificado.
+   * Verifica dependências antes de excluir intervalos existentes.
+   */
   public function generateIntervals()
   {
-
     if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
       return;
     }
@@ -242,15 +300,27 @@ class QuestionRanges extends Component
         return; // Abortar operação
       }
     }
+  }
 
-    public function updated($propertyName)
-    {
-        if (preg_match('/items\.(\d+)\.description/', $propertyName, $matches)) {
-            $index = $matches[1];
-            $this->updateLabel($index);
-        }
+  /**
+   * Manipula atualizações automáticas de propriedades.
+   * Atualiza a descrição quando o campo é modificado.
+   *
+   * @param string $propertyName Nome da propriedade atualizada
+   */
+  public function updated($propertyName)
+  {
+    if (preg_match('/items\.(\d+)\.description/', $propertyName, $matches)) {
+      $index = $matches[1];
+      $this->updateLabel($index);
     }
+  }
 
+  /**
+   * Renderiza o componente.
+   *
+   * @return \Illuminate\View\View
+   */
   public function render()
   {
     return view('livewire.planning.quality-assessment.question-ranges');
