@@ -25,7 +25,7 @@
                                     <span class="input-group-text text-body">
                                         <i class="fas fa-search" aria-hidden="true"></i>
                                     </span>
-                                    <input type="text" name="searchProject" class="form-control" placeholder="Pesquisar no Thoth...">
+                                    <input type="text" name="searchProject" class="form-control" placeholder="{{ __('nav/nav.search_in_thoth') }}">
                                 </div>
                             </form>
                         </div>
@@ -108,7 +108,7 @@
                             <li class="nav-item me-1 d-flex align-items-center">
                                 <a href="javascript:;" class="nav-link text-dark p-0 d-flex align-items-center">
                                     <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
-                                    <span class="d-sm-inline d-none">Configurações</span>
+                                    <span>{{ __('nav/nav.settings') }}</span>
                                 </a>
                             </li>
                         </ul>
