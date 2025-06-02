@@ -19,6 +19,7 @@ return [
     'language' => 'Idioma',
     'profile' => 'Perfil',
     'logout' => 'Deslogar',
+    'settings' => 'Configurações',
     'projects' => 'Projetos',
     'my_projects' => 'Meus Projetos',
     'pages' => 'Páginas',
