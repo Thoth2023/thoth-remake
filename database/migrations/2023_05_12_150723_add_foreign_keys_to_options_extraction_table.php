@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chave estrangeira à tabela 'options_extraction'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_de: Adiciona uma chave estrangeira referenciando o campo 'id_de' da tabela 'question_extraction'.
+     *
+     * Funções:
+     * - up(): Adiciona a constraint de chave estrangeira 'options_extraction_ibfk_1' ao campo 'id_de', 
+     *         referenciando 'id_de' em 'question_extraction', com atualização e deleção em cascata.
      */
     public function up()
     {

@@ -6,10 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chave estrangeira à tabela 'criteria'.
      *
-     * @return void
+     * Esta migration adiciona uma restrição de chave estrangeira ao campo 'id_project' da tabela 'criteria',
+     * referenciando o campo 'id_project' da tabela 'project'. A restrição é nomeada como 'criteria_ibfk_1'
+     * e está configurada para atualizar e deletar em cascata.
+     *
+     * Campos afetados:
+     * - id_project: Chave estrangeira que referencia o campo 'id_project' da tabela 'project'.
+     *
+     * Métodos:
+     * - up(): Aplica a restrição de chave estrangeira à tabela 'criteria'.
      */
     public function up()
     {

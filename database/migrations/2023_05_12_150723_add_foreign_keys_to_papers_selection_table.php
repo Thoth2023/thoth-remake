@@ -6,10 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'papers_selection'.
      *
-     * @return void
+     * Esta migration define as seguintes relações:
+     * - 'id_paper': Referencia o campo 'id_paper' da tabela 'papers'. 
+     *   Atualizações e deleções em 'papers' são propagadas em cascata.
+     * - 'id_status': Referencia o campo 'id_status' da tabela 'status_selection'.
+     *   Atualizações e deleções em 'status_selection' são propagadas em cascata.
+     * - 'id_member': Referencia o campo 'id_members' da tabela 'members'.
+     *   Atualizações e deleções em 'members' são propagadas em cascata.
+     *
+     * Funções:
+     * - up(): Adiciona as chaves estrangeiras à tabela 'papers_selection' com as restrições de integridade referencial.
      */
     public function up()
     {

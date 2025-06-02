@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'levels'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'levels', que armazena os níveis de acesso ou categorias.
+     * Campos:
+     * - id_level: Chave primária, auto-incremento.
+     * - level: Descrição do nível.
      */
     public function up()
     {

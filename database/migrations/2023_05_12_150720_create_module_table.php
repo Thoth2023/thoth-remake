@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'module'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'module' no banco de dados,
+     * incluindo os seguintes campos:
+     * - id_module: inteiro, chave primária, auto-incremento.
+     * - description: string, descrição do módulo.
+     *
+     * Utilizada para armazenar informações sobre os módulos do sistema.
      */
     public function up()
     {

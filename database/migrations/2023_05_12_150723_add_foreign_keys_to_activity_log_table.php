@@ -6,10 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Adiciona chaves estrangeiras à tabela 'activity_log'.
      *
-     * @return void
+     * Esta migration define as seguintes relações:
+     * - 'id_project': Referencia o campo 'id_project' da tabela 'project'.
+     *   - Atualizações e deleções em 'project' são propagadas em cascata.
+     * - 'id_module': Referencia o campo 'id_module' da tabela 'module'.
+     *   - Atualizações e deleções em 'module' são propagadas em cascata.
+     * - 'id_user': Referencia o campo 'id' da tabela 'users'.
+     *   - Atualizações e deleções em 'users' são propagadas em cascata.
+     *
+     * As restrições garantem integridade referencial entre 'activity_log' e as tabelas relacionadas,
+     * removendo ou atualizando registros automaticamente conforme necessário.
      */
     public function up()
     {

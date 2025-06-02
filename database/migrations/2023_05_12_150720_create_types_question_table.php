@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'types_question' no banco de dados.
      *
-     * @return void
+     * Campos:
+     * - id_type (integer, auto-incremento, chave primária): Identificador único do tipo de questão.
+     * - type (string): Nome ou descrição do tipo de questão.
      */
     public function up()
     {

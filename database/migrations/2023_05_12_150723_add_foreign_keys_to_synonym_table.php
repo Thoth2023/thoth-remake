@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chave estrangeira à tabela 'synonym'.
      *
-     * @return void
+     * Esta migration adiciona uma restrição de chave estrangeira ao campo 'id_term' da tabela 'synonym',
+     * referenciando o campo 'id_term' da tabela 'term'. A restrição é nomeada como 'synonym_ibfk_1'.
+     * 
+     * - Ao atualizar um registro em 'term', as alterações serão propagadas para 'synonym' (CASCADE).
+     * - Ao deletar um registro em 'term', os registros relacionados em 'synonym' também serão deletados (CASCADE).
+     *
+     * Funções:
+     * - up(): Aplica a adição da chave estrangeira à tabela 'synonym'.
      */
     public function up()
     {

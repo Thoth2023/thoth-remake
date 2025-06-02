@@ -7,9 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'evaluation_qa'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'evaluation_qa', que armazena avaliações de perguntas e respostas
+     * associadas a membros e papéis específicos.
+     *
+     * Campos:
+     * - id_ev_qa: Identificador único da avaliação (chave primária, auto-incremento).
+     * - id_qa: Referência à pergunta e resposta avaliada (indexado).
+     * - id_member: Referência ao membro que realizou a avaliação (indexado).
+     * - id_score_qa: Referência à pontuação atribuída à pergunta e resposta (indexado).
+     * - id_paper: Referência ao papel associado à avaliação (indexado).
      */
     public function up()
     {

@@ -6,10 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'project'.
      *
-     * @return void
+     * Campos:
+     * - id_project: inteiro, chave primária auto-incrementada. Identificador único do projeto.
+     * - id_user: unsignedBigInteger, indexado. Referência ao usuário responsável pelo projeto.
+     * - title: string. Título do projeto.
+     * - description: string. Descrição do projeto.
+     * - objectives: string. Objetivos do projeto.
+     * - created_by: string. Nome do criador do projeto.
+     * - start_date: date. Data de início do projeto.
+     * - end_date: date. Data de término do projeto.
+     * - c_papers: inteiro, padrão 0. Quantidade de artigos/papers associados ao projeto.
+     * - planning: float(10,0), padrão 0. Progresso da etapa de planejamento.
+     * - import: float(10,0), padrão 0. Progresso da etapa de importação.
+     * - selection: float(10,0), padrão 0. Progresso da etapa de seleção.
+     * - quality: float(10,0), padrão 0. Progresso da etapa de avaliação de qualidade.
+     * - extraction: float(10,0), padrão 0. Progresso da etapa de extração de dados.
      */
     public function up()
     {

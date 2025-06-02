@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'papers_qa_answer'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'papers_qa_answer', que armazena as respostas
+     * associadas a perguntas em um determinado paper.
+     * Campos:
+     * - id_papers_qa_answer: Chave primária, auto-incremento.
+     * - id_paper: Referência ao paper associado (com índice).
+     * - id_question: Referência à pergunta associada (com índice).
+     * - id_answer: Referência à resposta associada (com índice).
      */
     public function up()
     {

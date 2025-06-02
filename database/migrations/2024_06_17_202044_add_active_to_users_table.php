@@ -6,8 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar a coluna 'active' na tabela 'users'.
+     *
+     * Esta migration adiciona uma nova coluna booleana chamada 'active' à tabela 'users',
+     * com valor padrão definido como true.
+     *
+     * Métodos utilizados:
+     * - up(): Aplica a alteração na tabela, adicionando a coluna 'active'.
+     *   - Schema::table(): Modifica a estrutura da tabela existente.
+     *   - $table->boolean(): Cria uma nova coluna do tipo booleano.
+     *   - ->default(true): Define o valor padrão da coluna como true.
      */
     public function up(): void
     {

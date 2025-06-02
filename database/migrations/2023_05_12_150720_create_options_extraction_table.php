@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'options_extraction'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'options_extraction', que armazena opções de extração
+     * associadas a um determinado 'id_de'.
+     * Campos:
+     * - id_option: Chave primária, auto-incremento.
+     * - description: Descrição da opção de extração.
+     * - id_de: Referência ao 'id_de' associado (com índice).
      */
     public function up()
     {

@@ -6,8 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Cria a tabela 'failed_jobs' para armazenar informações sobre jobs que falharam durante o processamento.
+     *
+     * Campos:
+     * - id: Identificador único do registro.
+     * - uuid: Identificador único universal do job.
+     * - connection: Nome da conexão utilizada pelo job.
+     * - queue: Nome da fila onde o job estava.
+     * - payload: Dados completos do job serializados.
+     * - exception: Detalhes da exceção que causou a falha.
+     * - failed_at: Timestamp indicando quando o job falhou.
      */
     public function up(): void
     {

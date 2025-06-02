@@ -7,9 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'papers_qa'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'papers_qa', que armazena informações sobre
+     * perguntas e respostas associadas a papers, incluindo notas e pontuações.
+     * Campos:
+     * - id_paper_qa: Chave primária, auto-incremento.
+     * - id_paper: Referência ao paper associado (com índice).
+     * - id_member: Referência ao membro associado (com índice).
+     * - id_gen_score: Referência à pontuação geral associada (com índice).
+     * - id_status: Referência ao status associado (com índice).
+     * - note: Texto contendo notas adicionais.
+     * - score: Pontuação atribuída, do tipo float.
      */
     public function up()
     {

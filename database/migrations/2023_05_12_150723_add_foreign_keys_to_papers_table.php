@@ -6,10 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'papers'.
      *
-     * @return void
+     * Esta migration define as relações entre a tabela 'papers' e outras tabelas do banco de dados,
+     * garantindo integridade referencial e aplicando ações em cascata para atualização e exclusão.
+     *
+     * Campos e relações adicionadas:
+     * - status_selection: Referencia 'id_status' na tabela 'status_selection' (CASCADE em update/delete).
+     * - status_qa: Referencia 'id_status' na tabela 'status_qa' (CASCADE em update/delete). 
+     *   Observação: Existem duas foreign keys para 'status_qa' ('papers_ibfk_5' e 'papers_ibfk_6').
+     * - status_extraction: Referencia 'id_status' na tabela 'status_extraction' (CASCADE em update/delete).
+     * - data_base: Referencia 'id_database' na tabela 'data_base' (CASCADE em update/delete).
+     * - id_gen_score: Referencia 'id_general_score' na tabela 'general_score' (CASCADE em update/delete).
+     * - id_bib: Referencia 'id_bib' na tabela 'bib_upload' (CASCADE em update/delete).
+     *
+     * Funções:
+     * - up(): Adiciona as chaves estrangeiras acima à tabela 'papers', configurando as ações em cascata.
      */
     public function up()
     {

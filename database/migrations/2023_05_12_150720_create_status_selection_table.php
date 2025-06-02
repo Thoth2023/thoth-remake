@@ -6,10 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'status_selection'.
      *
-     * @return void
+     * Esta tabela armazena os diferentes status disponíveis para seleção no sistema.
+     *
+     * Campos:
+     * - id_status (integer, auto-increment, chave primária): Identificador único do status.
+     * - description (string): Descrição textual do status.
      */
     public function up()
     {

@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'bib_upload' no banco de dados.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'bib_upload', que armazena informações
+     * sobre uploads de arquivos bibliográficos associados a projetos.
+     *
+     * Campos:
+     * - id_bib: Identificador único do upload (chave primária, auto-incremento).
+     * - name: Nome do arquivo ou upload.
+     * - id_project_database: Referência ao projeto relacionado (indexado).
      */
     public function up()
     {

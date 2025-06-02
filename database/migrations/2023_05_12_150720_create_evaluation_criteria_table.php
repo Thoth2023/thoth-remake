@@ -6,10 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Cria a tabela 'evaluation_criteria' para armazenar os critérios de avaliação associados a cada artigo, critério e membro avaliador.
      *
-     * @return void
+     * Estrutura da tabela:
+     * - id_evaluation_criteria: Identificador único da avaliação do critério (chave primária, auto-incremento).
+     * - id_paper: Referência ao artigo avaliado (indexado).
+     * - id_criteria: Referência ao critério de avaliação (indexado).
+     * - id_member: Referência ao membro avaliador (indexado).
+     *
+     * Esta migration facilita o relacionamento entre artigos, critérios de avaliação e membros responsáveis pela avaliação.
      */
     public function up()
     {

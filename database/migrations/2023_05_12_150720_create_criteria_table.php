@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'criteria'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'criteria', que armazena critérios relacionados a projetos.
+     * Campos:
+     * - id_criteria: Chave primária incremental.
+     * - id: Identificador do critério.
+     * - description: Descrição do critério.
+     * - pre_selected: Indica se o critério está pré-selecionado.
+     * - id_project: Referência ao projeto associado (indexado).
+     * - type: Tipo do critério.
      */
     public function up()
     {

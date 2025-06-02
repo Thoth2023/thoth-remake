@@ -6,10 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'project_study_types' para associar projetos aos tipos de estudo.
      *
-     * @return void
+     * Campos:
+     * - id_project_study_types: Chave primária incremental.
+     * - id_project: Referência ao projeto (indexado).
+     * - id_study_type: Referência ao tipo de estudo (indexado).
+     *
+     * Esta migration estabelece a relação entre projetos e tipos de estudo, permitindo
+     * que cada projeto seja vinculado a um ou mais tipos de estudo.
      */
     public function up()
     {

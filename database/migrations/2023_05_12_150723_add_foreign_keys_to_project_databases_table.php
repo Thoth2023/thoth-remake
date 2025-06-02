@@ -6,10 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+   
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'project_databases'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_database: Referência à coluna 'id_database' da tabela 'data_base'.
+     * - id_project: Referência à coluna 'id_project' da tabela 'project'.
+     *
+     * Funções:
+     * - up(): Adiciona as restrições de chave estrangeira para garantir integridade referencial.
+     *   - A chave estrangeira 'project_databases_ibfk_2' conecta 'id_database' à tabela 'data_base', 
+     *     com atualização e exclusão em cascata.
+     *   - A chave estrangeira 'project_databases_ibfk_1' conecta 'id_project' à tabela 'project', 
+     *     também com atualização e exclusão em cascata.
      */
     public function up()
     {

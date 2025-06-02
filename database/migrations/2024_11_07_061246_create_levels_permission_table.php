@@ -6,8 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'level_permission', que faz a associação entre níveis (levels) e permissões (permissions).
+     *
+     * Métodos utilizados:
+     * - Schema::create(): Cria uma nova tabela no banco de dados.
+     * - $table->integer(): Define uma coluna do tipo inteiro.
+     * - $table->unsignedBigInteger(): Define uma coluna do tipo inteiro grande sem sinal.
+     * - $table->foreign(): Define uma chave estrangeira para garantir integridade referencial.
+     * - onDelete('cascade'): Garante que, ao deletar um registro relacionado, os registros associados também sejam removidos.
+     * - $table->primary(): Define uma chave primária composta para a tabela.
+     *
+     * Esta migration garante que cada combinação de nível e permissão seja única e mantém a integridade referencial entre as tabelas 'levels' e 'permissions'.
      */
     public function up()
     {

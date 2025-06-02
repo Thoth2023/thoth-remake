@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'question_extraction' no banco de dados.
      *
-     * @return void
+     * Campos:
+     * - id_de: inteiro, chave primária auto-incrementada. Identificador único da extração de questão.
+     * - id: string. Identificador da questão extraída.
+     * - description: string. Descrição da questão extraída.
+     * - type: inteiro, indexado. Tipo da questão extraída (pode representar categorias ou classificações).
+     * - id_project: inteiro, indexado. Identificador do projeto ao qual a questão extraída pertence.
      */
     public function up()
     {

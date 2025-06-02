@@ -6,10 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'question_quality'.
      *
-     * @return void
+     * Campos:
+     * - id_qa: inteiro, chave primária auto-incrementada. Identificador único da qualidade da questão.
+     * - id: string. Identificador da qualidade da questão (pode ser um código ou slug).
+     * - description: string. Descrição textual da qualidade da questão.
+     * - weight: float(10,0). Peso atribuído à qualidade da questão, utilizado para cálculos ou avaliações.
+     * - min_to_app: inteiro, opcional (nullable). Valor mínimo para aplicação da qualidade; possui índice para otimizar buscas. 
+     * - id_project: inteiro. Identificador do projeto relacionado; possui índice para otimizar buscas.
      */
     public function up()
     {

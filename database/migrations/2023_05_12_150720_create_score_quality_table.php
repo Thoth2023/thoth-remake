@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'score_quality' para armazenar informações relacionadas à qualidade de pontuação.
      *
-     * @return void
+     * Campos:
+     * - id_score: Identificador único da pontuação (chave primária, auto-incremento).
+     * - score_rule: Regra utilizada para calcular ou atribuir a pontuação.
+     * - description: Descrição detalhada da regra ou do critério de pontuação.
+     * - score: Valor numérico da pontuação atribuída.
+     * - id_qa: Identificador relacionado à tabela de qualidade (provavelmente uma chave estrangeira), indexado para otimizar buscas.
      */
     public function up()
     {

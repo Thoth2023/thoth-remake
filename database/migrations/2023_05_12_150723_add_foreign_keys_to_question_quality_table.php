@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'question_quality'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_project: Adiciona uma chave estrangeira referenciando o campo 'id_project' da tabela 'project'.
+     *   - Atualizações e deleções em 'project' são propagadas em cascata para 'question_quality'.
+     * - min_to_app: Adiciona uma chave estrangeira referenciando o campo 'id_score' da tabela 'score_quality'.
+     *   - Atualizações e deleções em 'score_quality' definem o valor como NULL em 'question_quality'.
+     *
+     * Funções:
+     * - up(): Aplica as alterações na tabela, criando as chaves estrangeiras conforme descrito acima.
      */
     public function up()
     {

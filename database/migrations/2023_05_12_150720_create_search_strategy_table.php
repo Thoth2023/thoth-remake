@@ -6,10 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'search_strategy'.
      *
-     * @return void
+     * Campos:
+     * - id_search_strategy: inteiro, chave primária auto-incrementada. Identificador único da estratégia de busca.
+     * - description: texto. Descrição detalhada da estratégia de busca.
+     * - id_project: inteiro, indexado. Referência ao projeto associado à estratégia de busca.
      */
     public function up()
     {

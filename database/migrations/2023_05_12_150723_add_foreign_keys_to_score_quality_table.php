@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chave estrangeira à tabela 'score_quality'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_qa: Campo que receberá a chave estrangeira, referenciando o campo 'id_qa' da tabela 'question_quality'.
+     *
+     * Funções:
+     * - up(): Adiciona a restrição de chave estrangeira 'score_quality_ibfk_1' ao campo 'id_qa', 
+     *         referenciando 'id_qa' na tabela 'question_quality'. Define as ações ON UPDATE e ON DELETE como CASCADE.
      */
     public function up()
     {

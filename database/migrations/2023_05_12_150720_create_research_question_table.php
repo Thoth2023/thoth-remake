@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'research_question'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'research_question', que armazena perguntas de pesquisa
+     * associadas a um determinado projeto.
+     * Campos:
+     * - id_research_question: Chave primária, auto-incremento.
+     * - id: Identificador único da pergunta de pesquisa.
+     * - description: Descrição da pergunta de pesquisa.
+     * - id_project: Referência ao projeto associado (com índice).
      */
     public function up()
     {

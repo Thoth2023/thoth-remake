@@ -6,10 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'papers_qa_answer'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_question: Cria uma chave estrangeira (papers_qa_answer_ibfk_3) referenciando o campo 'id_qa' da tabela 'question_quality'.
+     *   - Atualizações e deleções em 'question_quality' são propagadas em cascata.
+     * - id_answer: Cria uma chave estrangeira (papers_qa_answer_ibfk_2) referenciando o campo 'id_score' da tabela 'score_quality'.
+     *   - Não há ação definida para update/delete.
+     * - id_paper: Cria uma chave estrangeira (papers_qa_answer_ibfk_1) referenciando o campo 'id_paper' da tabela 'papers'.
+     *   - Atualizações e deleções em 'papers' são propagadas em cascata.
+     *
+     * Funções:
+     * - up(): Adiciona as chaves estrangeiras acima à tabela 'papers_qa_answer', garantindo integridade referencial entre as tabelas relacionadas.
      */
     public function up()
     {

@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'evaluation_ex_txt'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'evaluation_ex_txt', que armazena textos de avaliação
+     * associados a papéis e questões de avaliação.
+     *
+     * Campos:
+     * - id_ev_txt: Identificador único do texto de avaliação (chave primária, auto-incremento).
+     * - id_paper: Referência ao papel associado (indexado).
+     * - id_qe: Referência à questão de avaliação associada (indexada).
+     * - text: Texto da avaliação.
      */
     public function up()
     {

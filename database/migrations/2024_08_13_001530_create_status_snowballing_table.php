@@ -6,8 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'status_snowballing'.
+     *
+     * Métodos utilizados:
+     * - up(): Cria a tabela 'status_snowballing' com as seguintes colunas:
+     *   - id(): Chave primária auto-incrementável.
+     *   - string('description'): Campo para armazenar a descrição do status.
+     *   - timestamps(): Cria os campos 'created_at' e 'updated_at' para controle de data/hora.
      */
     public function up(): void
     {

@@ -6,10 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'synonym' no banco de dados.
      *
-     * @return void
+     * Campos:
+     * - id_synonym (integer, auto-incremento): Identificador único do sinônimo.
+     * - description (string): Descrição ou texto do sinônimo.
+     * - id_term (integer, indexado): Referência ao termo principal ao qual o sinônimo está associado.
      */
     public function up()
     {

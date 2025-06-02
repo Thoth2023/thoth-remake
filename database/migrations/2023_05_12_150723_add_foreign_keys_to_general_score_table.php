@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chave estrangeira à tabela 'general_score'.
      *
-     * @return void
+     * Esta migration adiciona uma restrição de chave estrangeira ao campo 'id_project' da tabela 'general_score',
+     * referenciando o campo 'id_project' da tabela 'project'. A restrição é nomeada como 'general_score_ibfk_1'.
+     * 
+     * - onUpdate('CASCADE'): Atualizações no campo referenciado em 'project' serão refletidas em 'general_score'.
+     * - onDelete('CASCADE'): Exclusões no campo referenciado em 'project' resultarão na exclusão dos registros relacionados em 'general_score'.
+     *
+     * Funções:
+     * - up(): Aplica a adição da chave estrangeira à tabela 'general_score'.
      */
     public function up()
     {

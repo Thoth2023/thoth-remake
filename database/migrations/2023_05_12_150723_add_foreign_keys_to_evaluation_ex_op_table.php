@@ -6,10 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'evaluation_ex_op'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_qe: Referencia o campo 'id_de' da tabela 'question_extraction'. 
+     *   - Restrição: 'evaluation_ex_op_ibfk_3'
+     *   - Ações: CASCADE em update e delete.
+     *
+     * - id_paper: Referencia o campo 'id_paper' da tabela 'papers'.
+     *   - Restrição: 'evaluation_ex_op_ibfk_2'
+     *   - Ações: CASCADE em update e delete.
+     *
+     * - id_option: Referencia o campo 'id_option' da tabela 'options_extraction'.
+     *   - Restrição: 'evaluation_ex_op_ibfk_1'
+     *   - Ações: CASCADE em update e delete.
+     *
+     * Funções:
+     * - up(): Adiciona as restrições de chave estrangeira acima à tabela 'evaluation_ex_op'.
      */
     public function up()
     {

@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Cria a tabela 'keyword' no banco de dados.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'keyword', que armazena palavras-chave associadas a projetos.
+     *
+     * Campos:
+     * - id_keyword: Identificador único da palavra-chave (chave primária, auto-incremento).
+     * - description: Descrição da palavra-chave.
+     * - id_project: Referência ao projeto relacionado (indexado).
      */
     public function up()
     {

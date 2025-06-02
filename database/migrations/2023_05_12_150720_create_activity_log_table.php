@@ -6,10 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'activity_log'.
      *
-     * @return void
+     * Esta tabela armazena registros de atividades dos usuários no sistema,
+     * incluindo o usuário responsável, o módulo relacionado, a descrição da atividade,
+     * e, opcionalmente, o projeto associado. Também inclui timestamps de criação e atualização.
+     *
+     * Campos:
+     * - id_log: Identificador único da atividade (chave primária).
+     * - id_user: Referência ao usuário que realizou a atividade.
+     * - id_module: Referência ao módulo relacionado à atividade.
+     * - activity: Descrição da atividade realizada.
+     * - id_project: (Opcional) Referência ao projeto relacionado à atividade.
+     * - created_at / updated_at: Timestamps de criação e atualização do registro.
      */
     public function up()
     {

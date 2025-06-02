@@ -6,10 +6,43 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para atualizar as chaves estrangeiras de várias tabelas, alterando o comportamento de deleção para RESTRICT ou CASCADE conforme necessário.
      *
-     * @return void
+     * Esta migration realiza as seguintes operações:
+     * - Remove as constraints de chave estrangeira existentes em diversas tabelas.
+     * - Recria as constraints com novos comportamentos de deleção (onDelete) e atualização (onUpdate).
+     * - Garante maior integridade referencial, impedindo deleções acidentais em tabelas relacionadas.
+     *
+     * Métodos utilizados:
+     * - up(): Executa as alterações nas tabelas, removendo e recriando as foreign keys.
+     *
+     * Detalhamento de cada Schema::table:
+     *
+     * 1. papers
+     *    - Remove as foreign keys existentes ('papers_ibfk_1', 'papers_ibfk_3', 'papers_ibfk_4', 'papers_ibfk_5', 'papers_ibfk_6', 'papers_ibfk_7', 'papers_ibfk_8').
+     *    - Recria as foreign keys, definindo onDelete('RESTRICT') para a maioria das relações, exceto 'id_bib', que utiliza onDelete('CASCADE').
+     *    - Garante que registros relacionados não possam ser deletados se existirem dependências, exceto para 'id_bib', onde a deleção é em cascata.
+     *
+     * 2. papers_qa
+     *    - Remove as foreign keys existentes ('papers_qa_ibfk_1', 'papers_qa_ibfk_2', 'papers_qa_ibfk_3', 'papers_qa_ibfk_4').
+     *    - Recria as foreign keys, utilizando onDelete('RESTRICT') para 'id_gen_score' e 'id_status', e onDelete('CASCADE') para 'id_paper' e 'id_member'.
+     *    - Protege a integridade dos dados, permitindo deleção em cascata apenas onde apropriado.
+     *
+     * 3. evaluation_qa
+     *    - Remove as foreign keys existentes ('evaluation_qa_ibfk_1', 'evaluation_qa_ibfk_2', 'evaluation_qa_ibfk_3', 'evaluation_qa_ibfk_4').
+     *    - Recria as foreign keys, utilizando onDelete('RESTRICT') para 'id_score_qa' e 'id_qa', e onDelete('CASCADE') para 'id_paper' e 'id_member'.
+     *    - Garante que avaliações de QA não sejam deletadas se existirem dependências, exceto para papéis e membros, onde a deleção é em cascata.
+     *
+     * 4. papers_selection
+     *    - Remove as foreign keys existentes ('papers_selection_ibfk_1', 'papers_selection_ibfk_2', 'papers_selection_ibfk_3').
+     *    - Recria as foreign keys, utilizando onDelete('RESTRICT') para 'id_status' e onDelete('CASCADE') para 'id_paper' e 'id_member'.
+     *    - Assegura que a seleção de papers só seja removida em cascata para papéis e membros, restringindo para status.
+     *
+     * Observação:
+     * - O uso de onUpdate('CASCADE') em todas as foreign keys garante que alterações nos IDs das tabelas referenciadas sejam propagadas automaticamente.
+     * - O padrão RESTRICT impede a deleção de registros referenciados, aumentando a segurança dos dados.
      */
     public function up()
     {

@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'study_type' no banco de dados.
      *
-     * @return void
+     * Campos:
+     * - id_study_type (integer, auto-incremento, chave primária): Identificador único do tipo de estudo.
+     * - description (string): Descrição do tipo de estudo.
      */
     public function up()
     {

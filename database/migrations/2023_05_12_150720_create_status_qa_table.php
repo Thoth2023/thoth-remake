@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Cria a tabela 'status_qa' para armazenar os diferentes status de QA (Quality Assurance).
      *
-     * @return void
+     * Campos:
+     * - id_status (integer, auto-incremento): Identificador único do status.
+     * - status (string): Nome ou descrição do status de QA.
      */
     public function up()
     {

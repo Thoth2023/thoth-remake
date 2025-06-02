@@ -6,10 +6,44 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'papers'.
      *
-     * @return void
+     * Campos:
+     * - id_paper: (integer, auto-increment) Identificador único do paper.
+     * - id_bib: (integer, indexado) Referência à tabela de bibliografias.
+     * - title: (string) Título do paper.
+     * - author: (string) Autor(es) do paper.
+     * - book_title: (string) Título do livro ou publicação.
+     * - volume: (string) Volume da publicação.
+     * - pages: (string) Páginas do paper.
+     * - num_pages: (string) Número total de páginas.
+     * - abstract: (text) Resumo do paper.
+     * - keywords: (text) Palavras-chave associadas ao paper.
+     * - doi: (string) Identificador DOI do paper.
+     * - journal: (string) Nome do periódico.
+     * - issn: (string) ISSN do periódico.
+     * - location: (string) Local de publicação.
+     * - isbn: (string) ISBN do livro.
+     * - address: (string) Endereço da publicação.
+     * - type: (string) Tipo de publicação (ex: artigo, capítulo, etc).
+     * - bib_key: (string) Chave de referência bibliográfica.
+     * - url: (string) URL para acesso ao paper.
+     * - publisher: (string) Editora responsável pela publicação.
+     * - year: (string) Ano de publicação.
+     * - added_at: (timestamp) Data/hora de inserção do registro.
+     * - update_at: (timestamp) Data/hora da última atualização do registro.
+     * - data_base: (integer, indexado) Identificador do banco de dados de origem.
+     * - id: (integer) Campo genérico de identificação.
+     * - status_selection: (integer, indexado, default 3) Status do processo de seleção.
+     * - check_status_selection: (boolean, default false) Indica se o status de seleção foi verificado.
+     * - status_qa: (integer, indexado) Status do processo de quality assurance.
+     * - id_gen_score: (integer, indexado) Identificador da pontuação geral.
+     * - check_qa: (boolean) Indica se o quality assurance foi verificado.
+     * - score: (float, precisão 10, escala 0) Pontuação atribuída ao paper.
+     * - status_extraction: (integer, indexado, default 2) Status do processo de extração.
+     * - note: (text) Notas adicionais sobre o paper.
      */
     public function up()
     {

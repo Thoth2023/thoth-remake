@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'project_study_types'.
      *
-     * @return void
+     * Campos afetados:
+     * - id_project: Referência à tabela 'project', com atualização e remoção em cascata.
+     * - id_study_type: Referência à tabela 'study_type', com atualização e remoção em cascata.
+     *
+     * Funções:
+     * - up(): Adiciona as restrições de chave estrangeira para garantir integridade referencial entre
+     *   'project_study_types', 'project' e 'study_type'. As ações 'CASCADE' garantem que alterações ou remoções
+     *   nas tabelas referenciadas sejam refletidas automaticamente nesta tabela.
      */
     public function up()
     {

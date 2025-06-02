@@ -6,8 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar colunas de timestamps (created_at e updated_at) à tabela 'levels'.
+     *
+     * Métodos utilizados:
+     * - up(): Aplica a alteração na tabela, adicionando as colunas de timestamps.
+     *   - Schema::table(): Modifica a estrutura da tabela existente.
+     *   - $table->timestamps(): Adiciona as colunas 'created_at' e 'updated_at' do tipo timestamp.
      */
     public function up(): void
     {

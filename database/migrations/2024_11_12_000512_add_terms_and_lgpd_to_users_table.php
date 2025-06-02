@@ -6,8 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Migration para adicionar o campo 'terms_and_lgpd' à tabela 'users'.
+     *
+     * Esta migration adiciona uma nova coluna booleana chamada 'terms_and_lgpd' à tabela 'users',
+     * que indica se o usuário aceitou os termos de uso e a LGPD (Lei Geral de Proteção de Dados).
+     *
+     * Métodos:
+     * - up(): Aplica a alteração na tabela, adicionando a coluna 'terms_and_lgpd' com valor padrão 'false'.
+     * - down(): (Normalmente utilizado para reverter a migration, removendo a coluna adicionada.)
      */
     public function up()
     {

@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'evaluation_ex_op'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'evaluation_ex_op', que armazena informações
+     * sobre as opções de avaliação de exercícios.
+     *
+     * Campos:
+     * - ev_ex_op: Identificador único do registro (chave primária, auto-incremento).
+     * - id_paper: Referência ao papel associado (indexado).
+     * - id_qe: Referência à questão de avaliação (indexada).
+     * - id_option: Referência à opção associada (pode ser nula, indexada).
      */
     public function up()
     {

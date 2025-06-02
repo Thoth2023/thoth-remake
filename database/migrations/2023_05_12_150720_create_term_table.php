@@ -6,10 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+  
     /**
-     * Run the migrations.
+     * Cria a tabela 'term' no banco de dados.
      *
-     * @return void
+     * Campos:
+     * - id_term (integer, auto incremento): Identificador único do termo.
+     * - description (string): Descrição do termo.
+     * - id_project (integer, indexado): Referência ao projeto associado ao termo.
      */
     public function up()
     {

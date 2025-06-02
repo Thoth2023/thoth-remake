@@ -6,10 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'domain'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'domain', que armazena domínios relacionados a projetos.
+     * Campos:
+     * - id_domain: identificador único do domínio (chave primária, auto-incremento).
+     * - description: descrição do domínio.
+     * - id_project: referência ao projeto associado (com índice para otimizar buscas).
      */
     public function up()
     {

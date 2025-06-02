@@ -6,10 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar a coluna 'status_snowballing' à tabela 'papers'.
      *
-     * @return void
+     * Esta migration realiza as seguintes operações:
+     * - Adiciona a coluna 'status_snowballing' do tipo unsignedBigInteger à tabela 'papers',
+     *   posicionando-a após a coluna 'status_extraction' e definindo o valor padrão como 4.
+     * - Cria uma chave estrangeira para 'status_snowballing', referenciando a coluna 'id'
+     *   da tabela 'status_snowballing', com deleção em cascata.
+     *
+     * Métodos utilizados:
+     * - Schema::table(): Modifica a estrutura de uma tabela existente.
+     * - $table->unsignedBigInteger(): Cria uma nova coluna do tipo unsigned big integer.
+     * - $table->default(): Define um valor padrão para a coluna.
+     * - $table->after(): Especifica a posição da nova coluna em relação às existentes.
+     * - $table->foreign(): Cria uma chave estrangeira para a coluna especificada.
+     * - references(): Define a coluna referenciada na tabela estrangeira.
+     * - on(): Especifica a tabela estrangeira.
+     * - onDelete('cascade'): Define que, ao deletar o registro referenciado, os registros relacionados também serão deletados.
      */
     public function up()
     {

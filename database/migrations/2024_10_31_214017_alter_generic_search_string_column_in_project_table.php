@@ -6,8 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para alterar a coluna 'generic_search_string' na tabela 'project'.
+     *
+     * Esta migration modifica a coluna 'generic_search_string' para permitir valores nulos (nullable)
+     * e define seu tamanho máximo para 500 caracteres.
+     *
+     * Métodos utilizados:
+     * - Schema::table(): Permite modificar a estrutura de uma tabela existente no banco de dados.
+     * - $table->string(): Altera o tipo da coluna para string (VARCHAR) com tamanho especificado.
+     * - nullable(): Permite que a coluna aceite valores nulos.
+     * - change(): Aplica as alterações na coluna existente.
      */
     public function up(): void
     {

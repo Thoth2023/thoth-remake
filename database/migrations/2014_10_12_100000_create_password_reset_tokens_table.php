@@ -6,8 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
-     * Run the migrations.
+     * Cria a tabela 'password_reset_tokens' para armazenar tokens de redefinição de senha.
+     *
+     * Estrutura da tabela:
+     * - email: chave primária, identifica o usuário que solicitou a redefinição.
+     * - token: token gerado para a redefinição de senha.
+     * - created_at: data e hora em que o token foi criado, pode ser nulo.
+     *
+     * Esta migration é utilizada para gerenciar o processo de recuperação de senha dos usuários.
      */
     public function up(): void
     {

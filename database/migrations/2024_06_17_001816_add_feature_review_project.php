@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+   
     /**
-     * Run the migrations.
+     * Migration para adicionar a coluna 'feature_review' na tabela 'project'.
      *
-     * @return void
+     * Métodos:
+     * - up(): Aplica a migration, adicionando uma nova coluna do tipo string chamada 'feature_review' na tabela 'project'.
      */
     public function up(): void
     {

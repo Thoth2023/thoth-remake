@@ -7,9 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'general_score'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'general_score', que armazena pontuações gerais
+     * associadas a projetos, incluindo um intervalo de pontuação e uma descrição.
+     *
+     * Campos:
+     * - id_general_score: Identificador único da pontuação geral (chave primária, auto-incremento).
+     * - start: Valor inicial do intervalo de pontuação.
+     * - end: Valor final do intervalo de pontuação.
+     * - description: Descrição da pontuação geral.
+     * - id_project: Referência ao projeto relacionado (indexado).
      */
     public function up()
     {

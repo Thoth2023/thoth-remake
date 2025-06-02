@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+  
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'data_base'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'data_base', que armazena informações sobre bases de dados,
+     * incluindo um identificador único, nome, link e estado atual da base.
+     *
+     * Campos:
+     * - id_database: Identificador único da base de dados (chave primária, auto-incremento).
+     * - name: Nome da base de dados.
+     * - link: URL ou referência para a base de dados.
+     * - state: Estado da base de dados (padrão: 'proposed').
      */
     public function up()
     {

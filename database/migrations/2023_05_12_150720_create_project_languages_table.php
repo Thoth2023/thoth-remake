@@ -6,10 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Run the migrations to create the 'project_languages' table.
      *
-     * @return void
+     * This table establishes a relationship between projects and languages,
+     * allowing each project to be associated with multiple languages.
+     * 
+     * Columns:
+     * - id_project_lang: Primary key, auto-increment integer.
+     * - id_project: Foreign key referencing the project, indexed for performance.
+     * - id_language: Foreign key referencing the language, indexed for performance.
      */
     public function up()
     {

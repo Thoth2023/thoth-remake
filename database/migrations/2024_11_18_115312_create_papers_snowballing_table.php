@@ -6,8 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'papers_snowballing'.
+     *
+     * Esta migration cria a tabela 'papers_snowballing', utilizada para armazenar informações sobre artigos relacionados ao processo de snowballing em revisões sistemáticas.
+     * 
+     * Campos principais:
+     * - id: Identificador único da tabela.
+     * - paper_reference_id: Referência opcional para o id_paper da tabela 'papers'. Possui chave estrangeira com deleção em cascata para null.
+     * - parent_snowballing_id: Referência opcional para outro registro da própria tabela 'papers_snowballing', permitindo relacionamentos hierárquicos. Chave estrangeira adicionada separadamente com deleção em cascata.
+     * - doi, title, authors, year, abstract, keywords, type, bib_key, url, type_snowballing: Campos para armazenar metadados do artigo.
+     * - is_duplicate: Indica se o artigo é duplicado.
+     * - is_relevant: Indica se o artigo é relevante.
+     * - timestamps: Campos automáticos de criação e atualização.
+     *
+     * Métodos utilizados:
+     * - Schema::create(): Cria a tabela especificada com as colunas e restrições definidas.
+     * - $table->id(): Cria uma coluna de chave primária auto-incrementada.
+     * - $table->integer(), $table->unsignedBigInteger(), $table->string(), $table->year(), $table->text(), $table->boolean(): Definem os tipos de colunas da tabela.
+     * - $table->foreign()->references()->on()->onDelete(): Define chaves estrangeiras e ações de deleção.
+     * - Schema::table(): Permite modificar a tabela após sua criação, neste caso para adicionar uma chave estrangeira auto-relacionada.
      */
     public function up()
     {

@@ -6,10 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Adiciona uma chave estrangeira à tabela 'bib_upload'.
      *
-     * @return void
+     * Esta migration cria uma relação entre o campo 'id_project_database' da tabela 'bib_upload'
+     * e o campo 'id_project_database' da tabela 'project_databases'. A relação é configurada para
+     * atualizar e deletar em cascata, garantindo integridade referencial entre as tabelas.
+     *
+     * Campos envolvidos:
+     * - bib_upload.id_project_database: Referência ao banco de dados do projeto associado ao upload.
+     * - project_databases.id_project_database: Identificador único do banco de dados do projeto.
+     *
+     * Restrições:
+     * - Ao atualizar ou deletar um registro em 'project_databases', as alterações são propagadas para 'bib_upload'.
      */
     public function up()
     {

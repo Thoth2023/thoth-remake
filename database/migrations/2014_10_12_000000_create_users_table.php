@@ -11,6 +11,20 @@ return new class extends Migration
      *
      * @return void
      */
+
+    /**
+     * Cria a tabela 'users' no banco de dados.
+     *
+     * Esta migration define a estrutura da tabela de usuários, incluindo campos para:
+     * - username: Nome de usuário único.
+     * - firstname e lastname: Nome e sobrenome do usuário (opcionais).
+     * - email: Endereço de e-mail único, com verificação de e-mail opcional.
+     * - password: Senha do usuário.
+     * - institution, lattes_link, address, city, country, postal, about, occupation: 
+     *   Informações adicionais e opcionais sobre o usuário.
+     * - rememberToken: Token para autenticação "lembrar-me".
+     * - timestamps: Campos de criação e atualização automática.
+     */
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {

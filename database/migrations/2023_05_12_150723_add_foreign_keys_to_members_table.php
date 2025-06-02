@@ -6,10 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    
     /**
-     * Run the migrations.
+     * Migration para adicionar chaves estrangeiras à tabela 'members'.
      *
-     * @return void
+     * Esta migration define as seguintes relações:
+     * - O campo 'level' da tabela 'members' referencia o campo 'id_level' da tabela 'levels'.
+     *   - Restrições: Atualização e exclusão em cascata.
+     * - O campo 'id_user' da tabela 'members' referencia o campo 'id' da tabela 'users'.
+     *   - Restrições: Atualização e exclusão em cascata.
+     * - O campo 'id_project' da tabela 'members' referencia o campo 'id_project' da tabela 'project'.
+     *   - Restrições: Atualização e exclusão em cascata.
+     *
+     * Funções:
+     * - up(): Adiciona as chaves estrangeiras à tabela 'members' conforme descrito acima.
      */
     public function up()
     {

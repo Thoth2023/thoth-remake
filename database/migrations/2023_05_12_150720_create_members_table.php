@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'members'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'members', que armazena informações sobre os membros de um projeto.
+     * Campos:
+     * - id_members: Chave primária, auto-incremento.
+     * - id_user: Referência ao usuário associado (com índice).
+     * - id_project: Referência ao projeto associado (com índice).
+     * - level: Nível do membro no projeto (com índice).
      */
     public function up()
     {

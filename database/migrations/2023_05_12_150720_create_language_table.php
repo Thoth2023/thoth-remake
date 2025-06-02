@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela 'language'.
      *
-     * @return void
+     * Esta migration define a estrutura da tabela 'language', que armazena informações sobre idiomas.
+     * Campos:
+     * - id_language: Chave primária incremental.
+     * - description: Descrição do idioma.
      */
     public function up()
     {
