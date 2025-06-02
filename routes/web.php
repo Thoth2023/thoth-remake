@@ -38,6 +38,7 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\SnowballingLookup;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
@@ -296,6 +297,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
 
+
+
+
+Route::get('/project/{projectId}/conducting/snowballing', SnowballingLookup::class)
+    ->name('project.conducting.snowballing')
+    ->middleware(['auth', Localization::class]);
 
 
 

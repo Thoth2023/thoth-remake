@@ -124,3 +124,14 @@
         </div>
     </div>
 </div>
+
+
+<!-- Snowballing com IA -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Snowballing com IA</h5>
+    </div>
+    <div class="card-body">
+        @livewire('snowballing-lookup', ['project' => $project])
+    </div>
+</div>

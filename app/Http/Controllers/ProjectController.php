@@ -87,25 +87,32 @@ class ProjectController extends Controller
 	}
 
 	/**
-	 * Display the specified project.
-	 */
-	public function show(string $idProject)
-	{
-		$project = Project::findOrFail($idProject);
+ * Display the specified project.
+ */
+public function show(string $idProject)
+{
+    $project = Project::findOrFail($idProject);
 
-		// Verificar se o usuário tem permissão para acessar o projeto
-		if (Gate::denies('access-project', $project)) {
-			return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
-		}
+    // Verificar se o usuário tem permissão para acessar o projeto
+    if (Gate::denies('access-project', $project)) {
+        return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
+    }
 
-		// Obter relação de usuários e atividades caso a permissão seja concedida
-		$users_relation = $project->users()->get();
-		$activities = Activity::where('id_project', $idProject)
-			->orderBy('created_at', 'DESC')
-			->get();
+    // Obter relação de usuários e atividades caso a permissão seja concedida
+    $users_relation = $project->users()->get();
+    $activities = Activity::where('id_project', $idProject)
+        ->orderBy('created_at', 'DESC')
+        ->get();
 
-		return view('projects.show', compact('project', 'users_relation', 'activities'));
-	}
+    // Adiciona valor padrão para evitar erro de variável indefinida
+    $progress = [
+        'overall' => 0,
+        'import' => 0,
+    ];
+
+    return view('projects.show', compact('project', 'users_relation', 'activities', 'progress'));
+}
+
 
 
 	/**

@@ -18,6 +18,13 @@
             'icon' => 'fas fa-tasks',
             'label' => __("project/header.conducting"),
             'route' => 'project.conducting.index',
+
+'snowballing' => [
+    'icon' => 'fas fa-search',
+    'label' => 'Snowballing',
+    'route' => 'snowballing.lookup',
+],
+
         ],
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
