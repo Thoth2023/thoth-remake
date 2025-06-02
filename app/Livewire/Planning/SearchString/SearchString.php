@@ -14,25 +14,45 @@ use App\Models\ProjectDatabase;
 
 class SearchString extends Component
 {
+    // caminho para as mensagens de toast
     private $toastMessages = 'project/planning.search-string.livewire.toasts';
+
+    // Projeto atual
     public $currentProject;
+
+    // String de busca atual
     public $currentSearchString;
+
+    // Todas as strings de busca do projeto
     public $strings = [];
+
+    // Descrição genérica da string de busca
     public $genericDescription;
+
+    // ID da string de busca atual
     public $searchStringId;
+
+    // Lista de bases de dados
     public $databases = [];
 
+    // Lista de descrições por base de dados
     public $descriptions = [];
 
+    // Descrição da string de busca atual
+    public $description;
+
+    // Lista de termos do projeto
+    public $terms;
+
     /**
-     * Form state.
+     * Estado do formulário.
      */
     public $form = [
         'isEditing' => false,
     ];
 
     /**
-     * Validation rules.
+     * Regras de validação dos campos do formulário.
      */
     protected function rules()
     {
@@ -43,7 +63,7 @@ class SearchString extends Component
     }
 
     /**
-     * Custom translation messages for the validation rules.
+     * Mensagens traduzidas personalizadas para os toasts.
      */
     public function translate()
     {
@@ -57,7 +77,7 @@ class SearchString extends Component
     }
 
     /**
-     * Custom error messages for the validation rules.
+     * Mensagens personalizadas de erro de validação.
      */
     protected function messages()
     {
@@ -69,34 +89,38 @@ class SearchString extends Component
     }
 
     /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
+     * Listeners que atualizam as bases de dados em tempo real.
      */
-
     protected $listeners = ['databaseAdded' => 'refreshDatabases', 'databaseDeleted' => 'refreshDatabases'];
 
+    /**
+     * Método executado ao montar o componente.
+     * Busca o projeto atual e carrega os dados associados.
+     */
     public function mount()
     {
-        $projectId = request()->segment(2);
+        $projectId = request()->segment(2); // Obtém ID do projeto da URL
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->currentSearchString = null;
 
+        // Carrega bases de dados e strings existentes
         $this->loadProjectDatabases();
 
+        // Busca as strings de busca associadas às bases
         $projectDatabases = ProjectDatabases::where([
             'id_project' => $this->currentProject->id_project
         ])->get();
+
         $this->genericDescription = $this->currentProject->generic_search_string;
 
+        // Popula as descrições por índice de base
         foreach ($projectDatabases as $index => $database) {
             $this->descriptions[$index] = $database->search_string;
         }
-
-
     }
 
     /**
-     * Reset the fields to the default values.
+     * Limpa os campos do formulário.
      */
     public function resetFields()
     {
@@ -106,18 +130,19 @@ class SearchString extends Component
     }
 
     /**
-     * Update the items.
+     * Atualiza a lista de strings de busca do projeto.
      */
-
     public function updateSearchStrings()
     {
         $this->strings = SearchStringModel::where(
             'id_project',
             $this->currentProject->id_project
         )->get();
-
     }
 
+    /**
+     * Carrega as bases de dados do projeto e suas descrições.
+     */
     public function loadProjectDatabases()
     {
         $projectDatabases = ProjectDatabases::where('id_project', $this->currentProject->id_project)->get();
@@ -128,17 +153,18 @@ class SearchString extends Component
         }
     }
 
-    // Method to refresh databases when the event is received
+    /**
+     * Atualiza as descrições ao receber eventos de adição ou remoção de bases.
+     */
     public function refreshDatabases($projectId)
     {
         if ($this->currentProject->id_project == $projectId) {
             $this->loadProjectDatabases();
-
         }
     }
 
     /**
-     * Dispatch a toast message to the view.
+     * Exibe um toast na interface com base em tipo e mensagem.
      */
     public function toast(string $message, string $type)
     {
@@ -146,7 +172,7 @@ class SearchString extends Component
     }
 
     /**
-     * Fill the form fields with the given data.
+     * Preenche os campos para edição de uma string de busca.
      */
     public function edit(string $searchStringId)
     {
@@ -155,13 +181,14 @@ class SearchString extends Component
     }
 
     /**
-     * Delete an item.
+     * Exclui uma string de busca e registra a atividade.
      */
     public function delete(string $searchStringId)
     {
         try {
             $currentSearchString = SearchStringModel::findOrFail($searchStringId);
             $currentSearchString->delete();
+
             Log::logActivity(
                 action: 'Deleted the search string',
                 description: $currentSearchString->description,
@@ -183,6 +210,9 @@ class SearchString extends Component
         }
     }
 
+    /**
+     * Gera uma string de busca genérica baseada nos termos e sinônimos.
+     */
     public function generateGenericSearchString()
     {
         $this->terms = Term::where('id_project', $this->currentProject->id_project)
@@ -198,6 +228,9 @@ class SearchString extends Component
         return $this->genericDescription;
     }
 
+    /**
+     * Gera a string de busca formatada para uma base de dados específica.
+     */
     public function generateSearchString($databaseName)
     {
         $this->terms = Term::where('id_project', $this->currentProject->id_project)
@@ -209,6 +242,7 @@ class SearchString extends Component
             return '("' . implode('" OR "', $allTerms) . '")';
         });
 
+        // Formata de acordo com o banco de dados selecionado
         switch (strtoupper($databaseName)) {
             case 'SCOPUS':
                 $searchString = "TITLE-ABS-KEY " . implode(' AND ', $formattedTerms->toArray());
@@ -225,6 +259,9 @@ class SearchString extends Component
         return $searchString;
     }
 
+    /**
+     * Formata e atualiza a descrição da string de busca para um índice de base.
+     */
     public function formatSearchStringByDatabase($index, $name)
     {
         $this->terms = Term::where('id_project', $this->currentProject->id_project)
@@ -235,12 +272,16 @@ class SearchString extends Component
         $this->descriptions[$index] = $generatedString;
     }
 
+    /**
+     * Gera todas as strings de busca para todas as bases do projeto.
+     */
     public function generateAllSearchStrings()
     {
         foreach ($this->currentProject->databases as $index => $database) {
             $this->formatSearchStringByDatabase($index, $database->name);
             $this->saveSearchString($database->id_database, $index);
         }
+
         $this->generateGenericSearchString();
         $this->saveGenericSearchString();
 
@@ -250,15 +291,22 @@ class SearchString extends Component
         );
     }
 
+    /**
+     * Salva a string de busca genérica no projeto.
+     */
     public function saveGenericSearchString()
     {
         $this->currentProject->update(['generic_search_string' => $this->genericDescription]);
+
         $this->toast(
             message: __($this->toastMessages . '.updated-string'),
             type: 'success'
         );
     }
 
+    /**
+     * Salva a string de busca individual de uma base.
+     */
     public function saveSearchString($id_database, $index)
     {
         ProjectDatabase::where('id_project', $this->currentProject->id_project)
@@ -270,8 +318,9 @@ class SearchString extends Component
             type: 'success'
         );
     }
+
     /**
-     * Render the component.
+     * Renderiza a view associada ao componente Livewire.
      */
     public function render()
     {
