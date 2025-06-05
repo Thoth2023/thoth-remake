@@ -10,4 +10,8 @@
         toasty({ message, type });
     });
 </script>
+
+<h2 class="text-xl font-semibold mt-10 mb-4">📝 Minhas Anotações</h2>
+@livewire('notes')
+
 @endscript

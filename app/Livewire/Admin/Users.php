@@ -26,7 +26,6 @@ class Users extends Component
         'active' => 'boolean',
     ];
 
-
     public function openModal()
     {
         $this->resetInputFields();
@@ -133,6 +132,7 @@ class Users extends Component
         User::find($id)->delete();
         session()->flash('message', 'Usuário deletado com sucesso!');
     }
+
     public function render()
     {
         $users = User::paginate(10);

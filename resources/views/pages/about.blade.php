@@ -1,269 +1,197 @@
 @extends("layouts.app")
 
 @section("content")
-@include("layouts.navbars.guest.navbar", ["title" => "Home"])
 
+    @include("layouts.navbars.guest.navbar", ["title" => "Início"])
 
-<div class="container mt-8 mb-3">
-    <!-- cabeçalho -->
-    <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
-        <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 w-100">
-            <div class="col-lg-6 text-center mx-auto">
-                <h1 class="text-white">{{ __("pages/about.about") }}</h1>
-                <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
+    <div class="container mt-8 mb-3">
+        <!-- Cabeçalho -->
+        <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
+            <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8" style="width: 100%">
+                <div class="col-lg-6 text-center mx-auto">
+                    <h1 class="text-white">{{ __("pages/about.about") }}</h1>
+                    <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
+                </div>
 
             </div>
         </div>
+
+        <!-- Conteúdo Principal -->
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-5">
                     <div class="card-body pt-2">
-                        <a
-                            href="#"
-                            onclick="event.preventDefault();"
-                            class="card-title h4 d-block text-darker"
-                            style="cursor: default; transition: color 0.2s;"
-                        >
-                            Thoth 2.0
-                        </a>
+                        <h4 class="card-title text-darker">Thoth 2.0</h4>
 
+                        <!-- Novas Funcionalidades -->
                         <div class="card-body pt-2">
-                            <a
-                                href="#"
-                                onclick="event.preventDefault();"
-                                class="card-title h5 d-block text-darker"
-                                style="cursor: default; transition: color 0.2s;"
-                            >
-                                {{ __("pages/about.new_features") }}
-                            </a>
-                            <ul>
-                                <li>{{ __("pages/about.recover_password") }}</li>
-                                <li>{{ __("pages/about.bug_databases") }}</li>
-                                <li>{{ __("pages/about.suggest_databases") }}</li>
-                                <li>{{ __("pages/about.new_qa") }}</li>
-                                <li>{{ __("pages/about.new_interface") }}</li>
-                                <li>{{ __("pages/about.new_framework") }}</li>
-                                <li>{{ __("pages/about.internationalization") }}</li>
-                                <li>{{ __("pages/about.usability") }}</li>
-                                <li>{{ __("pages/about.users_management") }}</li>
-                                <li>{{ __("pages/about.profile_management") }}</li>
-                                <li>{{ __("pages/about.members_invitation") }}</li>
-                                <li>{{ __("pages/about.pwa") }}</li>
-                                <li>{{ __("pages/about.snowballing") }}</li>
-                                <li>{{ __("pages/about.algolia_api") }}</li>
-                                <li>{{ __("pages/about.crossref_api") }}</li>
+
+                            <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
+
+                            <!-- Segurança -->
+                            <h6 class="mt-4 mb-2 text-muted">🔐 Segurança</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-unlock-alt me-2 text-primary"></i>{{ __("pages/about.recover_password") }}</li>
+                                <li><i class="fas fa-bug me-2 text-primary"></i>{{ __("pages/about.bug_databases") }}</li>
+                            </ul>
+
+                            <!-- Funcionalidades adicionais -->
+                            <h6 class="mt-4 mb-2 text-muted">✨ Funcionalidades adicionais</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-lightbulb me-2 text-primary"></i>{{ __("pages/about.suggest_databases") }}</li>
+                                <li><i class="fas fa-question-circle me-2 text-primary"></i>{{ __("pages/about.new_qa") }}</li>
+                                <li><i class="fas fa-paint-brush me-2 text-primary"></i>{{ __("pages/about.new_interface") }}</li>
+                                <li><i class="fas fa-code me-2 text-primary"></i>{{ __("pages/about.new_framework") }}</li>
+                            </ul>
+
+                            <!-- Internacionalização e Usabilidade -->
+                            <h6 class="mt-4 mb-2 text-muted">🌐 Internacionalização e Usabilidade</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-globe me-2 text-primary"></i>{{ __("pages/about.internationalization") }}</li>
+                                <li><i class="fas fa-mouse-pointer me-2 text-primary"></i>{{ __("pages/about.usability") }}</li>
+                            </ul>
+
+                            <!-- Gestão de usuários e convites -->
+                            <h6 class="mt-4 mb-2 text-muted">👥 Gestão de usuários e convites</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-users-cog me-2 text-primary"></i>{{ __("pages/about.users_management") }}</li>
+                                <li><i class="fas fa-id-badge me-2 text-primary"></i>{{ __("pages/about.profile_management") }}</li>
+                                <li><i class="fas fa-user-plus me-2 text-primary"></i>{{ __("pages/about.members_invitation") }}</li>
+                            </ul>
+
+                            <!-- Funcionalidades móveis e Snowballing -->
+                            <h6 class="mt-4 mb-2 text-muted">📱 Funcionalidades móveis e Snowballing</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-mobile-alt me-2 text-primary"></i>{{ __("pages/about.pwa") }}</li>
+                                <li><i class="fas fa-snowflake me-2 text-primary"></i>{{ __("pages/about.snowballing") }}</li>
+                            </ul>
+
+                            <!-- APIs e busca -->
+                            <h6 class="mt-4 mb-2 text-muted">🔎 APIs e Busca</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-search me-2 text-primary"></i>{{ __("pages/about.algolia_api") }}</li>
+                                <li><i class="fas fa-database me-2 text-primary"></i>{{ __("pages/about.crossref_api") }}</li>
                             </ul>
                         </div>
+
+                        <!-- Funcionalidades Principais -->
+                        <div class="card-body pt-2">
+                            <h5 class="card-title text-darker">{{ __("pages/about.main_features") }}</h5>
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-darker">{{ __("pages/about.manage_projects") }}</h5>
+                                            <p><i class="fas fa-tasks me-2 text-primary"></i>{{ __("pages/about.manage_projects_description") }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-darker">{{ __("pages/about.activity_view") }}</h5>
+                                            <p><i class="fas fa-history me-2 text-primary"></i>{{ __("pages/about.activity_view_description") }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-darker">{{ __("pages/about.progress_display") }}</h5>
+                                            <p><i class="fas fa-chart-line me-2 text-primary"></i>{{ __("pages/about.progress_display_description") }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="border: 1px solid #ddd; margin: 20px 0;">
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-darker">{{ __("pages/about.protocol_management") }}</h5>
+                                            <p><i class="fas fa-cogs me-2 text-primary"></i>{{ __("pages/about.protocol_management_description") }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-darker">{{ __("pages/about.study_import") }}</h5>
+                                            <p><i class="fas fa-file-import me-2 text-primary"></i>{{ __("pages/about.study_import_description") }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-darker">{{ __("pages/about.selection_of_studies") }}</h5>
+                                            <p><i class="fas fa-check-circle me-2 text-primary"></i>{{ __("pages/about.selection_of_studies_description") }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body pt-2">
-                        <a
-                            href="#"
-                            onclick="event.preventDefault();"
-                            class="card-title h5 d-block text-darker"
-                            style="cursor: default; transition: color 0.2s;"
-                        >
-                            {{ __("pages/about.development") }}
-                        </a>
-                        <p>{{ __("pages/about.development_description") }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal LGPD -->
+        <div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content modal-transparent">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="lgpdModalLabel">
+                            <i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="card-body pt-2">
-                        <a
-                            href="#"
-                            onclick="event.preventDefault();"
-                            class="card-title h5 d-block text-darker"
-                            style="cursor: default; transition: color 0.2s;"
-                        >
-                            {{ __("pages/about.open_source_project") }}
+                    <div class="modal-body">
+                        <p>{{ __("pages/terms.modal_lgpd") }}</p>
+                        <a href="/terms" class="text-decoration-none">
+                            <i class="fas fa-file-alt me-1"></i>{{ __("pages/home.terms_and_conditions") }}
                         </a>
-                        <a
-                            class="nav-link d-flex align-items-center me-2"
-                            href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE"
-                        >
-                            {{ __("pages/about.mit_license") }}
-                        </a>
-                        <a
-                            href="#"
-                            onclick="event.preventDefault();"
-                            class="card-title h6 d-block text-darker"
-                            style="cursor: default; transition: color 0.2s;"
-                        >
-                            {{ __("pages/about.technologies_used") }}
-                        </a>
-                        <ul>
-                            <li>PHP Language</li>
-                            <li>MySQL</li>
-                            <li>Git</li>
-                            <li>Laravel Framework</li>
-                            <li>Docker</li>
-                            <li>Bootstrap</li>
-                            <li>Migrations</li>
-                            <li>PHPSpreadSheet</li>
-                            <li>League/CSV</li>
-                            <li>PHPUnit</li>
-                            <li>JavaScript</li>
-                            <li>Git Actions</li>
-                        </ul>
                     </div>
-
-                    <div class="card-body pt-2">
-                        <a
-                            href="#"
-                            onclick="event.preventDefault();"
-                            class="card-title h5 d-block text-darker"
-                            style="cursor: default; transition: color 0.2s;"
-                        >
-                            {{ __("pages/about.about_the_tool") }}
-                        </a>
-                        <p>
-                            {{ __("pages/about.about_the_tool_description") }}
-                        </p>
-
-                <!-- Título da Ferramenta -->
-                <div class="card-body pt-2">
-                    <h4 class="card-title text-darker">Thoth 2.0</h4>
-                </div>
-                <!-- Novidades -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
-                    <ul>
-                        @foreach([
-                        'recover_password', 'bug_databases', 'suggest_databases', 'new_qa',
-                        'new_interface', 'new_framework', 'internationalization', 'usability',
-                        'users_management', 'profile_management', 'members_invitation', 'pwa',
-                        'snowballing', 'algolia_api', 'crossref_api'
-                        ] as $feature)
-                        <li>{{ __("pages/about.$feature") }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <!-- Desenvolvimento -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.development") }}</h5>
-                    <p>{{ __("pages/about.development_description") }}</p>
-                </div>
-
-                <!-- Código aberto e tecnologias -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.open_source_project") }}</h5>
-                    <a class="nav-link d-flex align-items-center me-2"
-                        href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE">
-                        {{ __("pages/about.mit_license") }}
-                    </a>
-                    <h6 class="card-title text-darker mt-3">{{ __("pages/about.technologies_used") }}</h6>
-                    <ul>
-                        @foreach([
-                        'PHP Language', 'MySQL', 'Git', 'Laravel Framework', 'Docker',
-                        'Bootstrap', 'Migrations', 'PHPSpreadSheet', 'League/CSV',
-                        'PHPUnit', 'JavaScript', 'Git Actions'
-                        ] as $tech)
-                        <li>{{ $tech }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <!-- Sobre a Ferramenta -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.about_the_tool") }}</h5>
-                    <p>{{ __("pages/about.about_the_tool_description") }}</p>
-
-                    <img src="/img/about/AboutTool.PNG" class="img-fluid" alt="Imagem" />
-
-                    @foreach([
-                    'cross_platform', 'automate_process', 'search_string',
-                    'management_selection', 'management_quality', 'data_generation',
-                    'graphs_tables_generation', 'report_generation'
-                    ] as $section)
-                    <h6 class="card-title text-darker mt-3">{{ __("pages/about.$section") }}</h6>
-                    <p>{{ __("pages/about.{$section}_description") }}</p>
-                    @endforeach
-
-                    <p>{{ __("pages/about.report_generation_description2") }}</p>
-                    <p>{{ __("pages/about.report_generation_description3") }}</p>
-
-                    <ul>
-                        @foreach([
-                        'multiple_member_management',
-                        'manage_projects',
-                        'activity_view',
-                        'progress_display',
-                        'protocol_management',
-                        'study_import',
-                        'selection_of_studies',
-                        'checking_duplicate_studies',
-                        'selection_ranking_information',
-                        'study_information_visualization',
-                        'status_for_each_member',
-                        'conflicts_in_selection',
-                        'resolution_of_conflicts_in_selection',
-                        'quality_assessment_of_studies',
-                        'quality_conflicts',
-                        'data_extraction',
-                        'report',
-                        'export_to_latex',
-                        'export_to_bibtex',
-                        'improvement_of_search_strings'
-                        ] as $item)
-                        <li>
-                            <h5 class="card-title text-darker">{{ __("pages/about.$item") }}</h5>
-                            <p>{{ __("pages/about.{$item}_description") }}</p>
-                        </li>
-                        @endforeach
-                    </ul>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">
+                            Entendi
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal LGPD -->
-<div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content modal-transparent">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lgpdModalLabel">
-                    <i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>{{ __("pages/terms.modal_lgpd") }}</p>
-                <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">Entendi</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
+    @push('js')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(session('show_lgpd_modal'))
+                    var lgpdModal = new bootstrap.Modal(document.getElementById('lgpdModal'));
+                    lgpdModal.show();
+                @endif
+            });
 
-@push('js')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    @if(session('show_lgpd_modal'))
-    new bootstrap.Modal(document.getElementById('lgpdModal')).show();
-    @endif
-});
-
-// Function to accept terms and LGPD
-function acceptTermsAndLgpd() {
-    fetch("{{ route('accept.lgpd') }}", {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                bootstrap.Modal.getInstance(document.getElementById('lgpdModal')).hide();
+            function acceptTermsAndLgpd() {
+                fetch("{{ route('accept.lgpd') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        var lgpdModal = bootstrap.Modal.getInstance(document.getElementById('lgpdModal'));
+                        lgpdModal.hide();
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
             }
-        })
-        .catch(error => console.error('Erro:', error));
-}
-</script>
-@endpush
+        </script>
+    @endpush
 @endsection

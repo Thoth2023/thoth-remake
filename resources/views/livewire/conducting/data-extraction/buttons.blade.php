@@ -23,5 +23,6 @@
     $wire.on('buttons', ([{ message, type }]) => {
         toasty({ message, type });
     });
+    
 </script>
 @endscript
