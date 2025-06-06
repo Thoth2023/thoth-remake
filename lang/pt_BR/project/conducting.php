@@ -12,22 +12,22 @@ return [
         'snowballing' => 'Estudos Snowballing',
         'data_extraction' => 'Extração de Dados',
     ],
-    'check' =>[
-        'domain' => 'Dados de "Domínio" não cadastrados para este projeto de revisão.',
-        'language' =>'Dados de "Linguagem" não cadastrados para este projeto de revisão.',
-        'study-types' =>'Dados de "Tipos de Estudo" não cadastrados para este projeto de revisão.',
-        'research-questions'=>'Dados de "Questões de Pesquisa" não cadastrados para este projeto de revisão.',
-        'databases'=>'Dados de "Base de Dados" não cadastrados para este projeto de revisão.',
-        'term' =>'Dados de "Termos de busca" em String de Busca não cadastrados para este projeto de revisão.',
-        'search-strategy'=>'Dados de "Estratégia de busca" não cadastrados para este projeto de revisão.',
-        'criteria'=>'Dados de "Critérios de Inclusão ou Exclusão" não cadastrados para este projeto de revisão.',
-        'general-score'=>'Dados de "Pontuação Geral/Intervalos" em Avaliação de Qualidade não cadastrados para este projeto de revisão.',
-        'cutoff'=>'Dados de "Pontuação Mínima para Aprovação" não cadastrados ou "pontuação geral" está vazio para este projeto de revisão. ',
-        'score-min'=>'Existem perguntas com "Pontuação de Qualidade Mínima para Aprovação" não definido para este projeto de revisão.',
-        'question-qa'=>'Dados de "Questões de Qualidade" não cadastrados ou "Pontuação Mínima para Aprovação" não definido para este projeto de revisão.',
-        'score-qa'=>'Dados de "Pontuação de Qualidade" não cadastrados para este projeto de revisão.',
-        'data-extraction'=>'Dados de "Questões de Extração de dados" não cadastrados para este projeto de revisão.',
-        'option-extraction'=>'Não há "Opções" cadastradas para as questões de extração de dados deste projeto de revisão.'
+    'check' => [
+        'domain' => 'Cadastre os dados de "Domínio" para este projeto de revisão.',
+        'language' => 'Cadastre os dados de "Linguagem" para este projeto de revisão.',
+        'study-types' => 'Cadastre os dados de "Tipos de Estudo" para este projeto de revisão.',
+        'research-questions' => 'Cadastre os dados de "Questões de Pesquisa" para este projeto de revisão.',
+        'databases' => 'Cadastre os dados de "Base de Dados" para este projeto de revisão.',
+        'term' => 'Cadastre os dados de "Termos de busca" na String de Busca para este projeto de revisão.',
+        'search-strategy' => 'Cadastre os dados de "Estratégia de busca" para este projeto de revisão.',
+        'criteria' => 'Cadastre os dados de "Critérios de Inclusão ou Exclusão" para este projeto de revisão.',
+        'general-score' => 'Cadastre os dados de "Pontuação Geral/Intervalos" na Avaliação de Qualidade para este projeto de revisão.',
+        'cutoff' => 'Cadastre os dados de "Pontuação Mínima para Aprovação" ou complete a "pontuação geral" para este projeto de revisão.',
+        'score-min' => 'Defina a "Pontuação de Qualidade Mínima para Aprovação" nas perguntas deste projeto de revisão.',
+        'question-qa' => 'Cadastre as "Questões de Qualidade" ou defina a "Pontuação Mínima para Aprovação" para este projeto de revisão.',
+        'score-qa' => 'Cadastre os dados de "Pontuação de Qualidade" para este projeto de revisão.',
+        'data-extraction' => 'Cadastre as "Questões de Extração de Dados" para este projeto de revisão.',
+        'option-extraction' => 'Cadastre as "Opções" das questões de extração de dados para este projeto de revisão.'
     ],
 
     'study-selection' => [
@@ -87,7 +87,7 @@ return [
             'paper-conflict'=>'Resolver Conflitos: Decisão em Grupo - Critério de I/E',
             'paper-conflict-note'=>'Nota/Justificativa',
             'paper-conflict-writer'=>'Escreva sua nota/justificativa...',
-            'sucess-decision'=>'Decisão em Grupo salva com sucesso.',
+            'success-decision'=>'Decisão em Grupo salva com sucesso.',
             'error-status'=>'Selecione sua Decisão Final',
             'last-confirmation' => 'Confirmado por',
             'confirmation-date' => 'em',
@@ -108,14 +108,14 @@ return [
                 'rejected' => 'Rejeitado',
                 'duplicated' => 'Duplicado',
                 'unclassified' => 'Unclassified',
-                'final-decision' =>'Decisão final do grupo sobre o paper?',
+                'final-decision' => 'Decisão final do grupo sobre o paper?',
             ],
-            'save'=>'Salvar',
-            'update'=>'Atualizar',
-            'confirm'=>'Confirmar',
-            'close'=>'Fechar',
-            'error'=>'Erro',
-            'success'=>'Sucesso',
+            'save' => 'Salvar',
+            'update' => 'Atualizar',
+            'confirm' => 'Confirmar',
+            'close' => 'Fechar',
+            'error' => 'Erro',
+            'success' => 'Sucesso',
         ],
         'status' => [
             'duplicate' => 'Duplicado',
@@ -133,25 +133,31 @@ return [
                 'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
-        'duplicates'=>[
-            'title'=>'Revisão de papers Duplicados',
+        'duplicates' => [
+            'title' => 'Revisão de papers Duplicados',
             'no-duplicates' => 'Não foram encontrados papers Duplicados.',
             'confirm-duplicate' => 'Paper marcado como duplicado.',
             'erro-find-paper' => 'Erro: Paper não encontrado.',
             'marked-unclassified' => 'Paper marcado como não classificado.',
             'analyse-all' => 'Todos os papers Duplicados foram analisados.',
             'duplicates-all' => "Todos os papers com Autor/Ano/Titulo iguais marcados como Duplicados",
-            'unique-papers' =>'papers possivelmente duplicados para análise individual listados abaixo. ',
-            'exact-duplicate-count' =>'papers com <b>Título/Ano/Autores</b> exatamente idênticos como duplicados.',
+            'unique-papers' => 'papers possivelmente duplicados para análise individual listados abaixo. ',
+            'exact-duplicate-count' => 'papers com <b>Título/Ano/Autores</b> exatamente idênticos como duplicados.',
             'button-mark-all' => 'Marcar os :count como Duplicados',
-            'table-title'=>'Título',
-            'table-year'=>'Ano',
-            'table-database'=>'Base de Dados',
-            'table-duplicate'=>'Duplicado',
-            'table-duplicate-yes'=>'SIM',
-            'table-duplicate-no'=>'NÃO',
+            'table-title' => 'Título',
+            'table-year' => 'Ano',
+            'table-database' => 'Base de Dados',
+            'table-duplicate' => 'Duplicado',
+            'table-duplicate-yes' => 'SIM',
+            'table-duplicate-no' => 'NÃO',
 
         ],
+        'messages' => [
+            'criteria_updated' => 'Critério atualizado com sucesso. Novo status: :status',
+        ],
+        'toasts' => [
+            'denied' => 'Um visualizador não pode editar a seleção de estudos',
+        ]
 
     ],
     'snowballing' => [
@@ -196,6 +202,7 @@ return [
             'select-status' => 'Mostrar todos os Status...',
             'select-type' => 'Mostrar todos os Tipos...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -283,20 +290,34 @@ return [
     'import-studies' => [
         'title' => 'Importar estudos',
         'form' => [
-                'database' => 'Base de dados',
-                'selected-database' => 'Selecionar a base de dados',
-                'upload' => 'Escolher arquivo',
-                'add' =>  'Adicionar arquivo',
-                'delete' => 'Deletar'
+            'database' => 'Base de dados',
+            'selected-database' => 'Selecionar a base de dados',
+            'upload' => 'Escolher arquivo',
+            'add' =>  'Adicionar arquivo',
+            'delete' => 'Deletar'
         ],
-        'help' =>[
+        'help' => [
             'content' => 'Insira Arquivos no Formato ".bib" ou ".csv" e faça a importação de arquivos de acordo com a base inserida no planejamento<br>
                      <ul>
                      <li><b>Obs.:</b> Se você deseja realizar <b>"Avaliação por Pares"</b>, é necessário convidar os pesquisadores  e adicionar ao projeto antes de importar os estudos (papers)</li>
                      <li>Para adicionar pesquisadores, navegue até <b>"Meus Projetos->Colaboradores"</b></li>
-                     </ul>'
+                     </ul>
+                     <br>
+                     <b>Orientações para o formato CSV:</b><br>
+                     O arquivo CSV deve conter os seguintes cabeçalhos de coluna:<br>
+                     <ul>
+                         <li>"<b>Item Title</b>" – usado como o título do estudo</li>
+                         <li>"<b>Authors</b>" – lista de autores</li>
+                         <li>"<b>Item DOI</b>" – identificador digital do objeto</li>
+                         <li>"URL" – link opcional para o estudo</li>
+                         <li>"Publication Year" – ano de publicação</li>
+                         <li>"Book Series Title" – nome da série de livros</li>
+                         <li>"Journal Volume" – volume do periódico</li>
+                         <li>"Publication Title" – nome do periódico ou publicação</li>
+                     </ul>
+                     <b>Atenção:</b> Se algum dos campos em <b>negrito</b> estiver ausente ou vazio, a importação <b>não será realizada</b>.'
         ],
-         'table' => [
+        'table' => [
             'database' => 'Base de dados',
 
             'studies-imported' => 'Estudos importados',
@@ -329,6 +350,7 @@ return [
                 'file_deleted_success' => 'Arquivo excluído com sucesso. :count papers associados também foram excluídos.',
                 'file_delete_error' => 'Ocorreu um erro ao excluir o arquivo: :message',
                 'file_already_exists' => 'Um arquivo com este nome já foi adicionado nesta Base de Dados. Evite duplicações!',
+                'denied' => 'Um visualizador não pode adicionar ou excluir papers.',
             ],
         ],
 
@@ -379,6 +401,7 @@ return [
             'select-database' => 'Mostrar todos as Bases',
             'select-status' => 'Mostrar todos Status...',
             'search-papers' => 'Buscar estudos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -389,9 +412,9 @@ return [
             'abstract' => 'Resumo',
             'keywords' => 'Palavras-chave',
             'rejected' => 'Rejeitado',
-            'select-score'=> 'Selecione...',
-            'quality-score'=> 'Pontuação',
-            'quality-description'=> 'Qualidade',
+            'select-score' => 'Selecione...',
+            'quality-score' => 'Pontuação',
+            'quality-description' => 'Qualidade',
             'table' => [
                 'select' => 'Selecionar',
                 'description' => 'Descrição',
@@ -406,50 +429,50 @@ return [
                 'duplicated' => 'Duplicado',
                 'unclassified' => 'Não Classificado',
             ],
-            'save'=>'Salvar',
-            'close'=>'Fechar',
+            'save' => 'Salvar',
+            'close' => 'Fechar',
         ],
-        'resolve'=>[
-                'author' => 'Autor',
-                'year' => 'Ano',
-                'database' => 'Base de Dados',
-                'status-selection' => 'Status da Seleção',
-                'abstract' => 'Resumo',
-                'keywords' => 'Palavras-chave',
+        'resolve' => [
+            'author' => 'Autor',
+            'year' => 'Ano',
+            'database' => 'Base de Dados',
+            'status-selection' => 'Status da Seleção',
+            'abstract' => 'Resumo',
+            'keywords' => 'Palavras-chave',
+            'rejected' => 'Rejeitado',
+            'paper-conflict' => 'Resolver Conflitos: Decisão em Grupo - QA',
+            'paper-conflict-note' => 'Nota/Justificativa',
+            'paper-conflict-writer' => 'Escreva sua nota/justificativa...',
+            'success-decision' => 'Decisão em Grupo salva com sucesso.',
+            'resolved-decision' => 'Aceito em Avaliação por Pares (Decisão do Grupo) na etapa anterior.',
+            'error-status' => 'Selecione sua Decisão Final',
+            'last-confirmation' => 'Confirmado por',
+            'confirmation-date' => 'em',
+            'table' => [
+                'select' => 'Selecionar',
+                'description' => 'Descrição',
+                'type' => 'Tipo',
+                'inclusion' => 'Inclusão',
+                'exclusion' => 'Exclusão',
+                'conflicts-members' => 'Avaliação do Membro',
+                'conflicts-qa' => 'Pontuação/ Avaliação Geral',
+                'conflicts-status' => 'Status da avaliação',
+            ],
+            'option' => [
+                'select' => 'Selecione uma opção',
+                'remove' => 'Remover',
+                'accepted' => 'Aceito',
                 'rejected' => 'Rejeitado',
-                'paper-conflict'=>'Resolver Conflitos: Decisão em Grupo - QA',
-                'paper-conflict-note'=>'Nota/Justificativa',
-                'paper-conflict-writer'=>'Escreva sua nota/justificativa...',
-                'success-decision'=>'Decisão em Grupo salva com sucesso.',
-                'resolved-decision'=>'Aceito em Avaliação por Pares (Decisão do Grupo) na etapa anterior.',
-                'error-status'=>'Selecione sua Decisão Final',
-                'last-confirmation' => 'Confirmado por',
-                'confirmation-date' => 'em',
-                'table' => [
-                    'select' => 'Selecionar',
-                    'description' => 'Descrição',
-                    'type' => 'Tipo',
-                    'inclusion' => 'Inclusão',
-                    'exclusion' => 'Exclusão',
-                    'conflicts-members' => 'Avaliação do Membro',
-                    'conflicts-qa' => 'Pontuação/ Avaliação Geral',
-                    'conflicts-status' => 'Status da avaliação',
-                ],
-                'option' => [
-                    'select' => 'Selecione uma opção',
-                    'remove' => 'Remover',
-                    'accepted' => 'Aceito',
-                    'rejected' => 'Rejeitado',
-                    'duplicated' => 'Duplicado',
-                    'unclassified' => 'Unclassified',
-                    'final-decision' =>'Decisão final do grupo sobre o paper?',
-                ],
-                'save'=>'Salvar',
-                'update'=>'Atualizar',
-                'confirm'=>'Confirmar',
-                'close'=>'Fechar',
-                'error'=>'Erro',
-                'success'=>'Sucesso',
+                'duplicated' => 'Duplicado',
+                'unclassified' => 'Unclassified',
+                'final-decision' => 'Decisão final do grupo sobre o paper?',
+            ],
+            'save' => 'Salvar',
+            'update' => 'Atualizar',
+            'confirm' => 'Confirmar',
+            'close' => 'Fechar',
+            'error' => 'Erro',
+            'success' => 'Sucesso',
         ],
         'status' => [
             'duplicate' => 'Duplicado',
@@ -467,7 +490,11 @@ return [
                 'data-refresh' => 'Dados atualizados com sucesso',
             ],
         ],
-
+        'messages' => [
+            'evaluation_quality_score_updated' => 'Pontuação de Avaliação de Qualidade atualizada com sucesso.',
+            'status_quality_updated' => 'Status de Qualidade atualizado com sucesso. Novo status: :status',
+            'status_updated_for_selection' => 'Status atualizado para sua seleção. Novo status: :status',
+        ],
     ],
 
     'data-extraction' => [
@@ -507,6 +534,7 @@ return [
             'select-database' => 'Mostrar todas as Bases de Dados',
             'select-status' => 'Mostrar todos os Status...',
             'search-papers' => 'Pesquisar artigos...',
+            'no-papers' => 'Não há estudos disponíveis para exportar',
         ],
         'modal' => [
             'author' => 'Autor',
@@ -548,4 +576,3 @@ return [
 
 
 ];
-

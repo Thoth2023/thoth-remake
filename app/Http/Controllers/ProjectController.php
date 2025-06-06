@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
@@ -10,6 +11,7 @@ use App\Models\Project;
 use App\Models\Activity;
 use App\Models\User;
 use App\Utils\ActivityLogHelper;
+use App\Http\Controllers\Project\Planning\PlanningProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,19 +27,43 @@ use PHPUnit\Event\Application\FinishedSubscriber;
 
 class ProjectController extends Controller
 {
+    private PlanningProgressController $progressCalculator;
+
+    public function __construct(PlanningProgressController $progressCalculator)
+    {
+        $this->progressCalculator = $progressCalculator;
+    }
+    
     /**
      * Display a listing of the projects.
      */
     public function index()
     {
         $user = auth()->user();
-        $projects_relation = $user->projects;
+        
+        // Buscar todos os projetos do usuário
+        $all_projects = $user->projects;
+        
+        // Filtrar apenas projetos com status 'accepted' ou null
+        $projects_relation = $all_projects->filter(function($project) {
+            $pivotStatus = $project->pivot->status ?? null;
+            return $pivotStatus === 'accepted' || $pivotStatus === null;
+        });
 
+        // Buscar projetos onde o usuário é o proprietário
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
 
+        $conductingProgressController = new ConductingProgressController();
+
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
+
+            $conductingProgress = $conductingProgressController->calculateProgress($project->id);
+
+            // $totalProgess = Planing + Conducting + Quality Assessment + Snowballing + Data Extract
+            $calculateProgress = (0 * 0.2) + ($conductingProgress * 0.2) + (0 * 0.2) + (0 * 0.2) + (0 * 0.2);
+            $project->totalProgress = round($calculateProgress, 2);
         }
 
         return view('projects.index', compact('merged_projects'));
@@ -81,7 +107,7 @@ class ProjectController extends Controller
         $activity = "Created the project ".$project->title;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
+        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1, 'status' => 'accepted']);
 
         return redirect('/projects');
     }
@@ -104,7 +130,11 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('projects.show', compact('project', 'users_relation', 'activities'));
+        // Calculando progresso de Condução
+        $conductingProgressController = new ConductingProgressController();
+        $conductingProgress = $conductingProgressController->calculateProgress($idProject);
+
+        return view('projects.show', compact('project', 'users_relation', 'activities', 'conductingProgress'));
     }
 
 
@@ -206,7 +236,7 @@ class ProjectController extends Controller
     public function add_member(string $idProject)
     {
         $project = Project::findOrFail($idProject);
-        $users_relation = $project->users()->get();
+        $users_relation = $project->users()->withPivot('level', 'status', 'invitation_token')->get();
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
@@ -311,10 +341,11 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
     {
         $token = $request->query('token');
 
-        // Busca o registro na tabela 'members'
+        // Verifica se o token é válido e pertence ao projeto
         $invitation = DB::table('members')
                         ->where('invitation_token', $token)
                         ->where('id_project', $idProject)
+                        ->where('status', 'pending') // Adicionar verificação de status pendente
                         ->first();
 
         if (!$invitation) {
@@ -332,8 +363,40 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
         $activity = "Accepted invitation to join the project.";
         ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+		return redirect('/projects')->with('success', 'You have successfully joined the project!');
+	}
 
-        return redirect('/projects')->with('success', 'You have successfully joined the project!');
+    /**
+     * Permite ao usuário recusar o convite de um projeto
+     * @param string $idProject
+     * @param Request $request
+     */
+    public function declineInvitation($idProject, Request $request)
+    {
+        $token = $request->query('token');
+
+        $invitation = DB::table('members')
+            ->where('invitation_token', $token)
+            ->where('id_project', $idProject)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$invitation) {
+            return back()->with('error', 'Convite inválido ou expirado.');
+        }
+
+        DB::table('members')
+            ->where('invitation_token', $token)
+            ->where('id_project', $idProject)
+            ->update([
+                'status' => 'declined',
+                'invitation_token' => null
+            ]);
+
+        $activity = "Recusou o convite para participar do projeto.";
+        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
+
+        return redirect('/projects')->with('success', 'Você recusou o convite para participar do projeto.');
     }
 
 

@@ -72,6 +72,7 @@
                 class="list-group-item d-flex row w-100"
             >
                 <div class='w-10 pl-2'>
+
                     <span data-search>{{ $paper['id'] }}</span>
                 </div>
                 <div class='w-55' role='button' wire:click.prevent="openPaper({{ $paper }})">
@@ -81,6 +82,7 @@
                 <div class='w-20 ms-auto'>
                     <span data-search>{{ $paper['database_name'] }}</span>
                 </div>
+
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.study-selection.status." . strtolower($paper['status_description'])) }}
