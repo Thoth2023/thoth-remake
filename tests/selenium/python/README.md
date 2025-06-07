@@ -4,27 +4,27 @@ Este diretório contém scripts de automação de testes para a Thoth usando Sel
 
 ##  Estrutura de Pastas
 
-O projeto está organizado utilizando o padrão Page Object Model (POM) para garantir que o código seja reutilizável, legível e de fácil manutenção.
+O diretório está organizado utilizando o padrão Page Object Model (POM) para garantir que o código seja reutilizável, legível e de fácil manutenção.
 
 ```
 selenium/
-├── python/
-│   ├── pages/
-│   │   ├── login.py       # Page Object de Login
-│   │   ├── index.py       # Page Object da Entrada 
-│   │   └── ...            # Demais páginas
-│   │
-│   ├── tests/
-│   │   ├── conftest.py    # Fixtures do Pytest
-│   │   ├── test_login.py  # Arquivo de testes para a funcionalidade de login
-│   │   └── ...            # Demais arquivos de teste
-│   │
-│   └── utils/
-│       ├── config.py      # Armazena dados reutilizáveis (ex: usuários, senhas)
-│       └── web_functions.py # Funções reutilizáveis (ex: login, logout, etc.)
-│
-├── README.md
-└── requirements.txt     # Dependências do projeto Python
+└── python/
+    ├── pages/
+    │   ├── login.py       # Page Object de Login
+    │   ├── index.py       # Page Object da Entrada 
+    │   └── ...            # Demais páginas
+    │
+    ├── tests/
+    │   ├── conftest.py    # Fixtures do Pytest
+    │   ├── test_login.py  # Arquivo de testes para a funcionalidade de login
+    │   └── ...            # Demais arquivos de teste
+    │
+    ├── utils/
+    │   ├── config.py      # Armazena dados reutilizáveis (ex: usuários, senhas)
+    │   └── web_functions.py # Funções reutilizáveis (ex: login, logout, etc.)
+    │
+    ├──  README.md
+    └──  requirements.txt     # Dependências do projeto Python
 ```
 
 -   **`pages/`**: Contém as classes Page Object. Cada arquivo representa uma página da aplicação, mapeando seus elementos e as interações possíveis.
