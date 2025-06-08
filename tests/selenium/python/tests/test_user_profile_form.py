@@ -6,7 +6,7 @@ URL = "http://localhost:8989"
 USER = "admin@admin.com"
 PASSWORD = "password"
 
-# Funções utilitárias
+# Funções
 def fazer_login_manual(driver):
     driver.get(f"{URL}/login")
     driver.find_element(By.NAME, "email").send_keys(USER)
