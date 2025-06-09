@@ -135,19 +135,3 @@ def test_delete_search_question(driver):
     time.sleep(1)  # Pausa para a tabela ser atualizada após a exclusão
 
     assert not search_questions_page.check_search_question_exists(new_id_search_question), f"A questão de pesquisa {new_id_search_question} ainda foi encontrada após a exclusão."
-
-# # # SeTC.003.3 - Excluir projeto
-# def test_delete_project(driver):
-#     """
-#     Verificar se é possível excluir um projeto previamente criado.
-#     """
-#     login(driver)
-
-#     projects_page = ProjectsPage(driver)
-#     projects_page.load()
-
-#     title = "Título Teste"
-#     projects_page.find_by_title_and_delete(title)
-#     time.sleep(1) # Pausa para a tabela ser atualizada após a exclusão
-
-#     assert not projects_page.find_by_title(title), f"O projeto '{title}' ainda foi encontrado após a exclusão."
