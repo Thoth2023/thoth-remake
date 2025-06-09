@@ -78,12 +78,8 @@ class ProjectController extends Controller
             $project->save();
         }
 
-        $activityKey = 'project_created';
-        $activityParams = ['title' => $project->title];
-        ActivityLogHelper::insertActivityLog([
-            'key' => $activityKey,
-            'params' => $activityParams
-        ], 1, $project->id_project, $user->id);
+        $activity = "Created the project ".$project->title;
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
 
@@ -151,12 +147,8 @@ class ProjectController extends Controller
             $project->copyPlanningFrom($sourceProject);
         }
 
-        $activityKey = 'project_edited';
-        $activityParams = ['title' => $project->title];
-        ActivityLogHelper::insertActivityLog([
-            'key' => $activityKey,
-            'params' => $activityParams
-        ], 1, $project->id_project, $user->id);
+        $activity = "Edited project";
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         return redirect('/projects');
     }
@@ -199,15 +191,8 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
         }
 
-        $activityKey = 'admin_removed_member';
-        $activityParams = [
-            'member' => $name_member->username,
-            'project' => $project->title
-        ];
-        ActivityLogHelper::insertActivityLog([
-            'key' => $activityKey,
-            'params' => $activityParams
-        ], 1, $project->id_project, $user->id);
+        $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
         return redirect()->back();
     }
 
@@ -267,15 +252,8 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
     Notification::send($name_member, new ProjectInvitationNotification($project, $token));
 
-    $activityKey = 'sent_invitation';
-    $activityParams = [
-        'member' => $name_member->username,
-        'project' => $project->title
-    ];
-    ActivityLogHelper::insertActivityLog([
-        'key' => $activityKey,
-        'params' => $activityParams
-    ], 1, $project->id, $user->id);
+    $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
+    ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
 
     return redirect()->back()->with('success', 'Invitation sent to ' . $name_member->email);
 }
@@ -307,15 +285,8 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
         $member->pivot->level = $validatedData['level_member'];
         $member->pivot->save();
 
-        $activityKey = 'admin_updated_member_level';
-        $activityParams = [
-            'member' => $name_member->username,
-            'level' => $validatedData['level_member'],
-        ];
-        ActivityLogHelper::insertActivityLog([
-            'key' => $activityKey,
-            'params' => $activityParams
-        ], 1, $project->id_project, $user->id);
+        $activity = "The admin updated ".$name_member->username." level to ".$validatedData['level_member'].".";
+        ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         return redirect()->back()->with('succes', 'The member level has been changed successfully.');
     }
@@ -359,12 +330,8 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
                 'invitation_token' => null  // Remove o token após ser aceito
             ]);
 
-            $activityKey = 'accepted_invitation';
-            $activityParams = [];
-            ActivityLogHelper::insertActivityLog([
-                'key' => $activityKey,
-                'params' => $activityParams
-            ], 1, $idProject, $invitation->id_user);
+        $activity = "Accepted invitation to join the project.";
+        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
 
         return redirect('/projects')->with('success', 'You have successfully joined the project!');
     }
