@@ -260,14 +260,14 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 });
 
 //SUPER USER ROUTES
-Route::middleware(['auth', 'role:is_super_user'])->group(function () {
+Route::middleware(['auth', 'role:SUPER_USER'])->group(function () {
 Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
 Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
 Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
 Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
 Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
 Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
-Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
+Route::get('/user/{user}/deactivate', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
 });
 
 Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
