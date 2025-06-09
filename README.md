@@ -53,9 +53,12 @@ Generate the Laravel Project Key
 php artisan key:generate
 ```
 
-To Populate the Database
+To Populate the Database and create User
 ```sh
 php artisan migrate --seed
+```
+```sh
+php artisan user:register
 ```
 ```sh
 For development, create a new branch from "Develop"
@@ -93,6 +96,8 @@ setup:
 	composer install || composer update
 	php artisan key:generate
 	php artisan migrate --seed
+# Create new users for application 
+	php artisan user:register
 ```
 
 If needed, visit https://www.gnu.org/software/make/ for more details.
