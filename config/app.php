@@ -82,7 +82,6 @@ return [
     |
     */
 
-    'locale' => 'en',
     'locale' => 'pt_BR',
 
     /*

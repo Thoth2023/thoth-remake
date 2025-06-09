@@ -20,6 +20,7 @@ return [
     'language' => 'Language',
     'profile' => 'Profile',
     'logout' => 'Logout',
+    'settings' => 'Settings',
     'projects' => 'Projects',
     'my_projects' => 'My Projects',
     'pages' => 'Pages',

@@ -21,11 +21,11 @@
         </div>
     </div>
 
+	<!-- Displays user avatar with initials and basic profile info-->
     <div class="card shadow-lg mt-2">
         <div class="card-body">
             <div class="row gx-4">
                 <div class="col-auto my-auto">
-                    <!-- Campo de avatar com as iniciais -->
                     <div class="avatar avatar-xl rounded-circle bg-primary d-flex align-items-center justify-content-center text-white" style="width: 80px; height: 80px; font-size: 1.5rem;">
                         {{ strtoupper(substr(auth()->user()->firstname, 0, 1)) }}{{ strtoupper(substr(auth()->user()->lastname, 0, 1)) }}
                     </div>
@@ -46,6 +46,7 @@
         </div>
     </div>
 
+	<!-- Displays the user profile edit form with personal, contact, and professional information -->
     <br>
     <div id="alert">
         @include('components.alert')
@@ -59,9 +60,9 @@
 
                             <div class="d-flex ms-auto">
                                 <!-- Formulário para exclusão de dados -->
-                                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="requestDataDeletion()">
-                                        <i class="fas fa-trash"></i>  {{ __('pages/profile.request_data_deletion') }}
-                                    </button>
+                                <button type="button" class="btn btn-danger btn-sm me-2" onclick="requestDataDeletion()">
+                                    <i class="fas fa-trash"></i> {{ __('pages/profile.request_data_deletion') }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -74,6 +75,8 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.username') }}</label>
                                     <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
+
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -86,12 +89,18 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.first_name') }}</label>
                                     <input class="form-control" type="text" name="firstname" value="{{ old('firstname', auth()->user()->firstname) }}">
+                                        @error('firstname')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.last_name') }}</label>
                                     <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}">
+                                        @error('lastname')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -108,18 +117,27 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.city') }}</label>
                                     <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}">
+                                        @error('city')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.country') }}</label>
                                     <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}">
+                                        @error('country')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.postal_code') }}</label>
                                     <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}">
+                                        @error('postal')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -136,6 +154,9 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.occupation') }}</label>
                                     <input class="form-control" type="text" name="occupation" value="{{ old('occupation', auth()->user()->occupation) }}">
+                                        @error('occupation')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -188,32 +209,54 @@
     </div>
 </div>
 
+<!-- Handles user data deletion request with confirmation and modal display -->
 @push('js')
-    <script>
-        function requestDataDeletion() {
-            if (confirm('{{ __("pages/profile.confirm-exclusion") }}')) {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+    <script id="requestDataDeletionScript">
+        if (!window.requestDataDeletionLoaded) {
+            window.requestDataDeletionLoaded = true;
 
-                fetch("{{ route('user.requestDataDeletion') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": csrfToken,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message === 'success') {
-                            // Exibe o modal de confirmação
-                            let dataDeletionConfirmationModal = new bootstrap.Modal(document.getElementById('dataDeletionConfirmationModal'));
-                            dataDeletionConfirmationModal.show();
-                        }
+            function requestDataDeletion() {
+                if (confirm('{{ __("pages/profile.confirm-exclusion") }}')) {
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+                    fetch("{{ route('user.requestDataDeletion') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": csrfToken,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({})
                     })
-                    .catch(error => console.error('Erro:', error));
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message === 'success') {
+                                const modalElement = document.getElementById('dataDeletionConfirmationModal');
+                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                if (modalInstance) {
+                                    modalInstance.dispose();
+                                }
+
+                                const dataDeletionConfirmationModal = new bootstrap.Modal(modalElement, {
+                                    backdrop: 'static',
+                                    keyboard: false
+                                });
+                                dataDeletionConfirmationModal.show();
+                            }
+                        })
+                        .catch(error => console.error('Erro:', error));
+                } else {
+                    console.log('A exclusão foi cancelada pelo usuário.');
+                }
             }
         }
+    </script>
+@endpush
 
+@push('js')
+    <script>
+        window.onload = function () {
+            console.log('Página carregada: Perfil do Usuário');
+        };
     </script>
 @endpush
 
