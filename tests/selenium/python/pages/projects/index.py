@@ -11,7 +11,6 @@ class ProjectsPage:
     CREATE_PROJECT_BUTTON = (By.XPATH, '/html/body/main/div[1]/div[1]/div/div/div/div/div[1]/div/div[2]/a')
     PROJECT_ROWS = (By.CSS_SELECTOR, 'table.table tbody tr')
     PROJECT_TITLES = (By.CSS_SELECTOR, "table.table tbody tr td:nth-child(1) h6")
-    
 
     def __init__(self, driver):
         self.driver = driver

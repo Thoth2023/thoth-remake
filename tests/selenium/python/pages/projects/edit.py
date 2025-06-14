@@ -10,7 +10,6 @@ class EditProjectPage:
     DESCRIPTION_INPUT = (By.NAME, 'description')
     OBJECTIVES_INPUT = (By.NAME, 'objectives')
     EDIT_BUTTON = (By.XPATH, "/html/body/main/div[1]/div/div/form/div[8]/button")
-    
 
     def __init__(self, driver):
         self.driver = driver
