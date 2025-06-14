@@ -1,3 +1,4 @@
+import time
 from selenium.webdriver.common.by import By
 from utils.config import BASE_URL
 
@@ -26,6 +27,7 @@ class LoginPage:
         self.driver.find_element(*self.EMAIL_INPUT).send_keys(email)
         self.driver.find_element(*self.PASSWORD_INPUT).send_keys(password)
         self.driver.find_element(*self.LOGIN_BUTTON).click()
+        time.sleep(1) # Pausa adicionada para aguardar o processamento do login
 
     def get_description_text(self):
         """
