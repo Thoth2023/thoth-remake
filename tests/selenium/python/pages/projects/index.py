@@ -72,21 +72,28 @@ class ProjectsPage:
         """
         try:
             rows = self.driver.find_elements(*self.PROJECT_ROWS)
+            
             for row in rows:
+                # Scroll para o elemento da linha antes de interagir
+                self.driver.execute_script("arguments[0].scrollIntoView(true);", row)
+                time.sleep(0.2)  # Pequena pausa para ajustar a posição do elemento
+
                 title_element = row.find_element(By.CSS_SELECTOR, "td:nth-child(1) h6")
                 if title_element.text.strip() == title:
                     delete_button = row.find_element(By.CSS_SELECTOR, "button[data-bs-toggle='modal']")
                     delete_button.click()
-                    time.sleep(1) # Pausa para o modal de confirmação aparecer
+                    time.sleep(1)  # Pausa para o modal de confirmação aparecer
 
                     wait = WebDriverWait(self.driver, 2)
                     modal = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".modal.show")))
 
                     confirm_button = modal.find_element(By.CSS_SELECTOR, "button.bg-danger")
                     confirm_button.click()
-                    time.sleep(1) # Pausa para a deleção ser processada
+                    time.sleep(1)  # Pausa para a deleção ser processada
                     return True
-            return False
+
+            return False  # Não encontrou o projeto
+
         except Exception as e:
             print(f"[ERRO] Erro ao tentar deletar projeto '{title}': {e}")
             return False

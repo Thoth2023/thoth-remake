@@ -28,6 +28,12 @@ class CreateProjectPage:
         self.driver.find_element(*self.TITLE_INPUT).send_keys(title)
         self.driver.find_element(*self.DESCRIPTION_INPUT).send_keys(description)
         self.driver.find_element(*self.OBJECTIVES_INPUT).send_keys(objectives)
+
+        # Rola várias vezes para ter certeza que chegou ao final
+        for _ in range(3):  # Ajuste o número conforme necessário
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.5)  # Pequena pausa para o layout se ajustar
+        
         self.driver.find_element(*self.PLANNING_SELECT).click()
         self.driver.find_element(*self.CREATE_BUTTON).click()
         time.sleep(1) # Pausa para aguardar o processamento e redirecionamento
