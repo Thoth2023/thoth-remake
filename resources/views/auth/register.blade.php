@@ -102,7 +102,7 @@
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="password" name="password" class="form-control"
                                         placeholder="{{ __('auth/register.password') }}"
-                                        aria-label="{{ __('auth.register.password') }}">
+                                        aria-label="{{ __('auth.register.password') }}" value="{{ old('password') }}">
                                     @error('password')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
