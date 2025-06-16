@@ -5,7 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from utils.config import BASE_URL, NUMBER_PROJECT
 
 class criteriaPage:
-    URL = BASE_URL + 'project/' + NUMBER_PROJECT + '/planning'
 
     # Localizadores
     ID_CRITERIA_INPUT = (By.ID, 'criteriaId')
@@ -15,15 +14,21 @@ class criteriaPage:
     TABLE_CRITERIA = (By.TAG_NAME, "tr")
     CRITERIA_BUTTON = (By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[3]/button")
     RULE_CRITERIA_SELECT = (By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div")
+    PLANNING_TAB = (By.XPATH, "/html/body/main/div[1]/div/div[1]/div/div[2]/div/ul/li[2]/a",)
+    PROJECT_ROWS = (By.CSS_SELECTOR, "table.table tbody tr")
 
     def __init__(self, driver):
         self.driver = driver
 
-    def load(self):
+    def click_planning_section(self):
         """
-        Carrega a página de login
+        Clique na seção de planejamento
         """
-        self.driver.get(self.URL)
+        try:
+            self.driver.find_element(*self.PLANNING_TAB).click()
+            time.sleep(1)  # Pausa para garantir que a aba seja aberta
+        except Exception as e:
+            print(f"[ERRO] Erro ao abrir a aba de planejamento: {e}")
 
     def click_criterias_section(self):
         """
@@ -36,6 +41,8 @@ class criteriaPage:
         """
         Clica no botão para criar um novo critério
         """
+        self.click_planning_section()
+        time.sleep(1)
         self.click_criterias_section()
 
         self.driver.find_element(*self.ID_CRITERIA_INPUT).send_keys(id_criteria)
@@ -51,6 +58,8 @@ class criteriaPage:
         """
         Clica no botão para editar um critério existente
         """
+        self.click_planning_section()
+        time.sleep(1)
         self.click_criterias_section()
         criteria_row = self.find_criteria_by_id(id_criteria)
 
@@ -77,6 +86,8 @@ class criteriaPage:
         """
         Clica no botão para excluir um critério existente
         """
+        self.click_planning_section()
+        time.sleep(1)
         self.click_criterias_section()
 
         criteria_row = self.find_criteria_by_id(id_criteria)
@@ -92,6 +103,8 @@ class criteriaPage:
         """
         Modifica a regra de um critério existente
         """
+        self.click_planning_section()
+        time.sleep(1)
         self.click_criterias_section()
         self.select_dropdown_option_by_value(self.RULE_CRITERIA_SELECT, new_rule)
 
@@ -124,6 +137,33 @@ class criteriaPage:
         )
         option.click()
 
+    def find_by_title_and_open(self, title):
+            """
+            Procura em todos os projetos por um título específico e clica em abrir
+            """
+            try:
+                rows = self.driver.find_elements(*self.PROJECT_ROWS)
+                assert rows, "[ERRO] Nenhum projeto encontrado na página."
+                for row in rows:
+                    self.driver.execute_script("arguments[0].scrollIntoView(true);", row)
+                    time.sleep(0.2)
+                    title_element = row.find_element(By.CSS_SELECTOR, "td:nth-child(1) h6")
+                    if title_element.text.strip() == title:
+                        open_button = row.find_element(
+                            By.XPATH,
+                            ".//a[contains(@class, 'btn py-1 px-3 btn-outline-success') and contains(., 'Abrir')]",
+                        )
+                        time.sleep(1)  # Pausa para o modal de confirmação aparecer
+                        open_button.click()
+                        time.sleep(1)
+                        return True
+                print(f"[INFO] Projeto com título '{title}' não encontrado.")
+                return False
+            except Exception as e:
+                print(
+                    f"[ERRO] Erro ao tentar clicar em 'Abrir' para o projeto '{title}': {e}"
+                )
+                return False
 
     def find_criteria_by_id(self, id_criteria):
         """
