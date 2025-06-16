@@ -102,13 +102,9 @@
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto position-relative">
                                     <input type="password" name="password" id="password" class="form-control"
                                         placeholder="{{ __('auth/register.password') }}"
-                                        aria-label="{{ __('auth.register.password') }}">
-                                    <span role="button" id="togglePassword"
-                                        class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                        style="cursor: pointer; background: white; display: none;"
-                                        tabindex="-1">
-                                        <i class="fas fa-eye" id="eyeIcon"></i>
-                                    </span>
+
+                                        aria-label="{{ __('auth.register.password') }}" value="{{ old('password') }}">
+
                                     @error('password')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
