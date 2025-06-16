@@ -6,6 +6,7 @@ return [
     'enter_email' => 'Digite o e-mail',
     'select_level' => 'Selecione o nível',
     'name' => 'Nome',
+    'email' => 'E-mail',
     'delete' => 'Excluir',
     'instruction_email' => 'Ajuda de instrução para inserir e-mail',
     // //insruction level
@@ -17,6 +18,7 @@ return [
     'reviser' => 'Revisor',
     'level_select' => 'Selecione um Nível',
     'add' => 'Adicionar',
+    'open_project' => 'Abrir Projeto',
     'level_administrator' => 'Nível Administrador:',
     'level_administrator_description' => 'O nível de administrador possui permissões para editar, excluir, visualizar e adicionar membros por meio do projeto correlacionado a ele.',
     'level_viewer' => 'Nível Visualizador:',
@@ -27,7 +29,10 @@ return [
     'level_reviser_description' => 'O nível de revisor possui permissões para visualizar e editar dados.',
     'le',
     'admin' => 'Administrador',
-
+    'status_accepted' => 'Aceito',
+    'status_pending' => 'Pendente',
+    'status_declined' => 'Recusado',
+    'status' => 'Status',
 ];
 
 ?>

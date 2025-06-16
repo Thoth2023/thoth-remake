@@ -7,22 +7,37 @@ use App\Models\Project as ProjectModel;
 use App\Models\SearchStrategy as SearchStrategyModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Strategy extends Component
 {
+    use ProjectPermissions;
+
     public $projectId;
+    public $currentProject;
     public $searchStrategy;
     public $currentDescription;
 
+    private $toastMessages = 'project/planning.search-strategy';
+
 
     protected $rules = [
-        'currentDescription' => 'required|string',
+        'currentDescription' => [
+            'required',
+            'string',
+        ],
+    ];
+    
+    protected $messages = [
+        'currentDescription.required' => 'O campo descrição é obrigatório.',
+        'currentDescription.regex' => 'A descrição deve conter pelo menos uma letra e não pode conter apenas caracteres especiais ou números.',
     ];
 
     public function mount()
     {
         $projectId = request()->segment(2);
         $this->projectId = $projectId;
+        $this->currentProject = ProjectModel::findOrFail($this->projectId);
         $this->searchStrategy = SearchStrategyModel::where('id_project', $this->projectId)->firstOrNew([]);
         $this->currentDescription = $this->searchStrategy->description;
     }
@@ -37,7 +52,14 @@ class Strategy extends Component
 
     public function submit()
     {
-        $this->validate();
+        $this->validate([
+            'currentDescription' => 'required|string',
+        ]);
+
+        if (!$this->isValidDescription($this->currentDescription)) {
+            $this->addError('currentDescription', 'A descrição deve conter pelo menos uma letra e não pode conter apenas caracteres especiais ou números.');
+            return;
+        }
 
         try {
             $project = ProjectModel::findOrFail($this->projectId);
@@ -60,6 +82,23 @@ class Strategy extends Component
                 type: 'error'
             );
         }
+    }
+
+    private function isValidDescription(string $description): bool
+    {
+        $trimmedDescription = trim($description);
+
+        // Verifica se contém pelo menos uma letra
+        if (!preg_match('/[a-zA-ZÀ-ÿ]/', $trimmedDescription)) {
+            return false;
+        }
+
+        // Verifica se é composta apenas por números e/ou caracteres especiais
+        if (preg_match('/^[\d\W]+$/', $trimmedDescription)) {
+            return false;
+        }
+    
+        return true;
     }
 
     public function render()

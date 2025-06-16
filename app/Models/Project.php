@@ -149,9 +149,20 @@ class Project extends Model
 
     public function setUserLevel(User $user)
     {
-        $this->user_level = $this->users()
+        $member = $this->users()
             ->where('users.id', $user->id)
             ->first();
+        
+        if ($member) {
+            $status = $member->pivot->status ?? null;
+            if ($status === 'accepted' || $status === null) {
+                $this->user_level = $member;
+            } else {
+                $this->user_level = null;
+            }
+        } else {
+            $this->user_level = null;
+        }
     }
 
     private function insertSearchStringGenerics($idProject)
@@ -244,10 +255,17 @@ class Project extends Model
 
     public function userHasLevel(User $user, string $level): bool
     {
-        return $this->users()
+        $member = $this->users()
             ->wherePivot('id_user', $user->id)
             ->wherePivot('level', $level)
-            ->exists();
+            ->first();
+        
+        if (!$member) {
+            return false;
+        }
+        
+        $status = $member->pivot->status ?? null;
+        return $status === 'accepted' || $status === null;
     }
 
     public  function markAsFinished()

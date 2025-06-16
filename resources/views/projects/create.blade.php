@@ -4,6 +4,7 @@
     @include('layouts.navbars.auth.topnav', ['title' => __('project/create.create_project') ])
     <div class="card shadow-lg mx-4">
         <div class="container-fluid py-4">
+
             <p class="text-uppercase text-sm">Create Project</p>
             <form method="POST" action="{{ route('projects.store') }}">
                 @csrf
@@ -11,6 +12,7 @@
                     <label for="titleInput">Title</label>
                     <input name="title" type="text" class="form-control @error('title') is-invalid @enderror"
                         id="titleInput" placeholder="Enter the title" value="{{ old('title') }}">
+
                     @error('title')
                         <span class="invalid-feedback" role="alert">
                             {{ $message }}
@@ -18,6 +20,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
+
                     <label for="descriptionTextarea">Description</label>
                     <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="descriptionTextarea"
                         rows="3" placeholder="Enter the description">{{ old('description') }}</textarea>
@@ -28,6 +31,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
+
                     <label for="objectivesTextarea">Objectives</label>
                     <textarea name="objectives" class="form-control @error('objectives') is-invalid @enderror" id="objectivesTextarea"
                         rows="3" placeholder="Enter the objectives">{{ old('objectives') }}</textarea>
@@ -80,4 +84,3 @@
     </div>
 
 @endsection
-

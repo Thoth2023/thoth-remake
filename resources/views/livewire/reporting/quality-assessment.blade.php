@@ -41,7 +41,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per Status Quality'
+                        text: '{{ __('project/reporting.quality-assessment.papers-status-quality.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -60,7 +60,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.quality-assessment.papers-status-quality.content') }}',
                         colorByPoint: true,
                         data: papersPerStatus // Dados dinâmicos
                     }]
@@ -74,7 +74,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Papers per General Score'
+                        text: '{{ __('project/reporting.quality-assessment.papers-general-score.title') }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
@@ -93,7 +93,7 @@
                         }
                     },
                     series: [{
-                        name: 'Papers',
+                        name: '{{ __('project/reporting.quality-assessment.papers-general-score.content') }}',
                         colorByPoint: true,
                         data: @json($papersByGeneralScore) // Dados gerados pela consulta
                     }]
@@ -129,18 +129,18 @@
                         type: 'bar'
                     },
                     title: {
-                        text: 'Número de Papers por Usuário e Status Quality'
+                        text: '{{ __('project/reporting.quality-assessment.number-papers-user-status-quality.title') }}'
                     },
                     xAxis: {
                         categories: users,
                         title: {
-                            text: 'Usuários'
+                            text: '{{ __('project/reporting.quality-assessment.number-papers-user-status-quality.users') }}'
                         }
                     },
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Número de Papers'
+                            text: '{{ __('project/reporting.quality-assessment.number-papers-user-status-quality.number-papers') }}'
                         }
                     },
                     legend: {
@@ -158,5 +158,30 @@
                 });
             });
         </script>
+
+        @if(count($papersPerStatus) == 0)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('papers_per_quality').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_evaluated_studies") }}</p>';
+            });
+        </script>
+        @endif
+
+        @if(count($papersByGeneralScore) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('papers_gen_score').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_evaluated_studies") }}</p>';
+                });
+            </script>
+        @endif
+
+        @if(count($papersByUserAndStatusQuality) == 0)
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('status_per_members_quality').innerHTML = '<p style="text-align:center; margin-top:2em;">{{ __("project/reporting.check.no_papers_evaluated_by_anyone") }}</p>';
+                });
+            </script>
+        @endif
+
     @endpush
 @endsection
