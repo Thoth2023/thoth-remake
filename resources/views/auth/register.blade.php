@@ -103,7 +103,14 @@
                                     <input type="password" name="password" id="password" class="form-control"
                                         placeholder="{{ __('auth/register.password') }}"
 
-                                        aria-label="{{ __('auth.register.password') }}" value="{{ old('password') }}">
+                                        aria-label="{{ __('auth.register.password') }} "value="{{ old('password') }}">
+                                    <small id="passwordStrength" class="text-muted">Digite uma senha segura</small>
+                                    <span role="button" id="togglePassword"
+                                        class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                        style="cursor: pointer; background: white; display: none;"
+                                        tabindex="-1">
+                                        <i class="fas fa-eye" id="eyeIcon"></i>
+                                    </span>
 
                                     @error('password')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
@@ -175,6 +182,26 @@
                                         eyeIcon.classList.toggle('fa-eye');
                                         eyeIcon.classList.toggle('fa-eye-slash');
                                     });
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const passwordInput = document.getElementById('password');
+                                        const strengthIndicator = document.getElementById('passwordStrength');
+
+                                        passwordInput.addEventListener('input', function () {
+                                            const val = passwordInput.value;
+                                            let strength = 'Senha fraca';
+                                            let color = 'text-danger';
+
+                                            if (val.length >= 8 && /[A-Z]/.test(val) && /\d/.test(val) && /[^A-Za-z0-9]/.test(val)) {
+                                                strength = 'Senha forte';
+                                                color = 'text-success';
+                                            } else if (val.length >= 6) {
+                                                strength = 'Senha média';
+                                                color = 'text-warning';
+                                            }
+
+                                            strengthIndicator.textContent = strength;
+                                            strengthIndicator.className = 'text-xs ' + color;
+                                        });    
                                 });
                             </script>
                         </div>
