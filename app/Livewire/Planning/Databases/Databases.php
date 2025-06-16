@@ -16,27 +16,31 @@ class Databases extends Component
 
     use ProjectPermissions;
 
+    // Caminho base das mensagens de toast
     private $toastMessages = 'project/planning.databases.livewire.toasts';
+
+    // Projeto atual e base de dados selecionada
     public $currentProject;
     public $currentDatabase;
+
     public $databases = [];
 
     /**
-     * Fields to be filled by the form.
+     * Campos do formulário.
      */
     public $database;
     public $suggest;
     public $link;
 
     /**
-     * Form state.
+     * Estado do formulário.
      */
     public $form = [
         'isEditing' => false,
     ];
 
     /**
-     * Validation rules.
+     * Regras de validação.
      */
     protected $rules = [
         'currentProject' => 'required',
@@ -45,7 +49,7 @@ class Databases extends Component
     ];
 
     /**
-     * Custom error messages for the validation rules.
+     * Mensagens personalizadas de erro para a validação.
      */
     protected function messages()
     {
@@ -54,6 +58,9 @@ class Databases extends Component
         ];
     }
 
+    /**
+     * Traduz mensagens da interface
+     */
     private function translate(string $message, string $key = 'toasts')
     {
         return __('project/planning.databases.livewire.' . $key . '.' . $message);
@@ -61,8 +68,8 @@ class Databases extends Component
 
 
     /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
+     * Executado quando o componente é montado.
+     * Define o projeto atual e carrega as bases de dados aprovadas.
      */
     public function mount()
     {
@@ -73,17 +80,15 @@ class Databases extends Component
     }
 
     /**
-     * Dispatch a toast message to the view.
+     * Envia uma mensagem tipo toast para a interface.
      */
     public function toast(string $message, string $type)
     {
         $this->dispatch('databases', ToastHelper::dispatch($type, $message));
-
-
     }
 
     /**
-     * Reset the fields to the default values.
+     * Limpa os campos do formulário, retornando ao estado inicial.
      */
     public function resetFields()
     {
@@ -93,12 +98,11 @@ class Databases extends Component
     }
 
     /**
-     * Submit the form. It also validates the input fields.
+     * Submete o formulário após validar os campos.
      */
-
     public function submit()
     {
-
+        // Verifica se o usuário tem permissão para editar o projeto
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
@@ -106,11 +110,13 @@ class Databases extends Component
         $this->validate();
 
         try {
+            // Verifica se já existe uma associação entre o projeto e a base selecionada
             $projectDatabase = ProjectDatabaseModel::firstOrNew([
                 'id_project' => $this->currentProject->id_project,
                 'id_database' => $this->database["value"],
             ]);
 
+            // Se já existir, informa o usuário e não cria duplicata
             if ($projectDatabase->exists) {
                 $this->toast(
                     message: $this->translate(key: 'database', message: 'already_exists'),
@@ -119,8 +125,10 @@ class Databases extends Component
                 return;
             }
 
+            // Recupera os dados completos da base
             $database = DatabaseModel::findOrFail($this->database["value"]);
 
+            // Registra a atividade no log do sistema
             Log::logActivity(
                 action: 'Added database',
                 description: $database->name,
@@ -134,7 +142,7 @@ class Databases extends Component
                 type: 'success',
             );
 
-            // Emit the event after successfully adding the database
+            // Dispara evento para atualizar o estado do front
             $this->dispatch('databaseAdded', $this->currentProject->id_project);
 
         } catch (\Exception $e) {
@@ -143,7 +151,7 @@ class Databases extends Component
     }
 
     /**
-     * Delete an item.
+     * Exclui uma base de dados associada ao projeto.
      */
     public function delete(string $databaseId)
     {
@@ -156,9 +164,13 @@ class Databases extends Component
             ->where('id_database', $databaseId)
             ->first();
 
+        // Busca os dados da base que será deletada
         $deleted = DatabaseModel::findOrFail($databaseId);
-        $projectDatabase->delete();
 
+        // Remove o relacionamento
+        $projectDatabase->delete();
+        
+        // Registra a exclusão no log de atividades
         Log::logActivity(
             action: 'Deleted database',
             description: $deleted->name,
@@ -174,7 +186,7 @@ class Databases extends Component
     }
 
     /**
-     * Render the component.
+     * Renderiza a view do componente
      */
     public function render()
     {

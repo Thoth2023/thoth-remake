@@ -15,17 +15,18 @@ class SuggestDatabase extends Component
 
     use ProjectPermissions;
 
+    // Projeto atual ao qual a sugestão será associada
     public $currentProject;
     private $toastMessages = 'project/planning.databases.livewire.toasts';
 
     /**
-     * Fields to be filled by the form.
+     * Campos do formulário de sugestão.
      */
     public $suggest;
     public $link;
 
     /**
-     * Validation rules.
+     * Regras de validação para os campos do formulário.
      */
     protected $rules = [
         'currentProject' => 'required',
@@ -35,7 +36,7 @@ class SuggestDatabase extends Component
     ];
 
     /**
-     * Custom error messages for the validation rules.
+     * Mensagens de erro personalizadas para a validação.
      */
     protected function messages()
     {
@@ -50,9 +51,10 @@ class SuggestDatabase extends Component
     {
         return __('project/planning.databases.livewire.' . $key . '.' . $message);
     }
+
     /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
+     * Método executado quando o componente é montado.
+     * Recupera o projeto com base no ID da URL.
      */
     public function mount()
     {
@@ -61,7 +63,7 @@ class SuggestDatabase extends Component
     }
 
     /**
-     * Dispatch a toast message to the view.
+     * Envia uma mensagem tipo toast para o front
      */
     public function toast(string $message, string $type)
     {
@@ -69,7 +71,8 @@ class SuggestDatabase extends Component
     }
 
     /**
-     * Reset the fields to the default values.
+     * Reseta os campos do formulário para os valores iniciais.
+     * Usado após submissão bem-sucedida.
      */
     public function resetFields()
     {
@@ -78,34 +81,39 @@ class SuggestDatabase extends Component
     }
 
     /**
-     * Submit the form. It also validates the input fields.
+     * Submete a sugestão de uma nova base de dados.
+     * Valida os campos, cria o registro e registra log.
      */
     public function submit()
     {
-
+        // Verifica se o usuário tem permissão para editar o projeto
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
 
         $this->validate();
 
-        try {
+        try {  
+            // Cria a nova base de dados sugerida
             $suggestion = DatabaseModel::create([
                 'name' => $this->suggest,
                 'link' => $this->link,
             ]);
 
+            // Registra a atividade de sugestão no log do projeto
             Log::logActivity(
                 action: 'Database suggested',
                 description: $suggestion->name,
                 projectId: $this->currentProject->id_project,
             );
 
+            // Exibe mensagem de sucesso para o usuário
             $this->toast(
                 message: $this->translate('suggested'),
                 type: 'success',
             );
 
+            // Limpa os campos do formulário
             $this->resetFields();
         } catch (\Exception $e) {
             $this->addError('suggest', $e->getMessage());
@@ -113,7 +121,7 @@ class SuggestDatabase extends Component
     }
 
     /**
-     * Render the component.
+     * Renderiza a view do componente
      */
     public function render()
     {
