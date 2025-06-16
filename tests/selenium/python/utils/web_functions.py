@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from pages.login import LoginPage
+from pages.projects.index import ProjectsPage
+from pages.projects.create import CreateProjectPage
 from utils.config import USER, PASSWORD
 
 LOGOUT_BUTTON = (By.LINK_TEXT, 'Deslogar')
@@ -17,3 +19,14 @@ def logout(driver):
     Automatiza o processo de realizar logout
     """
     driver.find_element(*LOGOUT_BUTTON).click()
+
+def create_project(driver, title, description, objectives):
+    """
+    Automatiza o processo de criação de projeto
+    """
+    projects_page = ProjectsPage(driver)
+    projects_page.load()
+    projects_page.create_project()
+
+    create_project_page = CreateProjectPage(driver)
+    create_project_page.create(title, description, objectives)
