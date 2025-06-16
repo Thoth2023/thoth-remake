@@ -15,15 +15,22 @@ return new class extends Migration {
             $table->enum('role', ['USER', 'SUPER_USER'])->default('USER');
         });
 
-        User::updateOrCreate(
-            ['email' => 'superuser@superuser.com'],
-            [
-                'username' => 'superuser',
-                'role' => 'SUPER_USER',
-                'terms' => 'required',
-                'password' => bcrypt('superpassword'),
-            ]
-        );
+        // Só cria o super usuário se as variáveis de ambiente estiverem definidas
+        $superUserEmail = env('SUPER_USER_EMAIL');
+        $superUserUsername = env('SUPER_USER_USERNAME');
+        $superUserPassword = env('SUPER_USER_PASSWORD');
+
+        if ($superUserEmail && $superUserUsername && $superUserPassword) {
+            User::updateOrCreate(
+                ['email' => $superUserEmail],
+                [
+                    'username' => $superUserUsername,
+                    'role' => 'SUPER_USER',
+                    'terms' => 'required',
+                    'password' => bcrypt($superUserPassword),
+                ]
+            );
+        }
     }
 
     /**
