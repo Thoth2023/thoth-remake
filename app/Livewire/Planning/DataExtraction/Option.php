@@ -21,23 +21,15 @@ class Option extends Component
     public $options = [];
     public $optionId;
     public $questionId = [];
-
-    /**
-     * Fields to be filled by the form.
-     */
     public $description;
 
 
-    /**
-     * Form state.
-     */
+    // Estado do formulário, indicando se está em modo de edição ou não.
     public $form = [
         'isEditing' => false,
     ];
 
-    /**
-     * Validation rules.
-     */
+    // Regras de validação para os campos do formulário.
     protected $rules = [
         'description' => [
           'required',
@@ -48,9 +40,7 @@ class Option extends Component
         'questionId.*.value' => 'exists:question_extraction,id',
     ];
 
-    /**
-     * Custom error messages for the validation rules.
-     */
+    // Mensagens de erro personalizadas para as regras de validação.
     protected function messages()
     {
         return [
@@ -60,10 +50,7 @@ class Option extends Component
         ];
     }
 
-    /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
-     */
+    // Inicialização do componente Livewire.
     public function mount()
     {
         $projectId = request()->segment(2);
@@ -74,17 +61,13 @@ class Option extends Component
         })->get();
     }
 
-    /**
-     * Dispatch a toast message to the view.
-     */
+    // Exibe a mensagem de toast com o tipo e a mensagem fornecidos.
     public function toast(string $message, string $type)
     {
         $this->dispatch('options', ToastHelper::dispatch($type, $message));
     }
 
-    /**
-     * Reset the fields to the default values.
-     */
+    // Reseta os campos do formulário para o estado inicial.
     private function resetFields()
     {
         $this->optionId = null;
@@ -93,9 +76,7 @@ class Option extends Component
         $this->form['isEditing'] = false;
     }
 
-    /**
-     * Update the items.
-     */
+    // Atualiza a lista de opções de perguntas. ouve o evento 'update-question-select' para atualizar as opções de perguntas.
     #[On('update-question-select')]
     public function updateOptions()
     {
@@ -103,17 +84,14 @@ class Option extends Component
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
-
+		// Recarrega as opções do projeto
         $this->options = OptionModel::whereHas('question', function ($query) {
             $query->where('id_project', $this->currentProject->id_project);
         })->get();
         $this->dispatch('update-table');
     }
 
-    /**
-     * Submit the form. It validates the input fields
-     * and creates or updates an item.
-     */
+    // FSubmete o formulário para criar ou atualizar uma opção de pergunta.
     public function submit()
     {
 
@@ -126,7 +104,7 @@ class Option extends Component
         $updateIf = [
             'id_option' => $this->currentOption?->id_option,
         ];
-
+		// Criar ou atualizar a questão, tentar alterar o registro ou criar uma nova no banco de dados, registra a atividade.
         try {
             $value = $this->form['isEditing'] ? 'Updated the option' : 'Added a option';
             $toastMessage = $this->form['isEditing']
@@ -158,9 +136,7 @@ class Option extends Component
         }
     }
 
-    /**
-     * Fill the form fields with the given data.
-     */
+    // Funçao para preencher os campos do formulário com os dados da opção selecionada
     #[On('data-extraction-table-edit-option')]
     public function edit(string $optionId)
     {
@@ -176,17 +152,15 @@ class Option extends Component
         $this->form['isEditing'] = true;
     }
 
-    /**
-     * Delete an item.
-     */
+    // Função para deletar uma opção de pergunta
     #[On('data-extraction-table-delete-option')]
     public function delete(string $optionId)
     {
-
+		
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
-
+			// Busca a opção pelo ID e tenta deletá-la, mostrando mensagens de sucesso ou erro conforme necessário.
         try {
             $currentOption = OptionModel::findOrFail($optionId);
             $currentOption->delete();
@@ -212,9 +186,7 @@ class Option extends Component
         }
     }
 
-    /**
-     * Render the component.
-     */
+    // Renderiza a view do componente.
     public function render()
     {
         $project = $this->currentProject;
