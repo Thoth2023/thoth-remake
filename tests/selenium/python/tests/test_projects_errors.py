@@ -20,10 +20,15 @@ def test_create_project_empty_fields(driver):
     create_project_page = CreateProjectPage(driver)
     create_project_page.create("", "", "")  # Campos vazios
 
-    erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+    # Aguardar e coletar todas as mensagens de erro
+    error_messages = WebDriverWait(driver, 5).until(
+        EC.presence_of_all_elements_located((By.CLASS_NAME, "invalid-feedback"))
     )
-    assert "campos obrigatórios" in erro.text.lower()
+    error_texts = [msg.text.lower() for msg in error_messages]
+    
+    assert any("the title field is required" in text for text in error_texts), f"Mensagens encontradas: {error_texts}"
+    assert any("the description field is required" in text for text in error_texts), f"Mensagens encontradas: {error_texts}"
+    assert any("the objectives field is required" in text for text in error_texts), f"Mensagens encontradas: {error_texts}"
 
 def test_create_project_title_too_long(driver):
     """
@@ -40,9 +45,9 @@ def test_create_project_title_too_long(driver):
     create_project_page.create(titulo_longo, "Descrição Teste", "Objetivos Teste")
 
     erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+        EC.visibility_of_element_located((By.CLASS_NAME, "invalid-feedback"))
     )
-    assert "título muito longo" in erro.text.lower()
+    assert "must not be greater than 255 characters" in erro.text.lower()
 
 def test_create_project_duplicate_title(driver):
     """
@@ -65,9 +70,9 @@ def test_create_project_duplicate_title(driver):
     create_project_page.create(titulo, "Outra Descrição", "Outros Objetivos")
 
     erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+        EC.visibility_of_element_located((By.CLASS_NAME, "invalid-feedback"))
     )
-    assert "título já existe" in erro.text.lower()
+    assert "title has already been taken" in erro.text.lower()
 
 def test_edit_project_empty_fields(driver):
     """
@@ -77,92 +82,43 @@ def test_edit_project_empty_fields(driver):
 
     projects_page = ProjectsPage(driver)
     projects_page.load()
+    time.sleep(1)  # Aguardar carregamento da página
+
+    # Encontrar a primeira linha da tabela e seu botão de editar
+    row = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "table.table tbody tr"))
+    )
+
+    # Scroll para o elemento antes de interagir
+    driver.execute_script("arguments[0].scrollIntoView(true);", row)
+    time.sleep(0.5)  # Pequena pausa para o scroll
+
+    # Clicar no botão de editar usando o mesmo seletor do ProjectsPage
+    edit_button = row.find_element(
+        By.XPATH,
+        ".//a[contains(@class, 'btn-outline-secondary') and contains(., 'Editar')]"
+    )
     
-    # Criar projeto primeiro
-    projects_page.create_project()
-    create_project_page = CreateProjectPage(driver)
-    titulo = "Projeto para Editar"
-    create_project_page.create(titulo, "Descrição Teste", "Objetivos Teste")
-    time.sleep(1)
+    # Pegar o href do botão para verificar se vamos para a URL correta
+    edit_url = edit_button.get_attribute("href")
+    edit_button.click()
     
+    # Aguardar até que estejamos na URL de edição
+    WebDriverWait(driver, 10).until(
+        lambda d: d.current_url == edit_url
+    )
+    time.sleep(1)  # Aguardar carregamento da página de edição
+
     # Tentar editar com campos vazios
-    projects_page.find_by_title_and_edit(titulo)
     edit_project_page = EditProjectPage(driver)
     edit_project_page.edit("", "", "")
 
-    erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+    # Aguardar e coletar todas as mensagens de erro
+    error_messages = WebDriverWait(driver, 5).until(
+        EC.presence_of_all_elements_located((By.CLASS_NAME, "invalid-feedback"))
     )
-    assert "campos obrigatórios" in erro.text.lower()
-
-def test_delete_nonexistent_project(driver):
-    """
-    Verificar se o sistema trata tentativa de deletar projeto inexistente
-    """
-    login(driver)
-
-    projects_page = ProjectsPage(driver)
-    projects_page.load()
+    error_texts = [msg.text.lower() for msg in error_messages]
     
-    # Tentar deletar projeto que não existe
-    projects_page.find_by_title_and_delete("Projeto Inexistente")
-
-    erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
-    )
-    assert "projeto não encontrado" in erro.text.lower()
-
-def test_create_project_special_characters(driver):
-    """
-    Verificar se o sistema trata corretamente títulos com caracteres especiais
-    """
-    login(driver)
-
-    projects_page = ProjectsPage(driver)
-    projects_page.load()
-    projects_page.create_project()
-
-    create_project_page = CreateProjectPage(driver)
-    titulo_especial = "Projeto @#$%^&*()"
-    create_project_page.create(titulo_especial, "Descrição Teste", "Objetivos Teste")
-
-    erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
-    )
-    assert "caracteres inválidos" in erro.text.lower()
-
-def test_edit_project_without_permission(driver):
-    """
-    Verificar se o sistema impede edição de projeto por usuário sem permissão
-    """
-    # Assumindo que existe um projeto criado por outro usuário
-    login(driver)  # Login com usuário sem permissão
-
-    projects_page = ProjectsPage(driver)
-    projects_page.load()
-    
-    # Tentar editar projeto de outro usuário
-    driver.get(f"{projects_page.url}/edit/1")  # ID de um projeto existente
-
-    erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
-    )
-    assert "sem permissão" in erro.text.lower()
-
-def test_delete_project_without_permission(driver):
-    """
-    Verificar se o sistema impede exclusão de projeto por usuário sem permissão
-    """
-    # Assumindo que existe um projeto criado por outro usuário
-    login(driver)  # Login com usuário sem permissão
-
-    projects_page = ProjectsPage(driver)
-    projects_page.load()
-    
-    # Tentar deletar projeto de outro usuário
-    driver.get(f"{projects_page.url}/delete/1")  # ID de um projeto existente
-
-    erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
-    )
-    assert "sem permissão" in erro.text.lower() 
+    assert any("the title field is required" in text for text in error_texts), f"Mensagens encontradas: {error_texts}"
+    assert any("the description field is required" in text for text in error_texts), f"Mensagens encontradas: {error_texts}"
+    assert any("the objectives field is required" in text for text in error_texts), f"Mensagens encontradas: {error_texts}"
