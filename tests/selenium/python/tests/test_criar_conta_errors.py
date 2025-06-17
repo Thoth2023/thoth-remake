@@ -27,7 +27,7 @@ def test_criar_conta_email_existente(driver):
     pagina.submeter()
 
     erro_email = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "text-danger")]'))
     )
     assert "email já está sendo utilizado" in erro_email.text.lower()
 
@@ -51,9 +51,9 @@ def test_campos_obrigatorios_nao_preenchidos(driver):
     pagina.submeter()
 
     erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "text-danger")]'))
     )
-    assert "campos obrigatórios" in erro.text.lower()
+    assert "campo" in erro.text.lower() and "obrigatório" in erro.text.lower()
 
 def test_senha_fraca(driver):
     """
@@ -75,9 +75,9 @@ def test_senha_fraca(driver):
     pagina.submeter()
 
     erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "text-danger")]'))
     )
-    assert "senha fraca" in erro.text.lower()
+    assert "senha" in erro.text.lower() and "caracteres" in erro.text.lower()
 
 def test_criar_conta_sem_aceitar_termos(driver):
     """
@@ -99,6 +99,6 @@ def test_criar_conta_sem_aceitar_termos(driver):
     pagina.submeter()
 
     erro = WebDriverWait(driver, 5).until(
-        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "error-message")]'))
+        EC.visibility_of_element_located((By.XPATH, '//p[contains(@class, "text-danger")]'))
     )
     assert "termos e condições" in erro.text.lower() 
