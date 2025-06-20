@@ -16,7 +16,8 @@
                         @include('projects.project-overview', [
                             'project' => $project,
                             'activities' => $activities,
-                            'progress' => $progress,
+                            'planningProgress' => $planningProgress,
+                            'conductingProgress' => $conductingProgress,
                         ])
                     </div>
                 </div>

@@ -11,6 +11,7 @@ use App\Models\Activity;
 use App\Models\User;
 use App\Utils\ActivityLogHelper;
 use App\Http\Controllers\Project\Planning\PlanningProgressController;
+use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -113,9 +114,13 @@ class ProjectController extends Controller
             ->get();
 
         // Calcular o progresso do planejamento
-        $progress = $this->progressCalculator->calculate($idProject);
+        $planningProgress = $this->progressCalculator->calculate($idProject);
 
-        return view('projects.show', compact('project', 'users_relation', 'activities', 'progress'));
+        // Calcular o progresso de Condução
+        $conductingProgressController = new ConductingProgressController();
+        $conductingProgress = $conductingProgressController->calculateProgress($idProject);
+
+        return view('projects.show', compact('project', 'users_relation', 'activities', 'planningProgress', 'conductingProgress'));
     }
 
 
