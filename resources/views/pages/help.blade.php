@@ -18,13 +18,13 @@
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
             <div class="card p-3 mt-8 mb-5">
                 <div class="card-body pt-2">
-                    <a href="javascript:;" class="card-title h4 d-block text-darker">
+                    <span href="javascript:;" class="card-title h4 d-block text-darker">
                         Thoth 2.0
-                    </a>
+                    </span>
                     <div class="card-body pt-2">
-                        <a href="javascript:" class="card-title h4 d-block text-darker">
+                        <span href="javascript:" class="card-title h4 d-block text-darker">
                             {{ __('pages/help.common_questions') }}
-                        </a>
+                        </span>
 
                     </div>
                     <div class="accordion" id="accordionExample">

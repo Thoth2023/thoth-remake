@@ -33,9 +33,9 @@
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
             <div class="card d-inline-flex mt-5">
                 <div class="card-body">
-                    <a href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
+                    <span href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/home.thoth") }}
-                    </a>
+                    </span>
                     <p class="card-description mb-0">
                         {{ __("pages/home.thoth_description") }}
                     </p>
@@ -51,10 +51,10 @@
                 ] as $key => $icon)
                 <div class="card rounded-3 p-3 d-flex flex-column h-100">
                     <div class="card-body pt-2 d-flex flex-column">
-                        <a href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
+                        <span href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                             <i class="{{ $icon }}"></i>
                             {{ __("pages/home." . $key) }}
-                        </a>
+                        </span>
                         <p class="card-description mb-4">
                             {{ __("pages/home." . $key . "_description") }}
                         </p>
@@ -71,11 +71,12 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-project-diagram fa-2x mb-2"></i>
-                        <h2 id="project-count" class="h2 card-title mt-auto"><span>0</span></h2>
-                        <h6 class="h6 card-text">{{ __("pages/home.total_projects") }}</h6>
-                    </a>
+                        <h2 class="h2 card-title mt-auto"><span id="project-count">0</span></h2>
+                        <h6 class="h6 card-text">{{ __("pages/home.total_projects") }} </h6>
+                    </span>
+
                 </div>
             </div>
         </div>
@@ -83,22 +84,22 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-users fa-2x mb-2"></i>
                         <h2 id="user-count" class="card-title mt-auto"><span>0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-check-circle fa-2x mb-2"></i>
                         <h2 id="total-finished-projects-count" class="card-title mt-auto"><span>0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>
@@ -106,11 +107,11 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-spinner fa-2x mb-2"></i>
                         <h2 id="total-ongoing-projects-count" class="card-title mt-auto"><span>0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>
