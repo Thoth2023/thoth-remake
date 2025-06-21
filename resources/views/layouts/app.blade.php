@@ -254,7 +254,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
     <!-- CHAT flutuante -->
     <div id="chat-container" style="position:fixed; bottom:0; right:15px; width:300px; z-index:9999;">
         <div id="chat-header" style="background:#007bff;color:#fff;padding:8px;cursor:pointer;">
-            Chat do Projeto
+            <span>{{ __('pages/project.project_chat') }}</span>
             <span id="chat-notif" style="float:right;background:red;padding:2px 5px;border-radius:10px;display:none;">!</span>
         </div>
         <div id="chat-body" style="border:1px solid #ccc;background:#fff;height:250px;overflow:auto;display:none;padding:10px;">

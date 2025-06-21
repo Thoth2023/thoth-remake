@@ -13,4 +13,5 @@ return[
     'enter_the_title' => 'Digite o título',
     'enter_the_description' => 'Digite a descrição',
     'enter_the_objectives' => 'Digite os objetivos',
+    'project_chat' => 'Bate-papo do Projeto'
 ];
