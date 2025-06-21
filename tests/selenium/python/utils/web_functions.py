@@ -14,6 +14,14 @@ def login(driver):
     login_page.load()
     login_page.login(USER, PASSWORD)
 
+def login_with_credentials(driver, user, password):
+    """
+    Automatiza o processo de realizar login com credenciais
+    """
+    login_page = LoginPage(driver)
+    login_page.load()
+    login_page.login(user, password)
+
 def logout(driver):
     """
     Automatiza o processo de realizar logout

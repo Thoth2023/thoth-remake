@@ -1,13 +1,13 @@
 import time
 from pages.quality_assessment_quality_score import QualityAssessmentQualityScore
-from utils.web_functions import login
+from utils.web_functions import login_with_credentials
 
 # SeTC.009.1 - Criar Pontuação de Questão de Qualidade
 def test_create_quality_score(driver):
     """
     Verificar se é possível criar a pontuação para questões de qualidade dos projetos
     """
-    login(driver)
+    login_with_credentials(driver, "email@teste.permanente.reinaldo.com", "SenhaTeste123")
 
     qa_quality_score_page = QualityAssessmentQualityScore(driver)
     qa_quality_score_page.navigate_to_quality_assessment()
@@ -40,7 +40,7 @@ def test_edit_quality_score(driver):
     """
     Verificar se é possível editar a pontuação para questões de qualidade dos projetos
     """
-    login(driver)
+    login_with_credentials(driver, "email@teste.permanente.reinaldo.com", "SenhaTeste123")
 
     qa_quality_score_page = QualityAssessmentQualityScore(driver)
     qa_quality_score_page.navigate_to_quality_assessment()
@@ -62,7 +62,7 @@ def test_delete_quality_score(driver):
     """
     Verificar se é possível deletar a pontuação para questões de qualidade dos projetos
     """
-    login(driver)
+    login_with_credentials(driver, "email@teste.permanente.reinaldo.com", "SenhaTeste123")
 
     qa_quality_score_page = QualityAssessmentQualityScore(driver)
     qa_quality_score_page.navigate_to_quality_assessment()
