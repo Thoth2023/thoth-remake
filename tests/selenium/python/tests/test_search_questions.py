@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.common.by import By
 from pages.projects.index import ProjectsPage
 from pages.projects.create import CreateProjectPage
-from pages.projects.tabs.view import ViewProjectPage
+from pages.projects.planning.searchString import SearchStringPage
 from pages.projects.search_questions.index import SearchQuestionsPage
 from utils.web_functions import login
 
@@ -69,17 +69,17 @@ def test_insert_search_question_with_same_id(driver):
     search_questions_page.find_by_title_and_open(title)
     search_questions_page.open_planning_tab()
     search_questions_page.open_search_questions_tab()
-    
+
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(1)  # Pausa para garantir que o scroll seja concluído
-    
+
     # Tentativa de inserir com o mesmo ID mas descrição diferente
     search_questions_page.insert_search_question(id_search_question, "Segunda descrição - não deve ser inserida")
     time.sleep(1)
-    
+
     # Verifica se existe apenas uma questão com esse ID (não duas)
     question_count = search_questions_page.count_questions_with_id(id_search_question)
-    
+
     assert question_count == 1, f"Encontradas {question_count} questões com ID {id_search_question}, deveria ter apenas 1"
 
 
@@ -104,7 +104,7 @@ def test_edit_search_question(driver):
 
     search_questions_page.find_by_id_and_edit(id_search_question)
     time.sleep(3)  # Pausa para garantir que a edição seja concluída
-    
+
     # Edita a questão de pesquisa
     search_questions_page.edit_search_question(new_id_search_question, "Nova descrição da questão de pesquisa")
     time.sleep(3)  # Pausa para garantir que a edição seja concluída

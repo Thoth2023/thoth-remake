@@ -1,7 +1,7 @@
 import time
 from pages.projects.index import ProjectsPage
 from pages.projects.create import CreateProjectPage
-from pages.projects.tabs.view import ViewProjectPage
+from pages.projects.planning.searchString.index import SearchStringPage
 from utils.web_functions import login
 
 # SeTC.003.1 - Criar novo projeto
@@ -27,7 +27,7 @@ def test_error(driver):
 
     login(driver)
 
-    projects_page = ViewProjectPage(driver)
+    projects_page = SearchStringPage(driver)
     projects_page.load()
     projects_page.open_project()
     time.sleep(1)  # Aguarda o carregamento da página
@@ -44,7 +44,7 @@ def test_sql_error(driver):
 
     login(driver)
 
-    projects_page = ViewProjectPage(driver)
+    projects_page = SearchStringPage(driver)
     projects_page.load()
     projects_page.open_project()
     time.sleep(1)  # Aguarda o carregamento da página
@@ -69,7 +69,7 @@ def test_happy_way(driver):
     """
     login(driver)
 
-    projects_page = ViewProjectPage(driver)
+    projects_page = SearchStringPage(driver)
     projects_page.load()
     projects_page.open_project()
     time.sleep(1)  # Aguarda o carregamento da página
