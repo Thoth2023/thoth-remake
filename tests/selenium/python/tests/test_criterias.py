@@ -1,6 +1,27 @@
 import time
 from pages.criteria.criteria import criteriaPage
 from utils.web_functions import login
+from pages.projects.index import ProjectsPage
+from pages.projects.create import CreateProjectPage
+
+title = "Meu Projeto Teste"
+
+# SeTC.003.1 - Criar novo projeto
+def test_create_project(driver):
+    """
+    Verificar se é possível criar um projeto com os campos obrigatórios preenchidos.
+    """
+    login(driver)
+
+    projects_page = ProjectsPage(driver)
+    projects_page.load()
+    projects_page.create_project()
+
+    create_project_page = CreateProjectPage(driver)
+    create_project_page.create(title, "Descrição Teste", "Objetivos Teste")
+    time.sleep(1) # Pausa após a criação para a página de projetos recarregar
+
+    assert projects_page.find_by_title(title), f"O projeto '{title}' não foi encontrado na tabela."
 
 # SeTC.005.1 - Criar critério de Inclusão
 def test_create_inclusion_criteria(driver):
@@ -9,8 +30,11 @@ def test_create_inclusion_criteria(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
 
     id_criteria = "CI01"
     descricao = "Descricao"
@@ -27,8 +51,11 @@ def test_create_exclusion_criteria(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
 
     id_criteria = "CE01"
     descricao = "Descricao"
@@ -45,8 +72,11 @@ def test_edit_criteria(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
 
     id_criteria = "CI01"
     novo_id_criteria = "C01"
@@ -64,8 +94,12 @@ def test_delete_criteria(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
+
 
     id_criteria = "C01"
     criteria_page.delete_criteria(id_criteria)
@@ -80,8 +114,11 @@ def test_modify_criteria_rule_to_all(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
 
     new_rule = "ALL"
     criteria_page.modify_criteria_rule(new_rule)
@@ -96,8 +133,11 @@ def test_modify_criteria_rule_to_any(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
 
     new_rule = "ANY"
     criteria_page.modify_criteria_rule(new_rule)
@@ -112,8 +152,11 @@ def test_modify_criteria_rule_to_at_least(driver):
     """
     login(driver)
 
+    projects_page = ProjectsPage(driver)
     criteria_page = criteriaPage(driver)
-    criteria_page.load()
+
+    projects_page.load()
+    criteria_page.find_by_title_and_open(title)
 
     new_rule = "AT_LEAST"
     criteria_page.modify_criteria_rule(new_rule)
