@@ -61,7 +61,7 @@
                          Snowballing
                     </label>
                 </div> 
-                
+
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/edit.edit')}}</button>
                 </div>

@@ -66,7 +66,8 @@ return [
                     'added' => 'Domínio adicionado com sucesso.',
                     'updated' => 'Domínio atualizado com sucesso.',
                     'deleted' => 'Domínio deletado com sucesso.',
-                    'duplicate' => 'Domínio duplicado não é permitido.'
+                    'duplicate' => 'Domínio duplicado não é permitido.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir domínios.'
                 ],
             ]
         ],
@@ -108,6 +109,7 @@ return [
                 'toasts' => [
                     'added' => 'Idioma adicionado com sucesso.',
                     'deleted' => 'Idioma deletado com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir idiomas.',
                 ],
             ]
         ],
@@ -150,6 +152,7 @@ return [
                 'toasts' => [
                     'added' => 'Tipo de estudo adicionado com sucesso.',
                     'deleted' => 'Tipo de estudo deletado com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir tipos de estudo.'
                 ],
             ]
         ],
@@ -205,7 +208,8 @@ return [
                     'added' => 'Palavra-chave adicionada com sucesso.',
                     'updated' => 'Palavra-chave atualizada com sucesso.',
                     'deleted' => 'Palavra-chave deletada com sucesso.',
-                    'duplicate' => 'Palavra-chave duplicada não é permitida.'
+                    'duplicate' => 'Palavra-chave duplicada não é permitida.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir palavras-chave.',
                 ],
             ]
         ],
@@ -238,6 +242,7 @@ return [
                 'toasts' => [
                     'added' => 'Datas do projeto adicionadas com sucesso.',
                     'updated' => 'Datas do projeto atualizadas com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir datas do projeto.'
                 ],
             ]
         ],
@@ -284,6 +289,7 @@ return [
                 'added' => 'Questão de Pesquisa adicionada com sucesso.',
                 'updated' => 'Questão de Pesquisa atualizada com sucesso.',
                 'deleted' => 'Questão de Pesquisa deletada com sucesso.',
+                'denied' => 'Um visualizador não pode adicionar, editar ou excluir questões de pesquisa.'
             ],
         ]
     ],
@@ -307,10 +313,10 @@ return [
         ],
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
-            'help'=>[
+            'help' => [
                 'title' => 'Sugira uma nova Base de Dados',
                 'content' => 'Caso seja necessário para sua pesquisa e ela não esteja na lista atual da Thoth. Vale ressaltar que essa base de dados só ficará disponível para uso após aprovação dos administradores responsáveis pelo sistema.',
-            ] ,
+            ],
             'content' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
             'enter-name' => 'Digite o nome da Base de Dados',
@@ -337,6 +343,7 @@ return [
                 'added' => 'Base de Dados adicionada com sucesso.',
                 'deleted' => 'Base de Dados deletada com sucesso.',
                 'suggested' => 'Sua sugestão foi enviada com sucesso.',
+                'denied' => 'Um visualizador não pode adicionar, editar ou excluir bases de dados.',
             ],
         ],
         'database-manager' => [
@@ -390,6 +397,7 @@ return [
         'form' => [
             'description' => 'String de Busca Genérica',
             'enter-description' => 'Digite a string de busca genérica',
+            'no-database'=> 'Sem base de dados encontrados neste projeto.',
             'add' => 'Adicionar String de Busca',
             'update' => 'Atualizar String de Busca',
             'placeholder' => 'Digite a string de busca',
@@ -428,6 +436,10 @@ return [
                     'added' => 'Termo de Busca adicionado com sucesso.',
                     'updated' => 'Termo de Busca atualizado com sucesso.',
                     'deleted' => 'Termo de Busca deletado com sucesso.',
+                    'validation' => 'O termo de busca é inválido. Por favor, insira um termo de busca válido.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir termos de busca.',
+                    'synonym' => 'O sinônimo é inválido. Por favor, insira um sinônimo válido.',
+
                 ],
             ]
         ],
@@ -456,6 +468,7 @@ return [
         'placeholder' => 'Digite a estratégia de busca',
         'save-button' => 'Salvar',
         'success' => 'Estratégia de busca atualizada com sucesso.',
+        'denied' => 'Um visualizador não pode adicionar, editar ou excluir a estratégia de busca.',
     ],
     'criteria' => [
         'title' => 'Critérios de Inclusão/Exclusão',
@@ -505,7 +518,7 @@ return [
             'all' => 'Todos',
             'any' => 'Qualquer',
             'at-least' => 'Pelo menos',
-            'empty' => 'No criteria found',
+            'empty' => 'Sem critérios cadastrados',
             'actions' => 'Ações',
         ],
         'livewire' => [
@@ -518,6 +531,7 @@ return [
             ],
             'type' => [
                 'required' => 'Selecionar um tipo é obrigatório.',
+                'in' => 'Selecione um tipo válido.',
             ],
             'logs' => [
                 'added' => 'Critério adicionado',
@@ -525,14 +539,21 @@ return [
                 'deleted' => 'Critério excluído',
             ],
             'toasts' => [
+                'no_criteria'=> 'Nenhum critério encontrado.',
                 'added' => 'Critério adicionado com sucesso.',
                 'deleted' => 'Critério deletado com sucesso.',
                 'updated' => 'Critério atualizado com sucesso.',
                 'updated-inclusion' => 'Regra do critério de inclusão atualizada',
                 'updated-exclusion' => 'Regra do critério de exclusão atualizada',
                 'unique-id' => 'Este ID de critério já está em uso. Por favor, insira um ID de critério único.',
+                'denied' => 'Um visualizador não pode adicionar, editar ou excluir critérios de inclusão/exclusão.',
             ],
         ],
+        'duplicate_id' => 'O ID fornecido já existe neste projeto.',
+        'updated_success' => 'Critério atualizado com sucesso.',
+        'not_found' => 'Critério não encontrado.',
+        'deleted_success' => 'Critério excluído com sucesso.',
+        'preselected_updated' => 'Valor pré-selecionado atualizado com sucesso.',
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
@@ -625,6 +646,7 @@ return [
                     'added' => 'Pontuação Geral adicionada com sucesso.',
                     'updated' => 'Pontuação Geral atualizada com sucesso.',
                     'deleted' => 'Pontuação Geral deletada com sucesso.',
+                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir pontuações gerais.',
                 ],
             ],
 
@@ -665,9 +687,11 @@ return [
                     'required' => 'O campo de descrição da questão de qualidade é obrigatório.',
                 ],
                 'toasts' => [
+                    'duplicate_id' => 'Uma questão com este ID já existe.',
                     'added' => 'Questão de Qualidade adicionada com sucesso.',
                     'updated' => 'Questão de Qualidade atualizada com sucesso.',
                     'deleted' => 'Questão de Qualidade deletada com sucesso.',
+                    'min_weight' => 'O peso mínimo deve ser maior que 0.',
                 ],
             ],
 
@@ -729,6 +753,10 @@ return [
             'score_rule' => [
                 'title' => 'Regra de Pontuação',
                 'placeholder' => 'Insira a Regra de Pontuação',
+            ],
+            'extra_score_rule' => [
+                'title' => 'Regra de Pontuação Extra',
+                'placeholder' => 'Insira a Regra de Pontuação Extra',
             ],
             'form' => [
                 'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
@@ -819,6 +847,10 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Selecione um tipo',
+
+            ],
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
@@ -840,6 +872,10 @@ return [
                     <li>Descrição: Base de Dados - Tipo de dado: Lista de Escolha Única. (Lista: ACM, IEEE, Scopus)</li>
                 </ul>',
             ],
+            'question-selection'=> [
+                'title' => 'Selecione uma pergunta',
+
+            ],
             'question' => 'Pergunta',
             'option' => 'Opção',
             'add-option' => 'Adicionar Opção',
@@ -853,7 +889,9 @@ return [
                 'options' => 'Opções',
                 'actions' => 'Ações',
             ]
+        ],
+        'toasts' => [
+            'denied' => 'A viewer cannot add, edit or delete data extraction questions.',
         ]
     ]
 ];
-

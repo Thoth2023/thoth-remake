@@ -10,9 +10,9 @@ return [
 
     'progress' => 'Progresso da Revisão Sistemática',
     'planning' => 'Planejamento',
-    'import_studies' => 'Importar Estudos',
-    'study_selection' => 'Seleção de Estudos',
+    'conducting' => 'Condução',
     'quality_assessment' => 'Avaliação de Qualidade',
+    'snowballing' => 'Snowballing',
     'data_extraction' => 'Extração de Dados',
 
     'activity_record' => 'Registro de Atividades',
@@ -20,7 +20,6 @@ return [
     'full_activity_history' => 'Histórico completo de atividades',
     'no_activities' => 'Nenhuma atividade registrada.',
     'export' => 'Exportar dados',
-    'close' => 'Fechar',
 
     // Activity Log messages
     'project_created' => 'Criou o projeto :title',
@@ -29,4 +28,5 @@ return [
     'sent_invitation' => 'Enviou convite para :member participar do projeto :project.',
     'admin_updated_member_level' => 'O administrador atualizou o nível de :member para :level.',
     'accepted_invitation' => 'Aceitou o convite para participar do projeto.',
+    'close' => 'Fechar',
 ];

@@ -44,10 +44,13 @@ class SearchStrategyController extends Controller
             projectId: $projectId
         );
 
+        $progress = app(PlanningProgressController::class)->calculate($projectId);
+
         return redirect()
             ->back()
             ->with('activePlanningTab', 'search-strategy')
-            ->with('success', 'Search Strategy updated successfully');
+            ->with('success', 'Search Strategy updated successfully')
+            ->with('progress', $progress);
     }
 
     /**
