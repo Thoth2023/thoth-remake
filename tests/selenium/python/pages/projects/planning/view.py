@@ -172,6 +172,112 @@ class ViewProjectPage:
 
         assert found, f"Domínio '{domain}' não foi encontrado entre: {[e.text.strip() for e in displayed_domains]}"
 
+    def delete_domain(self, domain):
+        """
+        Exclui um domínio na aba de planejamento do projeto.
+        """
+        # Scroll para garantir visibilidade
+        for _ in range(2):
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.3)
+
+        # Preenche o domínio
+        domain_input = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[1]/div/input")
+        domain_input.clear()
+        domain_input.send_keys(domain)
+        time.sleep(1)
+
+        # Clica no botão para salvar
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Verifica se o domínio aparece em algum dos elementos listados
+        displayed_domains = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/span"
+        )
+
+        found = False
+        for elem in displayed_domains:
+            if elem.text.strip() == domain:
+                found = True
+                break
+
+        # Clica no botão de excluir
+        delete_button = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/div/button[2]")
+        delete_button.click()
+
+        time.sleep(1)
+
+        # Verifica se o domínio foi excluído
+        displayed_domains = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/span"
+        )
+        # Verifica se o domínio foi excluído
+        found = False
+        for elem in displayed_domains:
+            if elem.text.strip() == domain:
+                found = True
+                break
+
+        assert not found, f"Domínio '{domain}' ainda está presente na lista."
+
+    def edit_domain(self, old_domain, new_domain):
+        """
+        Edita um domínio na aba de planejamento do projeto.
+        """
+        # Scroll para garantir visibilidade
+        for _ in range(2):
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.3)
+
+        # Preenche o domínio antigo
+        domain_input = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[1]/div/input")
+        domain_input.clear()
+        domain_input.send_keys(old_domain)
+        time.sleep(1)
+
+        # Clica no botão para salvar
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Verifica se o domínio aparece em algum dos elementos listados
+        displayed_domains = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/span"
+        )
+
+        found = False
+        for elem in displayed_domains:
+            if elem.text.strip() == old_domain:
+                found = True
+                break
+
+        assert found, f"Domínio '{old_domain}' não foi encontrado entre: {[e.text.strip() for e in displayed_domains]}"
+
+        # Clica no botao de editar
+        edit_button = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/div/button[1]")
+        edit_button.click()
+        domain_input.clear()
+        domain_input.send_keys(new_domain)
+        time.sleep(1)
+
+        # Clica no botão para salvar as alterações
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Verifica se o novo domínio aparece em algum dos elementos listados
+        # Verifica se o domínio aparece em algum dos elementos listados
+        displayed_domains = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/span"
+        )
+        found = False
+        for elem in displayed_domains:
+            if elem.text.strip() == new_domain:
+                found = True
+                break
+
+        assert found, f"Domínio '{new_domain}' não foi encontrado entre: {[e.text.strip() for e in displayed_domains]}"
+
+
     def select_language(self, language):
 
         # Scroll para garantir visibilidade
@@ -208,6 +314,50 @@ class ViewProjectPage:
                 break
 
         assert found, f"Idioma '{language}' não foi encontrado entre: {[e.text.strip() for e in displayed_languages]}"
+
+    def delete_language(self, language):
+        """
+        Exclui um idioma na aba de planejamento do projeto.
+        """
+        # Scroll para garantir visibilidade
+        for _ in range(1):
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.3)
+
+        # Seleciona o idioma
+        language_select = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/form/div[1]/div/div/div[1]/div/div")
+        language_select.click()
+        time.sleep(1)
+
+        # Espera até que o elemento esteja presente
+        elemento = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".choices.is-open")))
+        assert elemento is not None, "O seletor de idiomas não está visível."
+
+        # Seleciona o idioma desejado
+        language_option = self.driver.find_element(By.XPATH, f"//div[contains(@class, 'choices__item') and contains(text(), '{language}')]")
+        language_option.click()
+        time.sleep(1)
+
+        # Clica no botão para salvar
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Clica no botão de excluir
+        delete_button = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/div/div/div/button")
+        delete_button.click()
+
+        time.sleep(1)
+
+        # Verifica se o idioma foi excluído
+        displayed_languages = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/div/div/span"
+        )
+        found = False
+        for elem in displayed_languages:
+            if elem.text.strip() == language:
+                found = True
+                break
+        assert not found, f"Idioma '{language}' ainda está presente na lista."
 
     def select_study_type(self, study_type):
         """
@@ -248,6 +398,52 @@ class ViewProjectPage:
                 break
         assert found, f"Tipo de estudo '{study_type}' não foi encontrado entre: {[e.text.strip() for e in displayed_study_types]}"
 
+
+    def delete_study_type(self, study_type):
+        """
+        Exclui um tipo de estudo na aba de planejamento do projeto.
+        """
+        # Scroll para garantir visibilidade
+        for _ in range(2):
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.3)
+
+        # Seleciona o tipo de estudo
+        study_type_select = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/form/div[1]/div/div/div[1]/div/div")
+        study_type_select.click()
+        time.sleep(1)
+
+        # Espera até que o elemento esteja presente
+        elemento = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".choices.is-open")))
+        assert elemento is not None, "O seletor de tipos de estudo não está visível."
+
+        # Seleciona o tipo de estudo desejado
+        study_type_option = self.driver.find_element(By.XPATH, f"//div[contains(@class, 'choices__item') and contains(text(), '{study_type}')]")
+        study_type_option.click()
+        time.sleep(1)
+
+        # Clica no botão para salvar
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Clica no botão de excluir
+        delete_button = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/div/div/div/button")
+        delete_button.click()
+
+        time.sleep(1)
+
+        # Verifica se o tipo de estudo foi excluído
+        displayed_study_types = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/div/div/span"
+        )
+
+        found = False
+        for elem in displayed_study_types:
+            if elem.text.strip() == study_type:
+                found = True
+                break
+        assert not found, f"Tipo de estudo '{study_type}' ainda está presente na lista."
+
     def write_keywords(self, keywords):
         """
         Escreve palavras-chave na aba de planejamento do projeto.
@@ -277,6 +473,112 @@ class ViewProjectPage:
                 found = True
                 break
         assert found, f"Palavra-chave '{keywords}' não foi encontrada entre: {[e.text.strip() for e in displayed_keywords]}"
+
+    def delete_keywords(self, keywords):
+        """
+        Exclui palavras-chave na aba de planejamento do projeto.
+        """
+        # Scroll para garantir visibilidade
+        for _ in range(2):
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.3)
+
+        # Preenche as palavras-chave
+        keywords_input = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[1]/div/input")
+        keywords_input.clear()
+        keywords_input.send_keys(keywords)
+        time.sleep(1)
+
+        # Clica no botão para salvar
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Verifica se as palavras-chave aparecem em algum dos elementos listados
+        displayed_keywords = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/span"
+        )
+
+        found = False
+        for elem in displayed_keywords:
+            if elem.text.strip() == keywords:
+                found = True
+                break
+
+        assert found, f"Palavra-chave '{keywords}' não foi encontrada entre: {[e.text.strip() for e in displayed_keywords]}"
+
+        # Clica no botão de excluir
+        delete_button = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/div/button[2]")
+        delete_button.click()
+
+        time.sleep(1)
+
+        # Verifica se as palavras-chave foram excluídas
+        displayed_keywords = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/span"
+        )
+
+        found = False
+        for elem in displayed_keywords:
+            if elem.text.strip() == keywords:
+                found = True
+                break
+        assert not found, f"Palavra-chave '{keywords}' ainda está presente na lista."
+
+    def edit_keywords(self, old_keyword, new_keyword):
+        """
+        Edita uma palavra-chave na aba de planejamento do projeto.
+        """
+        # Scroll para garantir visibilidade
+        for _ in range(2):
+            self.driver.execute_script("window.scrollBy(0, window.innerHeight);")
+            time.sleep(0.3)
+
+        # Preenche a palavra-chave antiga
+        keywords_input = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[1]/div/input")
+        keywords_input.clear()
+        keywords_input.send_keys(old_keyword)
+        time.sleep(1)
+
+        # Clica no botão para salvar
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Verifica se a palavra-chave aparece em algum dos elementos listados
+        displayed_keywords = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/span"
+        )
+
+        found = False
+        for elem in displayed_keywords:
+            if elem.text.strip() == old_keyword:
+                found = True
+                break
+
+        assert found, f"Palavra-chave '{old_keyword}' não foi encontrada entre: {[e.text.strip() for e in displayed_keywords]}"
+
+        # Clica no botão de editar
+        edit_button = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/div/button[1]")
+        edit_button.click()
+
+        keywords_input.clear()
+        keywords_input.send_keys(new_keyword)
+        time.sleep(1)
+
+        # Clica no botão para salvar as alterações
+        self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[2]/button").click()
+        time.sleep(1)
+
+        # Verifica se a nova palavra-chave aparece em algum dos elementos listados
+        displayed_keywords = self.driver.find_elements(
+            By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/span"
+        )
+        found = False
+        for elem in displayed_keywords:
+            if elem.text.strip() == new_keyword:
+                found = True
+                break
+        assert found, f"Palavra-chave '{new_keyword}' não foi encontrada entre: {[e.text.strip() for e in displayed_keywords]}"
+
 
     def select_date(self, date, final_date):
         """
