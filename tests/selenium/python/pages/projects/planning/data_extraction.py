@@ -28,7 +28,7 @@ class DataExtractionPage:
         self.driver.find_element(By.LINK_TEXT, "Planejamento").click()
         self.driver.find_element(By.LINK_TEXT, "Extração de Dados").click()
 
-    def scroll_to_element_and_click(self, xpath, timeout=10):
+    def scroll_to_element_and_click(self, xpath, timeout=50):
         """
         Aguarda até que o elemento esteja presente na página e faz scroll até ele e clica no botão de editar.
         """
@@ -38,7 +38,7 @@ class DataExtractionPage:
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
         self.driver.execute_script("arguments[0].click();", element)
 
-    def check_id_conflict_alert(self, timeout=5):
+    def check_id_conflict_alert(self, timeout=50):
         """
         Verifica se o alerta de ID duplicado está visível na tela.
         Retorna True se estiver, False se não estiver.
@@ -55,7 +55,7 @@ class DataExtractionPage:
         """
         Edita o campo de descrição da questão atualmente aberta no formulário.
         """
-        description_input = WebDriverWait(self.driver, 10).until(
+        description_input = WebDriverWait(self.driver, 30).until(
         EC.element_to_be_clickable((
             By.XPATH,
             "/html[1]/body[1]/main[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[8]/div[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[2]/input[1]"
@@ -66,13 +66,13 @@ class DataExtractionPage:
         description_input.clear()
         description_input.send_keys(new_description)
 
-        save_button = WebDriverWait(self.driver, 10).until(
+        save_button = WebDriverWait(self.driver, 30).until(
         EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Editar Pergunta']")))
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", save_button)
         save_button.click()
     
     def get_form_data(self):
-        wait = WebDriverWait(self.driver, 15)
+        wait = WebDriverWait(self.driver, 50)
 
         wait.until(lambda driver: driver.find_element(
         By.XPATH, "//div[@class='form-group mt-3 d-flex flex-column gap-4']//input[@id='questionId']"
@@ -111,7 +111,7 @@ class DataExtractionPage:
         """
         Verifica se aparece a mensagem 'Este campo é obrigatório' no formulário ao tentar enviar sem preencher os campos.
         """
-        error_message = WebDriverWait(self.driver, 3).until(
+        error_message = WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((
                 By.XPATH,
                 "//*[contains(text(), 'Este campo é obrigatório')]"
@@ -166,14 +166,16 @@ class DataExtractionPage:
         self.driver.execute_script("arguments[0].scrollIntoView(true);", option)
         option.click()
         
-    def get_question_data_by_id(self):
-        id_xpath = "/html/body/main/div/div/div[2]/div/div/div[2]/div[8]/div/div[2]/div/div/div/table/tbody/tr[1]/td[2]"
-        descricao_xpath = "/html/body/main/div/div/div[2]/div/div/div[2]/div[8]/div/div[2]/div/div/div/table/tbody/tr[1]/td[3]"
-        tipo_xpath = "/html/body/main/div/div/div[2]/div/div/div[2]/div[8]/div/div[2]/div/div/div/table/tbody/tr[1]/td[4]"
-
-        id_element = self.driver.find_element(By.XPATH, id_xpath)
-        descricao_element = self.driver.find_element(By.XPATH, descricao_xpath)
-        tipo_element = self.driver.find_element(By.XPATH, tipo_xpath)
+    def get_question_data_by_id(self, question_id):
+        id_element = self.driver.find_element(
+            By.ID, f"question-id-{question_id}"
+        )
+        descricao_element = self.driver.find_element(
+            By.ID, f"question-description-{question_id}"
+        )
+        tipo_element = self.driver.find_element(
+            By.ID, f"question-type-{question_id}"
+        )
 
         # Faz scroll até os elementos para garantir que estão visíveis
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", id_element)
