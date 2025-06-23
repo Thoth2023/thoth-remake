@@ -9,7 +9,7 @@ class SnowballingController extends Controller
 {
     public function index()
     {
-        // Apenas renderiza a view sem dados
+        // Só mostra a view inicialmente, sem dados
         return view('snowballing');
     }
 
@@ -21,7 +21,7 @@ class SnowballingController extends Controller
 
         $doi = $request->input('doi');
 
-        // Chamada à API Semantic Scholar
+        // Faz a requisição para a API Semantic Scholar
         $response = Http::get("https://api.semanticscholar.org/graph/v1/paper/DOI:$doi", [
             'fields' => 'title,references.title,citations.title'
         ]);
@@ -29,16 +29,12 @@ class SnowballingController extends Controller
         if ($response->successful()) {
             $data = $response->json();
 
-            // Debug temporário para conferir o retorno da API
-            // dd($data);
-
             $references = $data['references'] ?? [];
             $citations = $data['citations'] ?? [];
 
-            // Retornar para view com os dados
             return view('snowballing', compact('references', 'citations', 'doi'));
         } else {
-            // Retorna com erro na requisição
+            // Se falhar, volta com erro e mantém input preenchido
             return redirect()->back()->with('error', 'Erro ao buscar o DOI.')->withInput();
         }
     }

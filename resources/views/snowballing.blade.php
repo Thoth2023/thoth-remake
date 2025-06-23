@@ -30,56 +30,33 @@
         </button>
     </form>
 
-    @if((!empty($citations)) || (!empty($references)))
-        <div class="mb-3">
-            <button id="btnCitations" class="btn btn-outline-primary me-2 active">📌 Citações Recebidas</button>
-            <button id="btnReferences" class="btn btn-outline-primary">🔎 Referências Encontradas</button>
-        </div>
-
-        <div id="citationsList" style="display: block;">
-            @if(!empty($citations))
-                <ul class="list-group">
-                    @foreach ($citations as $cit)
-                        <li class="list-group-item">{{ $cit['title'] ?? 'Título não disponível' }}</li>
-                    @endforeach
-                </ul>
-            @else
-                <p>Nenhuma citação encontrada.</p>
-            @endif
-        </div>
-
-        <div id="referencesList" style="display: none;">
-            @if(!empty($references))
-                <ul class="list-group">
-                    @foreach ($references as $ref)
-                        <li class="list-group-item">{{ $ref['title'] ?? 'Título não disponível' }}</li>
-                    @endforeach
-                </ul>
-            @else
-                <p>Nenhuma referência encontrada.</p>
-            @endif
+    @if(!empty($references) || !empty($citations))
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="fw-semibold">🔎 Referências Encontradas</h5>
+                @if(!empty($references))
+                    <ul class="list-group">
+                        @foreach ($references as $ref)
+                            <li class="list-group-item">{{ $ref['title'] ?? 'Título não disponível' }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>Nenhuma referência encontrada.</p>
+                @endif
+            </div>
+            <div class="col-md-6">
+                <h5 class="fw-semibold">📌 Citações Recebidas</h5>
+                @if(!empty($citations))
+                    <ul class="list-group">
+                        @foreach ($citations as $cit)
+                            <li class="list-group-item">{{ $cit['title'] ?? 'Título não disponível' }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>Nenhuma citação encontrada.</p>
+                @endif
+            </div>
         </div>
     @endif
 </div>
-
-<script>
-    const btnCitations = document.getElementById('btnCitations');
-    const btnReferences = document.getElementById('btnReferences');
-    const citationsList = document.getElementById('citationsList');
-    const referencesList = document.getElementById('referencesList');
-
-    btnCitations.addEventListener('click', () => {
-        btnCitations.classList.add('active');
-        btnReferences.classList.remove('active');
-        citationsList.style.display = 'block';
-        referencesList.style.display = 'none';
-    });
-
-    btnReferences.addEventListener('click', () => {
-        btnReferences.classList.add('active');
-        btnCitations.classList.remove('active');
-        referencesList.style.display = 'block';
-        citationsList.style.display = 'none';
-    });
-</script>
 @endsection
