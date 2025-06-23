@@ -12,12 +12,26 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
+/**
+ * Modelo que representa um Usuário do sistema.
+ *
+ * Gerencia autenticação, relacionamentos com projetos, níveis de acesso,
+ * anonimização de dados e outras operações relacionadas ao usuário.
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
+    /**
+     * Nome do campo do token de "lembrar de mim".
+     * @var string
+     */
     protected $rememberTokenName = 'remember_token';
 
+    /**
+     * Atributos que podem ser preenchidos em massa.
+     * @var array
+     */
     protected $fillable = [
         'username',
         'firstname',
@@ -37,27 +51,45 @@ class User extends Authenticatable
         'terms_and_lgpd',
     ];
 
+    /**
+     * Atributos ocultos para arrays.
+     * @var array
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * Atributos com valores padrão.
+     * @var array
+     */
     protected $attributes = [
         'role' => 'USER',
     ];
 
+    /**
+     * Conversão de tipos de atributos.
+     * @var array
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    // Relacionamento com projetos através da tabela `members`
+    /**
+     * Relacionamento N:N com projetos através da tabela `members`.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project')
             ->withPivot('level', 'status', 'invitation_token');
     }
 
-    // Relacionamento com projetos com nível de acesso específico (usando o campo `level`)
+    /**
+     * Relacionamento N:N com projetos, incluindo o nível de acesso (campo `level`).
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function projectsWithLevels()
     {
         return $this->belongsToMany(Project::class, 'members', 'id_user', 'id_project')
@@ -65,20 +97,31 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    // Relacionamento com o modelo `Level`, caso necessário
+    /**
+     * Relacionamento N:N com o modelo `Level` através da tabela `user_levels`.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function levels()
     {
         return $this->belongsToMany(Level::class, 'user_levels', 'user_id', 'level_id')
             ->withTimestamps();
     }
 
-    // Verificar se o usuário tem acesso a um projeto específico
+    /**
+     * Verifica se o usuário tem acesso a um projeto específico.
+     * @param Project $project
+     * @return bool
+     */
     public function hasProjectAccess(Project $project): bool
     {
         return $this->projects()->where('id_project', $project->id)->exists();
     }
 
-    // Verificar se o usuário é administrador de um projeto específico
+    /**
+     * Verifica se o usuário é administrador de um projeto específico.
+     * @param Project $project
+     * @return bool
+     */
     public function isProjectAdmin(Project $project): bool
     {
         return $this->projectsWithLevels()
@@ -87,18 +130,29 @@ class User extends Authenticatable
             ->exists();
     }
 
-    // Hash automático para a senha
+    /**
+     * Define automaticamente o hash da senha ao atribuir o valor.
+     * @param string $value
+     * @return void
+     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
 
-    // Relacionamento de perfil (caso necessário)
+    /**
+     * Relacionamento de perfil do usuário (caso utilizado).
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function profile()
     {
         return $this->belongsTo(Profile::class, 'profile_id');
     }
 
+    /**
+     * Anonimiza os dados do usuário, tornando-os irreconhecíveis e desativando a conta.
+     * @return void
+     */
     public function deleteUserData()
     {
         // Anonimiza os dados do usuário
