@@ -43,6 +43,51 @@ def test_domain_create(driver):
     projects_page.write_domain(domain_name)
     time.sleep(1)  # Pausa para a tabela de domínios ser atualizada
 
+def test_domain_delete(driver):
+    """
+    Verificar se é possível excluir um domínio previamente criado.
+    """
+    login(driver)
+
+    projects_page = ViewProjectPage(driver)
+    projects_page.load()
+    projects_page.open_project("General_Info_Test")
+
+    time.sleep(1)  # Aguarda o carregamento da página
+
+    projects_page.open_tab_planning()
+    time.sleep(1)  # Aguarda o carregamento da aba de planejamento
+
+    projects_page.open_tab_general_info()
+    time.sleep(1)  # Aguarda o carregamento da aba de informações gerais
+
+    domain_name = "Domínio Teste"
+    projects_page.delete_domain(domain_name)
+    time.sleep(1)  # Pausa para a tabela de domínios ser atualizada
+
+def test_domain_edit(driver):
+    """
+    Verificar se é possível editar um domínio previamente criado.
+    """
+    login(driver)
+
+    projects_page = ViewProjectPage(driver)
+    projects_page.load()
+    projects_page.open_project("General_Info_Test")
+
+    time.sleep(1)  # Aguarda o carregamento da página
+
+    projects_page.open_tab_planning()
+    time.sleep(1)  # Aguarda o carregamento da aba de planejamento
+
+    projects_page.open_tab_general_info()
+    time.sleep(1)  # Aguarda o carregamento da aba de informações gerais
+
+    old_domain_name = "Domínio Teste"
+    new_domain_name = "Domínio Editado"
+    projects_page.edit_domain(old_domain_name, new_domain_name)
+    time.sleep(1)  # Pausa para a tabela de domínios ser atualizada
+
 def test_language_create(driver):
     """
     Verificar se é possível criar um idioma dentro de um projeto.
@@ -63,6 +108,28 @@ def test_language_create(driver):
 
     language = "Portuguese"
     projects_page.select_language(language)
+    time.sleep(1)  # Pausa para a tabela de idiomas ser atualizada
+
+def test_language_delete(driver):
+    """
+    Verificar se é possível excluir um idioma previamente criado.
+    """
+    login(driver)
+
+    projects_page = ViewProjectPage(driver)
+    projects_page.load()
+    projects_page.open_project("General_Info_Test")
+
+    time.sleep(1)  # Aguarda o carregamento da página
+
+    projects_page.open_tab_planning()
+    time.sleep(1)  # Aguarda o carregamento da aba de planejamento
+
+    projects_page.open_tab_general_info()
+    time.sleep(1)  # Aguarda o carregamento da aba de informações gerais
+
+    language = "Portuguese"
+    projects_page.delete_language(language)
     time.sleep(1)  # Pausa para a tabela de idiomas ser atualizada
 
 def test_study_type(driver):
@@ -87,6 +154,28 @@ def test_study_type(driver):
     projects_page.select_study_type(study_type)
     time.sleep(1)  # Pausa para a tabela de tipos de estudo ser atualizada
 
+def test_study_type_delete(driver):
+    """
+    Verificar se é possível excluir um tipo de estudo previamente criado.
+    """
+    login(driver)
+
+    projects_page = ViewProjectPage(driver)
+    projects_page.load()
+    projects_page.open_project("General_Info_Test")
+
+    time.sleep(1)  # Aguarda o carregamento da página
+
+    projects_page.open_tab_planning()
+    time.sleep(1)  # Aguarda o carregamento da aba de planejamento
+
+    projects_page.open_tab_general_info()
+    time.sleep(1)  # Aguarda o carregamento da aba de informações gerais
+
+    study_type = "Book"
+    projects_page.delete_study_type(study_type)
+    time.sleep(1)  # Pausa para a tabela de tipos de estudo ser atualizada
+
 def test_keywords_create(driver):
     """
     Verificar se é possível criar palavras-chave dentro de um projeto.
@@ -107,6 +196,51 @@ def test_keywords_create(driver):
 
     keyword = "Teste"
     projects_page.write_keywords(keyword)
+    time.sleep(1)  # Pausa para a tabela de palavras-chave ser atualizada
+
+def test_keywords_delete(driver):
+    """
+    Verificar se é possível excluir palavras-chave previamente criadas.
+    """
+    login(driver)
+
+    projects_page = ViewProjectPage(driver)
+    projects_page.load()
+    projects_page.open_project("General_Info_Test")
+
+    time.sleep(1)  # Aguarda o carregamento da página
+
+    projects_page.open_tab_planning()
+    time.sleep(1)  # Aguarda o carregamento da aba de planejamento
+
+    projects_page.open_tab_general_info()
+    time.sleep(1)  # Aguarda o carregamento da aba de informações gerais
+
+    keyword = "Teste"
+    projects_page.delete_keywords(keyword)
+    time.sleep(1)  # Pausa para a tabela de palavras-chave ser atualizada
+
+def test_keywords_edit(driver):
+    """
+    Verificar se é possível editar palavras-chave previamente criadas.
+    """
+    login(driver)
+
+    projects_page = ViewProjectPage(driver)
+    projects_page.load()
+    projects_page.open_project("General_Info_Test")
+
+    time.sleep(1)  # Aguarda o carregamento da página
+
+    projects_page.open_tab_planning()
+    time.sleep(1)  # Aguarda o carregamento da aba de planejamento
+
+    projects_page.open_tab_general_info()
+    time.sleep(1)  # Aguarda o carregamento da aba de informações gerais
+
+    old_keyword = "Teste"
+    new_keyword = "Teste Editado"
+    projects_page.edit_keywords(old_keyword, new_keyword)
     time.sleep(1)  # Pausa para a tabela de palavras-chave ser atualizada
 
 def test_date_create(driver):
@@ -131,7 +265,7 @@ def test_date_create(driver):
     final_date = "09/06/2026"
     projects_page.select_date(date, final_date)
     time.sleep(1)  # Pausa para a tabela de datas ser atualizada
-    
+
 
 
 def test_delete_project(driver):
