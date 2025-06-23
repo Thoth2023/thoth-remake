@@ -25,7 +25,7 @@
                     <h4 class="card-title text-darker">{{ __("pages/terms.what") }}</h4>
                     <p>
                         {{ __("pages/terms.what_text") }}
-                        <a href="https://thoth-rsl.com">https://thoth-rsl.com</a>
+                        <a href="https://thoth-slr.com">https://thoth-slr.com</a>
                     </p>
                     <p>{{ __("pages/terms.objective") }}</p>
                     <p>{{ __("pages/terms.author") }}</p>
