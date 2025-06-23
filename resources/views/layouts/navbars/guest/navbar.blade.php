@@ -60,7 +60,12 @@
                                     {{ __("nav/nav.help") }}
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+    <a class="nav-link" href="{{ route('snowballing.index') }}">
+        <i class="ni ni-compass-04 text-primary"></i>
+        <span class="nav-link-text">Snowballing com IA</span>
+    </a>
+</li>
                             <!-- Se o usuário NÃO estiver autenticado -->
                             @guest
                                 <!-- Link para Cadastro -->

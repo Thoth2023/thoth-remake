@@ -38,11 +38,16 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\SnowballingLookup;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
+
+
+use App\Http\Controllers\SnowballingController;
+
+Route::get('/snowballing', [SnowballingController::class, 'index'])->name('snowballing.index');
+Route::post('/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch');
 
 
 //use App\Http\Controllers\Auth\LoginController;
@@ -58,6 +63,8 @@ use App\Http\Controllers\ThemeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
 
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
@@ -119,6 +126,10 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+Route::middleware(['auth'])->group(function () {
+    
+    
+});
 
 
 // Project Routes
@@ -297,12 +308,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
 
-
-
-
-Route::get('/project/{projectId}/conducting/snowballing', SnowballingLookup::class)
-    ->name('project.conducting.snowballing')
-    ->middleware(['auth', Localization::class]);
 
 
 
