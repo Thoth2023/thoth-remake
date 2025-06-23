@@ -48,7 +48,7 @@
                     ></textarea>
                 </div>
             @empty
-                <p>{{ __("No databases found for this project.") }}</p>
+                <p>{{ __("project/planning.search-string.form.no-database") }}</p>
             @endforelse
             @error("description")
                 <span class="text-xs text-danger">

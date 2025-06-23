@@ -10,10 +10,10 @@
                                 @include ('components.help-button', ['dataTarget' => 'CriteriaHelpModal'])
                                 <!-- Help Button Description -->
                                 @include('components.help-modal', [
-                                    'modalId' => 'CriteriaHelpModal',
-                                    'modalLabel' => 'exampleModalLabel',
-                                    'modalTitle' => translationPlanning('criteria.help.title'),
-                                    'modalContent' => translationPlanning('criteria.help.content'),
+                                'modalId' => 'CriteriaHelpModal',
+                                'modalLabel' => 'exampleModalLabel',
+                                'modalTitle' => translationConducting('criteria.help.title'),
+                                'modalContent' => translationConducting('criteria.help.content'),
                                 ])
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                             @include('project.planning.criteria.partials.criteria-form')
                         </div>
 
-                        <div class="card-group">
+                        <div class="d-flex flex-column">
                             @include('project.planning.criteria.partials.inclusion-criteria')
                             @include('project.planning.criteria.partials.exclusion-criteria')
                         </div>

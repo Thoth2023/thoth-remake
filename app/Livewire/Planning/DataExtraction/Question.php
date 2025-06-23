@@ -9,52 +9,55 @@ use App\Models\Project\Planning\DataExtraction\Question as QuestionModel;
 use App\Models\Project\Planning\DataExtraction\QuestionTypes as QuestionTypesModel;
 use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
+use App\Traits\ProjectPermissions;
 
 class Question extends Component
 {
+
+    use ProjectPermissions;
+
     public $currentProject;
     public $currentQuestion;
     public $questions = [];
     public $questionId;
     public $type;
     public $questionTypes = [];
+    private $toastMessages = 'project/planning.data-extraction.toasts';
 
-    /**
-     * Fields to be filled by the form.
-     */
+
     public $description;
 
 
-    /**
-     * Form state.
-     */
+
     public $form = [
         'isEditing' => false,
     ];
 
-    /**
-     * Validation rules.
-     */
+	// Regra de validação para os campos do formulário.
     protected $rules = [
+        'questionId' => ['required', 'max:255', 'regex:/^(?!\s*$)[a-zA-Z0-9\s]+$/'],
         'description' => 'required|string',
         'type' => 'required|array',
     ];
 
-    /**
-     * Custom error messages for the validation rules.
-     */
+	// Regras de validação para os campos do formulário.
     protected function messages()
     {
         return [
+            'questionId.required' => 'Este campo é obrigatório',
+            'questionId.regex' => 'O ID da questão não pode conter caracteres especiais',
             'description.required' => 'Este campo é obrigatório',
+            'description.regex' => 'A descrição só pode conter letras, números e espaços.',
             'type.required' => 'Este campo é obrigatório',
         ];
     }
 
-    /**
-     * Executed when the component is mounted. It sets the
-     * project id and retrieves the items.
-     */
+	// Mensagens de erro personalizadas para as regras de validação.
+    protected $messages = [
+        'questionId.regex' => 'O ID deve conter apenas letras e números.',
+    ];
+
+	// Inicialização do componente Livewire
     public function mount()
     {
         $projectId = request()->segment(2);
@@ -67,22 +70,24 @@ class Question extends Component
         $this->questionTypes = QuestionTypesModel::all();
     }
 
-    /**
-     * Reset the fields to the default values.
-     */
+	// Função para resetar os campos do formulário para o estado inicial
     private function resetFields()
     {
         $this->questionId = null;
         $this->description = '';
         $this->type['value'] = '';
         $this->form['isEditing'] = false;
+        $this->currentQuestion = null;
     }
 
-    /**
-     * Update the items.
-     */
+	// Função para atualizar a lista de perguntas
     public function updateQuestions()
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
         $this->questions = QuestionModel::where(
             'id_project',
             $this->currentProject->id_project
@@ -90,44 +95,44 @@ class Question extends Component
         $this->dispatch('update-question-select');
     }
 
-    /**
-     * Dispatch a toast message to the view.
-     */
+	// Exibe a mensagem de toast com o tipo e a mensagem fornecidos
     public function toast(string $message, string $type)
     {
         $this->dispatch('questions', ToastHelper::dispatch($type, $message));
     }
 
-    /**
-     * Submit the form. It validates the input fields
-     * and creates or updates an item.
-     */
+	// Função para verificar validade dados e aplicar a edição das perguntas
     public function submit()
     {
-        $this->validate();
 
-        $existingQuestion = QuestionModel::where('id', $this->questionId)
-            ->where('id_project', $this->currentProject->id_project)
-            ->when($this->form['isEditing'], function ($query) {
-                return $query->where('id', '!=', $this->currentQuestion->id);
-            })
-            ->first();
-
-        if ($existingQuestion) {
-            $this->toast(
-                message: 'Já existe uma questão com este ID neste projeto.',
-                type: 'error'
-            );
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
 
+        $this->validate();
+
+		// Verifica se o ID da questão já existe no projeto, exceto quando está editando uma questão existente.
+        if (!$this->form['isEditing']) {
+            $existingQuestion = QuestionModel::where('id', $this->questionId)
+                ->where('id_project', $this->currentProject->id_project)
+                ->first();
+
+            if ($existingQuestion) {
+                $this->toast(
+                    message: 'Já existe uma questão com este ID neste projeto.',
+                    type: 'error'
+                );
+                return;
+            }
+        }
+		// Tenta criar ou atualizar a questão, registrando a atividade e mostrando mensagens de sucesso ou erro conforme necessário.
         try {
             $value = $this->form['isEditing'] ? 'Updated the question' : 'Added a question';
             $toastMessage = $this->form['isEditing']
                 ? 'Questão atualizada com sucesso!' : 'Questão adicionada com sucesso!';
 
             if ($this->form['isEditing']) {
-                // Atualiza a questão existente
+
                 $this->currentQuestion->update([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -135,7 +140,7 @@ class Question extends Component
                     'description' => $this->description,
                 ]);
             } else {
-                // Cria uma nova questão
+
                 QuestionModel::create([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -165,14 +170,18 @@ class Question extends Component
         }
     }
 
-
-
-    /**
-     * Fill the form fields with the given data.
-     */
+	// Função para extrair os dados de uma pergunta específica para edição
     #[On('data-extraction-table-edit-question')]
     public function edit(string $questionId)
     {
+
+        $this->resetFields();
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
+		// Busca a questão pelo ID e tenta carregá-la, mostrando mensagens de erro se não for encontrada.
         $this->currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)
             ->where('id_de', $questionId)
             ->first();
@@ -185,10 +194,10 @@ class Question extends Component
             return;
         }
 
-        // Verifica se o 'questionId' já existe em outra questão do mesmo projeto
+		// Verifica se já existe uma questão com o mesmo ID no projeto, exceto a questão atual
         $existingQuestion = QuestionModel::where('id', $this->questionId)
             ->where('id_project', $this->currentProject->id_project)
-            ->where('id', '!=', $this->currentQuestion->id) // Garante que não é a mesma questão
+            ->where('id', '!=', $this->currentQuestion->id)
             ->first();
 
         if ($existingQuestion) {
@@ -199,19 +208,22 @@ class Question extends Component
             return;
         }
 
-        // Preenche os campos do formulário com os dados da questão atual
+        // Preenche os campos do formulário com os dados da questão selecionada
         $this->questionId = $this->currentQuestion->id;
         $this->description = $this->currentQuestion->description;
         $this->type['value'] = $this->currentQuestion->type;
         $this->form['isEditing'] = true;
     }
 
-    /**
-     * Delete an item.
-     */
+    // Função para deletar uma pergunta
     #[On('data-extraction-table-delete-question')]
     public function delete(string $questionId)
     {
+
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+		// Busca a questão pelo ID e tenta deletá-la, mostrando mensagens de sucesso ou erro conforme necessário.
         try {
             $currentQuestion = QuestionModel::where('id_project', $this->currentProject->id_project)->where('id_de', $questionId)->first();
             $currentQuestion->delete();
@@ -237,9 +249,7 @@ class Question extends Component
         }
     }
 
-    /**
-     * Render the component.
-     */
+    // Renderiza a view do componente
     public function render()
     {
         $project = $this->currentProject;
@@ -252,10 +262,3 @@ class Question extends Component
         )->extends('layouts.app');
     }
 }
-
-
-//     public function render()
-//     {
-//         return view('livewire.planning.data-extraction.data-extraction');
-//     }
-// }

@@ -1,78 +1,57 @@
 <div class="card">
     <div class="card-header mb-0 pb-0">
-        <x-helpers.modal
-            target="criteria"
-            modalTitle="{{ translationPlanning('criteria.title') }}"
-            modalContent="{!!  translationPlanning('criteria.help.content') !!}"
-        />
+        <x-helpers.modal target="criteria" modalTitle="{{ translationPlanning('criteria.title') }}"
+            modalContent="{!!  translationPlanning('criteria.help.content') !!}" />
     </div>
     <div class="card-body">
         <form wire:submit="submit" class="d-flex flex-column">
             <div class="d-flex flex-column gap-2 form-group">
-                <div class="d-flex gap-2 form-group">
+                <div class="gap-2 form-group">
                     <!-- Primeira Div -->
                     <div class="w-25">
-                        <x-input
-                            maxlength="20"
-                            id="criteriaId"
-                            label="{{ translationPlanning('criteria.form.id') }}"
-                            wire:model="criteriaId"
-                            placeholder="ID"
-                            required
-                        />
+                        <x-input maxlength="20" id="criteriaId" label="{{ translationPlanning('criteria.form.id') }}"
+                            wire:model="criteriaId" placeholder="ID" required />
                         @error("criteriaId")
                         <span class="text-xs text-danger">
-                {{ $message }}
-            </span>
+                            {{ $message }}
+                        </span>
                         @enderror
                     </div>
 
                     <!-- Segunda Div -->
                     <div class="w-75">
-                        <x-input
-                            id="description"
-                            label="{{ translationPlanning('criteria.form.description') }}"
+                        <x-input id="description" label="{{ translationPlanning('criteria.form.description') }}"
                             wire:model="description"
-                            placeholder="{{ translationPlanning('criteria.form.enter_description') }}"
-                            required
-                        />
+                            placeholder="{{ translationPlanning('criteria.form.enter_description') }}" required />p
                         @error("description")
                         <span class="text-xs text-danger">
-                {{ $message }}
-            </span>
+                            {{ $message }}
+                        </span>
                         @enderror
                     </div>
                 </div>
 
+
                 <div class="d-flex flex-column w-40 ">
-                    <x-select
-                        wire:model="type"
-                        label="{{ translationPlanning('criteria.form.type') }}"
-                        search
-                        required
-                    >
+                    <x-select wire:model="type" label="{{ translationPlanning('criteria.form.type') }}" search required>
                         <option selected disabled>
                             {{ translationPlanning("criteria.form.select-placeholder") }}
                         </option>
-                        <option
-                            <?= ($type["value"] ?? "") === "Inclusion" ? "selected" : "" ?>
-                            value="Inclusion"
-                        >
+                        <option <?= ($type["value"] ?? "") === "Inclusion" ? "selected" : "" ?> value="Inclusion">
                             {{ translationPlanning("criteria.form.select-inclusion") }}
                         </option>
-                        <option
-                            <?= ($type["value"] ?? "") === "Exclusion" ? "selected" : "" ?>
-                            value="Exclusion"
-                        >
+                        <option <?= ($type["value"] ?? "") === "Exclusion" ? "selected" : "" ?> value="Exclusion">
                             {{ translationPlanning("criteria.form.select-exclusion") }}
                         </option>
                     </x-select>
+                    @error("type.value")
+                        <span class="text-xs text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
                 <div>
-                    <x-helpers.submit-button
-                        isEditing="{{ $form['isEditing'] }}"
-                        fitContent
-                    >
+                    <x-helpers.submit-button isEditing="{{ $form['isEditing'] }}" fitContent>
                         {{
                             $form["isEditing"]
                                 ? translationPlanning("criteria.form.update")
@@ -86,125 +65,91 @@
             </div>
 
         </form>
-        <div class="grid-items-2 gap-4">
+        <div class="d-flex flex-column gap-4">
             <div class="flex-column d-flex px-2 py-1">
                 <h6 class="px-2">
                     {{ translationPlanning("criteria.inclusion-table.title") }}
                 </h6>
                 <div class="overflow-auto" style="max-height: 300px">
                     <table class="table table-responsive table-hover">
-                        <thead
-                            class="table-light sticky-top custom-gray-text"
-                            style="color: #676a72"
-                        >
+                        <thead class="table-light sticky-top custom-gray-text" style="color: #676a72">
                             <tr>
-                                <th
-                                    style="
+                                <th style="
                                         border-radius: 0.75rem 0 0 0;
                                         padding: 0.5rem 1rem;
-                                    "
-                                ></th>
-                                <th
-                                    style="
+                                    "></th>
+                                <th style="
                                         border-radius: 0 0 0 0;
                                         padding: 0.5rem 1rem;
-                                    "
-                                >
+                                    ">
                                     ID
                                 </th>
                                 <th style="padding: 0.5rem 0.75rem">
                                     {{ translationPlanning("criteria.inclusion-table.description") }}
                                 </th>
-                                <th
-                                    style="
+                                <th style="
                                         border-radius: 0 0.75rem 0 0;
                                         padding: 0.5rem 1rem;
-                                    "
-                                >
+                                    ">
                                     {{ translationPlanning("criteria.table.actions") }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($criterias as $criteria)
-                                @if ($criteria->type === "Inclusion")
-                                    <tr
-                                        class="px-4"
-                                        data-item="search-criterias"
-                                        wire:key="{{ $criteria->id_research_criteria }}"
-                                    >
-                                        <td>
-                                            <input
-                                                wire:key="{{ $criteria->pre_selected }}"
-                                                type="checkbox"
-                                                wire:model="selectedRows"
-                                                wire:change="changePreSelected({{ $criteria->id_criteria }}, 'Inclusion')"
-                                                <?= $criteria->pre_selected === 1 ? "checked" : "" ?>
-                                            />
-                                        </td>
-                                        <td>{{ $criteria->id }}</td>
-                                        <td>
-                                            <span
-                                                class="block text-wrap text-break"
-                                                data-search
-                                            >
-                                                {{ $criteria->description }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button
-                                                class="btn py-1 px-3 btn-outline-secondary"
-                                                wire:click="edit('{{ $criteria->id_criteria }}')"
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="btn py-1 px-3 btn-outline-danger"
-                                                wire:click="delete('{{ $criteria->id_criteria }}')"
-                                                wire:target="delete('{{ $criteria->id_criteria }}')"
-                                                wire:loading.attr="disabled"
-                                            >
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endif
+                            @if ($criteria->type === "Inclusion")
+                            <tr class="px-4" data-item="search-criterias"
+                                wire:key="{{ $criteria->id_research_criteria }}">
+                                <td>
+                                    <input wire:key="{{ $criteria->pre_selected }}" type="checkbox"
+                                        wire:model="selectedRows"
+                                        wire:change="changePreSelected({{ $criteria->id_criteria }}, 'Inclusion')"
+                                        <?= $criteria->pre_selected === 1 ? "checked" : "" ?> />
+                                </td>
+                                <td>{{ $criteria->id }}</td>
+                                <td>
+                                    <span class="block text-wrap text-break" data-search>
+                                        {{ $criteria->description }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn py-1 px-3 btn-outline-secondary"
+                                        wire:click="edit('{{ $criteria->id_criteria }}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn py-1 px-3 btn-outline-danger"
+                                        wire:click="delete('{{ $criteria->id_criteria }}')"
+                                        wire:target="delete('{{ $criteria->id_criteria }}')"
+                                        wire:loading.attr="disabled">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endif
                             @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-4">
-                                        <x-helpers.description>
-                                            {{ translationPlanning("criteria.table.empty") }}
-                                        </x-helpers.description>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="4" class="text-center py-4">
+                                    <x-helpers.description>
+                                        {{ translationPlanning("criteria.table.empty") }}
+                                    </x-helpers.description>
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
                 <div class="w-50">
-                    <x-select
-                        wire:model="inclusion_rule"
-                        label="{{ translationPlanning('criteria.inclusion-table.rule') }}"
-                        style="max-width: 100px"
-                        wire:change="selectRule($event.target.value, 'Inclusion')"
-                        search
-                    >
-                        <option
-                            value="ALL"
-                            <?= ($inclusion_rule["value"] ?? "") === "ALL" ? "selected" : "" ?>
-                        >
+                    <x-select wire:model="inclusion_rule"
+                        label="{{ translationPlanning('criteria.inclusion-table.rule') }}" style="max-width: 100px"
+                        wire:change="selectRule($event.target.value, 'Inclusion')" search>
+                        <option value="ALL" <?= ($inclusion_rule["value"] ?? "") === "ALL" ? "selected" : "" ?>>
                             {{ translationPlanning("criteria.table.all") }}
                         </option>
-                        <option
-                            value="ANY"
-                            <?= ($inclusion_rule["value"] ?? "") === "ANY" ? "selected" : "" ?>
-                        >
+                        <option value="ANY" <?= ($inclusion_rule["value"] ?? "") === "ANY" ? "selected" : "" ?>>
                             {{ translationPlanning("criteria.table.any") }}
                         </option>
-                        <option
-                            value="AT_LEAST"
-                            <?= ($inclusion_rule["value"] ?? "") === "AT_LEAST" ? "selected" : "" ?>
-                        >
+                        <option value="AT_LEAST"
+                            <?= ($inclusion_rule["value"] ?? "") === "AT_LEAST" ? "selected" : "" ?>>
                             {{ translationPlanning("criteria.table.at-least") }}
                         </option>
                     </x-select>
@@ -216,119 +161,85 @@
                 </h6>
                 <div class="overflow-auto" style="max-height: 300px">
                     <table class="table table-responsive table-hover">
-                        <thead
-                            class="table-light sticky-top custom-gray-text"
-                            style="color: #676a72"
-                        >
+                        <thead class="table-light sticky-top custom-gray-text" style="color: #676a72">
                             <tr>
-                                <th
-                                    style="
+                                <th style="
                                         border-radius: 0.75rem 0 0 0;
                                         padding: 0.5rem 1rem;
-                                    "
-                                ></th>
-                                <th
-                                    style="
+                                    "></th>
+                                <th style="
                                         border-radius: 0 0 0 0;
                                         padding: 0.5rem 1rem;
-                                    "
-                                >
+                                    ">
                                     ID
                                 </th>
                                 <th style="padding: 0.5rem 0.75rem">
                                     {{ translationPlanning("criteria.inclusion-table.description") }}
                                 </th>
-                                <th
-                                    style="
+                                <th style="
                                         border-radius: 0 0.75rem 0 0;
                                         padding: 0.5rem 1rem;
-                                    "
-                                >
+                                    ">
                                     {{ translationPlanning("criteria.table.actions") }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($criterias as $criteria)
-                                @if ($criteria->type === "Exclusion")
-                                    <tr
-                                        class="px-4"
-                                        data-item="search-criterias"
-                                        wire:key="{{ $criteria->id_research_criteria }}"
-                                    >
-                                        <td>
-                                            <input
-                                                wire:key="{{ $criteria->pre_selected }}"
-                                                type="checkbox"
-                                                wire:change="changePreSelected({{ $criteria->id_criteria }}, 'Exclusion')"
-                                                <?= $criteria->pre_selected === 1 ? "checked" : "" ?>
-                                            />
-                                        </td>
-                                        <td>
-                                            {{ $criteria->id }}
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="block text-wrap text-break"
-                                                data-search
-                                            >
-                                                {{ $criteria->description }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button
-                                                class="btn py-1 px-3 btn-outline-secondary"
-                                                wire:click="edit('{{ $criteria->id_criteria }}')"
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="btn py-1 px-3 btn-outline-danger"
-                                                wire:click="delete('{{ $criteria->id_criteria }}')"
-                                                wire:target="delete('{{ $criteria->id_criteria }}')"
-                                                wire:loading.attr="disabled"
-                                            >
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endif
+                            @if ($criteria->type === "Exclusion")
+                            <tr class="px-4" data-item="search-criterias"
+                                wire:key="{{ $criteria->id_research_criteria }}">
+                                <td>
+                                    <input wire:key="{{ $criteria->pre_selected }}" type="checkbox"
+                                        wire:change="changePreSelected({{ $criteria->id_criteria }}, 'Exclusion')"
+                                        <?= $criteria->pre_selected === 1 ? "checked" : "" ?> />
+                                </td>
+                                <td>
+                                    {{ $criteria->id }}
+                                </td>
+                                <td>
+                                    <span class="block text-wrap text-break" data-search>
+                                        {{ $criteria->description }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn py-1 px-3 btn-outline-secondary"
+                                        wire:click="edit('{{ $criteria->id_criteria }}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn py-1 px-3 btn-outline-danger"
+                                        wire:click="delete('{{ $criteria->id_criteria }}')"
+                                        wire:target="delete('{{ $criteria->id_criteria }}')"
+                                        wire:loading.attr="disabled">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endif
                             @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-4">
-                                        <x-helpers.description>
-                                            {{ translationPlanning("criteria.table.empty") }}
-                                        </x-helpers.description>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="4" class="text-center py-4">
+                                    <x-helpers.description>
+                                        {{ translationPlanning("criteria.table.empty") }}
+                                    </x-helpers.description>
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
                 <div class="w-50">
-                    <x-select
-                        wire:model="exclusion_rule"
-                        label="{{ translationPlanning('criteria.exclusion-table.rule') }}"
-                        style="width: 100px"
-                        wire:change="selectRule($event.target.value, 'Exclusion')"
-                        search
-                    >
-                        <option
-                            value="ALL"
-                            <?= ($exclusion_rule["value"] ?? "") === "ALL" ? "selected" : "" ?>
-                        >
+                    <x-select wire:model="exclusion_rule"
+                        label="{{ translationPlanning('criteria.exclusion-table.rule') }}" style="width: 100px"
+                        wire:change="selectRule($event.target.value, 'Exclusion')" search>
+                        <option value="ALL" <?= ($exclusion_rule["value"] ?? "") === "ALL" ? "selected" : "" ?>>
                             {{ translationPlanning("criteria.table.all") }}
                         </option>
-                        <option
-                            value="ANY"
-                            <?= ($exclusion_rule["value"] ?? "") === "ANY" ? "selected" : "" ?>
-                        >
+                        <option value="ANY" <?= ($exclusion_rule["value"] ?? "") === "ANY" ? "selected" : "" ?>>
                             {{ translationPlanning("criteria.table.any") }}
                         </option>
-                        <option
-                            value="AT_LEAST"
-                            <?= ($exclusion_rule["value"] ?? "") === "AT_LEAST" ? "selected" : "" ?>
-                        >
+                        <option value="AT_LEAST"
+                            <?= ($exclusion_rule["value"] ?? "") === "AT_LEAST" ? "selected" : "" ?>>
                             {{ translationPlanning("criteria.table.at-least") }}
                         </option>
                     </x-select>
@@ -337,10 +248,52 @@
         </div>
     </div>
     @script
-        <script>
-            $wire.on('criteria', ([{ message, type }]) => {
-                toasty({ message, type });
-            });
-        </script>
+    <script>
+
+    $wire.on('criteria', ([{
+        message,
+        type
+    }]) => {
+        toasty({
+            message,
+            type
+        });
+    });
+    </script>
     @endscript
 </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[wire\\:submit]');
+    const input = document.querySelector('#criteriaId');
+
+    if (form && input) {
+        form.addEventListener('submit', function() {
+            // Force save the current input value to suggestions
+            const value = input.value.trim();
+            if (value) {
+                const storageKey = `suggestions_${input.id || input.name}`;
+                let suggestions = [];
+
+                if (localStorage.getItem(storageKey)) {
+                    suggestions = JSON.parse(localStorage.getItem(storageKey));
+                }
+
+                if (!suggestions.includes(value)) {
+                    suggestions.push(value);
+                    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                }
+
+                // Automatically refresh suggestions without showing an alert
+                setTimeout(() => {
+                    refreshSuggestions('criteriaId', 'criteria_id', 'criteriaId_suggestions', false);
+                }, 200);
+            }
+        });
+    }
+});
+</script>
+

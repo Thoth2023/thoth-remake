@@ -4,7 +4,7 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="study-selection"
-                modalTitle="{{ translationConducting('study-selection.title') }}"
+                modalTitle="{{ translationConducting('study-selection.title')}}"
                 modalContent="{!! translationConducting('study-selection.help.content')!!} "
             />
         </div>
@@ -13,6 +13,7 @@
             @livewire('conducting.study-selection.count')
         </div>
         <div class="table-section">
+
             @livewire('conducting.study-selection.table')
         </div>
 

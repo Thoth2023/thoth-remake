@@ -30,10 +30,14 @@
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
                                             @enderror
                                         </div>
-                                        <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg"
+                                        <div class="flex flex-col mb-3 position-relative">
+                                            <input type="password" name="password" id="password" class="form-control form-control-lg pr-10"
                                                 aria-label="{{ translationLogin('password') }}"
                                                 placeholder="{{ translationLogin('password') }}">
+                                                <span role="button" class="position-absolute top-50 end-0 translate-middle-y me-3 bg-white"
+                                                    id="togglePassword" style="cursor: pointer; display: none;" tabindex="-1">
+                                                    <i class="fas fa-eye" id="eyeIcon"></i>
+                                                </span>
                                             @error('password')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
                                             @enderror
@@ -48,6 +52,31 @@
                                                 class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ translationLogin('sign_in_button') }}</button>
                                         </div>
                                     </form>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            const passwordInput = document.getElementById('password');
+                                            const togglePassword = document.getElementById('togglePassword');
+                                            const eyeIcon = document.getElementById('eyeIcon');
+
+                                            passwordInput.addEventListener('focus', () => {
+                                                togglePassword.style.display = 'inline-flex';
+                                            });
+
+                                            document.addEventListener('click', (e) => {
+                                                if (!passwordInput.contains(e.target) && !togglePassword.contains(e.target)) {
+                                                    togglePassword.style.display = 'none';
+                                                }
+                                            });
+
+                                            togglePassword.addEventListener('click', function () {
+                                                const isPassword = passwordInput.type === 'password';
+                                                passwordInput.type = isPassword ? 'text' : 'password';
+
+                                                eyeIcon.classList.toggle('fa-eye');
+                                                eyeIcon.classList.toggle('fa-eye-slash');
+                                            });
+                                        });
+                                    </script>
                                 </div>
 
                                 <div class="text-center px-lg-2 ">

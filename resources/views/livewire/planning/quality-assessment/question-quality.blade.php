@@ -15,7 +15,11 @@
                         label="{{ translationPlanning('quality-assessment.question-quality.id') }}"
                         placeholder="QA01"
                         wire:model="questionId"
+                        pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                         required
+                        autocomplete="on"
+                        name="quality_question_id"
+                        list="quality_questionId_suggestions"
                     />
                     @error("questionId")
                         <span class="text-xs text-danger">
@@ -33,6 +37,7 @@
                         min="0"
                         placeholder="2"
                         wire:model="weight"
+                        pattern="[0-9]+"
                         required
                     />
                     @error("weight")
@@ -53,6 +58,7 @@
                     rows="2"
                     placeholder="{{ translationPlanning('research-questions.form.enter_description') }}"
                     wire:model="description"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 ></textarea>
                 @error("description")
@@ -99,6 +105,35 @@
         .addEventListener('input', function () {
             limit(this, 10);
         });
+        
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form[wire\\:submit]');
+        const input = document.querySelector('#question-quality-id');
+        
+        if (form && input) {
+            form.addEventListener('submit', function() {
+                const value = input.value.trim();
+                if (value) {
+                    const storageKey = `suggestions_${input.id || input.name}`;
+                    let suggestions = [];
+                    
+                    if (localStorage.getItem(storageKey)) {
+                        suggestions = JSON.parse(localStorage.getItem(storageKey));
+                    }
+                    
+                    if (!suggestions.includes(value)) {
+                        suggestions.push(value);
+                        localStorage.setItem(storageKey, JSON.stringify(suggestions));
+                    }
+                    
+                    // Automatically refresh suggestions without showing an alert
+                    setTimeout(() => {
+                        refreshSuggestions('question-quality-id', 'quality_question_id', 'quality_questionId_suggestions', false);
+                    }, 200);
+                }
+            });
+        }
+    });
 </script>
 
 @script

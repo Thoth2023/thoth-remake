@@ -1,89 +1,94 @@
 @extends("layouts.app")
 
 @section("content")
-    @include("layouts.navbars.guest.navbar", ["title" => "Home"])
+@include("layouts.navbars.guest.navbar", ["title" => "Home"])
 
-    <div class="container mt-8 mb-3">
-        <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
-            <div
-                class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
-                style="width: 100%"
-            >
-                <div class="col-lg-6 text-center mx-auto">
-                    <h1 class="text-white">
-                        {{ translationAbout('about') }}
-                    </h1>
-                    <p class="text-lead text-white">
-                        {{ translationAbout('description') }}
-                    </p>
-                </div>
+
+<div class="container mt-8 mb-3">
+    <!-- cabeçalho -->
+    <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
+        <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 w-100">
+            <div class="col-lg-6 text-center mx-auto">
+                <h1 class="text-white">{{ translationAbout("about") }}</h1>
+                <p class="text-lead text-white">{{ translationAbout("description") }}</p>
+
             </div>
         </div>
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-5">
                     <div class="card-body pt-2">
-                        <a
-                            href="javascript:;"
+                        <span
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h4 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
                             Thoth 2.0
-                        </a>
+                        </span>
 
                         <div class="card-body pt-2">
-                            <a
-                                href="javascript:"
+                            <span
+                                href="#"
+                                onclick="event.preventDefault();"
                                 class="card-title h5 d-block text-darker"
+                                style="cursor: default; transition: color 0.2s;"
                             >
-                                {{ translationAbout('new_features') }}
-                            </a>
+                                {{ translationAbout("new_features") }}
+                            </span>
                             <ul>
-                                <li>{{ translationAbout('recover_password') }}</li>
-                                <li>{{ translationAbout('bug_databases') }}</li>
-                                <li>{{ translationAbout('suggest_databases') }}</li>
-                                <li>{{ translationAbout('new_qa') }}</li>
-                                <li>{{ translationAbout('new_interface') }}</li>
-                                <li>{{ translationAbout('new_framework') }}</li>
-                                <li>{{ translationAbout('internationalization') }}</li>
-                                <li>{{ translationAbout('usability') }}</li>
-                                <li>{{ translationAbout('users_management') }}</li>
-                                <li>{{ translationAbout('profile_management') }}</li>
-                                <li>{{ translationAbout('members_invitation') }}</li>
-                                <li>{{ translationAbout('pwa') }}</li>
-                                <li>{{ translationAbout('snowballing') }}</li>
-                                <li>{{ translationAbout('algolia_api') }}</li>
-                                <li>{{ translationAbout('crossref_api') }}</li>
+                                <li>{{ translationAbout("recover_password") }}</li>
+                                <li>{{ translationAbout("bug_databases") }}</li>
+                                <li>{{ translationAbout("suggest_databases") }}</li>
+                                <li>{{ translationAbout("new_qa") }}</li>
+                                <li>{{ translationAbout("new_interface") }}</li>
+                                <li>{{ translationAbout("new_framework") }}</li>
+                                <li>{{ translationAbout("internationalization") }}</li>
+                                <li>{{ translationAbout("usability") }}</li>
+                                <li>{{ translationAbout("users_management") }}</li>
+                                <li>{{ translationAbout("profile_management") }}</li>
+                                <li>{{ translationAbout("members_invitation") }}</li>
+                                <li>{{ translationAbout("pwa") }}</li>
+                                <li>{{ translationAbout("snowballing") }}</li>
+                                <li>{{ translationAbout("algolia_api") }}</li>
+                                <li>{{ translationAbout("crossref_api") }}</li>
                             </ul>
                         </div>
                     </div>
                     <div class="card-body pt-2">
-                        <a
-                            href="javascript:"
+                        <span
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ translationAbout('development') }}
-                        </a>
-                        <p>{{ translationAbout('development_description') }}</p>
+                            {{ translationAbout("development") }}
+                        </span>
+                        <p>{{ translationAbout("development_description") }}</p>
                     </div>
                     <div class="card-body pt-2">
-                        <a
-                            href="javascript:"
+                        <span
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ translationAbout('open_source_project') }}
-                        </a>
+                            {{ translationAbout("open_source_project") }}
+                        </span>
                         <a
                             class="nav-link d-flex align-items-center me-2"
                             href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE"
                         >
-                            {{ translationAbout('mit_license') }}
+                            {{ translationAbout("mit_license") }}
                         </a>
-                        <a
-                            href="javascript:"
+                        <span
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ translationAbout('technologies_used') }}
-                        </a>
+                            {{ translationAbout("technologies_used") }}
+                        </span>
                         <ul>
                             <li>PHP Language</li>
                             <li>MySQL</li>
@@ -101,384 +106,115 @@
                     </div>
 
                     <div class="card-body pt-2">
-                        <a
-                            href="javascript:"
+                        <span
+                            href="#"
+                            onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
+                            style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ translationAbout('about_the_tool') }}
-                        </a>
+                            {{ translationAbout("about_the_tool") }}
+                        </span>
                         <p>
-                            {{ translationAbout('about_the_tool_description') }}
+                            {{ translationAbout("about_the_tool_description") }}
                         </p>
 
-                        <img
-                            src="/img/about/AboutTool.PNG"
-                            class="img-fluid"
-                            alt="Imagem"
-                        />
+                    <img src="/img/about/AboutTool.PNG" class="img-fluid" alt="Imagem" />
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('cross_platform') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('cross_platform_description') }}
-                        </p>
+                    @foreach([
+                    'cross_platform', 'automate_process', 'search_string',
+                    'management_selection', 'management_quality', 'data_generation',
+                    'graphs_tables_generation', 'report_generation'
+                    ] as $section)
+                    <h6 class="card-title text-darker mt-3">{{ translationAbout("$section") }}</h6>
+                    <p>{{ translationAbout("{$section}_description") }}</p>
+                    @endforeach
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('automate_process') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('cross_platform_description') }}
-                        </p>
+                    <p>{{ translationAbout("report_generation_description2") }}</p>
+                    <p>{{ translationAbout("report_generation_description3") }}</p>
 
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('search_string') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('search_string_description') }}
-                        </p>
-
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('management_selection') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('management_selection_description') }}
-                        </p>
-
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('management_quality') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('management_quality_description') }}
-                        </p>
-
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('data_generation') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('data_generation_description') }}
-                        </p>
-
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('graphs_tables_generation') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('graphs_tables_generation_description') }}
-                        </p>
-
-                        <a
-                            href="javascript:"
-                            class="card-title h6 d-block text-darker"
-                        >
-                            {{ translationAbout('report_generation') }}
-                        </a>
-                        <p>
-                            {{ translationAbout('report_generation_description') }}
-                        </p>
-                        <p>
-                            {{ translationAbout('report_generation_description2') }}
-                        </p>
-                        <p>
-                            {{ translationAbout('report_generation_description3') }}
-                        </p>
-                        <ul>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('multiple_member_management') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('multiple_member_management_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('manage_projects') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('manage_projects_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('activity_view') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('activity_view_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('progress_display') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('progress_display_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('protocol_management') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('protocol_management_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('study_import') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('study_import_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('selection_of_studies') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('selection_of_studies_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('checking_duplicate_studies') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('checking_duplicate_studies_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('selection_ranking_information') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('selection_ranking_information_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('study_information_visualization') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('study_information_visualization_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('status_for_each_member') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('status_for_each_member_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('conflicts_in_selection') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('conflicts_in_selection_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('resolution_of_conflicts_in_selection') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('resolution_of_conflicts_in_selection_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('quality_assessment_of_studies') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('quality_assessment_of_studies_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('quality_conflicts') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('quality_conflicts_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('data_extraction') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('data_extraction_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('report') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('report_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('export_to_latex') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('export_to_latex_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('export_to_bibtex') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('export_to_bibtex_description') }}
-                                </p>
-                            </li>
-                            <li>
-                                <a
-                                    href="javascript:"
-                                    class="card-title h5 d-block text-darker"
-                                >
-                                    {{ translationAbout('improvement_of_search_strings') }}
-                                </a>
-                                <p>
-                                    {{ translationAbout('improvement_of_search_strings_description') }}
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul>
+                        @foreach([
+                        'multiple_member_management',
+                        'manage_projects',
+                        'activity_view',
+                        'progress_display',
+                        'protocol_management',
+                        'study_import',
+                        'selection_of_studies',
+                        'checking_duplicate_studies',
+                        'selection_ranking_information',
+                        'study_information_visualization',
+                        'status_for_each_member',
+                        'conflicts_in_selection',
+                        'resolution_of_conflicts_in_selection',
+                        'quality_assessment_of_studies',
+                        'quality_conflicts',
+                        'data_extraction',
+                        'report',
+                        'export_to_latex',
+                        'export_to_bibtex',
+                        'improvement_of_search_strings'
+                        ] as $item)
+                        <li>
+                            <h5 class="card-title text-darker">{{ translationAbout("$item") }}</h5>
+                            <p>{{ translationAbout("{$item}_description") }}</p>
+                        </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal LGPD -->
-    <div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content modal-transparent">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ translationHome('terms_and_lgpd') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ translationTerms('modal_lgpd') }}</p>
-                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ translationHome('terms_and_conditions') }}</a>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">
-                        Entendi
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                </div>
+</div>
+
+<!-- Modal LGPD -->
+<div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content modal-transparent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lgpdModalLabel">
+                    <i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __("pages/terms.modal_lgpd") }}</p>
+                <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">Entendi</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
-    @push('js')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                @if(session('show_lgpd_modal'))
-                var lgpdModal = new bootstrap.Modal(document.getElementById('lgpdModal'));
-                lgpdModal.show();
-                @endif
-            });
+</div>
 
-            function acceptTermsAndLgpd() {
-                fetch("{{ route('accept.lgpd') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            var lgpdModal = bootstrap.Modal.getInstance(document.getElementById('lgpdModal'));
-                            lgpdModal.hide();
-                        }
-                    })
-                    .catch(error => console.error('Erro:', error));
+@push('js')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    @if(session('show_lgpd_modal'))
+    new bootstrap.Modal(document.getElementById('lgpdModal')).show();
+    @endif
+});
+
+// Function to accept terms and LGPD
+function acceptTermsAndLgpd() {
+    fetch("{{ route('accept.lgpd') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                bootstrap.Modal.getInstance(document.getElementById('lgpdModal')).hide();
             }
-        </script>
-    @endpush
+        })
+        .catch(error => console.error('Erro:', error));
+}
+</script>
+@endpush
 @endsection

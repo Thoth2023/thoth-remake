@@ -4,51 +4,59 @@
     @include('layouts.navbars.auth.topnav', ['title' => translationTopnav('reporting')])
 
     <div class="row mt-4 mx-4">
-
         @include('project.components.project-header', ['project' => $project, 'activePage' => 'reporting'])
+        @php
+            $tabs = [
+                [
+                    'id' => 'overview-tab',
+                    'label' => translationReporting('header.overview'),
+                    'href' => '#overview'
+                ],
+                [
+                    'id' => 'import-studies-tab',
+                    'label' => translationReporting('header.import_studies'),
+                    'href' => '#import-studies',
+                ],
+                [
+                    'id' => 'study-selection-tab',
+                    'label' => translationReporting('header.study_selection'),
+                    'href' => '#study-selection',
+                ],
+                [
+                    'id' => 'quality-assessment-tab',
+                    'label' => translationReporting('header.quality_assessment'),
+                    'href' => '#quality-assessment',
+                ],
+                [
+                    'id' => 'data-extraction-tab',
+                    'label' => translationReporting('header.data_extraction'),
+                    'href' => '#data-extraction',
+                ],
+                [
+                    'id' => 'reliability-tab',
+                    'label' => translationReporting('header.reliability'),
+                    'href' => '#reliability',
+                ],
+            ];
+
+            if (
+                $project->feature_review === 'Systematic review and Snowballing' ||
+                $project->feature_review === 'Snowballing'
+            ) {
+                $tabs[] = [
+                    'id' => 'snowballing-tab',
+                    'label' => translationReporting('header.snowballing'),
+                    'href' => '#snowballing',
+                ];
+            }
+        @endphp
 
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
                     @include('project.components.project-tabs', [
                         'header' => translationReporting('reporting'),
-                        'tabs' => [
-                            [
-                                'id' => 'overview-tab',
-                                'label' => translationReporting('header.overview'),
-                                'href' => '#overview'
-                            ],
-                            [
-                                'id' => 'import-studies-tab',
-                                'label' => translationReporting('header.import_studies'),
-                                'href' => '#import-studies',
-                            ],
-                            [
-                                'id' => 'study-selection-tab',
-                                'label' => translationReporting('header.study_selection'),
-                                'href' => '#study-selection',
-                            ],
-                            [
-                                'id' => 'quality-assessment-tab',
-                                'label' => translationReporting('header.quality_assessment'),
-                                'href' => '#quality-assessment',
-                            ],
-                            [
-                                'id' => 'data-extraction-tab',
-                                'label' => translationReporting('header.data_extraction'),
-                                'href' => '#data-extraction',
-                            ],
-                            [
-                                'id' => 'reliability-tab',
-                                'label' => translationReporting('header.reliability'),
-                                'href' => '#reliability',
-                            ],
-                             [
-                                'id' => 'snowballing-tab',
-                                'label' => translationReporting('header.snowballing'),
-                                'href' => '#snowballing',
-                            ],
-                        ],
+                        'tabs' => $tabs,
                         'activeTab' => 'overview-tab',
                     ])
                     <div class="tab-content mt-4">
@@ -73,14 +81,17 @@
                             @livewire('reporting.data-extraction')
                         </div>
                         <div class="tab-pane fade" id="reliability">
-                            <!-- Content for Snowballing tab -->
+                            <!-- Content for Reliability tab -->
                            @livewire('reporting.reliability')
                         </div>
-                        @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
-                        <div class="tab-pane fade" id="snowballing">
-                            <!-- Content for Snowballing tab -->
-                            @livewire('reporting.snowballing')
-                        </div>
+                        @if (
+                            $project->feature_review === 'Systematic review and Snowballing' ||
+                            $project->feature_review === 'Snowballing'
+                        )
+                            <div class="tab-pane fade" id="snowballing">
+                                <!-- Content for Snowballing tab -->
+                                @livewire('reporting.snowballing')
+                            </div>
                         @endif
                     </div>
                 </div>

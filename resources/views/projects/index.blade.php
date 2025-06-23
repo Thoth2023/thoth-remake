@@ -66,11 +66,11 @@
                                             <td class="align-middle text-center">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                         <span class="me-2 text-xs font-weight-bold">
-                                                            100%
+                                                            {{ $project->totalProgress }}%
                                                         </span>
                                                     <div>
                                                         <div class="progress">
-                                                            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                                            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="{{ $project->totalProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $project->totalProgress }}%;"></div>
                                                         </div>
                                                     </div>
                                                 </div>

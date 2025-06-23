@@ -19,6 +19,7 @@
                         max="{{ $sum }}"
                         disabled="{{ !$loop->first }}"
                         style="min-width: 150px"
+                        x-on:keydown="['e', 'E', '+', '-'].includes($event.key) && $event.preventDefault()"
                     />
                     <x-input
                         label="Max"
@@ -30,13 +31,15 @@
                         max="{{ $sum }}"
                         style="min-width: 150px"
                         disabled="{{ $loop->last }}"
+                        x-on:keydown="['e', 'E', '+', '-'].includes($event.key) && $event.preventDefault()"
                     />
                     <div class="btn-group">
                         <x-input
-                            wire:model="items.{{ $loop->index }}.description"
+                            wire:model.lazy="items.{{ $loop->index }}.description"
                             label="Label"
                             placeholder="Good"
                             class="max-input"
+                            pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                             style="
                                 min-width: 75px;
                                 border-radius: 10px 0 0 10px;

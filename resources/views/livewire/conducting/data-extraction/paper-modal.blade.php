@@ -53,96 +53,98 @@
                 </div>
 
                 <ul class='list-group list-group-flush'>
-                    @foreach ($questions as $question)
-                        <x-search.item
-                            wire:key="{{ $question->description }}"
-                            target="search-papers"
-                            class="list-group-item d-flex row w-100"
-                        >
-                            <div class='w-10 pl-2'>
-                                <span data-search><strong>{{ $question->id }}</strong></span>
-                            </div>
-                            <div class='w-50'>
-                                <span data-search><strong>{{ $question->description }}</strong></span>
-                            </div>
-
-                        </x-search.item>
-
-                        @if(optional($question->question_type)->type == 'Text')
-                            <div class='w-100 mt-2'>
-                                <div wire:ignore.self>
-                                    <div x-data="{ timeoutId: null }"
-                                         x-ref="editor{{ $question->id_de }}"
-                                         x-init="
-                                            const quill{{ $question->id_de }} = new Quill($refs.editor{{ $question->id_de }}, {
-                                                theme: 'snow'
-                                            });
-                                            // Preenche o editor com o texto salvo
-                                            quill{{ $question->id_de }}.clipboard.dangerouslyPasteHTML(@js($textAnswers[$question->id] ?? ''));
-                                           // Função de debounce para esperar 3 segundos após parar de digitar
-                                            function debounceSave(questionId, content) {
-                                                if (this.timeoutId) {
-                                                    clearTimeout(this.timeoutId);
-                                                }
-                                                this.timeoutId = setTimeout(() => {
-                                                    $wire.set('textAnswers.' + questionId, content);
-                                                    $wire.saveTextAnswer(questionId, content);
-                                                }, 3000);
-                                            }
-                                            // Evento de blur para salvar o texto quando o editor perde foco
-                                            quill{{ $question->id_de }}.root.addEventListener('blur', function () {
-                                                const questionId = @js($question->id_de);
-                                                const content = quill{{ $question->id_de }}.root.innerHTML;
-                                                $wire.set('textAnswers.' + questionId, content);
-                                                $wire.saveTextAnswer(questionId, content);
-                                            });
-                                            // Evento para aplicar debounce ao alterar o texto
-                                            quill{{ $question->id_de }}.on('text-change', function () {
-                                                const questionId = @js($question->id_de);
-                                                const content = quill{{ $question->id_de }}.root.innerHTML;
-                                                debounceSave(questionId, content);
-                                            });
-                                         "
-                                         style="height: 100px;">
-                                    </div>
+                    <div wire:key="paper-{{ $paper['id_paper'] }}">
+                        @foreach ($questions as $question)
+                            <x-search.item
+                                wire:key="question-{{ $question->id }}-paper-{{ $paper['id_paper'] }}"
+                                target="search-papers"
+                                class="list-group-item d-flex row w-100"
+                            >
+                                <div class='w-10 pl-2'>
+                                    <span data-search><strong>{{ $question->id }}</strong></span>
+                                </div>
+                                <div class='w-50'>
+                                    <span data-search><strong>{{ $question->description }}</strong></span>
                                 </div>
 
-                            </div><br/>
-                        @elseif(optional($question->question_type)->type == 'Pick One List')
-                            <div class='w-100 mt-2'>
-                                <x-select wire:model="selectedOptions.{{ $question->id_de }}"
-                                          wire:change="saveOptionAnswer({{ $question->id_de }}, $event.target.value)">
-                                    @if(!isset($selectedOptions[$question->id_de]))  <!-- Verifica se não há opção salva -->
-                                    <option selected disabled>{{ translationConducting('quality-assessment.modal.select-score') }}</option>
-                                    @endif
+                            </x-search.item>
+
+                            @if(optional($question->question_type)->type == 'Text')
+                                <div class='w-100 mt-2'>
+                                    <div wire:ignore.self>
+                                        <div x-data="{ timeoutId: null }"
+                                            x-ref="editor{{ $question->id_de }}"
+                                            x-init="
+                                                const quill{{ $question->id_de }} = new Quill($refs.editor{{ $question->id_de }}, {
+                                                    theme: 'snow'
+                                                });
+                                                // Preenche o editor com o texto salvo
+                                                quill{{ $question->id_de }}.clipboard.dangerouslyPasteHTML(@js($textAnswers[$question->id] ?? ''));
+                                            // Função de debounce para esperar 3 segundos após parar de digitar
+                                                function debounceSave(questionId, content) {
+                                                    if (this.timeoutId) {
+                                                        clearTimeout(this.timeoutId);
+                                                    }
+                                                    this.timeoutId = setTimeout(() => {
+                                                        $wire.set('textAnswers.' + questionId, content);
+                                                        $wire.saveTextAnswer(questionId, content);
+                                                    }, 3000);
+                                                }
+                                                // Evento de blur para salvar o texto quando o editor perde foco
+                                                quill{{ $question->id_de }}.root.addEventListener('blur', function () {
+                                                    const questionId = @js($question->id_de);
+                                                    const content = quill{{ $question->id_de }}.root.innerHTML;
+                                                    $wire.set('textAnswers.' + questionId, content);
+                                                    $wire.saveTextAnswer(questionId, content);
+                                                });
+                                                // Evento para aplicar debounce ao alterar o texto
+                                                quill{{ $question->id_de }}.on('text-change', function () {
+                                                    const questionId = @js($question->id_de);
+                                                    const content = quill{{ $question->id_de }}.root.innerHTML;
+                                                    debounceSave(questionId, content);
+                                                });
+                                            "
+                                            style="height: 100px;">
+                                        </div>
+                                    </div>
+
+                                </div><br/>
+                            @elseif(optional($question->question_type)->type == 'Pick One List')
+                                <div class='w-100 mt-2'>
+                                    <x-select wire:model="selectedOptions.{{ $question->id_de }}"
+                                            wire:change="saveOptionAnswer({{ $question->id_de }}, $event.target.value)">
+                                        @if(!isset($selectedOptions[$question->id_de]))  <!-- Verifica se não há opção salva -->
+                                        <option selected disabled>{{ translationConducting('quality-assessment.modal.select-score') }}</option>
+                                        @endif
+                                        @foreach ($question->options as $option)
+
+                                            <option value="{{ $option->id_option }}"
+                                                    @if(isset($selectedOptions[$question->id_de]) && $selectedOptions[$question->id_de] == $option->id_option)
+                                                        selected
+                                                @endif>
+                                                {{ $option->description }}
+                                            </option>
+                                        @endforeach
+                                    </x-select>
+
+                                </div><br/>
+                            @elseif(optional($question->question_type)->type == 'Multiple Choice List')
+                                <div class='w-100 mt-4'>
                                     @foreach ($question->options as $option)
-
-                                        <option value="{{ $option->id_option }}"
-                                                @if(isset($selectedOptions[$question->id_de]) && $selectedOptions[$question->id_de] == $option->id_option)
-                                                    selected
-                                            @endif>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                wire:change="toggleOption({{ $question->id_de }}, {{ $option->id_option }})"
+                                                value="{{ $option->id_option }}"
+                                                @if(in_array($option->id_option, $selectedOptions[$question->id_de] ?? [])) checked @endif
+                                            >
                                             {{ $option->description }}
-                                        </option>
+                                        </label>
                                     @endforeach
-                                </x-select>
-
-                            </div><br/>
-                        @elseif(optional($question->question_type)->type == 'Multiple Choice List')
-                            <div class='w-100 mt-4'>
-                                @foreach ($question->options as $option)
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            wire:change="toggleOption({{ $question->id_de }}, {{ $option->id_option }})"
-                                            value="{{ $option->id_option }}"
-                                            @if(in_array($option->id_option, $selectedOptions[$question->id_de] ?? [])) checked @endif
-                                        >
-                                        {{ $option->description }}
-                                    </label>
-                                @endforeach
-                            </div><br/>
-                        @endif
-                    @endforeach
+                                </div><br/>
+                            @endif
+                        @endforeach
+                    </div>
                 </ul>
 
 
@@ -151,14 +153,14 @@
                     <p>{{ translationConducting('data-extraction.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="btnradio" id="btnradio3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio3">{{ translationConducting('data-extraction.modal.option.to_do' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="To Do" name="status" id="status-to-do" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="status-to-do">{{ translationConducting('data-extraction.modal.option.to_do' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="btnradio" id="btnradio1" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio1">{{ translationConducting('data-extraction.modal.option.done' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Done" name="status" id="status-done" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="status-done">{{ translationConducting('data-extraction.modal.option.done' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio6" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio6">{{ translationConducting('data-extraction.modal.option.removed' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="status" id="status-removed" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="status-removed">{{ translationConducting('data-extraction.modal.option.removed' )}}</label>
                     </div>
                 @endif
             </div>

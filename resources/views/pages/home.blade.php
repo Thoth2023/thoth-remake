@@ -1,9 +1,11 @@
-@extends("layouts.app")
+@extends("layouts.app") 
+
 
 @section("content")
 @include("layouts.navbars.guest.navbar", ["title" => __("pages/home.home")])
 
 <div class="container mt-2">
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -12,6 +14,7 @@
     @endif
 </div>
 
+<!-- Displays a page with a header, description, and a dynamic grid of cards with icons and translated text -->
 <div  class="container mt-8 mb-3">
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8" style="width: 100%">
@@ -30,9 +33,9 @@
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
             <div class="card d-inline-flex mt-5">
                 <div class="card-body">
-                    <a href="javascript:" class="card-title h5 d-block text-darker">
+                    <span href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                         {{ __("pages/home.thoth") }}
-                    </a>
+                    </span>
                     <p class="card-description mb-0">
                         {{ __("pages/home.thoth_description") }}
                     </p>
@@ -45,14 +48,13 @@
                 "relevant_data" => "ni ni-single-copy-04",
                 "quality" => "ni ni-like-2",
                 "analyse_data" => "ni ni-chart-bar-32"
-                ]
-                as $key => $icon)
+                ] as $key => $icon)
                 <div class="card rounded-3 p-3 d-flex flex-column h-100">
                     <div class="card-body pt-2 d-flex flex-column">
-                        <a href="javascript:" class="card-title h5 d-flex align-items-center gap-2 text-darker">
+                        <span href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
                             <i class="{{ $icon }}"></i>
                             {{ __("pages/home." . $key) }}
-                        </a>
+                        </span>
                         <p class="card-description mb-4">
                             {{ __("pages/home." . $key . "_description") }}
                         </p>
@@ -63,16 +65,18 @@
             </div>
         </div>
     </div>
-
+	
+	<!-- Row displaying four statistics cards: total projects, total users, completed projects, and ongoing projects -->
     <div class="row mt-3">
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-project-diagram fa-2x mb-2"></i>
                         <h2 class="h2 card-title mt-auto"><span id="project-count">0</span></h2>
                         <h6 class="h6 card-text">{{ __("pages/home.total_projects") }} </h6>
-                    </a>
+                    </span>
+
                 </div>
             </div>
         </div>
@@ -80,11 +84,22 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-users fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto hover-text"><span id="user-count">0</span></h2>
+                        <h2 id="user-count" class="card-title mt-auto"><span>0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.total_users") }}</h6>
-                    </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <h2 id="total-finished-projects-count" class="card-title mt-auto"><span>0</span></h2>
+                        <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
+                    </span>
                 </div>
             </div>
         </div>
@@ -92,43 +107,73 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
-                        <i class="fas fa-check-circle fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto"><span id="total-finished-projects-count">0</span></h2>
-                        <h6 class="card-text">{{ __("pages/home.completed_projects") }}</h6>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card text-center h-100">
-                <div class="card-body d-flex flex-column">
-                    <a href="javascript:">
+                    <span href="#" onclick="event.preventDefault();" style="cursor: default; transition: color 0.2s;">
                         <i class="fas fa-spinner fa-2x mb-2"></i>
-                        <h2 class="card-title mt-auto"><span id="total-ongoing-projects-count">0</span></h2>
+                        <h2 id="total-ongoing-projects-count" class="card-title mt-auto"><span>0</span></h2>
                         <h6 class="card-text">{{ __("pages/home.ongoing_projects") }}</h6>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Novidades IEEE -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card p-4" style="background: #0D1B34; color: #fff">
+                    <h5 class="mb-4" style="color: #FFA500; font-size: 1.7rem">
+                        Novidades IEEE
+                    </h5>
+
+                    <ul class="list-group list-group-flush p-0">
+                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
+                            <a href="#" style="color: #fff; font-size: 1.2rem">
+                                IEEE lança nova revista focada em Inteligência Artificial
+                            </a>
+                        </li>
+                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
+                            <a href="#" style="color: #fff; font-size: 1.2rem">
+                                Aplicação de redes neurais na robótica autônoma
+                            </a>
+                        </li>
+                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
+                            <a href="#" style="color: #fff; font-size: 1.2rem">
+                                5 caminhos para a computação quântica nas empresas
+                            </a>
+                        </li>
+                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
+                            <a href="#" style="color: #fff; font-size: 1.2rem">
+                                Cibersegurança na era da Internet das Coisas
+                            </a>
+                        </li>
+                    </ul>
+
+                    <a 
+                        href="https://www.ieee.org/" 
+                        target="_blank" 
+                        class="btn mt-4" 
+                        style="background: #FFA500; color: #fff">
+                        Veja mais no IEEE
                     </a>
                 </div>
             </div>
         </div>
+
         <!-- Rodapé com links para Termos e Política de Privacidade e para o topo da página -->
         <div class="col-12">
             <div class="card text-center h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
-                    <!-- Nome do site e copyright à esquerda -->
+                    <!-- Nome do site e direitos autorais -->
                     <p class="mb-0 text-muted">
                         © {{ date('Y') }} - Thoth :: Tool for SLR
                     </p>
 
-                    <!-- Termos e Política de Privacidade e Voltar ao Topo à direita -->
+                    <!-- Termos e Voltar ao Topo -->
                     <div class="d-flex gap-3">
-                        <!-- Link para Termos e Política de Privacidade -->
                         <a href="{{ url('/terms') }}" class="text-muted">
                             <i class="fas fa-user-shield me-1"></i>
                             {{ __("pages/home.terms_and_conditions") }}
                         </a>
 
-                        <!-- Link para Voltar ao Topo com ícone -->
                         <a href="#top" class="text-muted d-flex align-items-center">
                             <span>{{ __("pages/home.back-top") }} </span>
                             <i class="fas fa-arrow-up ms-1"></i>
@@ -143,6 +188,7 @@
 </div>
 @endsection
 
+
 @push("js")
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -152,6 +198,7 @@
         const totalFinishedProjects = {{ $total_finished_projects }};
         const totalOngoingProjects = {{ $total_ongoing_projects }};
 
+		// Function to animate the value from start to end
         function animateValue(id, start, end, duration) {
             const range = end - start;
             let current = start;
@@ -172,6 +219,7 @@
             }, stepTime);
         }
 
+		// Function to check if the element is in the viewport
         function isElementInViewport(el) {
             const rect = el.getBoundingClientRect();
             return (
@@ -182,6 +230,7 @@
             );
         }
 
+		// Function to animate the value when the element is visible
         function animateIfVisible(id, value) {
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -196,6 +245,7 @@
             observer.observe(target);
         }
 
+		// Animate the values when the elements are visible
         animateIfVisible('user-count', totalUsers);
         animateIfVisible('project-count', totalProjects);
         animateIfVisible('total-finished-projects-count', totalFinishedProjects);

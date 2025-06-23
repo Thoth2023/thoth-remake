@@ -2,7 +2,7 @@
 
 return [
 
-    'search_in_thoth_placeholder' => 'Pesquisar na Thoth...',
+    'search_in_thoth_placeholder' => 'Pesquisar Projeto na Thoth...',
 
     'pages' => 'Páginas',
     'project' => 'Projeto',

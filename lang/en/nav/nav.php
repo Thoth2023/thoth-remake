@@ -20,10 +20,11 @@ return [
     'language' => 'Language',
     'profile' => 'Profile',
     'logout' => 'Logout',
+    'settings' => 'Settings',
     'projects' => 'Projects',
     'my_projects' => 'My Projects',
     'pages' => 'Pages',
-    'search_in_thoth' => 'Search in Thoth...',
+    'search_in_thoth' => 'Search Project in Thoth...',
     'terms_and_conditions' => 'Terms and <br/>Privacy Policy',
     'documentation' => 'Documentation',
 ];

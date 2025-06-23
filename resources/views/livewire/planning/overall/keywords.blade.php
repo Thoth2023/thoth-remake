@@ -14,6 +14,8 @@
                     label="{{ translationPlanning('overall.keyword.description') }}"
                     wire:model="description"
                     placeholder="{{ translationPlanning('overall.keyword.enter_description') }}"
+                    maxlength="255"
+                    pattern="[A-Za-zÀ-ÿ\s]+"
                     required
                 />
                 @error("description")

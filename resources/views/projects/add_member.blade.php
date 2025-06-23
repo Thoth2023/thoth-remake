@@ -1,20 +1,23 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => translationAddMember('add_member')])
-    <style>
-        .levelMemberSelect2 {
-            width: 120px;
-        }
-
-        /* Add styles for table responsiveness */
-        .table-responsive {
-            overflow-x: auto;
-        }
+@include('layouts.navbars.auth.topnav', ['title' => translationAddMember('add_member')])
+<style>
+    .levelMemberSelect2 {
+        width: 120px;
+    }
 
         .table-responsive table {
             width: 100%;
             max-width: 100%;
+        }
+        .status-container {
+            display: flex;
+            align-items: center;
+            height: 38px; /* Altura aproximada do botão */
+            margin-top: 5px;
+            position: relative;
+            top: -10px;
         }
     </style>
     <div class="card shadow-lg mx-4">
@@ -52,16 +55,11 @@
                                     <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{translationAddMember('got_it')}}</button>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{translationAddMember('got_it')}}</button>
+                            </div>
                         </div>
                     </div>
-                    <input name="email_member" type="text"
-                        class="form-control @error('email_member') is-invalid @enderror" id="emailMemberInput"
-                        placeholder="{{translationAddMember('enter_email')}}">
-                    @error('email_member')
-                        <span class="invalid-feedback" role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="levelMemberSelect">{{translationAddMember('level')}}</label>
@@ -81,19 +79,22 @@
                                 <div class="modal-body">
                                     <div class="py-3 text-center">
                                         <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i>
-                                            {{translationAddMember('select_level')}}</h4>
-                                        <p>
-                                            <strong>{{translationAddMember('level_administrator')}} </strong>{{translationAddMember('level_administrator_description')}}<br />
-                                            <strong>{{translationAddMember('level_viewer')}}</strong>{{translationAddMember('level_viewer_description')}}<br />
-                                            <strong>{{translationAddMember('level_researcher')}} </strong>{{translationAddMember('level_researcher_description')}}<br />
-                                            <strong>{{translationAddMember('level_reviser')}} </strong>{{translationAddMember('level_reviser_description')}}<br />
-                                        <p></p>
-                                        </p>
+                                            {{translationAddMember('instruction_level')}}</h4>
+                                        <p>{{translationAddMember('instruction_level_text')}}</p>
+                                        <ul class="text-left">
+                                            <li>{{translationAddMember('level_1')}}</li>
+                                            <li>{{translationAddMember('level_2')}}</li>
+                                            <li>{{translationAddMember('level_3')}}</li>
+                                            <li>{{translationAddMember('level_4')}}</li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{translationAddMember('got_it')}}</button>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{translationAddMember('got_it')}}</button>
                             </div>
                         </div>
                     </div>
@@ -104,20 +105,17 @@
                         <option value=4>{{translationAddMember('reviser')}}</option>
                     </select>
                 </div>
-                <div class="d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary btn ms-auto" name="add">{{translationAddMember('add')}}</button>
-                </div>
+                <button type="submit" class="btn btn-primary">{{translationAddMember('add')}}</button>
             </form>
-
+        </div>
+        <div class="table-responsive p-0">
             <table class="table align-items-center justify-content-center mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            {{translationAddMember('name')}}</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Email</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            {{translationAddMember('level')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{translationAddMember('name')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{translationAddMember('email')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{translationAddMember('level')}}</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{translationAddMember('status')}}</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             {{translationAddMember('delete')}}</th>
                     </tr>
@@ -138,6 +136,9 @@
                             @if ($member->pivot->level == 1)
                                 <td>
                                     <p class="text-sm font-weight-bold mb-0">{{translationAddMember('admin')}}</p>
+                                </td>
+                                <td>
+                                    <!-- Administradores não mostram tags de status -->
                                 </td>
                                 <td></td>
                             @else
@@ -161,13 +162,32 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="btn btn-success btn-sm ms-auto"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right"
-                                                    title="Confirm member level change">Confirm</button>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this member?</p>
                                             </div>
                                         </div>
                                     </form>
+                                </td>
+                                <td>
+                                    @php
+                                        $status = $member->pivot->status ?? null;
+                                        $statusText = translationAddMember('status_accepted');
+                                        $statusClass = 'bg-success';
+
+                                        if ($status === 'pending') {
+                                            $statusText = translationAddMember('status_pending');
+                                            $statusClass = 'bg-warning';
+                                        } elseif ($status === 'declined') {
+                                            $statusText = translationAddMember('status_declined');
+                                            $statusClass = 'bg-danger';
+                                        } elseif ($status === 'accepted' || $status === null) {
+                                            $statusText = translationAddMember('status_accepted');
+                                            $statusClass = 'bg-success';
+                                        }
+                                    @endphp
+                                    <div class="status-container">
+                                        <span class="badge {{ $statusClass }}">{{ $statusText }}</span>
+                                    </div>
                                 </td>
                                 <td class="text-center col-md-4">
                                     <div class="row">
@@ -209,13 +229,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    @endif
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    @include('layouts.footers.auth.footer')
+</div>
+@include('layouts.footers.auth.footer')
 @endsection

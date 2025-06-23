@@ -10,6 +10,8 @@ use App\Models\Project;
 use App\Models\Activity;
 use App\Models\User;
 use App\Utils\ActivityLogHelper;
+use App\Http\Controllers\Project\Planning\PlanningProgressController;
+use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +27,13 @@ use PHPUnit\Event\Application\FinishedSubscriber;
 
 class ProjectController extends Controller
 {
+    private PlanningProgressController $progressCalculator;
+
+    public function __construct(PlanningProgressController $progressCalculator)
+    {
+        $this->progressCalculator = $progressCalculator;
+    }
+    
     /**
      * Display a listing of the projects.
      */
@@ -104,7 +113,14 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('projects.show', compact('project', 'users_relation', 'activities'));
+        // Calcular o progresso do planejamento
+        $planningProgress = $this->progressCalculator->calculate($idProject);
+
+        // Calcular o progresso de Condução
+        $conductingProgressController = new ConductingProgressController();
+        $conductingProgress = $conductingProgressController->calculateProgress($idProject);
+
+        return view('projects.show', compact('project', 'users_relation', 'activities', 'planningProgress', 'conductingProgress'));
     }
 
 
