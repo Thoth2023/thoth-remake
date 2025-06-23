@@ -119,8 +119,9 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
-
-Route::get('/projects/{project}/export-activities', [ActivityController::class, 'export'])->name('projects.exportActivities');
+Route::get('/projects/{project}/export-activities', [ProjectController::class, 'exportActivities'])
+    ->name('projects.exportActivities')
+    ->middleware('auth');
 
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {

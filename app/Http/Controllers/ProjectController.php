@@ -336,5 +336,38 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
         return redirect('/projects')->with('success', 'You have successfully joined the project!');
     }
 
+    public function exportActivities($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        $activities = \App\Models\Activity::where('id_project', $projectId)
+            ->with('user')
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=activities.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $columns = ['User', 'Activity', 'Date'];
+
+        $callback = function() use ($activities, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($activities as $activity) {
+                fputcsv($file, [
+                    $activity->user->username ?? '',
+                    $activity->activity,
+                    $activity->created_at->format('d/m/Y H:i:s'),
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
