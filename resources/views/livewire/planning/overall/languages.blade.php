@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-domains"
-            modalTitle="{{ __('project/planning.overall.language.help.title') }}"
-            modalContent="{{ __('project/planning.overall.language.help.content') }}"
+            modalTitle="{{ translationPlanning('overall.language.help.title') }}"
+            modalContent="{{ translationPlanning('overall.language.help.content') }}"
         />
     </div>
     <div class="card-body">
@@ -11,11 +11,11 @@
             <div class="form-group">
                 <x-select
                     wire:model="language"
-                    label="{{ __('project/planning.overall.language.help.title') }}"
+                    label="{{ translationPlanning('overall.language.help.title') }}"
                     required
                 >
                     <option selected disabled>
-                        {{ __("project/planning.overall.language.list.select.placeholder") }}
+                        {{ translationPlanning('overall.language.list.select.placeholder') }}
                     </option>
                     @foreach ($languages as $language)
                         <option value="{{ $language->id_language }}">
@@ -31,7 +31,7 @@
             </div>
             <div>
                 <x-helpers.submit-button>
-                    {{ __("project/planning.overall.language.add") }}
+                    {{ translationPlanning('overall.language.add') }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>
@@ -58,7 +58,7 @@
                 </div>
             @empty
                 <x-helpers.description>
-                    {{ __("project/planning.overall.study_type.list.empty") }}
+                    {{ translationPlanning('overall.study_type.list.empty') }}
                 </x-helpers.description>
             @endforelse
         </div>

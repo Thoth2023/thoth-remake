@@ -1,6 +1,6 @@
 <footer class="footer mt-2 ">
     <!-- Início do rodapé com uma margem superior (mt-2) -->
-    
+
     <div class="container-fluid">
         <!-- Container que ocupa toda a largura da tela, usado para agrupar o conteúdo interno -->
 
@@ -38,12 +38,12 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('about') }}" class="nav-link text-muted">{{ __('nav/footer.about_us') }}</a>
+                        <a href="{{ route('about') }}" class="nav-link text-muted">{{ TranslationHome('about_us') }}</a>
                         <!-- Link para a página "Sobre nós", com tradução dinâmica via função __() do Laravel -->
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('terms') }}" class="nav-link text-muted">{{ __("pages/home.terms_and_conditions") }}</a>
+                        <a href="{{ route('terms') }}" class="nav-link text-muted">{{ TranslationHome("terms_and_conditions") }}</a>
                         <!-- Link para os termos e condições, também com tradução dinâmica -->
                     </li>
 

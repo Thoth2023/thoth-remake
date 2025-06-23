@@ -9,10 +9,10 @@
                 class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
                 style="width: 100%"
             >
-            <h3 class="text-white">{{ __('pages/profile.message_heading') }}</h3>
-            <span class="text-lead text-white">{{ __('pages/profile.exclusion-success') }}</span><br/>
+            <h3 class="text-white">{{ translationProfile('message_heading') }}</h3>
+            <span class="text-lead text-white">{{ translationProfile('exclusion-success') }}</span><br/>
             <span class="text-lead text-white">
-                {{ __('pages/profile.redirect_notice') }} <b><span id="countdown" class="text-primary">15</span> {{ __('seconds') }}.</b>
+                {{ translationProfile('redirect_notice') }} <b><span id="countdown" class="text-primary">15</span> {{ __('seconds') }}.</b>
             </span>
         </div>
     </div>

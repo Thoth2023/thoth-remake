@@ -6,7 +6,7 @@
                     <div>
                         <div class="card-header">
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="mb-0">{{ __('project/planning.research-questions.title') }}</p>
+                                <p class="mb-0">{{ translationPlanning('research-questions.title') }}</p>
                                 @include ('components.help-button', [
                                     'dataTarget' => 'ResearchQuestionModal',
                                 ])
@@ -14,8 +14,8 @@
                                 @include('components.help-modal', [
                                     'modalId' => 'ResearchQuestionModal',
                                     'modalLabel' => 'exampleModalLabel',
-                                    'modalTitle' => __('project/planning.research-questions.help.title'),
-                                    'modalContent' => __('project/planning.research-questions.help.content'),
+                                    'modalTitle' => translationPlanning('research-questions.help.title'),
+                                    'modalContent' => translationPlanning('research-questions.help.content'),
                                 ])
                             </div>
                         </div>
@@ -28,16 +28,16 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input"
-                                                class="form-control-label">{{ __('project/planning.research-questions.form.id') }}</label>
+                                                class="form-control-label">{{ translationPlanning('research-questions.form.id') }}</label>
                                                 <input class="form-control" type="text" name="id" required pattern="[a-zA-Z0-9]+" placeholder="Não utilize caracteres especiais.">
                                             <label for="example-text-input"
-                                                class="form-control-label">{{ __('project/planning.research-questions.form.description') }}</label>
+                                                class="form-control-label">{{ translationPlanning('research-questions.form.description') }}</label>
                                             <input class="form-control" type="text" name="description" required>
                                             <input class="form-control" type="hidden" name="id_project"
                                                 value="{{ $id_project }}">
                                         </div>
                                         <button type="submit"
-                                            class="btn btn-success mt-3">{{ __('project/planning.research-questions.form.add') }}</button>
+                                            class="btn btn-success mt-3">{{ translationPlanning('research-questions.form.add') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -47,11 +47,11 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                {{ __('project/planning.research-questions.table.id') }}
+                                                {{ translationPlanning('research-questions.table.id') }}
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                {{ __('project/planning.research-questions.table.description') }}
+                                                {{ translationPlanning('research-questions.table.description') }}
                                             </th>
                                             <th colspan="2"></th>
                                         </tr>
@@ -72,7 +72,7 @@
                                                         type="button" style="padding: 7px;" class="btn btn-outline-secondary btn-group-sm btn-sm m-1"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-form{{ $researchQuestion->id_research_question }}"
-                                                        data-original-title="{{ __('project/planning.research-questions.table.edit') }}">{{ __('project/planning.research-questions.table.edit') }}</button>
+                                                        data-original-title="{{ translationPlanning('research-questions.table.edit') }}">{{ translationPlanning('research-questions.table.edit') }}</button>
                                                     <!-- Modal Here Edition -->
                                                     <div class="col-md-auto d-flex">
                                                         <div class="modal fade"
@@ -85,7 +85,7 @@
                                                                     <div class="modal-body p-0">
                                                                         <div class="card card-plain">
                                                                             <div class="card-header pb-0 text-left">
-                                                                                <h3>{{ __('project/planning.research-questions.edit-modal.title') }}
+                                                                                <h3>{{ translationPlanning('research-questions.edit-modal.title') }}
                                                                                 </h3>
                                                                             </div>
                                                                             <div class="card-body">
@@ -94,7 +94,7 @@
                                                                                     action="{{ route('project.planning.research-questions.update', ['research_question' => $researchQuestion, 'projectId' => $project->id_project]) }}">
                                                                                     @csrf
                                                                                     @method('PUT')
-                                                                                    <label>{{ __('project/planning.research-questions.edit-modal.id') }}</label>
+                                                                                    <label>{{ translationPlanning('research-questions.edit-modal.id') }}</label>
                                                                                     <div class="input-group mb-3">
                                                                                         <input class="form-control"
                                                                                             type="text"
@@ -102,7 +102,7 @@
                                                                                             value="{{ $researchQuestion->id }}"
                                                                                             required>
                                                                                     </div>
-                                                                                    <label>{{ __('project/planning.research-questions.edit-modal.description') }}</label>
+                                                                                    <label>{{ translationPlanning('research-questions.edit-modal.description') }}</label>
                                                                                     <div class="input-group mb-3">
                                                                                         <input class="form-control"
                                                                                             type="text"
@@ -115,7 +115,7 @@
                                                                                         value="{{ $researchQuestion->id_project }}">
                                                                                     <div class="text-center">
                                                                                         <button type="submit"
-                                                                                            class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('project/planning.research-questions.edit-modal.update') }}</button>
+                                                                                            class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ translationPlanning('research-questions.edit-modal.update') }}</button>
                                                                                     </div>
                                                                                 </form>
                                                                             </div>
@@ -136,14 +136,14 @@
                                                             type="submit" style="padding: 7px;"
                                                             class="btn btn-outline-danger btn-group-sm btn-sm m-1"
                                                             data-toggle="tooltip"
-                                                            data-original-title="{{ __('project/planning.research-questions.table.delete') }}">{{ __('project/planning.research-questions.table.delete') }}</button>
+                                                            data-original-title="{{ translationPlanning('research-questions.table.delete') }}">{{ translationPlanning('research-questions.table.delete') }}</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
                                                 <td colspan="5" class="text-center">
-                                                    {{ __('project/planning.research-questions.table.no-questions') }}
+                                                    {{ translationPlanning('research-questions.table.no-questions') }}
                                                 </td>
                                             </tr>
                                         @endforelse

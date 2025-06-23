@@ -96,7 +96,7 @@ class FileUpload extends Component
             // Preparar o nome do arquivo para salvar
             $originalName = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
             $cleanName = str_replace(' ', '_', $originalName);
-            $extension = $this->file->getClientOriginalExtension();
+            $extension = strtolower($this->file->getClientOriginalExtension());
             $name = $cleanName . '.' . $extension;
             FacadesLog::info('Preparando o nome do arquivo para salvar.', ['file_name' => $name]);
 

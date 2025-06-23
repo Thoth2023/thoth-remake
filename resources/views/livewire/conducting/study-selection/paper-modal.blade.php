@@ -14,15 +14,15 @@
                     <!-- O restante do conteúdo do paperModal -->
                     <div class="row">
                         <div class="col-4">
-                            <b>{{ __('project/conducting.study-selection.modal.author' )}}:</b>
+                            <b>{{ translationConducting('study-selection.modal.author' )}}:</b>
                             <p>{{ $paper['author'] }}</p>
                         </div>
                         <div class="col-2">
-                            <b>{{ __('project/conducting.study-selection.modal.year' )}}:</b>
+                            <b>{{ translationConducting("study-selection.modal.year") }}:</b>
                             <p>{{ $paper['year'] }}</p>
                         </div>
                         <div class="col-4">
-                            <b>{{ __('project/conducting.study-selection.modal.database' )}}:</b>
+                            <b>{{ translationConducting("study-selection.modal.database") }}:</b>
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
                         <div class="col-2">
@@ -56,13 +56,14 @@
                         $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
 
                     </div>
+
                     <table class="table table-striped table-bordered mb-3">
                         <thead>
                             <tr>
-                                <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.select' )}}</th>
+                                <th class="w-5 align-middle text-center">{{ translationConducting('study-selection.modal.table.select' )}}</th>
                                 <th class="w-5 align-middle text-center">ID</th>
-                                <th class="w-70 align-middle text-wrap">{{ __('project/conducting.study-selection.modal.table.description' )}}</th>
-                                <th class="w-5 align-middle text-center">{{ __('project/conducting.study-selection.modal.table.type' )}}</th>
+                                <th class="w-70 align-middle text-wrap">{{ translationConducting('study-selection.modal.table.description' )}}</th>
+                                <th class="w-5 align-middle text-center">{{ translationConducting('study-selection.modal.table.type' )}}</th>
 
                             </tr>
                         </thead>
@@ -94,9 +95,9 @@
                     <hr />
 
                     <div class="d-flex flex-column mt-3">
-                        <label>{{ __('project/conducting.study-selection.modal.paper-conflict-note' )}}</label>
+                        <label>{{ translationConducting('study-selection.modal.paper-conflict-note' )}}</label>
                         <textarea id="note" class="form-control" rows="2" wire:model="note" wire:blur="saveNote"
-                            placeholder="{{ __('project/conducting.study-selection.modal.paper-conflict-writer' )}}"
+                            placeholder="{{ translationConducting('study-selection.modal.paper-conflict-writer' )}}"
                             @if(!$canEdit) disabled @endif required>
                     </textarea>
                     </div>
@@ -107,26 +108,26 @@
                     <!-- Verificação do status -->
                     @if($paper['status_selection'] != 1 && $paper['status_selection'] != 2)
                     <!-- Apenas mostrar se o status não for Accepted (1) ou Rejected (2) -->
-                    <p>{{ __('project/conducting.study-selection.modal.option.select' )}}</p>
+                    <p>{{ translationConducting('study-selection.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
                         <input type="radio" class="btn-check" wire:model="selected_status"
                             wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2"
                             autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary"
-                            for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
+                            for="btnradio2">{{ translationConducting('study-selection.modal.option.unclassified' )}}</label>
 
                         <input type="radio" class="btn-check" wire:model="selected_status"
                             wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1"
                             autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary"
-                            for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
+                            for="btnradio1">{{ translationConducting('study-selection.modal.option.remove' )}}</label>
 
                         <input type="radio" class="btn-check" wire:model="selected_status"
                             wire:change="updateStatusManual" value="Duplicate" name="btnradio" id="btnradio4"
                             autocomplete="off" @if(!$canEdit) disabled @endif>
                         <label class="btn btn-outline-primary"
-                            for="btnradio4">{{ __('project/conducting.study-selection.modal.option.duplicated' )}}</label>
+                            for="btnradio4">{{ translationConducting('study-selection.modal.option.duplicated' )}}</label>
                     </div>
                     @endif
                     @endif
@@ -139,7 +140,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
+                        data-bs-dismiss="modal">{{ translationConducting('study-selection.modal.close' )}}</button>
                 </div>
                 <div class="d-flex justify-content-between px-4">
                     <button type="button" class="btn btn-outline-secondary" wire:click="previousPaper">
@@ -174,7 +175,7 @@
 
 @script
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         // Show the paper modal
         $wire.on('show-paper', () => {
             setTimeout(() => {
@@ -222,4 +223,20 @@ Livewire.on('show-sucess', () => {
     });
 });
 </script>
+<script>
+    function translationStudySelection(term) {
+        axios.post('/translations-study-selection', {
+            term: term
+        })
+            .then(response => {
+                // A tradução será retornada com sucesso
+                return response.data.translation;
+            })
+            .catch(error => {
+                console.error('Erro ao obter tradução', error);
+                return 'Erro ao carregar tradução';
+            });
+    }
+</script>
+
 @endscript

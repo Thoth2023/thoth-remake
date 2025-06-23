@@ -9,8 +9,8 @@
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 w-100">
             <div class="col-lg-6 text-center mx-auto">
-                <h1 class="text-white">{{ __("pages/about.about") }}</h1>
-                <p class="text-lead text-white">{{ __("pages/about.description") }}</p>
+                <h1 class="text-white">{{ translationAbout("about") }}</h1>
+                <p class="text-lead text-white">{{ translationAbout("description") }}</p>
 
             </div>
         </div>
@@ -34,24 +34,24 @@
                                 class="card-title h5 d-block text-darker"
                                 style="cursor: default; transition: color 0.2s;"
                             >
-                                {{ __("pages/about.new_features") }}
+                                {{ translationAbout("new_features") }}
                             </span>
                             <ul>
-                                <li>{{ __("pages/about.recover_password") }}</li>
-                                <li>{{ __("pages/about.bug_databases") }}</li>
-                                <li>{{ __("pages/about.suggest_databases") }}</li>
-                                <li>{{ __("pages/about.new_qa") }}</li>
-                                <li>{{ __("pages/about.new_interface") }}</li>
-                                <li>{{ __("pages/about.new_framework") }}</li>
-                                <li>{{ __("pages/about.internationalization") }}</li>
-                                <li>{{ __("pages/about.usability") }}</li>
-                                <li>{{ __("pages/about.users_management") }}</li>
-                                <li>{{ __("pages/about.profile_management") }}</li>
-                                <li>{{ __("pages/about.members_invitation") }}</li>
-                                <li>{{ __("pages/about.pwa") }}</li>
-                                <li>{{ __("pages/about.snowballing") }}</li>
-                                <li>{{ __("pages/about.algolia_api") }}</li>
-                                <li>{{ __("pages/about.crossref_api") }}</li>
+                                <li>{{ translationAbout("recover_password") }}</li>
+                                <li>{{ translationAbout("bug_databases") }}</li>
+                                <li>{{ translationAbout("suggest_databases") }}</li>
+                                <li>{{ translationAbout("new_qa") }}</li>
+                                <li>{{ translationAbout("new_interface") }}</li>
+                                <li>{{ translationAbout("new_framework") }}</li>
+                                <li>{{ translationAbout("internationalization") }}</li>
+                                <li>{{ translationAbout("usability") }}</li>
+                                <li>{{ translationAbout("users_management") }}</li>
+                                <li>{{ translationAbout("profile_management") }}</li>
+                                <li>{{ translationAbout("members_invitation") }}</li>
+                                <li>{{ translationAbout("pwa") }}</li>
+                                <li>{{ translationAbout("snowballing") }}</li>
+                                <li>{{ translationAbout("algolia_api") }}</li>
+                                <li>{{ translationAbout("crossref_api") }}</li>
                             </ul>
                         </div>
                     </div>
@@ -62,9 +62,9 @@
                             class="card-title h5 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ __("pages/about.development") }}
+                            {{ translationAbout("development") }}
                         </span>
-                        <p>{{ __("pages/about.development_description") }}</p>
+                        <p>{{ translationAbout("development_description") }}</p>
                     </div>
                     <div class="card-body pt-2">
                         <span
@@ -73,13 +73,13 @@
                             class="card-title h5 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ __("pages/about.open_source_project") }}
+                            {{ translationAbout("open_source_project") }}
                         </span>
                         <a
                             class="nav-link d-flex align-items-center me-2"
                             href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE"
                         >
-                            {{ __("pages/about.mit_license") }}
+                            {{ translationAbout("mit_license") }}
                         </a>
                         <span
                             href="#"
@@ -87,7 +87,7 @@
                             class="card-title h6 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ __("pages/about.technologies_used") }}
+                            {{ translationAbout("technologies_used") }}
                         </span>
                         <ul>
                             <li>PHP Language</li>
@@ -112,10 +112,10 @@
                             class="card-title h5 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
-                            {{ __("pages/about.about_the_tool") }}
+                            {{ translationAbout("about_the_tool") }}
                         </span>
                         <p>
-                            {{ __("pages/about.about_the_tool_description") }}
+                            {{ translationAbout("about_the_tool_description") }}
                         </p>
 
                     <img src="/img/about/AboutTool.PNG" class="img-fluid" alt="Imagem" />
@@ -125,12 +125,12 @@
                     'management_selection', 'management_quality', 'data_generation',
                     'graphs_tables_generation', 'report_generation'
                     ] as $section)
-                    <h6 class="card-title text-darker mt-3">{{ __("pages/about.$section") }}</h6>
-                    <p>{{ __("pages/about.{$section}_description") }}</p>
+                    <h6 class="card-title text-darker mt-3">{{ translationAbout("$section") }}</h6>
+                    <p>{{ translationAbout("{$section}_description") }}</p>
                     @endforeach
 
-                    <p>{{ __("pages/about.report_generation_description2") }}</p>
-                    <p>{{ __("pages/about.report_generation_description3") }}</p>
+                    <p>{{ translationAbout("report_generation_description2") }}</p>
+                    <p>{{ translationAbout("report_generation_description3") }}</p>
 
                     <ul>
                         @foreach([
@@ -156,8 +156,8 @@
                         'improvement_of_search_strings'
                         ] as $item)
                         <li>
-                            <h5 class="card-title text-darker">{{ __("pages/about.$item") }}</h5>
-                            <p>{{ __("pages/about.{$item}_description") }}</p>
+                            <h5 class="card-title text-darker">{{ translationAbout("$item") }}</h5>
+                            <p>{{ translationAbout("{$item}_description") }}</p>
                         </li>
                         @endforeach
                     </ul>

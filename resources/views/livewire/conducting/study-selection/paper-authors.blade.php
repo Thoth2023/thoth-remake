@@ -1,6 +1,7 @@
+
 <div>
     <span>
-        <b>{{ __('project/conducting.study-selection.modal.author' )}}: </b>
+        <b>{{ translationConducting("study-selection.modal.author")}}:</b>
         <p>{{ $author }}</p>
     </span>
 </div>

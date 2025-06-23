@@ -5,19 +5,19 @@
                 <tr>
                     <th class="p-1 pl-3" style="width: 5%; text-align: center; vertical-align: middle;"></th>
                     <th scope="col" class="p-1" style="width: 10%; text-align: center; vertical-align: middle;">
-                        {{ __("project/planning.data-extraction.table.header.id") }}
+                        {{ translationPlanning("data-extraction.table.header.id") }}
                     </th>
                     <th scope="col" class="p-1" style="width: 15%; text-align: center; vertical-align: middle;">
-                        {{ __("project/planning.data-extraction.table.header.description") }}
+                        {{ translationPlanning("data-extraction.table.header.description") }}
                     </th>
                     <th scope="col" class="p-1" style="width: 10%; text-align: center; vertical-align: middle;">
-                        {{ __("project/planning.quality-assessment.question-quality.weight") }}
+                        {{ translationPlanning("quality-assessment.question-quality.weight") }}
                     </th>
                     <th scope="col" class="text-center p-1" style="width: 15%; text-align: center; vertical-align: middle;">
-                        {{ __("project/planning.quality-assessment.min-general-score.title") }}
+                        {{ translationPlanning("quality-assessment.min-general-score.title") }}
                     </th>
                     <th scope="col" class="text-center p-1" style="width: 10%; text-align: center; vertical-align: middle;">
-                        {{ __("project/planning.data-extraction.table.header.actions") }}
+                        {{ translationPlanning("data-extraction.table.header.actions") }}
                     </th>
                 </tr>
             </thead>
@@ -51,7 +51,7 @@
                                                 disabled
                                                 value="-1"
                                             >
-                                                {{ __("project/planning.quality-assessment.question-score.select.rule") }}
+                                                {{ translationPlanning('quality-assessment.question-score.select.rule') }}
                                             </option>
                                             @foreach ($question->qualityScores as $score)
                                                 <option
@@ -99,25 +99,25 @@
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.quality-assessment.question-score.score_rule.title") }}
+                                            {{ translationPlanning('quality-assessment.question-score.score_rule.title') }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.quality-assessment.question-score.description.title") }}
+                                            {{ translationPlanning('quality-assessment.question-score.description.title') }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.quality-assessment.question-score.range.score") }}
+                                            {{ translationPlanning('quality-assessment.question-score.range.score') }}
                                         </th>
                                         <th
                                             scope="col"
                                             class="text-center p-05"
                                         >
-                                            {{ __("project/planning.data-extraction.table.header.actions") }}
+                                            {{ translationPlanning('data-extraction.table.header.actions') }}
                                         </th>
                                     </tr>
                                 </thead>

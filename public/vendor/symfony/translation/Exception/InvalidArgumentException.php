@@ -12,7 +12,7 @@
 namespace Symfony\Component\Translation\Exception;
 
 /**
- * Base InvalidArgumentException for the Translation component.
+ * Base InvalidArgumentException for the TranslationController component.
  *
  * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
  */

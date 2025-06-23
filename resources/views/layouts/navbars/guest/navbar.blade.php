@@ -23,7 +23,7 @@
                             <li class="nav-item me-1">
                                 <a class="nav-link d-flex align-items-center" aria-current="page" href="{{ route('home') }}">
                                     <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                                    {{ __('nav/nav.home') }}
+                                    {{ translationNav('home') }}
                                 </a>
                             </li>
 
@@ -31,7 +31,7 @@
                             <li class="nav-item me-1">
                                 <a class="nav-link d-flex align-items-center" href="{{ route('about') }}">
                                     <i class="ni ni-bulb-61 opacity-6 text-dark me-1"></i>
-                                    {{ __('nav/nav.about') }}
+                                    {{ translationNav('about') }}
                                 </a>
                             </li>
 
@@ -39,7 +39,7 @@
                             <li class="nav-item me-1">
                                 <a class="nav-link d-flex align-items-center" href="{{ route('help') }}">
                                     <i class="ni ni-satisfied opacity-6 text-dark me-1"></i>
-                                    {{ __('nav/nav.help') }}
+                                    {{ translationNav('help') }}
                                 </a>
                             </li>
 
@@ -49,14 +49,14 @@
                                 <li class="nav-item me-1">
                                     <a class="nav-link d-flex align-items-center" href="{{ route('register') }}">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.sign_up') }}
+                                        {{ translationNav('sign_up') }}
                                     </a>
                                 </li>
                                 <!-- Link para Login -->
                                 <li class="nav-item me-1">
                                     <a class="nav-link d-flex align-items-center" href="{{ route('login') }}">
                                         <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.sign_in') }}
+                                        {{ translationNav('sign_in') }}
                                     </a>
                                 </li>
                             @endguest
@@ -67,7 +67,7 @@
                                 <li class="nav-item me-1">
                                     <a class="nav-link d-flex align-items-center" href="{{ route('profile') }}">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.profile') }}
+                                        {{ translationNav('profile') }}
                                     </a>
                                 </li>
 
@@ -75,7 +75,7 @@
                                 <li class="nav-item me-1">
                                     <a class="nav-link d-flex align-items-center" href="{{ route('projects.index') }}">
                                         <i class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"></i>
-                                        {{ __('nav/nav.projects') }}
+                                        {{ translationNav('projects') }}
                                     </a>
                                 </li>
 
@@ -83,11 +83,11 @@
                                 <li class="nav-item me-1">
                                     <form method="POST" action="{{ route('logout') }}" class="m-1 d-flex align-items-center">
                                         @csrf
-                                        <button type="submit" 
-                                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none" 
+                                        <button type="submit"
+                                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none"
                                                 style="cursor: pointer;">
                                             <i class="fa fa-sign-out-alt opacity-6 me-1"></i>
-                                            <span>{{ __('nav/nav.logout') }}</span>
+                                            <span>{{ translationNav('logout') }}</span>
                                         </button>
                                     </form>
                                 </li>
@@ -97,7 +97,7 @@
                             <li class="nav-item me-1 d-flex align-items-center">
                                 <a href="javascript:;" class="nav-link text-dark p-0 d-flex align-items-center">
                                     <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
-                                    <span>{{ __('nav/nav.settings') }}</span>
+                                    <span>{{ translationNav('settings') }}</span>
                                 </a>
                             </li>
                         </ul>

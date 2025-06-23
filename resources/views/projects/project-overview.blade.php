@@ -1,7 +1,7 @@
 <div class="card-group justify-content-center">
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <h5>{{ __("project/overview.description") }}</h5>
+            <h5>{{ translationOverview("description") }}</h5>
         </div>
         <div class="card-body pt-2">
             <p>{{ $project->description }}</p>
@@ -9,7 +9,7 @@
     </div>
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <h5>{{ __("project/overview.objectives") }}</h5>
+            <h5>{{ translationOverview("objectives") }}</h5>
         </div>
         <div class="card-body pt-2">
             <p>{{ $project->objectives }}</p>
@@ -17,7 +17,7 @@
     </div>
     <div class="card">
         <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <h5>{{ __("project/overview.members") }}</h5>
+            <h5>{{ translationOverview("members") }}</h5>
         </div>
         <div class="card-body pt-2">
             <ul>
@@ -37,14 +37,14 @@
     <div class="card-group">
         <div class="card">
             <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                <h5>{{ __("project/overview.progress") }}</h5>
+                <h5>{{ translationOverview("progress") }}</h5>
             </div>
             <div class="card-body">
                 <div class="progress-wrapper">
                     <!-- Planejamento -->
                     <div class="progress-info mb-1">
                         <span class="text-sm font-weight-bold">
-                            {{ __("project/overview.planning") }}:
+                            {{ translationOverview("planning") }}:
                             {{ number_format($planningProgress["overall"] ?? 0, 2) }}%
                         </span>
                     </div>
@@ -64,7 +64,7 @@
                     <!-- Condução -->
                     <div class="progress-info mb-1">
                         <span class="text-sm font-weight-bold">
-                            {{ __("project/overview.conducting") }}:
+                            {{ translationOverview("conducting") }}:
                             {{ number_format($conductingProgress ?? 0, 2) }}%
                         </span>
                     </div>
@@ -82,7 +82,7 @@
                     <!-- Seleção de Estudos -->
                     <div class="progress-info mb-1">
                         <span class="text-sm font-weight-bold">
-                            {{ __("project/overview.study_selection") }}
+                            {{ translationOverview("study_selection") }}
                         </span>
                     </div>
                     <div class="progress mb-4" style="height: 6px">
@@ -99,7 +99,7 @@
                     <!-- Avaliação de Qualidade -->
                     <div class="progress-info mb-1">
                         <span class="text-sm font-weight-bold">
-                            {{ __("project/overview.quality_assessment") }}
+                            {{ translationOverview("quality_assessment") }}
                         </span>
                     </div>
                     <div class="progress mb-4" style="height: 6px">
@@ -118,7 +118,7 @@
                     <!-- Extração de Dados -->
                     <div class="progress-info mb-1">
                         <span class="text-sm font-weight-bold">
-                            {{ __("project/overview.data_extraction") }}
+                            {{ translationOverview("data_extraction") }}
                         </span>
                     </div>
                     <div class="progress" style="height: 6px">
@@ -137,7 +137,7 @@
                 <div
                     class="card-header p-0 mx-3 mt-3 position-relative z-index-1"
                 >
-                    <h5>{{ __("project/overview.activity_record") }}</h5>
+                    <h5>{{ translationOverview("activity_record") }}</h5>
                 </div>
                 <div style="max-height: 390px; overflow-y: auto">
                     @if (! empty($activities))
@@ -176,7 +176,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#allActivitiesModal"
                             >
-                                {{ __("project/overview.view_full_history") }}
+                                {{ translationOverview("view_full_history") }}
                             </button>
                         </div>
                     @endif
@@ -197,7 +197,7 @@
                                         class="modal-title"
                                         id="allActivitiesModalLabel"
                                     >
-                                        {{ __("project/overview.full_activity_history") }}
+                                        {{ translationOverview("full_activity_history") }}
                                     </h5>
                                     <button
                                         type="button"
@@ -243,7 +243,7 @@
                                         <div
                                             class="text-center text-muted py-3"
                                         >
-                                            {{ __("project/overview.no_activities") }}
+                                            {{ translationOverview("no_activities") }}
                                         </div>
                                     @endif
                                 </div>
@@ -253,7 +253,7 @@
                                         class="btn btn-secondary btn-sm"
                                         data-bs-dismiss="modal"
                                     >
-                                        {{ __("project/overview.close") }}
+                                        {{ translationOverview("close") }}
                                     </button>
                                 </div>
                             </div>

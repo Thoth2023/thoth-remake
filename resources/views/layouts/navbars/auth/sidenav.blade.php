@@ -41,7 +41,7 @@
                         ></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {{ __("nav/nav.home") }}
+                        {{ translationNav("home") }}
                     </span>
                 </a>
             </li>
@@ -58,7 +58,7 @@
                         ></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {{ __("nav/nav.my_projects") }}
+                        {{ translationNav("my_projects") }}
                     </span>
                 </a>
             </li>
@@ -75,7 +75,7 @@
                         ></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {{ __("nav/nav.profile") }}
+                        {{ translationNav("profile") }}
                     </span>
                 </a>
             </li>
@@ -93,7 +93,7 @@
                         ></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {{ __("nav/nav.about") }}
+                        {{ translationNav("about") }}
                     </span>
                 </a>
             </li>
@@ -110,7 +110,7 @@
                         ></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {{ __("nav/nav.help") }}
+                        {{ translationNav("help") }}
                     </span>
                 </a>
             </li>
@@ -128,7 +128,7 @@
                         <i class="text-dark text-sm opacity-10 fas fa-book"></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {!! __("nav/nav.documentation") !!}
+                        {!! translationNav("documentation") !!}
                     </span>
                 </a>
             </li>
@@ -146,7 +146,7 @@
                         ></i>
                     </div>
                     <span class="nav-link-text ms-1">
-                        {!! __("nav/nav.terms_and_conditions") !!}
+                        {!! translationNav("terms_and_conditions") !!}
                     </span>
                 </a>
             </li>

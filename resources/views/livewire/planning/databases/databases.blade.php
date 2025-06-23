@@ -3,8 +3,8 @@
         <div class="card-header mb-0 pb-0">
             <x-helpers.modal
                 target="database"
-                modalTitle="{{ __('project/planning.databases.title') }}"
-                modalContent="{{ __('project/planning.databases.help.content') }}"
+                modalTitle="{{ translationPlanning('databases.title') }}"
+                modalContent="{{ translationPlanning('databases.help.content') }}"
             />
         </div>
         <div class="card-body">
@@ -13,12 +13,12 @@
                     <div class="d-flex gap-3 flex-column w-100 w-md-50">
                         <x-select
                             wire:model="database"
-                            label="{{ __('project/planning.databases.form.select-placeholder') }}"
+                            label="{{ translationPlanning('databases.form.select-placeholder') }}"
                             search
                             required
                         >
                             <option selected disabled>
-                                {{ __("project/planning.databases.form.select-placeholder") }}
+                                {{ translationPlanning('databases.form.select-placeholder') }}
                             </option>
                             @foreach ($databases as $database)
                                 <option value="{{ $database->id_database }}">
@@ -28,7 +28,7 @@
                         </x-select>
                         <div class="align-self">
                             <x-helpers.submit-button class="mb-0">
-                                {{ __("project/planning.databases.form.add-button") }}
+                                {{ translationPlanning('databases.form.add-button') }}
                             </x-helpers.submit-button>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                             padding: 0.5rem 1rem;
                         "
                     >
-                        {{ __("project/planning.databases.table.name") }}
+                        {{ translationPlanning('databases.table.name') }}
                     </th>
                     <th style="padding: 0.5rem 0.75rem">Link</th>
                     <th
@@ -61,7 +61,7 @@
                             padding: 0.5rem 1rem;
                         "
                     >
-                        {{ __("project/planning.databases.table.actions") }}
+                        {{ translationPlanning('databases.table.actions') }}
                     </th>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@
                         <tr>
                             <td colspan="3" class="text-center py-4">
                                 <x-helpers.description>
-                                    {{ __("project/planning.databases.table.empty") }}
+                                    {{ translationPlanning('databases.table.empty') }}
                                 </x-helpers.description>
                             </td>
                         </tr>

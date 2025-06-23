@@ -12,11 +12,11 @@ use App\Models\StatusSelection;
 use Illuminate\Http\Request;
 
 class StudySelectionController extends Controller
+{
 
-{   
 
-
-    public function index($projectId) {
+    public function index($projectId)
+    {
 
         $projectId = request()->segment(2);
 
@@ -29,13 +29,13 @@ class StudySelectionController extends Controller
         }
 
         $papers = Papers::whereIn('id_bib', $idsBib)->get();
-    
+
         return view('project.conducting.study-selection.index', [
             'papers' => $papers,
         ]);
     }
 
-    
-    
-    
+
+
+
 }

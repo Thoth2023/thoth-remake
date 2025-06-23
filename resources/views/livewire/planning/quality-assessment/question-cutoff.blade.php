@@ -3,15 +3,15 @@
     <div class="card-header py-0">
         <x-helpers.modal
             target="question-cutoff"
-            modalTitle="{{ __('project/planning.quality-assessment.min-general-score.title') }}"
-            modalContent="{!! __('project/planning.quality-assessment.min-general-score.help-content') !!}"
+            modalTitle="{{ translationPlanning('quality-assessment.min-general-score.title') }}"
+            modalContent="{!! translationPlanning('quality-assessment.min-general-score.help-content') !!}"
         />
     </div>
     <div class="card-body">
         <div class="d-flex flex-wrap gap-2">
             <x-input
                 id="sum"
-                label="{{ __('project/planning.quality-assessment.min-general-score.sum') }}"
+                label="{{ translationPlanning('quality-assessment.min-general-score.sum') }}"
                 placeholder="0"
                 pattern="[A-Za-z]{3}"
                 wire:model="sum"
@@ -21,11 +21,11 @@
         <div class="gap-2">
             <x-select
                 id="cutoff"
-                label="{{ __('project/planning.quality-assessment.min-general-score.cutoff') }}"
+                label="{{ translationPlanning('quality-assessment.min-general-score.cutoff') }}"
                 wire:model="selectedGeneralScore"
                 wire:change="updateCutoff"
             >
-                <option selected disabled>{{ __('project/planning.quality-assessment.min-general-score.form.select-placeholder') }}</option>
+                <option selected disabled>{{ translationPlanning('quality-assessment.min-general-score.form.select-placeholder') }}</option>
                 @foreach ($generalScores as $score)
                     <option value="{{ $score->id_general_score }}" {{ $selectedGeneralScore == $score->id_general_score ? 'selected' : '' }}>
                         {{ $score->description }} ({{ $score->start }} - {{ $score->end }})

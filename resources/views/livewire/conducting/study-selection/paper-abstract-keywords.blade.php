@@ -1,10 +1,14 @@
+@php
+    $studySelectionPath = 'project/conducting.sstudy-selection';
+@endphp
+
 <div>
     <div class="col-12">
-        <b>{{ __('project/conducting.study-selection.modal.abstract') }}: </b>
+        <b>{{ translationConducting("study-selection.modal.abstract") }}: </b>
         <p>{{ $abstract }}</p>
     </div>
     <div class="col-12">
-        <b>{{ __('project/conducting.study-selection.modal.keywords') }}: </b>
+        <b>{{ translationConducting("study-selection.modal.keywords") }}: </b>
         <p>{{ $keywords }}</p>
     </div>
 </div>

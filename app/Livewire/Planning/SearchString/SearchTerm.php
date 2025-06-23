@@ -247,7 +247,7 @@ class SearchTerm extends Component
         try {
             $value = $this->form['isEditing'] ? 'Updated the synonym' : 'Added a synonym';
             $toastMessage = __($this->toastMessages . ($this->form['isEditing']
-                ? '.updated' : '.added'));
+                    ? '.updated' : '.added'));
 
             $created = SynonymModel::updateOrCreate($updateIf, [
                 'id_term' => $this->termId['value'],
@@ -274,7 +274,6 @@ class SearchTerm extends Component
             $this->resetFields();
         }
     }
-
     /**
      * Fill the form fields with the given data.
      */

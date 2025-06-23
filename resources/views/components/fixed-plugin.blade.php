@@ -7,9 +7,9 @@
         <div class="card-header pb-0 pt-3 ">
             <div class="float-start">
                 <!-- Título do painel (configurador) -->
-                <h5 class="mt-3 mb-0">{{ __('nav/side.thoth_configurator') }}</h5>
+                <h5 class="mt-3 mb-0">{{ translationSide('thoth_configurator') }}</h5>
                 <!-- Subtítulo explicativo -->
-                <p>{{ __('nav/side.dashboard_options') }}</p>
+                <p>{{ translationSide('dashboard_options') }}</p>
             </div>
 
             <!-- Botão de fechar o painel -->
@@ -28,14 +28,14 @@
 
             <!-- Seção de seleção de idioma -->
             <div>
-                <h6 class="mb-1">{{ __('nav/side.language_selection') }}</h6>
+                <h6 class="mb-1">{{ translationSide('language_selection') }}</h6>
             </div>
 
             <!-- Dropdown de idiomas -->
             <div class="dropdown">
                 <a href="#" class="btn btn-secondary dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                     <i class="fas fa-globe opacity-6 text-dark me-1" style="color: #FFFFFF !important"></i>
-                    {{ __('nav/nav.language') }} <!-- Texto do idioma atual -->
+                    {{ translationNav('language') }} <!-- Texto do idioma atual -->
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                     <!-- Opção: Inglês -->
@@ -51,7 +51,7 @@
 
             <!-- Seção de seleção de cor da sidebar -->
             <div>
-                <h6 class="mb-0 mt-3">{{ __('nav/side.sidebar_color') }}</h6>
+                <h6 class="mb-0 mt-3">{{ translationSide('sidebar_color') }}</h6>
             </div>
 
             <!-- Botões coloridos para trocar a cor da sidebar -->
@@ -68,26 +68,26 @@
 
             <!-- Tipo de sidebar: clara ou escura -->
             <div class="mt-3">
-                <h6 class="mb-0">{{ __('nav/side.sidenav_type') }}</h6>
-                <p class="text-sm">{{ __('nav/side.sidenav_choose') }}</p>
+                <h6 class="mb-0">{{ translationSide('sidenav_type') }}</h6>
+                <p class="text-sm">{{ translationSide('sidenav_choose') }}</p>
             </div>
 
             <!-- Botões para mudar o tipo de sidebar -->
             <div class="d-flex">
                 <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">
-                    {{ __('nav/side.white') }}
+                    {{ translationSide('white') }}
                 </button>
                 <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">
-                    {{ __('nav/side.dark') }}
+                    {{ translationSide('dark') }}
                 </button>
             </div>
 
             <!-- Aviso visível apenas em telas menores -->
-            <p class="text-sm d-xl-none d-block mt-2">{{ __('nav/side.sidenav_warning') }}</p>
+            <p class="text-sm d-xl-none d-block mt-2">{{ translationSide('sidenav_warning') }}</p>
 
             <!-- Switch para fixar ou não a navbar -->
             <div class="d-flex my-3">
-                <h6 class="mb-0">{{ __('nav/side.navbar_fixed') }}</h6>
+                <h6 class="mb-0">{{ translationSide('navbar_fixed') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed">
                 </div>
@@ -99,7 +99,7 @@
 
             <!-- Switch para alternar entre modo claro e escuro -->
             <div class="mt-2 mb-5 d-flex">
-                <h6 class="mb-0">{{ __('nav/side.light_dark') }}</h6>
+                <h6 class="mb-0">{{ translationSide('light_dark') }}</h6>
                 <div class="form-check form-switch ps-0 ms-auto my-auto">
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
                 </div>
@@ -116,6 +116,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Script para persistência do modo escuro/claro -->
 <script>

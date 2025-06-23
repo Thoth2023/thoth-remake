@@ -4,14 +4,14 @@
     <div class="card ">
         <div class="card-header">
             <div class="d-flex align-items-center justify-content-between">
-                <h5>{{ __('project/planning.data-extraction.question-form.title') }}</h5>
+                <h5>{{ translationPlanning('data-extraction.question-form.title') }}</h5>
                 @include ('components.help-button', ['dataTarget' => 'DataExtractionQuestionModal'])
                 <!-- Help Button Description -->
                 @include('components.help-modal', [
                     'modalId' => 'DataExtractionQuestionModal',
                     'modalLabel' => 'DataExtractionQuestionLabel',
-                    'modalTitle' => __('project/planning.data-extraction.question-form.help.title'),
-                    'modalContent' => __('project/planning.data-extraction.question-form.help.content'),
+                    'modalTitle' => translationPlanning('data-extraction.question-form.help.title'),
+                    'modalContent' => translationPlanning('data-extraction.question-form.help.content'),
                 ])
             </div>
         </div>
@@ -23,19 +23,19 @@
 
                 <div class="form-group">
                     <label for="id"
-                        class="form-control-label">{{ __('project/planning.data-extraction.question-form.id') }}</label>
-                    <input type="text" class="form-control" id="id" name="id" required pattern="[a-zA-Z0-9]+" placeholder="{{ __('project/planning.data-extraction.question-form.dont-use') }}">
+                        class="form-control-label">{{ translationPlanning('data-extraction.question-form.id') }}</label>
+                    <input type="text" class="form-control" id="id" name="id" required pattern="[a-zA-Z0-9]+" placeholder="{{ translationPlanning('data-extraction.question-form.dont-use') }}">
                 </div>
 
                 <div class="form-group">
                     <label for="description"
-                        class="form-control-label">{{ __('project/planning.data-extraction.question-form.description') }}</label>
+                        class="form-control-label">{{ translationPlanning('data-extraction.question-form.description') }}</label>
                     <input type="text" class="form-control" id="description" name="description" required>
                 </div>
 
                 <div class="form-group">
                     <label for="type"
-                        class="form-control-label">{{ __('project/planning.data-extraction.question-form.type') }}</label>
+                        class="form-control-label">{{ translationPlanning('data-extraction.question-form.type') }}</label>
                     <select class="form-control" name="type" id="type" required>
                         @foreach ($questionTypes as $type)
                             <option value="{{ $type->id_type }}">{{ $type->type }}</option>
@@ -44,7 +44,7 @@
                 </div>
 
                 <button type="submit"
-                    class="btn btn-success mt-3">{{ __('project/planning.data-extraction.question-form.add-question') }}</button>
+                    class="btn btn-success mt-3">{{ translationPlanning('data-extraction.question-form.add-question') }}</button>
             </form>
         </div>
     </div>

@@ -12,15 +12,15 @@
                 </div>
                 <div class="modal-body mt-0">
                     <span class="pb-0">
-                        <h5>{{ __('project/conducting.quality-assessment.resolve.paper-conflict') }}</h5>
+                        <h5>{{ translationConducting('quality-assessment.resolve.paper-conflict') }}</h5>
                         <hr class="py-0 m-0 mt-1 mb-2" style="background: #b0b0b0" />
                     </span>
 
                     <ul class='list-group'>
                         <li class='list-group-item d-flex'>
-                            <div class='w-30 pl-2'><b>{{ __('project/conducting.quality-assessment.resolve.table.conflicts-members') }}</b></div>
-                            <div class='w-50 pl-2'><b>{{ __('project/conducting.quality-assessment.resolve.table.conflicts-qa') }}</b></div>
-                            <div class='w-20 pl-2'><b>{{ __('project/conducting.quality-assessment.resolve.table.conflicts-status' )}}</b></div>
+                            <div class='w-30 pl-2'><b>{{ translationConducting('quality-assessment.resolve.table.conflicts-members') }}</b></div>
+                            <div class='w-50 pl-2'><b>{{ translationConducting('quality-assessment.resolve.table.conflicts-qa') }}</b></div>
+                            <div class='w-20 pl-2'><b>{{ translationConducting('quality-assessment.resolve.table.conflicts-status' )}}</b></div>
                         </li>
                     </ul>
 
@@ -46,24 +46,24 @@
                     </ul>
 
                     <div class="d-flex flex-column mt-3">
-                        <label>{{ __('project/conducting.quality-assessment.resolve.paper-conflict-note') }}</label>
-                        <textarea id="note" class="form-control" rows="2" wire:model="note" placeholder="{{ __('project/conducting.quality-assessment.resolve.paper-conflict-writer') }}" required></textarea>
+                        <label>{{ translationConducting('quality-assessment.resolve.paper-conflict-note') }}</label>
+                        <textarea id="note" class="form-control" rows="2" wire:model="note" placeholder="{{ translationConducting('quality-assessment.resolve.paper-conflict-writer') }}" required></textarea>
                     </div>
 
-                    <p>{{ __('project/conducting.quality-assessment.resolve.option.final-decision') }}</p>
+                    <p>{{ translationConducting('quality-assessment.resolve.option.final-decision') }}</p>
                     <div class="btn-group mt-2" role="group">
                         <input type="radio" class="btn-check" wire:model="selected_status" value="1" name="btnradio" id="btnradio2" autocomplete="off">
-                        <label class="btn btn-outline-success" for="btnradio2">{{ __('project/conducting.quality-assessment.resolve.option.accepted') }}</label>
+                        <label class="btn btn-outline-success" for="btnradio2">{{ translationConducting('quality-assessment.resolve.option.accepted') }}</label>
                         <input type="radio" class="btn-check" wire:model="selected_status" value="2" name="btnradio" id="btnradio4" autocomplete="off">
-                        <label class="btn btn-outline-danger" for="btnradio4">{{ __('project/conducting.quality-assessment.resolve.option.rejected') }}</label>
+                        <label class="btn btn-outline-danger" for="btnradio4">{{ translationConducting('quality-assessment.resolve.option.rejected') }}</label>
                     </div>
                     @error('selected_status')<div class="text-danger mt-2">{{ $message }}</div>@enderror
 
                     @if($lastConfirmedBy && $lastConfirmedAt)
                         <div class="mt-3">
-                            <span><strong>{{ __('project/conducting.quality-assessment.resolve.last-confirmation') }}:</strong></span>
+                            <span><strong>{{ translationConducting('quality-assessment.resolve.last-confirmation') }}:</strong></span>
                             <span>{{ $lastConfirmedBy->user->firstname }} {{ $lastConfirmedBy->user->lastname }}</span>
-                            <span>{{ __('project/conducting.quality-assessment.resolve.confirmation-date') }} {{ $lastConfirmedAt->format('d/m/Y H:i') }}</span>
+                            <span>{{ translationConducting('quality-assessment.resolve.confirmation-date') }} {{ $lastConfirmedAt->format('d/m/Y H:i') }}</span>
                         </div>
                     @endif
                 </div>
@@ -71,7 +71,7 @@
                     @if($lastConfirmedBy)
                         <!-- Botão Atualizar quando já houver uma confirmação -->
                         <button type="button" class="btn btn-warning" wire:loading.attr="disabled" wire:click="save">
-                            {{ __('project/conducting.quality-assessment.resolve.update' ) }}
+                            {{ translationConducting('quality-assessment.resolve.update' ) }}
                             <div wire:loading>
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
@@ -79,13 +79,13 @@
                     @else
                         <!-- Botão Confirmar quando ainda não houve confirmação -->
                         <button type="button" class="btn btn-success" wire:loading.attr="disabled" wire:click="save">
-                            {{ __('project/conducting.quality-assessment.resolve.confirm' ) }}
+                            {{ translationConducting('quality-assessment.resolve.confirm' ) }}
                             <div wire:loading>
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
                         </button>
                     @endif
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.quality-assessment.resolve.close' )}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ translationConducting('quality-assessment.resolve.close' )}}</button>
                 </div>
             </div>
         </div>
@@ -97,9 +97,9 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="successModalLabel">
                         @if (session('successMessage'))
-                            {{ __('project/conducting.quality-assessment.resolve.success' )}}
+                            {{ translationConducting('quality-assessment.resolve.success' )}}
                         @elseif (session('errorMessage'))
-                            {{ __('project/conducting.quality-assessment.resolve.error' )}}
+                            {{ translationConducting('quality-assessment.resolve.error' )}}
                         @endif
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

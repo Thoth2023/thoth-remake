@@ -2,8 +2,8 @@
     <div class="card-header mb-0 pb-0">
         <x-helpers.modal
             target="search-questions"
-            modalTitle="{{ __('project/planning.research-questions.title') }}"
-            modalContent="{!! __('project/planning.research-questions.help.content') !!}"
+            modalTitle="{{ translationPlanning('research-questions.title') }}"
+            modalContent="{!! translationPlanning('research-questions.help.content') !!}"
         />
     </div>
     <div class="card-body">
@@ -13,7 +13,7 @@
                     class="w-md-25 w-100"
                     maxlength="20"
                     id="questionId"
-                    label="{{ __('project/planning.research-questions.form.id') }}"
+                    label="{{ translationPlanning('research-questions.form.id') }}"
                     wire:model="questionId"
                     placeholder="ID"
                     required
@@ -32,7 +32,7 @@
                         for="description"
                         class="form-control-label mx-0 mb-1 required"
                     >
-                        {{ __("project/planning.research-questions.form.description") }}
+                        {{ translationPlanning('research-questions.form.description') }}
                     </label>
                     <textarea
                         class="form-control"
@@ -40,7 +40,7 @@
                         rows="4"
                         id="description"
                         wire:model="description"
-                        placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                        placeholder="{{ translationPlanning("research-questions.form.enter_description") }}"
                         pattern="[A-Za-zÀ-ÿ\s]+"
                         title="A descrição deve conter apenas letras e espaços."
                         required
@@ -58,8 +58,8 @@
             >
                 {{
                     $form["isEditing"]
-                        ? __("project/planning.research-questions.form.update")
-                        : __("project/planning.research-questions.form.add")
+                        ? translationPlanning("research-questions.form.update")
+                        : translationPlanning("research-questions.form.add")
                 }}
                 <div wire:loading>
                     <i class="fas fa-spinner fa-spin"></i>
@@ -87,7 +87,7 @@
                         ID
                     </th>
                     <th style="padding: 0.5rem 0.75rem">
-                        {{ __("project/planning.research-questions.table.description") }}
+                        {{ translationPlanning('research-questions.table.description') }}
                     </th>
                     <th
                         style="
@@ -95,7 +95,7 @@
                             padding: 0.5rem 1rem;
                         "
                     >
-                        {{ __("project/planning.research-questions.table.actions") }}
+                        {{ translationPlanning('research-questions.table.actions') }}
                     </th>
                 </thead>
                 <tbody>
@@ -135,7 +135,7 @@
                         <tr>
                             <td colspan="3" class="text-center py-4">
                                 <x-helpers.description>
-                                    {{ __("project/planning.research-questions.table.empty") }}
+                                    {{ translationPlanning('research-questions.table.empty') }}
                                 </x-helpers.description>
                             </td>
                         </tr>
@@ -143,7 +143,7 @@
                     <tr>
                         <td colspan="3" class="text-center py-4">
                             <x-search.empty target="search-questions">
-                                {{ __("project/planning.research-questions.table.no-questions") }}
+                                {{ translationPlanning('research-questions.table.no-questions') }}
                             </x-search.empty>
                         </td>
                     </tr>
@@ -165,7 +165,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form[wire\\:submit]');
     const input = document.querySelector('#questionId');
-    
+
     if (form && input) {
         form.addEventListener('submit', function() {
             // Force save the current input value to suggestions
@@ -173,16 +173,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (value) {
                 const storageKey = `suggestions_${input.id || input.name}`;
                 let suggestions = [];
-                
+
                 if (localStorage.getItem(storageKey)) {
                     suggestions = JSON.parse(localStorage.getItem(storageKey));
                 }
-                
+
                 if (!suggestions.includes(value)) {
                     suggestions.push(value);
                     localStorage.setItem(storageKey, JSON.stringify(suggestions));
                 }
-                
+
                 // Automatically refresh suggestions without showing an alert
                 setTimeout(() => {
                     refreshSuggestions('questionId', 'research_question_id', 'research_questionId_suggestions', false);

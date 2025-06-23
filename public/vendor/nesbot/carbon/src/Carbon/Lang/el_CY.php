@@ -11,7 +11,7 @@
 
 /*
  * Authors:
- * - Greek Debian Translation Team    bug-glibc@gnu.org
+ * - Greek Debian TranslationController Team    bug-glibc@gnu.org
  */
 return array_replace_recursive(require __DIR__.'/el.php', [
     'first_day_of_week' => 1,

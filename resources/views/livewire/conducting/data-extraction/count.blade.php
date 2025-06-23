@@ -16,13 +16,13 @@
 
         <div class="d-flex gap-4 mb-3">
             <div class="col text-secondary">
-                <strong>{{ __('project/conducting.data-extraction.status.to_do' )}}:</strong> {{ count($to_do) }}
+                <strong>{{ translationConducting('data-extraction.status.to_do' )}}:</strong> {{ count($to_do) }}
             </div>
             <div class="col text-success">
-                <strong>{{ __('project/conducting.data-extraction.status.done' )}}:</strong> {{ count($done) }}
+                <strong>{{ translationConducting('data-extraction.status.done' )}}:</strong> {{ count($done) }}
             </div>
             <div class="col text-info">
-                <strong>{{ __('project/conducting.data-extraction.status.removed' )}}:</strong> {{ count($removed) }}
+                <strong>{{ translationConducting('data-extraction.status.removed' )}}:</strong> {{ count($removed) }}
             </div>
 
             <div class="col">

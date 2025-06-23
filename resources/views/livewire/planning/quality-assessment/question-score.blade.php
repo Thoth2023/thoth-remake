@@ -3,8 +3,8 @@
         <div class="card-header pb-0">
             <x-helpers.modal
                 target="question-score"
-                modalTitle="{{ __('project/planning.quality-assessment.question-score.title') }}"
-                modalContent="{!! __('project/planning.quality-assessment.question-score.help.content') !!}"
+                modalTitle="{{ translationPlanning('quality-assessment.question-score.title') }}"
+                modalContent="{!! translationPlanning('quality-assessment.question-score.help.content') !!}"
                 class="modal-sm"
             />
         </div>
@@ -13,7 +13,7 @@
                 <div class="d-flex flex-column gap-2">
                     <div class="d-flex flex-column gap-1">
                         <x-select
-                            label="{{ __('project/planning.quality-assessment.question-score.question.title') }}"
+                            label="{{ translationPlanning('quality-assessment.question-score.question.title') }}"
                             id="questionId"
                             wire:model="questionId"
                             required
@@ -21,7 +21,7 @@
                             disabled="{{ $form['isEditing'] }}"
                         >
                             <option selected disabled>
-                                {{ __("project/planning.quality-assessment.question-score.question.placeholder") }}
+                                {{ translationPlanning("quality-assessment.question-score.question.placeholder") }}
                             </option>
                             @foreach ($questions as $question)
                                 <option
@@ -40,7 +40,7 @@
                     </div>
                     <div class="d-flex flex-column gap-1">
                         <label for="score-rule" class="form-control-label required">
-                            {{ __('project/planning.quality-assessment.question-score.score_rule.title') }}
+                            {{ translationPlanning('quality-assessment.question-score.score_rule.title') }}
                         </label>
                         <input
                             id="score-rule"
@@ -49,7 +49,7 @@
                             placeholder="{{ __('Selecione ou digite uma regra') }}"
                             wire:model.lazy="scoreRule"
                             onchange="handleScoreRuleChange(this.value)"
-                            label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
+                            label="{{ translationPlanning('quality-assessment.question-score.score_rule.title') }}"
                             maxlength="20"
                             min="0"
                             pattern="[a-zA-ZÀ-ÿ\s]+"
@@ -66,10 +66,10 @@
                             </span>
                         @enderror
                     </div>
-                    
+
                     <div class="d-flex flex-column gap-1">
                         <label for="range-score" class="form-control-label required">
-                            {{ __("project/planning.quality-assessment.question-score.range.score") }}
+                            {{ translationPlanning("quality-assessment.question-score.range.score") }}
                         </label>
                         <div class="d-flex align-items-center gap-2">
                             <input
@@ -95,7 +95,7 @@
                     </div>
                     <div class="d-flex flex-column gap-1">
                         <label for="description" class="form-control-label required">
-                            {{ __("project/planning.research-questions.form.description") }}
+                            {{ translationPlanning("research-questions.form.description") }}
                         </label>
                         <textarea
                             id="description"
@@ -103,7 +103,7 @@
                             class="form-control"
                             maxlength="255"
                             rows="2"
-                            placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
+                            placeholder="{{ translationPlanning("research-questions.form.enter_description") }}"
                             pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                             required
                         ></textarea>
@@ -120,8 +120,8 @@
                 >
                     {{
                         $form["isEditing"]
-                            ? __("project/planning.quality-assessment.question-score.form.update")
-                            : __("project/planning.quality-assessment.question-score.form.add")
+                            ? translationPlanning("quality-assessment.question-score.form.update")
+                            : translationPlanning(" quality-assessment.question-score.form.add")
                     }}
                     <div wire:loading>
                         <i class="fas fa-spinner fa-spin"></i>

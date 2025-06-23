@@ -8,7 +8,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
-                    <a class="opacity-5" href="javascript:;">{{ __('nav/nav.pages') }}</a>
+                    <a class="opacity-5" href="javascript:;">{{ translationNav('pages') }}</a>
                 </li>
                 <li class="breadcrumb-item text-sm active" aria-current="page">{{ $title }}</li>
             </ol>
@@ -25,7 +25,7 @@
                             <i class="fas fa-search" aria-hidden="true"></i>
                         </span>
                         <input type="text" name="searchProject" class="form-control"
-                            placeholder="{{ __('nav/nav.search_in_thoth') }}">
+                            placeholder="{{ translationNav('search_in_thoth') }}">
                     </div>
                 </form>
             </div>
@@ -37,11 +37,11 @@
                 <li class="nav-item d-flex align-items-center">
                     <form method="POST" action="{{ route('logout') }}" class="m-1 d-flex align-items-center">
                         @csrf
-                        <button type="submit" 
-                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none" 
+                        <button type="submit"
+                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none"
                                 style="cursor: pointer; outline: none; box-shadow: none;">
                             <i class="fa fa-sign-out-alt me-1 ms-1"></i>
-                            <span>{{ __('nav/nav.logout') }}</span>
+                            <span>{{ translationNav('logout') }}</span>
                         </button>
                     </form>
 
@@ -60,7 +60,7 @@
                 <li class="nav-item px-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link p-0">
                         <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                        <span>{{ __('nav/nav.settings') }}</span>
+                        <span>{{ translationNav('settings') }}</span>
                     </a>
                 </li>
 

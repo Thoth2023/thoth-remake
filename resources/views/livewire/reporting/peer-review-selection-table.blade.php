@@ -2,7 +2,7 @@
     <br/>
     <div class="row">
         <div class="col-4 d-flex">
-            <x-search.input class="form-control me-2" target="search-papers-selection" wire:model.debounce.500ms="search" placeholder="{{ __('project/conducting.study-selection.buttons.search-papers' )}}" aria-label="Search" />
+            <x-search.input class="form-control me-2" target="search-papers-selection" wire:model.debounce.500ms="search" placeholder="{{ translationConducting('study-selection.buttons.search-papers' )}}" aria-label="Search" />
         </div>
         <div class="col-8 text-end">
             @livewire('reporting.peer-review-selection-buttons')
@@ -12,7 +12,7 @@
         <li class='list-group-item d-flex'>
             <div class='w-5 pl-2'>
                 <b wire:click.prevent="sortBy('id')" role="button">
-                    {{ __('project/conducting.study-selection.table.id' )}}
+                    {{ translationConducting('study-selection.table.id' )}}
                     @if(isset($sorts['id']))
                         @if($sorts['id'] === 'asc')
                             ↑
@@ -24,7 +24,7 @@
             </div>
             <div class='w-40 pl-2 pr-2'>
                 <b wire:click.prevent="sortBy('title')" role="button">
-                    {{ __('project/conducting.study-selection.table.title' )}}
+                    {{ translationConducting('study-selection.table.title' )}}
                     @if(isset($sorts['title']))
                         @if($sorts['title'] === 'asc')
                             ↑
@@ -39,7 +39,7 @@
             @if($papers->isNotEmpty() && $papers->first()->statuses_by_member)
                 @foreach($papers->first()->statuses_by_member->pluck('member_name')->unique() as $memberName)
                     <div class='pr-5 w-15 ms-auto'>
-                        {{ __('project/reporting.reliability.pesquisador') }} #{{ $loop->iteration }}<br> <b>{{ $memberName }}</b>
+                        {{ translationReporting('reliability.pesquisador') }} #{{ $loop->iteration }}<br> <b>{{ $memberName }}</b>
                     </div>
                 @endforeach
             @endif
@@ -74,7 +74,7 @@
                 @foreach ($paper->statuses_by_member as $member)
                     <div class='w-15 ms-auto'>
                         <b data-search class="{{ 'text-' . strtolower($member->status_description) }}">
-                            {{ __("project/conducting.study-selection.status." . strtolower($member->status_description)) }}
+                            {{ translationConducting("study-selection.status." . strtolower($member->status_description)) }}
                         </b>
                     </div>
                 @endforeach
@@ -83,7 +83,7 @@
                 <div class="w-15 ms-auto">
                     <b data-search class="{{ $paper->peer_review_decision ? 'text-' . strtolower($paper->peer_review_decision->new_status_paper == 1 ? 'accepted' : 'rejected') : 'text-default' }}">
                         @if($paper->peer_review_decision)
-                            {{ __("project/conducting.study-selection.status." . ($paper->peer_review_decision->new_status_paper == 1 ? 'accepted' : 'rejected')) }}
+                            {{ translationConducting("study-selection.status." . ($paper->peer_review_decision->new_status_paper == 1 ? 'accepted' : 'rejected')) }}
                         @else
                             -
                         @endif
@@ -92,7 +92,7 @@
             </x-search.item>
         @empty
             <x-helpers.description>
-                {{ __("project/conducting.study-selection.papers.empty") }}
+                {{ translationConducting("study-selection.papers.empty") }}
             </x-helpers.description>
         @endforelse
     </ul>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	@include('layouts.navbars.auth.topnav', ['title' => __('pages/profile.your_profile')])
+	@include('layouts.navbars.auth.topnav', ['title' => translationProfile('your_profile')])
 
 	@push('styles')
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -19,7 +19,7 @@
 								{{ auth()->user()->lastname ? auth()->user()->lastname : '' }}
 							</h5>
 							<p class="mb-0 font-weight-bold text-sm">
-								{{ __('pages/user-manager.singup_user')}}
+								{{ translationProfile('singup_user')}}
 								{{  (auth()->user()->occupation ? auth()->user()->occupation : '') }}
 							</p>
 
@@ -43,8 +43,8 @@
 
 						<div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
 							<input type="text" name="username" class="form-control" style="margin-top: 3rem;"
-								placeholder="{{ __('auth/register.username') }}"
-								aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
+								placeholder="{{ translationRegister('username') }}"
+								aria-label="{{ translationRegister('username') }}" value="{{ old('username') }}">
 							@error('username')
 								<p class='text-danger text-xs pt-1'> {{ $message }} </p>
 							@enderror
@@ -52,7 +52,7 @@
 
 						<div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
 							<input type="email" name="email" class="form-control"
-								placeholder="{{ __('auth/register.email') }}" aria-label="{{ __('auth.register.email') }}"
+								placeholder="{{ translationRegister('email') }}" aria-label="{{ translationRegister('email') }}"
 								value="{{ old('email') }}">
 							@error('email')
 								<p class='text-danger text-xs pt-1'> {{ $message }} </p>
@@ -63,8 +63,8 @@
 						<div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
 							<div class="input-group">
 								<input type="password" name="password" id="password" class="form-control"
-									placeholder="{{ __('auth/register.password') }}"
-									aria-label="{{ __('auth.register.password') }}">
+									placeholder="{{ translationRegister('password') }}"
+									aria-label="{{ translationRegister('password') }}">
 								<span class="input-group-text" onclick="togglePassword('password', 'eyeIcon')"
 									style="cursor: pointer;">
 									<i class="fas fa-eye" id="eyeIcon"></i>
@@ -77,7 +77,7 @@
 
 						<div class="text-center">
 							<button type="submit" class="btn bg-gradient-dark w-50 my-4 mb-2">
-								{{ __('auth/register.sign_up') }}
+								{{ translationRegister('sign_up') }}
 							</button>
 						</div>
 						<br /><br />

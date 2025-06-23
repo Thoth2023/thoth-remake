@@ -17,10 +17,10 @@
                             <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
                                     <h4 class="font-weight-bolder">
-                                        {{ __('auth/change-password.title') }}
+                                        {{ translationChangePassword('title') }}
                                     </h4>
                                     <p class="mb-0">
-                                        {{ __('auth/change-password.description') }}
+                                        {{ translationChangePassword('description') }}
                                     </p>
                                 </div>
                                 <div class="card-body">
@@ -29,7 +29,7 @@
                                         <input type="hidden" name="id" value="{{ request()->id }}">
                                         <div class="flex flex-col mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg"
-                                                placeholder="{{ __('auth/change-password.email') }}"
+                                                placeholder="{{ translationChangePassword('email') }}"
                                                 value="{{ old('email') }}" aria-label="{{ __('auth.email') }}">
                                             @error('email')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="flex flex-col mb-3">
                                             <input type="password" name="password" class="form-control form-control-lg"
-                                                placeholder="{{ __('auth/change-password.password') }}"
+                                                placeholder="{{ translationChangePassword('password') }}"
                                                 aria-label="{{ __('auth.password') }}">
                                             @error('password')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
@@ -46,7 +46,7 @@
                                         <div class="flex flex-col mb-3">
                                             <input type="password" name="confirm-password"
                                                 class="form-control form-control-lg"
-                                                placeholder="{{ __('auth/change-password.confirm_password') }}"
+                                                placeholder="{{ translationChangePassword('confirm_password') }}"
                                                 aria-label="{{ __('auth.confirm_password') }}">
                                             @error('confirm-password')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit"
-                                                class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ __('auth/change-password.send_reset') }}</button>
+                                                class="btn btn-lg btn-dark btn-lg w-100 mt-4 mb-0">{{ translationChangePassword('send_reset') }}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -69,10 +69,10 @@
                                 class="position-relative bg-gradient-light h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden">
                                 <span class="mask bg-gradient-faded-dark opacity-8"></span>
                                 <h4 class="mt-5 text-white font-weight-bolder position-relative">
-                                    {{ __('auth/change-password.quote.title') }}
+                                    {{ translationChangePassword('quote.title') }}
                                 </h4>
                                 <p class="text-white position-relative">
-                                    {{ __('auth/change-password.quote.content') }}
+                                    {{ translationChangePassword('quote.content') }}
                                 </p>
                             </div>
                         </div>

@@ -1,26 +1,30 @@
+@php
+    $studySelectionPath = 'project/conducting.study-selection';
+@endphp
+
 <div>
     <!-- Botões de exportação e remoção de duplicados -->
     <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}" 
        wire:click.prevent="{{ $hasPapers ? 'exportCsv' : '' }}"
        @if(!$hasPapers) disabled @endif>
         <i class="fa-solid fa-file-csv"></i>
-        {{ __('project/conducting.study-selection.buttons.csv' )}}
+        {{ translationConducting('study-selection.buttons.csv')}}
     </a>
     <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}" 
        wire:click.prevent="{{ $hasPapers ? 'exportXml' : '' }}"
        @if(!$hasPapers) disabled @endif>
         <i class="fa-regular fa-file-code"></i>
-        {{ __('project/conducting.study-selection.buttons.xml' )}}
+        {{ translationConducting('study-selection.buttons.xml')}}
     </a>
     <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}" 
        wire:click.prevent="{{ $hasPapers ? 'exportPdf' : '' }}"
        @if(!$hasPapers) disabled @endif>
         <i class="fa-regular fa-file-pdf"></i>
-        {{ __('project/conducting.study-selection.buttons.pdf' )}}
+        {{ translationConducting('study-selection.buttons.pdf')}}
     </a>
     <a class="btn py-1 px-3 btn-outline-primary" wire:click.prevent="removeDuplicates">
         <i class="fa-solid fa-magnifying-glass"></i>
-        {{ __('project/conducting.study-selection.buttons.duplicates' )}}
+        {{ translationConducting('study-selection.buttons.duplicates')}}
     </a>
 
     <!-- Modal para mostrar papers duplicados -->
@@ -29,19 +33,19 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="duplicatesModalLabel">{{ __('project/conducting.study-selection.duplicates.title' )}}</h5>
+                    <h5 class="modal-title" id="duplicatesModalLabel">{{ translationConducting('study-selection.duplicates.title')}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-between mb-3">
                         <div class="align-items-md-start">
-                            <li><b class="bg-light">{{count($uniquePapers)}}</b> {{ __('project/conducting.study-selection.duplicates.unique-papers' )}}</li>
-                            <li><b class="bg-light">{{ $exactDuplicateCount }}</b> {!! __('project/conducting.study-selection.duplicates.exact-duplicate-count') !!}</li>
+                            <li><b class="bg-light">{{count($uniquePapers)}}</b> {{ translationConducting('study-selection.duplicates.unique-papers')}}</li>
+                            <li><b class="bg-light">{{ $exactDuplicateCount }}</b> {!! translationConducting('study-selection.duplicates.exact-duplicate-count') !!}</li>
 
                         </div>
                         <div>
                             <button class="btn btn-dark" wire:click="markAllDuplicates">
-                                {!! __('project/conducting.study-selection.duplicates.button-mark-all', ['count' => $exactDuplicateCount]) !!}
+                                {!! translationConducting('study-selection.duplicates.button-mark-all', ['count' => $exactDuplicateCount]) !!}
                             </button>
                         </div>
                     </div>
@@ -57,16 +61,16 @@
                                             <b>ID</b>
                                         </div>
                                         <div class='w-50 pl-2'>
-                                            <b>{{ __('project/conducting.study-selection.duplicates.table-title' )}}</b>
+                                            <b>{{ translationConducting('study-selection.duplicates.table-title')}}</b>
                                         </div>
                                         <div class='w-5 pl-2'>
-                                            <b>{{ __('project/conducting.study-selection.duplicates.table-year' )}}</b>
+                                            <b>{{ translationConducting('study-selection.duplicates.table-year')}}</b>
                                         </div>
                                         <div class='w-25 pl-2'>
-                                            <b>{{ __('project/conducting.study-selection.duplicates.table-database' )}}</b>
+                                            <b>{{ translationConducting('study-selection.duplicates.table-database')}}</b>
                                         </div>
                                         <div class='w-15 pl-2'>
-                                            <b>{{ __('project/conducting.study-selection.duplicates.table-duplicate' )}} ?</b>
+                                            <b>{{ translationConducting('study-selection.duplicates.table-duplicate')}} ?</b>
                                         </div>
                                     </li>
                                 </ul>
@@ -89,14 +93,14 @@
                                             <div class="w-15">
                                                 @if ($duplicate->id_status == 4 )
                                                     <!-- Exibe a badge "Duplicado" se o paper foi marcado como duplicado pelo membro atual -->
-                                                    <span class="badge bg-warning">{{ __('project/conducting.study-selection.duplicates.table-duplicate' )}}</span>
+                                                    <span class="badge bg-warning">{{ translationConducting('study-selection.duplicates.table-duplicate')}}</span>
                                                 @else
                                                     <!-- Exibe os botões de confirmação/rejeição caso o paper ainda não seja duplicado -->
                                                     <button class="btn btn-success" wire:click="confirmDuplicate({{ $duplicate->id_paper }})">
-                                                        {{ __('project/conducting.study-selection.duplicates.table-duplicate-yes' )}}
+                                                        {{ translationConducting('study-selection.duplicates.table-duplicate-yes')}}
                                                     </button>
                                                     <button class="btn btn-danger" wire:click="rejectDuplicate({{ $duplicate->id_paper }})">
-                                                        {{ __('project/conducting.study-selection.duplicates.table-duplicate-no' )}}
+                                                        {{ translationConducting('study-selection.duplicates.table-duplicate-no')}}
                                                     </button>
                                                 @endif
                                             </div>
@@ -107,11 +111,11 @@
                             @endif
                         @endforeach
                     @else
-                        <p>{{ __('project/conducting.study-selection.duplicates.no-duplicates' )}}</p>
+                        <p>{{ translationConducting('study-selection.duplicates.no-duplicates')}}</p>
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ translationConducting('study-selection.modal.close')}}</button>
                 </div>
             </div>
         </div>
