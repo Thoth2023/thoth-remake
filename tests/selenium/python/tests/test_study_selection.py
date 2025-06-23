@@ -201,3 +201,14 @@ def test_filter_first_removed_study(driver):
     )
 
     assert "Removido" in status
+
+def test_filter_first_duplicado_study(driver):
+    study_selection = StudySelection(driver)
+    study_selection.open_project(PROJECT_NAME)
+    study_selection.open_study_selection_tab()
+
+    status = study_selection.filter_and_check_first_study_status(
+        StudySelection.FILTER_OPTION_DUPLICATE
+    )
+
+    assert "Duplicado" in status
