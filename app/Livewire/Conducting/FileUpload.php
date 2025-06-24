@@ -22,12 +22,14 @@ use RenanBr\BibTexParser\Parser;
 
 use App\Utils\CheckProjectDataPlanning;
 use App\Traits\ProjectPermissions;
+use App\Traits\LivewireExceptionHandler;
 
 class FileUpload extends Component
 {
 
     use ProjectPermissions;
     use WithFileUploads;
+    use LivewireExceptionHandler;
 
     private $translationPath = 'project/conducting.import-studies.livewire';
     private $toastMessages = 'project/conducting.import-studies.livewire.toasts';
@@ -67,8 +69,6 @@ class FileUpload extends Component
         $projectId = request()->segment(2);
         $this->currentProject = ProjectModel::findOrFail($projectId);
         $this->databases = $this->currentProject->databases;
-
-
     }
 
     public function resetFields()
@@ -186,19 +186,19 @@ class FileUpload extends Component
                     $this->dispatch('import-success');
                     $this->dispatch('refreshPapersCount');
                     FacadesLog::info('Eventos de importação e atualização de contagem de papers despachados com sucesso.');
-
                 } catch (\Exception $e) {
                     // Lidar com erros no processo de criação de BibUpload ou despachar job/processamento CSV
                     $errorMessage = $e->getMessage();
                     FacadesLog::error('Erro ao salvar o arquivo ou processar BibUpload.', ['error' => $errorMessage]);
 
-                    $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
-                    $this->toast(
-                        message: $toastMessage,
-                        type: 'error'
-                    );
-                }
+                    // Deleta o bibUpload se houver erro
+                    if (isset($bibUpload) && $bibUpload->exists()) {
+                        $bibUpload->delete();
+                        FacadesLog::info('Registro BibUpload deletado após falha no processamento.', ['id_bib' => $bibUpload->id_bib]);
+                    }
 
+                    $this->handleException($e);
+                }
             } else {
                 // Mensagem de erro caso o banco de dados do projeto não seja encontrado
                 FacadesLog::error('Banco de dados do projeto não encontrado.', ['project_id' => $this->currentProject->id_project]);
@@ -214,11 +214,7 @@ class FileUpload extends Component
             $errorMessage = $e->getMessage();
             FacadesLog::error('Erro geral ao tentar salvar o arquivo.', ['error' => $errorMessage]);
 
-            $toastMessage = __($this->toastMessages . '.file_upload_error', ['message' => $errorMessage]);
-            $this->toast(
-                message: $toastMessage,
-                type: 'error'
-            );
+            $this->handleException($e);
         }
     }
 
@@ -228,7 +224,7 @@ class FileUpload extends Component
     /**
      * @throws ParserException
      */
-     private function extractBibTexReferences($filePath)
+    private function extractBibTexReferences($filePath)
     {
         $contents = file_get_contents($filePath);
         $parser = new Parser();
@@ -261,23 +257,23 @@ class FileUpload extends Component
     {
         return [
             'type' => $csvRow['Content Type'] ?? '',
-            'citation-key' => '',
-            'title' => $csvRow['Item Title'] ?? '',
-            'author' => $csvRow['Authors'] ?? '',
+            'citation-key' => !empty($csvRow['Citation Key']) ? $csvRow['Citation Key'] : null,
+            'title' => !empty($csvRow['Item Title']) ? $csvRow['Item Title'] : null,
+            'author' => !empty($csvRow['Authors']) ? $csvRow['Authors'] : null,
             'booktitle' => $csvRow['Book Series Title'] ?? '',
             'volume' => $csvRow['Journal Volume'] ?? '',
-            'pages' => '',
-            'numpages' => '',
-            'abstract' => '',
-            'keywords' => '',
-            'doi' => $csvRow['Item DOI'] ?? '',
+            'pages' => $csvRow['Number of Pages'] ?? '',
+            'numpages' => $csvRow['Number of Pages'] ?? '',
+            'abstract' => $csvRow['Abstract'] ?? '',
+            'keywords' => $csvRow['Keywords'] ?? '',
+            'doi' => !empty($csvRow['Item DOI']) ? $csvRow['Item DOI'] : null,
             'journal' => $csvRow['Publication Title'] ?? '',
-            'issn' => '',
-            'location' => '',
-            'isbn' => '',
-            'address' => '',
+            'issn' => $csvRow['ISSN'] ?? '',
+            'location' => $csvRow['Publication Place'] ?? '',
+            'isbn' => $csvRow['ISBN'] ?? '',
+            'address' => $csvRow['Address'] ?? '',
             'url' => $csvRow['URL'] ?? '',
-            'publisher' => '',
+            'publisher' => $csvRow['Publisher'] ?? '',
             'year' => $csvRow['Publication Year'] ?? '',
         ];
     }
@@ -288,7 +284,7 @@ class FileUpload extends Component
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
-        
+
         $file = BibUpload::findOrFail($id);
 
         try {
@@ -314,7 +310,6 @@ class FileUpload extends Component
                 //atualizar os demais módulos
                 $this->dispatch('import-success');
                 $this->dispatch('refreshPapersCount');
-
             });
         } catch (\Exception $e) {
             $toastMessage = __($this->toastMessages . '.file_delete_error', ['message' => $e->getMessage()]);

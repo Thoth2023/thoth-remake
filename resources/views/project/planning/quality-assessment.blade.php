@@ -8,3 +8,11 @@
         @livewire("planning.quality-assessment.question-ranges")
     </div>
 </div>
+
+@push("scripts")
+    <script>
+        window.onload = function() {
+            console.log("Pág. carregada e scripts executados");
+        }
+    </script>
+@endpush

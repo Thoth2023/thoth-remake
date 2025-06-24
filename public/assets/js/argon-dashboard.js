@@ -2221,7 +2221,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     // if we are on windows OS we activate the perfectScrollbar function
     if (document.getElementsByClassName('main-content')[0]) {
       var mainpanel = document.querySelector('.main-content');
-      var ps = new PerfectScrollbar(mainpanel);
+      // var ps = new PerfectScrollbar(mainpanel);
     }
 
     ;
@@ -2407,11 +2407,10 @@ window.sidebarType = function (a) {
 
   if (color === 'bg-white') {
     var elements = document.querySelectorAll('.sidenav .text-white, .sidenav .text-dark, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
-  
     for (var i = 0; i < elements.length; i++) {
       elements[i].classList.remove('text-white');
       elements[i].classList.remove('text-dark');
-  
+
       if (bodyDark) {
         elements[i].classList.add('text-dark');
         elements[i].style.setProperty('color', '#111827', 'important');
@@ -2422,7 +2421,7 @@ window.sidebarType = function (a) {
     }
   } else {
     var elements = document.querySelectorAll('.sidenav .text-dark, .sidenav .text-white, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
-  
+
     for (var i = 0; i < elements.length; i++) {
       elements[i].classList.remove('text-dark');
       elements[i].classList.remove('text-white');
@@ -2431,8 +2430,8 @@ window.sidebarType = function (a) {
     }
   }
   
-
   // Remove logo-white/logo-dark
+
 
   if (color == 'bg-white' && bodyWhite) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
@@ -2825,6 +2824,18 @@ window.darkMode = function (el) {
   if (!el.getAttribute("checked")) {
     body.classList.add('dark-version');
 
+    if (sidebar.classList.contains('bg-white')) {
+      var sidebarElements = document.querySelectorAll(
+        '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+      );
+      for (var i = 0; i < sidebarElements.length; i++) {
+        const el = sidebarElements[i];
+        el.classList.remove('text-white', 'text-blue-600');
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      }
+    }
+
     if (navbarBrandImg.includes('logo-ct-dark.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
       navbarBrand.src = navbarBrandImgNew;
@@ -2905,9 +2916,10 @@ window.darkMode = function (el) {
       btn_text_dark[i].classList.add('text-white');
     }
 
-    //for (var i = 0; i < sidebarWhite.length; i++) {
-    //  sidebarWhite[i].classList.remove('bg-white');
-    //}
+    /*for (var i = 0; i < sidebarWhite.length; i++) {
+      sidebarWhite[i].classList.remove('bg-white');
+    }*/
+
 
     for (var i = 0; i < svg.length; i++) {
       if (svg[i].hasAttribute('fill')) {
@@ -2939,7 +2951,6 @@ window.darkMode = function (el) {
   } else {
     body.classList.remove('dark-version');
     //sidebar.classList.add('bg-white');
-    //sidebar.classList.add('bg-default');
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;
@@ -3031,6 +3042,31 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border_dark.length; i++) {
       card_border_dark[i].classList.remove('border-dark');
     }
+    
+    var sidebarElements = document.querySelectorAll(
+      '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+    );
+
+    for (var i = 0; i < sidebarElements.length; i++) {
+      const el = sidebarElements[i];
+      el.classList.remove('text-white', 'text-dark', 'text-blue-600');
+      el.style.removeProperty('color');
+
+      if (sidebar.classList.contains('bg-white')) {
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      } else {
+        el.classList.add('text-white');
+      }
+    }
+
+    var theads = document.querySelectorAll('thead th');
+    for (var i = 0; i < theads.length; i++) {
+      theads[i].classList.remove('text-white');
+      theads[i].classList.remove('opacity-8');
+      theads[i].classList.add('text-secondary');
+    }
+    
     el.removeAttribute("checked");
   }
 };

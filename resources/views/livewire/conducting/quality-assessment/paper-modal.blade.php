@@ -1,5 +1,6 @@
 <div>
-    <div class="modal fade" id="paperModalQuality" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
+    <div class="modal fade" id="paperModalQuality" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
 
@@ -25,16 +26,17 @@
                             <p>{{ $paper['database_name'] }}</p>
                         </div>
                         <div class="col-2">
-                            <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi" href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
+                            <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi"
+                                href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 DOI
                             </a>
-                            <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="URL" href="{{ $paper['url'] }}" target="_blank">
+                            <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="URL"
+                                href="{{ $paper['url'] }}" target="_blank">
                                 <i class="fa-solid fa-link"></i>
                                 URL
                             </a>
-                            <a class="btn py-1 px-3 btn-outline-primary"
-                                data-toggle="tooltip"
+                            <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip"
                                 data-original-title="Buscar no Google Scholar"
                                 href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
                                 target="_blank">
@@ -55,7 +57,8 @@
                     <span class="card-header pb-0">
                         <h5>{{ __('project/conducting.quality-assessment.modal.quality-questions' )}}</h5>
                         <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
-                        @livewire('conducting.quality-assessment.quality-score', ['paper' => $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
+                        @livewire('conducting.quality-assessment.quality-score', ['paper' =>
+                        $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
                     </span>
 
                     <ul class='list-group'>
@@ -87,9 +90,7 @@
 
                     <ul class='list-group list-group-flush'>
                         @foreach ($questions as $question)
-                        <x-search.item
-                            wire:key="{{ $question->description }}"
-                            target="search-papers"
+                        <x-search.item wire:key="{{ $question->description }}" target="search-papers"
                             class="list-group-item d-flex row w-100">
                             <div class='w-10 pl-2'>
                                 <span data-search>{{ $question->id }}</span>
@@ -109,17 +110,19 @@
                             </div>
                             <div class='w-20 ms-auto'>
                                 <span data-search>
-                                    <x-select
-                                        disabled="{{ !$canEdit }}"
+                                    <x-select disabled="{{ !$canEdit }}"
                                         wire:model="selected_questions_score.{{ $question->id_qa }}"
                                         wire:change="updateScore({{ $question->id_qa }}, $event.target.value)">
                                         @if(!isset($selected_questions_score[$question->id_qa]))
-                                        <option selected disabled>{{ __('project/conducting.quality-assessment.modal.select-score') }}</option>
+                                        <option selected disabled>
+                                            {{ __('project/conducting.quality-assessment.modal.select-score') }}
+                                        </option>
                                         @endif
 
                                         @foreach ($question->qualityScores as $score)
                                         <option value="{{ $score->id_score }}"
-                                            @if(isset($selected_questions_score[$question->id_qa]) && $selected_questions_score[$question->id_qa] == $score->id_score)
+                                            @if(isset($selected_questions_score[$question->id_qa]) &&
+                                            $selected_questions_score[$question->id_qa] == $score->id_score)
                                             selected
                                             @endif>
                                             {{ $score->score_rule }}
@@ -136,15 +139,9 @@
 
                     <div class="d-flex flex-column mt-3">
                         <label>{{ __('project/conducting.quality-assessment.resolve.paper-conflict-note') }}</label>
-                        <textarea
-                            id="note"
-                            class="form-control"
-                            rows="2"
-                            wire:model="note"
-                            wire:blur="saveNote"
+                        <textarea id="note" class="form-control" rows="2" wire:model="note" wire:blur="saveNote"
                             placeholder="{{ __('project/conducting.quality-assessment.resolve.paper-conflict-writer') }}"
-                            @if(!$canEdit) disabled @endif
-                            required>
+                            @if(!$canEdit) disabled @endif required>
                         </textarea>
                     </div>
 
@@ -156,11 +153,17 @@
                     <p>{{ __('project/conducting.quality-assessment.modal.option.select' )}}</p>
 
                     <div class="btn-group mt-2" role="group">
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2" autocomplete="off" @if(!$canEdit) disabled @endif>
-                        <label class="btn btn-outline-primary" for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status"
+                            wire:change="updateStatusManual" value="Unclassified" name="btnradio" id="btnradio2"
+                            autocomplete="off" @if(!$canEdit) disabled @endif>
+                        <label class="btn btn-outline-primary"
+                            for="btnradio2">{{ __('project/conducting.study-selection.modal.option.unclassified' )}}</label>
 
-                        <input type="radio" class="btn-check" wire:model="selected_status" wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1" autocomplete="off" @if(!$canEdit) disabled @endif>
-                        <label class="btn btn-outline-primary" for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
+                        <input type="radio" class="btn-check" wire:model="selected_status"
+                            wire:change="updateStatusManual" value="Removed" name="btnradio" id="btnradio1"
+                            autocomplete="off" @if(!$canEdit) disabled @endif>
+                        <label class="btn btn-outline-primary"
+                            for="btnradio1">{{ __('project/conducting.study-selection.modal.option.remove' )}}</label>
 
                     </div>
                     @endif
@@ -168,12 +171,14 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('project/conducting.quality-assessment.modal.close' )}}</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">{{ __('project/conducting.quality-assessment.modal.close' )}}</button>
                 </div>
             </div>
         </div>
     </div>
-    <div wire:ignore.self class="modal fade" id="successModalQuality" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="successModalQuality" tabindex="-1" role="dialog"
+        aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -192,11 +197,12 @@
 </div>
 @script
 <script>
-    $(document).ready(function() {
-        // Mostrar o modal do paper
-        Livewire.on('show-paper-quality', () => {
-            $('#paperModalQuality').modal('show');
-        });
+    $(document).ready(function(){
+        $wire.on('show-paper-quality', () => {
+            setTimeout(() => {
+                $('#paperModalQuality').modal('show');
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+        }); 
 
         // Mostrar o modal de sucesso
         Livewire.on('show-success-quality', () => {
@@ -205,14 +211,45 @@
         });
 
         // Reabrir o modal do paper após o modal de sucesso ser fechado
-        $('#successModalQuality').on('hidden.bs.modal', function() {
+        $('#successModalQuality').on('hidden.bs.modal', function () {
             $('#paperModalQuality').modal('show');
         });
     });
 
-    // Recarga do modal de paper
-    Livewire.on('reload-paper-quality', () => {
-        Livewire.emit('showPaperQuality', @json($paper));
+    // Mostrar toast de sucesso ao invés de um modal
+    Livewire.on('show-success-quality', (message) => {
+        console.log('show-success-quality', message);
+        $('#paperModalQuality').modal('hide');
+
+        if (message) {
+            toasty({
+                message: message,
+                type: 'success'
+            });
+        }
     });
+
+    // Reabrir o modal do paper após o modal de sucesso (caso continue usando)
+    $('#successModalQuality').on('hidden.bs.modal', function() {
+        $('#paperModalQuality').modal('show');
+    });
+});
+
+// Recarga do modal de paper com dados atualizados
+Livewire.on('reload-paper-quality', () => {
+    Livewire.emit('showPaperQuality', @json($paper));
+});
+
+// Exibir toast customizado vindo do backend
+$wire.on('paper-quality-toast', ([{
+    message,
+    type
+}]) => {
+    toasty({
+        message,
+        type
+    });
+});
 </script>
+
 @endscript

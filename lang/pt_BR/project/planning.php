@@ -397,6 +397,7 @@ return [
         'form' => [
             'description' => 'String de Busca Genérica',
             'enter-description' => 'Digite a string de busca genérica',
+            'no-database'=> 'Sem base de dados encontrados neste projeto.',
             'add' => 'Adicionar String de Busca',
             'update' => 'Atualizar String de Busca',
             'placeholder' => 'Digite a string de busca',
@@ -435,7 +436,10 @@ return [
                     'added' => 'Termo de Busca adicionado com sucesso.',
                     'updated' => 'Termo de Busca atualizado com sucesso.',
                     'deleted' => 'Termo de Busca deletado com sucesso.',
+                    'validation' => 'O termo de busca é inválido. Por favor, insira um termo de busca válido.',
                     'denied' => 'Um visualizador não pode adicionar, editar ou excluir termos de busca.',
+                    'synonym' => 'O sinônimo é inválido. Por favor, insira um sinônimo válido.',
+
                 ],
             ]
         ],
@@ -514,7 +518,7 @@ return [
             'all' => 'Todos',
             'any' => 'Qualquer',
             'at-least' => 'Pelo menos',
-            'empty' => 'No criteria found',
+            'empty' => 'Sem critérios cadastrados',
             'actions' => 'Ações',
         ],
         'livewire' => [
@@ -527,6 +531,7 @@ return [
             ],
             'type' => [
                 'required' => 'Selecionar um tipo é obrigatório.',
+                'in' => 'Selecione um tipo válido.',
             ],
             'logs' => [
                 'added' => 'Critério adicionado',
@@ -534,6 +539,7 @@ return [
                 'deleted' => 'Critério excluído',
             ],
             'toasts' => [
+                'no_criteria'=> 'Nenhum critério encontrado.',
                 'added' => 'Critério adicionado com sucesso.',
                 'deleted' => 'Critério deletado com sucesso.',
                 'updated' => 'Critério atualizado com sucesso.',
@@ -543,6 +549,11 @@ return [
                 'denied' => 'Um visualizador não pode adicionar, editar ou excluir critérios de inclusão/exclusão.',
             ],
         ],
+        'duplicate_id' => 'O ID fornecido já existe neste projeto.',
+        'updated_success' => 'Critério atualizado com sucesso.',
+        'not_found' => 'Critério não encontrado.',
+        'deleted_success' => 'Critério excluído com sucesso.',
+        'preselected_updated' => 'Valor pré-selecionado atualizado com sucesso.',
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
@@ -680,6 +691,7 @@ return [
                     'added' => 'Questão de Qualidade adicionada com sucesso.',
                     'updated' => 'Questão de Qualidade atualizada com sucesso.',
                     'deleted' => 'Questão de Qualidade deletada com sucesso.',
+                    'min_weight' => 'O peso mínimo deve ser maior que 0.',
                 ],
             ],
 
@@ -741,6 +753,10 @@ return [
             'score_rule' => [
                 'title' => 'Regra de Pontuação',
                 'placeholder' => 'Insira a Regra de Pontuação',
+            ],
+            'extra_score_rule' => [
+                'title' => 'Regra de Pontuação Extra',
+                'placeholder' => 'Insira a Regra de Pontuação Extra',
             ],
             'form' => [
                 'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
@@ -831,6 +847,10 @@ return [
 
                 ',
             ],
+            'type-selection'=> [
+                'title' => 'Selecione um tipo',
+
+            ],
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
             'description' => 'Descrição',
@@ -851,6 +871,10 @@ return [
                     <li>Descrição: Resumo - Tipo de dado: Texto.</li>
                     <li>Descrição: Base de Dados - Tipo de dado: Lista de Escolha Única. (Lista: ACM, IEEE, Scopus)</li>
                 </ul>',
+            ],
+            'question-selection'=> [
+                'title' => 'Selecione uma pergunta',
+
             ],
             'question' => 'Pergunta',
             'option' => 'Opção',
