@@ -10,7 +10,7 @@
             class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
             style="width: 100%"
         >
-            <div class="col-lg-6 text-center mx-auto">
+            <div class="text-center mx-auto">
                 <h1 class="text-white">
                     {{ __("pages/profile.title-page") }}
                 </h1>
@@ -57,7 +57,7 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center justify-content-between">
                             <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
-                                div class="d-flex gap-2 ms-auto">
+                                <div class="d-flex gap-2 ms-auto">
                                 <button type="button" id="btn-editar" class="btn btn-primary btn-sm">
                                     Editar
                                 </button>

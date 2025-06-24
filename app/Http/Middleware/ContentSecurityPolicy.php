@@ -11,11 +11,10 @@ class ContentSecurityPolicy
     {
         $response = $next($request);
 
-        // Define a Content-Security-Policy sem quebras de linha
         $policy = implode(' ', [
             "default-src 'self';",
-            "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com;",
-            "style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com;",
+            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
             "font-src 'self' https://fonts.gstatic.com data:;",
             "img-src 'self' data:;",
             "connect-src 'self';",
