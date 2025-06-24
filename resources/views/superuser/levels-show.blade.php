@@ -16,11 +16,11 @@
                         <input type="text" class="form-control" id="idGroup" value="{{ $level->id_level }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nameGroup">Nome</label>
+                        <label for="nameGroup">{{__("superuser/levels.group_name")}}</label>
                         <input type="text" class="form-control" id="nameGroup" value="{{ $level->level }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="descriptionGroup">Descrição</label>
+                        <label for="descriptionGroup">{{__("superuser/levels.description")}}</label>
                         <input type="text" class="form-control" id="descriptionGroup" value="{{ $level->description }}" readonly>
                     </div>
                     <div class="d-flex justify-content-end mt-3">
