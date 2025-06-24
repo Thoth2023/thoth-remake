@@ -1,16 +1,22 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => __('pages/add_member.add_member')])
-<style>
-    .levelMemberSelect2 {
-        width: 120px;
-    }
+    @include('layouts.navbars.auth.topnav', ['title' => __('pages/add_member.add_member')])
+    <style>
+        .levelMemberSelect2 {
+            width: 120px;
+        }
+        
+        /* Add styles for table responsiveness */
+        .table-responsive {
+            overflow-x: auto;
+        }
 
         .table-responsive table {
             width: 100%;
             max-width: 100%;
         }
+        
         .status-container {
             display: flex;
             align-items: center;
@@ -55,11 +61,16 @@
                                     <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
-                            </div>
                         </div>
                     </div>
+                    <input name="email_member" type="text"
+                        class="form-control @error('email_member') is-invalid @enderror" id="emailMemberInput"
+                        placeholder="{{__('pages/add_member.enter_email')}}">
+                    @error('email_member')
+                        <span class="invalid-feedback" role="alert">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="levelMemberSelect">{{__('pages/add_member.level')}}</label>
@@ -80,21 +91,25 @@
                                     <div class="py-3 text-center">
                                         <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i>
                                             {{__('pages/add_member.instruction_level')}}</h4>
-                                        <p>{{__('pages/add_member.instruction_level_text')}}</p>
                                         <ul class="text-left">
-                                            <li>{{__('pages/add_member.level_1')}}</li>
-                                            <li>{{__('pages/add_member.level_2')}}</li>
-                                            <li>{{__('pages/add_member.level_3')}}</li>
-                                            <li>{{__('pages/add_member.level_4')}}</li>
+                                            <li> {{__('pages/add_member.level_viewer')}}
+                                                <p>{{__('pages/add_member.level_viewer_description')}}</p>
+                                            </li>
+                                            <li>{{__('pages/add_member.level_researcher')}}
+                                                <p>{{__('pages/add_member.level_researcher_description')}}</p>
+                                            </li>
+                                            <li>{{__('pages/add_member.level_reviser')}}
+                                                <p>{{__('pages/add_member.level_reviser_description')}}</p>
+                                            </li>
+                                            <li>{{__('pages/add_member.level_administrator')}}
+                                                <p>{{__('pages/add_member.level_administrator_description')}}</p>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
                             </div>
                         </div>
                     </div>
@@ -162,8 +177,10 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this member?</p>
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-success btn-sm ms-auto"
+                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                    title="Confirm member level change">Confirm</button>
                                             </div>
                                         </div>
                                     </form>
@@ -229,16 +246,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    @endif
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-@include('layouts.footers.auth.footer')
+    @include('layouts.footers.auth.footer')
 @endsection
