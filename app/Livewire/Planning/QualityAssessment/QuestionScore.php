@@ -12,11 +12,18 @@ use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 use App\Traits\ProjectPermissions;
 
+/**
+ * Componente Livewire para gerenciar pontuações de questões.
+ * 
+ * Este componente permite criar, editar e gerenciar regras de pontuação
+ * para questões de qualidade, incluindo suas descrições e valores.
+ */
 class QuestionScore extends Component
 {
 
   use ProjectPermissions;
 
+  /** @var string Caminho para as mensagens de toast */
   private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
   public $currentProject;
   public $currentQuestionScore;
@@ -24,8 +31,9 @@ class QuestionScore extends Component
   public $sum = 0;
 
   /**
-   * Fields to be filled by the form.
+   * Campos a serem preenchidos pelo formulário.
    */
+  /** @var array ID da questão selecionada */
   public $questionId;
   public $scoreRule;
   public $score;
@@ -34,14 +42,15 @@ class QuestionScore extends Component
 
 
   /**
-   * Form state.
+   * Estado do formulário.
    */
+  /** @var array Estado do formulário */
   public $form = [
     'isEditing' => false,
   ];
 
   /**
-   * Validation rules.
+   * Regras de validação para os campos do formulário.
    */
   protected $rules = [
     'questionId' => 'array|required',
@@ -51,7 +60,9 @@ class QuestionScore extends Component
   ];
 
   /**
-   * Custom error messages for the validation rules.
+   * Mensagens de erro personalizadas para as regras de validação.
+   *
+   * @return array Mensagens de erro
    */
   protected function messages()
   {
@@ -66,6 +77,9 @@ class QuestionScore extends Component
   ];
   }
 
+  /**
+   * Inicializa o componente, carregando o projeto e suas questões.
+   */
   public function mount()
   {
     $this->projectId = request()->segment(2);
@@ -76,6 +90,10 @@ class QuestionScore extends Component
     $this->questionId = null;
   }
 
+  /**
+   * Atualiza a lista de questões.
+   * Disparado quando as questões são modificadas.
+   */
   #[On('update-score-questions')]
   public function updateQuestions()
   {
@@ -88,6 +106,11 @@ class QuestionScore extends Component
     $this->questions = Question::where('id_project', $projectId)->get();
   }
 
+  /**
+   * Inicia o processo de edição de uma pontuação de questão.
+   *
+   * @param int $questionScoreId ID da pontuação a ser editada
+   */
   #[On('edit-question-score')]
   public function editQuestionScore($questionScoreId)
   {
@@ -104,6 +127,9 @@ class QuestionScore extends Component
     $this->form['isEditing'] = true;
   }
 
+  /**
+   * Reseta os campos do formulário para seus valores padrão.
+   */
   function resetFields()
   {
     $this->currentQuestionScore = null;
@@ -115,13 +141,21 @@ class QuestionScore extends Component
   }
 
   /**
-   * Dispatch a toast message to the view.
+   * Dispara uma notificação toast para o usuário.
+   *
+   * @param string $message Mensagem a ser exibida
+   * @param string $type Tipo de toast (success, error, etc)
    */
   public function toast(string $message, string $type)
   {
     $this->dispatch('question-score', ToastHelper::dispatch($type, $message));
   }
 
+  /**
+   * Retorna as mensagens de tradução do componente.
+   *
+   * @return array Mensagens traduzidas
+   */
   public function translate()
   {
     return [
@@ -130,8 +164,8 @@ class QuestionScore extends Component
   }
 
   /**
-   * Submit the form. It validates the input fields
-   * and creates or updates an item.
+   * Valida e submete os dados do formulário.
+   * Cria ou atualiza uma pontuação de questão.
    */
   public function submit()
   {
@@ -193,6 +227,11 @@ class QuestionScore extends Component
   }
 
   
+  /**
+   * Atualiza o valor da pontuação quando a regra é modificada.
+   *
+   * @param string $value Nova regra de pontuação
+   */
   public function updatedScoreRule($value)
   {
       if (in_array($value, ['Sim', 'Parcial', 'Não'])) {
@@ -212,11 +251,21 @@ class QuestionScore extends Component
       }
   }
 
+  /**
+   * Atualiza o valor da pontuação.
+   *
+   * @param float $value Novo valor da pontuação
+   */
   public function updatedScore($value)
   {
       $this->score = $value;
   }
 
+  /**
+   * Renderiza o componente.
+   *
+   * @return \Illuminate\View\View
+   */
   public function render()
   {
     return view('livewire.planning.quality-assessment.question-score');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
@@ -12,6 +11,7 @@ use App\Models\Activity;
 use App\Models\User;
 use App\Utils\ActivityLogHelper;
 use App\Http\Controllers\Project\Planning\PlanningProgressController;
+use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,30 +40,13 @@ class ProjectController extends Controller
     public function index()
     {
         $user = auth()->user();
-        
-        // Buscar todos os projetos do usuário
-        $all_projects = $user->projects;
-        
-        // Filtrar apenas projetos com status 'accepted' ou null
-        $projects_relation = $all_projects->filter(function($project) {
-            $pivotStatus = $project->pivot->status ?? null;
-            return $pivotStatus === 'accepted' || $pivotStatus === null;
-        });
+        $projects_relation = $user->projects;
 
-        // Buscar projetos onde o usuário é o proprietário
         $projects = Project::where('id_user', $user->id)->get();
         $merged_projects = $projects_relation->merge($projects);
 
-        $conductingProgressController = new ConductingProgressController();
-
         foreach ($merged_projects as $project) {
             $project->setUserLevel($user);
-
-            $conductingProgress = $conductingProgressController->calculateProgress($project->id);
-
-            // $totalProgess = Planing + Conducting + Quality Assessment + Snowballing + Data Extract
-            $calculateProgress = (0 * 0.2) + ($conductingProgress * 0.2) + (0 * 0.2) + (0 * 0.2) + (0 * 0.2);
-            $project->totalProgress = round($calculateProgress, 2);
         }
 
         return view('projects.index', compact('merged_projects'));
@@ -107,7 +90,7 @@ class ProjectController extends Controller
         $activity = "Created the project ".$project->title;
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1, 'status' => 'accepted']);
+        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1]);
 
         return redirect('/projects');
     }
@@ -130,11 +113,14 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        // Calculando progresso de Condução
+        // Calcular o progresso do planejamento
+        $planningProgress = $this->progressCalculator->calculate($idProject);
+
+        // Calcular o progresso de Condução
         $conductingProgressController = new ConductingProgressController();
         $conductingProgress = $conductingProgressController->calculateProgress($idProject);
 
-        return view('projects.show', compact('project', 'users_relation', 'activities', 'conductingProgress'));
+        return view('projects.show', compact('project', 'users_relation', 'activities', 'planningProgress', 'conductingProgress'));
     }
 
 
@@ -236,7 +222,7 @@ class ProjectController extends Controller
     public function add_member(string $idProject)
     {
         $project = Project::findOrFail($idProject);
-        $users_relation = $project->users()->withPivot('level', 'status', 'invitation_token')->get();
+        $users_relation = $project->users()->get();
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
@@ -341,11 +327,10 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
     {
         $token = $request->query('token');
 
-        // Verifica se o token é válido e pertence ao projeto
+        // Busca o registro na tabela 'members'
         $invitation = DB::table('members')
                         ->where('invitation_token', $token)
                         ->where('id_project', $idProject)
-                        ->where('status', 'pending') // Adicionar verificação de status pendente
                         ->first();
 
         if (!$invitation) {
@@ -363,41 +348,43 @@ public function add_member_project(ProjectAddMemberRequest $request, string $idP
 
         $activity = "Accepted invitation to join the project.";
         ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
-		return redirect('/projects')->with('success', 'You have successfully joined the project!');
-	}
 
-    /**
-     * Permite ao usuário recusar o convite de um projeto
-     * @param string $idProject
-     * @param Request $request
-     */
-    public function declineInvitation($idProject, Request $request)
-    {
-        $token = $request->query('token');
-
-        $invitation = DB::table('members')
-            ->where('invitation_token', $token)
-            ->where('id_project', $idProject)
-            ->where('status', 'pending')
-            ->first();
-
-        if (!$invitation) {
-            return back()->with('error', 'Convite inválido ou expirado.');
-        }
-
-        DB::table('members')
-            ->where('invitation_token', $token)
-            ->where('id_project', $idProject)
-            ->update([
-                'status' => 'declined',
-                'invitation_token' => null
-            ]);
-
-        $activity = "Recusou o convite para participar do projeto.";
-        ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
-
-        return redirect('/projects')->with('success', 'Você recusou o convite para participar do projeto.');
+        return redirect('/projects')->with('success', 'You have successfully joined the project!');
     }
 
+ public function exportActivities($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        $activities = \App\Models\Activity::where('id_project', $projectId)
+            ->with('user')
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=activities.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $columns = ['User', 'Activity', 'Date'];
+
+        $callback = function() use ($activities, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($activities as $activity) {
+                fputcsv($file, [
+                    $activity->user->username ?? '',
+                    $activity->activity,
+                    $activity->created_at->format('d/m/Y H:i:s'),
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
+

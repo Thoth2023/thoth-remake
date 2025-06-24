@@ -11,15 +11,22 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        User::updateOrCreate(
-            ['email' => 'superuser@superuser.com'],
-            [
-                'username' => 'superuser',
-                'role' => 'SUPER_USER',
-                'terms' => 'required',
-                'password' => 'superpassword',
-            ]
-        );
+        // Só cria o super usuário se as variáveis de ambiente estiverem definidas
+        $superUserEmail = env('SUPER_USER_EMAIL');
+        $superUserUsername = env('SUPER_USER_USERNAME');
+        $superUserPassword = env('SUPER_USER_PASSWORD');
+
+        if ($superUserEmail && $superUserUsername && $superUserPassword) {
+            User::updateOrCreate(
+                ['email' => $superUserEmail],
+                [
+                    'username' => $superUserUsername,
+                    'role' => 'SUPER_USER',
+                    'terms' => 'required',
+                    'password' => $superUserPassword, // Senha sem bcrypt conforme o propósito da migration
+                ]
+            );
+        }
     }
 
     /**

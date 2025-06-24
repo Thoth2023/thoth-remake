@@ -3,7 +3,9 @@
 namespace App\Utils;
 
 use App\Models\Activity;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ActivityLogHelper
 {

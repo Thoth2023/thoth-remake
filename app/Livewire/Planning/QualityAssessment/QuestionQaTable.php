@@ -10,15 +10,29 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Traits\ProjectPermissions;
 
+/**
+ * Componente Livewire para gerenciar a tabela de questões e avaliações de qualidade.
+ * 
+ * Este componente permite visualizar, editar e gerenciar questões e suas pontuações
+ * de qualidade associadas ao projeto.
+ */
 class QuestionQaTable extends Component
 {
 
   use ProjectPermissions;
 
+  /** @var Project Projeto atual sendo avaliado */
   public $currentProject;
+
+  /** @var array Lista de questões com suas pontuações de qualidade */
   public $questions = [];
+
+  /** @var string Caminho para as mensagens de toast */
   private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
 
+  /**
+   * Inicializa o componente, carregando o projeto atual e suas questões.
+   */
   public function mount()
   {
     $projectId = request()->segment(2);
@@ -27,7 +41,10 @@ class QuestionQaTable extends Component
   }
 
   /**
-   * Dispatch a toast message to the view.
+   * Dispara uma notificação toast para o usuário.
+   *
+   * @param string $message Mensagem a ser exibida
+   * @param string $type Tipo de toast (success, error, etc)
    */
   public function toast(string $message, string $type)
   {
@@ -35,7 +52,8 @@ class QuestionQaTable extends Component
   }
 
   /**
-   * Fetches all questions with their quality scores for the current project.
+   * Busca todas as questões com suas pontuações de qualidade para o projeto atual.
+   * Disparado quando a tabela precisa ser atualizada.
    */
   #[On('update-qa-table')]
   public function populateQuestions()
@@ -45,6 +63,11 @@ class QuestionQaTable extends Component
     $this->questions = $questions;
   }
 
+  /**
+   * Inicia o processo de edição de uma questão de qualidade.
+   *
+   * @param int $questionId ID da questão a ser editada
+   */
   public function editQuestionQuality($questionId)
   {
 
@@ -55,6 +78,11 @@ class QuestionQaTable extends Component
     $this->dispatch('edit-question-quality', $questionId);
   }
 
+  /**
+   * Inicia o processo de edição de uma pontuação de questão.
+   *
+   * @param int $questionScoreId ID da pontuação a ser editada
+   */
   public function editQuestionScore($questionScoreId)
   {
 
@@ -66,7 +94,10 @@ class QuestionQaTable extends Component
   }
   
   /**
-   * Updates or creates the minimum score required for a question to be applicable.
+   * Atualiza ou cria a pontuação mínima necessária para uma questão ser aplicável.
+   *
+   * @param int $questionId ID da questão
+   * @param float $minToApp Pontuação mínima para aprovação
    */
   public function updateMinimalScore($questionId, $minToApp)
   {
@@ -90,7 +121,7 @@ class QuestionQaTable extends Component
   }
 
    /**
-     * Deletes a specific quality score for a question.
+     * Exclui uma pontuação de qualidade específica para uma questão.
      */
   public function deleteQuestionScore($questionScoreId)
   {
@@ -118,7 +149,7 @@ class QuestionQaTable extends Component
   }
 
   /**
-   * Dispatches an event to delete a question quality entry.
+   * Dispara um evento para excluir uma entrada de qualidade de questão.
    */
   public function deleteQuestionQuality($questionId)
   {
@@ -131,7 +162,7 @@ class QuestionQaTable extends Component
   }
 
   /**
-   * Render the component.
+   * Renderiza o componente.
    */
   public function render()
   {
