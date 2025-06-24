@@ -18,24 +18,24 @@
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-5">
                     <div class="card-body pt-2">
-                        <a
+                        <span
                             href="#"
                             onclick="event.preventDefault();"
                             class="card-title h4 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
                             Thoth 2.0
-                        </a>
+                        </span>
 
                         <div class="card-body pt-2">
-                            <a
+                            <span
                                 href="#"
                                 onclick="event.preventDefault();"
                                 class="card-title h5 d-block text-darker"
                                 style="cursor: default; transition: color 0.2s;"
                             >
                                 {{ __("pages/about.new_features") }}
-                            </a>
+                            </span>
                             <ul>
                                 <li>{{ __("pages/about.recover_password") }}</li>
                                 <li>{{ __("pages/about.bug_databases") }}</li>
@@ -56,39 +56,39 @@
                         </div>
                     </div>
                     <div class="card-body pt-2">
-                        <a
+                        <span
                             href="#"
                             onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.development") }}
-                        </a>
+                        </span>
                         <p>{{ __("pages/about.development_description") }}</p>
                     </div>
                     <div class="card-body pt-2">
-                        <a
+                        <span
                             href="#"
                             onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.open_source_project") }}
-                        </a>
+                        </span>
                         <a
                             class="nav-link d-flex align-items-center me-2"
                             href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE"
                         >
                             {{ __("pages/about.mit_license") }}
                         </a>
-                        <a
+                        <span
                             href="#"
                             onclick="event.preventDefault();"
                             class="card-title h6 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.technologies_used") }}
-                        </a>
+                        </span>
                         <ul>
                             <li>PHP Language</li>
                             <li>MySQL</li>
@@ -106,66 +106,17 @@
                     </div>
 
                     <div class="card-body pt-2">
-                        <a
+                        <span
                             href="#"
                             onclick="event.preventDefault();"
                             class="card-title h5 d-block text-darker"
                             style="cursor: default; transition: color 0.2s;"
                         >
                             {{ __("pages/about.about_the_tool") }}
-                        </a>
+                        </span>
                         <p>
                             {{ __("pages/about.about_the_tool_description") }}
                         </p>
-
-                <!-- Título da Ferramenta -->
-                <div class="card-body pt-2">
-                    <h4 class="card-title text-darker">Thoth 2.0</h4>
-                </div>
-                <!-- Novidades -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.new_features") }}</h5>
-                    <ul>
-                        @foreach([
-                        'recover_password', 'bug_databases', 'suggest_databases', 'new_qa',
-                        'new_interface', 'new_framework', 'internationalization', 'usability',
-                        'users_management', 'profile_management', 'members_invitation', 'pwa',
-                        'snowballing', 'algolia_api', 'crossref_api'
-                        ] as $feature)
-                        <li>{{ __("pages/about.$feature") }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <!-- Desenvolvimento -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.development") }}</h5>
-                    <p>{{ __("pages/about.development_description") }}</p>
-                </div>
-
-                <!-- Código aberto e tecnologias -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.open_source_project") }}</h5>
-                    <a class="nav-link d-flex align-items-center me-2"
-                        href="https://github.com/Thoth2023/thoth2.0/blob/main/LICENSE">
-                        {{ __("pages/about.mit_license") }}
-                    </a>
-                    <h6 class="card-title text-darker mt-3">{{ __("pages/about.technologies_used") }}</h6>
-                    <ul>
-                        @foreach([
-                        'PHP Language', 'MySQL', 'Git', 'Laravel Framework', 'Docker',
-                        'Bootstrap', 'Migrations', 'PHPSpreadSheet', 'League/CSV',
-                        'PHPUnit', 'JavaScript', 'Git Actions'
-                        ] as $tech)
-                        <li>{{ $tech }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <!-- Sobre a Ferramenta -->
-                <div class="card-body pt-2">
-                    <h5 class="card-title text-darker">{{ __("pages/about.about_the_tool") }}</h5>
-                    <p>{{ __("pages/about.about_the_tool_description") }}</p>
 
                     <img src="/img/about/AboutTool.PNG" class="img-fluid" alt="Imagem" />
 

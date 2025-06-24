@@ -249,102 +249,6 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
     @endauth
 
 
-
-    @auth
-    <!-- CHAT flutuante -->
-    <div id="chat-container" style="position:fixed; bottom:0; right:15px; width:300px; z-index:9999;">
-        <div id="chat-header" style="background:#007bff;color:#fff;padding:8px;cursor:pointer;">
-            Chat do Projeto
-            <span id="chat-notif" style="float:right;background:red;padding:2px 5px;border-radius:10px;display:none;">!</span>
-        </div>
-        <div id="chat-body" style="border:1px solid #ccc;background:#fff;height:250px;overflow:auto;display:none;padding:10px;">
-            <div id="chat-messages" style="height:150px; overflow-y: auto;"></div>
-            <textarea id="chat-input" placeholder="Digite sua mensagem..." style="width:100%;height:50px;"></textarea>
-            <button id="chat-send" style="width:100%;margin-top:5px;">Enviar</button>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let chatOpen = false;
-
-            const chatHeader = document.getElementById('chat-header');
-            const chatBody = document.getElementById('chat-body');
-            const chatNotif = document.getElementById('chat-notif');
-            const chatSend = document.getElementById('chat-send');
-            const chatInput = document.getElementById('chat-input');
-            const chatMessages = document.getElementById('chat-messages');
-
-            const projetoId = {{ $projeto_id ?? 1 }};
-            const usuarioLogado = {@json(Auth::user()->name)};
-
-
-            chatHeader.addEventListener('click', function() {
-                chatOpen = !chatOpen;
-                chatBody.style.display = chatOpen ? 'block' : 'none';
-                if (chatOpen) {
-                    chatNotif.style.display = 'none';
-                    carregarMensagens();
-                }
-            });
-
-            function carregarMensagens() {
-                fetch(`/chat/${projetoId}/messages`)
-                    .then(resp => resp.json())
-                    .then(data => {
-                        chatMessages.innerHTML = '';
-                        data.forEach(msg => {
-                            chatMessages.innerHTML += `<div><strong>${msg.usuario}</strong>: ${msg.mensagem}</div>`;
-                        });
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    })
-                    .catch(err => console.error("Erro ao carregar mensagens:", err));
-            }
-
-            chatSend.addEventListener('click', function() {
-                const mensagem = chatInput.value.trim();
-                if (!mensagem) return;
-
-                fetch(`/chat/${projetoId}/messages`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            usuario: usuarioLogado,
-                            mensagem: mensagem
-                        })
-                    })
-                    .then(() => {
-                        chatInput.value = '';
-                        carregarMensagens();
-                    })
-                    .catch(err => console.error("Erro ao enviar mensagem:", err));
-            });
-
-            // Carregar mensagens inicialmente
-            carregarMensagens();
-
-            // Atualização periódica e notificação
-            setInterval(() => {
-                if (!chatOpen) {
-                    fetch(`/chat/${projetoId}/messages`)
-                        .then(resp => resp.json())
-                        .then(data => {
-                            if (data.length > 0) {
-                                chatNotif.style.display = 'inline';
-                            }
-                        });
-                } else {
-                    carregarMensagens();
-                }
-            }, 5000);
-        });
-    </script>
-    @endauth
-
-
 </body>
 
         {{-- Search input js logic --}}
@@ -359,7 +263,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
         function setupInputSuggestions() {
             // Get all inputs with datalists
             const inputsWithDatalist = document.querySelectorAll('input[list]');
-            
+
             // Debounce function to limit how often we save
             function debounce(func, wait) {
                 let timeout;
@@ -368,12 +272,12 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                     timeout = setTimeout(() => func.apply(this, args), wait);
                 };
             }
-            
+
             inputsWithDatalist.forEach(input => {
                 const datalistId = input.getAttribute('list');
                 const datalist = document.getElementById(datalistId);
                 const storageKey = `suggestions_${input.id || input.name}`;
-                
+
                 // Load existing suggestions from localStorage
                 const savedSuggestions = localStorage.getItem(storageKey);
                 if (savedSuggestions) {
@@ -387,7 +291,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         }
                     });
                 }
-                
+
                 // Function to save suggestion
                 const saveSuggestion = () => {
                     const value = input.value.trim();
@@ -396,12 +300,12 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         if (localStorage.getItem(storageKey)) {
                             suggestions = JSON.parse(localStorage.getItem(storageKey));
                         }
-                        
+
                         // Add new suggestion if it doesn't exist
                         if (!suggestions.includes(value)) {
                             suggestions.push(value);
                             localStorage.setItem(storageKey, JSON.stringify(suggestions));
-                            
+
                             // Add to datalist if needed
                             if (!Array.from(datalist.options).some(option => option.value === value)) {
                                 const option = document.createElement('option');
@@ -411,16 +315,16 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         }
                     }
                 };
-                
+
                 // Debounced version for input event
                 const debouncedSave = debounce(saveSuggestion, 300);
-                
+
                 // Listen for input (typing) events - save while typing
                 input.addEventListener('input', debouncedSave);
-                
+
                 // Also listen for change events (when input loses focus)
                 input.addEventListener('change', saveSuggestion);
-                
+
                 // Special handling for Livewire: save before Livewire updates
                 input.addEventListener('keydown', function(e) {
                     // Save immediately on Tab or Enter
@@ -428,24 +332,24 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         saveSuggestion();
                     }
                 });
-                
+
                 // Save on blur (when focus leaves the input)
                 input.addEventListener('blur', saveSuggestion);
-                
+
                 // Handle Livewire update - very important
                 input.addEventListener('beforeinput', saveSuggestion);
-                
+
                 // Create a hidden form to prevent browser autocomplete from being blocked
                 const form = document.createElement('form');
                 form.style.display = 'none';
                 form.setAttribute('autocomplete', 'on');
                 document.body.appendChild(form);
-                
+
                 // Clone the input and append to hidden form
                 const clonedInput = input.cloneNode(true);
                 clonedInput.removeAttribute('wire:model');
                 form.appendChild(clonedInput);
-                
+
                 // Sync values between visible and hidden inputs
                 input.addEventListener('input', function() {
                     clonedInput.value = input.value;
@@ -459,13 +363,13 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
             document.querySelectorAll('input[list]').forEach(input => {
                 const storageKey = `suggestions_${input.id || input.name}`;
                 const value = input.value.trim();
-                
+
                 if (value) {
                     let suggestions = [];
                     if (localStorage.getItem(storageKey)) {
                         suggestions = JSON.parse(localStorage.getItem(storageKey));
                     }
-                    
+
                     if (!suggestions.includes(value)) {
                         suggestions.push(value);
                         localStorage.setItem(storageKey, JSON.stringify(suggestions));
@@ -492,24 +396,24 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                 'quality_question_id': ['QA01', 'QA02', 'QA1', 'QA2'],
                 'research_question_id': ['RQ1', 'RQ2', 'RQ3', 'GQ1']
             };
-            
+
             // Add these to localStorage for immediate availability
             for (const [fieldName, values] of Object.entries(commonFields)) {
                 const storageKey = `suggestions_${fieldName}`;
                 let suggestions = [];
-                
+
                 // Get existing suggestions
                 if (localStorage.getItem(storageKey)) {
                     suggestions = JSON.parse(localStorage.getItem(storageKey));
                 }
-                
+
                 // Add new common values if they don't exist
                 values.forEach(value => {
                     if (!suggestions.includes(value)) {
                         suggestions.push(value);
                     }
                 });
-                
+
                 // Save back to localStorage
                 localStorage.setItem(storageKey, JSON.stringify(suggestions));
             }
@@ -526,18 +430,18 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
             document.body.appendChild(iframe);
-            
+
             // Create a form inside the iframe with autocomplete on
             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
             iframeDoc.body.innerHTML = '<form autocomplete="on" id="temp-form"></form>';
             const tempForm = iframeDoc.getElementById('temp-form');
-            
+
             // For each input we care about, create a parallel input in the iframe
             const inputFields = document.querySelectorAll('input[list]');
             inputFields.forEach(input => {
                 const name = input.name || input.id;
                 const value = input.value;
-                
+
                 if (value) {
                     // Get existing suggestions
                     const storageKey = `suggestions_${name}`;
@@ -545,13 +449,13 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                     if (localStorage.getItem(storageKey)) {
                         suggestions = JSON.parse(localStorage.getItem(storageKey));
                     }
-                    
+
                     // Add the new value if not present
                     if (!suggestions.includes(value)) {
                         suggestions.push(value);
                         localStorage.setItem(storageKey, JSON.stringify(suggestions));
                     }
-                    
+
                     // Create all inputs and add all values as options in the iframe
                     suggestions.forEach((suggestion, index) => {
                         const tempInput = document.createElement('input');
@@ -563,10 +467,10 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                     });
                 }
             });
-            
+
             // Submit the form to register values with browser's autocomplete
             tempForm.submit();
-            
+
             // Clean up after a delay
             setTimeout(() => {
                 document.body.removeChild(iframe);
@@ -594,8 +498,8 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
         // Bypass browser autocomplete memory limitations
         (function() {
             // Store a reference to all suggestions
-            const allSuggestions = {}; 
-            
+            const allSuggestions = {};
+
             // Special workaround to force browser to update input suggestions
             function refreshInputBrowserCache(input) {
                 // Create a form that we'll later submit and destroy
@@ -608,80 +512,80 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                 form.style.left = '-9999px';
                 form.setAttribute('autocomplete', 'on');
                 document.body.appendChild(form);
-                
+
                 // Create a reset button to clear browser cache
                 const resetBtn = document.createElement('button');
                 resetBtn.type = 'reset';
                 form.appendChild(resetBtn);
-                
+
                 // Reset the form to clear browser state
                 resetBtn.click();
-                
+
                 // Create a clone of our input
                 const inputClone = document.createElement('input');
                 inputClone.type = 'text';
                 inputClone.name = input.name || input.id;
                 inputClone.setAttribute('autocomplete', 'on');
                 form.appendChild(inputClone);
-                
+
                 // Get all suggestions for this input
                 const storageKey = `suggestions_${input.name || input.id}`;
                 if (localStorage.getItem(storageKey)) {
                     const suggestions = JSON.parse(localStorage.getItem(storageKey));
-                    
+
                     // We'll use this to preserve our suggestions
                     allSuggestions[storageKey] = suggestions;
-                    
+
                     // Create a hidden submit button
                     const submitBtn = document.createElement('button');
                     submitBtn.type = 'submit';
                     submitBtn.style.display = 'none';
                     form.appendChild(submitBtn);
-                    
+
                     // For each suggestion, set the value and submit the form
                     // This forces the browser to register each value
                     for (let i = 0; i < suggestions.length; i++) {
                         const suggestion = suggestions[i];
-                        
+
                         // Set value and trigger events
                         inputClone.value = suggestion;
                         inputClone.dispatchEvent(new Event('input', { bubbles: true }));
                         inputClone.dispatchEvent(new Event('change', { bubbles: true }));
-                        
+
                         // Submit the form for this value
                         submitBtn.click();
                     }
                 }
-                
+
                 // Remove the temporary form
                 setTimeout(() => document.body.removeChild(form), 100);
             }
-            
+
             // Monitor for new inputs and refresh their cache
             function checkForNewInputs() {
                 document.querySelectorAll('input[list]').forEach(input => {
                     const name = input.name || input.id;
                     if (name && !input.hasAttribute('data-autocomplete-monitored')) {
                         input.setAttribute('data-autocomplete-monitored', 'true');
-                        
+
                         // Immediately refresh this input's cache
                         refreshInputBrowserCache(input);
-                        
+
                         // Set up event listeners
                         input.addEventListener('focus', () => refreshInputBrowserCache(input));
-                        
+
                         // Save new values when they're entered
                         input.addEventListener('change', function() {
                             const value = this.value.trim();
                             if (value) {
                                 const storageKey = `suggestions_${name}`;
                                 let suggestions = allSuggestions[storageKey] || [];
-                                
+
                                 if (!suggestions.includes(value)) {
                                     suggestions.push(value);
                                     allSuggestions[storageKey] = suggestions;
                                     localStorage.setItem(storageKey, JSON.stringify(suggestions));
-                                    
+
                                     // Update datalist
                                     const datalistId = input.getAttribute('list');
                                     if (datalistId) {
@@ -693,7 +597,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                                             datalist.appendChild(option);
                                         }
                                     }
-                                    
+
                                     // Force browser to update
                                     refreshInputBrowserCache(input);
                                 }
@@ -702,13 +606,13 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                     }
                 });
             }
-            
+
             // Check regularly for new inputs
             setInterval(checkForNewInputs, 1000);
-            
+
             // Initial check on page load
             document.addEventListener('DOMContentLoaded', checkForNewInputs);
-            
+
             // Check after Livewire updates
             document.addEventListener('livewire:load', checkForNewInputs);
             document.addEventListener('livewire:update', checkForNewInputs);
@@ -721,27 +625,27 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
             // Find the input and datalist elements
             const input = document.getElementById(inputId);
             const datalist = document.getElementById(datalistId);
-            
+
             if (!input || !datalist) return;
-            
+
             // Clear the browser's cache by toggling autocomplete
             input.setAttribute('autocomplete', 'off');
-            
+
             // Get current values from localStorage
             const storageKey = `suggestions_${inputName || inputId}`;
             let suggestions = [];
-            
+
             if (localStorage.getItem(storageKey)) {
                 suggestions = JSON.parse(localStorage.getItem(storageKey));
             }
-            
+
             // Add the current value if it's not already in the list
             const currentValue = input.value.trim();
             if (currentValue && !suggestions.includes(currentValue)) {
                 suggestions.push(currentValue);
                 localStorage.setItem(storageKey, JSON.stringify(suggestions));
             }
-            
+
             // Clear and rebuild the datalist
             datalist.innerHTML = '';
             suggestions.forEach(suggestion => {
@@ -749,14 +653,14 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                 option.value = suggestion;
                 datalist.appendChild(option);
             });
-            
+
             // Create a hidden form to force browser to register suggestions
             const form = document.createElement('form');
             form.setAttribute('autocomplete', 'on');
             form.style.position = 'absolute';
             form.style.left = '-9999px';
             document.body.appendChild(form);
-            
+
             // Add a hidden input for each suggestion
             suggestions.forEach((suggestion, index) => {
                 const hiddenInput = document.createElement('input');
@@ -766,17 +670,17 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                 hiddenInput.setAttribute('autocomplete', 'on');
                 form.appendChild(hiddenInput);
             });
-            
+
             // Submit the form to register with browser
             form.submit();
-            
+
             // Remove the form after a delay
             setTimeout(() => {
                 document.body.removeChild(form);
-                
+
                 // Re-enable autocomplete on the original input
                 input.setAttribute('autocomplete', 'on');
-                
+
                 // Show a message only if requested
                 if (showAlert) {
                     alert("Sugestões atualizadas! Agora você pode começar a digitar para ver todas as sugestões.");
@@ -793,13 +697,13 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                 form.addEventListener('submit', function(e) {
                     // Find all input fields with datalists in this form
                     const inputs = form.querySelectorAll('input[list]');
-                    
+
                     // For each input, refresh its suggestions
                     inputs.forEach(input => {
                         const inputId = input.id;
                         const inputName = input.name || input.id;
                         const datalistId = input.getAttribute('list');
-                        
+
                         // Use a small setTimeout to ensure this runs after the Livewire update
                         setTimeout(() => {
                             refreshSuggestions(inputId, inputName, datalistId, false);
@@ -807,7 +711,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                     });
                 });
             });
-            
+
             // Also monitor Livewire events for form submission
             document.addEventListener('livewire:load', function() {
                 if (typeof window.Livewire !== 'undefined') {
@@ -819,7 +723,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                                 const inputId = input.id;
                                 const inputName = input.name || input.id;
                                 const datalistId = input.getAttribute('list');
-                                
+
                                 // Refresh silently without alert
                                 refreshSuggestions(inputId, inputName, datalistId, false);
                             });
@@ -843,11 +747,11 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         if (value) {
                             const storageKey = `suggestions_${input.name || input.id}`;
                             let suggestions = [];
-                            
+
                             if (localStorage.getItem(storageKey)) {
                                 suggestions = JSON.parse(localStorage.getItem(storageKey));
                             }
-                            
+
                             if (!suggestions.includes(value)) {
                                 suggestions.push(value);
                                 localStorage.setItem(storageKey, JSON.stringify(suggestions));
@@ -855,7 +759,7 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         }
                     });
                 });
-                
+
                 // After Livewire processes a request, update suggestions
                 window.Livewire.hook('message.processed', (message, component) => {
                     // Wait a bit for the DOM to settle
@@ -864,16 +768,16 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                         document.querySelectorAll('input[list]').forEach(input => {
                             const datalistId = input.getAttribute('list');
                             const datalist = document.getElementById(datalistId);
-                            
+
                             if (datalist) {
                                 const storageKey = `suggestions_${input.name || input.id}`;
                                 if (localStorage.getItem(storageKey)) {
                                     // Get saved suggestions
                                     const suggestions = JSON.parse(localStorage.getItem(storageKey));
-                                    
+
                                     // Clear datalist
                                     datalist.innerHTML = '';
-                                    
+
                                     // Add all suggestions as options
                                     suggestions.forEach(suggestion => {
                                         const option = document.createElement('option');
@@ -883,13 +787,13 @@ class="g-sidenav-show {{ in_array( request()->route()->getName(),["login", "rese
                                 }
                             }
                         });
-                        
+
                         // Also force browser to refresh its autocomplete cache
                         document.querySelectorAll('input[list]').forEach(input => {
                             const inputId = input.id;
                             const inputName = input.name;
                             const datalistId = input.getAttribute('list');
-                            
+
                             if (inputId && inputName && datalistId) {
                                 refreshSuggestions(inputId, inputName, datalistId, false);
                             }
