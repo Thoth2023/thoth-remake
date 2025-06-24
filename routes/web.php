@@ -38,9 +38,9 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Project\ActivityController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TranslationController;
-
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
@@ -136,8 +136,10 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+Route::get('/projects/{project}/export-activities', [ProjectController::class, 'exportActivities'])
+    ->name('projects.exportActivities')
+    ->middleware('auth');
 Route::get('/project/{idProject}/decline-invitation', [ProjectController::class, 'declineInvitation'])->name('projects.decline_invitation');
-
 
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {
