@@ -13,10 +13,12 @@ class ContentSecurityPolicy
 
         $policy = implode(' ', [
             "default-src 'self';",
-            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com;",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com https://buttons.github.io https://maps.googleapis.com;",
+            "script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com https://buttons.github.io https://maps.googleapis.com;",
+            "script-src-attr 'self' 'unsafe-inline';",
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
             "font-src 'self' https://fonts.gstatic.com data:;",
-            "img-src 'self' data:;",
+            "img-src 'self' data: https://maps.gstatic.com;",
             "connect-src 'self';",
             "object-src 'none';",
         ]);
