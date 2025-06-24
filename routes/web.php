@@ -46,6 +46,7 @@ use App\Http\Controllers\TranslationController;
 use App\Livewire\Planning\Databases\Databases;
 use App\Http\Controllers\ThemeController;
 
+
 //use App\Http\Controllers\Auth\LoginController;
 //use Illuminate\Support\Facades\Route;
 
@@ -59,14 +60,6 @@ use App\Http\Controllers\ThemeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
-    Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
-    Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
-});
-
 
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
@@ -136,10 +129,12 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+
 Route::get('/projects/{project}/export-activities', [ProjectController::class, 'exportActivities'])
     ->name('projects.exportActivities')
     ->middleware('auth');
 Route::get('/project/{idProject}/decline-invitation', [ProjectController::class, 'declineInvitation'])->name('projects.decline_invitation');
+
 
 // Project Routes
 Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])->group(function () {
