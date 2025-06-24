@@ -186,7 +186,14 @@ class Table extends Component
 
         }
 
-        return view('livewire.conducting.data-extraction.table', compact('papers', 'databases', 'statuses'));
+        // Emitir evento para atualizar o estado dos botões
+        $this->dispatch('papers-updated', hasPapers: $papers->isNotEmpty());
+        
+        return view('livewire.conducting.data-extraction.table', [
+            'papers' => $papers,
+            'databases' => $databases,
+            'statuses' => $statuses,
+        ]);
     }
 
 }

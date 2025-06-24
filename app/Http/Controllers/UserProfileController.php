@@ -34,25 +34,6 @@ class UserProfileController extends Controller
     {
         // Validação dos campos enviados pelo formulário
         $attributes = $request->validate([
-<<<<<<< Updated upstream
-            'username' => ['required','max:255', 'min:2'],
-            'firstname' => ['max:100'],
-            'lastname' => ['max:100'],
-            'email' => ['required', 'email', 'max:255',  Rule::unique('users')->ignore(auth()->user()->id)],
-            'address' => ['max:100'],
-            'city' => ['max:100'],
-            'country' => ['max:100'],
-            'postal' => ['max:100'],
-            'about' => ['max:255'],
-            'occupation' => ['max:255'],
-            'institution' => ['max:255'],
-            'lattes_link' => ['nullable', 'max:255'],
-        ]);
-
-        $request->validate([
-            'lattes_link' => 'nullable|max:255|regex:/^(?:https?:\/\/)?(?:[^@\s\/]+@)?(?:[^\s\/]+\.)+[^\s\/]+\/?(?:[^\s\/]+(?:\/[^\s\/]+)*)?$/',
-        ], [
-=======
             'username' => ['required', 'max:255', 'min:2'],
             'firstname' => ['nullable', 'max:100', 'regex:/^[\pL\s\-]+$/u'], // Apenas letras
             'lastname' => ['nullable', 'max:100', 'regex:/^[\pL\s\-]+$/u'],  // Apenas letras
@@ -73,7 +54,6 @@ class UserProfileController extends Controller
             'country.regex' => 'O país deve conter apenas letras.',
             'postal.regex' => 'O CEP deve conter apenas números.',
             'occupation.regex' => 'A ocupação deve conter apenas letras.',
->>>>>>> Stashed changes
             'lattes_link.regex' => 'O formato do link para o currículo Lattes é inválido.',
         ]);
 

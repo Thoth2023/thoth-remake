@@ -17,7 +17,7 @@
                         required
                     >
                         <option selected disabled>
-                            {{ __("Selecione uma pergunta") }}
+                        {{ __('project/planning.data-extraction.option-form.question-selection.title') }}
                         </option>
                         @foreach ($project->dataExtractionQuestions as $question)
                             @if (in_array($question->question_type->type, ["Multiple Choice List", "Pick One List"]))
@@ -43,6 +43,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
+                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
                     required
                 />
                 @error("description")
