@@ -1,5 +1,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 class PlanningPage:
     def __init__(self, driver):
@@ -14,9 +17,47 @@ class PlanningPage:
     def dominio_esta_listado(self, descricao):
         elementos = self.driver.find_elements(By.XPATH, "//span[contains(text(), '{}')]".format(descricao))
         return len(elementos) > 0
+    
+    def remover_dominio(self):
+        try:
+            botao_remover = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/div/div/div/button[2]/i")
+            botao_remover.click()
+            return True
+        except Exception:
+            return False
 
     def mensagem_erro_visivel(self):
         return bool(self.driver.find_elements(By.CLASS_NAME, "text-danger"))
+
+    def selecionar_idioma(self, idioma):
+            campo = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/form/div[1]/div/div/div[1]/div/div")
+            campo.click()
+            opcao = WebDriverWait(self.driver, 5).until(
+                EC.visibility_of_element_located(
+                    (By.XPATH, f"//div[contains(@class, 'choices__item--choice') and normalize-space(text())='{idioma}']")
+                )
+            )
+            opcao.click()
+
+    def botao_salvar_idioma(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/form/div[2]/button")
+
+    def idioma_esta_listado(self, idioma):
+        return idioma in self.driver.page_source
+
+    def remover_idioma(self):
+        try:
+            debugbar_btn = self.driver.find_element(By.CLASS_NAME, "phpdebugbar-maximize-btn")
+            debugbar_btn.click()
+            time.sleep(1)
+        except Exception:
+            pass
+        botao_remover = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/div/div/div/button/i"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView();", botao_remover)
+        time.sleep(0.5)
+        botao_remover.click()
 
     def campo_palavra_chave(self):
         return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[1]/div/input")
@@ -111,6 +152,12 @@ class MenuLateralPage:
             "/html/body/main/div[1]/div[1]/div/div/div/div/div[2]/div/table/tbody/tr[1]/td[4]/div/div[1]/a[1]"
         )
         botao_abrir.click()
+
+    def acessar_overview(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[1]/div/div[2]/div/ul/li[1]/a"
+        ).click()
 
     def acessar_aba_planejamento(self):
         self.driver.find_element(
