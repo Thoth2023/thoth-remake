@@ -49,12 +49,17 @@ class PlanningProgressController
         $importStudiesProgress = ProjectStudyType::where('id_project', $projectId)->exists() ? 1 : 0;
         $keywordProgress = Keyword::where('id_project', $projectId)->exists() ? 1 : 0;
         
-        $dateProgress = Project::where('id_project', $projectId)
-        ->whereNotNull('start_date')
-        ->whereNotNull('end_date')
-        ->where('start_date', '!=', '')
-        ->where('end_date', '!=', '')
-        ->exists() ? 1 : 0;
+        $project = Project::find($projectId);
+        $dateProgress = 0;
+        if (
+            $project &&
+            !empty($project->start_date) &&
+            !empty($project->end_date) &&
+            $project->start_date >= '2000-01-01' &&
+            $project->end_date <= '2100-12-31'
+        ) {
+            $dateProgress = 1;
+        }
         
         $researchQuestionProgress = ResearchQuestion::where('id_project', $projectId)->exists() ? 1 : 0;
         
