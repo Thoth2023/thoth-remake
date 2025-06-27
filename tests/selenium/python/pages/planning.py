@@ -59,6 +59,36 @@ class PlanningPage:
         time.sleep(0.5)
         botao_remover.click()
 
+    def selecionar_tipo_estudo(self, tipo_estudo):
+        campo = self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/form/div[1]/div/div/div[1]/div/div")
+        campo.click()
+        opcao = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, f"//div[contains(@class, 'choices__item--choice') and normalize-space(text())='{tipo_estudo}']")
+            )
+        )
+        opcao.click()
+
+    def botao_salvar_estudo(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/form/div[2]/button")
+
+    def tipo_estudo_esta_listado(self, tipo_estudo):
+        return tipo_estudo in self.driver.page_source
+
+    def remover_estudo(self):
+        try:
+            debugbar_btn = self.driver.find_element(By.CLASS_NAME, "phpdebugbar-maximize-btn")
+            debugbar_btn.click()
+            time.sleep(1)
+        except Exception:
+            pass
+        botao_remover = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[3]/div[2]/div/div/div/button/i"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView();", botao_remover)
+        time.sleep(0.5)
+        botao_remover.click()
+
     def campo_palavra_chave(self):
         return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[1]/div/input")
 
@@ -67,6 +97,29 @@ class PlanningPage:
 
     def palavra_chave_esta_listada(self, descricao):
         return descricao in self.driver.page_source
+    
+    def remover_palavra_chave(self):
+        try:
+            debugbar_btn = self.driver.find_element(By.CLASS_NAME, "phpdebugbar-maximize-btn")
+            debugbar_btn.click()
+            time.sleep(1)
+        except Exception:
+            pass
+        botao_remover = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/div/div/div/button[2]/i"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView();", botao_remover)
+        time.sleep(0.5)
+        botao_remover.click()
+
+    def campo_data_inicio(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div/div[2]/form/div[1]/div[1]/input")
+
+    def campo_data_termino(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div/div[2]/form/div[1]/div[2]/input")
+
+    def botao_salvar_data(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div/div[2]/form/div[2]/button")
     
     def campo_questao_pesquisa_id(self):
         return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/form/div/div[1]/input")
