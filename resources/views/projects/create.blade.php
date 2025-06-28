@@ -113,6 +113,7 @@
                         {{ __("project/create.systematic_review_and_snowballing") }}
                     </label>
                 </div>
+                </div>
                 <div class="form-check">
                     <input
                         class="form-check-input"

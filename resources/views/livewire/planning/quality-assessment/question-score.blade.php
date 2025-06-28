@@ -39,17 +39,20 @@
                         @enderror
                     </div>
                     <div class="d-flex flex-column gap-1">
-                        <label for="score-rule" class="form-control-label required">
-                            {{ __('project/planning.quality-assessment.question-score.score_rule.title') }}
+                        <label
+                            for="score-rule"
+                            class="form-control-label required"
+                        >
+                            {{ __("project/planning.quality-assessment.question-score.score_rule.title") }}
                         </label>
                         <input
                             id="score-rule"
                             list="score-rule-options"
                             class="form-control"
-                            placeholder="{{ __('Selecione ou digite uma regra') }}"
+                            placeholder="{{ __("Selecione ou digite uma regra") }}"
                             wire:model.lazy="scoreRule"
                             onchange="handleScoreRuleChange(this.value)"
-                            label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
+                            label="{{ __("project/planning.quality-assessment.question-score.score_rule.title") }}"
                             maxlength="20"
                             min="0"
                             pattern="[a-zA-ZÀ-ÿ\s]+"
@@ -66,22 +69,25 @@
                             </span>
                         @enderror
                     </div>
-                    
+
                     <div class="d-flex flex-column gap-1">
-                        <label for="range-score" class="form-control-label required">
+                        <label
+                            for="range-score"
+                            class="form-control-label required"
+                        >
                             {{ __("project/planning.quality-assessment.question-score.range.score") }}
                         </label>
                         <div class="d-flex align-items-center gap-2">
                             <input
-                            id="range-score"
-                            type="range"
-                            class="form-range my-1"
-                            min="0"
-                            max="100"
-                            step="5"
-                            wire:model="score"
-                            oninput="updateRangeValue(this.value)"
-                            required
+                                id="range-score"
+                                type="range"
+                                class="form-range my-1"
+                                min="0"
+                                max="100"
+                                step="5"
+                                wire:model="score"
+                                oninput="updateRangeValue(this.value)"
+                                required
                             />
                             <span class="text-xs" id="range-score-label">
                                 {{ $score ?? 50 }}%
@@ -94,7 +100,10 @@
                         @enderror
                     </div>
                     <div class="d-flex flex-column gap-1">
-                        <label for="description" class="form-control-label required">
+                        <label
+                            for="description"
+                            class="form-control-label required"
+                        >
                             {{ __("project/planning.research-questions.form.description") }}
                         </label>
                         <textarea
@@ -133,7 +142,7 @@
 </div>
 
 @push("scripts")
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             function updateRangeValue(value) {
                 const rangeLabel = document.getElementById('range-score-label');
