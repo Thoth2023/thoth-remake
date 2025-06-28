@@ -185,9 +185,16 @@ class PlanningPage:
         return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[1]/div[2]/div/input")
 
     def selecionar_tipo_criterio(self, tipo):
-        select_element = self.driver.find_element(By.XPATH, '/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[2]/div/select')
-        select = Select(select_element)
-        select.select_by_visible_text(tipo)
+        campo = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[2]/div/div/div[1]/div/div'))
+        )
+        campo.click()
+        opcao = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, f"//div[contains(@class, 'choices__item--choice') and normalize-space(text())='{tipo}']")
+            )
+        )
+        opcao.click()
 
     def botao_salvar_criterios(self):
         return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[3]/button")
@@ -195,6 +202,20 @@ class PlanningPage:
     def criterio_esta_listado(self, id_criterio, descricao):
         elementos = self.driver.find_elements(By.XPATH, "//td[contains(text(), '{}') and contains(text(), '{}')]".format(id_criterio, descricao))
         return len(elementos) > 0
+    
+    def remover_criteri(self):
+        try:
+            debugbar_btn = self.driver.find_element(By.CLASS_NAME, "phpdebugbar-maximize-btn")
+            debugbar_btn.click()
+            time.sleep(1)
+        except Exception:
+            pass
+        botao_remover = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/div/div[1]/div[1]/table/tbody/tr/td[4]/button[2]"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView();", botao_remover)
+        time.sleep(0.5)
+        botao_remover.click()
     
     def campo_questao_qualidade_id(self):
         return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[3]/div/div[1]/div[1]/div[2]/form/div[1]/div[1]/div/input")
