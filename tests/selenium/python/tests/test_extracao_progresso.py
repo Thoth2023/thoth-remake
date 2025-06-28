@@ -14,7 +14,7 @@ def sistema_logado(driver):
     time.sleep(2)
     return driver
 
-def test_progresso_reduz_ao_remover_criterio(sistema_logado):
+def test_progresso_aumenta_ao_adicionar_pergunta_extracao(sistema_logado):
     driver = sistema_logado
     menu = MenuLateralPage(driver)
     menu.acessar_meus_projetos()
@@ -26,12 +26,19 @@ def test_progresso_reduz_ao_remover_criterio(sistema_logado):
     match = re.search(r"([\d.,]+)%", progresso_antes_text)
     assert match, "Não foi possível extrair o valor do progresso da barra."
     progresso_antes = float(match.group(1).replace(",", "."))
-    print(f"Progresso antes de remover critério: {progresso_antes}")
+    print(f"Progresso antes de adicionar pergunta de extração: {progresso_antes}")
 
     menu.acessar_aba_planejamento()
-    menu.acessar_aba_criterios()
+    menu.acessar_aba_extracao()
     planning = PlanningPage(driver)
-    planning.remover_criterio()
+    campo_id = planning.campo_extracao_id()
+    campo_descricao = planning.campo_extracao_descricao()
+    campo_id.clear()
+    campo_id.send_keys("2")
+    campo_descricao.clear()
+    campo_descricao.send_keys("Pergunta de extração de teste")
+    planning.selecionar_extracao_tipo("Text")
+    planning.botao_salvar_extracao().click()
     time.sleep(2)
 
     menu.acessar_overview()
@@ -40,8 +47,8 @@ def test_progresso_reduz_ao_remover_criterio(sistema_logado):
     match = re.search(r"([\d.,]+)%", progresso_depois_text)
     assert match, "Não foi possível extrair o valor do progresso da barra."
     progresso_depois = float(match.group(1).replace(",", "."))
-    print(f"Progresso após remover critério: {progresso_depois}")
+    print(f"Progresso após adicionar pergunta de extração: {progresso_depois}")
 
-    assert progresso_depois < progresso_antes, (
-        f"O progresso deveria reduzir após remover critério, mas era {progresso_antes} e ficou {progresso_depois}."
-    )
+    assert progresso_depois > progresso_antes, (
+        f"O progresso deveria aumentar após adicionar pergunta de extração, mas era {progresso_antes} e ficou {progresso_depois}."
+        )
