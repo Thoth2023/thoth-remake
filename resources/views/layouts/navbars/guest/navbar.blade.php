@@ -43,59 +43,59 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-    <a class="nav-link" href="{{ route('snowballing.index') }}">
-        <i class="ni ni-compass-04 text-primary"></i>
-        <span class="nav-link-text">Snowballing com IA</span>
-    </a>
-</li>
+                                <a class="nav-link" href="{{ route('home') }}">
+                                    <i class="ni ni-compass-04 text-primary"></i>
+                                    <span class="nav-link-text">Snowballing com IA</span>
+                                </a>
+                            </li>
                             <!-- Se o usuário NÃO estiver autenticado -->
                             @guest
-                                <!-- Link para Cadastro -->
-                                <li class="nav-item me-1">
-                                    <a class="nav-link d-flex align-items-center" href="{{ route('register') }}">
-                                        <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.sign_up') }}
-                                    </a>
-                                </li>
-                                <!-- Link para Login -->
-                                <li class="nav-item me-1">
-                                    <a class="nav-link d-flex align-items-center" href="{{ route('login') }}">
-                                        <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.sign_in') }}
-                                    </a>
-                                </li>
+                            <!-- Link para Cadastro -->
+                            <li class="nav-item me-1">
+                                <a class="nav-link d-flex align-items-center" href="{{ route('register') }}">
+                                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                    {{ __('nav/nav.sign_up') }}
+                                </a>
+                            </li>
+                            <!-- Link para Login -->
+                            <li class="nav-item me-1">
+                                <a class="nav-link d-flex align-items-center" href="{{ route('login') }}">
+                                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                                    {{ __('nav/nav.sign_in') }}
+                                </a>
+                            </li>
                             @endguest
 
                             <!-- Se o usuário estiver autenticado -->
                             @auth
-                                <!-- Link para Perfil -->
-                                <li class="nav-item me-1">
-                                    <a class="nav-link d-flex align-items-center" href="{{ route('profile') }}">
-                                        <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        {{ __('nav/nav.profile') }}
-                                    </a>
-                                </li>
+                            <!-- Link para Perfil -->
+                            <li class="nav-item me-1">
+                                <a class="nav-link d-flex align-items-center" href="{{ route('profile') }}">
+                                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                    {{ __('nav/nav.profile') }}
+                                </a>
+                            </li>
 
-                                <!-- Link para Projetos -->
-                                <li class="nav-item me-1">
-                                    <a class="nav-link d-flex align-items-center" href="{{ route('projects.index') }}">
-                                        <i class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"></i>
-                                        {{ __('nav/nav.projects') }}
-                                    </a>
-                                </li>
+                            <!-- Link para Projetos -->
+                            <li class="nav-item me-1">
+                                <a class="nav-link d-flex align-items-center" href="{{ route('projects.index') }}">
+                                    <i class="text-dark text-sm opacity-6 ni ni-single-copy-04 me-1"></i>
+                                    {{ __('nav/nav.projects') }}
+                                </a>
+                            </li>
 
-                                <!-- Link para Deslogar -->
-                                <li class="nav-item me-1">
-                                    <form method="POST" action="{{ route('logout') }}" class="m-1 d-flex align-items-center">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none" 
-                                                style="cursor: pointer;">
-                                            <i class="fa fa-sign-out-alt opacity-6 me-1"></i>
-                                            <span>{{ __('nav/nav.logout') }}</span>
-                                        </button>
-                                    </form>
-                                </li>
+                            <!-- Link para Deslogar -->
+                            <li class="nav-item me-1">
+                                <form method="POST" action="{{ route('logout') }}" class="m-1 d-flex align-items-center">
+                                    @csrf
+                                    <button type="submit"
+                                        class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none"
+                                        style="cursor: pointer;">
+                                        <i class="fa fa-sign-out-alt opacity-6 me-1"></i>
+                                        <span>{{ __('nav/nav.logout') }}</span>
+                                    </button>
+                                </form>
+                            </li>
                             @endauth
 
                             <!-- ✅ Botão de Configuração sempre visível -->
