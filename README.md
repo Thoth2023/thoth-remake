@@ -3,7 +3,8 @@
 [![Latest Stable Version](https://badgen.net/packagist/lang/monolog/monolog)](https://badgen.net/packagist/lang/monolog/monolog)
 [![PHP Version Require](https://badgen.net/badge/php/%3E8.1/green)](https://badgen.net/badge/php/%3E8.1/green)
 
-Systematic Literature Review Tool
+Thoth 2.0 is an open-source, web-based tool that supports researchers in conducting Systematic Literature Reviews (SLRs) and Snowballing Studies. 
+The tool automates key phases of the review process, such as study selection, quality assessment, and data extraction. Thoth 2.0 introduces an advanced Snowballing module that enables backward and forward citation analysis through integration with the CrossRef API. It is designed for collaborative use, supports Docker-based deployment, and offers a user-friendly interface built with Laravel and Livewire.
 
 ## Technologies and Tools
 <img src="https://camo.githubusercontent.com/85b8858163097e34c31ef8eeda533e1fa18be0ec8ce58f494b6b5cedc2f27196/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c61726176656c2d2532334646324432302e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d6c61726176656c266c6f676f436f6c6f723d7768697465" /><img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" /><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" /><img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" /><img src="https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white" /><img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D" /><img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" /><img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" /><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" /><img src="https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white" /><img src="https://img.shields.io/badge/Webpack-8DD6F9?style=for-the-badge&logo=Webpack&logoColor=white" />
@@ -16,7 +17,29 @@ Systematic Literature Review Tool
 Information on how to use the template elements
 https://argon-dashboard-laravel.creative-tim.com/docs/bootstrap/overview/argon-dashboard/
 
-## Step-by-Step Initial Setup
+## Requirements
+
+To run Thoth 2.0 locally, ensure you have the following:
+
+### System Requirements
+- Operating System: Linux, macOS or Windows 10/11
+- RAM: Minimum 4 GB (8 GB recommended)
+- Disk: Minimum 1 GB free storage
+- Internet access for API integrations (CrossRef, Springer, Algolia)
+
+### Software Requirements
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (latest stable version)
+- Docker Compose (comes with Docker Desktop)
+
+### Optional (for local development)
+- PHP ≥ 8.1
+- Composer
+- Node.js ≥ 16
+- Git
+
+## Installation
+
+### Step-by-Step Initial Setup
 
 - Have Docker Desktop installed:
 https://www.docker.com/products/docker-desktop/
@@ -119,3 +142,13 @@ make setup
 
 ## Access the Project
 [http://localhost:8989](http://localhost:8989)
+
+### Associated Publication
+This artifact is associated with the following accepted article at SBES 2025:
+
+**Thoth 2.0: Advancing an RSL Tool for Enhanced Snowballing Support**  
+Link to article: [https://jems3.sbc.org.br/submissions/11616](https://jems3.sbc.org.br/submissions/11616)
+
+### Public Instance
+You can access the live instance of Thoth 2.0 at:  
+🔗 [https://thoth-slr.com](https://thoth-slr.com)
