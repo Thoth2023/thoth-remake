@@ -1,0 +1,149 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+
+class PlanningPage:
+    def __init__(self, driver):
+        self.driver = driver
+
+    def campo_dominio(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[1]/div/input")
+
+    def botao_salvar_dominio(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[2]/form/div[2]/button")
+
+    def dominio_esta_listado(self, descricao):
+        elementos = self.driver.find_elements(By.XPATH, "//span[contains(text(), '{}')]".format(descricao))
+        return len(elementos) > 0
+
+    def mensagem_erro_visivel(self):
+        return bool(self.driver.find_elements(By.CLASS_NAME, "text-danger"))
+
+    def campo_palavra_chave(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[1]/div/input")
+
+    def botao_salvar_palavra_chave(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[4]/div[2]/form/div[2]/button")
+
+    def palavra_chave_esta_listada(self, descricao):
+        return descricao in self.driver.page_source
+    
+    def campo_questao_pesquisa_id(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/form/div/div[1]/input")
+    
+    def campo_questao_pesquisa_descricao(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/form/div/div[2]/textarea")
+
+    def botao_salvar_questao_pesquisa(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/form/button")
+    
+    def questao_pesquisa_esta_listada(self, descricao):
+        return descricao in self.driver.page_source
+    
+    def campo_termos(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[4]/div/div[1]/div[2]/form/div[1]/div/input")
+
+    def botao_salvar_termos(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[4]/div/div[1]/div[2]/form/div[2]/button")
+    
+    def termos_esta_listado(self, descricao):
+        elementos = self.driver.find_elements(By.XPATH, "//span[contains(text(), '{}')]".format(descricao))
+        return len(elementos) > 0
+    
+    def campo_estrategia(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[5]/div/div[2]/form/div[1]/div/div[2]/div[1]/p")
+
+    def botao_salvar_estrategia(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[5]/div/div[2]/form/div[2]/button")
+
+    def estrategia_esta_listada(self, descricao):
+        try:
+            editor = self.driver.find_element(By.CSS_SELECTOR, ".ql-editor")
+            return descricao in editor.text
+        except Exception:
+            return False
+        
+    def campo_criterios_id(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[1]/div[1]/div/input")
+
+    def campo_criterios_descricao(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[1]/div[2]/div/input")
+
+    def selecionar_tipo_criterio(self, tipo):
+        select_element = self.driver.find_element(By.XPATH, '/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[2]/div/select')
+        select = Select(select_element)
+        select.select_by_visible_text(tipo)
+
+    def botao_salvar_criterios(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[2]/div[6]/div/div[2]/form/div/div[3]/button")
+
+    def criterio_esta_listado(self, id_criterio, descricao):
+        elementos = self.driver.find_elements(By.XPATH, "//td[contains(text(), '{}') and contains(text(), '{}')]".format(id_criterio, descricao))
+        return len(elementos) > 0
+    
+    def campo_questao_qualidade_id(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[3]/div/div[1]/div[1]/div[2]/form/div[1]/div[1]/div/input")
+
+    def campo_questao_qualidade_peso(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[3]/div/div[1]/div[1]/div[2]/form/div[1]/div[2]/div/input")
+
+    def campo_questao_qualidade_descricao(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[3]/div/div[1]/div[1]/div[2]/form/div[2]/textarea")
+
+    def botao_salvar_questao_qualidade(self):
+        return self.driver.find_element(By.XPATH, "/html/body/main/div[1]/div/div[2]/div/div/div[3]/div/div[1]/div[1]/div[2]/form/button")
+
+    def questao_qualidade_esta_listada(self, id_questao, descricao):
+        elementos = self.driver.find_elements(By.XPATH, "//td[contains(text(), '{}') and contains(text(), '{}')]".format(id_questao, descricao))
+        return len(elementos) > 0
+
+class MenuLateralPage:
+    ABA_MEUS_PROJETOS = (By.XPATH, "/html/body/aside/div[2]/ul/li[2]/a")
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def acessar_meus_projetos(self):
+        self.driver.find_element(*self.ABA_MEUS_PROJETOS).click()
+
+    def abrir_primeiro_projeto(self):
+        botao_abrir = self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div[1]/div/div/div/div/div[2]/div/table/tbody/tr[1]/td[4]/div/div[1]/a[1]"
+        )
+        botao_abrir.click()
+
+    def acessar_aba_planejamento(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[1]/div/div[2]/div/ul/li[2]/a"
+        ).click()
+
+    def acessar_aba_questoes_pesquisa(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[2]/div/div/div[1]/ul/li[2]/a"
+        ).click()
+
+    def acessar_aba_termos_busca(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[2]/div/div/div[1]/ul/li[4]/a"
+        ).click()
+
+    def acessar_aba_estrategia(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[2]/div/div/div[1]/ul/li[5]/a"
+        ).click()
+
+    def acessar_aba_criterios(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[2]/div/div/div[1]/ul/li[6]/a"
+        ).click()
+
+    def acessar_aba_questao_qualidade(self):
+        self.driver.find_element(
+            By.XPATH,
+            "/html/body/main/div[1]/div/div[2]/div/div/div[1]/ul/li[7]/a"
+        ).click()
