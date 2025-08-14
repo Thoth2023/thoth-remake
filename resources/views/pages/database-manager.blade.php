@@ -3,7 +3,7 @@
 @section("content")
     @include("layouts.navbars.guest.navbar", ["title" => "pages.home.home"])
 	<!-- Page header section for the database manager, displaying title and description -->
-    <div class="container mt-8 mb-3">
+    <div class="container mt-7 mb-3">
         <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
             <div
                 class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "

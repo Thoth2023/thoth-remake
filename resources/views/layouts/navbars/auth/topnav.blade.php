@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl bg-white text-dark mb-3
     {{ str_contains(Request::url(), 'virtual-reality') ? 'mt-3 mx-3 bg-primary' : '' }}"
     id="navbarBlur" data-scroll="false">
     <div id="top" class="container-fluid py-1 px-3">
@@ -15,35 +15,31 @@
             <h6 class="font-weight-bolder mb-0">{{ $title }}</h6>
         </nav>
 
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex align-items-center justify-content-between" id="navbar">
 
-            {{-- Search Form --}}
-            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <form action="/search-project" method="get">
+
+        {{-- Search Form --}}
+            <div class="d-flex align-items-center flex-grow-1 me-3">
+                <form action="/search-project" method="get" class="w-100">
                     <div class="input-group">
-                        <span class="input-group-text text-body">
-                            <i class="fas fa-search" aria-hidden="true"></i>
-                        </span>
+            <span class="input-group-text text-body">
+                <i class="fas fa-search" aria-hidden="true"></i>
+            </span>
                         <input type="text" name="searchProject" class="form-control"
-                            placeholder="{{ __('nav/nav.search_in_thoth') }}">
+                               placeholder="{{ __('nav/nav.search_in_thoth') }}">
                     </div>
                 </form>
             </div>
 
             {{-- Navbar Items --}}
-            <ul class="navbar-nav justify-content-end">
+            <ul class="navbar-nav d-flex align-items-center">
 
-                {{-- Logout --}}
-                <li class="nav-item d-flex align-items-center">
-                    <form method="POST" action="{{ route('logout') }}" class="m-1 d-flex align-items-center">
-                        @csrf
-                        <button type="submit" 
-                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none" 
-                                style="cursor: pointer; outline: none; box-shadow: none;">
-                            <i class="fa fa-sign-out-alt me-1 ms-1"></i>
-                            <span>{{ __('nav/nav.logout') }}</span>
-                        </button>
-                    </form>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home') }}">
+                        <i class="ni ni-compass-04 text-primary"></i>
+                        <span class="nav-link-text">Snowballing com IA</span>
+                    </a>
+                </li>
 
                 {{-- Sidenav toggle (mobile) --}}
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -125,6 +121,18 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- Logout --}}
+                <li class="nav-item d-flex align-items-center">
+                    <form method="POST" action="{{ route('logout') }}" class="m-1 d-flex align-items-center">
+                        @csrf
+                        <button type="submit"
+                                class="btn btn-link nav-link d-flex align-items-center p-0 m-1 text-decoration-none"
+                                style="cursor: pointer; outline: none; box-shadow: none;">
+                            <i class="fa fa-sign-out-alt me-1 ms-1"></i>
+                            <span>{{ __('nav/nav.logout') }}</span>
+                        </button>
+                    </form>
 
             </ul>
         </div>

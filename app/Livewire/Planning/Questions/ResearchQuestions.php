@@ -9,6 +9,7 @@ use App\Utils\ActivityLogHelper as Log;
 use App\Utils\ToastHelper;
 use App\Traits\ProjectPermissions;
 
+
 /**
  * Componente Livewire responsável por gerenciar as perguntas de pesquisa
  * associadas a um projeto na etapa de planejamento.
@@ -25,6 +26,8 @@ class ResearchQuestions extends Component
      *
      * @var ProjectModel
      */
+
+    use ProjectPermissions;
 
     public $currentProject;
 
@@ -319,7 +322,7 @@ class ResearchQuestions extends Component
                 message: $e->getMessage(),
                 type: 'error'
             );
-        } 
+        }
     }
 
     /**

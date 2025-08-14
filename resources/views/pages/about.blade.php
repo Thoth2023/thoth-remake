@@ -1,10 +1,16 @@
 @extends("layouts.app")
-
 @section("content")
-@include("layouts.navbars.guest.navbar", ["title" => "Home"])
+
+@guest
+    @include("layouts.navbars.guest.navbar", ["title" => "Home"])
+@endguest
+
+@auth
+    @include("layouts.navbars.auth.topnav", ["title" => __("pages/about.about")])
+@endauth
 
 
-<div class="container mt-8 mb-3">
+<div class="container mt-6 mb-3">
     <!-- cabeçalho -->
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 w-100">
@@ -16,7 +22,7 @@
         </div>
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
-                <div class="card d-inline-flex p-3 mt-5">
+                <div class="card d-inline-flex p-3 mt-6">
                     <div class="card-body pt-2">
                         <span
                             href="#"

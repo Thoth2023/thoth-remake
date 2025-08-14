@@ -90,7 +90,7 @@
                         )
                             <div class="tab-pane fade" id="snowballing">
                                 <!-- Content for Snowballing tab -->
-                                @livewire('reporting.snowballing')
+                                {{-- @livewire('reporting.snowballing') --}}
                             </div>
                         @endif
                     </div>

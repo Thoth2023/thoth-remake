@@ -5,7 +5,7 @@ return [
     'welcome' => 'Bem-vindo!',
     'project_description' => 'Thoth foi criado por estudantes de graduação em Engenharia de Software, mantido e atualizado por alunos e professores do Programa de Pós-Graduação em Engenharia de Software - PPGES da Universidade Federal do Pampa (UNIPAMPA).',
     'thoth' => 'Thoth',
-    'thoth_description' => 'É uma ferramenta poderosa para apoiar revisões sistemáticas colaborativas. É uma solução multiplataforma desenvolvida para automatizar partes importantes do processo de revisão sistemática, facilitando e agilizando o trabalho de pesquisadores e profissionais envolvidos neste tipo de estudo.',
+    'thoth_description' => 'Thoth é uma ferramenta poderosa para apoiar revisões sistemáticas colaborativas. É uma solução multiplataforma desenvolvida para automatizar partes importantes do processo de revisão sistemática, facilitando e agilizando o trabalho de pesquisadores e profissionais envolvidos neste tipo de estudo.',
     'questions' => 'Perguntas',
     'questions_description' => 'Definindo uma pergunta e concordando com um método objetivo.',
     'relevant_data' => 'Dados Relevantes',

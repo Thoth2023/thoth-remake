@@ -1,30 +1,59 @@
 /* body */
+/* Chat.css adaptado e corrigido */
 #chat-container {
     position: fixed;
     bottom: 10px;
     right: 20px;
-    width: 380px;
     font-family: Arial, sans-serif;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    z-index: 9999;
+    margin: 0 !important;
+    z-index: 999999 !important;
     background-color: white;
-    margin: 0;
-    padding: 0;
-
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.row #chat-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
+/* Minimized */
+#chat-container.minimizado {
+    width: 100px;
+    height: 55px;
+}
+
+/* Expanded */
+#chat-container:not(.minimizado) {
+    width: 380px;
+    height: 500px;
+}
+
+/* Header */
 #chat-header {
-    background-color: #007bff;
+    background-color: #d88625;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    color: white;
+    color: black;
     padding: 12px;
     text-align: center;
     cursor: pointer;
     font-size: 16px;
     position: relative;
 
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#chat-container.minimizado .chat-title {
+    font-size: 22px;
 }
 
 #chat-notif {
@@ -39,26 +68,34 @@
     display: none;
 }
 
+/* Body */
 #chat-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    height: 380px;
     background: #f9f9f9;
+    overflow: hidden;
 }
 
-#chat-body.open {
-    max-height: 1000px;
+/* Quando o chat estiver expandido */
+#chat-container:not(.minimizado) #chat-body {
+    display: flex;
+    max-height: 500px; /* ou mais, conforme necessário */
 }
 
-/* date n time */
 #chat-messages {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
     font-size: 13px;
+}
+#chat-footer {
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    background-color: white;
+    border-top: 1px solid #ccc;
+    gap: 10px;
 }
 
 #chat-date-group {
@@ -70,36 +107,51 @@
 }
 
 #chat-footer {
-    padding: 15px;
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
     background-color: white;
     border-top: 1px solid #ccc;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#send {
+    display: flex;
+    gap: 10px;
 }
 
 /* input / output */
 
+/* Campo de texto com largura total */
 #chat-input {
-    flex: 1;
+    width: 100%;
     resize: none;
     height: 40px;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 13px;
+    box-sizing: border-box;
 }
 
 #chat-send {
-    background-color: #007bff;
+    background-color: #485365;
     color: white;
     border: none;
     padding: 0 14px;
+    height: 40px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
     font-size: 13px;
 }
 
+#chat-send:hover {
+    background-color: #0056b3;
+}
+
+/* Mensagem */
 .chat-message {
     background: #e9ecef;
     padding: 8px;
@@ -128,15 +180,24 @@
     white-space: nowrap;
 }
 
-/* reply */
+.chat-reply-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Reply */
 #reply-preview {
     display: none;
-    border-left: 3px solid #007bff;
-    padding-left: 8px;
+    background-color: #f0f0f0;
+    border-left: 4px solid #007bff;
+    padding: 8px 12px;
     margin-bottom: 8px;
-    background: #f1f1f1;
-    padding: 6px;
-    border-radius: 4px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #reply-message {
@@ -144,27 +205,6 @@
     font-size: 0.9em;
     color: #555;
 "
-}
-
-#chat-reply-box {
-    background: #e9e9e9;
-    padding: 5px;
-    border-left: 3px solid #007bff;
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    color: #555;
-}
-
-#reply-preview {
-    background-color: #f0f0f0;
-    border-left: 4px solid #007bff;
-    padding: 8px 12px;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 #cancel-reply {
@@ -175,7 +215,11 @@
     color: #888;
 }
 
-#chat-send:hover {
-    background-color: #0056b3;
+.chat-reply-box {
+    background: #e9e9e9;
+    padding: 5px;
+    border-left: 3px solid #007bff;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #555;
 }
-

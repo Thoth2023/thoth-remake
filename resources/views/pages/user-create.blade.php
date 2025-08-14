@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	@endpush
 
-	<div class="container mt-8 mb-3">
+	<div class="container mt-7 mb-3">
 		<!-- Displays the card header with the authenticated user's name and the name of the user being edited -->
 		<div class="card shadow-lg ">
 			<div class="card-body">

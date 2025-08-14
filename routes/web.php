@@ -37,6 +37,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Project\ActivityController;
 use App\Http\Controllers\ChatController;
@@ -254,6 +255,22 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 
     Route::get('/export/', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
+});
+
+Route::middleware(['auth'])->group(function () {
+    // Página do chat
+    Route::get('/chat/{projeto_id}', [ChatController::class, 'index'])->name('chat.index');
+
+    // Buscar mensagens
+    Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages'])->name('chat.messages');
+
+    // Enviar mensagem
+    Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage'])->name('chat.send');
+});
+
+Route::post('/csp-report', function (Request $request) {
+    Log::warning('CSP report', ['body' => $request->getContent()]);
+    return response()->noContent();
 });
 
 //SUPER USER ROUTES

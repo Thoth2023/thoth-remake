@@ -12,12 +12,12 @@ use App\Traits\ProjectPermissions;
 /**
  * Componente Livewire responsável pelo gerenciamento dos domínios de conhecimento
  * de um projeto de revisão sistemática da literatura.
- * 
+ *
  * Os domínios representam as áreas de conhecimento ou campos de estudo que serão
  * abordados na revisão sistemática. Eles ajudam a categorizar e organizar o escopo
  * da pesquisa, facilitando a identificação de estudos relevantes e a análise
  * posterior dos resultados.
- * 
+ *
  * Funcionalidades:
  * - Adicionar novos domínios ao projeto
  * - Editar domínios existentes
@@ -33,15 +33,15 @@ class Domains extends Component
     /**
      * Caminho base para as traduções específicas deste componente.
      * Utilizado para internacionalização (PT/BR e EN).
-     * 
+     *
      * @var string
      */
     private $translationPath = 'project/planning.overall.domain.livewire';
-    
+
     /**
      * Caminho para as mensagens de toast específicas deste componente.
      * Utilizado para feedback visual ao usuário após operações.
-     * 
+     *
      * @var string
      */
     private $toastMessages = 'project/planning.overall.domain.livewire.toasts';
@@ -49,23 +49,23 @@ class Domains extends Component
     /**
      * Instância do projeto atual sendo editado.
      * Contém todos os dados do projeto de revisão sistemática.
-     * 
+     *
      * @var ProjectModel
      */
     public $currentProject;
-    
+
     /**
      * Domínio atualmente sendo editado.
      * Null quando não há edição em andamento.
-     * 
+     *
      * @var DomainModel|null
      */
     public $currentDomain;
-    
+
     /**
      * Coleção de todos os domínios associados ao projeto atual.
      * Atualizada dinamicamente conforme operações CRUD.
-     * 
+     *
      * @var \Illuminate\Database\Eloquent\Collection
      */
     public $domains = [];
@@ -73,11 +73,11 @@ class Domains extends Component
     /**
      * Fields to be filled by the form.
      */
-    
+
     /**
      * Descrição do domínio de conhecimento.
      * Campo principal que define o nome/descrição da área de conhecimento.
-     * 
+     *
      * @var string|null
      */
     public $description;
@@ -85,11 +85,11 @@ class Domains extends Component
     /**
      * Form state.
      */
-    
+
     /**
      * Estado do formulário para controle de operações.
      * Controla se o formulário está em modo de edição ou criação.
-     * 
+     *
      * @var array
      */
     public $form = [
@@ -122,13 +122,13 @@ class Domains extends Component
     {
         // Obtém o ID do projeto a partir da URL (segundo segmento)
         $projectId = request()->segment(2);
-        
+
         // Carrega o projeto atual ou falha se não encontrado
         $this->currentProject = ProjectModel::findOrFail($projectId);
-        
+
         // Inicializa o domínio atual como null (modo criação)
         $this->currentDomain = null;
-        
+
         // Carrega todos os domínios associados ao projeto
         $this->domains = DomainModel::where(
             'id_project',
@@ -143,10 +143,10 @@ class Domains extends Component
     {
         // Limpa o campo de descrição
         $this->description = '';
-        
+
         // Remove a referência ao domínio atual
         $this->currentDomain = null;
-        
+
         // Retorna o formulário ao modo de criação
         $this->form['isEditing'] = false;
     }
@@ -190,7 +190,7 @@ class Domains extends Component
         $updateIf = [
             'id_domain' => $this->currentDomain?->id_domain,
         ];
-        
+
         // Verifica se já existe um domínio com a mesma descrição no projeto
         $existingKeyword = DomainModel::where('description', $this->description)
             ->where('id_project', $this->currentProject->id_project)
@@ -205,7 +205,7 @@ class Domains extends Component
             );
             return;
         }
-        
+
         try {
             // Define a ação para o log baseada no modo do formulário
             $value = $this->form['isEditing'] ? 'Updated the domain' : 'Added a domain';
@@ -289,7 +289,7 @@ class Domains extends Component
         try {
             // Localiza o domínio a ser excluído
             $currentDomain = DomainModel::findOrFail($domainId);
-            
+
             // Remove o domínio do banco de dados
             $currentDomain->delete();
 
@@ -305,7 +305,7 @@ class Domains extends Component
                 message: __($this->toastMessages . '.deleted'),
                 type: 'success'
             );
-            
+
             // Atualiza a lista de domínios
             $this->updateDomains();
         } catch (\Exception $e) {

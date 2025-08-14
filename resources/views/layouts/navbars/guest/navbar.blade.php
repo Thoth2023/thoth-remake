@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-12">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-fixed start-0 end-0 mx-4">
-                <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-fixed start-0 end-0">
+                <div class="container">
                     <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="{{ route('home') }}">
                         <img src="/img/logo.svg" alt="{{ __('Logo Thoth') }}" width="25" height="35" />
                     </a>
@@ -40,12 +40,6 @@
                                 <a class="nav-link d-flex align-items-center" href="{{ route('help') }}">
                                     <i class="ni ni-satisfied opacity-6 text-dark me-1"></i>
                                     {{ __('nav/nav.help') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('home') }}">
-                                    <i class="ni ni-compass-04 text-primary"></i>
-                                    <span class="nav-link-text">Snowballing com IA</span>
                                 </a>
                             </li>
                             <!-- Se o usuário NÃO estiver autenticado -->
@@ -98,13 +92,23 @@
                             </li>
                             @endauth
 
-                            <!-- ✅ Botão de Configuração sempre visível -->
-                            <li class="nav-item me-1 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-dark p-0 d-flex align-items-center">
-                                    <i class="fa fa-cog opacity-6 me-1 fixed-plugin-button-nav cursor-pointer"></i>
-                                    <span>{{ __('nav/nav.settings') }}</span>
+                            <!-- Dropdown de idiomas -->
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-outline-darker dropdown-toggle mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                    <i class="fas fa-globe opacity-6 text-dark me-1" style="color: #000000 !important"></i>
+                                    {{ __('nav/nav.language') }} <!-- Texto do idioma atual -->
                                 </a>
-                            </li>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                    <!-- Opção: Inglês -->
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('localization', 'en') }}">English</a>
+                                    </li>
+                                    <!-- Opção: Português (Brasil) -->
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('localization', 'pt_BR') }}">Português (Brasil)</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </ul>
                     </div>
                 </div>

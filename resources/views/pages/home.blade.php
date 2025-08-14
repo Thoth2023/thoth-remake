@@ -1,4 +1,4 @@
-@extends("layouts.app") 
+@extends("layouts.app")
 
 
 @section("content")
@@ -15,7 +15,7 @@
 </div>
 
 <!-- Displays a page with a header, description, and a dynamic grid of cards with icons and translated text -->
-<div  class="container mt-8 mb-3">
+<div  class="container mt-6 mb-3">
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8" style="width: 100%">
             <div class="col-lg-6 text-center mx-auto">
@@ -23,7 +23,7 @@
                     {{ __("pages/home.welcome") }}
                 </h1>
                 <p class="text-lead text-white">
-                    {{ __("pages/home.project_description") }}
+                    {{ __("pages/home.thoth_description") }}
                 </p>
             </div>
         </div>
@@ -31,18 +31,8 @@
 
     <div class="row">
         <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
-            <div class="card d-inline-flex mt-5">
-                <div class="card-body">
-                    <span href="#" onclick="event.preventDefault();" class="card-title h5 d-block text-darker" style="cursor: default; transition: color 0.2s;">
-                        {{ __("pages/home.thoth") }}
-                    </span>
-                    <p class="card-description mb-0">
-                        {{ __("pages/home.thoth_description") }}
-                    </p>
-                </div>
-            </div>
 
-            <div class="grid-items-2 gap-3 card-group mt-4 pb-3">
+            <div class="grid-items-2 gap-3 card-group mt-5 pb-3">
                 @foreach ([
                 "questions" => "ni ni-bullet-list-67",
                 "relevant_data" => "ni ni-single-copy-04",
@@ -65,9 +55,9 @@
             </div>
         </div>
     </div>
-	
+
 	<!-- Row displaying four statistics cards: total projects, total users, completed projects, and ongoing projects -->
-    <div class="row mt-3">
+    <div class="row mt-2">
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex flex-column">
@@ -117,8 +107,8 @@
         </div>
 
         <!-- Novidades IEEE -->
-        <div class="row mt-5">
-            <div class="col-12">
+
+            <div class="col-12 mt-2">
                 <div class="card p-4" style="background: #0D1B34; color: #fff">
                     <h5 class="mb-4" style="color: #FFA500; font-size: 1.7rem">
                         Novidades IEEE
@@ -147,19 +137,19 @@
                         </li>
                     </ul>
 
-                    <a 
-                        href="https://www.ieee.org/" 
-                        target="_blank" 
-                        class="btn mt-4" 
+                    <a
+                        href="https://www.ieee.org/"
+                        target="_blank"
+                        class="btn mt-4"
                         style="background: #FFA500; color: #fff">
                         Veja mais no IEEE
                     </a>
                 </div>
             </div>
-        </div>
+
 
         <!-- Rodapé com links para Termos e Política de Privacidade e para o topo da página -->
-        <div class="col-12">
+        <div class="col-12 mt-4">
             <div class="card text-center h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <!-- Nome do site e direitos autorais -->
