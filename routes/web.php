@@ -7,6 +7,7 @@ use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
 use App\Http\Controllers\Project\ExportController;
+use App\Http\Controllers\SnowballingController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
@@ -36,6 +37,7 @@ use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -272,6 +274,12 @@ Route::post('/csp-report', function (Request $request) {
     Log::warning('CSP report', ['body' => $request->getContent()]);
     return response()->noContent();
 });
+
+// snowballing IA (Semantic Scholar)
+Route::get('/snowballing', [SnowballingController::class, 'index'])->name('snowballing.index');
+Route::post( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch');
+Route::get( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch');
+
 
 //SUPER USER ROUTES
 Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(function () {
