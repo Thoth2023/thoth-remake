@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.navbars.guest.navbar')
     <main class="main-content mt-0">
-        <div class="container mt-8 mb-3">
+        <div class="container mt-7 mb-3">
             <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
 
                 <div class="row justify-content-center rounded-3 py-4"
@@ -201,7 +201,7 @@
 
                                             strengthIndicator.textContent = strength;
                                             strengthIndicator.className = 'text-xs ' + color;
-                                        });    
+                                        });
                                 });
                             </script>
                         </div>

@@ -22,7 +22,7 @@
                     <div class="w-75">
                         <x-input id="description" label="{{ __('project/planning.criteria.form.description') }}"
                             wire:model="description"
-                            placeholder="{{ __('project/planning.criteria.form.enter_description') }}" required />p
+                            placeholder="{{ __('project/planning.criteria.form.enter_description') }}" required />
                         @error("description")
                         <span class="text-xs text-danger">
                             {{ $message }}
@@ -269,7 +269,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form[wire\\:submit]');
     const input = document.querySelector('#criteriaId');
-    
+
     if (form && input) {
         form.addEventListener('submit', function() {
             // Force save the current input value to suggestions
@@ -277,16 +277,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (value) {
                 const storageKey = `suggestions_${input.id || input.name}`;
                 let suggestions = [];
-                
+
                 if (localStorage.getItem(storageKey)) {
                     suggestions = JSON.parse(localStorage.getItem(storageKey));
                 }
-                
+
                 if (!suggestions.includes(value)) {
                     suggestions.push(value);
                     localStorage.setItem(storageKey, JSON.stringify(suggestions));
                 }
-                
+
                 // Automatically refresh suggestions without showing an alert
                 setTimeout(() => {
                     refreshSuggestions('criteriaId', 'criteria_id', 'criteriaId_suggestions', false);

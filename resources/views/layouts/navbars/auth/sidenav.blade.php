@@ -11,7 +11,7 @@
         ></i>
         <a
             class="navbar-brand m-3"
-            href="{{ Route::currentRouteName() != "page" ? route("home") : "#" }}"
+            href="{{ Route::currentRouteName() != "page" ? route("projects.index") : "#" }}"
         >
             <img
                 src="{{ asset("/img/logo.svg") }}"
@@ -28,23 +28,6 @@
         style="height: auto"
     >
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a
-                    class="nav-link {{ Route::currentRouteName() == "home" ? "active" : "" }}"
-                    href="{{ Route::currentRouteName() != "home" ? route("home") : "#" }}"
-                >
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
-                    >
-                        <i
-                            class="{{ Route::currentRouteName() == "home" ? "text-primary" : "text-dark" }} text-sm opacity-10 ni ni-tv-2"
-                        ></i>
-                    </div>
-                    <span class="nav-link-text ms-1">
-                        {{ __("nav/nav.home") }}
-                    </span>
-                </a>
-            </li>
             <li class="nav-item">
                 <a
                     class="nav-link {{ Route::currentRouteName() == "projects.index" ? "active" : "" }}"

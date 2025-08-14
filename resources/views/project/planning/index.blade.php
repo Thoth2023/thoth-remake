@@ -56,36 +56,34 @@
                                 ],
                             ],
                             "activeTab" => "overall-info-tab",
+                            // IMPORTANTE: dá um escopo único para não conflitar com outras páginas que usam o mesmo componente
+                            "scope" => "planning"
                         ]
                     )
 
                     <div class="tab-content mt-4">
-                        <div
-                            class="tab-pane fade show active"
-                            id="overall-info"
-                        >
+                        <div class="tab-pane fade show active" id="overall-info" role="tabpanel" aria-labelledby="overall-info-tab">
                             @include("project.planning.overall")
                         </div>
-                        <div class="tab-pane fade" id="research-questions">
+                        <div class="tab-pane fade" id="research-questions" role="tabpanel" aria-labelledby="research-questions-tab">
                             @livewire("planning.questions.research-questions")
                         </div>
-                        <div class="tab-pane fade" id="data-bases">
+                        <div class="tab-pane fade" id="data-bases" role="tabpanel" aria-labelledby="data-bases-tab">
                             @livewire("planning.databases.databases")
                         </div>
-                        <div class="tab-pane fade" id="search-string">
+                        <div class="tab-pane fade" id="search-string" role="tabpanel" aria-labelledby="search-string-tab">
                             @livewire("planning.search-string.search-term")
                         </div>
-                        <div class="tab-pane fade" id="search-strategy">
+                        <div class="tab-pane fade" id="search-strategy" role="tabpanel" aria-labelledby="search-strategy-tab">
                             @livewire("planning.search-strategy.strategy")
                         </div>
-                        <div class="tab-pane fade" id="criteria">
+                        <div class="tab-pane fade" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
                             @livewire("planning.criteria.criteria")
                         </div>
-                        <div class="tab-pane fade" id="quality-assessment">
+                        <div class="tab-pane fade" id="quality-assessment" role="tabpanel" aria-labelledby="quality-assessment-tab">
                             @include("project.planning.quality-assessment")
                         </div>
-                        <div class="tab-pane fade" id="data-extraction">
-                            {{-- @livewire("planning.data-extraction.data-extraction") --}}
+                        <div class="tab-pane fade" id="data-extraction" role="tabpanel" aria-labelledby="data-extraction-tab">
                             @include("project.planning.data-extraction.index")
                         </div>
                     </div>
@@ -94,31 +92,4 @@
             </div>
         </div>
     </div>
-
-    @if (session()->has("activePlanningTab"))
-        <script>
-            window.onload = function () {
-                // Remove active class from overall-info tab
-                document
-                    .getElementById('overall-info-tab')
-                    .classList.remove('active');
-                // Remove active class from overall-info content
-                document
-                    .getElementById('overall-info')
-                    .classList.remove('show', 'active');
-
-                // Get the tab ID stored in the session
-                var activeTabId = '{{ session("activePlanningTab") }}';
-
-                // Add active class to the tab stored in the session
-                document
-                    .getElementById(activeTabId + '-tab')
-                    .classList.add('active');
-                // Add active show class to the tab content stored in the session
-                document
-                    .getElementById(activeTabId)
-                    .classList.add('show', 'active');
-            };
-        </script>
-    @endif
 @endsection

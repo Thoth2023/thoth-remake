@@ -3,7 +3,7 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => __('pages/profile.your_profile')])
 
-<div class="container mt-8 mb-3">
+<div class="container mt-7 mb-3">
 
 	<!-- Displays the card header with the authenticated user's name and the name of the user being edited -->
     <div class="card shadow-lg ">

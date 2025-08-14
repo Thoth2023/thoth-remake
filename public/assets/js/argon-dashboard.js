@@ -2259,9 +2259,9 @@ if (document.getElementById('alert')) {
 } // Verify navbar blur on scroll
 
 
-if (document.getElementById('navbarBlur')) {
+/*if (document.getElementById('navbarBlur')) {
   navbarBlurOnScroll('navbarBlur');
-} // initialization of Tooltips
+}*/ // initialization of Tooltips
 
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -2429,7 +2429,7 @@ window.sidebarType = function (a) {
       elements[i].style.removeProperty('color');
     }
   }
-  
+
   // Remove logo-white/logo-dark
 
 
@@ -2460,7 +2460,7 @@ window.sidebarType = function (a) {
       navbarBrand.src = navbarBrandImgNew;
     }
   }
-}; 
+};
 
 // Set Navbar Fixed
 window.navbarFixed = function (el) {
@@ -2580,7 +2580,7 @@ function navbarBlurOnScroll(id) {
     toggleNavLinksColor('blur');
   }
 
-  function transparentNavbar() {
+ /* function transparentNavbar() {
     var _navbar$classList5, _navbar$classList6;
 
     (_navbar$classList5 = navbar.classList).remove.apply(_navbar$classList5, classes);
@@ -2588,7 +2588,18 @@ function navbarBlurOnScroll(id) {
     (_navbar$classList6 = navbar.classList).add.apply(_navbar$classList6, toggleClasses);
 
     toggleNavLinksColor('transparent');
-  }
+  }*/
+    function transparentNavbar() {
+        // Não remove mais as classes de fundo branco e posição
+        // (_navbar$classList5 = navbar.classList).remove.apply(_navbar$classList5, classes);
+
+        // Apenas alterna a sombra, se desejar
+        navbar.classList.remove('shadow-blur');
+        navbar.classList.add('shadow-none');
+
+        // Mantenha os links escuros ou personalize
+        toggleNavLinksColor('blur');
+    }
 } // Debounce Function
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -2938,7 +2949,7 @@ window.darkMode = function (el) {
       const el = sidebarElements[i];
       el.classList.remove('text-white', 'text-dark', 'text-blue-600');
       el.style.removeProperty('color');
-    
+
       if (sidebar.classList.contains('bg-white')) {
         el.classList.add('text-dark');
         el.style.setProperty('color', '#111827', 'important');
@@ -3042,7 +3053,7 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border_dark.length; i++) {
       card_border_dark[i].classList.remove('border-dark');
     }
-    
+
     var sidebarElements = document.querySelectorAll(
       '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
     );
@@ -3066,7 +3077,7 @@ window.darkMode = function (el) {
       theads[i].classList.remove('opacity-8');
       theads[i].classList.add('text-secondary');
     }
-    
+
     el.removeAttribute("checked");
   }
 };

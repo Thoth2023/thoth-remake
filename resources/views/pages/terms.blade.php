@@ -1,9 +1,15 @@
 @extends("layouts.app")
 
 @section("content")
-@include("layouts.navbars.guest.navbar", ["title" => "Home"])
+@guest
+    @include('layouts.navbars.guest.navbar', ['title' => 'Home'])
+@endguest
 
-<div class="container mt-8 mb-3">
+@auth
+    @include("layouts.navbars.auth.topnav", ["title" => __("pages/terms.terms")])
+@endauth
+
+<div class="container mt-6 mb-3">
 
     <!-- Cabeçalho -->
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">

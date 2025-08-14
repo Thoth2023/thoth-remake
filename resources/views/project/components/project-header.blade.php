@@ -39,7 +39,7 @@
     ];
 @endphp
 
-<div class="col-12">
+<div class="col-12 mt-1">
     <div class="card">
         <div class="card-header">
             <h4>{{ $project->title }}</h4>

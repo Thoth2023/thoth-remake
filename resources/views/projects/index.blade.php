@@ -1,9 +1,7 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
-
 @section("content")
-    @include("layouts.navbars.auth.topnav", ["title" => __("project/projects.project.title")])
-
-    <div class="container-fluid py-2">
+@include("layouts.navbars.auth.topnav", ["title" => __("project/projects.project.title")])
+    <div class="container-fluid py-2 mt-4">
         <div class="container-fluid py-2">
             <div class="row">
                 <div class="col-12">

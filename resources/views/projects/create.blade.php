@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => __('project/create.create_project') ])
-    <div class="card shadow-lg mx-4">
+    <div class="card shadow-lg mx-4 mt-5">
         <div class="container-fluid py-4">
 
             <p class="text-uppercase text-sm">Create Project</p>
@@ -67,14 +67,14 @@
                     <label class="form-check-label" for="feature_review2">
                         Systematic review and Snowballing
                     </label>
-                </div> 
+                </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review3"  value= "Snowballing">
                     {{ old('feature_review') == 'Snowballing' ? 'checked' : '' }}</input>
                     <label class="form-check-label" for="feature_review3">
                          Snowballing
                     </label>
-                </div>    
+                </div>
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
                 </div>

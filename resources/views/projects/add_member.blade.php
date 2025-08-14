@@ -6,7 +6,7 @@
         .levelMemberSelect2 {
             width: 120px;
         }
-        
+
         /* Add styles for table responsiveness */
         .table-responsive {
             overflow-x: auto;
@@ -16,7 +16,7 @@
             width: 100%;
             max-width: 100%;
         }
-        
+
         .status-container {
             display: flex;
             align-items: center;
@@ -26,7 +26,7 @@
             top: -10px;
         }
     </style>
-    <div class="card shadow-lg mx-4">
+    <div class="card shadow-lg mx-4 mt-5">
         @include('components.alert')
         <div class="container-fluid py-4">
             <p class="card-header pb-0">
@@ -190,7 +190,7 @@
                                         $status = $member->pivot->status ?? null;
                                         $statusText = __('pages/add_member.status_accepted');
                                         $statusClass = 'bg-success';
-                                        
+
                                         if ($status === 'pending') {
                                             $statusText = __('pages/add_member.status_pending');
                                             $statusClass = 'bg-warning';
