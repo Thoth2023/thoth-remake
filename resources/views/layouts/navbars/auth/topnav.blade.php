@@ -35,9 +35,9 @@
             <ul class="navbar-nav d-flex align-items-center">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
+                    <a class="nav-link" href="{{ route('snowballing.index') }}">
                         <i class="ni ni-compass-04 text-primary"></i>
-                        <span class="nav-link-text">Snowballing com IA</span>
+                        <span class="nav-link-text">Buscar Referências</span>
                     </a>
                 </li>
 
