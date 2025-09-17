@@ -12,6 +12,7 @@ class SnowballingService
     public function fetch(string $query): ?array
     {
         $q = trim($query);
+        Log::info('Input de busca recebido no SnowballingService', ['query' => $q]);
 
         // 1) Detectar se é DOI ou título
         if ($this->isLikelyDoi($q)) {
@@ -73,19 +74,25 @@ class SnowballingService
 
     private function http()
     {
-        $key = env('S2_API_KEY');
-        $http = Http::withHeaders([
+        $key = config('services.semantic_scholar.key');
+        $headers = [
             'User-Agent' => 'Thoth-SLR/1.0',
             'Accept' => 'application/json',
-        ]);
-        if ($key) $http->withHeaders(['x-api-key' => $key]);
-        return $http->timeout(10)->retry(2, 400);
+        ];
+
+        if ($key) {
+            $headers['x-api-key'] = $key;
+            Log::info('S2_API_KEY aplicada com sucesso.');
+        } else {
+            Log::warning('S2_API_KEY NÃO definida no .env ou services.php');
+        }
+
+        return Http::withHeaders($headers)->timeout(10)->retry(2, 400);
     }
 
     public function isLikelyDoi(string $q): bool
     {
         $clean = strtolower(trim($q));
-        // Ex: 10.1000/xyz123, doi:10.1000/xyz, https://doi.org/10.1000/xyz
         return preg_match('/^10\.\d{4,9}\/\S+$/', $clean) ||
             str_starts_with($clean, 'doi:') ||
             str_contains($clean, 'doi.org/');
@@ -113,7 +120,7 @@ class SnowballingService
             return $match->json();
         }
 
-        // Match 2: /search (fallback)
+        // Match 2: /search
         $fallback = $this->http()->get(self::S2.'/paper/search', [
             'query' => $clean,
             'limit' => 1,
