@@ -16,6 +16,7 @@
                     type="text"
                     maxlength="20"
                     wire:model="questionId"
+                    label="ID"
                     placeholder="ID"
                     autocomplete="on"
                     name="de_question_id"
@@ -100,7 +101,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form[wire\\:submit]');
     const input = document.querySelector('#questionId');
-    
+
     if (form && input) {
         // Save every keypress, not just on submit
         input.addEventListener('input', function() {
@@ -108,15 +109,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (value) {
                 const storageKey = `suggestions_${input.id || input.name}`;
                 let suggestions = [];
-                
+
                 if (localStorage.getItem(storageKey)) {
                     suggestions = JSON.parse(localStorage.getItem(storageKey));
                 }
-                
+
                 if (!suggestions.includes(value)) {
                     suggestions.push(value);
                     localStorage.setItem(storageKey, JSON.stringify(suggestions));
-                    
+
                     // Force immediate refresh of suggestions
                     const datalist = document.getElementById('de_questionId_suggestions');
                     if (datalist) {
@@ -128,30 +129,30 @@ document.addEventListener('DOMContentLoaded', function() {
                             datalist.appendChild(option);
                         });
                     }
-                    
+
                     // Hack: force browser to "reset" its autocomplete understanding
                     input.setAttribute('autocomplete', 'off');
                     setTimeout(() => input.setAttribute('autocomplete', 'on'), 10);
                 }
             }
         });
-        
+
         form.addEventListener('submit', function() {
             // Save the current value
             const value = input.value.trim();
             if (value) {
                 const storageKey = `suggestions_${input.id || input.name}`;
                 let suggestions = [];
-                
+
                 if (localStorage.getItem(storageKey)) {
                     suggestions = JSON.parse(localStorage.getItem(storageKey));
                 }
-                
+
                 if (!suggestions.includes(value)) {
                     suggestions.push(value);
                     localStorage.setItem(storageKey, JSON.stringify(suggestions));
                 }
-                
+
                 // Automatically refresh suggestions without showing an alert
                 setTimeout(() => {
                     refreshSuggestions('questionId', 'de_question_id', 'de_questionId_suggestions', false);

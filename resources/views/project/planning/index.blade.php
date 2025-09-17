@@ -6,60 +6,60 @@
     <div class="row mt-4 mx-4">
         @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
 
+        @php
+            $tabs = [
+                [
+                    'id' => 'overall-info-tab',
+                    'label' => __('project/planning.overall.title'),
+                    'href' => '#overall-info',
+                ],
+                [
+                    'id' => 'research-questions-tab',
+                    'label' => __('project/planning.research-questions.title'),
+                    'href' => '#research-questions',
+                ],
+                [
+                    'id' => 'data-bases-tab',
+                    'label' => __('project/planning.databases.title'),
+                    'href' => '#data-bases',
+                ],
+                [
+                    'id' => 'search-string-tab',
+                    'label' => __('project/planning.search-string.title'),
+                    'href' => '#search-string',
+                ],
+                [
+                    'id' => 'search-strategy-tab',
+                    'label' => __('project/planning.search-strategy.title'),
+                    'href' => '#search-strategy',
+                ],
+                [
+                    'id' => 'criteria-tab',
+                    'label' => __('project/planning.criteria.title'),
+                    'href' => '#criteria',
+                ],
+                [
+                    'id' => 'quality-assessment-tab',
+                    'label' => __('project/planning.quality-assessment.title'),
+                    'href' => '#quality-assessment',
+                ],
+                [
+                    'id' => 'data-extraction-tab',
+                    'label' => __('project/planning.data-extraction.title'),
+                    'href' => '#data-extraction',
+                ],
+            ];
+        @endphp
+
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
-                    @include(
-                        "project.components.project-tabs",
-                        [
-                            "header" => __("project/planning.planning"),
-                            "tabs" => [
-                                [
-                                    "id" => "overall-info-tab",
-                                    "label" => __("project/planning.overall.title"),
-                                    "href" => "#overall-info",
-                                ],
-                                [
-                                    "id" => "research-questions-tab",
-                                    "label" => __("project/planning.research-questions.title"),
-                                    "href" => "#research-questions",
-                                ],
-                                [
-                                    "id" => "data-bases-tab",
-                                    "label" => __("project/planning.databases.title"),
-                                    "href" => "#data-bases",
-                                ],
-                                [
-                                    "id" => "search-string-tab",
-                                    "label" => __("project/planning.search-string.title"),
-                                    "href" => "#search-string",
-                                ],
-                                [
-                                    "id" => "search-strategy-tab",
-                                    "label" => __("project/planning.search-strategy.title"),
-                                    "href" => "#search-strategy",
-                                ],
-                                [
-                                    "id" => "criteria-tab",
-                                    "label" => __("project/planning.criteria.title"),
-                                    "href" => "#criteria",
-                                ],
-                                [
-                                    "id" => "quality-assessment-tab",
-                                    "label" => __("project/planning.quality-assessment.title"),
-                                    "href" => "#quality-assessment",
-                                ],
-                                [
-                                    "id" => "data-extraction-tab",
-                                    "label" => __("project/planning.data-extraction.title"),
-                                    "href" => "#data-extraction",
-                                ],
-                            ],
-                            "activeTab" => "overall-info-tab",
-                            // IMPORTANTE: dá um escopo único para não conflitar com outras páginas que usam o mesmo componente
-                            "scope" => "planning"
-                        ]
-                    )
+                    @include("project.components.project-tabs", [
+                        "header" => __("project/planning.planning"),
+                        "tabs" => $tabs,
+                        "activeTab" => "overall-info-tab",
+                        "scope" => "planning"
+                    ])
 
                     <div class="tab-content mt-4">
                         <div class="tab-pane fade show active" id="overall-info" role="tabpanel" aria-labelledby="overall-info-tab">
@@ -84,12 +84,45 @@
                             @include("project.planning.quality-assessment")
                         </div>
                         <div class="tab-pane fade" id="data-extraction" role="tabpanel" aria-labelledby="data-extraction-tab">
-                            @include("project.planning.data-extraction.index")
+                            @include("project.planning.data-extraction")
                         </div>
                     </div>
                 </div>
-                @include("layouts.footers.auth.footer")
             </div>
+            @include("layouts.footers.auth.footer")
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    @parent
+    @push('js')
+        <script>
+            // Armazena a aba ativa em um cookie ao clicar
+            document.addEventListener('DOMContentLoaded', function () {
+                const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
+
+                tabLinks.forEach(link => {
+                    link.addEventListener('shown.bs.tab', function (event) {
+                        const tabId = event.target.getAttribute('href').substring(1); // remove o #
+                        document.cookie = "activePlanningTab=" + tabId + ";path=/";
+                    });
+                });
+
+                // Recupera e ativa a aba armazenada no cookie, se houver
+                const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+                    const [key, value] = cookie.split('=').map(c => c.trim());
+                    acc[key] = value;
+                    return acc;
+                }, {});
+
+                if (cookies.activePlanningTab) {
+                    const tabTrigger = document.querySelector(`[href="#${cookies.activePlanningTab}"]`);
+                    if (tabTrigger) {
+                        new bootstrap.Tab(tabTrigger).show();
+                    }
+                }
+            });
+        </script>
+    @endpush
 @endsection

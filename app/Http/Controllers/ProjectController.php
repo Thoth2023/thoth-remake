@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\ProjectStoreRequest;
+use App\Http\Requests\Project\ProjectUpdateRequest;
 use App\Http\Requests\Project\ProjectAddMemberRequest;
 use App\Http\Requests\Project\UpdateMemberLevelRequest;
 use App\Livewire\Planning\Overall\Domains;
@@ -33,7 +34,7 @@ class ProjectController extends Controller
     {
         $this->progressCalculator = $progressCalculator;
     }
-    
+
     /**
      * Display a listing of the projects.
      */
@@ -41,7 +42,7 @@ class ProjectController extends Controller
     {
         $user = auth()->user();
         $all_projects = $user->projects;
-        
+
         $projects_relation = $all_projects->filter(function($project) {
             $pivotStatus = $project->pivot->status ?? null;
             return $pivotStatus === 'accepted' || $pivotStatus === null;
@@ -148,8 +149,9 @@ class ProjectController extends Controller
     /**
      * Update the specified project in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProjectUpdateRequest $request, string $id)
     {
+        $request->validated();
         $project = Project::findOrFail($id);
         $user = Auth::user();
 

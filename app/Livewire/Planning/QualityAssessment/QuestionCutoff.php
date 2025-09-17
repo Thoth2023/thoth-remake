@@ -14,7 +14,7 @@ use App\Traits\ProjectPermissions;
 
 /**
  * Componente Livewire para gerenciar os valores de corte (cutoff) para avaliação de qualidade.
- * 
+ *
  * Este componente permite definir e atualizar os valores de corte para aprovação
  * baseados em pontuações gerais do projeto.
  */

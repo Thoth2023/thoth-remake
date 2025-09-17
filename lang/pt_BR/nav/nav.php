@@ -20,6 +20,7 @@ return [
     'profile' => 'Perfil',
     'logout' => 'Deslogar',
     'settings' => 'Configurações',
+    'references' => 'Buscar Referências',
     'projects' => 'Projetos',
     'my_projects' => 'Meus Projetos',
     'pages' => 'Páginas',
