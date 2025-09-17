@@ -77,6 +77,9 @@
                                                 <div class="d-flex align-items-center justify-content-end">
                                                     @can('access-project', $project)
                                                     <div class="d-flex align-items-center justify-content-end gap-1">
+                                                        @if($project->is_public)
+                                                            @livewire('projects.public-protocol', ['project' => $project], key('public-protocol-'.$project->id_project))
+                                                        @endif
                                                         <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="View Project" href="{{ route("projects.show", $project->id_project) }}">
                                                             <i class="fas fa-search-plus"></i>
                                                             {{ __("project/projects.project.options.view") }}

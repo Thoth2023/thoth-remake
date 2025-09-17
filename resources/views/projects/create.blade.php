@@ -54,6 +54,8 @@
                         @endif
                     </select>
                 </div>
+                <hr class="horizontal dark mt-4">
+                <p class="text-uppercase text-sm">{{ __('project/edit.type_project') }}</p>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review1" value = "Systematic review">
                     {{ old('feature_review') == 'Systematic review' ? 'checked' : '' }}</input>
@@ -74,6 +76,23 @@
                     <label class="form-check-label" for="feature_review3">
                          Snowballing
                     </label>
+                </div>
+                <hr class="horizontal dark mt-4">
+                <p class="text-uppercase text-sm">{{ __('project/public_protocol.project_visibility') }}</p>
+
+                <div class="form-check form-switch ps-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <input class="form-check-input ms-0" type="checkbox" role="switch" name="is_public" id="is_public" value="1"
+                            {{ old('is_public') ? 'checked' : '' }}>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-eye"></i>
+                            <label class="form-check-label mb-0" for="is_public">
+                                {{ __('project/public_protocol.make_public') }}
+                            </label>
+                            <i class="fas fa-question-circle text-warning" data-bs-toggle="tooltip" data-bs-placement="right"
+                               title="{{ __('project/public_protocol.visibility_tooltip') }}"></i>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>

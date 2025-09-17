@@ -13,6 +13,8 @@ return [
 
     'home' => 'Início',
     'about' => 'Sobre',
+    'collaborators' => 'Colaboradores',
+    'donations' => 'Doações',
     'help' => 'Ajuda',
     'sign_up' => 'Registrar',
     'sign_in' => 'Entrar',

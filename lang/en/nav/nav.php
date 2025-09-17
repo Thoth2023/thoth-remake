@@ -14,6 +14,8 @@ return [
 
     'home' => 'Home',
     'about' => 'About',
+    'collaborators' => 'Collaborators',
+    'donations' => 'Donations',
     'help' => 'Help',
     'sign_up' => 'Sign Up',
     'sign_in' => 'Sign In',

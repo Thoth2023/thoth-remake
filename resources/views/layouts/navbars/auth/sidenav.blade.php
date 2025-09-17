@@ -98,6 +98,8 @@
                 </a>
             </li>
 
+
+
             <li class="nav-item">
                 <a
                     class="nav-link"
@@ -118,6 +120,43 @@
 
             <li class="nav-item">
                 <a
+                    class="nav-link {{ Route::currentRouteName() == 'collaborators' ? 'active' : '' }}"
+                    href="{{ Route::currentRouteName() != 'collaborators' ? route('collaborators') : '#' }}"
+                >
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
+                    >
+                        <i
+                            class="{{ Route::currentRouteName() == 'collaborators' ? 'text-primary' : 'text-dark' }} text-sm opacity-10 ni ni-hat-3"
+                        ></i>
+                    </div>
+                    <span class="nav-link-text ms-1">
+            {{ __('nav/nav.collaborators') }}
+        </span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a
+                    class="nav-link {{ Route::currentRouteName() == 'donations' ? 'active' : '' }}"
+                    href="{{ Route::currentRouteName() != 'donations' ? route('donations') : '#' }}"
+                >
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
+                    >
+                        <i
+                            class="{{ Route::currentRouteName() == 'donations' ? 'text-primary' : 'text-dark' }} text-sm opacity-10 ni ni-credit-card"
+                        ></i>
+                    </div>
+                    <span class="nav-link-text ms-1">
+            {{ __('nav/nav.donations') }}
+        </span>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <a
                     class="nav-link {{ Route::currentRouteName() == "terms" ? "active" : "" }}"
                     href="{{ Route::currentRouteName() != "terms" ? route("terms") : "#" }}"
                 >
@@ -133,6 +172,8 @@
                     </span>
                 </a>
             </li>
+
+
 
             @if (Auth::user()->role == "SUPER_USER")
                 <br />
