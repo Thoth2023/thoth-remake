@@ -276,9 +276,9 @@ Route::post('/csp-report', function (Request $request) {
 });
 
 // snowballing IA (Semantic Scholar)
-Route::get('/snowballing', [SnowballingController::class, 'index'])->name('snowballing.index');
-Route::post( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch');
-Route::get( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch');
+Route::get('/snowballing', [SnowballingController::class, 'index'])->name('snowballing.index')->middleware('auth')->middleware(Localization::class);
+Route::post( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
+Route::get( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
 
 
 //SUPER USER ROUTES

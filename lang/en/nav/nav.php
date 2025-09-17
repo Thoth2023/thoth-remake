@@ -21,6 +21,7 @@ return [
     'profile' => 'Profile',
     'logout' => 'Logout',
     'settings' => 'Settings',
+    'references' => 'Search References',
     'projects' => 'Projects',
     'my_projects' => 'My Projects',
     'pages' => 'Pages',

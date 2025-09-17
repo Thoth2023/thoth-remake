@@ -37,13 +37,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('snowballing.index') }}">
                         <i class="ni ni-compass-04 text-primary"></i>
-                        <span class="nav-link-text">Buscar Referências</span>
+                        <span class="nav-link-text">{{ __('nav/nav.references') }}</span>
                     </a>
                 </li>
 
                 {{-- Sidenav toggle (mobile) --}}
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                    <a href="javascript:" class="nav-link text-white p-0" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
                             <i class="sidenav-toggler-line"></i>
                             <i class="sidenav-toggler-line"></i>
@@ -54,9 +54,9 @@
 
                 {{-- Settings icon --}}
                 <li class="nav-item px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link p-0">
+                    <a href="javascript:" class="nav-link p-0">
                         <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                        <span>{{ __('nav/nav.settings') }}</span>
+                        {{ __('nav/nav.settings') }}
                     </a>
                 </li>
 
@@ -133,6 +133,7 @@
                             <span>{{ __('nav/nav.logout') }}</span>
                         </button>
                     </form>
+                </li>
 
             </ul>
         </div>

@@ -9,7 +9,13 @@
                 <div class="card d-inline-flex mt-5 w-100">
                     <div class="card-body pt-3">
 
-                        <h5 class="mb-4">Busca de Referências e Citações (Snowballing)</h5>
+                        <div class="h5">
+                        <x-helpers.modal
+                            target="snowballing-help"
+                            modalTitle="{{ __('snowballing.title') }}"
+                            modalContent="{!! __('snowballing.modal.content') !!}"
+                        />
+                        </div>
 
                         @if(session('error'))
                             <div class="alert alert-danger">{{ session('error') }}</div>
@@ -19,13 +25,13 @@
                             @csrf
                             <div class="row g-3 align-items-end">
                                 <div class="col-md-10">
-                                    <label for="qInput" class="form-label fw-bold">DOI ou Título</label>
+                                    <label for="qInput" class="form-label fw-bold">{{ __('snowballing.input_label') }}</label>
                                     <input
                                         type="text"
                                         name="q"
                                         id="qInput"
                                         class="form-control @error('q') is-invalid @enderror"
-                                        placeholder="Cole um DOI (ex: URL ou 10.1109/ESEM.2019.8870160) ou digite o título"
+                                        placeholder="{{ __('snowballing.input_placeholder') }}"
                                         value="{{ old('q', $q ?? '') }}"
                                         required
                                     />
@@ -33,7 +39,7 @@
                                 </div>
 
                                 <div class="col-md-2 mb-0">
-                                    <button type="submit" class="btn btn-primary w-100 mb-0">Buscar</button>
+                                    <button type="submit" class="btn btn-primary w-100 mb-0">{{ __('snowballing.submit') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -71,7 +77,7 @@
                         @if(!empty($references) || !empty($citations))
                             <div class="row">
                                 <div class="col-lg-6 mb-4">
-                                    <h6 class="fw-semibold">🔎 Referências Encontradas (Backward) @if(!empty($references))
+                                    <h6 class="fw-semibold">{{ __('snowballing.references_title') }} @if(!empty($references))
                                             <span class="badge bg-secondary">{{ count($references) }}</span>
                                         @endif</h6>
                                     @if(!empty($references))
@@ -84,11 +90,13 @@
                                                     </div>
                                                     <div class="small mt-1">
                                                         @if($ref['doi'])
-                                                            <span class="badge bg-light text-dark me-2">DOI: {{ $ref['doi'] }}</span>
+                                                            <a href="https://doi.org/{{ $ref['doi'] }}" target="_blank" rel="noopener" class="badge bg-light text-dark me-2">
+                                                                DOI: {{ $ref['doi'] }}
+                                                            </a>
                                                         @endif
                                                         @if($ref['url'])
                                                                 <a href="{{ $ref['url'] }}" target="_blank" rel="noopener" class="badge bg-primary text-decoration-none">
-                                                                    Abrir no Semantic Scholar
+                                                                    {{ __('snowballing.open_semantic') }}
                                                                 </a>
                                                         @endif
                                                     </div>
@@ -96,12 +104,12 @@
                                             @endforeach
                                         </ul>
                                     @else
-                                        <p class="text-muted">Nenhuma referência encontrada.</p>
+                                        <p class="text-muted">{{ __('snowballing.no_references') }}</p>
                                     @endif
                                 </div>
 
                                 <div class="col-lg-6 mb-4">
-                                    <h6 class="fw-semibold">📌 Citações Recebidas (Forward) @if(!empty($citations))
+                                    <h6 class="fw-semibold">{{ __('snowballing.citations_title') }} @if(!empty($citations))
                                             <span class="badge bg-secondary">{{ count($citations) }}</span>
                                         @endif</h6>
                                     @if(!empty($citations))
@@ -114,24 +122,26 @@
                                                     </div>
                                                     <div class="small mt-1">
                                                         @if($cit['doi'])
-                                                            <span class="badge bg-light text-dark me-2">DOI: {{ $cit['doi'] }}</span>
+                                                            <a href="https://doi.org/{{ $cit['doi'] }}" target="_blank" rel="noopener" class="badge bg-light text-dark me-2">
+                                                                DOI: {{ $cit['doi'] }}
+                                                            </a>
                                                         @endif
                                                             <a href="{{ $cit['url'] }}" target="_blank" rel="noopener" class="badge bg-primary text-decoration-none">
-                                                                Abrir no Semantic Scholar
+                                                                {{ __('snowballing.open_semantic') }}
                                                             </a>
                                                     </div>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     @else
-                                        <p class="text-muted">Nenhuma citação encontrada.</p>
+                                        <p class="text-muted">{{ __('snowballing.no_citations') }}</p>
                                     @endif
                                 </div>
                             </div>
                         @endif
 
                         @empty($article)
-                            <p class="text-muted mb-0">Dica: cole um DOI completo (pode ser a URL do doi.org) ou apenas o título do artigo.</p>
+                            <p class="text-muted mb-0">{{ __('snowballing.tip') }}</p>
                         @endempty
 
                     </div>
