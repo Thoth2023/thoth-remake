@@ -57,4 +57,7 @@ return [
     'springer' => [
         'api_key' => env('SPRINGER_API_KEY'),
     ],
+    'semantic_scholar' => [
+        'key' => env('S2_API_KEY'),
+    ],
 ];
