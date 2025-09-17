@@ -26,6 +26,7 @@ class ProjectUpdateRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'objectives' => 'required|string',
+            'feature_review' => ['required', 'string'],
             'copy_planning' => ['nullable', 'string', function ($attribute, $value, $fail) {
                 if ($value !== 'none' && !(Project::where('id_project', $value)->exists())) {
                     $fail('The selected :attribute is invalid.');
@@ -46,4 +47,4 @@ class ProjectUpdateRequest extends FormRequest
             'objectives.string' => 'The objectives field must be a string.',
         ];
     }
-} 
+}

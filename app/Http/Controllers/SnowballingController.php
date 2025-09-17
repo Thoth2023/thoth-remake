@@ -43,7 +43,7 @@ class SnowballingController extends Controller
                 'citations' => $result['citations'],
             ]);
         } catch (\Throwable $e) {
-            // 🚨 Verifica se o erro é por limite de requisições
+            // Verifica se o erro é por limite de requisições
             if ($e->getCode() === 429 || str_contains($e->getMessage(), 'Too Many Requests')) {
                 return back()->with('error', __('snowballing.too_many_requests'))->withInput();
             }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CollaboratorsController;
+use App\Http\Controllers\DonationsController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
@@ -94,6 +96,11 @@ Route::get('/localization/{locale}', LocalizationController::class)->name('local
 
 // About routes
 Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')->middleware(Localization::class);
+
+Route::get('/' . __('collaborators'), [CollaboratorsController::class, 'index'])->name('collaborators')->middleware(Localization::class);
+
+// Donations routes
+Route::get('/' . __('donations'), [DonationsController::class, 'index'])->name('donations')->middleware(Localization::class);
 
 // Help routes
 Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);

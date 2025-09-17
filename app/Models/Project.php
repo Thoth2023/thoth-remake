@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Modelo que representa um Projeto no sistema.
- * 
+ *
  * Gerencia os relacionamentos, regras de negócio e operações relacionadas a projetos,
  * incluindo usuários, bancos de dados, idiomas, tipos de estudo, critérios, perguntas de pesquisa, etc.
  */
@@ -42,7 +42,7 @@ class Project extends Model
      * Indica se o modelo deve gerenciar timestamps.
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     use HasFactory;
 
@@ -59,6 +59,11 @@ class Project extends Model
         'is_finished',
         'feature_review',
         'generic_search_string',
+        'is_public',
+    ];
+
+    protected $casts = [
+        'is_public' => 'boolean',
     ];
 
     /**
@@ -248,7 +253,7 @@ class Project extends Model
         $member = $this->users()
             ->where('users.id', $user->id)
             ->first();
-        
+
         if ($member) {
             $status = $member->pivot->status ?? null;
             if ($status === 'accepted' || $status === null) {
@@ -365,11 +370,11 @@ class Project extends Model
             ->wherePivot('id_user', $user->id)
             ->wherePivot('level', $level)
             ->first();
-        
+
         if (!$member) {
             return false;
         }
-        
+
         $status = $member->pivot->status ?? null;
         return $status === 'accepted' || $status === null;
     }
