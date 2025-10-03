@@ -179,47 +179,36 @@
         $wire.on('show-paper', () => {
             setTimeout(() => {
                 $('#paperModal').modal('show');
-            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
+            }, 800);
         });
 
         // Show the success modal on success event
         Livewire.on('show-success', () => {
-            $('#paperModal').modal('hide'); // Hide the paper modal
-            $('#successModal').modal('show'); // Show the success modal
+            $('#paperModal').modal('hide');
+            $('#successModal').modal('show');
         });
 
         // Handle the closing of success modal to reopen the paper modal
         $('#successModal').on('hidden.bs.modal', function() {
-            $('#paperModal').modal('show'); // Reopen the paper modal after success modal is closed
+            $('#paperModal').modal('show');
         });
     });
+
+    // Recarregar papers e mostrar modais
     Livewire.on('reload-papers', () => {
-        // Recarregar o componente Livewire para refletir as mudanças
         Livewire.emit('show-success');
     });
+
     Livewire.on('show-success', () => {
-        // Recarregar o componente Livewire para refletir as mudanças
         Livewire.emit('show-success-quality');
     });
-});
-Livewire.on('reload-papers', () => {
-    // Recarregar o componente Livewire para refletir as mudanças
-    Livewire.emit('show-sucess');
-});
-Livewire.on('show-sucess', () => {
-    // Recarregar o componente Livewire para refletir as mudanças
-    Livewire.emit('show-sucess-quality');
-});
 
-    $wire.on('paper-modal', ([{
-        message,
-        type
-    }]) => {
-        toasty({
-            message,
-            type
-        });
+    Livewire.on('show-sucess', () => {
+        Livewire.emit('show-sucess-quality');
     });
-});
+
+    $wire.on('paper-modal', ({ message, type }) => {
+        toasty({ message, type });
+    });
 </script>
 @endscript
