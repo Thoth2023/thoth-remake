@@ -17,6 +17,6 @@ return [
     'password' => 'A senha fornecida está incorreta.',
     'throttle' => 'Muitas tentativas de login. Por favor, tente novamente em :seconds segundos.',
     'inactive' => 'Essa conta não está ativa no nosso sistema. Entre em contato conosco para saber mais.',
-
+    'google_failed' => 'Não foi possível autenticar com o Google. Por favor, tente novamente.',
 ];
 
