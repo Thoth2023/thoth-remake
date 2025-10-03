@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,10 +29,21 @@ class LoginController extends Controller
 
     public function handleGoogleCallback()
     {
-        $user = Socialite::driver('google')->stateless()->user();
-        $this->_registerOrLoginUser($user);
+        try {
+            // O erro ocorre nesta linha (comunicação backend)
+            $googleUser = Socialite::driver('google')->user();
 
-        return redirect()->intended($this->redirectTo);
+            // Se esta linha for alcançada, o login está OK
+            $this->_registerOrLoginUser($googleUser);
+            session()->regenerate();
+
+            return redirect()->intended($this->redirectTo);
+
+        } catch (\Exception $e) {
+            // ESTE BLOCO VAI PEGAR A CAUSA REAL
+            Log::error('ERRO CRÍTICO NO SOCIALITE: ' . $e->getMessage());
+            return redirect('/login')->with('error', __('auth.google_failed'));
+        }
     }
 
     protected function _registerOrLoginUser($data)
