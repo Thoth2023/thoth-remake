@@ -197,12 +197,12 @@
 </div>
 @script
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $wire.on('show-paper-quality', () => {
             setTimeout(() => {
                 $('#paperModalQuality').modal('show');
-            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
-        }); 
+            }, 800);
+        });
 
         // Mostrar o modal de sucesso
         Livewire.on('show-success-quality', () => {
@@ -214,42 +214,29 @@
         $('#successModalQuality').on('hidden.bs.modal', function () {
             $('#paperModalQuality').modal('show');
         });
+
+        // Mostrar toast de sucesso ao invés de um modal
+        Livewire.on('show-success-quality', (message) => {
+            console.log('show-success-quality', message);
+            $('#paperModalQuality').modal('hide');
+
+            if (message) {
+                toasty({
+                    message: message,
+                    type: 'success'
+                });
+            }
+        });
+
+        // Recarga do modal de paper com dados atualizados
+        Livewire.on('reload-paper-quality', () => {
+            Livewire.emit('showPaperQuality', @json($paper));
+        });
+
+        // Exibir toast customizado vindo do backend
+        $wire.on('paper-quality-toast', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
     });
-
-    // Mostrar toast de sucesso ao invés de um modal
-    Livewire.on('show-success-quality', (message) => {
-        console.log('show-success-quality', message);
-        $('#paperModalQuality').modal('hide');
-
-        if (message) {
-            toasty({
-                message: message,
-                type: 'success'
-            });
-        }
-    });
-
-    // Reabrir o modal do paper após o modal de sucesso (caso continue usando)
-    $('#successModalQuality').on('hidden.bs.modal', function() {
-        $('#paperModalQuality').modal('show');
-    });
-});
-
-// Recarga do modal de paper com dados atualizados
-Livewire.on('reload-paper-quality', () => {
-    Livewire.emit('showPaperQuality', @json($paper));
-});
-
-// Exibir toast customizado vindo do backend
-$wire.on('paper-quality-toast', ([{
-    message,
-    type
-}]) => {
-    toasty({
-        message,
-        type
-    });
-});
 </script>
-
 @endscript
