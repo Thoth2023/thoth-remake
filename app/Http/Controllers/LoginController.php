@@ -12,15 +12,7 @@ use App\Models\User;
 class LoginController extends Controller
 {
     /**
-     * Construtor para aplicar o middleware de limitação de taxa (throttle).
-     */
-    public function __construct()
-    {
-        $this->middleware('throttle:5,1')->only('login');
-    }
-
-    /**
-     * Exibe a página de login.
+     * Display login page.
      *
      */
     public function show(): View
@@ -28,44 +20,34 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    /**
-     * Realiza o login do usuário.
-     *
-     */
     public function login(Request $request)
     {
-        // Validação das credenciais
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Verifica as credenciais e autentica o usuário
+        // Verifica se o usuário existe
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => __('auth/login.user_not_found')]);
+        }
+
+        // Verifica se o usuário está ativo
+        if (!$user->active) {
+            return back()->withErrors(['email' => __('auth/login.inactive')]);
+        }
+
+        // Verifica as credenciais
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();  // Regenera a sessão para evitar sequestro
+            $request->session()->regenerate();
 
-            $user = Auth::user(); // Obtém o usuário autenticado diretamente
-
-            // Verifica se o IP armazenado na sessão corresponde ao IP atual
-            $userIp = session('user_ip');
-            $currentIp = $request->ip();
-
-            // Se o IP mudar, desloga o usuário e limpa a sessão
-            if ($userIp && $userIp !== $currentIp) {
-                Auth::logout();  // Faz logout
-                $request->session()->invalidate();  // Invalida a sessão
-                return redirect()->route('login')->with('error', 'Sessão expirada devido a mudança de IP.');
-            }
-
-            // Armazena o IP na sessão se não estiver já armazenado
-            session(['user_ip' => $currentIp]);
-
-            // Verifica se o usuário aceitou os termos e exibe o modal LGPD se necessário
+            // Verificar se o usuário já aceitou os termos e exibir modal se não aceitou
             if (!$user->terms_and_lgpd) {
+                // Define uma sessão para mostrar o modal LGPD após o login
                 $request->session()->flash('show_lgpd_modal', true);
             }
-
-            // Redireciona para a página desejada
             return redirect()->intended('about');
         }
 
@@ -75,10 +57,6 @@ class LoginController extends Controller
         ]);
     }
 
-    /**
-     * Aceita os termos de uso e a LGPD.
-     *
-     */
     public function acceptLgpd(Request $request)
     {
         $user = Auth::user();
@@ -89,17 +67,13 @@ class LoginController extends Controller
         return response()->json(['success' => false], 401);
     }
 
-    /**
-     * Realiza o logout do usuário.
-     *
-     */
     public function logout(Request $request)
     {
-        Auth::logout();  // Realiza o logout do usuário
+        Auth::logout();
 
-        $request->session()->invalidate();  // Invalidar a sessão
-        $request->session()->regenerateToken();  // Regenera o token CSRF
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/');  // Redireciona para a página inicial
+        return redirect('/');
     }
 }
