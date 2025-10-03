@@ -30,13 +30,13 @@ class LoginController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            // Remova o ->stateless() daqui
             $googleUser = Socialite::driver('google')->user();
 
-            // Use a variável $googleUser para evitar confusão com o model $user
             $this->_registerOrLoginUser($googleUser);
 
-            // Redireciona para a home ou para a página que o usuário tentava acessar
+            // Regeneração de sessão (boa prática após login, mesmo com Socialite)
+            session()->regenerate();
+
             return redirect()->intended($this->redirectTo);
 
         } catch (\Exception $e) {
