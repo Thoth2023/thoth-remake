@@ -128,23 +128,20 @@ class Reliability extends Component
                 }
             }
 
-            if ($totalPapers > 0 && (1 - $expectedAgreement) !== 0) { // Verificação para evitar divisão por zero
+            if ($totalPapers > 0 && (1 - $expectedAgreement) !== 0) {
                 $P_O = $observedAgreement / $totalPapers;
                 $P_E = $expectedAgreement / $totalPapers;
                 $kappa = ($P_O - $P_E) / (1 - $P_E);
             } else {
-                $kappa = 0; // Ou outro valor padrão, como `null`, dependendo do que fizer sentido no seu caso
+                $kappa = 0;
             }
 
-            $agreements[] = [
-                'criteria' => $criteria->description,
-                'kappa' => $kappa
-            ];
+            $agreements[] = $kappa;
         }
 
-        return $agreements;
+        // retorna apenas a média
+        return count($agreements) > 0 ? collect($agreements)->avg() : 0;
     }
-
 
     public function calculateQualityAssessmentkappa()
     {
@@ -177,22 +174,21 @@ class Reliability extends Component
                 }
             }
 
-            if ($totalPapers > 0 && (1 - $expectedAgreement) !== 0) { // Verificação para evitar divisão por zero
+            if ($totalPapers > 0 && (1 - $expectedAgreement) !== 0) {
                 $P_O = $observedAgreement / $totalPapers;
                 $P_E = $expectedAgreement / $totalPapers;
                 $kappa = ($P_O - $P_E) / (1 - $P_E);
             } else {
-                $kappa = 0; // Ou outro valor padrão
+                $kappa = 0;
             }
 
-            $agreements[] = [
-                'question' => $question->description,
-                'kappa' => $kappa
-            ];
+            $agreements[] = $kappa;
         }
 
-        return $agreements;
+        // retorna apenas a média
+        return count($agreements) > 0 ? collect($agreements)->avg() : 0;
     }
+
 
 
     public function render()

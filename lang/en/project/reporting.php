@@ -49,7 +49,7 @@ return [
         'total-activities'=> 'Atividades Totais',
         'project'=> 'Project',
     ],
-  
+
     'imported-studies'=> [
         'papers-database'=> [
             'title'=> 'Papers by Database',
@@ -61,7 +61,7 @@ return [
             'number-of-papers'=> 'Number of Papers',
         ],
     ],
-  
+
     'study-selection'=> [
         'papers-per-selection' => [
             'title'=> 'Papers per Status Selection',
@@ -81,7 +81,7 @@ return [
             'number-papers' => 'Number of Papers',
         ],
     ],
-  
+
     'quality-assessment'=> [
         'papers-status-quality'=> [
             'title'=> 'Papers per Status Quality',
@@ -106,32 +106,54 @@ return [
             'content'=> 'Answers',
         ]
     ],
-  
+
     'reliability' =>[
         'selection' =>[
-            'title' => 'Reliability Study Selection (Peer Review)',
+            'title' => 'Study Selection (Peer Review)',
             'content'=>'',
         ],
         'quality'=>[
-            'title' => 'Reliability Quality Assessment (Peer Review)',
+            'title' => 'Quality Assessment (Peer Review)',
             'content'=>'',
         ],
-        'agreement'=>[
+        'agreement' => [
             'title' => 'Simple Agreement',
-            'content'=>'',
+            'content' => '<p><strong>Simple Agreement</strong> (or "Crude Agreement") measures how often two or more researchers (raters) assign <strong>exactly the same classification</strong> (e.g., Accept or Reject) to a study. It\'s the most straightforward index of how frequently your team agreed.</p>
+            <h4>How it Works in the Project?</h4>
+            <p>It\'s calculated as the <strong>percentage of identical decisions</strong> relative to the total number of articles reviewed. For instance, if researchers agreed on 8 out of 10 studies, the agreement is 80%.</p>
+            <h4>⚠️ Attention</h4>
+            <p>While simple, this metric <strong>does not account for agreement that occurs by chance</strong> (luck). Therefore, its value tends to be <strong>inflated</strong> (higher than the actual agreement), and it is not the most robust measure of reliability.</p>',
             'title-modal' => 'Simple Agreement Analysis',
-            'agreement-percentual'=> 'Agreement Percentual (%)',
+            'agreement-percentual' => 'Agreement Percentual (%)',
         ],
-        'kappa'=>[
+        'kappa' => [
             'title' => 'Method Kappa (Peer Review)',
-            'content'=>'',
+            'content' => '<p>The <strong>Cohen\'s Kappa Coefficient</strong> is a statistical measure that assesses the agreement between raters on categorical data, but, critically, it <strong>discounts the proportion of agreement that would be expected by chance</strong>.</p>
+            <p>It is the standard measure of <strong>reliability</strong> in scientific research. A high Kappa indicates that the observed agreement is significantly greater than chance.</p>
+            <h4>Interpreting the Kappa Value</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr><th>Kappa Value</th><th>Level of Agreement</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0 to 0.20</td><td>None</td></tr>
+                    <tr><td>0.21 to 0.39</td><td>Minimal</td></tr>
+                    <tr><td>0.40 to 0.59</td><td>Weak</td></tr>
+                    <tr><td>0.60 to 0.79</td><td><strong>Moderate</strong></td></tr>
+                    <tr><td>0.80 to 0.90</td><td><strong>Strong</strong></td></tr>
+                    <tr><td>&gt; 0.90</td><td>Almost Perfect</td></tr>
+                </tbody>
+            </table>
+            <small>Reference: Adapted from McHugh (2012) and Landis & Koch (1977).</small>
+            <h4>Relevance in the Project</h4>
+            <p>A low Kappa (Weak or Minimal) in phases like <strong>Study Selection</strong> or <strong>Quality Assessment</strong> is a warning! It indicates that the criteria are ambiguous or that there is inconsistency in how the team is applying the rules.</p>',
             'title-modal' => 'Kappa Analysis',
             'kappa-value' => 'Kappa Value',
         ],
         'pesquisador'=>'Researcher',
         'peer-review'=>'Peer Review',
     ],
-  
+
     'check' => [
         'no_imported_studies' => 'No imported studies were found for this project.',
         'no_selected_studies' => 'No selected studies were found for this project.',

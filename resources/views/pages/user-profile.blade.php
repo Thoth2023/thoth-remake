@@ -59,7 +59,7 @@
                             <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
                                 <div class="d-flex gap-2 ms-auto">
                                 <button type="button" id="btn-editar" class="btn btn-primary btn-sm">
-                                    Editar
+                                    {{ __('pages/profile.edit_profile') }}
                                 </button>
 
                                 <button type="button" class="btn btn-danger btn-sm" onclick="requestDataDeletion()">

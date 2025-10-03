@@ -12,27 +12,33 @@ use App\Models\Activity;
 use App\Models\User;
 use App\Utils\ActivityLogHelper;
 use App\Http\Controllers\Project\Planning\PlanningProgressController;
-use App\Http\Controllers\Project\Conducting\ConductingProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Notifications\ProjectInvitationNotification;
 use Illuminate\Support\Facades\Notification;
 
 use PHPUnit\Event\Application\FinishedSubscriber;
 
+use App\Services\ConductingProgressService;
+
 
 class ProjectController extends Controller
 {
     private PlanningProgressController $progressCalculator;
+    private ConductingProgressService $conductingProgress;
 
-    public function __construct(PlanningProgressController $progressCalculator)
-    {
+    public function __construct(
+        PlanningProgressController $progressCalculator,
+        ConductingProgressService $conductingProgress
+    ) {
         $this->progressCalculator = $progressCalculator;
+        $this->conductingProgress = $conductingProgress;
     }
 
     /**
@@ -108,26 +114,57 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($idProject);
 
-        // Verificar se o usuário tem permissão para acessar o projeto
         if (Gate::denies('access-project', $project)) {
             return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
         }
 
-        // Obter relação de usuários e atividades caso a permissão seja concedida
         $users_relation = $project->users()->get();
         $activities = Activity::where('id_project', $idProject)
             ->orderBy('created_at', 'DESC')
             ->get();
 
+        $timings = [];
+
         // Calcular o progresso do planejamento
         $planningProgress = $this->progressCalculator->calculate($idProject);
 
-        // Calcular o progresso de Condução
-        $conductingProgressController = new ConductingProgressController();
-        $conductingProgress = $conductingProgressController->calculateProgress($idProject);
+        // 2) Conducting progress
+        $t1 = microtime(true);
+        try {
+            $conductingProgress = $this->conductingProgress->calculateProgress($idProject);
+        } catch (\Throwable $e) {
+            Log::error('conductingProgress error', [
+                'msg' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            $conductingProgress = [];
+        }
+        $timings['conducting_ms'] = (int) round((microtime(true) - $t1) * 1000);
 
-        return view('projects.show', compact('project', 'users_relation', 'activities', 'planningProgress', 'conductingProgress'));
+        // 🔑 garantir que planning entre no mesmo array
+        $conductingProgress['planning'] = $planningProgress;
+
+        // 🔑 também garantir que 'overall' existe
+        if (!isset($conductingProgress['overall'])) {
+            $conductingProgress['overall'] = 0;
+        }
+
+        Log::info('ProjectController::show timings', [
+            'project' => $idProject,
+            'timings' => $timings,
+        ]);
+
+        return view('projects.show', compact(
+            'project',
+            'users_relation',
+            'activities',
+            'planningProgress',
+            'conductingProgress'
+        ));
     }
+
+
+
 
 
     /**

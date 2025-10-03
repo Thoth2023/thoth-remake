@@ -91,8 +91,16 @@
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary btn-sm ms-auto">{{ __('project/edit.edit')}}</button>
+
+                <hr class="horizontal dark mt-4">
+                <div class="d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn btn-secondary btn-sm me-2" onclick="window.location='{{ route('projects.index') }}'">
+                        {{ __('project/edit.cancel') }}
+                    </button>
+
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        {{ __('project/edit.edit')}}
+                    </button>
                 </div>
             </form>
             @include('layouts.footers.auth.footer')
