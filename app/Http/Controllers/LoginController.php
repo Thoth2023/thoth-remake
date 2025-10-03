@@ -22,39 +22,48 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        // Validação
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Verifica se o usuário existe
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
-            return back()->withErrors(['email' => __('auth/login.user_not_found')]);
-        }
-
-        // Verifica se o usuário está ativo
-        if (!$user->active) {
-            return back()->withErrors(['email' => __('auth/login.inactive')]);
-        }
-
-        // Verifica as credenciais
+        // 1. Tentar Autenticar
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            // 2. VERIFICAÇÃO DE USUÁRIO ATIVO (Reintegrado da versão antiga)
+            if (!$user->active) {
+                Auth::logout(); // Desloga imediatamente
+                $request->session()->invalidate();
+                return back()->withErrors(['email' => __('auth/login.inactive')]);
+            }
+
             $request->session()->regenerate();
 
-            // Verificar se o usuário já aceitou os termos e exibir modal se não aceitou
+            // 3. VERIFICAÇÃO DE MUDANÇA DE IP (Sua nova segurança)
+            $userIp = session('user_ip');
+            $currentIp = $request->ip();
+
+            if ($userIp && $userIp !== $currentIp) {
+                Auth::logout();
+                $request->session()->invalidate();
+                return redirect()->route('login')->with('error', 'Sessão expirada devido a mudança de IP.');
+            }
+
+            // Armazena o IP na sessão
+            session(['user_ip' => $currentIp]);
+
+            // 4. Fluxo LGPD/Termos
             if (!$user->terms_and_lgpd) {
-                // Define uma sessão para mostrar o modal LGPD após o login
                 $request->session()->flash('show_lgpd_modal', true);
             }
+
             return redirect()->intended('about');
         }
 
-        // Retorna erro se a senha estiver incorreta
-        return back()->withErrors([
-            'password' => __('auth/login.failed'),
-        ]);
+        // Falha na senha ou e-mail (usar erro genérico é melhor)
+        return back()->withErrors(['password' => __('auth/login.failed')]);
     }
 
     public function acceptLgpd(Request $request)
