@@ -20,7 +20,9 @@ return [
 
     'type_project' => 'Tipo de Projeto de Pesquisa',
 
-    'edit' => 'Editar'
+    'edit' => 'Editar',
+
+    'cancel'=>'Cancelar'
 
 
 ];

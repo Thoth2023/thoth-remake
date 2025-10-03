@@ -21,7 +21,11 @@ return [
 
     'type_project' => 'Research Project Type',
 
-    'edit' => 'Edit'
+    'edit' => 'Edit',
+
+    'cancel'=>'Cancel'
+
+
 
 
 

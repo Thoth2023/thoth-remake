@@ -1,22 +1,22 @@
 <div>
 
     <div class="grid-items-2 gap-4">
-            <div id="papers_per_quality" style="height: 300px;" class="card my-2 p-2 ">
-                <x-helpers.modal
-                    target="reliability-agreement"
-                    modalTitle="{{ __('project/reporting.reliability.agreement.title') }}"
-                    modalContent="{!!  __('project/reporting.reliability.agreement.content') !!} "
-                />
-                <div id="papers_concordance" style="height: 290px;" class="card my-2 p-2"></div>
-            </div>
-            <div id="papers_gen_score" style="height: 300px;" class="card my-2 p-2 ">
-                <x-helpers.modal
-                    target="reliability-kappa"
-                    modalTitle="{{ __('project/reporting.reliability.kappa.title') }}"
-                    modalContent="{!!  __('project/reporting.reliability.kappa.content') !!} "
-                />
-                <div id="kappa_concordance" style="height: 290px;" class="card my-2 p-2"></div>
-            </div>
+        <div id="papers_per_quality" style="height: 300px;" class="card my-2 p-2 ">
+            <x-helpers.modal
+                target="reliability-agreement"
+                modalTitle="{{ __('project/reporting.reliability.agreement.title') }}"
+                modalContent="{!!  __('project/reporting.reliability.agreement.content') !!} "
+            />
+            <div id="papers_concordance" style="height: 290px;" class="card my-2 p-2"></div>
+        </div>
+        <div id="papers_gen_score" style="height: 300px;" class="card my-2 p-2 ">
+            <x-helpers.modal
+                target="reliability-kappa"
+                modalTitle="{{ __('project/reporting.reliability.kappa.title') }}"
+                modalContent="{!!  __('project/reporting.reliability.kappa.content') !!} "
+            />
+            <div id="kappa_concordance" style="height: 290px;" class="card my-2 p-2"></div>
+        </div>
 
 
     </div>
@@ -69,7 +69,7 @@
                             align: 'left'
                         },
                         xAxis: {
-                            categories: ['{{ __('project/reporting.reliability.study-selection') }}', '{{ __('project/reporting.reliability.quality-assessment') }}'] // Cada barra com sua própria categoria
+                            categories: ['{{ __('project/reporting.reliability.selection.title') }}', '{{ __('project/reporting.reliability.quality.title') }}'] // Cada barra com sua própria categoria
                         },
                         yAxis: {
                             min: 0,
@@ -91,12 +91,12 @@
                         },
                         series: [
                             {
-                                name: '{{ __('project/reporting.reliability.study-selection') }}', // Nome da primeira série
+                                name: '{{ __('project/reporting.reliability.selection.title') }}', // Nome da primeira série
                                 data: [studySelectionAgreement, null], // Valor para Study Selection
                                 color: '#7cb5ec'
                             },
                             {
-                                name: '{{ __('project/reporting.reliability.quality-assessment') }}', // Nome da segunda série
+                                name: '{{ __('project/reporting.reliability.quality.title') }}', // Nome da segunda série
                                 data: [null, qualityAssessmentAgreement], // Valor para Quality Assessment
                                 color: '#90ed7d'
                             }
@@ -115,7 +115,7 @@
                             align: 'left'
                         },
                         xAxis: {
-                            categories: ['{{ __('project/reporting.reliability.study-selection') }}', '{{ __('project/reporting.reliability.quality-assessment') }}']
+                            categories: ['{{ __('project/reporting.reliability.selection.title') }}', '{{ __('project/reporting.reliability.quality.title') }}']
                         },
                         yAxis: {
                             min: 0,
@@ -137,12 +137,12 @@
                         },
                         series: [
                             {
-                                name: '{{ __('project/reporting.reliability.study-selection') }}',
+                                name: '{{ __('project/reporting.reliability.selection.title') }}',
                                 data: [studySelectionKappa, null], // Valor calculado para Study Selection
                                 color: '#7cb5ec'
                             },
                             {
-                                name: '{{ __('project/reporting.reliability.quality-assessment') }}',
+                                name: '{{ __('project/reporting.reliability.quality.title') }}',
                                 data: [null, qualityAssessmentKappa], // Valor calculado para Quality Assessment
                                 color: '#90ed7d'
                             }
@@ -157,7 +157,6 @@
         </script>
     @endpush
 @endsection
-
 
 
 

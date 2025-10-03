@@ -11,6 +11,7 @@ return [
     'progress' => 'Progress of Systematic Review',
     'planning' => 'Planning',
     'conducting' => 'Conducting',
+    'study-selection' => 'Study Selection',
     'quality_assessment' => 'Quality Assessment',
     'snowballing' => 'Snowballing',
     'data_extraction' => 'Data Extraction',
@@ -20,7 +21,7 @@ return [
     'full_activity_history' => 'Full activity history',
     'no_activities' => 'No activities recorded.',
     'export' => 'Export data',
-  
+
     // Activity Log messages
     'project_created' => 'Created the project :title',
     'project_edited' => 'Edited project :title',
