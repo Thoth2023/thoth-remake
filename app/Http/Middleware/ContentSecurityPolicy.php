@@ -26,6 +26,8 @@ class ContentSecurityPolicy
             "https://buttons.github.io",
             "https://maps.googleapis.com",
             "https://code.highcharts.com",
+            "https://accounts.google.com",
+            "https://apis.google.com",
         ];
         $scriptSrcElem = $scriptSrc; // igual
         $scriptSrcAttr = ["'self'", "'unsafe-inline'"];
@@ -61,9 +63,15 @@ class ContentSecurityPolicy
             "https://gravatar.com",
             "https://www.gravatar.com",
             "https://secure.gravatar.com",
+            "https://lh3.googleusercontent.com",
         ];
 
-        $connectSrc = [
+        $frameSrc = [
+            "'self'",
+            "https://accounts.google.com",
+        ];
+
+            $connectSrc = [
             "'self'",
             "https://*",
         ];
@@ -96,6 +104,7 @@ class ContentSecurityPolicy
             'font-src '        . implode(' ', $fontSrc),
             'img-src '         . implode(' ', $imgSrc),
             'connect-src '     . implode(' ', $connectSrc),
+            'frame-src ' . implode(' ', $frameSrc),
             "object-src 'none'",
             "base-uri 'self'",
             "frame-ancestors 'self'",
