@@ -7,7 +7,6 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,22 +28,10 @@ class LoginController extends Controller
 
     public function handleGoogleCallback()
     {
-        try {
-            $googleUser = Socialite::driver('google')->user();
+        $user = Socialite::driver('google')->stateless()->user();
+        $this->_registerOrLoginUser($user);
 
-            $this->_registerOrLoginUser($googleUser);
-
-            // Regeneração de sessão (boa prática após login, mesmo com Socialite)
-            session()->regenerate();
-
-            return redirect()->intended($this->redirectTo);
-
-        } catch (\Exception $e) {
-            // É uma boa prática adicionar um bloco try-catch para depurar erros
-            // que podem vir do Google (ex: permissão negada pelo usuário)
-            Log::error('Erro no callback do Google: ' . $e->getMessage());
-            return redirect('/login')->with('error', __('auth.google_failed'));
-        }
+        return redirect()->intended($this->redirectTo);
     }
 
     protected function _registerOrLoginUser($data)
