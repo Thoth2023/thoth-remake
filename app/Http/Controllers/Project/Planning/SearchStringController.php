@@ -61,7 +61,11 @@ class SearchStringController extends Controller
             'description' => $request->input('description_term'),
         ]);
 
-        return redirect("/planning/".$id_project."/search-string");
+        $progress = app(PlanningProgressController::class)->calculate($id_project);
+
+        return redirect("/planning/".$id_project."/search-string")
+            ->with('progress', $progress)
+            ->with('success', 'Term added successfully');
     }
 
     /**
@@ -69,6 +73,12 @@ class SearchStringController extends Controller
      */
     public function store_synonym(Request $request, $id_project)
     {
+
+        $request->validate([
+            'termSelect' => 'required|exists:terms,id',
+            'description_synonym' => 'required|string|min:1'
+        ]);
+
         $id_term = $request->input('termSelect');
         $term = Term::findOrFail($id_term);
 
@@ -88,7 +98,11 @@ class SearchStringController extends Controller
         $term->description = $request->input('term-description');
         $term->save();
 
-        return redirect()->back();
+        $progress = app(PlanningProgressController::class)->calculate($term->id_project);
+
+        return redirect()->back()
+            ->with('progress', $progress)
+            ->with('success', 'Term updated successfully');
     }
 
     /**
@@ -99,7 +113,11 @@ class SearchStringController extends Controller
         $term = Term::findOrFail($id_term);
         $term->delete();
 
-        return redirect()->back();
+        $progress = app(PlanningProgressController::class)->calculate($id_project);
+
+        return redirect()->back()
+            ->with('progress', $progress)
+            ->with('success', 'Term removed successfully');
     }
 
     /**

@@ -2221,7 +2221,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     // if we are on windows OS we activate the perfectScrollbar function
     if (document.getElementsByClassName('main-content')[0]) {
       var mainpanel = document.querySelector('.main-content');
-      var ps = new PerfectScrollbar(mainpanel);
+      // var ps = new PerfectScrollbar(mainpanel);
     }
 
     ;
@@ -2259,9 +2259,9 @@ if (document.getElementById('alert')) {
 } // Verify navbar blur on scroll
 
 
-if (document.getElementById('navbarBlur')) {
+/*if (document.getElementById('navbarBlur')) {
   navbarBlurOnScroll('navbarBlur');
-} // initialization of Tooltips
+}*/ // initialization of Tooltips
 
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -2378,7 +2378,6 @@ window.sidebarColor = function (a) {
   }
 }; // Set Sidebar Type
 
-
 window.sidebarType = function (a) {
   var parent = a.parentElement.children;
   var color = a.getAttribute("data-class");
@@ -2406,33 +2405,32 @@ window.sidebarType = function (a) {
 
   sidebar.classList.add(color); // Remove text-white/text-dark classes
 
-  if (color == 'bg-white') {
-    var textWhites = document.querySelectorAll('.sidenav .text-white');
+  if (color === 'bg-white') {
+    var elements = document.querySelectorAll('.sidenav .text-white, .sidenav .text-dark, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove('text-white');
+      elements[i].classList.remove('text-dark');
 
-    for (var _i = 0; _i < textWhites.length; _i++) {
-      textWhites[_i].classList.remove('text-white');
-
-      textWhites[_i].classList.add('text-dark');
+      if (bodyDark) {
+        elements[i].classList.add('text-dark');
+        elements[i].style.setProperty('color', '#111827', 'important');
+      } else {
+        elements[i].classList.add('text-dark');
+        elements[i].style.removeProperty('color');
+      }
     }
   } else {
-    var textDarks = document.querySelectorAll('.sidenav .text-dark');
+    var elements = document.querySelectorAll('.sidenav .text-dark, .sidenav .text-white, .sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *');
 
-    for (var _i2 = 0; _i2 < textDarks.length; _i2++) {
-      textDarks[_i2].classList.add('text-white');
-
-      textDarks[_i2].classList.remove('text-dark');
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove('text-dark');
+      elements[i].classList.remove('text-white');
+      elements[i].classList.add('text-white');
+      elements[i].style.removeProperty('color');
     }
   }
 
-  if (color == 'bg-default' && bodyDark) {
-    var textDarks = document.querySelectorAll('.navbar-brand .text-dark');
-
-    for (var _i3 = 0; _i3 < textDarks.length; _i3++) {
-      textDarks[_i3].classList.add('text-white');
-
-      textDarks[_i3].classList.remove('text-dark');
-    }
-  } // Remove logo-white/logo-dark
+  // Remove logo-white/logo-dark
 
 
   if (color == 'bg-white' && bodyWhite) {
@@ -2462,9 +2460,9 @@ window.sidebarType = function (a) {
       navbarBrand.src = navbarBrandImgNew;
     }
   }
-}; // Set Navbar Fixed
+};
 
-
+// Set Navbar Fixed
 window.navbarFixed = function (el) {
   var classes = ['position-sticky', 'bg-white', 'left-auto', 'top-2', 'z-index-sticky'];
   var navbar = document.getElementById('navbarBlur');
@@ -2582,7 +2580,7 @@ function navbarBlurOnScroll(id) {
     toggleNavLinksColor('blur');
   }
 
-  function transparentNavbar() {
+ /* function transparentNavbar() {
     var _navbar$classList5, _navbar$classList6;
 
     (_navbar$classList5 = navbar.classList).remove.apply(_navbar$classList5, classes);
@@ -2590,7 +2588,18 @@ function navbarBlurOnScroll(id) {
     (_navbar$classList6 = navbar.classList).add.apply(_navbar$classList6, toggleClasses);
 
     toggleNavLinksColor('transparent');
-  }
+  }*/
+    function transparentNavbar() {
+        // Não remove mais as classes de fundo branco e posição
+        // (_navbar$classList5 = navbar.classList).remove.apply(_navbar$classList5, classes);
+
+        // Apenas alterna a sombra, se desejar
+        navbar.classList.remove('shadow-blur');
+        navbar.classList.add('shadow-none');
+
+        // Mantenha os links escuros ou personalize
+        toggleNavLinksColor('blur');
+    }
 } // Debounce Function
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -2826,6 +2835,18 @@ window.darkMode = function (el) {
   if (!el.getAttribute("checked")) {
     body.classList.add('dark-version');
 
+    if (sidebar.classList.contains('bg-white')) {
+      var sidebarElements = document.querySelectorAll(
+        '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+      );
+      for (var i = 0; i < sidebarElements.length; i++) {
+        const el = sidebarElements[i];
+        el.classList.remove('text-white', 'text-blue-600');
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      }
+    }
+
     if (navbarBrandImg.includes('logo-ct-dark.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
       navbarBrand.src = navbarBrandImgNew;
@@ -2879,12 +2900,12 @@ window.darkMode = function (el) {
       }
     }
 
-    for (var i = 0; i < text_nav_link.length; i++) {
+   /* for (var i = 0; i < text_nav_link.length; i++) {
       if (text_nav_link[i].classList.contains('text-dark')) {
         text_nav_link[i].classList.remove('text-dark');
         text_nav_link[i].classList.add('text-white');
       }
-    }
+    }*/
 
     for (var i = 0; i < secondary.length; i++) {
       if (secondary[i].classList.contains('text-secondary')) {
@@ -2906,9 +2927,10 @@ window.darkMode = function (el) {
       btn_text_dark[i].classList.add('text-white');
     }
 
-    for (var i = 0; i < sidebarWhite.length; i++) {
+    /*for (var i = 0; i < sidebarWhite.length; i++) {
       sidebarWhite[i].classList.remove('bg-white');
-    }
+    }*/
+
 
     for (var i = 0; i < svg.length; i++) {
       if (svg[i].hasAttribute('fill')) {
@@ -2919,12 +2941,27 @@ window.darkMode = function (el) {
     for (var i = 0; i < card_border.length; i++) {
       card_border[i].classList.add('border-dark');
     }
+    var sidebarElements = document.querySelectorAll(
+      '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+    );
+
+    for (var i = 0; i < sidebarElements.length; i++) {
+      const el = sidebarElements[i];
+      el.classList.remove('text-white', 'text-dark', 'text-blue-600');
+      el.style.removeProperty('color');
+
+      if (sidebar.classList.contains('bg-white')) {
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      } else {
+        el.classList.add('text-white');
+      }
+    }
 
     el.setAttribute("checked", "true");
   } else {
     body.classList.remove('dark-version');
-    sidebar.classList.add('bg-white');
-
+    //sidebar.classList.add('bg-white');
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;
@@ -3015,6 +3052,30 @@ window.darkMode = function (el) {
 
     for (var i = 0; i < card_border_dark.length; i++) {
       card_border_dark[i].classList.remove('border-dark');
+    }
+
+    var sidebarElements = document.querySelectorAll(
+      '.sidenav .nav-link, .sidenav .nav-link i, .sidenav .nav-link span, .sidenav h6, .sidenav strong, .sidenav .navbar-brand, .sidenav .navbar-brand *'
+    );
+
+    for (var i = 0; i < sidebarElements.length; i++) {
+      const el = sidebarElements[i];
+      el.classList.remove('text-white', 'text-dark', 'text-blue-600');
+      el.style.removeProperty('color');
+
+      if (sidebar.classList.contains('bg-white')) {
+        el.classList.add('text-dark');
+        el.style.setProperty('color', '#111827', 'important');
+      } else {
+        el.classList.add('text-white');
+      }
+    }
+
+    var theads = document.querySelectorAll('thead th');
+    for (var i = 0; i < theads.length; i++) {
+      theads[i].classList.remove('text-white');
+      theads[i].classList.remove('opacity-8');
+      theads[i].classList.add('text-secondary');
     }
 
     el.removeAttribute("checked");

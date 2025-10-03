@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CollaboratorsController;
+use App\Http\Controllers\DonationsController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
@@ -7,6 +9,7 @@ use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
 use App\Http\Controllers\Project\ExportController;
+use App\Http\Controllers\SnowballingController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
@@ -36,8 +39,13 @@ use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Project\ActivityController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TranslationController;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
@@ -68,6 +76,14 @@ Route::get('/message', function () {
 
 Auth::routes();
 
+
+Route::get(
+    '/api/translations/studyselection/{file}/{locale?}',
+    [StudySelectionController::class, 'translationStudySelection']
+);
+
+//Route::get('/api/translations/{file}/{locale?}', [TranslationController::class, 'load']);
+
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(Localization::class);
 
 
@@ -80,6 +96,11 @@ Route::get('/localization/{locale}', LocalizationController::class)->name('local
 
 // About routes
 Route::get('/' . __('about'), [AboutController::class, 'index'])->name('about')->middleware(Localization::class);
+
+Route::get('/' . __('collaborators'), [CollaboratorsController::class, 'index'])->name('collaborators')->middleware(Localization::class);
+
+// Donations routes
+Route::get('/' . __('donations'), [DonationsController::class, 'index'])->name('donations')->middleware(Localization::class);
 
 // Help routes
 Route::get('/' . __('help'), [HelpController::class, 'index'])->name('help')->middleware(Localization::class);
@@ -118,6 +139,11 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+
+Route::get('/projects/{project}/export-activities', [ProjectController::class, 'exportActivities'])
+    ->name('projects.exportActivities')
+    ->middleware('auth');
+Route::get('/project/{idProject}/decline-invitation', [ProjectController::class, 'declineInvitation'])->name('projects.decline_invitation');
 
 
 // Project Routes
@@ -230,7 +256,6 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
                 ->only(['index'])
                 ->names(['index' => 'project.planning.data-extraction.data-extraction.index']);
         });
-
     });
 
     // start of the reporting routes
@@ -239,28 +264,51 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
 
     Route::get('/export/', [ExportController::class, 'index'])->name('project.export.index')->middleware('auth')->middleware(Localization::class);
     // Star of Conducting routes
-
 });
 
-//SUPER USER ROUTES
-Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
-Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
-Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
-Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
-Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
-Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
-Route::get('/user/{user}', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
+Route::middleware(['auth'])->group(function () {
+    // Página do chat
+    Route::get('/chat/{projeto_id}', [ChatController::class, 'index'])->name('chat.index');
 
-Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
-Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
-Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
-Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth');
-Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
-Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
-Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
-Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
-Route::middleware(['auth', 'role:super-user'])->group(function () {
-Route::resource('permissions', PermissionController::class);
+    // Buscar mensagens
+    Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages'])->name('chat.messages');
+
+    // Enviar mensagem
+    Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage'])->name('chat.send');
+});
+
+Route::post('/csp-report', function (Request $request) {
+    Log::warning('CSP report', ['body' => $request->getContent()]);
+    return response()->noContent();
+});
+
+// snowballing IA (Semantic Scholar)
+Route::get('/snowballing', [SnowballingController::class, 'index'])->name('snowballing.index')->middleware('auth')->middleware(Localization::class);
+Route::post( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
+Route::get( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
+
+
+//SUPER USER ROUTES
+Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(function () {
+    Route::get('/database-manager', [DatabaseManagerController::class, 'index'])->name('database-manager')->middleware('auth');
+    Route::get('/user-manager', [UserManagerController::class, 'index'])->name('user-manager')->middleware('auth');
+    Route::get('/users/{user}/edit', [UserManagerController::class, 'edit'])->name('user.edit');
+    Route::post('/users/{user}', [UserManagerController::class, 'update'])->name('user.update');
+    Route::get('/user/create', [UserManagerController::class, 'create'])->name('user.create');
+    Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
+    Route::get('/user/{user}/deactivate', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
+});
+
+Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(function () {
+    Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
+    Route::get('levels/create', [LevelController::class, 'create'])->name('levels.create')->middleware('auth');
+    Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
+    Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth');
+    Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
+    Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+    Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+    Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
+    Route::resource('permissions', PermissionController::class);
 });
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -275,7 +323,6 @@ Route::middleware(['locale', 'guest'])->group(function () {
     Route::get('/change-password/{id}', [ChangePassword::class, 'show'])->name('change-password');
     Route::post('/change-password/{id}', [ChangePassword::class, 'update'])->name('change.perform');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
-
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -292,10 +339,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
-
-
-
-
 
 Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);

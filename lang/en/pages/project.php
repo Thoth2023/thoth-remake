@@ -13,5 +13,5 @@ return [
     'enter_the_title' => 'Enter the title',
     'enter_the_description' => 'Enter the description',
     'enter_the_objectives' => 'Enter the objectives',
-
+    'project_chat' => 'Project Chat'
 ];

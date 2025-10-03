@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.navbars.guest.navbar')
     <main class="main-content mt-0">
-        <div class="container mt-8 mb-3">
+        <div class="container mt-7 mb-3">
             <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
 
                 <div class="row justify-content-center rounded-3 py-4"
@@ -99,10 +99,19 @@
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
                                 </div>
-                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
-                                    <input type="password" name="password" class="form-control"
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto position-relative">
+                                    <input type="password" name="password" id="password" class="form-control"
                                         placeholder="{{ __('auth/register.password') }}"
-                                        aria-label="{{ __('auth.register.password') }}">
+
+                                        aria-label="{{ __('auth.register.password') }} "value="{{ old('password') }}">
+                                    <small id="passwordStrength" class="text-muted">Digite uma senha segura</small>
+                                    <span role="button" id="togglePassword"
+                                        class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                        style="cursor: pointer; background: white; display: none;"
+                                        tabindex="-1">
+                                        <i class="fas fa-eye" id="eyeIcon"></i>
+                                    </span>
+
                                     @error('password')
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
@@ -150,6 +159,49 @@
                                             });
                                         });
                                     });
+                                });
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const passwordInput = document.getElementById('password');
+                                    const togglePassword = document.getElementById('togglePassword');
+                                    const eyeIcon = document.getElementById('eyeIcon');
+
+                                    passwordInput.addEventListener('focus', () => {
+                                        togglePassword.style.display = 'inline-flex';
+                                    });
+
+                                    document.addEventListener('click', (e) => {
+                                        if (!passwordInput.contains(e.target) && !togglePassword.contains(e.target)) {
+                                            togglePassword.style.display = 'none';
+                                        }
+                                    });
+
+                                    togglePassword.addEventListener('click', function () {
+                                        const isPassword = passwordInput.type === 'password';
+                                        passwordInput.type = isPassword ? 'text' : 'password';
+
+                                        eyeIcon.classList.toggle('fa-eye');
+                                        eyeIcon.classList.toggle('fa-eye-slash');
+                                    });
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const passwordInput = document.getElementById('password');
+                                        const strengthIndicator = document.getElementById('passwordStrength');
+
+                                        passwordInput.addEventListener('input', function () {
+                                            const val = passwordInput.value;
+                                            let strength = 'Senha fraca';
+                                            let color = 'text-danger';
+
+                                            if (val.length >= 8 && /[A-Z]/.test(val) && /\d/.test(val) && /[^A-Za-z0-9]/.test(val)) {
+                                                strength = 'Senha forte';
+                                                color = 'text-success';
+                                            } else if (val.length >= 6) {
+                                                strength = 'Senha média';
+                                                color = 'text-warning';
+                                            }
+
+                                            strengthIndicator.textContent = strength;
+                                            strengthIndicator.className = 'text-xs ' + color;
+                                        });
                                 });
                             </script>
                         </div>

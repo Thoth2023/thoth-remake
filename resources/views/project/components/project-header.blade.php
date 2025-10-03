@@ -18,6 +18,13 @@
             'icon' => 'fas fa-tasks',
             'label' => __("project/header.conducting"),
             'route' => 'project.conducting.index',
+
+'snowballing' => [
+    'icon' => 'fas fa-search',
+    'label' => 'Snowballing',
+    'route' => 'snowballing.lookup',
+],
+
         ],
         'reporting' => [
             'icon' => 'fas fa-chart-bar',
@@ -32,7 +39,7 @@
     ];
 @endphp
 
-<div class="col-12">
+<div class="col-12 mt-1">
     <div class="card">
         <div class="card-header">
             <h4>{{ $project->title }}</h4>

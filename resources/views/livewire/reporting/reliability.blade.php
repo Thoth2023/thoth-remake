@@ -1,22 +1,22 @@
 <div>
 
     <div class="grid-items-2 gap-4">
-            <div id="papers_per_quality" style="height: 300px;" class="card my-2 p-2 ">
-                <x-helpers.modal
-                    target="reliability-agreement"
-                    modalTitle="{{ __('project/reporting.reliability.agreement.title') }}"
-                    modalContent="{!!  __('project/reporting.reliability.agreement.content') !!} "
-                />
-                <div id="papers_concordance" style="height: 290px;" class="card my-2 p-2"></div>
-            </div>
-            <div id="papers_gen_score" style="height: 300px;" class="card my-2 p-2 ">
-                <x-helpers.modal
-                    target="reliability-kappa"
-                    modalTitle="{{ __('project/reporting.reliability.kappa.title') }}"
-                    modalContent="{!!  __('project/reporting.reliability.kappa.content') !!} "
-                />
-                <div id="kappa_concordance" style="height: 290px;" class="card my-2 p-2"></div>
-            </div>
+        <div id="papers_per_quality" style="height: 300px;" class="card my-2 p-2 ">
+            <x-helpers.modal
+                target="reliability-agreement"
+                modalTitle="{{ __('project/reporting.reliability.agreement.title') }}"
+                modalContent="{!!  __('project/reporting.reliability.agreement.content') !!} "
+            />
+            <div id="papers_concordance" style="height: 290px;" class="card my-2 p-2"></div>
+        </div>
+        <div id="papers_gen_score" style="height: 300px;" class="card my-2 p-2 ">
+            <x-helpers.modal
+                target="reliability-kappa"
+                modalTitle="{{ __('project/reporting.reliability.kappa.title') }}"
+                modalContent="{!!  __('project/reporting.reliability.kappa.content') !!} "
+            />
+            <div id="kappa_concordance" style="height: 290px;" class="card my-2 p-2"></div>
+        </div>
 
 
     </div>
@@ -65,17 +65,17 @@
                             type: 'bar'
                         },
                         title: {
-                            text: 'Análise Concordância nas Etapas',
+                            text: '{{ __('project/reporting.reliability.agreement.title-modal') }}',
                             align: 'left'
                         },
                         xAxis: {
-                            categories: ['Study Selection', 'Quality Assessment'] // Cada barra com sua própria categoria
+                            categories: ['{{ __('project/reporting.reliability.selection.title') }}', '{{ __('project/reporting.reliability.quality.title') }}'] // Cada barra com sua própria categoria
                         },
                         yAxis: {
                             min: 0,
                             max: 100,
                             title: {
-                                text: 'Percentual de Concordância (%)'
+                                text: '{{ __('project/reporting.reliability.agreement.agreement-percentual') }}'
                             }
                         },
                         plotOptions: {
@@ -91,12 +91,12 @@
                         },
                         series: [
                             {
-                                name: 'Study Selection', // Nome da primeira série
+                                name: '{{ __('project/reporting.reliability.selection.title') }}', // Nome da primeira série
                                 data: [studySelectionAgreement, null], // Valor para Study Selection
                                 color: '#7cb5ec'
                             },
                             {
-                                name: 'Quality Assessment', // Nome da segunda série
+                                name: '{{ __('project/reporting.reliability.quality.title') }}', // Nome da segunda série
                                 data: [null, qualityAssessmentAgreement], // Valor para Quality Assessment
                                 color: '#90ed7d'
                             }
@@ -111,17 +111,17 @@
                             type: 'bar'
                         },
                         title: {
-                            text: 'Análise Kappa nas Etapas',
+                            text: '{{ __('project/reporting.reliability.kappa.title-modal') }}',
                             align: 'left'
                         },
                         xAxis: {
-                            categories: ['Study Selection', 'Quality Assessment']
+                            categories: ['{{ __('project/reporting.reliability.selection.title') }}', '{{ __('project/reporting.reliability.quality.title') }}']
                         },
                         yAxis: {
                             min: 0,
                             max: 1, // O valor de Kappa varia de -1 a 1, então o limite superior é 1
                             title: {
-                                text: 'Valor de Kappa'
+                                text: '{{ __('project/reporting.reliability.kappa.kappa-value') }}'
                             }
                         },
                         plotOptions: {
@@ -137,12 +137,12 @@
                         },
                         series: [
                             {
-                                name: 'Study Selection',
+                                name: '{{ __('project/reporting.reliability.selection.title') }}',
                                 data: [studySelectionKappa, null], // Valor calculado para Study Selection
                                 color: '#7cb5ec'
                             },
                             {
-                                name: 'Quality Assessment',
+                                name: '{{ __('project/reporting.reliability.quality.title') }}',
                                 data: [null, qualityAssessmentKappa], // Valor calculado para Quality Assessment
                                 color: '#90ed7d'
                             }
@@ -157,7 +157,6 @@
         </script>
     @endpush
 @endsection
-
 
 
 

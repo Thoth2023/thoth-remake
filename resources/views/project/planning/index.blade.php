@@ -6,119 +6,123 @@
     <div class="row mt-4 mx-4">
         @include("project.components.project-header", ["activePage" => "planning", "project" => $project])
 
+        @php
+            $tabs = [
+                [
+                    'id' => 'overall-info-tab',
+                    'label' => __('project/planning.overall.title'),
+                    'href' => '#overall-info',
+                ],
+                [
+                    'id' => 'research-questions-tab',
+                    'label' => __('project/planning.research-questions.title'),
+                    'href' => '#research-questions',
+                ],
+                [
+                    'id' => 'data-bases-tab',
+                    'label' => __('project/planning.databases.title'),
+                    'href' => '#data-bases',
+                ],
+                [
+                    'id' => 'search-string-tab',
+                    'label' => __('project/planning.search-string.title'),
+                    'href' => '#search-string',
+                ],
+                [
+                    'id' => 'search-strategy-tab',
+                    'label' => __('project/planning.search-strategy.title'),
+                    'href' => '#search-strategy',
+                ],
+                [
+                    'id' => 'criteria-tab',
+                    'label' => __('project/planning.criteria.title'),
+                    'href' => '#criteria',
+                ],
+                [
+                    'id' => 'quality-assessment-tab',
+                    'label' => __('project/planning.quality-assessment.title'),
+                    'href' => '#quality-assessment',
+                ],
+                [
+                    'id' => 'data-extraction-tab',
+                    'label' => __('project/planning.data-extraction.title'),
+                    'href' => '#data-extraction',
+                ],
+            ];
+        @endphp
+
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
-                    @include(
-                        "project.components.project-tabs",
-                        [
-                            "header" => __("project/planning.planning"),
-                            "tabs" => [
-                                [
-                                    "id" => "overall-info-tab",
-                                    "label" => __("project/planning.overall.title"),
-                                    "href" => "#overall-info",
-                                ],
-                                [
-                                    "id" => "research-questions-tab",
-                                    "label" => __("project/planning.research-questions.title"),
-                                    "href" => "#research-questions",
-                                ],
-                                [
-                                    "id" => "data-bases-tab",
-                                    "label" => __("project/planning.databases.title"),
-                                    "href" => "#data-bases",
-                                ],
-                                [
-                                    "id" => "search-string-tab",
-                                    "label" => __("project/planning.search-string.title"),
-                                    "href" => "#search-string",
-                                ],
-                                [
-                                    "id" => "search-strategy-tab",
-                                    "label" => __("project/planning.search-strategy.title"),
-                                    "href" => "#search-strategy",
-                                ],
-                                [
-                                    "id" => "criteria-tab",
-                                    "label" => __("project/planning.criteria.title"),
-                                    "href" => "#criteria",
-                                ],
-                                [
-                                    "id" => "quality-assessment-tab",
-                                    "label" => __("project/planning.quality-assessment.title"),
-                                    "href" => "#quality-assessment",
-                                ],
-                                [
-                                    "id" => "data-extraction-tab",
-                                    "label" => __("project/planning.data-extraction.title"),
-                                    "href" => "#data-extraction",
-                                ],
-                            ],
-                            "activeTab" => "overall-info-tab",
-                        ]
-                    )
+                    @include("project.components.project-tabs", [
+                        "header" => __("project/planning.planning"),
+                        "tabs" => $tabs,
+                        "activeTab" => "overall-info-tab",
+                        "scope" => "planning"
+                    ])
 
                     <div class="tab-content mt-4">
-                        <div
-                            class="tab-pane fade show active"
-                            id="overall-info"
-                        >
+                        <div class="tab-pane fade show active" id="overall-info" role="tabpanel" aria-labelledby="overall-info-tab">
                             @include("project.planning.overall")
                         </div>
-                        <div class="tab-pane fade" id="research-questions">
+                        <div class="tab-pane fade" id="research-questions" role="tabpanel" aria-labelledby="research-questions-tab">
                             @livewire("planning.questions.research-questions")
                         </div>
-                        <div class="tab-pane fade" id="data-bases">
+                        <div class="tab-pane fade" id="data-bases" role="tabpanel" aria-labelledby="data-bases-tab">
                             @livewire("planning.databases.databases")
                         </div>
-                        <div class="tab-pane fade" id="search-string">
+                        <div class="tab-pane fade" id="search-string" role="tabpanel" aria-labelledby="search-string-tab">
                             @livewire("planning.search-string.search-term")
                         </div>
-                        <div class="tab-pane fade" id="search-strategy">
+                        <div class="tab-pane fade" id="search-strategy" role="tabpanel" aria-labelledby="search-strategy-tab">
                             @livewire("planning.search-strategy.strategy")
                         </div>
-                        <div class="tab-pane fade" id="criteria">
+                        <div class="tab-pane fade" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
                             @livewire("planning.criteria.criteria")
                         </div>
-                        <div class="tab-pane fade" id="quality-assessment">
+                        <div class="tab-pane fade" id="quality-assessment" role="tabpanel" aria-labelledby="quality-assessment-tab">
                             @include("project.planning.quality-assessment")
                         </div>
-                        <div class="tab-pane fade" id="data-extraction">
-                            {{-- @livewire("planning.data-extraction.data-extraction") --}}
-                            @include("project.planning.data-extraction.index")
+                        <div class="tab-pane fade" id="data-extraction" role="tabpanel" aria-labelledby="data-extraction-tab">
+                            @include("project.planning.data-extraction")
                         </div>
                     </div>
                 </div>
-                @include("layouts.footers.auth.footer")
             </div>
+            @include("layouts.footers.auth.footer")
         </div>
     </div>
+@endsection
 
-    @if (session()->has("activePlanningTab"))
+@section('scripts')
+    @parent
+    @push('js')
         <script>
-            window.onload = function () {
-                // Remove active class from overall-info tab
-                document
-                    .getElementById('overall-info-tab')
-                    .classList.remove('active');
-                // Remove active class from overall-info content
-                document
-                    .getElementById('overall-info')
-                    .classList.remove('show', 'active');
+            // Armazena a aba ativa em um cookie ao clicar
+            document.addEventListener('DOMContentLoaded', function () {
+                const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
 
-                // Get the tab ID stored in the session
-                var activeTabId = '{{ session("activePlanningTab") }}';
+                tabLinks.forEach(link => {
+                    link.addEventListener('shown.bs.tab', function (event) {
+                        const tabId = event.target.getAttribute('href').substring(1); // remove o #
+                        document.cookie = "activePlanningTab=" + tabId + ";path=/";
+                    });
+                });
 
-                // Add active class to the tab stored in the session
-                document
-                    .getElementById(activeTabId + '-tab')
-                    .classList.add('active');
-                // Add active show class to the tab content stored in the session
-                document
-                    .getElementById(activeTabId)
-                    .classList.add('show', 'active');
-            };
+                // Recupera e ativa a aba armazenada no cookie, se houver
+                const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+                    const [key, value] = cookie.split('=').map(c => c.trim());
+                    acc[key] = value;
+                    return acc;
+                }, {});
+
+                if (cookies.activePlanningTab) {
+                    const tabTrigger = document.querySelector(`[href="#${cookies.activePlanningTab}"]`);
+                    if (tabTrigger) {
+                        new bootstrap.Tab(tabTrigger).show();
+                    }
+                }
+            });
         </script>
-    @endif
+    @endpush
 @endsection

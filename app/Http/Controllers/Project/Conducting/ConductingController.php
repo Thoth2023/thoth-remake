@@ -10,39 +10,46 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Services\ConductingProgressService;
 
 class ConductingController extends Controller
 {
+    protected ConductingProgressService $progressService;
+
+    public function __construct(ConductingProgressService $progressService)
+    {
+        $this->progressService = $progressService;
+    }
+
     public function index(string $id_project): View|RedirectResponse
     {
         $project = Project::findOrFail($id_project);
 
-        // Verificação de autorização usando o Gate
+        // Verificação de autorização
         if (Gate::denies('access-project', $project)) {
-            return redirect()->route('projects.index')->with('error', 'Você não tem permissão para acessar este projeto.');
+            return redirect()->route('projects.index')
+                ->with('error', 'Você não tem permissão para acessar este projeto.');
         }
 
-        // Consulta para obter os projetos que têm a feature review snowballing
+        // Consulta projetos que têm snowballing
         $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
 
-        // Consulta que possui as Data Extraction Questions
+        // Data Extraction Questions
         $dataExtractionQuestions = $project->dataExtractionQuestions()->get();
-        // Iterar sobre as perguntas e coletar as opções
         $questions = [];
         foreach ($dataExtractionQuestions as $question) {
-            $options = $question->options()->get()->pluck('description')->toArray();
+            $options = $question->options()->pluck('description')->toArray();
             $questions[] = [
-                'id' => $question->id, // Adicione os campos que deseja exibir na visão
-                'description' => $question->description, // Exemplo de campo
-                'type' => $question->type, // Exemplo de campo
-                'options' => $options, // Array de opções
+                'id' => $question->id,
+                'description' => $question->description,
+                'type' => $question->type,
+                'options' => $options,
             ];
         }
 
-        // Consulta para os studies
+        // Estudos importados
         $bibUploads = BibUpload::all();
         $studies = collect();
-
         foreach ($bibUploads as $bib) {
             $projectDB = $bib->projectDatabase()->first();
             if ($projectDB && $projectDB->id_project == $id_project) {
@@ -50,18 +57,22 @@ class ConductingController extends Controller
             }
         }
 
-        //Verificar Campos necessários cadastrados no Planning
+        // Verificação de campos do Planning
         CheckProjectDataPlanning::checkProjectData($id_project);
 
-        // Consulta databases do projeto
+        // Bases de dados do projeto
         $databases = $project->databases()->get();
+
+        // Progresso da etapa de conducting
+        $conductingProgress = $this->progressService->calculateProgress($project->id_project);
 
         return view('project.conducting.index', [
             'project' => $project,
             'studies' => $studies,
             'databases' => $databases,
             'snowballing_projects' => $snowballing_projects,
-            'dataExtractionQuestions' => $questions, // Passa as perguntas formatadas para a visão
+            'dataExtractionQuestions' => $questions,
+            'conductingProgress' => $conductingProgress,
         ]);
     }
 

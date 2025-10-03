@@ -10,7 +10,7 @@
             class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
             style="width: 100%"
         >
-            <div class="col-lg-6 text-center mx-auto">
+            <div class="text-center mx-auto">
                 <h1 class="text-white">
                     {{ __("pages/profile.title-page") }}
                 </h1>
@@ -21,11 +21,11 @@
         </div>
     </div>
 
+	<!-- Displays user avatar with initials and basic profile info-->
     <div class="card shadow-lg mt-2">
         <div class="card-body">
             <div class="row gx-4">
                 <div class="col-auto my-auto">
-                    <!-- Campo de avatar com as iniciais -->
                     <div class="avatar avatar-xl rounded-circle bg-primary d-flex align-items-center justify-content-center text-white" style="width: 80px; height: 80px; font-size: 1.5rem;">
                         {{ strtoupper(substr(auth()->user()->firstname, 0, 1)) }}{{ strtoupper(substr(auth()->user()->lastname, 0, 1)) }}
                     </div>
@@ -46,6 +46,7 @@
         </div>
     </div>
 
+	<!-- Displays the user profile edit form with personal, contact, and professional information -->
     <br>
     <div id="alert">
         @include('components.alert')
@@ -56,12 +57,14 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center justify-content-between">
                             <p class="mb-0">{{ __('pages/profile.edit_profile') }}</p>
+                                <div class="d-flex gap-2 ms-auto">
+                                <button type="button" id="btn-editar" class="btn btn-primary btn-sm">
+                                    {{ __('pages/profile.edit_profile') }}
+                                </button>
 
-                            <div class="d-flex ms-auto">
-                                <!-- Formulário para exclusão de dados -->
-                                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="requestDataDeletion()">
-                                        <i class="fas fa-trash"></i>  {{ __('pages/profile.request_data_deletion') }}
-                                    </button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="requestDataDeletion()">
+                                    <i class="fas fa-trash"></i>  {{ __('pages/profile.request_data_deletion') }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -73,25 +76,33 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.username') }}</label>
-                                    <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
+                                    <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}"disabled>
+
+
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.email') }}</label>
-                                    <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}">
+                                    <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}"disabled>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.first_name') }}</label>
-                                    <input class="form-control" type="text" name="firstname" value="{{ old('firstname', auth()->user()->firstname) }}">
+                                    <input class="form-control" type="text" name="firstname" value="{{ old('firstname', auth()->user()->firstname) }}"disabled>
+                                        @error('firstname')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.last_name') }}</label>
-                                    <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}">
+                                    <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}"disabled>
+                                        @error('lastname')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -101,25 +112,34 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="address" class="form-control-label">{{ __('pages/profile.address') }}</label>
-                                    <input id="autocomplete" class="form-control" type="text" name="address" value="{{ old('address', auth()->user()->address) }}">
+                                    <input id="autocomplete" class="form-control" type="text" name="address" value="{{ old('address', auth()->user()->address) }}"disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.city') }}</label>
-                                    <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}">
+                                    <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}"disabled>
+                                        @error('city')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.country') }}</label>
-                                    <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}">
+                                    <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}"disabled>
+                                        @error('country')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.postal_code') }}</label>
-                                    <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}">
+                                    <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}"disabled>
+                                        @error('postal')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -129,25 +149,28 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.about_me') }}</label>
-                                    <input class="form-control" type="text" name="about" value="{{ old('about', auth()->user()->about) }}">
+                                    <input class="form-control" type="text" name="about" value="{{ old('about', auth()->user()->about) }}"disabled>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.occupation') }}</label>
-                                    <input class="form-control" type="text" name="occupation" value="{{ old('occupation', auth()->user()->occupation) }}">
+                                    <input class="form-control" type="text" name="occupation" value="{{ old('occupation', auth()->user()->occupation) }}"disabled>
+                                        @error('occupation')
+                                            <span class="text-danger text-xs">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.institution') }}</label>
-                                    <input class="form-control" type="text" name="institution" value="{{ old('institution', auth()->user()->institution) }}">
+                                    <input class="form-control" type="text" name="institution" value="{{ old('institution', auth()->user()->institution) }}"disabled>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ __('pages/profile.lattes_link') }}</label>
-                                    <input class="form-control" type="text" id="lattes_link" name="lattes_link" value="{{ old('lattes_link', auth()->user()->lattes_link) }}">
+                                    <input class="form-control" type="text" id="lattes_link" name="lattes_link" value="{{ old('lattes_link', auth()->user()->lattes_link) }}"disabled>
                                     @error("lattes_link")
                                         <span class="text-xs text-danger">
                                             {{ $message }}
@@ -157,7 +180,7 @@
                             </div>
                             <br/>
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success btn-sm">
+                                <button type="submit" id="btn-salvar" class="btn btn-success btn-sm" style="display: none;">
                                     <i class="fas fa-save"></i>  {{ __('pages/profile.save') }}
                                 </button>
                             </div>
@@ -188,32 +211,67 @@
     </div>
 </div>
 
+<!-- Handles user data deletion request with confirmation and modal display -->
 @push('js')
-    <script>
-        function requestDataDeletion() {
-            if (confirm('{{ __("pages/profile.confirm-exclusion") }}')) {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+    <script id="requestDataDeletionScript">
+        if (!window.requestDataDeletionLoaded) {
+            window.requestDataDeletionLoaded = true;
 
-                fetch("{{ route('user.requestDataDeletion') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": csrfToken,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message === 'success') {
-                            // Exibe o modal de confirmação
-                            let dataDeletionConfirmationModal = new bootstrap.Modal(document.getElementById('dataDeletionConfirmationModal'));
-                            dataDeletionConfirmationModal.show();
-                        }
+            function requestDataDeletion() {
+                if (confirm('{{ __("pages/profile.confirm-exclusion") }}')) {
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+                    fetch("{{ route('user.requestDataDeletion') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": csrfToken,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({})
                     })
-                    .catch(error => console.error('Erro:', error));
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message === 'success') {
+                                const modalElement = document.getElementById('dataDeletionConfirmationModal');
+                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                if (modalInstance) {
+                                    modalInstance.dispose();
+                                }
+
+                                const dataDeletionConfirmationModal = new bootstrap.Modal(modalElement, {
+                                    backdrop: 'static',
+                                    keyboard: false
+                                });
+                                dataDeletionConfirmationModal.show();
+                            }
+                        })
+                        .catch(error => console.error('Erro:', error));
+                } else {
+                    console.log('A exclusão foi cancelada pelo usuário.');
+                }
             }
         }
 
+        document.getElementById('btn-editar').addEventListener('click', function () {
+            document.querySelectorAll('form input, form select, form textarea').forEach(el => {
+                el.removeAttribute('disabled');
+            });
+            const btnSalvar = document.getElementById('btn-salvar');
+            if (btnSalvar) {
+                btnSalvar.style.display = 'inline-block';
+            }
+            this.disabled = true;
+        });
+
+
+    </script>
+@endpush
+
+@push('js')
+    <script>
+        window.onload = function () {
+            console.log('Página carregada: Perfil do Usuário');
+        };
     </script>
 @endpush
 

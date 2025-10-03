@@ -10,12 +10,14 @@
             <div class="col-12">
                 <div class="card bg-secondary-overview">
                     <div class="card-header bg-secondary-overview">
-                        <h4> {{ __('project/overview.overview') }}</h4>
+                        <h5> {{ __('project/overview.overview') }}</h5>
                     </div>
                     <div class="card-body">
                         @include('projects.project-overview', [
                             'project' => $project,
                             'activities' => $activities,
+                            'planningProgress' => $planningProgress,
+                            'conductingProgress' => $conductingProgress,
                         ])
                     </div>
                 </div>

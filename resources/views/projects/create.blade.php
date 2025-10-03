@@ -2,8 +2,9 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => __('project/create.create_project') ])
-    <div class="card shadow-lg mx-4">
+    <div class="card shadow-lg mx-4 mt-5">
         <div class="container-fluid py-4">
+
             <p class="text-uppercase text-sm">Create Project</p>
             <form method="POST" action="{{ route('projects.store') }}">
                 @csrf
@@ -11,6 +12,7 @@
                     <label for="titleInput">Title</label>
                     <input name="title" type="text" class="form-control @error('title') is-invalid @enderror"
                         id="titleInput" placeholder="Enter the title" value="{{ old('title') }}">
+
                     @error('title')
                         <span class="invalid-feedback" role="alert">
                             {{ $message }}
@@ -18,6 +20,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
+
                     <label for="descriptionTextarea">Description</label>
                     <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="descriptionTextarea"
                         rows="3" placeholder="Enter the description">{{ old('description') }}</textarea>
@@ -28,6 +31,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
+
                     <label for="objectivesTextarea">Objectives</label>
                     <textarea name="objectives" class="form-control @error('objectives') is-invalid @enderror" id="objectivesTextarea"
                         rows="3" placeholder="Enter the objectives">{{ old('objectives') }}</textarea>
@@ -50,6 +54,8 @@
                         @endif
                     </select>
                 </div>
+                <hr class="horizontal dark mt-4">
+                <p class="text-uppercase text-sm">{{ __('project/edit.type_project') }}</p>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review1" value = "Systematic review">
                     {{ old('feature_review') == 'Systematic review' ? 'checked' : '' }}</input>
@@ -63,14 +69,31 @@
                     <label class="form-check-label" for="feature_review2">
                         Systematic review and Snowballing
                     </label>
-                </div> 
+                </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="feature_review" id="feature_review3"  value= "Snowballing">
                     {{ old('feature_review') == 'Snowballing' ? 'checked' : '' }}</input>
                     <label class="form-check-label" for="feature_review3">
                          Snowballing
                     </label>
-                </div>    
+                </div>
+                <hr class="horizontal dark mt-4">
+                <p class="text-uppercase text-sm">{{ __('project/public_protocol.project_visibility') }}</p>
+
+                <div class="form-check form-switch ps-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <input class="form-check-input ms-0" type="checkbox" role="switch" name="is_public" id="is_public" value="1"
+                            {{ old('is_public') ? 'checked' : '' }}>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-eye"></i>
+                            <label class="form-check-label mb-0" for="is_public">
+                                {{ __('project/public_protocol.make_public') }}
+                            </label>
+                            <i class="fas fa-question-circle text-warning" data-bs-toggle="tooltip" data-bs-placement="right"
+                               title="{{ __('project/public_protocol.visibility_tooltip') }}"></i>
+                        </div>
+                    </div>
+                </div>
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
                 </div>
@@ -80,4 +103,3 @@
     </div>
 
 @endsection
-
