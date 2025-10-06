@@ -8,6 +8,8 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/apple-icon.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
 
+    <meta name="google-site-verification" content="_JgfrM1YqlGt4k-n6M-B6rZS8oxIBd8DZzalkiEAEX8" />
+
     <title>Thoth :: Tool for SLR</title>
 
     <!-- PWA -->
