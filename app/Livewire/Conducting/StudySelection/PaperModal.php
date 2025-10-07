@@ -191,12 +191,12 @@ class PaperModal extends Component
         $this->selected_criterias = $this->temp_selected_criterias;
 
         // Atualizar o status do paper
-        /*
+
         $criteria = Criteria::find(reset($addedCriterias));
         if ($criteria) {
             $this->updatePaperStatus($criteria->type);
-        }*/
-
+        }
+        /*
         $criteria = null;
         if (!empty($addedCriterias)) {
             $criteria = Criteria::find(reset($addedCriterias));
@@ -204,7 +204,7 @@ class PaperModal extends Component
 
         if ($criteria) {
             $this->updatePaperStatus($criteria->type);
-        }
+        }*/
 
         session()->flash('successMessage', 'Critérios salvos com sucesso');
         $this->dispatch('show-success');
