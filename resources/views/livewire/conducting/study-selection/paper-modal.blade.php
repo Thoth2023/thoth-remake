@@ -1,5 +1,5 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
+    <div wire:ignore.self class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" wire:key="paperModal"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
@@ -169,6 +169,11 @@
 
 @script
 <script>
+    // --- Corrige o warning de aria-hidden / focus retido em modais ---
+    document.addEventListener('hidden.bs.modal', function (event) {
+        document.activeElement?.blur();
+    });
+
     document.addEventListener('livewire:initialized', () => {
 
         // --- Abrir modal principal ---
@@ -216,6 +221,7 @@
     });
 </script>
 @endscript
+
 
 
 
