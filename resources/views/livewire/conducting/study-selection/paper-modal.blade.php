@@ -1,5 +1,5 @@
 <div>
-    <div class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
+    <div wire:ignore.self class="modal fade" id="paperModal" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
@@ -170,44 +170,52 @@
 @script
 <script>
     document.addEventListener('livewire:initialized', () => {
-        // Mostrar modal de paper
+
+        // --- Abrir modal principal ---
         Livewire.on('show-paper', () => {
             setTimeout(() => {
-                $('#paperModal').modal('show');
-            }, 500);
+                const modal = new bootstrap.Modal(document.getElementById('paperModal'));
+                modal.show();
+            }, 300);
         });
 
-        // Modal de sucesso
+        // --- Mostrar modal de sucesso ---
         Livewire.on('show-success', () => {
-            $('#paperModal').modal('hide');
-            $('#successModal').modal('show');
+            const paperModalEl = document.getElementById('paperModal');
+            const successModalEl = document.getElementById('successModal');
+
+            const paperModal = bootstrap.Modal.getInstance(paperModalEl);
+            const successModal = new bootstrap.Modal(successModalEl);
+
+            if (paperModal) paperModal.hide();
+            successModal.show();
         });
 
-        // Ao fechar modal de sucesso, reabrir o paper
-        $('#successModal').on('hidden.bs.modal', function() {
-            $('#paperModal').modal('show');
+        // --- Ao fechar o modal de sucesso, reabrir o paper (apenas se o componente ainda existir) ---
+        const successModalEl = document.getElementById('successModal');
+        successModalEl.addEventListener('hidden.bs.modal', function () {
+            if (document.getElementById('paperModal')) {
+                const paperModal = new bootstrap.Modal(document.getElementById('paperModal'));
+                paperModal.show();
+            }
         });
 
-    // Recarregar papers e mostrar modais
-    Livewire.on('reload-papers', () => {
-        Livewire.dispatch('show-success');
+        // --- Recarregar papers e mostrar sucesso ---
+        Livewire.on('reload-papers', () => {
+            Livewire.dispatch('show-success');
+        });
+
+        // --- Toast personalizado ---
+        Livewire.on('paper-modal', ({ message, type }) => {
+            if (typeof toasty === 'function') {
+                toasty({ message, type });
+            } else {
+                console.log(`[${type}] ${message}`);
+            }
+        });
     });
-
-    Livewire.on('show-success', () => {
-        Livewire.dispatch('show-success-quality');
-    });
-
-    Livewire.on('show-sucess', () => {
-        Livewire.dispatch('show-sucess-quality');
-    });
-
-    Livewire.on('paper-modal', ({ message, type }) =>
-        toasty({ message, type
-        }));
-
-    });
-
 </script>
 @endscript
+
 
 
