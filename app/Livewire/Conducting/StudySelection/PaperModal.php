@@ -328,9 +328,6 @@ class PaperModal extends Component
             ->first();
 
         if ($nextPaper) {
-            // Fecha o modal atual
-            $this->dispatch('close-paper');
-
             // Mostra o próximo
             $this->showPaper($nextPaper, $this->criterias);
         } else {
@@ -347,7 +344,6 @@ class PaperModal extends Component
             ->first();
 
         if ($previousPaper) {
-            $this->dispatch('close-paper');
             $this->showPaper($previousPaper, $this->criterias);
         } else {
             session()->flash('errorMessage', 'This is the first paper.');
