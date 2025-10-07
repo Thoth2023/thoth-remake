@@ -174,7 +174,7 @@
         Livewire.on('show-paper', () => {
             setTimeout(() => {
                 $('#paperModal').modal('show');
-            }, 800);
+            }, 500);
         });
 
         // Modal de sucesso
@@ -205,6 +205,7 @@
         toasty({ message, type
         }));
 
+    });
 
 </script>
 @endscript
