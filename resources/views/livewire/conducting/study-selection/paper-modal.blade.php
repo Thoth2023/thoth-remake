@@ -130,11 +130,6 @@
                     </div>
                     @endif
                     @endif
-                    <div class="text-center mt-3">
-                        <button class="btn btn-primary" wire:click="updatePaperStatus">
-                            {{ __('project/conducting.study-selection.modal.apply-selection' )}}
-                        </button>
-                    </div>
 
                 </div>
                 <div class="modal-footer">
@@ -179,7 +174,7 @@
         Livewire.on('show-paper', () => {
             setTimeout(() => {
                 $('#paperModal').modal('show');
-            }, 500);
+            }, 800);
         });
 
         // Modal de sucesso
@@ -193,15 +188,24 @@
             $('#paperModal').modal('show');
         });
 
-        // Eventos de reload e propagação entre componentes
-        Livewire.on('reload-papers', () => Livewire.dispatch('show-success'));
-        Livewire.on('show-success', () => Livewire.dispatch('show-success-quality'));
-        Livewire.on('show-sucess', () => Livewire.dispatch('show-sucess-quality'));
-
-        // Toasts e mensagens rápidas
-        Livewire.on('paper-modal', ({ message, type }) => toasty({ message, type }));
-        Livewire.on('notify', ({ message, type }) => toasty({ message, type }));
+    // Recarregar papers e mostrar modais
+    Livewire.on('reload-papers', () => {
+        Livewire.dispatch('show-success');
     });
+
+    Livewire.on('show-success', () => {
+        Livewire.dispatch('show-success-quality');
+    });
+
+    Livewire.on('show-sucess', () => {
+        Livewire.dispatch('show-sucess-quality');
+    });
+
+    Livewire.on('paper-modal', ({ message, type }) =>
+        toasty({ message, type
+        }));
+
+
 </script>
 @endscript
 
