@@ -67,7 +67,7 @@ class PaperModal extends Component
             ->where('id_member', $member->id_members)
             ->pluck('id_criteria')
             ->toArray();
-            
+
         $this->temp_selected_criterias = $this->selected_criterias;
 
         //status selecionado com base no status salvo no banco de dados
@@ -166,7 +166,7 @@ class PaperModal extends Component
 
         // Encontrar critérios que foram desmarcados
         $removedCriterias = array_diff($this->selected_criterias, $this->temp_selected_criterias);
-        
+
         // Encontrar critérios que foram marcados
         $addedCriterias = array_diff($this->temp_selected_criterias, $this->selected_criterias);
 
@@ -191,7 +191,17 @@ class PaperModal extends Component
         $this->selected_criterias = $this->temp_selected_criterias;
 
         // Atualizar o status do paper
+        /*
         $criteria = Criteria::find(reset($addedCriterias));
+        if ($criteria) {
+            $this->updatePaperStatus($criteria->type);
+        }*/
+
+        $criteria = null;
+        if (!empty($addedCriterias)) {
+            $criteria = Criteria::find(reset($addedCriterias));
+        }
+
         if ($criteria) {
             $this->updatePaperStatus($criteria->type);
         }
@@ -309,18 +319,39 @@ class PaperModal extends Component
     }
 
 
-    public function nextPaper(){
-        $this->paper = Papers::where('id_paper', '>', $this->paper['id_paper'])
+    public function nextPaper()
+    {
+        // Obtém o próximo paper baseado na ordem atual
+        $nextPaper = Papers::where('id_paper', '>', $this->paper['id_paper'])
             ->where('data_base', $this->paper['data_base'])
             ->orderBy('id_paper')
             ->first();
 
-        if ($this->paper) {
+        if ($nextPaper) {
+            // Fecha o modal atual
             $this->dispatch('close-paper');
-            
-            $this->showPaper($this->paper, $this->criterias);
+
+            // Mostra o próximo
+            $this->showPaper($nextPaper, $this->criterias);
         } else {
             session()->flash('errorMessage', 'No more papers available.');
+            $this->dispatch('notify', message: 'No more papers available.', type: 'warning');
+        }
+    }
+
+    public function previousPaper()
+    {
+        $previousPaper = Papers::where('id_paper', '<', $this->paper['id_paper'])
+            ->where('data_base', $this->paper['data_base'])
+            ->orderByDesc('id_paper')
+            ->first();
+
+        if ($previousPaper) {
+            $this->dispatch('close-paper');
+            $this->showPaper($previousPaper, $this->criterias);
+        } else {
+            session()->flash('errorMessage', 'This is the first paper.');
+            $this->dispatch('notify', message: 'This is the first paper.', type: 'info');
         }
     }
 

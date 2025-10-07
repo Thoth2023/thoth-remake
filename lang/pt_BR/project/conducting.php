@@ -91,6 +91,8 @@ return [
             'error-status'=>'Selecione sua Decisão Final',
             'last-confirmation' => 'Confirmado por',
             'confirmation-date' => 'em',
+            'save-criterias' => 'Salvar Critérios',
+            'apply-selection' => 'Aplicar Seleção',
             'table' => [
                 'select' => 'Selecionar',
                 'description' => 'Descrição',
