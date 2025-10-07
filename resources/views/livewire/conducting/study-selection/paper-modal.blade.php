@@ -169,10 +169,6 @@
 
 @script
 <script>
-    // --- Corrige o warning de aria-hidden / focus retido em modais ---
-    document.addEventListener('hidden.bs.modal', function (event) {
-        document.activeElement?.blur();
-    });
 
     document.addEventListener('livewire:initialized', () => {
 
@@ -217,6 +213,11 @@
             } else {
                 console.log(`[${type}] ${message}`);
             }
+        });
+
+        // --- Corrige o warning de aria-hidden / focus retido em modais ---
+        document.addEventListener('hidden.bs.modal', function (event) {
+            document.activeElement?.blur();
         });
     });
 </script>
