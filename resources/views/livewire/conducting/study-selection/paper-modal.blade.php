@@ -88,7 +88,7 @@
                     </table>
                     <div class="text-end mb-3">
                         <button wire:click="saveSelectedCriterias" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Salvar Critérios
+                            <i class="fas fa-save"></i> {{ __('project/conducting.study-selection.modal.save-criterias' )}}
                         </button>
                     </div>
                     <hr />
@@ -131,8 +131,8 @@
                     @endif
                     @endif
                     <div class="text-center mt-3">
-                        <button class="btn btn-primary" wire:click="applySelectedCriterias">
-                            Aplicar Seleção
+                        <button class="btn btn-primary" wire:click="updatePaperStatus">
+                            {{ __('project/conducting.study-selection.modal.apply-selection' )}}
                         </button>
                     </div>
 
@@ -174,41 +174,35 @@
 
 @script
 <script>
-    $(document).ready(function(){
-        // Show the paper modal
-        $wire.on('show-paper', () => {
+    document.addEventListener('livewire:initialized', () => {
+        // Mostrar modal de paper
+        Livewire.on('show-paper', () => {
             setTimeout(() => {
                 $('#paperModal').modal('show');
-            }, 800);
+            }, 500);
         });
 
-        // Show the success modal on success event
+        // Modal de sucesso
         Livewire.on('show-success', () => {
             $('#paperModal').modal('hide');
             $('#successModal').modal('show');
         });
 
-        // Handle the closing of success modal to reopen the paper modal
+        // Ao fechar modal de sucesso, reabrir o paper
         $('#successModal').on('hidden.bs.modal', function() {
             $('#paperModal').modal('show');
         });
-    });
 
-    // Recarregar papers e mostrar modais
-    Livewire.on('reload-papers', () => {
-        Livewire.emit('show-success');
-    });
+        // Eventos de reload e propagação entre componentes
+        Livewire.on('reload-papers', () => Livewire.dispatch('show-success'));
+        Livewire.on('show-success', () => Livewire.dispatch('show-success-quality'));
+        Livewire.on('show-sucess', () => Livewire.dispatch('show-sucess-quality'));
 
-    Livewire.on('show-success', () => {
-        Livewire.emit('show-success-quality');
-    });
-
-    Livewire.on('show-sucess', () => {
-        Livewire.emit('show-sucess-quality');
-    });
-
-    $wire.on('paper-modal', ({ message, type }) => {
-        toasty({ message, type });
+        // Toasts e mensagens rápidas
+        Livewire.on('paper-modal', ({ message, type }) => toasty({ message, type }));
+        Livewire.on('notify', ({ message, type }) => toasty({ message, type }));
     });
 </script>
 @endscript
+
+

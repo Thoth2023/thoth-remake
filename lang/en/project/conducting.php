@@ -92,6 +92,8 @@ return [
             'error-status' => 'Select your Final Decision',
             'last-confirmation' => 'Last Confirmation',
             'confirmation-date' => 'in',
+            'save-criterias' => 'Save Criterias',
+            'apply-selection' => 'Apply Selection',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',

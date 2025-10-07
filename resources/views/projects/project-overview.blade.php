@@ -61,7 +61,6 @@
                     </div>
                     <div class="progress" style="height: 18px;">
                         <div class="progress-bar bg-primary"
-                             role="progressbar"
                              style="width: {{ $planningProgress["overall"] ?? 0 }}%"
                              aria-valuenow="{{ $planningProgress["overall"] ?? 0 }}"
                              aria-valuemin="0" aria-valuemax="100">
@@ -77,7 +76,6 @@
                     </div>
                     <div class="progress" style="height: 18px;">
                         <div class="progress-bar bg-success"
-                             role="progressbar"
                              style="width: {{ $conductingProgress['overall'] ?? 0 }}%"
                              aria-valuenow="{{ $conductingProgress['overall'] ?? 0 }}"
                              aria-valuemin="0" aria-valuemax="100">
@@ -93,7 +91,6 @@
                     </div>
                     <div class="progress" style="height: 18px;">
                         <div class="progress-bar bg-dark"
-                             role="progressbar"
                              style="width: {{ $conductingProgress['study_selection'] ?? 0 }}%"
                              aria-valuenow="{{ $conductingProgress['study_selection'] ?? 0 }}"
                              aria-valuemin="0" aria-valuemax="100">
@@ -109,7 +106,6 @@
                     </div>
                     <div class="progress" style="height: 18px;">
                         <div class="progress-bar bg-info"
-                             role="progressbar"
                              style="width: {{ $conductingProgress['quality_assessment'] ?? 0 }}%"
                              aria-valuenow="{{ $conductingProgress['quality_assessment'] ?? 0 }}"
                              aria-valuemin="0" aria-valuemax="100">
@@ -125,7 +121,6 @@
                     </div>
                     <div class="progress" style="height: 18px;">
                         <div class="progress-bar bg-secondary"
-                             role="progressbar"
                              style="width: {{ $conductingProgress['snowballing'] ?? 0 }}%"
                              aria-valuenow="{{ $conductingProgress['snowballing'] ?? 0 }}"
                              aria-valuemin="0" aria-valuemax="100">
@@ -141,7 +136,6 @@
                     </div>
                     <div class="progress" style="height: 18px;">
                         <div class="progress-bar bg-danger"
-                             role="progressbar"
                              style="width: {{ $conductingProgress['data_extraction'] ?? 0 }}%"
                              aria-valuenow="{{ $conductingProgress['data_extraction'] ?? 0 }}"
                              aria-valuemin="0" aria-valuemax="100">
@@ -159,6 +153,7 @@
             <div class="card-header bg-white border-0">
                 <h5 class="mb-0">{{ __('project/overview.activity_record') }}</h5>
             </div>
+
             <div class="card-body p-3" style="max-height:400px; overflow-y:auto;">
                 @if (!empty($activities))
                     @foreach ($activities->take(10) as $activity)
@@ -190,6 +185,54 @@
                         {{ __('project/overview.no_activities') }}
                     </div>
                 @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Histórico Completo -->
+<div class="modal fade" id="allActivitiesModal" tabindex="-1" aria-labelledby="allActivitiesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="allActivitiesModalLabel">{{ __('project/overview.full_activity_history') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (!empty($activities) && $activities->count())
+                    @foreach ($activities as $activity)
+                        <div class="card p-0 mb-3 border rounded-3 text-start">
+                            <div class="card-header bg-light rounded-top py-2">
+                                <strong>{{ $activity->user->username }}</strong>
+                            </div>
+                            <div class="card-body bg-white py-2">
+                                {{ $activity->activity }}
+                            </div>
+                            <div class="card-footer text-muted py-2">
+                                <small>
+                                    @php
+                                        $locale = app()->getLocale();
+                                        $date = \Carbon\Carbon::parse($activity->created_at)->locale($locale);
+                                        $format = $locale === 'pt_BR' || $locale === 'pt' ? 'd/m/Y H:i' : 'm/d/Y h:i A';
+                                    @endphp
+                                    {{ $date->translatedFormat($format) }}
+                                </small>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="text-center text-muted py-3">
+                        {{ __('project/overview.no_activities') }}
+                    </div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('projects.exportActivities', ['project' => $project->id_project]) }}" class="btn btn-warning btn-sm">
+                    {{ __('project/overview.export') }}
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                    {{ __('project/overview.close') }}
+                </button>
             </div>
         </div>
     </div>
