@@ -48,7 +48,16 @@ class PaperModal extends Component
 
         $this->canEdit = $this->userCanEdit();
 
-        $this->criterias = $criterias;
+        // Ordenar critérios: Inclusion primeiro (ordenado por ID), depois Exclusion (ordenado por ID)
+        $this->criterias = collect($criterias)
+            ->sortBy([
+                fn ($a, $b) => $a['type'] === $b['type']
+                    ? strnatcmp($a['id'], $b['id'])
+                    : ($a['type'] === 'Inclusion' ? -1 : 1),
+            ])
+            ->values()
+            ->toArray();
+
         $this->paper = $paper;
 
         $databaseName = DB::table('data_base')
