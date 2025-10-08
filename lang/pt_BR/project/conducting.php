@@ -151,7 +151,6 @@ return [
             'table-duplicate' => 'Duplicado',
             'table-duplicate-yes' => 'SIM',
             'table-duplicate-no' => 'NÃO',
-
         ],
         'messages' => [
             'criteria_updated' => 'Critério atualizado com sucesso. Novo status: :status',
@@ -159,7 +158,6 @@ return [
         'toasts' => [
             'denied' => 'Um visualizador não pode editar a seleção de estudos',
         ]
-
     ],
     'snowballing' => [
         'title' => 'Snowballing',
