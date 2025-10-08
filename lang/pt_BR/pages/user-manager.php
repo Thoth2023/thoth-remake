@@ -2,7 +2,6 @@
 
 return[
     'Users' => 'Usuários',
-    'description'=>'Aqui você pode gerenciar os usuários cadastrados no sistema.',
     'Name' => 'Nome',
     'Role' => 'Permissões de Acesso',
     'super_user' => 'Acesso Administrativo',
@@ -14,7 +13,7 @@ return[
     'Edit' => 'Editar',
     'Deactivate' => 'Desativar',
     'Activate' => 'Ativar',
-    'Add_User' => 'Novo Usuário',
+    'Add_User' => '+ Novo Usuário',
     'Yes' => 'Sim',
     'No' => 'Não',
     'singup_user' => 'Cadastrar novo usuário',
