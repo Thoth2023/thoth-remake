@@ -16,6 +16,7 @@
                     <p class="text-lead text-white">
                         {{ __("project/planning.databases.database-manager.description") }}
                     </p>
+
                 </div>
             </div>
         </div>
