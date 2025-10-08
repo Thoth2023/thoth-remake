@@ -26,18 +26,7 @@ class PaperModal extends Component
 
     public $currentProject;
     public $projectId;
-    public $paper = [
-        'id_paper' => null,
-        'title' => '',
-        'author' => '',
-        'year' => '',
-        'doi' => '',
-        'url' => '',
-        'data_base' => null,
-        'database_name' => '',
-        'status_selection' => null,
-        'status_description' => 'None',
-    ];
+    public $paper = null;
     public $canEdit = false;
 
     public $criterias;
