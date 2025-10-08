@@ -146,14 +146,12 @@
             </div>
         </div>
     </div>
-
     <!-- Atividades -->
     <div class="col-lg-6">
         <div class="card shadow-sm">
             <div class="card-header bg-white border-0">
                 <h5 class="mb-0">{{ __('project/overview.activity_record') }}</h5>
             </div>
-
             <div class="card-body p-3" style="max-height:400px; overflow-y:auto;">
                 @if (!empty($activities))
                     @foreach ($activities->take(10) as $activity)

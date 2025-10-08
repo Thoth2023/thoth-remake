@@ -102,7 +102,6 @@ return [
                 'conflicts-members' => 'Member Evaluation',
                 'conflicts-criteria' => 'Selected I/E Criteria',
                 'conflicts-status' => 'Evaluation Status',
-
             ],
             'option' => [
                 'select' => 'Select an option',
@@ -119,7 +118,6 @@ return [
             'close' => 'Close',
             'error' => 'Error',
             'success' => 'Success',
-
         ],
         'messages' => [
             'criteria_updated' => 'Criteria updated successfully. New status: :status',

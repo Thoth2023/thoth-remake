@@ -18,7 +18,6 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Traits\ProjectPermissions;
 
-
 class PaperModal extends Component
 {
 
