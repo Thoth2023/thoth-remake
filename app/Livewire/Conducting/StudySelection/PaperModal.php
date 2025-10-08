@@ -67,7 +67,6 @@ class PaperModal extends Component
             Log::error('showPaper called without a valid paper ID or data.');
             return;
         }
-
         $this->paper = Papers::where('id_paper', $paperId)->first()->toArray();
 
         $databaseName = DB::table('data_base')
@@ -295,7 +294,6 @@ class PaperModal extends Component
             session()->flash('successMessage', "Status updated successfully.");
         }
     }
-
 
     private function checkCriteriaRules($criterias, $criterias_ev)
     {

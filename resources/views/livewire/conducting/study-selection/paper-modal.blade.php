@@ -139,6 +139,7 @@
                     <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">{{ __('project/conducting.study-selection.modal.close' )}}</button>
                 </div>
+
                 <!--
                 <div class="d-flex justify-content-between px-4">
                     <button type="button" class="btn btn-outline-secondary" wire:click="previousPaper">
@@ -149,10 +150,10 @@
                     </button>
                 </div>
                 -->
+
             </div>
         </div>
     </div>
-
     <div wire:ignore.self class="modal fade" id="successModal" tabindex="-1" role="dialog"
         aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
