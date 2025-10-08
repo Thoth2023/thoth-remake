@@ -11,7 +11,6 @@
             background-color: #fff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-
         .table thead th {
             background-color: #f8f9fa;
             color: #6c757d;
@@ -20,7 +19,6 @@
             letter-spacing: 0.05em;
             border-bottom: 2px solid #dee2e6;
         }
-
         .table tbody tr:hover {
             background-color: #f1f5f9;
             transition: background-color 0.2s ease;
