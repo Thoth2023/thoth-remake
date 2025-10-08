@@ -26,18 +26,7 @@ class PaperModal extends Component
 
     public $currentProject;
     public $projectId;
-    public $paper = [
-        'id_paper' => null,
-        'title' => '',
-        'author' => '',
-        'year' => '',
-        'doi' => '',
-        'url' => '',
-        'data_base' => null,
-        'database_name' => '',
-        'status_selection' => null,
-        'status_description' => 'None',
-    ];
+    public $paper = null;
     public $canEdit = false;
 
     public $criterias;
@@ -52,7 +41,6 @@ class PaperModal extends Component
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-
     }
     #[On('showPaper')]
     public function showPaper($paper, $criterias)
@@ -70,22 +58,13 @@ class PaperModal extends Component
             ->values()
             ->toArray();
 
-        // Se showPaper for chamado com o ID do paper, carrega o objeto e converte para array
-        // Se o paper for passado como um array de dados, usa o id_paper
-        $paperId = is_array($paper) ? $paper['id_paper'] : $paper;
-
-        if (!$paperId) {
-            Log::error('showPaper called without a valid paper ID or data.');
-            return;
-        }
-
-        $this->paper = Papers::where('id_paper', $paperId)->first()->toArray();
+        $this->paper = $paper;
 
         $databaseName = DB::table('data_base')
             ->where('id_database', $this->paper['data_base'])
             ->value('name');
 
-        $this->paper['database_name'] = $databaseName ?? 'Unknown';
+        $this->paper['database_name'] = $databaseName;
 
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
@@ -101,7 +80,7 @@ class PaperModal extends Component
         $this->temp_selected_criterias = $this->selected_criterias;
 
         //status selecionado com base no status salvo no banco de dados
-        $this->selected_status = $this->getPaperStatusDescription($this->paper['status_selection']);
+        $this->selected_status = $this->paper['status_description'];
 
         // Carregar a nota existente
         $paperSelection = PapersSelection::where('id_paper', $this->paper['id_paper'])
@@ -221,15 +200,24 @@ class PaperModal extends Component
         $this->selected_criterias = $this->temp_selected_criterias;
 
         // Atualizar o status do paper
-        $criterias = Criteria::whereIn('id_criteria', $this->selected_criterias)->get();
-        foreach ($criterias as $criteria) {
+
+        $criteria = Criteria::find(reset($addedCriterias));
+        if ($criteria) {
             $this->updatePaperStatus($criteria->type);
         }
+        /*
+        $criteria = null;
+        if (!empty($addedCriterias)) {
+            $criteria = Criteria::find(reset($addedCriterias));
+        }
+
+        if ($criteria) {
+            $this->updatePaperStatus($criteria->type);
+        }*/
 
         session()->flash('successMessage', 'Critérios salvos com sucesso');
         $this->dispatch('show-success');
         $this->dispatch('refreshPaperStatus');
-
     }
 
     // Método auxiliar para obter a descrição do status
@@ -296,12 +284,6 @@ class PaperModal extends Component
             if ($member->level == 1) {
                 Papers::where('id_paper', $id_paper)->update(['status_selection' => $new_status]);
             }
-            // 🔥 Recarrega o paper atualizado
-            $this->paper = Papers::where('id_paper', $id_paper)->first()->toArray();
-            $this->paper['database_name'] = DB::table('data_base')
-                ->where('id_database', $this->paper['data_base'])
-                ->value('name') ?? '';
-
             session()->forget('successMessage');
             session()->flash('successMessage', "Status updated successfully.");
         }

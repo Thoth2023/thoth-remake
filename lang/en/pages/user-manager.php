@@ -2,7 +2,6 @@
 
 return [
     'Users' => 'Users',
-    'description' => 'Here you can manage the users registered in the system.',
     'Name' => 'Name',
     'Role' => 'Permissions',
     'super_user' => 'Super User Management',
@@ -14,7 +13,7 @@ return [
     'Edit' => 'Edit',
     'Deactivate' => 'Deactivate',
     'Activate' => 'Activate',
-    'Add_User' => 'New User',
+    'Add_User' => '+ New User',
     'Yes' => 'Yes',
     'No' => 'No',
     'singup_user' => 'Sign Up new user',

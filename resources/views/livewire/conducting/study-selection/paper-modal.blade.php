@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-4">
                             <b>{{ __('project/conducting.study-selection.modal.database' )}}:</b>
-                            <p>{{ $paper['database_name'] ?? ($paper['data_base'] ? 'Loading...' : '—') }}</p>
+                            <p>{{ $paper['database_name'] }}</p>
                         </div>
                         <div class="col-2">
                             <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi"
@@ -49,11 +49,8 @@
                             $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                         </div>
 
-                        {{-- @livewire('conducting.study-selection.paper-status', ['paperId' =>
-                        $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))--}}
-
                         @livewire('conducting.study-selection.paper-status', ['paperId' =>
-                            $paper['id_paper'],'projectId' => $this->projectId], key('paper-status-'.$paper['id_paper']))
+                        $paper['id_paper'],'projectId' => $this->projectId], key($paper['id_paper']))
 
                         @livewire('conducting.study-selection.paper-abstract-keywords', ['paperId' =>
                         $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
@@ -156,7 +153,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">{{ __('project/conducting.study-selection.modal.success' )}}</h5>
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
