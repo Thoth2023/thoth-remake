@@ -19,6 +19,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             border-bottom: 2px solid #dee2e6;
+            white-space: nowrap;
         }
 
         .table tbody tr:hover {
@@ -36,6 +37,15 @@
             margin-bottom: 0;
         }
 
+        /* ---------- Limitar largura e quebrar linha ---------- */
+        .col-name, .col-institution {
+            max-width: 220px;
+            white-space: normal !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* ---------- Ajustes visuais ---------- */
         .btn-action {
             min-width: 90px;
             border-radius: 6px;
@@ -46,7 +56,6 @@
             overflow-y: auto;
         }
 
-        /* Scroll suave dentro da div */
         .table-responsive::-webkit-scrollbar {
             width: 6px;
         }
@@ -56,15 +65,16 @@
             border-radius: 3px;
         }
 
-        .card-header h6 {
+        .card-header h5 {
             font-weight: 700;
             margin-bottom: 0;
         }
     </style>
+
     <div class="container mt-4 mb-3">
         <div class="page-header d-flex flex-column pt-4 pb-2 border-radius-lg">
             <div
-                class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
+                class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8"
                 style="width: 100%"
             >
                 <div class="col-lg-6 text-center mx-auto">
@@ -79,6 +89,7 @@
             </div>
         </div>
     </div>
+
     <div class="row mt-1 mx-4">
         <div class="col-12">
             <div class="card mb-4 table-wrapper">
@@ -92,20 +103,20 @@
                 <div class="card-body px-0 pt-0 pb-3">
                     <div class="table-responsive">
                         <table class="table table-hover align-items-center mb-0">
-                            <thead >
+                            <thead>
                             <tr>
-                                <th>{{ __("pages/user-manager.Name") }}</th>
+                                <th class="col-name">{{ __("pages/user-manager.Name") }}</th>
                                 <th>{{ __("pages/user-manager.Role") }}</th>
-                                <th>{{ __("pages/user-manager.Institution") }}</th>
-                                <th>{{ __("pages/user-manager.Country") }}</th>
-                                <th>{{ __("pages/user-manager.Status") }}</th>
+                                <th class="col-institution text-center">{{ __("pages/user-manager.Institution") }}</th>
+                                <th class="text-center">{{ __("pages/user-manager.Country") }}</th>
+                                <th class="text-center">{{ __("pages/user-manager.Status") }}</th>
                                 <th class="text-center">{{ __("pages/user-manager.Actions") }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>
+                                    <td class="col-name">
                                         <h6>{{ $user->firstname }} {{ $user->lastname }}</h6>
                                     </td>
                                     <td>
@@ -117,7 +128,7 @@
                                             <span class="badge bg-info text-dark">{{ $user->role }}</span>
                                         @endif
                                     </td>
-                                    <td class="text-center">
+                                    <td class="col-institution text-center">
                                         <span>{{ $user->institution }}</span>
                                     </td>
                                     <td class="text-center">
