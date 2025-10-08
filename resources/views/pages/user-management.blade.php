@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     @include('layouts.navbars.auth.topnav', ['title' => __("nav/side.user_manager")])
     <style>
         /* ---------- Estilos de melhoria visual ---------- */
