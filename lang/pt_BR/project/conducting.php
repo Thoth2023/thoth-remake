@@ -151,6 +151,7 @@ return [
             'table-duplicate' => 'Duplicado',
             'table-duplicate-yes' => 'SIM',
             'table-duplicate-no' => 'NÃO',
+
         ],
         'messages' => [
             'criteria_updated' => 'Critério atualizado com sucesso. Novo status: :status',

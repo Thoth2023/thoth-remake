@@ -102,6 +102,7 @@ return [
                 'conflicts-members' => 'Member Evaluation',
                 'conflicts-criteria' => 'Selected I/E Criteria',
                 'conflicts-status' => 'Evaluation Status',
+
             ],
             'option' => [
                 'select' => 'Select an option',

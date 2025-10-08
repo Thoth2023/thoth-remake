@@ -21,5 +21,4 @@ return[
     'deactivated' => 'Usuário desativado com sucesso',
     'updated' => 'Usuário atualizado com sucesso',
     'created' => 'Usuário criado com sucesso',
-
 ];
