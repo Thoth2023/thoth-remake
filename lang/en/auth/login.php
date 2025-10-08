@@ -17,5 +17,6 @@ return [
     'failed' => 'The credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'inactive' => 'User is inactive in the system',
+
     'error' => 'The provided credentials do not match our records.'
 ];

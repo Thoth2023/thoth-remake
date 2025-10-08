@@ -146,6 +146,7 @@
             </div>
         </div>
     </div>
+
     <!-- Atividades -->
     <div class="col-lg-6">
         <div class="card shadow-sm">
@@ -188,6 +189,7 @@
         </div>
     </div>
 </div>
+
 <!-- Modal: Histórico Completo -->
 <div class="modal fade" id="allActivitiesModal" tabindex="-1" aria-labelledby="allActivitiesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">

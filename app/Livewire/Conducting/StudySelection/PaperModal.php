@@ -58,16 +58,7 @@ class PaperModal extends Component
             ->values()
             ->toArray();
 
-        // Se showPaper for chamado com o ID do paper, carrega o objeto e converte para array
-        // Se o paper for passado como um array de dados, usa o id_paper
-        $paperId = is_array($paper) ? $paper['id_paper'] : $paper;
-
-        if (!$paperId) {
-            Log::error('showPaper called without a valid paper ID or data.');
-            return;
-        }
-        $this->paper = Papers::where('id_paper', $paperId)->first()->toArray();
-
+        $this->paper = $paper;
 
         $databaseName = DB::table('data_base')
             ->where('id_database', $this->paper['data_base'])
@@ -297,6 +288,7 @@ class PaperModal extends Component
             session()->flash('successMessage', "Status updated successfully.");
         }
     }
+
 
     private function checkCriteriaRules($criterias, $criterias_ev)
     {
