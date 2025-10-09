@@ -122,6 +122,7 @@ return [
                 ],
                 'semantic' => [
                     'error_missing_query' => 'É necessário informar o DOI ou o título para buscar dados via Semantic Scholar.',
+                    'failed' => 'Erro ao tentar atualizar via Semantic Scholar. Tente novamente mais tarde.',
                     'success' => 'A atualização dos dados foi solicitada via Semantic Scholar. Verifique se as informações foram atualizadas.',
                 ],
             ],
