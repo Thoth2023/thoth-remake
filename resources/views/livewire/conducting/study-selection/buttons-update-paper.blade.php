@@ -1,12 +1,6 @@
 <div>
-    <p>{{ __('project/conducting.study-selection.modal.update_via') }}</p>
     @if(empty($abstract) || empty($keywords) || empty($doi) || empty($title))
-        <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via Semantic Scholar" wire:click="atualizarDadosSemantic">
-            <i class="fa-solid fa-refresh"></i>
-            Semantic Scholar
-        </a>
-    @endif
-    @if(empty($abstract) || empty($keywords))
+        <p><b>{{ __('project/conducting.study-selection.modal.update_via') }}</b></p>
         <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via CrossRef" wire:click="atualizarDadosFaltantes">
             <i class="fa-solid fa-refresh"></i>
             CrossRef
@@ -14,6 +8,10 @@
         <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via Springer" wire:click="atualizarDadosSpringer">
             <i class="fa-solid fa-refresh"></i>
             SpringerLink
+        </a>
+        <a class="btn py-1 px-3 btn-outline-primary" data-toggle="tooltip" data-original-title="Atualizar Dados Via Semantic Scholar" wire:click="atualizarDadosSemantic">
+            <i class="fa-solid fa-refresh"></i>
+            Semantic Scholar
         </a>
     @endif
 
