@@ -112,6 +112,21 @@ return [
                 'unclassified' => 'Unclassified',
                 'final-decision' => 'Final Decision Group about paper?',
             ],
+            'buttons' => [
+                'crossref' => [
+                    'error_missing_data' => 'DOI or paper title is required to fetch data via CrossRef.',
+                    'success' => 'Data update requested via CrossRef. Please verify if the information has been updated.',
+                ],
+                'springer' => [
+                    'error_missing_doi' => 'DOI is required to fetch data via Springer.',
+                    'success' => 'Data update requested via Springer. Please verify if the information has been updated.',
+                ],
+                'semantic' => [
+                    'error_missing_query' => 'DOI or title is required to fetch data via Semantic Scholar.',
+                    'success' => 'Data update requested via Semantic Scholar. Please verify if the information has been updated.',
+                ],
+            ],
+            'update_via' => 'Update via:',
             'save' => 'Save',
             'update' => 'Update',
             'confirm' => 'Confirm',
@@ -481,12 +496,12 @@ return [
              <li>To add researchers, navigate to <b>"My Projects->Team"</b></li>
              </ul>
              <br>
-             <b>CSV Format Guidelines:</b><br>
+             <b>CSV Format Guidelines (Springer Link):</b><br>
              Your CSV file must include the following column headers:<br>
              <ul>
                  <li>"<b>Item Title</b>" – used as the paper title</li>
                  <li>"<b>Authors</b>" – list of authors</li>
-                 <li>"<b>Item DOI</b>" – Digital Object Identifier</li>
+                 <li>"Item DOI" – Digital Object Identifier</li>
                  <li>"URL" – link to the paper</li>
                  <li>"Publication Year" –  publication year</li>
                  <li>"Book Series Title" – optional book series name</li>

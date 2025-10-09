@@ -111,6 +111,21 @@ return [
                 'unclassified' => 'Unclassified',
                 'final-decision' => 'Decisão final do grupo sobre o paper?',
             ],
+            'buttons' => [
+                'crossref' => [
+                    'error_missing_data' => 'É necessário informar o DOI ou o título do paper para buscar dados via CrossRef.',
+                    'success' => 'A atualização dos dados foi solicitada via CrossRef. Verifique se as informações foram atualizadas.',
+                ],
+                'springer' => [
+                    'error_missing_doi' => 'É necessário informar o DOI para buscar dados via Springer.',
+                    'success' => 'A atualização dos dados foi solicitada via Springer. Verifique se as informações foram atualizadas.',
+                ],
+                'semantic' => [
+                    'error_missing_query' => 'É necessário informar o DOI ou o título para buscar dados via Semantic Scholar.',
+                    'success' => 'A atualização dos dados foi solicitada via Semantic Scholar. Verifique se as informações foram atualizadas.',
+                ],
+            ],
+            'update_via' => 'Atualizar via:',
             'save' => 'Salvar',
             'update' => 'Atualizar',
             'confirm' => 'Confirmar',
@@ -302,12 +317,12 @@ return [
                      <li>Para adicionar pesquisadores, navegue até <b>"Meus Projetos->Colaboradores"</b></li>
                      </ul>
                      <br>
-                     <b>Orientações para o formato CSV:</b><br>
+                     <b>Orientações para o formato CSV (Springer Link):</b><br>
                      O arquivo CSV deve conter os seguintes cabeçalhos de coluna:<br>
                      <ul>
                          <li>"<b>Item Title</b>" – usado como o título do estudo</li>
                          <li>"<b>Authors</b>" – lista de autores</li>
-                         <li>"<b>Item DOI</b>" – identificador digital do objeto</li>
+                         <li>"Item DOI" – identificador digital do objeto</li>
                          <li>"URL" – link opcional para o estudo</li>
                          <li>"Publication Year" – ano de publicação</li>
                          <li>"Book Series Title" – nome da série de livros</li>
