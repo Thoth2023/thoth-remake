@@ -32,6 +32,8 @@ class AtualizarDadosSemantic implements ShouldQueue
         Log::info("Iniciando atualização via Semantic Scholar para o paper ID {$this->paperId}");
 
         $service = new SnowballingService();
+
+        // priorizar o DOI se existir
         $query = !empty($this->doi) ? $this->doi : $this->title;
 
         $result = $service->fetch($query);
@@ -49,19 +51,28 @@ class AtualizarDadosSemantic implements ShouldQueue
             return;
         }
 
-        // Atualizar campos conforme tipo de consulta (via DOI ou via título)
-        if (empty($this->doi) && !empty($this->title)) {
-            // Atualização via título → preencher DOI
-            $paper->doi = $article['doi'] ?? $paper->doi;
-        } elseif (!empty($this->doi) && empty($this->title)) {
-            // Atualização via DOI → preencher título
+        // Atualizar sempre via DOI se disponível
+        if (!empty($this->doi)) {
+            // Atualização via DOI → pode atualizar título
             $paper->title = $article['title'] ?? $paper->title;
+        } elseif (!empty($this->title)) {
+            // Atualização via título → pode preencher DOI
+            $paper->doi = $article['doi'] ?? $paper->doi;
         }
 
-        // Atualizar campos comuns
+        //Atualizar campos comuns
         $paper->abstract = $article['abstract'] ?? $paper->abstract;
         $paper->keywords = $this->extractKeywords($article);
         $paper->author = $article['authors'] ?? $paper->author;
+
+        //Atualizar URL (com fallback para DOI se vier vazio)
+        if (!empty($article['url'])) {
+            $paper->url = $article['url'];
+        } elseif (!empty($paper->doi)) {
+            $paper->url = str_contains($paper->doi, 'http')
+                ? $paper->doi
+                : 'https://doi.org/' . ltrim($paper->doi);
+        }
 
         $paper->save();
 
@@ -77,7 +88,7 @@ class AtualizarDadosSemantic implements ShouldQueue
             return $article['keywords'];
         }
 
-        // Fallback: tentar inferir palavras-chave a partir do abstract
+        // Fallback: gerar palavras-chave a partir do abstract
         if (!empty($article['abstract'])) {
             $abstract = strtolower($article['abstract']);
             $words = array_filter(explode(' ', $abstract), fn($w) => strlen($w) > 6);
