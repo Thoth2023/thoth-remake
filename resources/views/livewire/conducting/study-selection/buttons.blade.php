@@ -140,28 +140,38 @@
 @script
 <script>
     $(document).ready(function(){
-        // mostrar modal de duplicados
+
+        // Mostrar modal principal de duplicados
         $wire.on('show-duplicates-modal', () => {
             $('#duplicatesModal').modal('show');
         });
 
-        // mostrar modal de sucesso
+        // Mostrar modal de sucesso
         Livewire.on('show-success-duplicates', () => {
-            $('#duplicatesModal').modal('hide'); // Esconde o modal principal
-            $('#successModalDuplicates').modal('show'); // Mostra o modal de sucesso
+            $('#duplicatesModal').modal('hide');
+            $('#successModalDuplicates').modal('show');
         });
 
-        // ao fechar o modal de sucesso, reabrir o modal de duplicados
+        // --- Reabrir o modal principal após sucesso ---
         $('#successModalDuplicates').on('hidden.bs.modal', function () {
-            $('#duplicatesModal').modal('show'); // Reabre o modal de duplicados
+            // Força reload dos dados do backend antes de reabrir
+            Livewire.emit('refresh-duplicates-list');
+            setTimeout(() => {
+                $('#duplicatesModal').modal('show');
+            }, 400);
+        });
+
+        // --- Evento que vem do backend para recarregar dados ---
+        Livewire.on('refresh-duplicates-list', () => {
+            Livewire.emit('$refresh');
+        });
+
+        // Toasts
+        $wire.on('buttons', ([{ message, type }]) => {
+            toasty({ message, type });
         });
     });
-
-    // Toast
-    $wire.on('buttons', ([{ message, type }]) => {
-        toasty({ message, type });
-    });
-
 </script>
 @endscript
+
 
