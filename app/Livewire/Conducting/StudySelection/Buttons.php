@@ -226,7 +226,12 @@ class Buttons extends Component
         $this->duplicates = [];
         $this->uniquePapers = [];
 
-        $papers = $this->getPapers($this->projectId);
+        // Recarrega os papers normalizados
+        $papers = $this->getPapers($this->projectId)->map(function ($paper) {
+            $paper->database = is_object($paper->database) ? ($paper->database->name ?? 'N/A') : $paper->database;
+            return $paper;
+        });
+
         $uniqueTitles = [];
 
         foreach ($papers as $paper) {
@@ -244,6 +249,7 @@ class Buttons extends Component
             }
         }
     }
+
 
 
     private function removeFromDuplicates($paperId)
@@ -407,22 +413,27 @@ class Buttons extends Component
 
         $idsBib = [];
         if (count($idsDatabase) > 0) {
-            // Obter os IDs das bibliotecas associadas aos bancos de dados do projeto
             $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         }
 
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
 
-        // Buscar os papers vinculados aos IDs das bibliotecas e que estão associados ao membro atual
-        return Papers::whereIn('id_bib', $idsBib)
+        // Buscar os papers vinculados aos IDs das bibliotecas e ao membro atual
+        $papers = Papers::whereIn('id_bib', $idsBib)
             ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Associar com a tabela papers_selection
-            ->where('papers_selection.id_member', $member->id_members) // Filtrar pelo membro atual
-            ->select('papers.*', 'papers_selection.id_member', 'papers_selection.id_status', 'data_base.name as database') // Garantir que apenas os campos da tabela papers sejam retornados
+            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper')
+            ->where('papers_selection.id_member', $member->id_members)
+            ->select('papers.*', 'papers_selection.id_member', 'papers_selection.id_status', 'data_base.name as database')
             ->get();
+
+        // Normaliza o campo database para string simples
+        return $papers->map(function ($paper) {
+            $paper->database = is_object($paper->database) ? ($paper->database->name ?? 'N/A') : $paper->database;
+            return $paper;
+        });
     }
 
     private function getPapersExport()
