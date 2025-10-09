@@ -178,6 +178,7 @@ return [
             'table-duplicate' => 'Duplicate',
             'table-duplicate-yes' => 'YES',
             'table-duplicate-no' => 'NO',
+            'success-message' => 'Duplicate Paper updated successfully!',
         ],
         'toasts' => [
             'denied' => 'A viewer cannot edit the study selection.',
