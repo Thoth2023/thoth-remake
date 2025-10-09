@@ -157,14 +157,10 @@
         });
     });
 
-    // --- Toasts personalizados ---
-        Livewire.on('buttons', ([{ message, type }]) => {
-            if (typeof toasty === 'function') {
-                toasty({ message, type });
-            } else {
-                console.log(`[${type}] ${message}`);
-            }
-        });
+    // Toast
+    $wire.on('buttons', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
 
 </script>
 @endscript
