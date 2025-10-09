@@ -76,7 +76,10 @@ class ButtonsUpdatePaper extends Component
             return;
         }
 
-        Log::info("Despachando Job para atualização via Semantic Scholar para paper ID {$this->paperId}");
+        // Se houver título e DOI → priorizar DOI
+        $queryType = !empty($this->doi) ? 'DOI' : 'Título';
+        Log::info("Atualizando via Semantic Scholar ({$queryType}) → paper ID {$this->paperId}");
+
         AtualizarDadosSemantic::dispatch($this->paperId, $this->doi, $this->title);
 
         $this->toast(__('project/conducting.study-selection.modal.buttons.semantic.success'), 'success');
