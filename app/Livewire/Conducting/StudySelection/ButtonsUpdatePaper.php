@@ -76,15 +76,25 @@ class ButtonsUpdatePaper extends Component
             return;
         }
 
-        // Se houver título e DOI → priorizar DOI
-        $queryType = !empty($this->doi) ? 'DOI' : 'Título';
-        Log::info("Atualizando via Semantic Scholar ({$queryType}) → paper ID {$this->paperId}");
+        try {
+            $queryType = !empty($this->doi) ? 'DOI' : 'Título';
+            Log::info("Atualizando via Semantic Scholar ({$queryType}) → paper ID {$this->paperId}");
 
-        AtualizarDadosSemantic::dispatch($this->paperId, $this->doi, $this->title);
+            AtualizarDadosSemantic::dispatch($this->paperId, $this->doi, $this->title);
 
-        $this->toast(__('project/conducting.study-selection.modal.buttons.semantic.success'), 'success');
+            $this->toast(__('project/conducting.study-selection.modal.buttons.semantic.success'), 'success');
+        } catch (\Throwable $e) {
+            Log::error("Falha ao atualizar via Semantic Scholar: " . $e->getMessage(), [
+                'paperId' => $this->paperId,
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            $this->toast(__('project/conducting.study-selection.modal.buttons.semantic.failed'), 'error');
+        }
+
         $this->dispatch('refresh-paper-data');
     }
+
 
     private function toast(string $message, string $type)
     {
