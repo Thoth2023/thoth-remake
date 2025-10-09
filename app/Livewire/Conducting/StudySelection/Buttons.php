@@ -18,7 +18,7 @@ use Livewire\Attributes\On;
 
 class Buttons extends Component
 {
-    
+
     private $translationPath = 'project/conducting.data-extraction.buttons';
     private $toastMessages = 'project/conducting.data-extraction.buttons';
 
@@ -129,11 +129,13 @@ class Buttons extends Component
             if ($paperSelection) {
                 // Atualiza o status na tabela PapersSelection
                 $paperSelection->update(['id_status' => 4]);
+
                 // Exibe uma mensagem de sucesso
-                $this->toast(
+                /*$this->toast(
                     message: $this->translate('confirm-duplicate'),
                     type: 'success',
-                );
+                );*/
+
                 // Registra a atividade no log
                 Log::logActivity(
                     action: 'Paper duplicated successfully marked',
@@ -147,8 +149,11 @@ class Buttons extends Component
             // Remove o paper da lista de duplicatas sem recalcular tudo
             $this->removeFromDuplicates($paperId);
 
-            // Atualizar a view para refletir as mudanças
-            $this->dispatch('refresh');
+            // Recarrega os dados atualizados
+            $this->refreshDuplicates();
+
+            //  exibe modal de sucesso
+            $this->dispatch('show-success-duplicates');
         } else {
             // Se o paper não for encontrado, trate o erro
             $this->toast(
@@ -180,10 +185,10 @@ class Buttons extends Component
                 $paperSelection->update(['id_status' => 3]);
 
                 // Exibe uma mensagem de sucesso
-                $this->toast(
+                /*$this->toast(
                     message: $this->translate('marked-unclassified'),
                     type: 'info',
-                );
+                );*/
 
                 // Registra a atividade no log
                 Log::logActivity(
@@ -197,8 +202,12 @@ class Buttons extends Component
             }
             // Remover o paper da lista de duplicatas sem recalcular tudo
             $this->removeFromDuplicates($paperId);
-            // Atualizar a view para refletir as mudanças
-            $this->dispatch('refresh');
+
+            // Recarrega os dados atualizados
+            $this->refreshDuplicates();
+
+            //  exibe modal de sucesso
+            $this->dispatch('show-success-duplicates');
         } else {
             // Se o paper não for encontrado, trate o erro
             $this->toast(
@@ -207,6 +216,35 @@ class Buttons extends Component
             );
            }
     }
+
+    private function refreshDuplicates()
+    {
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId)
+            ->first();
+
+        $this->duplicates = [];
+        $this->uniquePapers = [];
+
+        $papers = $this->getPapers($this->projectId);
+        $uniqueTitles = [];
+
+        foreach ($papers as $paper) {
+            if (!in_array($paper->title, $uniqueTitles)) {
+                $uniqueTitles[] = $paper->title;
+            } else {
+                $this->duplicates[$paper->title][] = $paper;
+            }
+        }
+
+        foreach ($uniqueTitles as $title) {
+            if (isset($this->duplicates[$title])) {
+                $originalPaper = Papers::where('title', $title)->first();
+                $this->uniquePapers[] = $originalPaper;
+            }
+        }
+    }
+
 
     private function removeFromDuplicates($paperId)
     {
@@ -308,7 +346,7 @@ class Buttons extends Component
     public function exportCsv()
     {
         $papers = $this->getPapersExport($this->projectId);
-        
+
         // Verifica se existem papers para exportar
         if ($papers->isEmpty()) {
             $this->toast(
@@ -355,7 +393,7 @@ class Buttons extends Component
             );
             return;
         }
-        
+
         $pdfData = $this->formatPdf($papers);
         return response()->streamDownload(function() use ($pdfData) {
             echo $pdfData;
