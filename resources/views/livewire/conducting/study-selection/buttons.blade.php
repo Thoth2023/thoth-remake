@@ -1,18 +1,18 @@
 <div>
     <!-- Botões de exportação e remoção de duplicados -->
-    <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}" 
+    <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}"
        wire:click.prevent="{{ $hasPapers ? 'exportCsv' : '' }}"
        @if(!$hasPapers) disabled @endif>
         <i class="fa-solid fa-file-csv"></i>
         {{ __('project/conducting.study-selection.buttons.csv' )}}
     </a>
-    <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}" 
+    <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}"
        wire:click.prevent="{{ $hasPapers ? 'exportXml' : '' }}"
        @if(!$hasPapers) disabled @endif>
         <i class="fa-regular fa-file-code"></i>
         {{ __('project/conducting.study-selection.buttons.xml' )}}
     </a>
-    <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}" 
+    <a class="btn py-1 px-3 btn-outline-secondary ms-auto {{ !$hasPapers ? 'disabled opacity-50 cursor-not-allowed' : '' }}"
        wire:click.prevent="{{ $hasPapers ? 'exportPdf' : '' }}"
        @if(!$hasPapers) disabled @endif>
         <i class="fa-regular fa-file-pdf"></i>
@@ -24,8 +24,7 @@
     </a>
 
     <!-- Modal para mostrar papers duplicados -->
-    <div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="duplicatesModalLabel" aria-hidden="true"
-         wire:ignore.self>
+    <div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="duplicatesModalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -117,6 +116,23 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="successModalDuplicates" tabindex="-1" role="dialog"
+         aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">{{ __('project/conducting.study-selection.modal.success' )}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('project/conducting.study-selection.duplicates.success-message') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>
@@ -124,20 +140,32 @@
 @script
 <script>
     $(document).ready(function(){
+        // mostrar modal de duplicados
         $wire.on('show-duplicates-modal', () => {
-            setTimeout(() => {
-                $('#duplicatesModal').modal('show');
-            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
-        }); 
-
-        $wire.on('show-success-duplicates', () => {
-            $('#duplicatesModal').modal('hide');
+            $('#duplicatesModal').modal('show');
         });
 
-        $wire.on('buttons', ([{ message, type }]) => {
-            toasty({ message, type });
+        // mostrar modal de sucesso
+        Livewire.on('show-success-duplicates', () => {
+            $('#duplicatesModal').modal('hide'); // Esconde o modal principal
+            $('#successModalDuplicates').modal('show'); // Mostra o modal de sucesso
         });
 
+        // ao fechar o modal de sucesso, reabrir o modal de duplicados
+        $('#successModalDuplicates').on('hidden.bs.modal', function () {
+            $('#duplicatesModal').modal('show'); // Reabre o modal de duplicados
+        });
     });
+
+    // --- Toasts personalizados ---
+        Livewire.on('buttons', ([{ message, type }]) => {
+            if (typeof toasty === 'function') {
+                toasty({ message, type });
+            } else {
+                console.log(`[${type}] ${message}`);
+            }
+        });
+
 </script>
 @endscript
+
