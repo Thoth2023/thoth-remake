@@ -35,7 +35,7 @@ return [
         'title' => 'Study Selection',
         'help' => [
             'content' => 'Study selection is a crucial phase of the systematic review, where the author analyzes the title, abstract, and keywords of each study, evaluating them according to the inclusion and exclusion criteria established in the review plan. Based on these criteria, the status of each study will be automatically updated. However, the researcher has the option to manually set the status, but in doing so, the system will not record which criteria were considered during the evaluation.
-            <br/>
+            <br/><br/>
             <h6>Updating Missing Paper Data</h6>
         <p>Before running the duplicate-detection process, it is recommended to update any papers that have incomplete metadata:</p>
         <ul>
@@ -489,6 +489,7 @@ return [
     ],
     'import-studies' => [
         'title' => 'Import Studies',
+        'bib_file' => 'Only .bib, .txt (BIB format), and .csv files are allowed.',
         'form' => [
             'database' => 'Database',
             'selected-database' => 'Select Database',

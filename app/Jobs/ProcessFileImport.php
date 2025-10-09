@@ -34,6 +34,15 @@ class ProcessFileImport implements ShouldQueue
     public function handle()
     {
         $contents = file_get_contents($this->filePath);
+
+        //Detectar e converter encoding automaticamente
+        $encoding = mb_detect_encoding($contents, ['UTF-8', 'ISO-8859-1', 'Windows-1252', 'ASCII'], true);
+        if ($encoding !== 'UTF-8') {
+            $contents = mb_convert_encoding($contents, 'UTF-8', $encoding);
+            Log::info("Arquivo {$this->filePath} convertido de {$encoding} para UTF-8.");
+        }
+
+        //Normalizar e limpar caracteres problemáticos
         $contents = NormalizeUTF8::normalizeString($contents);
         $contents = $this->sanitizeBibtexContent($contents);
         $contents = preg_replace("/\t|[\x{2013}\x{2014}\x{2015}\x{2022}\x{00A0}\x{200B}]/u", " ", $contents);
@@ -43,6 +52,7 @@ class ProcessFileImport implements ShouldQueue
             return "@{$type}{{$identifier}";
         }, $contents);
         $contents = $this->convertLatexSpecialChars($contents);
+        $contents = $this->cleanBibtexFieldValues($contents);
         $contents = str_replace(["“", "”", "‘", "’"], ['"', '"', "'", "'"], $contents);
         $contents = preg_replace_callback('/note\s*=\s*{([^}]*)}/i', function ($matches) {
             $cleanedNote = str_replace(';', ',', $matches[1]);
@@ -85,6 +95,25 @@ class ProcessFileImport implements ShouldQueue
             $failedIdentifiers = implode(', ', $this->failedEntries);
             session()->flash('import_warning', "As seguintes referências não foram importadas: $failedIdentifiers");
         }
+    }
+
+    private function cleanBibtexFieldValues(string $contents): string
+    {
+        // Remove aspas tipográficas e converte para aspas padrão
+        $contents = str_replace(['„', '“', '”', '“', '‟'], '"', $contents);
+        $contents = str_replace(["''", '``', '„'], '"', $contents);
+
+        // Limpa vírgulas e aspas no início ou final de campos
+        $contents = preg_replace_callback('/=\s*{([^}]*)}/', function ($matches) {
+            $value = trim($matches[1]);
+
+            // Remove vírgulas e aspas duplicadas do início e fim
+            $value = preg_replace('/^[,"\s]+|[,"\s]+$/u', '', $value);
+
+            return '= {' . $value . '}';
+        }, $contents);
+
+        return $contents;
     }
 
     private function sanitizeBibtexContent($contents)

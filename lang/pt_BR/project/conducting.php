@@ -34,7 +34,7 @@ return [
         'title' => 'Seleção de Estudos',
         'help' => [
             'content' => 'A seleção de estudos é uma fase crucial da revisão sistemática, na qual o autor analisa o título, resumo e palavras-chave de cada estudo, avaliando-os conforme as regras dos critérios de inclusão e exclusão estabelecidos no planejamento da revisão. Com base nesses critérios, o status de cada estudo será automaticamente alterado. No entanto, o pesquisador tem a opção de definir o status manualmente, mas, ao fazer isso, o sistema não registrará quais critérios foram considerados na avaliação.
-            <br/>
+            <br/><br/>
             <h6>Atualizar Dados Faltantes dos Estudos</h6>
         <p>Antes de iniciar a etapa de identificação de duplicados, é recomendável atualizar os metadados dos papers que estejam com informações incompletas:</p>
         <ul>
@@ -311,6 +311,7 @@ return [
 
     'import-studies' => [
         'title' => 'Importar estudos',
+        'bib_file' => 'Apenas arquivos .bib, .txt (formato BIB) e .csv são permitidos.',
         'form' => [
             'database' => 'Base de dados',
             'selected-database' => 'Selecionar a base de dados',
