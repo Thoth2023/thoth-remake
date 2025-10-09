@@ -35,7 +35,14 @@ return [
         'title' => 'Study Selection',
         'help' => [
             'content' => 'Study selection is a crucial phase of the systematic review, where the author analyzes the title, abstract, and keywords of each study, evaluating them according to the inclusion and exclusion criteria established in the review plan. Based on these criteria, the status of each study will be automatically updated. However, the researcher has the option to manually set the status, but in doing so, the system will not record which criteria were considered during the evaluation.
-            <br/><br/>
+            <br/>
+            <h6>Updating Missing Paper Data</h6>
+        <p>Before running the duplicate-detection process, it is recommended to update any papers that have incomplete metadata:</p>
+        <ul>
+            <li><b>1 – Via CrossRef and SpringerLink:</b> the paper must contain a <b>DOI</b>. If the information is found, the system will automatically populate the missing fields and update the paper record.</li>
+            <li><b>2 – Via Semantic Scholar:</b> the search can be performed using either the <b>Title</b> or the <b>DOI</b>. The system will update the missing data (title, authors, abstract, keywords, etc.) if available in the database.</li>
+        </ul>
+            <br/>
             <h6>Find Duplicates</h6>
             <p>We have two options to mark papers as duplicates: </p>
             <ul><li>1- Studies with the same "Title, Year, and Authors" information can all be marked as duplicates at once; </li>

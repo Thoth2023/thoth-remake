@@ -34,7 +34,14 @@ return [
         'title' => 'Seleção de Estudos',
         'help' => [
             'content' => 'A seleção de estudos é uma fase crucial da revisão sistemática, na qual o autor analisa o título, resumo e palavras-chave de cada estudo, avaliando-os conforme as regras dos critérios de inclusão e exclusão estabelecidos no planejamento da revisão. Com base nesses critérios, o status de cada estudo será automaticamente alterado. No entanto, o pesquisador tem a opção de definir o status manualmente, mas, ao fazer isso, o sistema não registrará quais critérios foram considerados na avaliação.
-            <br/><br/>
+            <br/>
+            <h6>Atualizar Dados Faltantes dos Estudos</h6>
+        <p>Antes de iniciar a etapa de identificação de duplicados, é recomendável atualizar os metadados dos papers que estejam com informações incompletas:</p>
+        <ul>
+            <li><b>1 – Via CrossRef e SpringerLink:</b> é necessário que o paper possua um <b>DOI</b>. Caso as informações sejam encontradas, o sistema irá preencher automaticamente os campos ausentes e atualizar o registro do paper.</li>
+            <li><b>2 – Via Semantic Scholar:</b> a busca pode ser feita tanto por <b>Título</b> quanto por <b>DOI</b>. O sistema atualizará os dados faltantes (título, autores, resumo, palavras-chave, etc.) se as informações forem encontradas na base.</li>
+        </ul>
+            <br/>
             <h6>Encontrar Duplicados</h6>
             <p>Temos duas opções para assinalar os papers como duplicados: </p>
             <ul><li>1- Os estudos com as informações  de "Título, Ano e Autores" podem ser assinalados como duplicados todos de uma vez; </li>
