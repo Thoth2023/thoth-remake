@@ -154,6 +154,7 @@ class Buttons extends Component
 
             //  exibe modal de sucesso
             $this->dispatch('show-success-duplicates');
+            $this->dispatch('duplicates-refreshed');
 
         } else {
             // Se o paper não for encontrado, trate o erro
@@ -209,6 +210,7 @@ class Buttons extends Component
 
             //  exibe modal de sucesso
             $this->dispatch('show-success-duplicates');
+            $this->dispatch('duplicates-refreshed');
         } else {
             // Se o paper não for encontrado, trate o erro
             $this->toast(

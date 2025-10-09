@@ -139,28 +139,38 @@
 
 @script
 <script>
-    $(document).ready(function(){
-        // mostrar modal de duplicados
-        $wire.on('show-duplicates-modal', () => {
+    document.addEventListener('livewire:initialized', () => {
+        const $wire = Livewire.find(document.querySelector('[wire\\:id]').getAttribute('wire:id'));
+
+        // Mostrar modal principal
+        Livewire.on('show-duplicates-modal', () => {
             $('#duplicatesModal').modal('show');
         });
 
-        // mostrar modal de sucesso
+        // Mostrar modal de sucesso
         Livewire.on('show-success-duplicates', () => {
-            $('#duplicatesModal').modal('hide'); // Esconde o modal principal
-            $('#successModalDuplicates').modal('show'); // Mostra o modal de sucesso
+            $('#duplicatesModal').modal('hide');
+            $('#successModalDuplicates').modal('show');
         });
 
-        // ao fechar o modal de sucesso, reabrir o modal de duplicados
+        // Reabrir modal principal ao fechar o de sucesso
         $('#successModalDuplicates').on('hidden.bs.modal', function () {
-            $('#duplicatesModal').modal('show'); // Reabre o modal de duplicados
+            $wire.$refresh(); //
+            setTimeout(() => {
+                $('#duplicatesModal').modal('show');
+            }, 400);
+        });
+
+        Livewire.on('duplicates-refreshed', () => {
+            console.log('Duplicates reloaded from backend');
+        });
+
+        // Toasts
+        Livewire.on('buttons', ([{ message, type }]) => {
+            toasty({ message, type });
         });
     });
 
-    // Toast
-    $wire.on('buttons', ([{ message, type }]) => {
-        toasty({ message, type });
-    });
 
 </script>
 @endscript
