@@ -129,13 +129,11 @@ class Buttons extends Component
             if ($paperSelection) {
                 // Atualiza o status na tabela PapersSelection
                 $paperSelection->update(['id_status' => 4]);
-
                 // Exibe uma mensagem de sucesso
-                /*$this->toast(
+                $this->toast(
                     message: $this->translate('confirm-duplicate'),
                     type: 'success',
-                );*/
-
+                );
                 // Registra a atividade no log
                 Log::logActivity(
                     action: 'Paper duplicated successfully marked',
@@ -149,13 +147,8 @@ class Buttons extends Component
             // Remove o paper da lista de duplicatas sem recalcular tudo
             $this->removeFromDuplicates($paperId);
 
-            // Recarrega os dados atualizados
-            $this->refreshDuplicates();
-
-            //  exibe modal de sucesso
-            $this->dispatch('show-success-duplicates');
-            $this->dispatch('duplicates-refreshed');
-
+            // Atualizar a view para refletir as mudanças
+            $this->dispatch('refresh');
         } else {
             // Se o paper não for encontrado, trate o erro
             $this->toast(
@@ -187,10 +180,10 @@ class Buttons extends Component
                 $paperSelection->update(['id_status' => 3]);
 
                 // Exibe uma mensagem de sucesso
-                /*$this->toast(
+                $this->toast(
                     message: $this->translate('marked-unclassified'),
                     type: 'info',
-                );*/
+                );
 
                 // Registra a atividade no log
                 Log::logActivity(
@@ -204,56 +197,16 @@ class Buttons extends Component
             }
             // Remover o paper da lista de duplicatas sem recalcular tudo
             $this->removeFromDuplicates($paperId);
-
-            // Recarrega os dados atualizados
-            $this->refreshDuplicates();
-
-            //  exibe modal de sucesso
-            $this->dispatch('show-success-duplicates');
-            $this->dispatch('duplicates-refreshed');
+            // Atualizar a view para refletir as mudanças
+            $this->dispatch('refresh');
         } else {
             // Se o paper não for encontrado, trate o erro
             $this->toast(
                 message: $this->translate('erro-find-paper'),
                 type: 'error',
             );
-           }
-    }
-
-    private function refreshDuplicates()
-    {
-        $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId)
-            ->first();
-
-        $this->duplicates = [];
-        $this->uniquePapers = [];
-
-        // Recarrega os papers normalizados
-        $papers = $this->getPapers($this->projectId)->map(function ($paper) {
-            $paper->database = is_object($paper->database) ? ($paper->database->name ?? 'N/A') : $paper->database;
-            return $paper;
-        });
-
-        $uniqueTitles = [];
-
-        foreach ($papers as $paper) {
-            if (!in_array($paper->title, $uniqueTitles)) {
-                $uniqueTitles[] = $paper->title;
-            } else {
-                $this->duplicates[$paper->title][] = $paper;
-            }
-        }
-
-        foreach ($uniqueTitles as $title) {
-            if (isset($this->duplicates[$title])) {
-                $originalPaper = Papers::where('title', $title)->first();
-                $this->uniquePapers[] = $originalPaper;
-            }
         }
     }
-
-
 
     private function removeFromDuplicates($paperId)
     {
@@ -336,7 +289,7 @@ class Buttons extends Component
                 message: $this->translate('duplicates-all'),
                 type: 'success',
             );
-          } else {
+        } else {
             $this->toast(
                 message: $this->translate('no-duplicates'),
                 type: 'info',
@@ -416,27 +369,22 @@ class Buttons extends Component
 
         $idsBib = [];
         if (count($idsDatabase) > 0) {
+            // Obter os IDs das bibliotecas associadas aos bancos de dados do projeto
             $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib')->toArray();
         }
 
         // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId)
+            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
             ->first();
 
-        // Buscar os papers vinculados aos IDs das bibliotecas e ao membro atual
-        $papers = Papers::whereIn('id_bib', $idsBib)
+        // Buscar os papers vinculados aos IDs das bibliotecas e que estão associados ao membro atual
+        return Papers::whereIn('id_bib', $idsBib)
             ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper')
-            ->where('papers_selection.id_member', $member->id_members)
-            ->select('papers.*', 'papers_selection.id_member', 'papers_selection.id_status', 'data_base.name as database')
+            ->join('papers_selection', 'papers.id_paper', '=', 'papers_selection.id_paper') // Associar com a tabela papers_selection
+            ->where('papers_selection.id_member', $member->id_members) // Filtrar pelo membro atual
+            ->select('papers.*', 'papers_selection.id_member', 'papers_selection.id_status', 'data_base.name as database') // Garantir que apenas os campos da tabela papers sejam retornados
             ->get();
-
-        // Normaliza o campo database para string simples
-        return $papers->map(function ($paper) {
-            $paper->database = is_object($paper->database) ? ($paper->database->name ?? 'N/A') : $paper->database;
-            return $paper;
-        });
     }
 
     private function getPapersExport()
