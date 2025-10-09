@@ -17,7 +17,7 @@
                             <b>{{ __('project/conducting.study-selection.modal.author' )}}:</b>
                             <p>{{ $paper['author'] }}</p>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <b>{{ __('project/conducting.study-selection.modal.year' )}}:</b>
                             <p>{{ $paper['year'] }}</p>
                         </div>
@@ -25,17 +25,9 @@
                             <b>{{ __('project/conducting.study-selection.modal.database' )}}:</b>
                             <p>{{ $paper['database_name'] ?? ($paper['data_base'] ? 'Loading...' : '—') }}</p>
                         </div>
-                        <div class="col-2">
-                            <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi"
-                               href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                DOI
-                            </a>
-                            <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="URL"
-                               href="{{ $paper['url'] }}" target="_blank">
-                                <i class="fa-solid fa-link"></i>
-                                URL
-                            </a>
+                        <div class="col-3">
+                            @livewire('conducting.study-selection.paper-doi-url', ['paperId' =>
+                           $paper['id_paper'], 'projectId' => $this->projectId], key($paper['id_paper']))
                             <a class="btn py-1 px-3 btn-outline-primary"
                                data-toggle="tooltip"
 
