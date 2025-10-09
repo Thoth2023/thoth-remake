@@ -24,7 +24,8 @@
     </a>
 
     <!-- Modal para mostrar papers duplicados -->
-    <div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="duplicatesModalLabel" aria-hidden="true" wire:ignore.self>
+    <div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="duplicatesModalLabel" aria-hidden="true"
+         wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -116,62 +117,27 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="successModalDuplicates" tabindex="-1" role="dialog"
-         aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">{{ __('project/conducting.study-selection.modal.success' )}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ __('project/conducting.study-selection.duplicates.success-message') }}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 </div>
 
 @script
 <script>
-    document.addEventListener('livewire:initialized', () => {
-        const $wire = Livewire.find(document.querySelector('[wire\\:id]').getAttribute('wire:id'));
-
-        // Mostrar modal principal
-        Livewire.on('show-duplicates-modal', () => {
-            $('#duplicatesModal').modal('show');
-        });
-
-        // Mostrar modal de sucesso
-        Livewire.on('show-success-duplicates', () => {
-            $('#duplicatesModal').modal('hide');
-            $('#successModalDuplicates').modal('show');
-        });
-
-        // Reabrir modal principal ao fechar o de sucesso
-        $('#successModalDuplicates').on('hidden.bs.modal', function () {
-            $wire.$refresh(); //
+    $(document).ready(function(){
+        $wire.on('show-duplicates-modal', () => {
             setTimeout(() => {
                 $('#duplicatesModal').modal('show');
-            }, 400);
+            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
         });
 
-        Livewire.on('duplicates-refreshed', () => {
-            console.log('Duplicates reloaded from backend');
+        $wire.on('show-success-duplicates', () => {
+            $('#duplicatesModal').modal('hide');
         });
 
-        // Toasts
-        Livewire.on('buttons', ([{ message, type }]) => {
+        $wire.on('buttons', ([{ message, type }]) => {
             toasty({ message, type });
         });
+
     });
-
-
 </script>
 @endscript
-
