@@ -14,62 +14,72 @@ class SnowballingService
         $q = trim($query);
         Log::info('Input de busca recebido no SnowballingService', ['query' => $q]);
 
-        // 1) Detectar se é DOI ou título
-        if ($this->isLikelyDoi($q)) {
-            $doi  = $this->normalizeDoi($q);
-            $seed = $this->getByDoi($doi);
-        } else {
-            $seed = $this->resolveTitle($q);
-        }
+        try {
+            // 1) Detectar se é DOI ou título
+            if ($this->isLikelyDoi($q)) {
+                $doi  = $this->normalizeDoi($q);
+                $seed = $this->getByDoi($doi);
+            } else {
+                $seed = $this->resolveTitle($q);
+            }
 
-        if (!$seed || empty($seed['paperId'])) {
+            if (!$seed || empty($seed['paperId'])) {
+                Log::warning("Nenhum resultado encontrado para '{$q}'");
+                return null;
+            }
+
+            $paperId  = $seed['paperId'];
+            $seedDoi  = $seed['externalIds']['DOI'] ?? null;
+            $corpusId = $seed['corpusId'] ?? ($seed['externalIds']['CorpusId'] ?? null);
+
+            $details = $this->getDetails($paperId);
+            if (!$details) return null;
+
+            // Preferir metadados atualizados
+            $seedDoi  = $details['externalIds']['DOI'] ?? $seedDoi;
+            $corpusId = $details['corpusId'] ?? $corpusId;
+
+            $article = [
+                'title'    => $details['title'] ?? null,
+                'year'     => $details['year'] ?? null,
+                'authors'  => $this->authorsToString($details['authors'] ?? []),
+                'doi'      => $seedDoi,
+                'url'      => $details['url'] ?? null,
+                'abstract' => $details['abstract'] ?? null,
+            ];
+
+            $expectedRef = (int)($details['referenceCount'] ?? 0);
+            $expectedCit = (int)($details['citationCount'] ?? 0);
+
+            $references = $this->getAllReferences($paperId, $expectedRef);
+            $citations  = $this->getAllCitations($paperId,  $expectedCit);
+
+            // Fallbacks
+            if (empty($references) && $seedDoi)
+                $references = $this->getAllReferences("DOI:{$seedDoi}", $expectedRef);
+            if (empty($references) && $corpusId)
+                $references = $this->getAllReferences("CorpusId:{$corpusId}", $expectedRef);
+
+            if (empty($citations) && $seedDoi)
+                $citations = $this->getAllCitations("DOI:{$seedDoi}", $expectedCit);
+            if (empty($citations) && $corpusId)
+                $citations = $this->getAllCitations("CorpusId:{$corpusId}", $expectedCit);
+
+            // Fallback final via detalhes expandidos
+            if (empty($references))
+                $references = $this->getReferencesFromDetails($paperId, $expectedRef);
+            if (empty($citations))
+                $citations = $this->getCitationsFromDetails($paperId, $expectedCit);
+
+            return compact('article', 'references', 'citations');
+
+        } catch (\Throwable $e) {
+            Log::error("Erro ao buscar dados no Semantic Scholar: " . $e->getMessage(), [
+                'query' => $q,
+                'trace' => $e->getTraceAsString(),
+            ]);
             return null;
         }
-
-        $paperId  = $seed['paperId'];
-        $seedDoi  = $seed['externalIds']['DOI'] ?? null;
-        $corpusId = $seed['corpusId'] ?? ($seed['externalIds']['CorpusId'] ?? null);
-
-        $details = $this->getDetails($paperId);
-        if (!$details) return null;
-
-        // Preferir metadados atualizados
-        $seedDoi  = $details['externalIds']['DOI'] ?? $seedDoi;
-        $corpusId = $details['corpusId'] ?? $corpusId;
-
-        $article = [
-            'title'    => $details['title'] ?? null,
-            'year'     => $details['year'] ?? null,
-            'authors'  => $this->authorsToString($details['authors'] ?? []),
-            'doi'      => $seedDoi,
-            'url'      => $details['url'] ?? null,
-            'abstract' => $details['abstract'] ?? null,
-        ];
-
-        $expectedRef = (int)($details['referenceCount'] ?? 0);
-        $expectedCit = (int)($details['citationCount'] ?? 0);
-
-        $references = $this->getAllReferences($paperId, $expectedRef);
-        $citations  = $this->getAllCitations($paperId,  $expectedCit);
-
-        // Fallbacks
-        if (empty($references) && $seedDoi)
-            $references = $this->getAllReferences("DOI:{$seedDoi}", $expectedRef);
-        if (empty($references) && $corpusId)
-            $references = $this->getAllReferences("CorpusId:{$corpusId}", $expectedRef);
-
-        if (empty($citations) && $seedDoi)
-            $citations = $this->getAllCitations("DOI:{$seedDoi}", $expectedCit);
-        if (empty($citations) && $corpusId)
-            $citations = $this->getAllCitations("CorpusId:{$corpusId}", $expectedCit);
-
-        // Fallback final via detalhes expandidos
-        if (empty($references))
-            $references = $this->getReferencesFromDetails($paperId, $expectedRef);
-        if (empty($citations))
-            $citations = $this->getCitationsFromDetails($paperId, $expectedCit);
-
-        return compact('article', 'references', 'citations');
     }
 
     private function http()
@@ -87,7 +97,9 @@ class SnowballingService
             Log::warning('S2_API_KEY NÃO definida no .env ou services.php');
         }
 
-        return Http::withHeaders($headers)->timeout(10)->retry(2, 400);
+        return Http::withHeaders($headers)
+            ->timeout(30)
+            ->retry(3, 1000, throw: false); // tenta 3x, espera 1s entre tentativas
     }
 
     public function isLikelyDoi(string $q): bool
@@ -108,7 +120,6 @@ class SnowballingService
         $clean = preg_replace('/\s+/', ' ', trim($title));
         $clean = str_replace(['"', "'"], '', $clean);
 
-        // Match 1: /search/match
         $match = $this->http()->get(self::S2.'/paper/search/match', [
             'query' => $clean,
             'fields' => 'paperId,corpusId,title,year,authors,url,externalIds'
@@ -120,7 +131,6 @@ class SnowballingService
             return $match->json();
         }
 
-        // Match 2: /search
         $fallback = $this->http()->get(self::S2.'/paper/search', [
             'query' => $clean,
             'limit' => 1,
@@ -237,6 +247,8 @@ class SnowballingService
     {
         $names = array_map(fn($a) => $a['name'] ?? '', $authors);
         $filtered = array_filter($names);
-        return count($filtered) > 5 ? implode(', ', array_slice($filtered, 0, 5)) . ' et al.' : implode(', ', $filtered);
+        return count($filtered) > 5
+            ? implode(', ', array_slice($filtered, 0, 5)) . ' et al.'
+            : implode(', ', $filtered);
     }
 }
