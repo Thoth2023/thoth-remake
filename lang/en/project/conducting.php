@@ -475,7 +475,7 @@ return [
         ],
 
         'help' => [
-            'content' => 'Upload files in ".bib" or ".csv" format and import the files according to the database defined in the plan.<br>
+            'content' => 'Upload files in ".bib", ".txt" (format BibTex) or ".csv" format and import the files according to the database defined in the plan.<br>
              <ul>
              <li><b>Note:</b> If you want to conduct <b>"Peer Review"</b>, it is necessary to invite the researchers and add them to the project before importing the studies (papers).</li>
              <li>To add researchers, navigate to <b>"My Projects->Team"</b></li>

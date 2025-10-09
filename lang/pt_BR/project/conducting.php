@@ -296,7 +296,7 @@ return [
             'delete' => 'Deletar'
         ],
         'help' => [
-            'content' => 'Insira Arquivos no Formato ".bib" ou ".csv" e faça a importação de arquivos de acordo com a base inserida no planejamento<br>
+            'content' => 'Insira Arquivos no Formato ".bib", ".txt (formato BibTex) ou ".csv" e faça a importação de arquivos de acordo com a base inserida no planejamento<br>
                      <ul>
                      <li><b>Obs.:</b> Se você deseja realizar <b>"Avaliação por Pares"</b>, é necessário convidar os pesquisadores  e adicionar ao projeto antes de importar os estudos (papers)</li>
                      <li>Para adicionar pesquisadores, navegue até <b>"Meus Projetos->Colaboradores"</b></li>
