@@ -123,6 +123,7 @@ return [
                 ],
                 'semantic' => [
                     'error_missing_query' => 'DOI or title is required to fetch data via Semantic Scholar.',
+                    'failed' => 'Error while attempting to update via Semantic Scholar. Please try again later.',
                     'success' => 'Data update requested via Semantic Scholar. Please verify if the information has been updated.',
                 ],
             ],
