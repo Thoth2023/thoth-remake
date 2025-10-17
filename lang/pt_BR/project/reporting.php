@@ -155,6 +155,23 @@ return [
         'pesquisador'=>'Pesquisador',
         'peer-review'=>'Avaliação por Pares (Revisor)',
     ],
+    'snowballing'=>[
+        'relevant_papers' => 'papers relevantes incluídos',
+        'seed_papers' => '{0} nenhum paper semente|{1} 1 paper semente|[2,*] :count papers sementes',
+        'levels' => '{0} nenhum nível|{1} 1 nível|[2,*] :count níveis',
+        'legend' => 'Legenda',
+        'seed' => 'Paper Semente',
+        'forward' => 'Forward',
+        'backward' => 'Backward',
+        'unknown' => 'Desconhecido',
+        'chart_title' => 'Árvore de Iterações do Snowballing',
+        'tooltip_type' => 'Tipo',
+        'tooltip_relevance' => 'Relevância',
+        'no_data' => 'Nenhum dado disponível para gerar o gráfico.',
+        'no_chart_data' => 'Não há dados suficientes para o gráfico.',
+        'no_title' => 'Sem título',
+    ],
+
     'check' => [
         'no_imported_studies' => 'Nenhum estudo foi importado nesse projeto.',
         'no_selected_studies' => 'Você não selecionou nenhum estudo nesse projeto.',

@@ -13,11 +13,21 @@ class ContentSecurityPolicy
 
         $isLocal = app()->environment('local');
 
-        // Bases
+        /**
+         * ---------------------------------------------------------------
+         * BASE CONFIGURATION
+         * ---------------------------------------------------------------
+         * - CSP (Content-Security-Policy) para produção e local
+         * - Libera domínios confiáveis (CDNs, Google, Highcharts, etc.)
+         * - Inclui permissões necessárias para Vite e Livewire
+         * ---------------------------------------------------------------
+         */
+
+        // Diretivas principais de script
         $scriptSrc = [
             "'self'",
-            "'unsafe-inline'",
-            "'unsafe-eval'",
+            "'unsafe-inline'",   // necessário p/ Livewire, Alpine, Highcharts
+            "'unsafe-eval'",     // necessário p/ Highcharts + Livewire dynamic eval
             "data:",
             "blob:",
             "https://cdn.jsdelivr.net",
@@ -29,9 +39,12 @@ class ContentSecurityPolicy
             "https://accounts.google.com",
             "https://apis.google.com",
         ];
-        $scriptSrcElem = $scriptSrc; // igual
-        $scriptSrcAttr = ["'self'", "'unsafe-inline'"];
 
+        // Garante consistência entre todas as diretivas de script
+        $scriptSrcElem = $scriptSrc;
+        $scriptSrcAttr = $scriptSrc;
+
+        // Estilos (Tailwind, Google Fonts, CDNs)
         $styleSrc = [
             "'self'",
             "'unsafe-inline'",
@@ -39,13 +52,9 @@ class ContentSecurityPolicy
             "https://cdn.jsdelivr.net",
             "data:",
         ];
-        $styleSrcElem = [
-            "'self'",
-            "'unsafe-inline'",
-            "https://fonts.googleapis.com",
-            "https://cdn.jsdelivr.net",
-        ];
+        $styleSrcElem = $styleSrc;
 
+        // Fontes
         $fontSrc = [
             "'self'",
             "https://fonts.gstatic.com",
@@ -53,6 +62,7 @@ class ContentSecurityPolicy
             "data:",
         ];
 
+        // Imagens (suporte p/ avatars, mapas, uploads locais)
         $imgSrc = [
             "'self'",
             "data:",
@@ -66,56 +76,71 @@ class ContentSecurityPolicy
             "https://lh3.googleusercontent.com",
         ];
 
+        // Iframes e frames externos
         $frameSrc = [
             "'self'",
             "https://accounts.google.com",
         ];
 
-            $connectSrc = [
+        // Conexões (Livewire, APIs externas, etc.)
+        $connectSrc = [
             "'self'",
             "https://*",
+            "wss://*",
         ];
 
-        // ⚙️ Relaxa para Vite (somente LOCAL)
+        /**
+         * ---------------------------------------------------------------
+         * LOCAL ENVIRONMENT RELAXATION
+         * ---------------------------------------------------------------
+         * Permite conexão com o Vite dev server e scripts inline
+         * ---------------------------------------------------------------
+         */
         if ($isLocal) {
-            // pode sobrescrever via config('app.vite_host') se quiser
             $viteHost = config('app.vite_host', '127.0.0.1:5173');
             $viteHttp = "http://{$viteHost}";
             $viteWs   = "ws://{$viteHost}";
 
-            $scriptSrc[]     = $viteHttp;
-            $scriptSrcElem[] = $viteHttp;
+            // Libera Vite (JS, CSS, HMR)
+            foreach ([$viteHttp, $viteWs] as $vite) {
+                $scriptSrc[]     = $vite;
+                $scriptSrcElem[] = $vite;
+                $styleSrc[]      = $vite;
+                $styleSrcElem[]  = $vite;
+                $connectSrc[]    = $vite;
+            }
 
-            $styleSrc[]      = $viteHttp;
-            $styleSrcElem[]  = $viteHttp;
-
-            $connectSrc[]    = $viteHttp;
-            $connectSrc[]    = $viteWs;
+            // Reforça inline/eval (essenciais pro modo dev)
+            $scriptSrc[]     = "'unsafe-inline'";
+            $scriptSrc[]     = "'unsafe-eval'";
+            $scriptSrcElem[] = "'unsafe-inline'";
+            $scriptSrcElem[] = "'unsafe-eval'";
         }
 
-        // Monta diretivas
+        /**
+         * ---------------------------------------------------------------
+         * FINAL POLICY BUILD
+         * ---------------------------------------------------------------
+         */
         $directives = [
             "default-src 'self'",
-            'script-src '      . implode(' ', $scriptSrc),
-            'script-src-elem ' . implode(' ', $scriptSrcElem),
-            'script-src-attr ' . implode(' ', $scriptSrcAttr),
-            'style-src '       . implode(' ', $styleSrc),
-            'style-src-elem '  . implode(' ', $styleSrcElem),
-            'font-src '        . implode(' ', $fontSrc),
-            'img-src '         . implode(' ', $imgSrc),
-            'connect-src '     . implode(' ', $connectSrc),
-            'frame-src ' . implode(' ', $frameSrc),
+            'script-src '      . implode(' ', array_unique($scriptSrc)),
+            'script-src-elem ' . implode(' ', array_unique($scriptSrcElem)),
+            'script-src-attr ' . implode(' ', array_unique($scriptSrcAttr)),
+            'style-src '       . implode(' ', array_unique($styleSrc)),
+            'style-src-elem '  . implode(' ', array_unique($styleSrcElem)),
+            'font-src '        . implode(' ', array_unique($fontSrc)),
+            'img-src '         . implode(' ', array_unique($imgSrc)),
+            'connect-src '     . implode(' ', array_unique($connectSrc)),
+            'frame-src '       . implode(' ', array_unique($frameSrc)),
             "object-src 'none'",
             "base-uri 'self'",
             "frame-ancestors 'self'",
-            // Se quiser capturar violações, descomente a rota abaixo e esta linha:
+            // Para reportar violações (opcional):
             // "report-uri /csp-report",
         ];
 
         $policy = implode('; ', $directives) . ';';
-
-        // Produção: aplica CSP
-        // Local: aplica CSP já com Vite permitido
         $response->headers->set('Content-Security-Policy', $policy);
 
         return $response;
