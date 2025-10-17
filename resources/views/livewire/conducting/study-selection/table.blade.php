@@ -11,7 +11,7 @@
     <ul class='list-group'>
         <li class='list-group-item d-flex'>
 
-            <div class='w-10 pl-2'>
+            <div class='w-7 pl-2'>
                 <b wire:click.prevent="sortBy('id')" role="button">
                     {{ __('project/conducting.study-selection.table.id' )}}
                     @if(isset($sorts['id']))
@@ -71,12 +71,15 @@
                 target="search-papers-selection"
                 class="list-group-item d-flex row w-100"
             >
-                <div class='w-10 pl-2'>
+                <div class='w-7 pl-2'>
 
                     <span data-search>{{ $paper['id'] }}</span>
                 </div>
                 <div class='w-55' role='button' wire:click.prevent="openPaper({{ $paper }})">
-                    <span data-search>{{ $paper['title'] }}</span>
+                    <span class="fw-bold text-secondary d-flex align-items-center" data-search>
+                       <i class="fa-solid fa-up-right-from-square me-2 text-muted" style="font-size: 0.85rem;"></i>
+                                {{ $paper->title }}
+                    </span>
                 </div>
 
                 <div class='w-20 ms-auto'>

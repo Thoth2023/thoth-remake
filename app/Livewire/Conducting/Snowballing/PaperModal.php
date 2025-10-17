@@ -2,192 +2,203 @@
 
 namespace App\Livewire\Conducting\Snowballing;
 
-
-use App\Jobs\ProcessReferences;
-use App\Models\Member;
 use App\Models\Project;
-use App\Models\Project\Conducting\Papers;
 use App\Models\Project\Conducting\PaperSnowballing;
-use App\Models\StatusSelection;
+use App\Services\SnowballingService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 use App\Traits\ProjectPermissions;
 
 class PaperModal extends Component
 {
-
     use ProjectPermissions;
 
     public $currentProject;
     public $projectId;
     public $paper = null;
     public $canEdit = false;
+    public $doi;
 
-    public $selected_status = "None";
-
-    public $references = [];
-    public $searchType = null; // backward ou forward
-    public $doi; // DOI do paper base para busca
-
+    public $manualBackwardDone = false;
+    public $manualForwardDone = false;
 
     public function mount()
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-
     }
 
     #[On('showPaperSnowballing')]
     public function showPaperSnowballing($paper)
     {
-
         $this->canEdit = $this->userCanEdit();
-
         $this->paper = $paper;
+        $this->doi = $paper['doi'] ?? null;
 
-        // Obtém o nome do banco de dados associado ao paper
+        $paperId = $paper['id_paper'] ?? null;
+        if ($paperId) {
+            $this->manualBackwardDone = PaperSnowballing::where('paper_reference_id', $paperId)
+                ->where('type_snowballing', 'backward')
+                ->exists();
+            $this->manualForwardDone = PaperSnowballing::where('paper_reference_id', $paperId)
+                ->where('type_snowballing', 'forward')
+                ->exists();
+        }
+
         $databaseName = DB::table('data_base')
             ->where('id_database', $this->paper['data_base'])
             ->value('name');
 
         $this->paper['database_name'] = $databaseName;
 
-        $this->doi = $paper['doi'] ?? null;
-
-        // Atualizar o componente ReferencesTable
         $this->dispatch('update-references', [
             'paper_reference_id' => $this->paper['id_paper'] ?? null,
         ]);
-        Log::info('Dispatched update-references', ['paper_reference_id' => $this->paper['id_paper'] ?? null]);
 
-        // Dispara o evento para mostrar o modal
         $this->dispatch('show-paper-snowballing');
     }
 
-
-    public function isAlreadyProcessed($type)
-    {
-        Log::info("Verificando se referências {$type} já foram processadas", [
-            'paper_id' => $this->paper['id_paper'] ?? null,
-            'reference_id' => $this->paper['id'] ?? null,
-        ]);
-
-        $query = PaperSnowballing::where('type_snowballing', $type);
-
-        if (!empty($this->paper['id_paper'])) {
-            $query->where('paper_reference_id', $this->paper['id_paper']);
-        }
-
-        if (!empty($this->paper['id'])) {
-            $query->orWhere('parent_snowballing_id', $this->paper['id']);
-        }
-
-        return $query->exists();
-    }
-
-
+    /**
+     * Snowballing manual — somente nível 1 (sem iteração)
+     */
     public function handleReferenceType($type)
     {
-        Log::info("Iniciando processamento de referências {$type}", [
-            'paper_id' => $this->paper['id_paper'] ?? null,
-            'reference_id' => $this->paper['id'] ?? null,
-        ]);
+        if (!$this->canEdit) return;
 
-        if ($this->isAlreadyProcessed($type)) {
-            $message = "Referências {$type} já foram processadas para este paper!";
-            Log::warning($message, [
-                'paper_id' => $this->paper['id_paper'] ?? null,
-                'reference_id' => $this->paper['id'] ?? null,
-            ]);
+        $paperId = $this->paper['id_paper'] ?? null;
 
-            /*session()->flash('successMessage', [
-                'message' => $message,
-                'type' => 'warning',
-            ]);*/
-
-            session()->forget('successMessage');
-            session()->flash('successMessage', $message);
+        if (!$paperId || !$this->doi) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.doi_missing'));
             $this->dispatch('show-success-snowballing');
             return;
         }
 
-        // Prossiga com a busca
-        $this->fetchReferences($type);
-    }
-
-    public function fetchReferences($type)
-    {
-        Log::info("Buscando referências {$type}", ['doi' => $this->doi]);
-
-        if (!$this->doi) {
-            $message = "DOI não informado!";
-            Log::error($message);
-
-            session()->forget('successMessage');
-            session()->flash('successMessage', $message);
+        // bloqueia repetição
+        if ($type === 'backward' && $this->manualBackwardDone) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.backward_done'));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+        if ($type === 'forward' && $this->manualForwardDone) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.forward_done'));
             $this->dispatch('show-success-snowballing');
             return;
         }
 
         try {
-            $response = Http::get('https://api.crossref.org/works/' . $this->doi);
+            DB::beginTransaction();
 
-            if ($response->successful()) {
-                $data = $response->json();
-                $references = $data['message']['reference'] ?? [];
+            /** @var SnowballingService $service */
+            $service = app(SnowballingService::class);
 
-                /*Log::info("Referências encontradas", [
-                    'total' => count($references),
-                    'references' => $references,
-                ]);*/
+            // Executa apenas 1 iteração (sem loop)
+            $service->processSingleIteration($this->doi, $paperId, $type, false);
 
-                if (empty($references)) {
-                    $message = "Nenhuma referência encontrada para o DOI.";
-                    Log::warning($message, ['doi' => $this->doi]);
+            // Atualiza flags locais
+            if ($type === 'backward') $this->manualBackwardDone = true;
+            if ($type === 'forward') $this->manualForwardDone = true;
 
-                    session()->forget('successMessage');
-                    session()->flash('successMessage', $message);
-                    $this->dispatch('show-success-snowballing');
-                    return;
-                }
+            //  Atualiza o status do paper para "Done" (id = 1)
+            DB::table('papers')
+                ->where('id_paper', $paperId)
+                ->update(['status_snowballing' => 1]);
 
-                // Processa o job com as referências
-                ProcessReferences::dispatch(
-                    $references,
-                    [
-                        'id_paper' => $this->paper['id_paper'] ?? null,
-                        'id' => $this->paper['id'] ?? null,
-                    ],
-                    $type
-                );
+            DB::commit();
 
-                // Atualizar o componente ReferencesTable
-                $this->dispatch('update-references');
+            $this->dispatch('update-references', ['paper_reference_id' => $paperId]);
+            session()->flash(
+                'successMessage',
+                __('project/conducting.snowballing.messages.manual_done', ['type' => ucfirst($type)])
+            );
+            $this->dispatch('show-success-snowballing');
 
-                $message = ucfirst($type) . " processado com sucesso!";
-                session()->forget('successMessage');
-                session()->flash('successMessage', $message);
-                $this->dispatch('show-success-snowballing');
-            } else {
-                $message = "Erro ao buscar referências na API CrossRef.";
-                Log::error($message, ['status' => $response->status()]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
 
-                session()->forget('successMessage');
-                session()->flash('successMessage', $message);
-                $this->dispatch('show-success-snowballing');
-            }
-        } catch (\Exception $e) {
-            $message = "Erro ao processar referências: " . $e->getMessage();
-            Log::error($message);
+            Log::error('[Snowballing] Erro no modo manual', [
+                'type' => $type,
+                'error' => $e->getMessage(),
+            ]);
 
-            session()->forget('successMessage');
-            session()->flash('successMessage', $message);
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', [
+                'message' => $e->getMessage()
+            ]));
             $this->dispatch('show-success-snowballing');
         }
     }
+
+    /**
+     * Snowballing completo automático (iterações até esgotar)
+     */
+    public function handleFullSnowballing()
+    {
+        Log::info('[Snowballing] Iniciando modo automático', ['doi' => $this->doi]);
+
+        $paperId = (int)($this->paper['id_paper'] ?? 0);
+        if (!$paperId || !$this->doi) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.missing_paper'));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+
+        if ($this->manualBackwardDone || $this->manualForwardDone) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.manual_disabled'));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+
+        $hasBackward = PaperSnowballing::where('paper_reference_id', $paperId)
+            ->where('type_snowballing', 'backward')
+            ->exists();
+        $hasForward = PaperSnowballing::where('paper_reference_id', $paperId)
+            ->where('type_snowballing', 'forward')
+            ->exists();
+
+        if ($hasBackward && $hasForward) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.already_complete'));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+
+        $modes = [];
+        if (!$hasBackward) $modes[] = 'backward';
+        if (!$hasForward)  $modes[] = 'forward';
+
+        try {
+            DB::beginTransaction();
+
+            $service = app(SnowballingService::class);
+            $service->runIterativeSnowballing($this->doi, $paperId, $modes);
+
+            // Atualiza o status do paper para "Done" (id = 1)
+            DB::table('papers')
+                ->where('id_paper', $paperId)
+                ->update(['status_snowballing' => 1]);
+
+            DB::commit();
+
+            $this->dispatch('update-references', ['paper_reference_id' => $paperId]);
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
+            $this->dispatch('show-success-snowballing');
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            Log::error('[Snowballing] Erro no modo automático', [
+                'doi' => $this->doi,
+                'error' => $e->getMessage(),
+            ]);
+
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', [
+                'message' => $e->getMessage()
+            ]));
+            $this->dispatch('show-success-snowballing');
+        }
+    }
+
+
 
     public function render()
     {

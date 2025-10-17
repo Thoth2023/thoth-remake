@@ -5,7 +5,7 @@
             <x-helpers.modal
                 target="snowballing"
                 modalTitle="{{ __('project/conducting.snowballing.title') }}"
-                modalContent="{!!  __('project/conducting.snowballing.help.content') !!} "
+                modalContent="{!! __('project/conducting.snowballing.help.content') !!}"
             />
         </div>
         <br/>

@@ -10482,6 +10482,10 @@ fieldset:disabled .btn {
     color: #2dce89 !important;
 }
 
+.text-done {
+    color: #2dce89 !important;
+}
+
 .text-rejected {
     color: #f5365c !important;
 }

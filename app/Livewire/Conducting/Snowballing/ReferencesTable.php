@@ -11,21 +11,20 @@ class ReferencesTable extends Component
     public $references = [];
     public $paper_reference_id;
 
-    public $backwardCount = 0; // Contador para Backward
-    public $forwardCount = 0;  // Contador para Forward
+    public $backwardCount = 0;
+    public $forwardCount = 0;
 
-    public function mount()
+    public function mount($data = [])
     {
-         $this->loadReferences();
-
+        $this->paper_reference_id = $data['paper_reference_id'] ?? null;
+        $this->loadReferences();
     }
-
 
     #[On('update-references')]
     public function updateReferences($data)
     {
         $this->paper_reference_id = $data['paper_reference_id'] ?? null;
-        $this->loadReferences(); // Recarregar as referências com o novo ID
+        $this->loadReferences();
     }
 
     #[On('show-success-snowballing')]
@@ -33,12 +32,12 @@ class ReferencesTable extends Component
     public function loadReferences()
     {
         if ($this->paper_reference_id) {
-            // Filtrar referências pelo paper_reference_id
             $this->references = PaperSnowballing::where('paper_reference_id', $this->paper_reference_id)
-                ->orderBy('id', 'ASC')
+                ->orderByDesc('relevance_score')
+                ->orderByDesc('duplicate_count')
+                ->orderBy('title')
                 ->get();
 
-            // Atualizar contadores de tipos
             $this->backwardCount = PaperSnowballing::where('paper_reference_id', $this->paper_reference_id)
                 ->where('type_snowballing', 'backward')
                 ->count();
@@ -47,7 +46,6 @@ class ReferencesTable extends Component
                 ->where('type_snowballing', 'forward')
                 ->count();
         } else {
-            // Caso não tenha um paper_reference_id, não carrega nada ou carrega todas as referências
             $this->references = [];
             $this->backwardCount = 0;
             $this->forwardCount = 0;
@@ -57,23 +55,28 @@ class ReferencesTable extends Component
     public function toggleRelevance($id)
     {
         $reference = PaperSnowballing::find($id);
+        if (!$reference) return;
 
-        if ($reference->is_relevant === null) {
-            $reference->is_relevant = true; // Se não avaliado, define como Sim
-        } else {
-            $reference->is_relevant = !$reference->is_relevant; // Alterna entre true e false
-        }
-
+        // Alterna relevância (toggle)
+        $reference->is_relevant = $reference->is_relevant ? false : true;
         $reference->save();
 
-        $this->dispatch('success', ['message' => 'Relevância atualizada!', 'type' => 'success']);
-        $this->loadReferences(); // Recarrega a lista de referências
+        // Mensagem multilíngue de sucesso
+        $this->dispatch('success-relevant-paper', [
+            'message' => __('project/conducting.snowballing.messages.relevance_updated', [], app()->getLocale())
+                ?? __('project/conducting.snowballing.messages.manual_done', ['type' => 'Relevance']),
+            'type' => 'success'
+        ]);
+
+        $this->loadReferences();
     }
 
     public function render()
     {
         return view('livewire.conducting.snowballing.references-table', [
             'references' => $this->references,
+            'backwardCount' => $this->backwardCount,
+            'forwardCount' => $this->forwardCount,
         ]);
     }
 }
