@@ -94,17 +94,18 @@
 
                                                 {{-- Autores --}}
                                                 <div class="text-muted small fst-italic">
-                                                    {{ $ref->authors }}
-                                                </div>
-
-                                                {{-- Score da referência --}}
-                                                @if(!is_null($ref->relevance_score))
-                                                    <span class="ms-2 text-muted small">
+                                                    {{ $ref->authors }} |
+                                                    {{-- Score da referência --}}
+                                                    @if(!is_null($ref->relevance_score))
+                                                        <span class="ms-2 text-muted small">
                                                                 <i class="fa-solid fa-star text-warning"></i>
                                                                 {{ __('project/conducting.snowballing.table.score') }}
                                                                 <strong>{{ number_format($ref->relevance_score, 2) }}</strong>
                                                             </span>
-                                                @endif
+                                                    @endif
+                                                </div>
+
+
 
                                                 {{-- Botões DOI / URL / Scholar --}}
                                                 <div class="mt-2 d-flex flex-wrap gap-2 align-items-center">
