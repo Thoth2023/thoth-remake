@@ -3,11 +3,13 @@
 namespace App\Jobs;
 
 use App\Models\Project\Conducting\PaperSnowballing;
+use App\Services\SnowballingService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -15,178 +17,175 @@ class ProcessReferences implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $references;
-    protected $paper;
-    protected $type;
+    protected array $references;
+    protected array $paper;
+    protected string $type;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(array $references, array $paper, string $type)
     {
         $this->references = $references;
         $this->paper = $paper;
-        $this->type = $type;
+        $this->type = $type; // backward | forward | automatic
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle()
     {
         Log::info("Job ProcessReferences iniciado", [
             'type' => $this->type,
             'paper_id' => $this->paper['id_paper'] ?? null,
             'reference_id' => $this->paper['id'] ?? null,
+            'total_references' => count($this->references),
         ]);
 
         if (empty($this->references)) {
-            Log::warning("Nenhuma referência fornecida para processamento.", [
-                'paper_id' => $this->paper['id_paper'] ?? null,
-                'reference_id' => $this->paper['id'] ?? null,
-            ]);
+            Log::warning("Nenhuma referência fornecida para processamento.");
             return;
         }
 
-        foreach ($this->references as $index => $ref) {
-            $doi = $ref['DOI'] ?? null;
-            $title = $ref['article-title'] ?? null;
+        foreach ($this->references as $ref) {
+            // normalize
+            $doi     = $ref['DOI'] ?? $ref['doi'] ?? null;
+            $title   = $ref['article-title'] ?? $ref['title'] ?? null;
+            $authors = $ref['authors'] ?? $ref['author'] ?? null;
+            $year    = $ref['year'] ?? null;
+            $url     = $ref['URL'] ?? $ref['url'] ?? null;
+            $source  = $ref['source'] ?? 'CrossRef';
+            $score   = $ref['score'] ?? null;
 
-           /* Log::info("Processando referência #{$index}", [
-                'DOI' => $doi,
-                'Título' => $title ?? 'Título desconhecido',
-                'raw_reference' => $ref,
-            ]);*/
-
-            // Ignorar referências sem DOI e título
-            if (is_null($doi) && (is_null($title) || trim($title) === '')) {
-                Log::warning("Referência ignorada: Sem DOI e Título", ['reference' => $ref]);
+            if (!$doi && !$title) {
+                Log::warning("Ref ignorada: sem DOI e título");
                 continue;
             }
 
-            // Verifica duplicação por DOI (se presente) ou título
+            // duplicata no contexto do semente
             $existing = PaperSnowballing::query()
-                ->when($doi, function ($query) use ($doi) {
-                    $query->where('doi', $doi);
-                })
-                ->when(!$doi && $title, function ($query) use ($title) {
-                    $query->where('title', $title);
-                })
-                ->where(function ($query) {
-                    $query->where('paper_reference_id', $this->paper['id_paper'] ?? null)
+                ->when($doi, fn($q) => $q->where('doi', $doi))
+                ->when(!$doi && $title, fn($q) => $q->where('title', $title))
+                ->where(function ($q) {
+                    $q->where('paper_reference_id', $this->paper['id_paper'] ?? null)
                         ->orWhere('parent_snowballing_id', $this->paper['id'] ?? null);
                 })
-                ->exists();
+                ->first();
 
             if ($existing) {
-                Log::info("Referência duplicada encontrada e ignorada", [
-                    'DOI' => $doi,
-                    'Título' => $title,
-                ]);
+                $existing->duplicate_count = ($existing->duplicate_count ?? 1) + 1;
+
+                if ($score !== null) {
+                    $existing->relevance_score = $existing->relevance_score
+                        ? round(($existing->relevance_score + $score) / 2, 3)
+                        : $score;
+                }
+
+                $mergedSources = collect(explode(';', (string)$existing->source))
+                    ->merge([$source])
+                    ->filter()
+                    ->map(fn($s) => trim($s))
+                    ->unique()
+                    ->implode('; ');
+
+                $existing->source = $mergedSources;
+                $existing->save();
                 continue;
             }
 
-            // Valida parent_snowballing_id
-            $parentSnowballingId = null;
+            // parent id válido?
+            $parentId = null;
             if (!empty($this->paper['id'])) {
-                $exists = PaperSnowballing::where('id', $this->paper['id'])->exists();
-                if ($exists) {
-                    $parentSnowballingId = $this->paper['id'];
-                } else {
-                    Log::warning("Parent Snowballing ID inválido, ignorando valor.", [
-                        'invalid_id' => $this->paper['id'],
-                    ]);
+                if (PaperSnowballing::where('id', $this->paper['id'])->exists()) {
+                    $parentId = $this->paper['id'];
                 }
             }
 
-            // Prepara autores
-            $authors = null;
-            if (isset($ref['author']) && is_array($ref['author'])) {
-                $authors = implode('; ', array_map(fn($author) =>
-                    trim(($author['given'] ?? '') . ' ' . ($author['family'] ?? '')), $ref['author'])
-                );
-            } elseif (isset($ref['author']) && is_string($ref['author'])) {
-                $authors = $ref['author'];
+            // autores -> string
+            if (is_array($authors)) {
+                if (isset($authors[0]['given']) || isset($authors[0]['family'])) {
+                    $authors = implode('; ', array_map(fn($a) =>
+                    trim(($a['given'] ?? '') . ' ' . ($a['family'] ?? '')), $authors));
+                } else {
+                    $authors = implode('; ', array_map(fn($a) =>
+                        $a['name'] ?? (is_string($a) ? $a : ''), $authors));
+                }
             }
 
-            if (!$authors) {
-                Log::warning("Autores ausentes ou inválidos para referência.", ['DOI' => $doi, 'Título' => $title]);
-            }
-
-            // Insere no banco de dados
-            $newReference = PaperSnowballing::create([
-                'paper_reference_id' => $this->paper['id_paper'] ?? null,
-                'parent_snowballing_id' => $parentSnowballingId,
-                'doi' => $doi,
-                'title' => $title ?? 'unknown',
-                'authors' => $authors,
-                'year' => $ref['year'] ?? null,
+            $created = PaperSnowballing::create([
+                'paper_reference_id'    => $this->paper['id_paper'] ?? null,
+                'parent_snowballing_id' => $parentId,
+                'doi'      => $doi,
+                'title'    => $title ?? 'unknown',
+                'authors'  => $authors,
+                'year'     => $year,
+                'url'      => $url,
+                'type'     => $ref['type'] ?? 'unknown',
                 'abstract' => $ref['abstract'] ?? null,
-                'keywords' => null,
-                'type' => $ref['type'] ?? 'unknown',
-                'bib_key' => $ref['key'] ?? null,
-                'url' => $ref['URL'] ?? null,
-                'type_snowballing' => $this->type,
-                'is_duplicate' => false,
-                'is_relevant' => null,
+                'bib_key'  => $ref['key'] ?? null,
+                'type_snowballing' => in_array($this->type, ['backward','forward']) ? $this->type : ($ref['type_snowballing'] ?? 'backward'),
+                'snowballing_process' => in_array($this->type, ['backward','forward'])
+                    ? 'manual snowballing'
+                    : 'automatic snowballing',
+                'source'   => $source,
+                'relevance_score' => $score,
+                'duplicate_count' => 1,
+                'is_duplicate'    => false,
+                'is_relevant'     => null,
             ]);
 
-            Log::info("Referência inserida com sucesso", [
-                'DOI' => $doi,
-                'Título' => $title ?? 'Título desconhecido',
-            ]);
-
-            // Atualiza metadados, se DOI estiver presente
+            // atualiza metadados CrossRef (se DOI)
             if ($doi) {
-                $this->updateMetadata($newReference, $doi);
+                $this->updateMetadata($created, $doi);
             }
         }
 
         Log::info("Job ProcessReferences concluído", [
-            'total_references' => count($this->references),
             'type' => $this->type,
+            'total' => count($this->references),
         ]);
     }
 
-    /**
-     * Atualiza título e autores de uma referência diretamente via API CrossRef.
-     */
-    private function updateMetadata(PaperSnowballing $reference, string $doi)
+    private function updateMetadata(PaperSnowballing $reference, string $doi): void
     {
         try {
-            $response = Http::get('https://api.crossref.org/works/' . $doi);
+            $response = Http::timeout(15)->get('https://api.crossref.org/works/' . $doi);
 
             if ($response->successful()) {
-                $data = $response->json()['message'] ?? [];
+                $data = $response->json('message') ?? [];
 
                 $reference->update([
                     'title' => $data['title'][0] ?? $reference->title,
                     'authors' => isset($data['author'])
-                        ? implode('; ', array_map(fn($author) => $author['given'] . ' ' . $author['family'], $data['author']))
+                        ? implode('; ', array_map(
+                            fn($a) => trim(($a['given'] ?? '') . ' ' . ($a['family'] ?? '')),
+                            $data['author']
+                        ))
                         : $reference->authors,
-                    'year' => $data['issued']['date-parts'][0][0] ?? $reference->year, // Atualiza o ano
-                    'url' => $data['URL'] ?? $reference->url, // Atualiza a URL
-                    'type' => $data['type'] ?? $reference->type, // Atualiza o tipo
-                ]);
-
-                Log::info("Metadados atualizados com sucesso", [
-                    'DOI' => $doi,
-                    'updated_title' => $reference->title,
-                    'updated_authors' => $reference->authors,
-                    'updated_year' => $reference->year,
-                    'updated_url' => $reference->url,
-                    'updated_type' => $reference->type,
+                    'year' => $data['issued']['date-parts'][0][0] ?? $reference->year,
+                    'url'  => $data['URL'] ?? $reference->url,
+                    'type' => $data['type'] ?? $reference->type,
+                    'abstract' => $data['abstract'] ?? $reference->abstract,
+                    'keywords' => isset($data['subject']) ? implode('; ', $data['subject']) : $reference->keywords,
                 ]);
             } else {
-                Log::warning("Não foi possível atualizar os metadados para DOI: {$doi}", [
-                    'status_code' => $response->status(),
-                ]);
+                Log::warning("Falha meta CrossRef", ['doi' => $doi, 'status' => $response->status()]);
             }
-        } catch (\Exception $e) {
-            Log::error("Erro ao atualizar metadados", [
-                'DOI' => $doi,
-                'error' => $e->getMessage(),
-            ]);
+
+            // fallback Semantic Scholar se faltarem metadados importantes
+            if (empty($reference->abstract) || empty($reference->keywords) || empty($reference->authors)) {
+                $semantic = App::make(SnowballingService::class)->fetch($doi);
+                if ($semantic && !empty($semantic['article'])) {
+                    $details = $semantic['article'];
+
+                    $reference->update([
+                        'title'    => $reference->title ?: ($details['title'] ?? null),
+                        'authors'  => $reference->authors ?: ($details['authors'] ?? null),
+                        'abstract' => $reference->abstract ?: ($details['abstract'] ?? null),
+                        'year'     => $reference->year ?: ($details['year'] ?? null),
+                        'url'      => $reference->url ?: ($details['url'] ?? null),
+                    ]);
+                }
+            }
+
+        } catch (\Throwable $e) {
+            Log::error("Erro meta CrossRef/S2", ['doi' => $doi, 'error' => $e->getMessage()]);
         }
     }
+
 }

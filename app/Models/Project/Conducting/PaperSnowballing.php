@@ -4,6 +4,7 @@ namespace App\Models\Project\Conducting;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Project\Conducting\Papers;
 
 class PaperSnowballing extends Model
 {
@@ -12,7 +13,6 @@ class PaperSnowballing extends Model
     protected $table = 'papers_snowballing';
     protected $primaryKey = 'id';
 
-    // Campos que podem ser preenchidos em massa
     protected $fillable = [
         'paper_reference_id',
         'parent_snowballing_id',
@@ -20,40 +20,56 @@ class PaperSnowballing extends Model
         'title',
         'authors',
         'year',
-        'abstract',
-        'keywords',
-        'type',
-        'bib_key',
         'url',
+        'type',
+        'abstract',
+        'bib_key',
         'type_snowballing',
+        'snowballing_process',
+        'source',
+        'relevance_score',
+        'duplicate_count',
         'is_duplicate',
         'is_relevant',
     ];
 
+    protected $casts = [
+        'relevance_score' => 'float',
+        'duplicate_count' => 'integer',
+        'is_relevant' => 'boolean',
+        'is_duplicate' => 'boolean',
+    ];
+
     /**
-     * Relacionamento com a tabela papers
-     * Cada entrada de snowballing pode ter como base um paper da tabela papers
+     * Cada entrada de snowballing tem como base um paper original.
      */
-    public function paperReference()
+    public function paper()
     {
-        return $this->belongsTo(Papers::class, 'paper_reference_id');
+        // paper_reference_id -> id_paper
+        return $this->belongsTo(Papers::class, 'paper_reference_id', 'id_paper');
     }
 
     /**
-     * Relacionamento com a própria tabela papers_snowballing
-     * Cada entrada pode ter como "pai" outra entrada de snowballing
+     * Relação recursiva: cada entrada pode ter um "pai" (outra entrada de snowballing)
      */
-    public function parentSnowballing()
+    public function parent()
     {
-        return $this->belongsTo(PaperSnowballing::class, 'parent_snowballing_id');
+        return $this->belongsTo(self::class, 'parent_snowballing_id');
     }
 
     /**
-     * Relacionamento com os "filhos" de uma entrada de snowballing
-     * Permite rastrear referências originadas de uma entrada atual
+     * Relação recursiva inversa: obter todos os "filhos" de uma entrada de snowballing
      */
-    public function childSnowballings()
+    public function children()
     {
-        return $this->hasMany(PaperSnowballing::class, 'parent_snowballing_id');
+        return $this->hasMany(self::class, 'parent_snowballing_id');
+    }
+
+    /**
+     * Escopo auxiliar: ordenar pelos critérios de relevância e duplicidade
+     */
+    public function scopeOrderByRelevance($query)
+    {
+        return $query->orderByDesc('relevance_score')->orderByDesc('duplicate_count');
     }
 }

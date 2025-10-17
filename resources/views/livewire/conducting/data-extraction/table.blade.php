@@ -11,7 +11,7 @@
     <ul class='list-group'>
         <li class='list-group-item d-flex'>
 
-            <div class='w-10 pl-2'>
+            <div class='w-7 pl-2'>
                 <b wire:click.prevent="sortBy('id')" role="button">
                     {{ __('project/conducting.data-extraction.table.id' )}}
                     @if(isset($sorts['id']))
@@ -23,7 +23,7 @@
                     @endif
                 </b>
             </div>
-            <div class='w-45 pl-2 pr-2'>
+            <div class='w-50 pl-2 pr-2'>
                 <b wire:click.prevent="sortBy('title')" role="button">
                     {{ __('project/conducting.data-extraction.table.title' )}}
                     @if(isset($sorts['title']))
@@ -61,7 +61,7 @@
                 </b>
             </div>
 
-            <div class='pr-5 w-15 ms-auto'>
+            <div class='pr-5 w-10 ms-auto'>
                 <b wire:click.prevent="sortBy('status')" role="button">
                     {{ __('project/conducting.data-extraction.table.status') }}
                     @if(isset($sorts['status']))
@@ -83,11 +83,14 @@
                 target="search-papers"
                 class="list-group-item d-flex row w-100"
             >
-                <div class='w-10 pl-2'>
+                <div class='w-7 pl-2'>
                     <span data-search>{{ $paper['id'] }}</span>
                 </div>
-                <div class='w-45' role='button' wire:click="openPaper({{ $paper }})">
-                    <span data-search>{{ $paper['title'] }}</span>
+                <div class='w-50' role='button' wire:click="openPaper({{ $paper }})">
+                    <span class="fw-bold text-secondary d-flex align-items-center" data-search>
+                       <i class="fa-solid fa-up-right-from-square me-2 text-muted" style="font-size: 0.85rem;"></i>
+                                {{ $paper->title }}
+                    </span>
                 </div>
                 <div class='w-10 ms-auto'>
                     <span data-search>{{ $paper['year'] }}</span>
@@ -97,7 +100,7 @@
                     <span data-search>{{ $paper['database_name'] }}</span>
                 </div>
 
-                <div class="w-15 ms-auto">
+                <div class="w-10 ms-auto">
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.data-extraction.status." . strtolower($paper['status_description'])) }}
                     </b>

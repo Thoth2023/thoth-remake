@@ -10,74 +10,89 @@
                         </button>
                     @endif
                 </div>
-                @if ($paper) {{-- Certifique-se de que a div do modal body esteja dentro do bloco do $paper --}}
-                <div class="modal-body">
-                    <!-- O restante do conteúdo do paperModal -->
-                    <div class="row">
-                        <div class="col-4">
-                            <b>{{ __('project/conducting.snowballing.modal.author') }}: </b>
-                            <p>{{ $paper['author'] }}</p>
-                        </div>
-                        <div class="col-1">
-                            <b>{{ __('project/conducting.snowballing.modal.year') }}:</b>
-                            <p>{{ $paper['year'] }}</p>
-                        </div>
-                        <div class="col-4">
-                            <b>{{ __('project/conducting.snowballing.modal.database') }}:</b>
-                            <p>{{ $paper['database_name'] }}</p>
-                        </div>
-                        <div class="col-3">
-                            <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Doi" href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                DOI
-                            </a>
-                            <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="URL" href="{{ $paper['url'] }}" target="_blank">
-                                <i class="fa-solid fa-link"></i>
-                                URL
-                            </a>
-                            <a class="btn py-1 px-3 btn-outline-primary"
-                               data-toggle="tooltip"
-                               data-original-title="Buscar no Google Scholar"
-                               href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
-                               target="_blank">
-                                <i class="fa-solid fa-graduation-cap"></i>
-                                Google Scholar
-                            </a>
-                            <div>
-                                <h6>Snowballing</h6>
-                                <x-select wire:change="handleReferenceType($event.target.value)" disabled="{{ !$canEdit }}">
-                                    <option selected disabled>Selecione...</option>
-                                    <option value="backward">Backward</option>
-                                    <option value="forward">Forward</option>
-                                </x-select>
+
+                @if ($paper)
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <b>{{ __('project/conducting.snowballing.modal.author') }}: </b>
+                                <p>{{ $paper['author'] }}</p>
                             </div>
-                            <p class="text-success" wire:loading>Processando...</p>
+                            <div class="col-1">
+                                <b>{{ __('project/conducting.snowballing.modal.year') }}:</b>
+                                <p>{{ $paper['year'] }}</p>
+                            </div>
+                            <div class="col-4">
+                                <b>{{ __('project/conducting.snowballing.modal.database') }}:</b>
+                                <p>{{ $paper['database_name'] }}</p>
+                            </div>
+                            <div class="col-3">
+                                <a class="btn py-1 px-3 btn-outline-dark" href="https://doi.org/{{ $paper['doi'] }}" target="_blank">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ __('project/conducting.snowballing.buttons.doi') }}
+                                </a>
+                                <a class="btn py-1 px-3 btn-outline-success" href="{{ $paper['url'] }}" target="_blank">
+                                    <i class="fa-solid fa-link"></i> {{ __('project/conducting.snowballing.buttons.url') }}
+                                </a>
+                                <a class="btn py-1 px-3 btn-outline-primary"
+                                   href="https://scholar.google.com/scholar?q={{ urlencode($paper['title']) }}"
+                                   target="_blank">
+                                    <i class="fa-solid fa-graduation-cap"></i> {{ __('project/conducting.snowballing.buttons.scholar') }}
+                                </a>
+
+                                <div class="mt-2">
+                                    <h6>{{ __('project/conducting.snowballing.modal.manual-title') }}</h6>
+
+                                    {{-- Seleção manual --}}
+                                    @if($canEdit)
+                                        <x-select wire:change="handleReferenceType($event.target.value)" class="form-select mb-2">
+                                            <option selected disabled>{{ __('project/conducting.snowballing.modal.manual-select') }}</option>
+                                            <option value="backward" @if($manualBackwardDone) disabled @endif>
+                                                {{ __('project/conducting.snowballing.modal.manual-backward') }}
+                                                {{ $manualBackwardDone ? __('project/conducting.snowballing.modal.manual-processed') : '' }}
+                                            </option>
+                                            <option value="forward" @if($manualForwardDone) disabled @endif>
+                                                {{ __('project/conducting.snowballing.modal.manual-forward') }}
+                                                {{ $manualForwardDone ? __('project/conducting.snowballing.modal.manual-processed') : '' }}
+                                            </option>
+                                        </x-select>
+                                    @else
+                                        <x-select disabled class="form-select">
+                                            <option>{{ __('project/conducting.snowballing.modal.manual-readonly') }}</option>
+                                        </x-select>
+                                    @endif
+
+                                    {{-- Snowballing completo --}}
+                                    @if($canEdit && !$manualBackwardDone && !$manualForwardDone)
+                                        {{ __('project/conducting.snowballing.modal.automated-or') }}
+                                        <button wire:click="handleFullSnowballing" class="btn btn-dark w-100 mt-1">
+                                            <i class="fa-solid fa-dna"></i> {{ __('project/conducting.snowballing.buttons.automated') }}
+                                        </button>
+                                    @else
+                                        <button class="btn btn-secondary w-100 mt-1" disabled>
+                                            <i class="fa-solid fa-lock"></i> {{ __('project/conducting.snowballing.buttons.automated-unavailable') }}
+                                        </button>
+                                    @endif
+
+                                    <p class="text-success mt-2" wire:loading>{{ __('project/conducting.snowballing.modal.processing') }}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-12">
+                                <b>{{ __('project/conducting.snowballing.modal.abstract') }}: </b>
+                                <p>{{ $paper['abstract'] }}</p>
+                            </div>
+                            <div class="col-12">
+                                <b>{{ __('project/conducting.snowballing.modal.keywords') }}: </b>
+                                <p>{{ $paper['keywords'] }}</p>
+                            </div>
                         </div>
 
-                        <div class="d-flex gap-1 mb-3">
-                            <b>{{ __('project/conducting.snowballing.modal.status-snowballing') }}: </b>
-                            <b class="{{ 'text-' . strtolower($paper['status_description']) }}">
-                                {{ __("project/conducting.snowballing.status." . strtolower($paper['status_description'])) }}
-                            </b>
-                        </div>
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.abstract') }}: </b>
-                            <p>{{ $paper['abstract'] }}</p>
-                        </div>
-                        <div class="col-12">
-                            <b>{{ __('project/conducting.snowballing.modal.keywords') }}: </b>
-                            <p>{{ $paper['keywords'] }}</p>
-                        </div>
+                        <hr />
+                        @livewire('conducting.snowballing.references-table', ['data' => ['paper_reference_id' => $paper['id_paper'] ?? null]])
                     </div>
-
-                    <!-- Aqui vai os dados do snowballing -->
-                    <hr />
-                    @livewire('conducting.snowballing.references-table', ['data' => ['paper_reference_id' => $paper['id_paper'] ?? null]])
-
-
-
-                </div>
                 @endif
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         {{ __('project/conducting.snowballing.modal.close') }}
@@ -87,20 +102,19 @@
         </div>
     </div>
 
+    {{-- Modal de sucesso --}}
     <div wire:ignore.self class="modal fade" id="successModalSnowballing" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">
-                       INFO
-                    </h5>
+                    <h5 class="modal-title" id="successModalLabel">{{ __('project/conducting.snowballing.modal.info') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>{{ session('successMessage') }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __('project/conducting.snowballing.modal.ok') }}</button>
                 </div>
             </div>
         </div>
@@ -111,24 +125,19 @@
 <script>
     $(document).ready(function(){
         $wire.on('show-paper-snowballing', () => {
-            setTimeout(() => {
-                $('#paperModalSnowballing').modal('show');
-            }, 800); // Delay to ensure the modal is shown after the paper data is set and the modal is ready
-        }); 
+            setTimeout(() => { $('#paperModalSnowballing').modal('show'); }, 800);
+        });
 
-        // Mostrar o modal de sucesso
         Livewire.on('show-success-snowballing', () => {
             $('#paperModalSnowballing').modal('hide');
             $('#successModalSnowballing').modal('show');
         });
 
-        // Reabrir o modal do paper após o modal de sucesso ser fechado
         $('#successModalSnowballing').on('hidden.bs.modal', function () {
             $('#paperModalSnowballing').modal('show');
         });
     });
 
-    // Recarga do modal de paper
     Livewire.on('reload-paper-snowballing', () => {
         Livewire.emit('showPaperSnowballing', @json($paper));
     });

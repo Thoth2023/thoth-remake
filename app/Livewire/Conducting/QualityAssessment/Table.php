@@ -104,6 +104,7 @@ class Table extends Component
     #[On('show-success-conflicts')]
     #[On('show-success-conflicts-quality')]
     #[On('import-success')]
+    #[On('success-relevant-paper')]
     public function render()
     {
         $idsDatabase = ProjectDatabases::where('id_project', $this->projectId)->pluck('id_project_database');
@@ -191,10 +192,10 @@ class Table extends Component
         }
         // Passa se o membro é administrador/pesquisador
         $isAdministrator = $member->level == 1 || $member->level == 3;
-        
+
         // Emitir evento para atualizar o estado dos botões
         $this->dispatch('papers-updated', hasPapers: $papers->isNotEmpty());
-        
+
         return view('livewire.conducting.quality-assessment.table', compact('papers', 'databases', 'statuses','isAdministrator'));
     }
 

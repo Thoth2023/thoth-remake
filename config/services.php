@@ -60,4 +60,7 @@ return [
     'semantic_scholar' => [
         'key' => env('S2_API_KEY'),
     ],
+    'crossref' => [
+        'mailto' => env('CROSSREF_MAILTO', 'thothslr@gmail.com'),
+    ],
 ];

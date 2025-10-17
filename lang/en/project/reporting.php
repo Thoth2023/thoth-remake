@@ -154,6 +154,24 @@ return [
         'peer-review'=>'Peer Review',
     ],
 
+    'snowballing'=>[
+        'relevant_papers' => 'relevant papers included',
+        'seed_papers' => '{0} no seed papers|{1} 1 seed paper|[2,*] :count seed papers',
+        'levels' => '{0} no levels|{1} 1 level|[2,*] :count levels',
+        'legend' => 'Legend',
+        'seed' => 'Seed Paper',
+        'forward' => 'Forward',
+        'backward' => 'Backward',
+        'unknown' => 'Unknown',
+        'chart_title' => 'Snowballing Iteration Tree',
+        'tooltip_type' => 'Type',
+        'tooltip_relevance' => 'Relevance',
+        'no_data' => 'No data available to generate the chart.',
+        'no_chart_data' => 'Not enough data for the chart.',
+        'no_title' => 'Untitled',
+    ],
+
+
     'check' => [
         'no_imported_studies' => 'No imported studies were found for this project.',
         'no_selected_studies' => 'No selected studies were found for this project.',
