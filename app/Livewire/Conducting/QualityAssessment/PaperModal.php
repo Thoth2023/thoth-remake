@@ -157,7 +157,6 @@ class PaperModal extends Component
 
         // Atualiza o estado local e reativa o componente
         $this->selected_status = $status->status;
-        $this->dispatch('$refresh');
         $this->dispatch('paper-status-updated', $this->paper['id_paper']);
         $this->dispatch('show-success-quality');
     }
@@ -323,7 +322,6 @@ class PaperModal extends Component
 
         // Atualiza status local e recarrega visualmente
         $this->selected_status = $this->getPaperStatusDescription($newStatus);
-        $this->dispatch('$refresh');
         $this->dispatch('paper-status-updated', $paperId);
     }
 
