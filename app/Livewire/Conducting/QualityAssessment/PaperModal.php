@@ -11,43 +11,43 @@ use App\Models\Project\Planning\QualityAssessment\QualityScore;
 use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Models\StatusQualityAssessment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Traits\ProjectPermissions;
 
 class PaperModal extends Component
 {
-
     use ProjectPermissions;
 
     public $currentProject;
     public $projectId;
     public $paper;
     public $canEdit = false;
-
     public $questions;
-
     public $selected_questions_score = [];
-
     public $selected_status = "None";
-
     public $note;
 
+    /**
+     * Método de inicialização do componente.
+     * Carrega o projeto atual e as questões com seus respectivos scores.
+     */
     public function mount()
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
 
-        // Carregar questões e scores
         $this->questions = Question::where('id_project', $this->projectId)
             ->with(['qualityScores' => function ($query) {
                 $query->select('id_score', 'score_rule', 'id_qa');
             }])
             ->get();
-
-        // Carregar os scores selecionados previamente
-        //$this->loadSelectedScores();
     }
+
+    /**
+     * Limpa o estado do componente entre avaliações.
+     */
     public function resetState()
     {
         $this->paper = null;
@@ -56,177 +56,110 @@ class PaperModal extends Component
         $this->note = null;
     }
 
+    /**
+     * Evento disparado para exibir o modal de avaliação de qualidade.
+     */
     #[On('showPaperQuality')]
     public function showPaperQuality($paper)
     {
-
         $this->canEdit = $this->userCanEdit();
 
-        // Limpar estado anterior
+        // Reinicia o estado interno
         $this->resetState();
 
-        // Buscar o membro específico para o projeto atual
+        // Obtém o membro associado ao projeto atual
         $member = Member::where('id_user', auth()->user()->id)
             ->where('id_project', $this->projectId)
             ->first();
 
         $this->paper = $paper;
 
+        // Carrega o nome do banco de dados da referência
         $databaseName = DB::table('data_base')
             ->where('id_database', $this->paper['data_base'])
             ->value('name');
 
         $this->paper['database_name'] = $databaseName;
 
-        //status selecionado com base no status salvo no banco de dados
+        // Define o status inicial do paper com base no banco
         $this->selected_status = $this->paper['status_description'];
 
-        // Carregar a nota existente
+        // Carrega nota anterior, caso exista
         $paperQA = PapersQA::where('id_paper', $this->paper['id_paper'])
             ->where('id_member', $member->id_members)
             ->first();
         $this->note = $paperQA ? $paperQA->note : '';
 
-        // Carregar os scores selecionados previamente
+        // Carrega os scores previamente atribuídos
         $this->loadSelectedScores();
 
-        // Exibe o modal após garantir que os dados foram carregados
+        // Exibe o modal de avaliação
         $this->dispatch('show-paper-quality');
     }
 
+    /**
+     * Salva a nota associada ao paper avaliado.
+     */
     public function saveNote()
     {
-        // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
 
-        // Verifica se já existe uma entrada de paper para o membro e paper atual na tabela PapersQA
-        $paperQA = PapersQA::where('id_paper', $this->paper['id_paper'])
-            ->where('id_member', $member->id_members)
-            ->first();
+        $paperQA = PapersQA::firstOrNew([
+            'id_paper' => $this->paper['id_paper'],
+            'id_member' => $member->id_members,
+        ]);
 
-        if (!$paperQA) {
-            // Se não existir uma entrada, cria uma nova
-            $paperQA = new PapersQA();
-            $paperQA->id_paper = $this->paper['id_paper'];
-            $paperQA->id_member = $member->id_members;
-        }
-
-        // Atualiza a nota
         $paperQA->note = $this->note;
         $paperQA->save();
 
-        session()->forget('successMessage');
         session()->flash('successMessage', 'Nota salva com sucesso.');
-        // Mostra o modal de sucesso
         $this->dispatch('show-success-quality');
     }
 
-
+    /**
+     * Atualiza manualmente o status do paper (Ex: Removido, Não Classificado).
+     */
     public function updateStatusManual()
     {
-        // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
 
-        $paper = Papers::where('id_paper', $this->paper['id_paper'])->first();
-        $papers_qa = PapersQA::where('id_paper', $this->paper['id_paper'])
-            ->where('id_member', $member->id_members)
-            ->first();
-
-        if (!$papers_qa) {
-            // Se não existir uma seleção para o paper e membro, cria uma nova entrada
-            $papers_qa = new PapersQA();
-            $papers_qa->id_paper = $this->paper['id_paper'];
-            $papers_qa->id_member = $member->id_members;
-        }
+        $paper = Papers::find($this->paper['id_paper']);
+        $papers_qa = PapersQA::firstOrNew([
+            'id_paper' => $this->paper['id_paper'],
+            'id_member' => $member->id_members,
+        ]);
 
         $status = StatusQualityAssessment::where('status', $this->selected_status)->first();
+
+        // Atualiza os status
         $paper->status_qa = $status->id_status;
         $papers_qa->id_status = $status->id_status;
-
         $papers_qa->save();
 
-        // Se o membro for um administrador, também atualiza na tabela papers
+        // Se for administrador, reflete no status geral da tabela papers
         if ($member->level == 1) {
             $paper->status_selection = $status->id_status;
             $paper->save();
-
-            session()->forget('successMessage');
-            session()->flash('successMessage', __("project/conducting.quality-assessment.messages.status_quality_updated", ['status' => $status->status]));
-        } else {
-            session()->forget('successMessage');
-            session()->flash('successMessage', __("project/conducting.quality-assessment.messages.status_updated_for_selection", ['status' => $status->status]));
         }
-        session()->forget('successMessage');
-        session()->flash('successMessage', __("project/conducting.quality-assessment.messages.status_quality_updated", ['status' => $status->status]));
-        // Mostra o modal de sucesso
+
+        session()->flash('successMessage', __("project/conducting.quality-assessment.messages.status_quality_updated", [
+            'status' => $status->status
+        ]));
+
+        // Atualiza o estado local e reativa o componente
+        $this->selected_status = $status->status;
+        $this->dispatch('$refresh');
+        $this->dispatch('paper-status-updated', $this->paper['id_paper']);
         $this->dispatch('show-success-quality');
     }
 
-    // Método auxiliar para obter a descrição do status
-    private function getPaperStatusDescription($status)
-    {
-        $statusDescriptions = [
-            1 => 'Accepted',
-            2 => 'Rejected',
-            3 => 'Unclassified',
-            4 => 'Duplicate',
-            5 => 'Removed',
-        ];
-
-        return $statusDescriptions[$status] ?? 'Unknown';
-    }
-
-    public function updateScore($questionId, $scoreId)
-    {
-        // Buscar o membro específico para o projeto atual
-        $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId) // Certificar-se de que o membro pertence ao projeto atual
-            ->first();
-
-            $score_partial = $this->calculateScorePartial($questionId, $scoreId);
-
-            EvaluationQA::updateOrCreate(
-                [
-                    'id_paper' => $this->paper['id_paper'],
-                    'id_qa' => $questionId,
-                    'id_member' => $member->id_members,
-                    ],
-                [
-                    'id_score_qa' => $scoreId,
-                    'score_partial' => $score_partial,
-                    ],
-            );
-
-            DB::table('papers_qa_answer')->updateOrInsert(
-                [
-                    'id_paper' => $this->paper['id_paper'],
-                    'id_question' => $questionId,
-                ],
-                [
-                    'id_answer' => $scoreId,
-                ],
-            );
-
-        //atualizar papers_qa
-        $this->updatePaperQaStatus($this->paper['id_paper']);
-
-        // Recarregar os scores selecionados
-        $this->loadSelectedScores();
-
-        session()->forget('successMessage');
-        session()->flash('successMessage', __("project/conducting.quality-assessment.messages.evaluation_quality_score_updated"));
-
-        // Se desejar, você pode adicionar uma mensagem de sucesso ou atualizar algum estado
-        $this->dispatch('reload-paper-modal');
-        $this->dispatch('show-success-quality', 'Score atualizado com sucesso.');
-        $this->dispatch('show-success-quality-score');
-    }
-
-
+    /**
+     * Calcula a nota parcial de uma questão específica.
+     */
     private function calculateScorePartial($questionId, $scoreId)
     {
         $question = Question::find($questionId);
@@ -241,81 +174,130 @@ class PaperModal extends Component
         return 0;
     }
 
+    /**
+     * Retorna a descrição textual de um status QA com base no seu ID.
+     */
+    private function getPaperStatusDescription($status)
+    {
+        $statusDescriptions = [
+            1 => 'Accepted',
+            2 => 'Rejected',
+            3 => 'Unclassified',
+            4 => 'Duplicate',
+            5 => 'Removed',
+        ];
+
+        return $statusDescriptions[$status] ?? 'Unknown';
+    }
+
+
+    /**
+     * Atualiza o score e recalcula o status geral do paper.
+     */
+    public function updateScore($questionId, $scoreId)
+    {
+        $member = Member::where('id_user', auth()->user()->id)
+            ->where('id_project', $this->projectId)
+            ->first();
+
+        $score_partial = $this->calculateScorePartial($questionId, $scoreId);
+
+        // Atualiza ou cria o registro da avaliação de QA
+        EvaluationQA::updateOrCreate(
+            [
+                'id_paper' => $this->paper['id_paper'],
+                'id_qa' => $questionId,
+                'id_member' => $member->id_members,
+            ],
+            [
+                'id_score_qa' => $scoreId,
+                'score_partial' => $score_partial,
+            ],
+        );
+
+        // Atualiza tabela auxiliar
+        DB::table('papers_qa_answer')->updateOrInsert(
+            [
+                'id_paper' => $this->paper['id_paper'],
+                'id_question' => $questionId,
+            ],
+            [
+                'id_answer' => $scoreId,
+            ],
+        );
+
+        // Atualiza status geral
+        $this->updatePaperQaStatus($this->paper['id_paper']);
+
+        // Recarrega os scores do componente
+        $this->loadSelectedScores();
+
+        session()->flash('successMessage', __("project/conducting.quality-assessment.messages.evaluation_quality_score_updated"));
+
+        // Atualiza o componente filho QualityScore
+        $this->dispatch('reload-paper-modal');
+        // Força refresh e dispara eventos Livewire
+        $this->dispatch('$refresh');
+        $this->dispatch('paper-status-updated', $this->paper['id_paper']);
+        // Mostra mensagem de sucesso
+        $this->dispatch('show-success-quality', 'Score atualizado com sucesso.');
+    }
+
+    /**
+     * Atualiza o status geral do paper com base no score acumulado.
+     */
     public function updatePaperQaStatus($paperId)
     {
-        // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
-            ->where('id_project', $this->projectId)// Certificar-se de que o membro pertence ao projeto atual
+            ->where('id_project', $this->projectId)
             ->first();
-    
-        
-        //Calcular a soma de todos os `score_partial` de `evaluation_qa` para o `id_paper`
+
+        // Soma total dos scores parciais
         $totalScore = EvaluationQA::where('id_paper', $paperId)
             ->where('id_member', $member->id_members)
             ->sum('score_partial');
-    
+
         $generalScoreId = $this->findGeneralScoreId($totalScore);
-    
+
+        // Total de questões respondidas vs. total de questões
         $totalQuestions = Question::where('id_project', $this->currentProject->id_project)->count();
         $answeredQuestions = EvaluationQA::where('id_paper', $paperId)
             ->where('id_member', $member->id_members)
             ->count();
         $todasRespostas = ($answeredQuestions === $totalQuestions);
-    
+
+        // Verificação de notas abaixo do mínimo
         $scores = DB::table('evaluation_qa')
             ->join('question_quality', 'evaluation_qa.id_qa', '=', 'question_quality.id_qa')
             ->join('score_quality as sq1', 'evaluation_qa.id_score_qa', '=', 'sq1.id_score')
             ->join('score_quality as sq2', 'sq2.id_score', '=', 'question_quality.min_to_app')
             ->where('evaluation_qa.id_paper', $paperId)
             ->where('id_member', $member->id_members)
-            ->select(
-                'evaluation_qa.id_score_qa as score_resposta',
-                'question_quality.min_to_app as min_to_app',
-                'sq1.score as score_selecionado',
-                'sq2.score as score_min_to_app'
-            )
+            ->select('sq1.score as score_selecionado', 'sq2.score as score_min_to_app')
             ->get();
-    
-        $belowMinScore = false;
-        foreach ($scores as $score) {
-            if ($score->score_selecionado < $score->score_min_to_app) {
-                $belowMinScore = true;
-                break;
-            }
-        }
 
-        //Verifica se o score está num intervalo maior ou menor que o cutoff (score geral) em `qa_cutoff` em general_scores
-    
+        $belowMinScore = $scores->contains(fn($s) => $s->score_selecionado < $s->score_min_to_app);
+
+        // Determina se o paper é aceito ou rejeitado
         $qaCutoff = DB::table('qa_cutoff')
             ->join('general_score', 'qa_cutoff.id_general_score', '=', 'general_score.id_general_score')
             ->where('qa_cutoff.id_project', $this->currentProject->id_project)
-            ->select('general_score.start', 'general_score.end', 'qa_cutoff.id_general_score')
+            ->select('general_score.start', 'general_score.end')
             ->first();
 
-        // 1 = Accepted, 2 = Rejected
+        $newStatus = ($totalScore >= $qaCutoff->start && !$belowMinScore) ? 1 : 2; // 1 = Aceito, 2 = Rejeitado
 
-        $newStatus = ($totalScore >= $qaCutoff->start && !$belowMinScore) ? 1 : 2;
-    
-        // Verifica se o generalScoreId é válido antes de atualizar
-        if ($generalScoreId !== null && DB::table('general_score')->where('id_general_score', $generalScoreId)->exists()) {
+        // Atualiza dados nas tabelas correspondentes
+        if ($generalScoreId && DB::table('general_score')->where('id_general_score', $generalScoreId)->exists()) {
             PapersQA::where('id_paper', $paperId)
                 ->where('id_member', $member->id_members)
                 ->update([
                     'score' => $totalScore,
                     'id_gen_score' => $generalScoreId,
+                    'id_status' => $todasRespostas ? $newStatus : null,
                 ]);
-    
-            if ($todasRespostas === true) {
-                PapersQA::where('id_paper', $paperId)
-                    ->where('id_member', $member->id_members)
-                    ->update([
-                        'score' => $totalScore,
-                        'id_gen_score' => $generalScoreId,
-                        'id_status' => $newStatus,
-                    ]);
-            }
-    
-            if ($todasRespostas === true && $member->level == 1) {
+
+            if ($todasRespostas && $member->level == 1) {
                 Papers::where('id_paper', $paperId)->update([
                     'score' => $totalScore,
                     'id_gen_score' => $generalScoreId,
@@ -323,23 +305,31 @@ class PaperModal extends Component
                 ]);
             }
         } else {
-            \Log::warning("generalScoreId inválido ou inexistente para o score total: $totalScore (paper_id: $paperId)");
+            Log::warning("generalScoreId inválido ou inexistente para o score total: $totalScore (paper_id: $paperId)");
         }
+
+        // Atualiza status local e recarrega visualmente
+        $this->selected_status = $this->getPaperStatusDescription($newStatus);
+        $this->dispatch('$refresh');
+        $this->dispatch('paper-status-updated', $paperId);
     }
-    
+
+    /**
+     * Localiza o intervalo correto do score geral.
+     */
     private function findGeneralScoreId($totalScore)
     {
-        //caso o Score for zero ou menor que o menor intervalo
-        if ($totalScore === 0 || $totalScore < DB::table('general_score')
-                ->where('id_project', $this->currentProject->id_project)
-                ->min('start')) {
+        $minScore = DB::table('general_score')
+            ->where('id_project', $this->currentProject->id_project)
+            ->min('start');
 
+        if ($totalScore === 0 || $totalScore < $minScore) {
             return DB::table('general_score')
                 ->where('id_project', $this->currentProject->id_project)
-                ->orderBy('start', 'asc') // Ordena pelo menor intervalo possível
+                ->orderBy('start', 'asc')
                 ->value('id_general_score');
         }
-        //senão pega o o general_score do intervalo a que realmente pertence
+
         return DB::table('general_score')
             ->where('start', '<=', $totalScore)
             ->where('end', '>=', $totalScore)
@@ -347,17 +337,17 @@ class PaperModal extends Component
             ->value('id_general_score');
     }
 
+    /**
+     * Carrega as respostas já atribuídas às questões do paper.
+     */
     private function loadSelectedScores()
     {
-        // Obter as avaliações específicas do paper e do membro logado
-        // Buscar o membro específico para o projeto atual
         $member = Member::where('id_user', auth()->user()->id)
             ->where('id_project', $this->projectId)
             ->first();
 
-        // Carregar as avaliações de QA específicas do paper e do membro
-        $evaluations = EvaluationQA::where('id_paper',$this->paper['id_paper'])
-            ->where('id_member', $member->id_members) // Filtrando pelo id_member
+        $evaluations = EvaluationQA::where('id_paper', $this->paper['id_paper'])
+            ->where('id_member', $member->id_members)
             ->get();
 
         foreach ($evaluations as $evaluation) {
@@ -365,6 +355,9 @@ class PaperModal extends Component
         }
     }
 
+    /**
+     * Renderiza o componente.
+     */
     public function render()
     {
         return view('livewire.conducting.quality-assessment.paper-modal', [

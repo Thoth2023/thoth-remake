@@ -1,5 +1,5 @@
 <div>
-    <div class="modal fade" id="paperModalQuality" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
+    <div wire:ignore.self class="modal fade" id="paperModalQuality" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
