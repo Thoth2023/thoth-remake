@@ -123,6 +123,11 @@ class PaperModal extends Component
      */
     public function updateStatusManual()
     {
+
+        if (!$this->currentProject) {
+            $this->currentProject = Project::find($this->projectId);
+        }
+
         $member = Member::where('id_user', auth()->user()->id)
             ->where('id_project', $this->projectId)
             ->first();
@@ -196,6 +201,10 @@ class PaperModal extends Component
      */
     public function updateScore($questionId, $scoreId)
     {
+        if (!$this->currentProject) {
+            $this->currentProject = Project::find($this->projectId);
+        }
+
         $member = Member::where('id_user', auth()->user()->id)
             ->where('id_project', $this->projectId)
             ->first();
@@ -248,6 +257,10 @@ class PaperModal extends Component
      */
     public function updatePaperQaStatus($paperId)
     {
+        if (!$this->currentProject) {
+            $this->currentProject = Project::find($this->projectId);
+        }
+
         $member = Member::where('id_user', auth()->user()->id)
             ->where('id_project', $this->projectId)
             ->first();
