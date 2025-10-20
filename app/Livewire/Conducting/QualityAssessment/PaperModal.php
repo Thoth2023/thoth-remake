@@ -36,7 +36,7 @@ class PaperModal extends Component
     public function mount()
     {
         $this->projectId = request()->segment(2);
-        $this->currentProject = Project::findOrFail($this->projectId);
+        $this->currentProject = Project::find($this->projectId); // Mantém como objeto Eloquent
 
         $this->questions = Question::where('id_project', $this->projectId)
             ->with(['qualityScores' => function ($query) {
@@ -123,8 +123,8 @@ class PaperModal extends Component
      */
     public function updateStatusManual()
     {
-
-        if (!$this->currentProject) {
+        // Garante que o projeto está carregado
+        if (!$this->currentProject || !$this->currentProject->id_project) {
             $this->currentProject = Project::find($this->projectId);
         }
 
@@ -194,7 +194,6 @@ class PaperModal extends Component
         return $statusDescriptions[$status] ?? 'Unknown';
     }
 
-
     /**
      * Atualiza o score e recalcula o status geral do paper.
      */
@@ -256,7 +255,7 @@ class PaperModal extends Component
      */
     public function updatePaperQaStatus($paperId)
     {
-        if (!$this->currentProject) {
+        if (!$this->currentProject || !$this->currentProject->id_project) {
             $this->currentProject = Project::find($this->projectId);
         }
 
