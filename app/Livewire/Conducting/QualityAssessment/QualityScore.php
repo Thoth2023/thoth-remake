@@ -30,7 +30,6 @@ class QualityScore extends Component
     #[On('show-success-quality-score')]
     #[On('show-success-quality')]
     #[On('reload-paper-modal')]
-    #[On('paper-status-updated')]
     public function loadScore()
     {
         // Buscar o membro específico para o projeto atual
