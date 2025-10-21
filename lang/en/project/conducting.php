@@ -244,6 +244,7 @@ return [
             'select-score' => 'Select...',
             'quality-score' => 'Score',
             'quality-description' => 'Quality',
+            'apply-scores' => 'Apply/Save Score',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',
@@ -307,6 +308,7 @@ return [
         ],
         'messages' => [
             'evaluation_quality_score_updated' => 'Evaluation Quality Score updated successfully.',
+            'missing_scores' => 'You must select a score for all questions before applying. :count question(s) missing.',
             'status_quality_updated' => 'Status Quality updated successfully. New status: :status',
             'status_updated_for_selection' => 'Status updated for your selection. New status: :status',
         ],

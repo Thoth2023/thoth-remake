@@ -571,6 +571,7 @@ return [
             'select-score' => 'Selecione...',
             'quality-score' => 'Pontuação',
             'quality-description' => 'Qualidade',
+            'apply-scores' => 'Aplicar/Salvar Pontuação',
             'table' => [
                 'select' => 'Selecionar',
                 'description' => 'Descrição',
@@ -648,6 +649,7 @@ return [
         ],
         'messages' => [
             'evaluation_quality_score_updated' => 'Pontuação de Avaliação de Qualidade atualizada com sucesso.',
+            'missing_scores' => 'Você deve selecionar uma pontuação para todas as questões antes de aplicar. :count questão(ões) sem resposta.',
             'status_quality_updated' => 'Status de Qualidade atualizado com sucesso. Novo status: :status',
             'status_updated_for_selection' => 'Status atualizado para sua seleção. Novo status: :status',
         ],
