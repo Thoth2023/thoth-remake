@@ -30,7 +30,39 @@ return [
         'option-extraction' => '<li>Cadastre as "Opções" das questões de extração de dados para este projeto de revisão.</li>',
         'mismatch-weight-general-score' =>'<li>A soma dos pesos das Questões de Qualidade não corresponde ao valor máximo do último intervalo em "Intervalos de Pontuação Geral". <br>Verifique e gere novamente os intervalos no módulo de Planejamento.</li>',
     ],
+    'protocol_warning' => [
+        'title'   => 'Atenção antes de iniciar a Condução',
+        'message' => '
+            <p class="fw-semibold text-dark">
+                <span class="badge bg-warning text-dark">
+                    <i class="fa-solid fa-exclamation-circle me-1"></i> Aviso Importante
+                </span><br><br>
+                Caro usuário da <strong>Thoth</strong>, antes de iniciar a <strong>etapa de Condução</strong> do seu estudo,
+                é fundamental garantir que o seu <strong>protocolo e planejamento</strong> estejam totalmente revisados e consolidados.
+            </p>
 
+            <ul class="text-muted ms-3">
+                <li>Revise os <strong>critérios de inclusão/exclusão</strong>.</li>
+                <li>Verifique as <strong>questões de qualidade</strong> e os <strong>itens de extração de dados</strong>.</li>
+                <li>Confirme que todas as decisões metodológicas estão bem definidas.</li>
+            </ul>
+
+            <p class="mt-3">
+                <span class="badge bg-danger">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Atenção
+                </span>
+                Alterações futuras nessas etapas podem <strong>interferir nos resultados já processados</strong>.
+                Caso isso ocorra, você precisará <u>refazer manualmente</u> as avaliações afetadas.
+            </p>
+
+            <div class="alert alert-warning mt-3" role="alert">
+                <i class="fa-solid fa-lightbulb me-1"></i>
+                <strong>Dica:</strong> Revise seu protocolo com cuidado antes de prosseguir para evitar retrabalhos.
+            </div>
+        ',
+        'confirm' => 'Estou Ciente',
+        'cancel'  => 'Cancelar',
+    ],
     'study-selection' => [
         'title' => 'Seleção de Estudos',
         'help' => [

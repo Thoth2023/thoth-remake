@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Project\Conducting;
 
 use App\Http\Controllers\Controller;
 use App\Models\BibUpload;
+use App\Models\Project;
+use App\Services\ConductingProgressService;
 use App\Utils\CheckProjectDataPlanning;
 use Illuminate\Http\Request;
-use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Services\ConductingProgressService;
 
 class ConductingController extends Controller
 {
@@ -25,16 +27,26 @@ class ConductingController extends Controller
     {
         $project = Project::findOrFail($id_project);
 
-        // Verificação de autorização
+        // Verificação de permissão
         if (Gate::denies('access-project', $project)) {
             return redirect()->route('projects.index')
                 ->with('error', 'Você não tem permissão para acessar este projeto.');
         }
 
-        // Consulta projetos que têm snowballing
-        $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
+        // Verificação do planejamento (Planning)
+        CheckProjectDataPlanning::checkProjectData($id_project);
 
-        // Data Extraction Questions
+        // Exibir modal somente se o protocolo estiver completo e ainda não aceito
+        if (!$project->protocol_warning_ack) {
+            session(['show_protocol_warning_modal' => true]);
+            Log::info('Modal de protocolo será exibido', ['project_id' => $id_project]);
+        } else {
+            session()->forget('show_protocol_warning_modal');
+        }
+
+        // Outras informações
+        $databases = $project->databases()->get();
+        $snowballing_projects = Project::where('feature_review', 'snowballing')->get();
         $dataExtractionQuestions = $project->dataExtractionQuestions()->get();
         $questions = [];
         foreach ($dataExtractionQuestions as $question) {
@@ -47,7 +59,6 @@ class ConductingController extends Controller
             ];
         }
 
-        // Estudos importados
         $bibUploads = BibUpload::all();
         $studies = collect();
         foreach ($bibUploads as $bib) {
@@ -57,13 +68,6 @@ class ConductingController extends Controller
             }
         }
 
-        // Verificação de campos do Planning
-        CheckProjectDataPlanning::checkProjectData($id_project);
-
-        // Bases de dados do projeto
-        $databases = $project->databases()->get();
-
-        // Progresso da etapa de conducting
         $conductingProgress = $this->progressService->calculateProgress($project->id_project);
 
         return view('project.conducting.index', [
@@ -74,6 +78,43 @@ class ConductingController extends Controller
             'dataExtractionQuestions' => $questions,
             'conductingProgress' => $conductingProgress,
         ]);
+    }
+
+    public function acceptProtocolWarning(Request $request)
+    {
+        $user = Auth::user();
+        $projectId = $request->input('project_id');
+
+        if ($user && $projectId) {
+            $project = Project::find($projectId);
+            Log::info('Verificando projeto', [
+                'projectId' => $projectId,
+                'existe' => (bool)$project,
+            ]);
+
+            if ($project && Gate::allows('access-project', $project)) {
+                $project->protocol_warning_ack = true;
+                $project->save();
+
+                Log::info('Protocolo aceito com sucesso (persistido no banco)', [
+                    'project_id' => $projectId,
+                    'protocol_warning_ack' => $project->protocol_warning_ack,
+                ]);
+
+                return response()->json(['success' => true]);
+            }
+
+            Log::warning('Acesso negado ou projeto não encontrado', [
+                'projectId' => $projectId,
+            ]);
+        }
+
+        Log::error('Falha ao aceitar protocolo', [
+            'user' => $user ? $user->id : null,
+            'project_id' => $projectId,
+        ]);
+
+        return response()->json(['success' => false], 401);
     }
 
     public function setActiveTab(Request $request)

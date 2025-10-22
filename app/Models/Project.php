@@ -60,6 +60,7 @@ class Project extends Model
         'feature_review',
         'generic_search_string',
         'is_public',
+        'protocol_warning_ack',
     ];
 
     protected $casts = [
