@@ -7,13 +7,14 @@ use App\Models\Project\Planning\QualityAssessment\Cutoff;
 use App\Models\Project\Planning\QualityAssessment\GeneralScore;
 use App\Models\Project\Planning\QualityAssessment\Question;
 use App\Utils\ToastHelper;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Traits\ProjectPermissions;
 
 /**
  * Componente Livewire para gerenciar intervalos de pontuação geral.
- * 
+ *
  * Este componente permite criar e gerenciar intervalos de pontuação para avaliação
  * de qualidade, incluindo seus valores mínimos, máximos e descrições.
  */
@@ -68,21 +69,26 @@ class QuestionRanges extends Component
   /**
    * Popula a lista de intervalos com dados do banco de dados.
    */
-  public function populateItems()
-  {
-    $projectId = $this->currentProject->id_project;
-    $items = GeneralScore::where('id_project', $projectId)->get();
+    public function populateItems()
+    {
+        $this->items = [];
+        $projectId = $this->currentProject->id_project;
 
-    for ($i = 0; $i < count($items); $i++) {
-      $this->items[] = [
-        'id_general_score' => $items[$i]->id_general_score,
-        'start' => $items[$i]->start,
-        'end' => $items[$i]->end,
-        'description' => $items[$i]->description
-      ];
+        $items = GeneralScore::where('id_project', $projectId)
+            ->orderBy('start', 'asc')
+            ->get();
+
+        foreach ($items as $item) {
+            $this->items[] = [
+                'id_general_score' => $item->id_general_score,
+                'start' => $item->start,
+                'end' => $item->end,
+                'description' => $item->description,
+            ];
+        }
+
+        $this->oldItems = $this->items;
     }
-    $this->oldItems = $this->items;
-  }
 
   /**
    * Inicializa o componente, carregando o projeto e seus intervalos.
@@ -232,7 +238,7 @@ class QuestionRanges extends Component
       $this->items[$index]['description'] = $this->oldItems[$index]['description'];
       return;
     }
-    
+
     try {
       $this->validate([
         "items.$index.description" => 'required|string|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
@@ -271,38 +277,92 @@ class QuestionRanges extends Component
    * Gera novos intervalos baseado no número especificado.
    * Verifica dependências antes de excluir intervalos existentes.
    */
-  public function generateIntervals()
-  {
-    if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
-      return;
-    }
+    public function generateIntervals()
+    {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
 
-    if ($this->intervals < 2) {
-      $this->intervals = 2;
-    }
+        // Garantir limites seguros
+        $this->intervals = max(2, min($this->intervals, 10));
 
-    if ($this->intervals > 10) {
-      $this->intervals = 10;
-    }
+        $projectId = $this->currentProject->id_project;
 
-    // Verificar dependências antes de excluir
-    $generalScores = GeneralScore::where('id_project', $this->currentProject->id_project)->get();
+        $existingScores = GeneralScore::where('id_project', $projectId)->orderBy('start')->get();
+        $existingCount = $existingScores->count();
 
-    foreach ($generalScores as $generalScore) {
-      if ($generalScore->papers()->exists()) {
+        $hasEvaluations = DB::table('papers_qa')
+            ->join('general_score', 'papers_qa.id_gen_score', '=', 'general_score.id_general_score')
+            ->where('general_score.id_project', $projectId)
+            ->exists();
+
+        // 3- reduzir intervalos
+        if ($this->intervals < $existingCount) {
+            if ($hasEvaluations) {
+                $this->toast(
+                    message: __('project/planning.quality-assessment.ranges.reduction-not-allowed'),
+                    type: 'error'
+                );
+                return;
+            }
+
+            // Nenhuma avaliação vinculada — pode deletar tudo e recriar
+            GeneralScore::where('id_project', $projectId)->delete();
+            $existingCount = 0;
+        }
+
+        // Soma total dos pesos
+        $sumWeights = Question::where('id_project', $projectId)->sum('weight');
+        $rangeStep = round($sumWeights / $this->intervals, 2);
+
+        $start = 0.01;
+        $newItems = [];
+
+        for ($i = 1; $i <= $this->intervals; $i++) {
+            $end = round($start + $rangeStep - 0.01, 2);
+
+            // Atualizar existentes
+            if ($i <= $existingCount) {
+                $existing = $existingScores[$i - 1];
+                $existing->update([
+                    'start' => $start,
+                    'end' => $end,
+                ]);
+            } else {
+                // Criar novos intervalos
+                $newItems[] = [
+                    'id_project' => $projectId,
+                    'start' => $start,
+                    'end' => $end,
+                    'description' => __('project/planning.quality-assessment.ranges.new-label', ['n' => $i]),
+                ];
+            }
+
+            $start = round($end + 0.01, 2);
+        }
+
+        if (!empty($newItems)) {
+            GeneralScore::insert($newItems);
+        }
+
+        // Atualiza os itens na tela
+        $this->items = [];
+        $this->oldItems = [];
+        $this->populateItems();
+
+        // Força Livewire a re-renderizar o componente
+        $this->dispatch('$refresh');
+
         $this->toast(
-          message: __('project/planning.quality-assessment.ranges.deletion-restricted', [
-            'description' => $generalScore->description,
-          ]),
-          type: 'error'
+            message: __('project/planning.quality-assessment.ranges.generated-successfully'),
+            type: 'success'
         );
 
-        return; // Abortar operação
-      }
+        $this->dispatch('general-scores-generated');
     }
-  }
 
-  /**
+
+    /**
    * Manipula atualizações automáticas de propriedades.
    * Atualiza a descrição quando o campo é modificado.
    *

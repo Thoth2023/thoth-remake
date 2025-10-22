@@ -13,7 +13,7 @@ use App\Traits\ProjectPermissions;
 
 /**
  * Componente Livewire para gerenciar questões de qualidade.
- * 
+ *
  * Este componente permite criar, editar e excluir questões de qualidade
  * associadas ao projeto, incluindo seus pesos e descrições.
  */
@@ -63,7 +63,7 @@ class QuestionQuality extends Component
     protected $rules = [
         'currentProject' => 'required',
         'questionId' => 'required|string|max:10|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|max:255|regex:/^[a-zA-Z0-9]+$/',
+        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
         'weight' => 'required|regex:/^\d+(\.\d{1,2})?$/',
     ];
 
