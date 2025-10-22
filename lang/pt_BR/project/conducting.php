@@ -13,23 +13,56 @@ return [
         'data_extraction' => 'Extração de Dados',
     ],
     'check' => [
-        'domain' => 'Cadastre os dados de "Domínio" para este projeto de revisão.',
-        'language' => 'Cadastre os dados de "Linguagem" para este projeto de revisão.',
-        'study-types' => 'Cadastre os dados de "Tipos de Estudo" para este projeto de revisão.',
-        'research-questions' => 'Cadastre os dados de "Questões de Pesquisa" para este projeto de revisão.',
-        'databases' => 'Cadastre os dados de "Base de Dados" para este projeto de revisão.',
-        'term' => 'Cadastre os dados de "Termos de busca" na String de Busca para este projeto de revisão.',
-        'search-strategy' => 'Cadastre os dados de "Estratégia de busca" para este projeto de revisão.',
-        'criteria' => 'Cadastre os dados de "Critérios de Inclusão ou Exclusão" para este projeto de revisão.',
-        'general-score' => 'Cadastre os dados de "Pontuação Geral/Intervalos" na Avaliação de Qualidade para este projeto de revisão.',
-        'cutoff' => 'Cadastre os dados de "Pontuação Mínima para Aprovação" ou complete a "pontuação geral" para este projeto de revisão.',
-        'score-min' => 'Defina a "Pontuação de Qualidade Mínima para Aprovação" nas perguntas deste projeto de revisão.',
-        'question-qa' => 'Cadastre as "Questões de Qualidade" ou defina a "Pontuação Mínima para Aprovação" para este projeto de revisão.',
-        'score-qa' => 'Cadastre os dados de "Pontuação de Qualidade" para este projeto de revisão.',
-        'data-extraction' => 'Cadastre as "Questões de Extração de Dados" para este projeto de revisão.',
-        'option-extraction' => 'Cadastre as "Opções" das questões de extração de dados para este projeto de revisão.'
+        'domain' => '<li>Cadastre os dados de "Domínio" para este projeto de revisão.</li>',
+        'language' => '<li>Cadastre os dados de "Linguagem" para este projeto de revisão.</li>',
+        'study-types' => '<li>Cadastre os dados de "Tipos de Estudo" para este projeto de revisão.</li>',
+        'research-questions' => '<li>Cadastre os dados de "Questões de Pesquisa" para este projeto de revisão.</li>',
+        'databases' => '<li>Cadastre os dados de "Base de Dados" para este projeto de revisão.</li>',
+        'term' => '<li>Cadastre os dados de "Termos de busca" na String de Busca para este projeto de revisão.</li>',
+        'search-strategy' => '<li>Cadastre os dados de "Estratégia de busca" para este projeto de revisão.</li>',
+        'criteria' => '<li>Cadastre os dados de "Critérios de Inclusão ou Exclusão" para este projeto de revisão.</li>',
+        'general-score' => '<li>Cadastre os dados de "Pontuação Geral/Intervalos" na Avaliação de Qualidade para este projeto de revisão.</li>',
+        'cutoff' => '<li>Cadastre os dados de "Pontuação Mínima para Aprovação" ou complete a "pontuação geral" para este projeto de revisão.</li>',
+        'score-min' => '<li>Defina a "Pontuação de Qualidade Mínima para Aprovação" nas perguntas deste projeto de revisão.</li>',
+        'question-qa' => '<li>Cadastre as "Questões de Qualidade" ou defina a "Pontuação Mínima para Aprovação" para este projeto de revisão.</li>',
+        'score-qa' => '<li>Cadastre os dados de "Pontuação de Qualidade" para este projeto de revisão.</li>',
+        'data-extraction' => '<li>Cadastre as "Questões de Extração de Dados" para este projeto de revisão.</li>',
+        'option-extraction' => '<li>Cadastre as "Opções" das questões de extração de dados para este projeto de revisão.</li>',
+        'mismatch-weight-general-score' =>'<li>A soma dos pesos das Questões de Qualidade não corresponde ao valor máximo do último intervalo em "Intervalos de Pontuação Geral". <br>Verifique e gere novamente os intervalos no módulo de Planejamento.</li>',
     ],
+    'protocol_warning' => [
+        'title'   => 'Atenção antes de iniciar a Condução',
+        'message' => '
+            <p class="fw-semibold text-dark">
+                <span class="badge bg-warning text-dark">
+                    <i class="fa-solid fa-exclamation-circle me-1"></i> Aviso Importante
+                </span><br><br>
+                Caro usuário da <strong>Thoth</strong>, antes de iniciar a <strong>etapa de Condução</strong> do seu estudo,
+                é fundamental garantir que o seu <strong>protocolo e planejamento</strong> estejam totalmente revisados e consolidados.
+            </p>
 
+            <ul class="text-muted ms-3">
+                <li>Revise os <strong>critérios de inclusão/exclusão</strong>.</li>
+                <li>Verifique as <strong>questões de qualidade</strong> e os <strong>itens de extração de dados</strong>.</li>
+                <li>Confirme que todas as decisões metodológicas estão bem definidas.</li>
+            </ul>
+
+            <p class="mt-3">
+                <span class="badge bg-danger">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Atenção
+                </span>
+                Alterações futuras nessas etapas podem <strong>interferir nos resultados já processados</strong>.
+                Caso isso ocorra, você precisará <u>refazer manualmente</u> as avaliações afetadas.
+            </p>
+
+            <div class="alert alert-warning mt-3" role="alert">
+                <i class="fa-solid fa-lightbulb me-1"></i>
+                <strong>Dica:</strong> Revise seu protocolo com cuidado antes de prosseguir para evitar retrabalhos.
+            </div>
+        ',
+        'confirm' => 'Estou Ciente',
+        'cancel'  => 'Cancelar',
+    ],
     'study-selection' => [
         'title' => 'Seleção de Estudos',
         'help' => [
@@ -571,6 +604,7 @@ return [
             'select-score' => 'Selecione...',
             'quality-score' => 'Pontuação',
             'quality-description' => 'Qualidade',
+            'apply-scores' => 'Aplicar/Salvar Pontuação',
             'table' => [
                 'select' => 'Selecionar',
                 'description' => 'Descrição',
@@ -648,6 +682,7 @@ return [
         ],
         'messages' => [
             'evaluation_quality_score_updated' => 'Pontuação de Avaliação de Qualidade atualizada com sucesso.',
+            'missing_scores' => 'Você deve selecionar uma pontuação para todas as questões antes de aplicar. :count questão(ões) sem resposta.',
             'status_quality_updated' => 'Status de Qualidade atualizado com sucesso. Novo status: :status',
             'status_updated_for_selection' => 'Status atualizado para sua seleção. Novo status: :status',
         ],

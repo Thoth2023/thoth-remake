@@ -14,7 +14,7 @@
                         {{ __("project/planning.quality-assessment.question-quality.weight") }}
                     </th>
                     <th scope="col" class="text-center p-1" style="width: 15%; text-align: center; vertical-align: middle;">
-                        {{ __("project/planning.quality-assessment.min-general-score.title") }}
+                        {{ __("project/planning.quality-assessment.qa-table.min-general-score") }}
                     </th>
                     <th scope="col" class="text-center p-1" style="width: 10%; text-align: center; vertical-align: middle;">
                         {{ __("project/planning.data-extraction.table.header.actions") }}

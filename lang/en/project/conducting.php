@@ -15,21 +15,55 @@ return [
 
     ],
     'check' => [
-        'domain' => 'Register the data for "Domain" for this review project.',
-        'language' => 'Register the data for "Language" for this review project.',
-        'study-types' => 'Register the data for "Study Types" for this review project.',
-        'research-questions' => 'Register the data for "Research Questions" for this review project.',
-        'databases' => 'Register the data for "Database" for this review project.',
-        'term' => 'Register the data for "Search Terms" in the Search String for this review project.',
-        'search-strategy' => 'Register the data for "Search Strategy" for this review project.',
-        'criteria' => 'Register the data for "Inclusion or Exclusion Criteria" for this review project.',
-        'general-score' => 'Register the data for "General Score/Intervals" in the Quality Assessment for this review project.',
-        'cutoff' => 'Register the data for "Minimum Score for Approval" or complete the "General Score" for this review project.',
-        'score-min' => 'Define the "Minimum Quality Score for Approval" for the questions in this review project.',
-        'question-qa' => 'Register the "Quality Questions" or define the "Minimum Score for Approval" for this review project.',
-        'score-qa' => 'Register the data for "Quality Score" for this review project.',
-        'data-extraction' => 'Register the "Data Extraction Questions" for this review project.',
-        'option-extraction' => 'Register the "Options" for the data extraction questions of this review project.'
+        'domain' => '<li>Register the data for "Domain" for this review project.</li>',
+        'language' => '<li>Register the data for "Language" for this review project.</li>',
+        'study-types' => '<li>Register the data for "Study Types" for this review project.</li>',
+        'research-questions' => '<li>Register the data for "Research Questions" for this review project.</li>',
+        'databases' => '<li>Register the data for "Database" for this review project.</li>',
+        'term' => '<li>Register the data for "Search Terms" in the Search String for this review project.</li>',
+        'search-strategy' => '<li>Register the data for "Search Strategy" for this review project.</li>',
+        'criteria' => '<li>Register the data for "Inclusion or Exclusion Criteria" for this review project.</li>',
+        'general-score' => '<li>Register the data for "General Score/Intervals" in the Quality Assessment for this review project.</li>',
+        'cutoff' => '<li>Register the data for "Minimum Score for Approval" or complete the "General Score" for this review project.</li>',
+        'score-min' => '<li>Define the "Minimum Quality Score for Approval" for the questions in this review project.</li>',
+        'question-qa' => '<li>Register the "Quality Questions" or define the "Minimum Score for Approval" for this review project.</li>',
+        'score-qa' => '<li>Register the data for "Quality Score" for this review project.</li>',
+        'data-extraction' => '<li>Register the "Data Extraction Questions" for this review project.</li>',
+        'option-extraction' => '<li>Register the "Options" for the data extraction questions of this review project.</li>',
+        'mismatch-weight-general-score' =>'<li>The sum of quality question weights does not match the maximum value of the last interval in "General Score Interval". <br> Please review and regenerate the intervals in the Planning module.</li>',
+    ],
+    'protocol_warning' => [
+        'title' => 'Attention before starting the Conducting phase',
+        'message' => '
+            <p class="fw-semibold text-dark">
+                <span class="badge bg-warning text-dark">
+                    <i class="fa-solid fa-exclamation-circle me-1"></i> Important Notice
+                </span><br><br>
+                Dear <strong>Thoth</strong> user, before starting the <strong>Conducting</strong> phase of your study,
+                ensure your <strong>protocol and planning</strong> are fully reviewed and consolidated.
+            </p>
+
+            <ul class="text-muted ms-3">
+                <li>Carefully review the <strong>inclusion/exclusion criteria</strong>.</li>
+                <li>Check your <strong>quality assessment questions</strong> and <strong>data extraction items</strong>.</li>
+                <li>Make sure all methodological decisions are well defined.</li>
+            </ul>
+
+            <p class="mt-3">
+                <span class="badge bg-danger">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Warning
+                </span>
+                Future changes in these stages may <strong>affect already processed results</strong>.
+                If this happens, you will need to <u>redo</u> the affected evaluations manually.
+            </p>
+
+            <div class="alert alert-warning mt-3" role="alert">
+                <i class="fa-solid fa-lightbulb me-1"></i>
+                <strong>Tip:</strong> Review your protocol carefully before proceeding to avoid rework.
+            </div>
+        ',
+        'confirm' => 'I Understand',
+        'cancel' => 'Cancel',
     ],
     'study-selection' => [
         'title' => 'Study Selection',
@@ -244,6 +278,7 @@ return [
             'select-score' => 'Select...',
             'quality-score' => 'Score',
             'quality-description' => 'Quality',
+            'apply-scores' => 'Apply/Save Score',
             'table' => [
                 'select' => 'Select',
                 'description' => 'Description',
@@ -307,6 +342,7 @@ return [
         ],
         'messages' => [
             'evaluation_quality_score_updated' => 'Evaluation Quality Score updated successfully.',
+            'missing_scores' => 'You must select a score for all questions before applying. :count question(s) missing.',
             'status_quality_updated' => 'Status Quality updated successfully. New status: :status',
             'status_updated_for_selection' => 'Status updated for your selection. New status: :status',
         ],

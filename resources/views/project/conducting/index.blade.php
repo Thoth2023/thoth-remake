@@ -17,7 +17,9 @@
                         <div class='card card-body col-md-12 mt-3'>
                             <h3 class="h5 mb-3">{{ __('project/conducting.study-selection.tasks') }}</h3>
                             <div class="alert alert-warning" id="errorMessage">
+                                <ul>
                                 {!! session('error') !!}
+                                </ul>
                             </div>
                         </div>
                         <script>
@@ -102,6 +104,10 @@
     </div>
     </div>
 
+    {{-- Exibe o modal SOMENTE se o protocolo estiver completo, sem erro e ainda não aceito --}}
+    @if(session('show_protocol_warning_modal') && isset($project) && !session()->has('error'))
+        @include('project.conducting.modals.protocol-warning')
+    @endif
 
 
     @if (session()->has("activeConductingTab"))

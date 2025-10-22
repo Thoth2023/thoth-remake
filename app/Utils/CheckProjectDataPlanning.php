@@ -16,6 +16,7 @@ use App\Models\ProjectStudyType;
 use App\Models\ResearchQuestion;
 use App\Models\SearchStrategy;
 use App\Models\Term;
+use Illuminate\Support\Facades\Log;
 
 class CheckProjectDataPlanning
 {
@@ -111,6 +112,32 @@ class CheckProjectDataPlanning
         if (!$scoreExists) {
             $errors[] = __('project/conducting.check.score-qa');
         }
+
+        /**
+         * Garantir que a soma dos pesos das questões de qualidade (question_quality.weight)
+         * corresponda ao valor máximo (end) do último intervalo configurado em general_score.
+         */
+        $sumWeights = Question::where('id_project', $projectId)->sum('weight');
+        $lastIntervalEnd = GeneralScore::where('id_project', $projectId)->max('end');
+
+        // Log detalhado de verificação
+        Log::info('Verificação de consistência QA (CheckProjectDataPlanning)', [
+            'project_id' => $projectId,
+            'sum_weights' => $sumWeights,
+            'last_interval_end' => $lastIntervalEnd,
+            'difference' => round(abs($sumWeights - $lastIntervalEnd), 3),
+        ]);
+
+        if ($generalScoreExists && $sumWeights > 0 && abs($sumWeights - $lastIntervalEnd) > 0.01) {
+            $errors[] = __('project/conducting.check.mismatch-weight-general-score');
+        }
+
+        if(!empty($errors)) {
+            $compiledErrors = implode('<br>', $errors);
+            session()->flash('error', $compiledErrors);
+            return false;
+        }
+
 
         // Verificar se existem dados na tabela 'data_extraction'
         $questionExists = DataExtractionQuestion::where('id_project', $projectId)->exists();
