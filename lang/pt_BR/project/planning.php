@@ -563,53 +563,74 @@ return [
             'interval-updated' => 'Intervalo atualizado com sucesso.',
             'deletion-restricted' => 'Não é possível excluir o intervalo ":description". Existem registros/papers associados.',
             'generated' => 'Intervalos gerados com sucesso.',
+            'reduction-not-allowed' => 'Não é possível reduzir o número de intervalos pois já existem avaliações em condução para este projeto.',
+            'new-label' => 'Intervalo :n',
+            'generated-successfully' => 'Intervalos de pontuação atualizados com sucesso.',
         ],
         'general-score' => [
-            'title' => 'Pontuação Geral',
+            'title' => 'Intervalos de Pontuação Geral',
             'help' => [
-                'title' => 'Pontuação Geral',
-                'content' => '
-                <p>Você pode definir os intervalos que considerar necessários para a sua revisão sistemática. No entanto,
-                lembre-se de salvar as configurações e definir o "mínimo para aprovação". Esse planejamento será crucial na fase de condução da revisão.</p>
-                <strong>Exemplo:</strong>
-                <table class="table table-bordered table-striped small">
-                        <thead>
-                            <tr>
-                                <th>Mínimo</th>
-                                <th>Máximo</th>
-                                <th>Descrição</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td>1</td>
-                                <td>Muito Ruim</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>2</td>
-                                <td>Ruim</td>
-                                </tr>
-                                <tr>
-                                    <td>2.1</td>
-                                    <td>3</td>
-                                    <td>Regular</td>
-                                </tr>
-                                <tr>
-                                    <td>3.1</td>
-                                    <td>4</td>
-                                    <td>Bom</td>
-                                </tr>
-                                <tr>
-                                    <td>4.1</td>
-                                    <td>5</td>
-                                    <td>Muito Bom</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                'title' => 'Intervalos de Pontuação Geral',
+                'content' => '<p>Você pode definir os intervalos que considerar necessários para a sua revisão sistemática.
+                            No entanto, lembre-se de salvar as configurações e definir o <strong>"mínimo para aprovação"</strong>.
+                            Esse planejamento será crucial na fase de condução da revisão.</p>
 
-                ',
+                            <p>Caso você adicione ou altere questões de qualidade no planejamento,
+                            <strong>verifique se o valor máximo do último intervalo cadastrado é igual à soma total dos pesos</strong>
+                            calculados pelo sistema. Essa consistência garante que os intervalos de pontuação estejam
+                            corretamente ajustados à estrutura atual das questões de qualidade.</p>
+
+                            <p>Se desejar <strong>reduzir o número de intervalos</strong>,
+                            o sistema somente permitirá essa ação se <strong>não houver estudos avaliados</strong>
+                            vinculados ao mesmo projeto de revisão.</p>
+
+                            <p>Se desejar apenas <strong>atualizar os valores finais de pontuação</strong> dos intervalos existentes,
+                            basta gerar novamente o <strong>mesmo número de intervalos</strong>.
+                            O sistema recalculará automaticamente os limites com base na <strong>soma dos pesos</strong> definidos nas questões de qualidade.</p>
+
+                            <p>Por fim, se desejar <strong>acrescentar novos intervalos</strong>, por exemplo,
+                            se atualmente existem 5 intervalos e você deseja ter 6, basta informar <strong>6</strong> no campo de geração
+                            e clicar no botão correspondente. O sistema verificará os intervalos já existentes
+                            e criará apenas o <strong>intervalo que falta</strong>, sem afetar os demais.</p>
+
+                            <strong>Exemplo:</strong>
+                            <table class="table table-bordered table-striped small">
+                                <thead>
+                                    <tr>
+                                        <th>Mínimo</th>
+                                        <th>Máximo</th>
+                                        <th>Descrição</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>Muito Ruim</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1.1</td>
+                                        <td>2</td>
+                                        <td>Ruim</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2.1</td>
+                                        <td>3</td>
+                                        <td>Regular</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3.1</td>
+                                        <td>4</td>
+                                        <td>Bom</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4.1</td>
+                                        <td>5</td>
+                                        <td>Muito Bom</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        ',
             ],
             'start' => 'Digite a Pontuação Mínima',
             'end' => 'Digite a Pontuação Máxima',
@@ -655,18 +676,28 @@ return [
             'title' => 'Questão de Qualidade',
             'help' => [
                 'title' => 'Questão de Qualidade',
-                'content' => '
-                    <p>Além dos critérios gerais de inclusão/exclusão, considera-se fundamental avaliar a "qualidade" dos estudos primários:</p>
-                    <ul>
-                        <li>Para fornecer critérios de inclusão/exclusão ainda mais detalhados.</li>
-                        <li>Para investigar se as diferenças de qualidade explicam as diferenças nos resultados dos estudos.</li>
-                        <li>Como um meio de ponderar a importância de estudos individuais quando os resultados estão sendo sintetizados.</li>
-                        <li>Para orientar a interpretação dos achados e determinar a força das inferências.</li>
-                        <li>Para orientar recomendações para futuras pesquisas.</li>
-                    </ul><br>
+                'content' => '<p>Além dos critérios gerais de inclusão e exclusão, é fundamental avaliar a <strong>qualidade</strong> dos estudos primários,
+                            pois essa análise permite uma interpretação mais robusta e confiável dos resultados.</p>
 
-                    <strong>Exemplo:</strong> QA01 - O estudo apresenta a implementação de uma ferramenta para revisão sistemática da literatura?',
-            ],
+                            <ul>
+                                <li>Fornece critérios de inclusão/exclusão ainda mais detalhados.</li>
+                                <li>Permite investigar se diferenças de qualidade explicam diferenças nos resultados dos estudos.</li>
+                                <li>Serve como um meio de ponderar a importância de estudos individuais quando os resultados são sintetizados.</li>
+                                <li>Auxilia na interpretação dos achados e na determinação da força das inferências.</li>
+                                <li>Orienta recomendações para futuras pesquisas.</li>
+                            </ul><br>
+
+                            <p>Cada <strong>questão de qualidade</strong> pode possuir um <strong>peso</strong> associado,
+                            que representa sua importância relativa dentro da avaliação.
+                            Questões com pesos maiores têm um impacto mais significativo no cálculo da pontuação total,
+                            influenciando diretamente a <strong>classificação de qualidade</strong> de cada estudo.
+                            Dessa forma, o peso determina o quanto aquela questão contribui para o resultado geral da avaliação.</p>
+
+                            <p>Por isso, é importante atribuir pesos de forma criteriosa,
+                            garantindo que questões mais relevantes para a revisão tenham maior influência na pontuação final.</p>
+
+                            <strong>Exemplo:</strong> QA01 - O estudo apresenta a implementação de uma ferramenta para revisão sistemática da literatura?',
+                ],
             'id' => 'ID',
             'description' => 'Descrição',
             'weight' => 'Peso',
@@ -792,14 +823,20 @@ return [
         ],
 
         'min-general-score' => [
-            'title' => 'Pontuação Mínima para Aprovação',
-            'help-content' => '
-                <p>Após o cadastro das questões de qualidade, a soma dos pesos de todas as questões registradas anteriormente é calculada automaticamente pela Thoth.</p>
-                <strong>Mínimo para Aprovação:</strong>
-                <p>Este item define o intervalo de pontuação mínima geral que deve ser considerado como o critério mínimo para aceitar estudos na revisão.</p>
-                <p><strong>Observação:</strong> Para registrar, é necessário primeiro cadastrar as questões de qualidade, gerar os intervalos de pontuação geral
-                e salvar no projeto da revisão em andamento.</p>
-                ',
+            'title' => 'Pontuação Mínima Geral para Aprovação',
+            'help-content' => '<p>Após o cadastro das questões de qualidade, a soma dos pesos de todas as questões registradas anteriormente é calculada automaticamente pela Thoth.</p>
+
+                        <p>Essa soma representa o <strong>limite máximo de pontuação</strong> que um estudo pode alcançar durante a avaliação de qualidade.
+                        Por isso, o <strong>intervalo máximo dos intervalos de pontuação geral</strong> deve sempre <strong>corresponder ao valor da soma total dos pesos</strong>
+                        do projeto. Essa correspondência é essencial para garantir que os cálculos de pontuação e as classificações de qualidade
+                        funcionem corretamente durante a etapa de condução da revisão.</p>
+
+                        <strong>Mínimo para Aprovação:</strong>
+                        <p>Este item define o intervalo de pontuação mínima geral que deve ser considerado como o critério mínimo para aceitar estudos na revisão.</p>
+
+                        <p><strong>Observação:</strong> Para registrar, é necessário primeiro cadastrar as questões de qualidade, gerar os intervalos de pontuação geral
+                        e salvar no projeto da revisão em andamento. Certifique-se também de que o <strong>valor máximo do último intervalo</strong> esteja
+                        sempre alinhado à <strong>soma dos pesos das questões</strong>.</p>',
             'cutoff' => 'Pontuação Mínima Geral',
             'sum' => 'Soma dos Pesos',
             'form' => [

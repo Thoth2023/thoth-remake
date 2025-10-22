@@ -36,7 +36,7 @@ class Question extends Component
 	// Regra de validação para os campos do formulário.
     protected $rules = [
         'questionId' => ['required', 'max:255', 'regex:/^(?!\s*$)[a-zA-Z0-9\s]+$/'],
-        'description' => 'required|string',
+        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
         'type' => 'required|array',
     ];
 
@@ -132,7 +132,7 @@ class Question extends Component
                 ? 'Questão atualizada com sucesso!' : 'Questão adicionada com sucesso!';
 
             if ($this->form['isEditing']) {
-                
+
                 $this->currentQuestion->update([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],
@@ -140,7 +140,7 @@ class Question extends Component
                     'description' => $this->description,
                 ]);
             } else {
-                
+
                 QuestionModel::create([
                     'id_project' => $this->currentProject->id_project,
                     'type' => $this->type['value'],

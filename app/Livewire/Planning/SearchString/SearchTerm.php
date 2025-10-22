@@ -51,7 +51,7 @@ class SearchTerm extends Component
      */
     protected $rules = [
         'currentProject' => 'required',
-        'description' => 'required|string|regex:/^[\pL\s]+$/u|max:255',
+        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
         'synonym' => 'nullable|string|regex:/^[\pL\s]+$/u|max:255',
     ];
 

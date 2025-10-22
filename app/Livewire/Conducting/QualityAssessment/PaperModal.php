@@ -308,6 +308,29 @@ class PaperModal extends Component
 
         $generalScoreId = $this->findGeneralScoreId($totalScore);
 
+        // Verificação de segurança: se não houver general_score configurado para a pontução do totalScore
+        if (empty($generalScoreId)) {
+            $generalScoreId = DB::table('general_score')
+                ->where('id_project', $this->currentProject->id_project)
+                ->orderBy('start', 'asc')
+                ->value('id_general_score');
+
+            if (empty($generalScoreId)) {
+                logger()->error("Nenhum registro em general_score para o projeto {$this->currentProject->id_project}. Verifique os intervalos configurados.");
+
+                // msg para o usuário
+                $this->dispatch('paper-quality-toast', [
+                    'message' => __(
+                        'project/conducting.quality-assessment.messages.missing_general_score_intervals'
+                    ),
+                    'type' => 'error',
+                    'timer' => 10000 // 10 segundos de exibição
+                ]);
+
+                return;
+            }
+        }
+
         // 2️- Verificar quantidade de questões respondidas
         $totalQuestions = Question::where('id_project', $this->currentProject->id_project)->count();
         $answeredQuestions = EvaluationQA::where('id_paper', $paperId)
@@ -376,7 +399,6 @@ class PaperModal extends Component
             'generalScoreId' => $generalScoreId
         ]);
     }
-
 
     /**
      * Localiza o intervalo correto do score geral.

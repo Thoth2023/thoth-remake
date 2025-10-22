@@ -31,11 +31,7 @@ class Option extends Component
 
     // Regras de validação para os campos do formulário.
     protected $rules = [
-        'description' => [
-          'required',
-          'string',
-          'regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',  
-        ],
+        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
         'questionId' => 'required|array',
         'questionId.*.value' => 'exists:question_extraction,id',
     ];
@@ -156,7 +152,7 @@ class Option extends Component
     #[On('data-extraction-table-delete-option')]
     public function delete(string $optionId)
     {
-		
+
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }

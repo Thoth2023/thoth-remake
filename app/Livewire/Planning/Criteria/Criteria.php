@@ -16,11 +16,11 @@ use App\Traits\LivewireExceptionHandler;
 
 /**
  * Componente Livewire para gerenciamento de critérios de planejamento de projeto.
- * 
+ *
  * Este componente permite criar, editar, excluir e gerenciar critérios de inclusão
  * e exclusão para projetos, incluindo a definição de regras (ALL, ANY, AT_LEAST)
  * e seleção de critérios pré-selecionados.
- * 
+ *
  * @package App\Livewire\Planning\Criteria
  * @author Felipe H. Scherer
  */
@@ -29,7 +29,7 @@ class Criteria extends Component
 
     /**
      * Caminho base para as mensagens de toast traduzidas.
-     * 
+     *
      * @var string
      */
 
@@ -41,63 +41,63 @@ class Criteria extends Component
 
     /**
      * Projeto atual sendo gerenciado.
-     * 
+     *
      * @var ProjectModel|null
      */
     public $currentProject;
 
     /**
      * Critério atual sendo editado.
-     * 
+     *
      * @var CriteriaModel|null
      */
     public $currentCriteria;
 
     /**
      * Lista de todos os critérios do projeto atual.
-     * 
+     *
      * @var \Illuminate\Database\Eloquent\Collection
      */
     public $criterias = [];
 
     /**
      * Tipo do critério (Inclusion/Exclusion).
-     * 
+     *
      * @var array
      */
     public $type;
 
     /**
      * Descrição do critério.
-     * 
+     *
      * @var string
      */
     public $description;
 
     /**
      * ID único do critério.
-     * 
+     *
      * @var string
      */
     public $criteriaId;
 
     /**
      * Regra de inclusão aplicada aos critérios de inclusão.
-     * 
+     *
      * @var array
      */
     public $inclusion_rule;
 
     /**
      * Regra de exclusão aplicada aos critérios de exclusão.
-     * 
+     *
      * @var array
      */
     public $exclusion_rule;
 
     /**
      * Estado do formulário.
-     * 
+     *
      * @var array
      */
     public $form = [
@@ -106,7 +106,7 @@ class Criteria extends Component
 
     /**
      * Define as regras de validação para os campos do formulário.
-     * 
+     *
      * @return array Array contendo as regras de validação
      */
     protected function rules()
@@ -114,7 +114,7 @@ class Criteria extends Component
         return [
             'currentProject' => 'required',
             'criteriaId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
-            'description' => 'required|string|regex:/^[\pL\s]+$/u|max:255',
+            'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\]+$/u|max:255',
             'type' => 'required|array',
             'type.*.value' => 'string'
         ];
@@ -122,7 +122,7 @@ class Criteria extends Component
 
     /**
      * Define mensagens personalizadas para as regras de validação.
-     * 
+     *
      * @return array Array contendo as mensagens de erro personalizadas
      */
     protected function messages()
@@ -140,10 +140,10 @@ class Criteria extends Component
 
     /**
      * Inicializa o componente quando é montado.
-     * 
+     *
      * Recupera o projeto atual da URL, carrega todos os critérios associados
      * e define os valores padrão para as regras de inclusão e exclusão.
-     * 
+     *
      * @return void
      */
     public function mount()
@@ -192,7 +192,7 @@ class Criteria extends Component
 
     /**
      * Reseta todos os campos do formulário para seus valores padrão.
-     * 
+     *
      * @return void
      */
     public function resetFields()
@@ -208,7 +208,7 @@ class Criteria extends Component
 
      * Alterna o status de pré-seleção de um critério e atualiza automaticamente
      * as regras correspondentes baseado na quantidade de critérios selecionados.
-     * 
+     *
      * @param string $id ID do critério a ser alternado
      * @param string $type Tipo do critério (Inclusion/Exclusion)
      * @return void
@@ -266,7 +266,7 @@ class Criteria extends Component
 
      * Define uma regra específica para um tipo de critério e atualiza
      * automaticamente o status de pré-seleção dos critérios conforme a regra.
-     * 
+     *
      * @param string $rule Regra a ser aplicada (ALL, ANY, AT_LEAST)
      * @param string $type Tipo do critério (Inclusion/Exclusion)
      * @return void
@@ -379,7 +379,7 @@ class Criteria extends Component
     /**
      * Atualiza a lista de critérios e as regras de inclusão/exclusão
      * a partir do banco de dados.
-     * 
+     *
      * @return void
      */
     public function updateCriterias()
@@ -407,7 +407,7 @@ class Criteria extends Component
 
     /**
      * Envia uma mensagem toast para a view.
-     * 
+     *
      * @param string $message Mensagem a ser exibida
      * @param string $type Tipo da mensagem (success, error, info, warning)
      * @return void
@@ -419,7 +419,7 @@ class Criteria extends Component
 
     /**
      * Traduz mensagens baseado na chave fornecida.
-     * 
+     *
      * @param string $key Chave da tradução
      * @return string Mensagem traduzida
      */
@@ -431,10 +431,10 @@ class Criteria extends Component
     /**
      * Processa o envio do formulário, validando os dados e criando
      * ou atualizando um critério.
-     * 
+     *
      * Realiza validações personalizadas, verifica duplicidade de IDs,
      * salva o critério no banco de dados e registra a atividade no log.
-     * 
+     *
      * @return void
      */
     public function submit()
@@ -510,7 +510,7 @@ class Criteria extends Component
     /**
      * Preenche os campos do formulário com os dados do critério
      * especificado para edição.
-     * 
+     *
      * @param string $criteriaId ID do critério a ser editado
      * @return void
      */
@@ -530,10 +530,10 @@ class Criteria extends Component
 
     /**
      * Exclui um critério do banco de dados.
-     * 
+     *
      * Remove o critério especificado, registra a atividade no log
      * e atualiza a lista de critérios.
-     * 
+     *
      * @param string $criteriaId ID do critério a ser excluído
      * @return void
      */
@@ -574,7 +574,7 @@ class Criteria extends Component
 
     /**
      * Atualiza as regras de critérios de inclusão ou exclusão no banco de dados.
-     * 
+     *
      * @param string $type Tipo do critério para determinar a mensagem de sucesso
      * @return void
      */
@@ -614,7 +614,7 @@ class Criteria extends Component
 
     /**
      * Renderiza o componente Livewire.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function render()

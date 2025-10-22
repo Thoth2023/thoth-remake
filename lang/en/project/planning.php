@@ -566,22 +566,45 @@ return [
             'interval-updated' => 'Interval updated successfully.',
             'deletion-restricted' => 'Cannot delete the interval ":description". There are  associated records/papers depending on this interval.',
             'generated' => 'Intervals generated successfully.',
+            'reduction-not-allowed' => 'It is not possible to reduce the number of intervals because evaluations are already in progress for this project.',
+            'new-label' => 'Range :n',
+            'generated-successfully' => 'Scoring intervals successfully updated.',
         ],
         'general-score' => [
-            'title' => 'General Score',
+            'title' => 'General Score Interval',
             'help' => [
-                'title' => 'General Score',
-                'content' => '
-                <p>You can define the intervals you deem necessary for your systematic review. However, remember to save the settings and
-                specify the "minimum for approval." This planning will be crucial in the review\'s execution phase.</p>
+                'title' => 'General Score Interval',
+                'content' => '<p>You can define as many intervals as you consider necessary for your systematic review.
+                        However, remember to save the configurations and define the <strong>"minimum for approval"</strong>.
+                        This planning will be crucial during the conducting phase of your review.</p>
 
-                <strong>Example:</strong>
-                <table class="table table-bordered table-striped small">
+                        <p>If you add or modify quality assessment questions in the planning phase,
+                        please make sure that the <strong>maximum value of the last registered interval matches the total sum of weights</strong>
+                        calculated by the system. This ensures that the scoring intervals are properly aligned
+                        with the current set of quality questions.</p>
+
+                        <p>If you want to <strong>reduce the number of intervals</strong>,
+                        the system will only allow this action if <strong>no evaluated studies</strong>
+                        are linked to the same review project.</p>
+
+                        <p>If you only wish to <strong>update the final scoring values</strong> of the existing intervals,
+                        simply generate the <strong>same number of intervals</strong> again.
+                        The system will automatically recalculate the interval ranges based on the
+                        <strong>sum of the weights</strong> defined in the quality questions.</p>
+
+                        <p>Finally, if you want to <strong>add more intervals</strong>, for example,
+                        if there are currently 5 intervals and you wish to have 6, just enter <strong>6</strong>
+                        in the generation field and click the corresponding button.
+                        The system will check the existing intervals and create only the <strong>missing one</strong>,
+                        without affecting the others.</p>
+
+                        <strong>Example:</strong>
+                        <table class="table table-bordered table-striped small">
                             <thead>
                                 <tr>
-                                    <th>Min Score</th>
-                                    <th>Max Score</th>
-                                    <th>Label</th>
+                                    <th>Minimum</th>
+                                    <th>Maximum</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -612,8 +635,7 @@ return [
                                 </tr>
                             </tbody>
                         </table>
-
-                ',
+                    ',
             ],
             'start' => 'Enter the Minimum Score',
             'end' => 'Enter the Max Score',
@@ -660,17 +682,28 @@ return [
             'help' => [
                 'title' => 'Question Quality',
                 'content' => '
-                <p>In addition to general inclusion/exclusion criteria, it is considered critical to assess the “quality” of primary studies:</p>
-                    <ul>
-                        <li>To provide still more detailed inclusion/exclusion criteria.</li>
-                        <li>To investigate whether quality differences provide an explanation for differences in study results.</li>
-                        <li>As a means of weighting the importance of individual studies when results are being synthesised.</li>
-                        <li>To guide the interpretation of findings and determine the strength of inferences.</li>
-                        <li>To guide recommendations for further research.</li>
-                    </ul><br>
+                            <p>In addition to the general inclusion and exclusion criteria, it is essential to assess the <strong>quality</strong> of primary studies,
+                            as this evaluation provides a more reliable and meaningful interpretation of the evidence collected.</p>
 
-                    <strpong>Example:</strpong> QA01 - Does the study present the implementation of a tool for systematic literature review?',
-            ],
+                            <ul>
+                                <li>Provides more detailed inclusion and exclusion criteria.</li>
+                                <li>Helps investigate whether quality differences explain variations in study results.</li>
+                                <li>Acts as a way to weigh the importance of individual studies when synthesizing results.</li>
+                                <li>Guides the interpretation of findings and the strength of inferences.</li>
+                                <li>Supports recommendations for future research.</li>
+                            </ul><br>
+
+                            <p>Each <strong>quality assessment question</strong> can have an associated <strong>weight</strong>,
+                            which reflects its relative importance in the overall evaluation.
+                            Questions with higher weights have a greater impact on the total score,
+                            directly influencing the <strong>quality classification</strong> of each study.
+                            Thus, the weight determines how much each question contributes to the final assessment result.</p>
+
+                            <p>Therefore, it is important to assign weights carefully,
+                            ensuring that the most relevant questions for the review carry greater influence in the final scoring outcome.</p>
+
+                            <strong>Example:</strong> QA01 - Does the study present the implementation of a tool for systematic literature review?',
+                ],
             'id' => 'ID',
             'description' => 'Description',
             'weight' => 'Weight',
@@ -791,13 +824,19 @@ return [
         ],
 
         'min-general-score' => [
-            'title' => 'Minimal Score to Approve',
-            'help-content' => '
-                <p>After registering the quality questions, the sum of the weights for all previously recorded questions is automatically calculated by Thoth.</p>
-                <strong>Minimum to Approval:</strong>
-                <p>This criterion defines the range of minimum overall scores that should be considered the minimum threshold for accepting studies in the review.</p>
-                <p><strong>Note:</strong> To register, you must first enter the quality questions, generate the overall score ranges, and save them in the ongoing review project.</p>
-                ',
+            'title' => 'Minimal General Score to Approve',
+            'help-content' => '<p>After registering the quality assessment questions, the total sum of all question weights is automatically calculated by Thoth.</p>
+                            <p>This sum represents the <strong>maximum scoring limit</strong> that a study can achieve during the quality assessment process.
+                            Therefore, the <strong>maximum value of the general score intervals</strong> must always <strong>match the total sum of weights</strong>
+                            defined for the project. This alignment is crucial to ensure that scoring and quality classification
+                            calculations work properly during the conducting phase of the review.</p>
+
+                            <strong>Minimum for Approval:</strong>
+                            <p>This item defines the general minimum score interval that should be considered as the minimum acceptance criterion for studies in the review.</p>
+
+                            <p><strong>Note:</strong> To register, you must first create the quality assessment questions, generate the general score intervals,
+                            and save them within the ongoing review project. Also ensure that the <strong>maximum value of the last interval</strong>
+                            is always aligned with the <strong>sum of all question weights</strong>.</p>',
             'cutoff' => 'Cutoff (Min Score general)',
             'sum' => 'Total Weight',
             'form' => [
