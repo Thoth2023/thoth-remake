@@ -4,7 +4,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content modal-transparent">
                 <div class="modal-header">
-                    <h5 class="modal-title text-warning" id="protocolWarningModalLabel">
+                    <h5 class="modal-title" id="protocolWarningModalLabel">
                         <i class="fa-solid fa-triangle-exclamation me-1"></i>
                         {{ __("project/conducting.protocol_warning.title") }}
                     </h5>
