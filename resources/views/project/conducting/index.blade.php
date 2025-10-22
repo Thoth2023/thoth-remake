@@ -104,6 +104,10 @@
     </div>
     </div>
 
+    {{-- Exibe o modal SOMENTE se o protocolo estiver completo, sem erro e ainda não aceito --}}
+    @if(session('show_protocol_warning_modal') && isset($project) && !session()->has('error'))
+        @include('project.conducting.modals.protocol-warning')
+    @endif
 
 
     @if (session()->has("activeConductingTab"))

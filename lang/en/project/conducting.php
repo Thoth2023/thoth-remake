@@ -31,7 +31,39 @@ return [
         'data-extraction' => '<li>Register the "Data Extraction Questions" for this review project.</li>',
         'option-extraction' => '<li>Register the "Options" for the data extraction questions of this review project.</li>',
         'mismatch-weight-general-score' =>'<li>The sum of quality question weights does not match the maximum value of the last interval in "General Score Interval". <br> Please review and regenerate the intervals in the Planning module.</li>',
+    ],
+    'protocol_warning' => [
+        'title' => 'Attention before starting the Conducting phase',
+        'message' => '
+            <p class="fw-semibold text-dark">
+                <span class="badge bg-warning text-dark">
+                    <i class="fa-solid fa-exclamation-circle me-1"></i> Important Notice
+                </span><br><br>
+                Dear <strong>Thoth</strong> user, before starting the <strong>Conducting</strong> phase of your study,
+                ensure your <strong>protocol and planning</strong> are fully reviewed and consolidated.
+            </p>
 
+            <ul class="text-muted ms-3">
+                <li>Carefully review the <strong>inclusion/exclusion criteria</strong>.</li>
+                <li>Check your <strong>quality assessment questions</strong> and <strong>data extraction items</strong>.</li>
+                <li>Make sure all methodological decisions are well defined.</li>
+            </ul>
+
+            <p class="mt-3">
+                <span class="badge bg-danger">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Warning
+                </span>
+                Future changes in these stages may <strong>affect already processed results</strong>.
+                If this happens, you will need to <u>redo</u> the affected evaluations manually.
+            </p>
+
+            <div class="alert alert-warning mt-3" role="alert">
+                <i class="fa-solid fa-lightbulb me-1"></i>
+                <strong>Tip:</strong> Review your protocol carefully before proceeding to avoid rework.
+            </div>
+        ',
+        'confirm' => 'I Understand',
+        'cancel' => 'Cancel',
     ],
     'study-selection' => [
         'title' => 'Study Selection',

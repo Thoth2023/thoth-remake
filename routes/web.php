@@ -242,8 +242,14 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
     });
     // End of the Planning Routes
 
-
+    // CONDUCTING ROUTES
     Route::prefix('/conducting')->group(function () {
+
+        // Aceitar aviso de protocolo (modal)
+        Route::post('/accept-protocol-warning', [ConductingController::class, 'acceptProtocolWarning'])
+            ->name('project.conducting.accept-protocol-warning')
+            ->middleware('auth')
+            ->middleware(Localization::class);
 
         Route::get('/', [ConductingController::class, 'index'])
             ->name('project.conducting.index')
