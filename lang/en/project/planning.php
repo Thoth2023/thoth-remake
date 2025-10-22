@@ -570,6 +570,9 @@ return [
             'new-label' => 'Range :n',
             'generated-successfully' => 'Scoring intervals successfully updated.',
         ],
+        'qa-table'=>[
+            'min-general-score' => 'Minimal Score to Approve',
+        ],
         'general-score' => [
             'title' => 'General Score Interval',
             'help' => [

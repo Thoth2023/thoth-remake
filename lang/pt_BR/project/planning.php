@@ -567,6 +567,9 @@ return [
             'new-label' => 'Intervalo :n',
             'generated-successfully' => 'Intervalos de pontuação atualizados com sucesso.',
         ],
+        'qa-table'=>[
+            'min-general-score' => 'Pontuação Mínima para Aprovação	',
+            ],
         'general-score' => [
             'title' => 'Intervalos de Pontuação Geral',
             'help' => [
