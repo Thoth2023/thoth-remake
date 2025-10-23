@@ -9,15 +9,21 @@ class SearchStringPage:
 
     # Localizadores
     TERM_INPUT = (By.CSS_SELECTOR, "input[placeholder='Digite o termo de busca']")
+    EDIT_TERM_INPUT_BUTTON = (By.XPATH, "//tr[@data-item='search-terms']//button[@class='btn py-1 px-3 btn-outline-secondary']")
     TERM_SELECT = (By.XPATH, "//div[4]/div/div/div[2]/div/div/div/div/div/div/div")
     TERM_SELECT_OPTION = (By.XPATH, "//div[contains(@class, 'choices__item') and contains(text(), 'software erro')]")
     SYNONYMS_INPUT = (By.CSS_SELECTOR, "#synonym")
+    EDIT_SYNONYMS_INPUT_BUTTON = (By.XPATH, "//div[contains(@class,'d-grid gap-3')]//div[contains(@class,'table-accordion-item')]//div//i[contains(@class,'fas fa-edit')]")
+    VIEW_SYNONYMS_BUTTON = (By.XPATH, "//tr[contains(@class,'px-4')]//button[@class='table-accordion-button']")
 
     OPEN_BUTTON = (By.CSS_SELECTOR, ".fas.fa-search-plus")
     TAB_PLANNING = (By.CSS_SELECTOR, ".fas.fa-calendar-alt")
     TAB_SEARCHSTRING = (By.CSS_SELECTOR, "#search-string-tab")
     ADD_TERM_BUTTON = (By.XPATH, "//*[@id='search-string']/div/div[1]/div[2]/form/div[2]/button")
     ADD_SYNONYMS_BUTTON = (By.XPATH, "//div[@class='d-flex gap-1']//div//i[@class='fa fa-plus']")
+    EDIT_SYNONYMS_BUTTON = (By.XPATH, "//div[@class='d-flex gap-1']//div//button[@type='submit']")
+    DELETE_TERM_BUTTON = (By.XPATH, "//tr[contains(@data-item,'search-terms')]//button[contains(@class,'btn py-1 px-3 btn-outline-danger')]")
+    DELETE_SYNONYMS_BUTTON = (By.XPATH, "//div[contains(@class,'d-grid gap-3')]//div[contains(@class,'table-accordion-item')]//div//button[contains(@class,'btn btn-outline-danger py-0 px-3 m-0')]")
 
 
     def __init__(self, driver):
@@ -104,3 +110,61 @@ class SearchStringPage:
         """
         self.driver.find_element(*self.ADD_SYNONYMS_BUTTON).click()
         time.sleep(1)
+
+    def edit_search_term(self, term):
+        """
+        Edita um termo de busca na aba de String de busca
+        """
+        # Scroll para baixo para garantir que a aba esteja visível
+        self.driver.execute_script("window.scrollBy(0, 100);")
+        time.sleep(2)
+        edit_button = self.driver.find_element(*self.EDIT_TERM_INPUT_BUTTON)
+        edit_button.click()
+        time.sleep(1)
+        # Localiza o campo de termo e insere o novo valor
+        term_input = self.driver.find_element(*self.TERM_INPUT)
+        term_input.clear()
+        term_input.send_keys(term)
+        self.driver.find_element(*self.ADD_TERM_BUTTON).click()
+        time.sleep(1)
+
+    def edit_synonyms(self, synonyms):
+        """
+        Edita sinônimos na aba de String de busca
+        """
+        # Scroll para baixo para garantir que a aba esteja visível
+        self.driver.execute_script("window.scrollBy(0, 150);")
+        time.sleep(2)
+        view_synonyms_button = self.driver.find_element(*self.VIEW_SYNONYMS_BUTTON)
+        view_synonyms_button.click()
+        time.sleep(1)
+        # Localiza o botão de editar sinônimos e clica nele
+        edit_synonyms_button = self.driver.find_element(*self.EDIT_SYNONYMS_INPUT_BUTTON)
+        edit_synonyms_button.click()
+        time.sleep(1)
+        # Localiza o campo de sinônimos e insere o novo valor
+        synonyms_input = self.driver.find_element(*self.SYNONYMS_INPUT)
+        synonyms_input.clear()
+        synonyms_input.send_keys(synonyms)
+        time.sleep(1)
+        self.driver.find_element(*self.EDIT_SYNONYMS_BUTTON).click()
+        time.sleep(1)
+
+    def delete_search_string(self):
+        """
+        Exclui um termo de busca na aba de String de busca
+        """
+        #Scroll para baixo para garantir que a aba esteja visível
+        self.driver.execute_script("window.scrollBy(0, 155);")
+        time.sleep(1)
+        # Localiza o botão de view sinônimos e clica nele
+        view_synonyms_button = self.driver.find_element(*self.VIEW_SYNONYMS_BUTTON)
+        view_synonyms_button.click()
+        time.sleep(1)
+        # Localiza o botão de excluir sinônimos e clica nele
+        self.driver.find_element(*self.DELETE_SYNONYMS_BUTTON).click()
+        time.sleep(2)
+
+        # Localiza o botão de excluir termo e clica nele
+        self.driver.find_element(*self.DELETE_TERM_BUTTON).click()
+        time.sleep(2)
