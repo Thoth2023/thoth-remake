@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
+
 
 class RegisterRequest extends FormRequest
 {
@@ -19,7 +21,15 @@ class RegisterRequest extends FormRequest
             'institution' => 'required|max:255|min:2',
             'email' => 'required|email|max:255|unique:users,email',
             'username' => 'required|max:255|min:2',
-            'password' => 'required|min:5|max:255',
+            'password' => [
+            'required',
+            'confirmed', // exige o campo password_confirmation
+            Password::min(8)
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised(), // verifica se a senha já vazou na internet
+        ],
             'terms' => 'required',
             // 'g-recaptcha-response' => 'required', // Campo do reCAPTCHA desativado
         ];

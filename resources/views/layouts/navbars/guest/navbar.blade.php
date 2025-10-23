@@ -18,19 +18,8 @@
 
                     <!-- Itens do menu (colapsáveis) -->
                     <div class="collapse navbar-collapse" id="navigation">
-                        <!-- Barra de pesquisa -->
-                        <div class="d-flex align-items-center ms-auto me-3" style="max-width: 250px; width: 100%;">
-                            <form action="/search-project" method="get" class="w-100">
-                                <div class="input-group">
-                                    <span class="input-group-text text-body">
-                                        <i class="fas fa-search" aria-hidden="true"></i>
-                                    </span>
-                                    <input type="text" name="searchProject" class="form-control" placeholder="{{ __('nav/nav.search_in_thoth') }}">
-                                </div>
-                            </form>
-                        </div>
 
-                        <ul class="navbar-nav d-flex align-items-center">
+                        <ul class="navbar-nav d-flex align-items-center ms-auto">
                             <li class="nav-item me-1">
                                 <a class="nav-link d-flex align-items-center" aria-current="page" href="{{ route('home') }}">
                                     <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
