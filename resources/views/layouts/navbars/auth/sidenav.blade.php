@@ -234,7 +234,18 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'news-sources.index' ? 'active' : '' }}"
+                       href="{{ Route::currentRouteName() != 'news-sources.index' ? route('news-sources.index') : '#' }}">
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="{{ Route::currentRouteName() == 'news-sources.index' ? 'text-primary' : 'text-dark' }} text-sm opacity-10 fas fa-newspaper"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">{{ __("nav/side.news_sources") }}</span>
+                    </a>
+                </li>
+
             @endif
         </ul>
+        <br/><br/>
     </div>
 </aside>
