@@ -38,6 +38,9 @@ class ContentSecurityPolicy
             "https://code.highcharts.com",
             "https://accounts.google.com",
             "https://apis.google.com",
+            "https://content.googleapis.com",
+            "https://ssl.gstatic.com",
+            "https://*.googleusercontent.com",
         ];
 
         // Garante consistência entre todas as diretivas de script
@@ -80,6 +83,11 @@ class ContentSecurityPolicy
         $frameSrc = [
             "'self'",
             "https://accounts.google.com",
+            "https://apis.google.com",
+            "https://content.googleapis.com",
+            "https://accounts.youtube.com",
+            "https://*.googleusercontent.com",
+            "https://ssl.gstatic.com",
         ];
 
         // Conexões (Livewire, APIs externas, etc.)
@@ -87,6 +95,10 @@ class ContentSecurityPolicy
             "'self'",
             "https://*",
             "wss://*",
+            "https://accounts.google.com",
+            "https://apis.google.com",
+            "https://content.googleapis.com",
+            "https://*.gstatic.com",
         ];
 
         /**
