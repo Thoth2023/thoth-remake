@@ -7,6 +7,7 @@ return [
 
     'new_features' => 'Novas funcionalidades:',
     'recover_password' => 'Recuperar Senha',
+    'login_google'=>'Login Google (Auth)',
     'bug_databases' => 'Planejamento - Bases de Dados (base de dados padrão definidos)',
     'suggest_databases' => 'Sugerir Base de Dados (implementação com aprovação do superusuário)',
     'new_interface' => 'Nova Interface Frontend e Backend com Livewire',
@@ -15,16 +16,32 @@ return [
     'usability' => 'Correções de erros de usabilidade e acessibilidade (Helpers)',
     'users_management' => 'Gerenciamento de Usuários (ativação/permissões)',
     'profile_management' => 'Gerenciamento de Perfis (ACL/gates e policies)',
-    'members_invitation' => 'Convite a Membros (notificação por e-mail)',
+    'members_invitation' => 'Convite a Membros (notificação por e-mail e interface)',
     'pwa' => 'Aplicativo Web Progressivo (PWA Mobile)',
-    'snowballing' => 'Módulo Snowballing (em desenvolvimento)',
+    'snowballing' => 'Módulo Snowballing (Manual e Automatizado - Backward e Forward)',
     'new_qa' => 'Planejamento - Nova forma de configurar as questões de avaliação de qualidade (QA)',
     'algolia_api' => 'API Algolia AI Synonyms - implementação para sugerir sinônimos para palavras-chave e auxiliar na construção de strings',
     'crossref_api' => 'API CrossRef - implementação junto ao módulo snowballing para busca de referências dos estudos.',
+    'references' => 'Busca de referências com a API da Semantic Scholar',
+    'chat_project'=>'Chat interno para os usuários do projeto',
+    'lgpd'=>'Implementação das normas da LGPD ao perfil do Usuário',
+    'docs'=>'Documentação detalhada da arquitetura do sistema (GitHub) e Manual do Usuário através do ThothBook',
+    'reports'=>'Novos Relatórios disponíveis ao projeto',
+    'avaiability'=>'Concordância Simples e Análise Kappa',
+    'module_notification'=>'Módulo de Notificações na plataforma para os Usuários dos sistema',
 
 
     'development' => 'Desenvolvimento',
     'development_description' => 'Thoth foi criado por estudantes de graduação em Engenharia de Software, mantido e atualizado por alunos e professores do Programa de Pós-Graduação em Engenharia de Software - PPGES da Universidade Federal do Pampa (UNIPAMPA).',
+
+    'cite_us' => 'Cite-nos',
+    'cite_us_description' => 'Se o Thoth foi útil em sua pesquisa, por favor cite nosso artigo:',
+    'access_article' => 'Acessar artigo completo',
+    'select_format' => 'Selecione um formato de citação:',
+    'citation_modal_title' => 'Exportar Citação',
+    'close' => 'Fechar',
+    'copy' => 'Copiar',
+    'copied_success' => 'Citação copiada para a área de transferência!',
 
     'open_source_project' => 'Projeto de Código Aberto',
     'mit_license' => 'Licença MIT',
@@ -117,6 +134,6 @@ return [
     'export_to_bibtex_description' => 'Os estudos podem ser exportados no formato BibTex para serem usados como referência em outros estudos.',
 
     'improvement_of_search_strings' => 'Melhoria das Strings de Pesquisa',
-    'improvement_of_search_strings_description' => 'Essa função foi desenvolvida por outros membros do grupo de pesquisa, chamada StringImprover 2, sendo um serviço da web baseado em web-sockets. A escolha dos web-sockets foi feita considerando a necessidade de a ferramenta fornecer atualizações sobre o progresso da geração de strings, já que a pesquisa pode levar muito tempo. Para usá-la, o cliente deve enviar as palavras-chave, que serão usadas na criação de strings e na avaliação de artigos, e um grupo de artigos ideais. Esses documentos ideais são artigos que o pesquisador considerou e considerou relevantes, então eles serão usados como referência para avaliar os artigos encontrados na pesquisa.',
+    'improvement_of_search_strings_description' => 'Nas versões anteriores, a plataforma Thoth utilizava um serviço externo chamado StringImprover 2, uma ferramenta web baseada em WebSockets que gerava strings de busca e sugeria sinônimos em tempo real. No Thoth 2.0, essa funcionalidade foi reimplementada e aprimorada por meio da integração com a API da Algolia. Essa nova abordagem utiliza datasets da Algolia para sugerir automaticamente sinônimos e termos relacionados, tornando a construção das strings de busca mais dinâmica e semanticamente rica. Essa melhoria aumenta significativamente a cobertura e a precisão do processo de busca, permitindo que os pesquisadores construam consultas mais eficazes e abrangentes diretamente no sistema.',
 
 ];

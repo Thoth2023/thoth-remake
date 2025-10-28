@@ -14,6 +14,8 @@ return [
     'edit_permission' => 'Edit Permission Group',
     'view_permission' => 'View Permission Group',
 
+    'news_sources'=>'News Sources',
+
     // Left side navbar
 
     'thoth_configurator' => 'Thoth Configurator',

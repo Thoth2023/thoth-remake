@@ -7,6 +7,7 @@ return [
 
     'new_features' => 'New features:',
     'recover_password' => 'Password Recovery',
+    'login_google'=>'Login Google (Auth)',
     'bug_databases' => 'Planning Databases (default databases defined)',
     'suggest_databases' => 'Suggest Databases (implementation with super user approval)',
     'new_interface' => 'New Frontend and Backend Interface with Livewire',
@@ -15,16 +16,34 @@ return [
     'usability' => 'Usability and accessibility bug fixes (Helpers)',
     'users_management' => 'User Management (activation/permissions)',
     'profile_management' => 'Profile Management (ACL/gates and policies)',
-    'members_invitation' => 'Member Invitation (email notification)',
+    'members_invitation' => 'Member Invitation (email notification and interface)',
     'pwa' => 'Progressive Web App (PWA Mobile)',
-    'snowballing' => 'Snowballing Module (in development)',
+    'snowballing' => 'Snowballing Module (Manual and Automated - Backward and Forward)',
     'new_qa' => 'Planning - New method for configuring quality assessment (QA)',
     'algolia_api' => 'Algolia AI Synonyms API - implementation for suggesting synonyms for keywords and assisting in string construction',
     'crossref_api' => 'CrossRef API - implementation with the snowballing module for searching study references.',
 
+    'references' => 'Reference search using the Semantic Scholar API',
+    'chat_project' => 'Internal chat for project users',
+    'lgpd' => 'Implementação das normas da LGPD ao perfil do Usuário',
+    'docs' => 'Documentação detalhada da arquitetura do sistema (GitHub) e Manual do Usuário através do ThothBook',
+    'reports' => 'Novos Relatórios disponíveis ao projeto',
+    'availability' => 'Concordância Simples e Análise Kappa',
+    'module_notification' => 'Módulo de Notificações na plataforma para os Usuários do sistema',
+
+
 
     'development' => 'Development',
     'development_description' => 'Thoth was created by undergraduate students in Software Engineering, maintained and updated by students and professors of the Graduate Program in Software Engineering - PPGES at the Federal University of Pampa (UNIPAMPA).',
+
+    'cite_us' => 'Cite us',
+    'cite_us_description' => 'If Thoth has been helpful in your research, please cite our paper:',
+    'access_article' => 'Access full article',
+    'select_format' => 'Select a citation format:',
+    'citation_modal_title' => 'Export Citation',
+    'close' => 'Close',
+    'copy' => 'Copy',
+    'copied_success' => 'Citation copied to clipboard!',
 
     'open_source_project' => 'Open Source Project',
     'mit_license' => 'MIT License',
@@ -117,6 +136,6 @@ return [
     'export_to_bibtex_description' => 'Studies can be exported in BibTex format to be used as a reference in other studies.',
 
     'improvement_of_search_strings' => 'Improvement of Search Strings',
-    'improvement_of_search_strings_description' => 'This function was developed by other members of the research group, called StringImprover 2 , being a web service based on web-sockets. The choice of web-sockets was made considering the need for the tool to provide updates on the progress of string generation, as the search can take a long time. In order to use it, the client must send the keywords, which will be used in the creation of strings and evaluation of articles, and a group of ideal articles. These ideal documents are articles that the researcher considered and deemed relevant, so they will be used as a reference to evaluate the articles found in the search.',
+    'improvement_of_search_strings_description' => 'In previous versions, the Thoth platform relied on an external service called StringImprover 2, a web-based tool built with WebSockets to generate search strings and suggest synonyms in real time. In Thoth 2.0, this functionality was reimplemented and enhanced through the integration of the Algolia API. The new approach leverages Algolia’s datasets to automatically suggest synonyms and related terms, making the construction of search strings more dynamic and semantically rich. This improvement significantly increases the coverage and precision of the search process, allowing researchers to build more effective and comprehensive queries directly within the system.',
 
 ];
