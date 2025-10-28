@@ -30,6 +30,12 @@ class LoginController extends Controller
     public function handleGoogleCallback()
     {
         try {
+
+            Log::info('Entrou no callback do Google, request recebido.', [
+                'query' => request()->all(),
+                'headers' => request()->headers->all(),
+            ]);
+
             // Aqui o Socialite tenta pegar o token do Google
             $googleUser = Socialite::driver('google')->user();
 

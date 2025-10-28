@@ -46,6 +46,7 @@ class ContentSecurityPolicy
             "https://content.googleapis.com",
             "https://ssl.gstatic.com",
             "https://*.googleusercontent.com",
+            "https://oauth2.googleapis.com",
         ];
 
         // Garante consistência entre todas as diretivas de script
@@ -84,6 +85,7 @@ class ContentSecurityPolicy
             "https://lh3.googleusercontent.com",
             "https://ssl.gstatic.com",              // ícones e recursos Google
             "https://*.googleusercontent.com",      // avatares e logos
+            "https://oauth2.googleapis.com",
         ];
 
         // Iframes e frames externos
@@ -96,6 +98,7 @@ class ContentSecurityPolicy
             "https://content.googleapis.com",
             "https://ssl.gstatic.com",
             "https://*.googleusercontent.com",
+            "https://oauth2.googleapis.com",
         ];
 
         // Conexões (Livewire, APIs externas, etc.)
@@ -109,6 +112,7 @@ class ContentSecurityPolicy
             "https://content.googleapis.com",
             "https://*.gstatic.com",
             "https://*.googleusercontent.com",
+            "https://oauth2.googleapis.com",
         ];
 
         /**
