@@ -30,14 +30,19 @@ class ContentSecurityPolicy
             "'unsafe-eval'",     // necessário p/ Highcharts + Livewire dynamic eval
             "data:",
             "blob:",
+            // CDNs
             "https://cdn.jsdelivr.net",
             "https://cdnjs.cloudflare.com",
             "https://code.jquery.com",
             "https://buttons.github.io",
             "https://maps.googleapis.com",
             "https://code.highcharts.com",
+            // Google OAuth e APIs
             "https://accounts.google.com",
+            "https://accounts.google.com/gsi",
+            "https://accounts.google.com/gsi/*",
             "https://apis.google.com",
+            "https://www.googleapis.com",
             "https://content.googleapis.com",
             "https://ssl.gstatic.com",
             "https://*.googleusercontent.com",
@@ -65,7 +70,7 @@ class ContentSecurityPolicy
             "data:",
         ];
 
-        // Imagens (suporte p/ avatars, mapas, uploads locais)
+        // Imagens (suporte p/ avatars, mapas, Google login, etc.)
         $imgSrc = [
             "'self'",
             "data:",
@@ -77,17 +82,20 @@ class ContentSecurityPolicy
             "https://www.gravatar.com",
             "https://secure.gravatar.com",
             "https://lh3.googleusercontent.com",
+            "https://ssl.gstatic.com",              // ícones e recursos Google
+            "https://*.googleusercontent.com",      // avatares e logos
         ];
 
         // Iframes e frames externos
         $frameSrc = [
             "'self'",
             "https://accounts.google.com",
+            "https://accounts.google.com/gsi",
+            "https://accounts.google.com/gsi/*",
             "https://apis.google.com",
             "https://content.googleapis.com",
-            "https://accounts.youtube.com",
-            "https://*.googleusercontent.com",
             "https://ssl.gstatic.com",
+            "https://*.googleusercontent.com",
         ];
 
         // Conexões (Livewire, APIs externas, etc.)
@@ -95,10 +103,12 @@ class ContentSecurityPolicy
             "'self'",
             "https://*",
             "wss://*",
+            // Google
             "https://accounts.google.com",
             "https://apis.google.com",
             "https://content.googleapis.com",
             "https://*.gstatic.com",
+            "https://*.googleusercontent.com",
         ];
 
         /**
