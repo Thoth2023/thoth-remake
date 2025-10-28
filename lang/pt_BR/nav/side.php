@@ -14,6 +14,8 @@ return [
     'edit_permission' => 'Editar Permissão de Grupo',
     'view_permission' => 'Visualização da Permissão de Grupo',
 
+    'news_sources'=>'Gerenciar Notícias',
+
     // Left side navbar
 
     'thoth_configurator' => 'Configuração do Thoth',

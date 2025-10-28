@@ -1,0 +1,41 @@
+<?php
+return [
+    'title' => 'News Sources',
+    'description' => 'Manage the websites used to fetch recent news for Thoth.',
+    'sources_list' => 'Registered Sources',
+    'add_source' => 'Add Source',
+    'name' => 'Name',
+    'url' => 'URL',
+    'actions' => 'Actions',
+    'delete' => 'Delete',
+    'edit' => 'Edit',
+    'back' => 'Back',
+    'save' => 'Save',
+    'no_sources' => 'No news sources have been registered yet.',
+    'confirm_delete' => 'Are you sure you want to delete this source?',
+    'created_successfully' => 'Source created successfully!',
+    'deleted_successfully' => 'Source deleted successfully!',
+    'create_error' => 'Error creating source.',
+    'delete_error' => 'Error deleting source.',
+    'see_more' => 'See more on :name',
+    'more_link' => '"See more" button link',
+    'news'=>'News',
+    'status' => 'Status',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'activate' => 'Activate',
+    'deactivate' => 'Deactivate',
+    'activated' => 'Source activated successfully!',
+    'deactivated' => 'Source deactivated successfully!',
+    'toggle_error' => 'Error toggling source status.',
+
+    'active_source' => 'Activate news source',
+    'active_helper' => 'If enabled, news from this source will appear on the home page.',
+    'url_helper' => 'Enter the website’s RSS feed URL (e.g., https://www.sbc.org.br/feed/). This link must support RSS or XML format to automatically fetch news updates.',
+    'more_link_helper' => 'URL of the page where users can view all news articles, displayed as “See more at News”.',
+
+    'edit_source' => 'Edit News Source',
+    'update' => 'Update',
+
+
+];

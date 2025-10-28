@@ -106,46 +106,69 @@
             </div>
         </div>
 
-        <!-- Novidades IEEE -->
+        <!-- Notícias Dinâmicas -->
+        @isset($news)
+            @php
+                $countSources = count($news);
+                $index = 0;
+            @endphp
 
-            <div class="col-12 mt-2">
-                <div class="card p-4" style="background: #0D1B34; color: #fff">
-                    <h5 class="mb-4" style="color: #FFA500; font-size: 1.7rem">
-                        Novidades IEEE
-                    </h5>
+            <div class="row g-3">
+                @foreach ($news as $sourceName => $articles)
+                    @php
+                        $index++;
+                        // Define a classe de coluna dinamicamente
+                        $colClass = ($countSources === 1 || ($countSources % 2 !== 0 && $index === $countSources))
+                                    ? 'col-12'
+                                    : 'col-md-6 col-12';
+                    @endphp
 
-                    <ul class="list-group list-group-flush p-0">
-                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
-                            <a href="#" style="color: #fff; font-size: 1.2rem">
-                                IEEE lança nova revista focada em Inteligência Artificial
-                            </a>
-                        </li>
-                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
-                            <a href="#" style="color: #fff; font-size: 1.2rem">
-                                Aplicação de redes neurais na robótica autônoma
-                            </a>
-                        </li>
-                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
-                            <a href="#" style="color: #fff; font-size: 1.2rem">
-                                5 caminhos para a computação quântica nas empresas
-                            </a>
-                        </li>
-                        <li class="list-group-item" style="background: #0D1B34; color: #fff">
-                            <a href="#" style="color: #fff; font-size: 1.2rem">
-                                Cibersegurança na era da Internet das Coisas
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="{{ $colClass }}">
+                        <div class="card p-4 h-100 d-flex flex-column justify-content-between"
+                             style="background: #0D1B34; color: #fff; border-radius: 12px;">
 
-                    <a
-                        href="https://www.ieee.org/"
-                        target="_blank"
-                        class="btn mt-4"
-                        style="background: #FFA500; color: #fff">
-                        Veja mais no IEEE
-                    </a>
-                </div>
+                            <div>
+                                <h5 class="mb-4" style="color: #FFA500; font-size: 1.7rem;">
+                                    {{ __("pages/news-sources.news") }} {{ $sourceName }}
+                                </h5>
+
+                                <ul class="list-group list-group-flush p-0">
+                                    @forelse ($articles as $article)
+                                        <li class="list-group-item d-flex align-items-start gap-2"
+                                            style="background: #0D1B34; color: #fff; border: none;">
+                                            <i class="fas fa-newspaper text-warning mt-1"></i>
+                                            <a href="{{ $article['link'] }}"
+                                               target="_blank"
+                                               style="color: #fff; font-size: 1.1rem; line-height: 1.4;">
+                                                {{ $article['title'] }}
+                                            </a>
+                                        </li>
+                                    @empty
+                                        <li class="list-group-item"
+                                            style="background: #0D1B34; color: #ccc; border: none;">
+                                            <em>{{ __('No recent news found.') }}</em>
+                                        </li>
+                                    @endforelse
+                                </ul>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="{{ $sources->firstWhere('name', $sourceName)?->more_link ?? $sources->firstWhere('name', $sourceName)?->url }}"
+                                   target="_blank"
+                                   class="btn w-100"
+                                   style="background: #FFA500; color: #fff; font-weight: 600;">
+                                    <i class="fas fa-arrow-right me-1"></i>
+                                    {{ __('pages/news-sources.see_more', ['name' => $sourceName]) }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
+        @endisset
+
+
+
 
 
         <!-- Rodapé com links para Termos e Política de Privacidade e para o topo da página -->

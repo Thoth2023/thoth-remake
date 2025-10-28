@@ -46,6 +46,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Project\ActivityController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NewsSourceController;
 
 //analisar esta 2 próximas linhas
 use App\Livewire\Planning\Databases\Databases;
@@ -304,6 +306,29 @@ Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(funct
     Route::post('/user', [UserManagerController::class, 'store'])->name('user.store');
     Route::get('/user/{user}/deactivate', [UserManagerController::class, 'deactivate'])->name('user.deactivate');
 });
+
+// Exibição pública das notícias (sem salvar nada em banco)
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+
+// Gerenciamento das fontes (somente SUPER_USER)
+Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(function () {
+
+    // Listar e criar fontes
+    Route::get('news-sources', [NewsSourceController::class, 'index'])->name('news-sources.index');
+    Route::get('news-sources/create', [NewsSourceController::class, 'create'])->name('news-sources.create');
+    Route::post('news-sources', [NewsSourceController::class, 'store'])->name('news-sources.store');
+
+    // Editar fonte
+    Route::get('news-sources/{newsSource}/edit', [NewsSourceController::class, 'edit'])->name('news-sources.edit');
+    Route::put('news-sources/{newsSource}', [NewsSourceController::class, 'update'])->name('news-sources.update');
+
+    // Ativar/Desativar fonte
+    Route::patch('news-sources/{newsSource}/toggle', [NewsSourceController::class, 'toggle'])->name('news-sources.toggle');
+
+    // Excluir fonte
+    Route::delete('news-sources/{newsSource}', [NewsSourceController::class, 'destroy'])->name('news-sources.destroy');
+});
+
 
 Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(function () {
     Route::get('levels', [LevelController::class, 'index'])->name('levels.index')->middleware('auth');
