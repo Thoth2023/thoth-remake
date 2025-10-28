@@ -38,6 +38,7 @@ class LoginController extends Controller
 
             // Aqui o Socialite tenta pegar o token do Google
             $googleUser = Socialite::driver('google')->user();
+            Log::info('Google callback recebido com sucesso', ['user' => $googleUser->email ?? 'sem email']);
 
             // Se chegou aqui, o login funcionou normalmente
             $this->_registerOrLoginUser($googleUser);
