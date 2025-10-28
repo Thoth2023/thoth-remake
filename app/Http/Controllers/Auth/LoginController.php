@@ -30,38 +30,21 @@ class LoginController extends Controller
     public function handleGoogleCallback()
     {
         try {
-
-            Log::info('Entrou no callback do Google, request recebido.', [
-                'query' => request()->all(),
-                'headers' => request()->headers->all(),
-            ]);
-
-            // Aqui o Socialite tenta pegar o token do Google
+            // O erro ocorre nesta linha (comunicação backend)
             $googleUser = Socialite::driver('google')->user();
-            Log::info('Google callback recebido com sucesso', ['user' => $googleUser->email ?? 'sem email']);
 
-            // Se chegou aqui, o login funcionou normalmente
+            // Se esta linha for alcançada, o login está OK
             $this->_registerOrLoginUser($googleUser);
             session()->regenerate();
 
             return redirect()->intended($this->redirectTo);
 
         } catch (\Exception $e) {
-            // Log COMPLETO para identificar o problema real
-            Log::error('ERRO CRÍTICO NO SOCIALITE', [
-                'mensagem' => $e->getMessage(),
-                'arquivo'  => $e->getFile(),
-                'linha'    => $e->getLine(),
-                'trace'    => $e->getTraceAsString(),
-                'code'     => $e->getCode(),
-                'url_atual' => request()->fullUrl(),
-            ]);
-
-            // Opcional: mostra uma mensagem amigável na tela de login
+            // ESTE BLOCO VAI PEGAR A CAUSA REAL
+            Log::error('ERRO CRÍTICO NO SOCIALITE: ' . $e->getMessage());
             return redirect('/login')->with('error', __('auth.google_failed'));
         }
     }
-
 
     protected function _registerOrLoginUser($data)
     {
