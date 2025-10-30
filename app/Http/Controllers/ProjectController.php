@@ -315,14 +315,14 @@ class ProjectController extends Controller
 
         Notification::send($name_member, new ProjectInvitationNotification($project, $token));
 
-        // Criar notificação
         ProjectNotification::create([
             'user_id'    => $member_id,
             'project_id' => $project->id,
             'type'       => 'project_invitation',
-            'message'    => __('notification.project_invitation.message', [
+            'message'    => 'notification.project_invitation.message',
+            'params'     => json_encode([
                 'project' => $project->title
-            ]),
+            ])
         ]);
 
         $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
