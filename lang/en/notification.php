@@ -23,4 +23,17 @@ return [
     'pyment_success' => 'Payment successfully completed',
     'pyment_failed' => 'Payment failed',
 
+    'empty' => 'No notifications',
+    'mark_all_read' => 'Mark all as read',
+
+    'database_suggestion' => [
+        'title'   => 'New database suggestion',
+        'message' => 'A new database was suggested in the project: :project',
+    ],
+
+    'project_invitation' => [
+        'title'   => 'Project invitation',
+        'message' => 'You were invited to join the project: :project',
+    ],
+
 ];

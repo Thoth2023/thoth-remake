@@ -22,4 +22,17 @@ return [
     'pyment_success' => 'Pagamento concluído com sucesso',
     'pyment_failed' => 'Pagamento falhou',
 
+    'empty' => 'Sem notificações',
+    'mark_all_read' => 'Marcar todas como lidas',
+
+    'database_suggestion' => [
+        'title'   => 'Nova sugestão de base de dados',
+        'message' => 'Uma nova base de dados foi sugerida no projeto: :project',
+    ],
+
+    'project_invitation' => [
+        'title'   => 'Convite para projeto',
+        'message' => 'Você foi convidado para participar do projeto: :project',
+    ],
+
 ];
