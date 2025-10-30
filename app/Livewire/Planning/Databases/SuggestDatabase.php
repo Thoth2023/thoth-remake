@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Planning\Databases;
 
+use App\Models\ProjectNotification;
+use App\Models\User;
 use App\Utils\ToastHelper;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
@@ -93,7 +95,7 @@ class SuggestDatabase extends Component
 
         $this->validate();
 
-        try {  
+        try {
             // Cria a nova base de dados sugerida
             $suggestion = DatabaseModel::create([
                 'name' => $this->suggest,
@@ -112,6 +114,19 @@ class SuggestDatabase extends Component
                 message: $this->translate('suggested'),
                 type: 'success',
             );
+            // Notificar super users
+            $superUsers = User::where('role', 'SUPER_USER')->get();
+
+            foreach ($superUsers as $su) {
+                ProjectNotification::create([
+                    'user_id'    => $su->id,
+                    'project_id' => $this->currentProject->id_project,
+                    'type'       => 'database_suggestion',
+                    'message'    => __('notification.database_suggestion.message', [
+                        'project' => $this->currentProject->title
+                    ]),
+                ]);
+            }
 
             // Limpa os campos do formulário
             $this->resetFields();

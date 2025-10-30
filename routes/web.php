@@ -6,6 +6,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DatabaseManagerController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
 use App\Http\Controllers\Project\ExportController;
@@ -141,6 +142,10 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+
+//Notificaçoes
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
 
 Route::get('/projects/{project}/export-activities', [ProjectController::class, 'exportActivities'])
     ->name('projects.exportActivities')

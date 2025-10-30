@@ -149,6 +149,18 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class, 'profile_id');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(ProjectNotification::class, 'user_id')->latest();
+    }
+
+    public function projectNotifications()
+    {
+        return $this->hasMany(ProjectNotification::class, 'user_id')
+            ->orderBy('created_at', 'desc');
+    }
+
+
     /**
      * Anonimiza os dados do usuário, tornando-os irreconhecíveis e desativando a conta.
      * @return void
