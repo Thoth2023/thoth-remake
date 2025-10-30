@@ -122,9 +122,10 @@ class SuggestDatabase extends Component
                     'user_id'    => $su->id,
                     'project_id' => $this->currentProject->id_project,
                     'type'       => 'database_suggestion',
-                    'message'    => __('notification.database_suggestion.message', [
+                    'message'    => 'notification.database_suggestion.message',
+                    'params'     => json_encode([
                         'project' => $this->currentProject->title
-                    ]),
+                    ])
                 ]);
             }
 

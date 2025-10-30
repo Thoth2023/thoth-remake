@@ -11,6 +11,7 @@ class ProjectNotification extends Model
         'project_id',
         'type',
         'message',
+        'params',
         'read',
     ];
 
@@ -24,9 +25,17 @@ class ProjectNotification extends Model
         return $this->belongsTo(Project::class, 'project_id', 'id_project');
     }
 
+    public function getTranslatedMessageAttribute()
+    {
+        $params = $this->params ? json_decode($this->params, true) : [];
+
+        return __($this->message, $params);
+    }
+
     public function markAsRead()
     {
         $this->update(['read' => true]);
+
     }
 }
 

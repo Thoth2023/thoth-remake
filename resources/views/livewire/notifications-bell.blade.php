@@ -44,7 +44,7 @@
 
                     <div class="d-flex flex-column" style="max-width: 490px;">
                         <span class="{{ $n->read ? '' : 'fw-bold' }}" style="white-space: normal;">
-                            {{ $n->message }}
+                            {{ $n->translated_message }}
                         </span>
                         <small class="text-muted">
                             {{ $n->created_at->diffForHumans() }}
