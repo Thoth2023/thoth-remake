@@ -27,10 +27,16 @@ class ProjectNotification extends Model
 
     public function getTranslatedMessageAttribute()
     {
-        $params = $this->params ? json_decode($this->params, true) : [];
+        $params = json_decode($this->params, true);
 
-        return __($this->message, $params);
+        return __(
+            $this->message,
+            [
+                'project' => $params['project_title'] ?? ''
+            ]
+        );
     }
+
 
     public function markAsRead()
     {

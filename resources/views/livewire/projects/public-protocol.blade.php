@@ -1,11 +1,9 @@
 <div>
-    <!-- Botão do Protocolo Público - Só aparece se o projeto for público -->
-    @if($project->is_public)
+    <!-- Botão do Protocolo Público - Só aparece se o projeto for do próprio usuário ou público -->
         <button wire:click="showPublicProtocol" class="btn py-1 px-3 btn-outline-info" data-toggle="tooltip" data-original-title="Public Protocol">
             <i class="fas fa-file-alt"></i>
             {{ __('project/public_protocol.protocol') }}
         </button>
-    @endif
 
     <!-- Modal -->
     @if($showModal)

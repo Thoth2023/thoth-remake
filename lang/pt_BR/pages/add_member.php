@@ -32,6 +32,8 @@ return [
     'status_declined' => 'Recusado',
     'status_accepted' => 'Aceito',
 
+    'resend_invite' => 'Reenviar convite',
+
     // Botões e Ações
     'add' => 'Adicionar',
     'delete' => 'Remover',
@@ -45,7 +47,7 @@ return [
     // Modais de Ajuda (Instruções)
     'instruction_email' => 'Instrução para E-mail',
     'instruction_level' => 'Níveis de Permissão',
-    'user_registered' => 'O usuário precisa estar cadastrado no sistema para ser adicionado.',
+    'user_registered' => 'Caso o e-mail não pertença a um usuário cadastrado, uma conta convidada será criada e ele receberá um convite para completar o registro.',
     'got_it' => 'Entendi',
 
     // Modais de Permissões

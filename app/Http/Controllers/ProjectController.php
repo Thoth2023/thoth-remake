@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Notifications\ProjectInvitationNotification;
@@ -100,7 +101,7 @@ class ProjectController extends Controller
             $project->save();
         }
 
-        $activity = "Created the project ".$project->title;
+        $activity = __("project/projects.activity_created", ['title' => $project->title]);
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
        $project->users()->attach($project->id_project, ['id_user' => $user->id, 'level' => 1, 'status' => 'accepted']);
@@ -116,7 +117,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($idProject);
 
         if (Gate::denies('access-project', $project)) {
-            return redirect('/projects')->with('error', 'Você não tem permissão para acessar este projeto.');
+            return redirect('/projects')->with('error', __('project/projects.no_access_project'));
         }
 
         $users_relation = $project->users()->get();
@@ -142,10 +143,10 @@ class ProjectController extends Controller
         }
         $timings['conducting_ms'] = (int) round((microtime(true) - $t1) * 1000);
 
-        // 🔑 garantir que planning entre no mesmo array
+        //  garantir que planning entre no mesmo array
         $conductingProgress['planning'] = $planningProgress;
 
-        // 🔑 também garantir que 'overall' existe
+        //  também garantir que 'overall' existe
         if (!isset($conductingProgress['overall'])) {
             $conductingProgress['overall'] = 0;
         }
@@ -164,10 +165,6 @@ class ProjectController extends Controller
         ));
     }
 
-
-
-
-
     /**
      * Show the form for editing the specified project.
      */
@@ -178,7 +175,7 @@ class ProjectController extends Controller
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+            return redirect()->back()->with('error', __('project/projects.no_permission_edit'));
         }
 
         return view('projects.edit', compact('project'), ['projects' => $userProjects]);
@@ -194,7 +191,7 @@ class ProjectController extends Controller
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to edit the project.');
+            return redirect()->back()->with('error', __('project/projects.no_permission_edit'));
         }
 
         $project->update([
@@ -210,7 +207,7 @@ class ProjectController extends Controller
             $project->copyPlanningFrom($sourceProject);
         }
 
-        $activity = "Edited project";
+        $activity = __("project/projects.activity_updated");
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
         return redirect('/projects');
@@ -222,11 +219,11 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         $project = Project::findOrFail($id);
-        $activity = "Deleted project ".$project->id_;
+        $activity = __("project/projects.activity_deleted", ['title' => $project->title]);
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to delete the project.');
+            return redirect()->back()->with('error', __('project/projects.no_permission_delete'));
         }
 
         $project->delete();
@@ -251,10 +248,14 @@ class ProjectController extends Controller
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to remove a member from the project.');
+            return redirect()->back()->with('error', __('project/projects.no_permission_remove_member'));
         }
 
-        $activity = "The admin removed the member ".$name_member->username." from ".$project->title.".";
+        $activity = __("project/projects.activity_member_removed", [
+            'user' => $name_member->username,
+            'title' => $project->title
+        ]);
+
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
         return redirect()->back();
     }
@@ -273,7 +274,7 @@ class ProjectController extends Controller
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+            return redirect()->back()->with('error', __('project/projects.no_permission_add_member'));
         }
 
         return view('projects.add_member', compact('project', 'users_relation'));
@@ -291,45 +292,78 @@ class ProjectController extends Controller
     {
         $request->validated();
         $project = Project::findOrFail($idProject);
-        $email_member = $request->get('email_member');
-        $member_id = $this->findIdByEmail($email_member);
-        $name_member = User::findOrFail($member_id);
-        $level_member = $request->get('level_member', 1);  // Default to level 1 if not specified
+        $email = $request->get('email_member');
+        $level_member = $request->get('level_member', 2); // default: viewer
+        $authUser = Auth::user();
 
-        $user = Auth::user();
-
-        if ($project->users()->wherePivot('id_user', $member_id)->exists()) {
-            return redirect()->back()->with('error', 'The user is already associated with the project.');
+        if (!$project->userHasLevel($authUser, '1')) {
+            return redirect()->back()->with('error', __('project/projects.no_permission_add_member'));
         }
 
-        if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to add a member to the project.');
+        // Tenta localizar usuário
+        $existingUser = User::where('email', $email)->first();
+        $isInvitedGuest = false;
+
+        if (!$existingUser) {
+
+            // Criar usuário convidado
+            $username = strtolower(str_replace('.', '', explode('@', $email)[0]));
+            $tempPassword = Str::random(10);
+
+            $existingUser = User::create([
+                'username'  => $username,
+                'firstname' => $username,
+                'lastname'  => '',
+                'email'     => $email,
+                'password'  => Hash::make($tempPassword),
+                'invited'   => true,
+            ]);
+
+            $isInvitedGuest = true;
+        } else {
+            // Se já está no projeto, bloquear
+            if ($project->users()->wherePivot('id_user', $existingUser->id)->exists()) {
+                return redirect()->back()->with('error', __('project/projects.user_already_in_project'));
+            }
+
+            // Caso o usuário exista, marca como não convidado
+            $isInvitedGuest = ($existingUser->invited ?? false);
         }
 
-        $token = Str::random(40); // Generate a unique token
-        $project->users()->attach($member_id, [
-            'level' => $level_member,
+        // Token de convite
+        $token = Str::random(40);
+
+        // Anexa ao projeto como pending
+        $project->users()->attach($existingUser->id, [
+            'level'            => $level_member,
             'invitation_token' => $token,
-            'status' => 'pending'
+            'status'           => 'pending'
         ]);
 
-        Notification::send($name_member, new ProjectInvitationNotification($project, $token));
+        // Enviar e-mail com base no tipo do usuário
+        Notification::send(
+            $existingUser,
+            new ProjectInvitationNotification($project, $token, $isInvitedGuest)
+        );
 
+        // Notificação interna
         ProjectNotification::create([
-            'user_id'    => $member_id,
-            'project_id' => $project->id,
+            'user_id'    => $existingUser->id,
+            'project_id' => $project->id_project,
             'type'       => 'project_invitation',
             'message'    => 'notification.project_invitation.message',
             'params'     => json_encode([
-                'project' => $project->title
+                'project_id' => $project->id_project,
+                'project_title' => $project->title
             ])
         ]);
 
-        $activity = "Sent invitation to " . $name_member->username . " to join the project " . $project->title;
-        ActivityLogHelper::insertActivityLog($activity, 1, $project->id, $user->id);
-
-        return redirect()->back()->with('success', 'Invitation sent to ' . $name_member->email);
+        return redirect()->back()
+            ->with('success', __('project/projects.invite_sent', ['email' => $email]));
     }
+
+
+
 
     /**
      * Update the level of a project member.
@@ -349,16 +383,20 @@ class ProjectController extends Controller
         $user = Auth::user();
 
         if (!$project->userHasLevel($user, '1')) {
-            return redirect()->back()->with('error', 'You do not have permission to update the member level.');
+            return redirect()->back()->with('error', __('project/projects.no_permission_update_level'));
         }
 
         $member->pivot->level = $validatedData['level_member'];
         $member->pivot->save();
 
-        $activity = "The admin updated ".$name_member->username." level to ".$validatedData['level_member'].".";
+        $activity = __("project/projects.activity_level_updated", [
+            'user' => $member->username,
+            'level' => $request->validated()['level_member']
+        ]);
+
         ActivityLogHelper::insertActivityLog($activity, 1, $project->id_project, $user->id);
 
-        return redirect()->back()->with('succes', 'The member level has been changed successfully.');
+        return redirect()->back()->with('success', __('project/projects.level_updated'));
     }
 
     /**
@@ -376,6 +414,69 @@ class ProjectController extends Controller
         return $userId;
     }
 
+    public function resendInvitation($idProject, $idMember)
+    {
+        $project = Project::findOrFail($idProject);
+        $user = Auth::user();
+
+        // Apenas Admin pode reenviar convite
+        if (!$project->userHasLevel($user, '1')) {
+            return redirect()->back()->with('error', __('project/projects.no_permission_resend'));
+        }
+
+        $member = $project->users()
+            ->withPivot('status', 'invitation_token', 'level')
+            ->where('id_user', $idMember)
+            ->first();
+
+        if (!$member) {
+            return redirect()->back()->with('error', __('project/projects.member_not_found'));
+        }
+
+        // Se não está pendente, não pode reenviar
+        if ($member->pivot->status !== 'pending') {
+            return redirect()->back()->with('error', __('project/projects.invite_already_accepted'));
+        }
+
+        // Novo token
+        $token = Str::random(40);
+
+        $project->users()->updateExistingPivot($idMember, [
+            'invitation_token' => $token
+        ]);
+
+        // Garante username se ainda não existir (caso de convidado novo)
+        if (empty($member->username)) {
+            $emailName = strstr($member->email, '@', true);
+            $member->username = $emailName;
+            $member->save();
+        }
+
+        // Detecta usuário convidado (invited flag)
+        $isInvitedGuest = isset($member->invited) && $member->invited == true;
+
+        // Notificação com link apropriado
+        Notification::send($member, new ProjectInvitationNotification($project, $token, $isInvitedGuest));
+
+        ProjectNotification::create([
+            'user_id'    => $idMember,
+            'project_id' => $project->id_project,
+            'type'       => 'project_invitation',
+            'message'    => 'notification.project_invitation.message',
+            'params'     => json_encode([
+                'project_id' => $project->id_project,
+                'project_title' => $project->title
+            ])
+        ]);
+
+        return redirect()
+            ->route('projects.add_member', $project->id_project)
+            ->with('success', __('project/projects.invite_resent'));
+    }
+
+
+
+
     public function acceptInvitation($idProject, Request $request)
     {
         $token = $request->query('token');
@@ -388,7 +489,7 @@ class ProjectController extends Controller
                         ->first();
 
         if (!$invitation) {
-            return back()->with('error', 'Invalid or expired invitation.');
+            return back()->with('error', __('project/projects.invite_invalid'));
         }
 
         // Atualiza o status do convite para 'accepted'
@@ -400,7 +501,7 @@ class ProjectController extends Controller
                 'invitation_token' => null  // Remove o token após ser aceito
             ]);
 
-        $activity = "Accepted invitation to join the project.";
+        $activity = __("project/projects.activity_invite_accepted");
         ActivityLogHelper::insertActivityLog($activity, 1, $idProject, $invitation->id_user);
 
         return redirect('/projects')->with('success', 'You have successfully joined the project!');
