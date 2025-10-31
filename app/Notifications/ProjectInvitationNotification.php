@@ -15,6 +15,7 @@ class ProjectInvitationNotification extends Notification
 
     protected $project;
     protected $token;
+    protected $isInvitedGuest;
 
     /**
      * Create a new notification instance.
@@ -23,10 +24,13 @@ class ProjectInvitationNotification extends Notification
      * @param  string  $token
      * @return void
      */
-    public function __construct(Project $project, $token)
+
+
+    public function __construct(Project $project, $token, $isInvitedGuest = false)
     {
         $this->project = $project;
         $this->token = $token;
+        $this->isInvitedGuest = $isInvitedGuest;
     }
 
     /**
@@ -49,15 +53,21 @@ class ProjectInvitationNotification extends Notification
 
     public function toMail($notifiable)
     {
-        $acceptUrl = url("/project/{$this->project->id_project}/accept-invitation?token={$this->token}");
+        // Se o usuário foi convidado e ainda não completou cadastro
+        if ($this->isInvitedGuest) {
+            $actionUrl = url("/invite/complete/{$this->token}");
+        } else {
+            $actionUrl = url("/project/{$this->project->id_project}/accept-invitation?token={$this->token}");
+        }
+
         $declineUrl = url("/project/{$this->project->id_project}/decline-invitation?token={$this->token}");
 
         return (new MailMessage)
-            ->greeting('Hello ' . $notifiable->username)
-            ->line('You have been invited to join the project: ' . $this->project->title)
-            ->action('Accept Invitation', $acceptUrl)
-            ->line(new HtmlString('If you do not wish to participate, you can <a href="' . $declineUrl . '">decline the invitation</a>.'))
-            ->line('If you have any questions, reply to this email.');
+            ->subject(__('project/projects.email.subject_invitation', ['project' => $this->project->title]))
+            ->greeting(__('project/projects.email.greeting', ['name' => $notifiable->username]))
+            ->line(__('project/projects.email.invited', ['project' => $this->project->title]))
+            ->action(__('project/projects.email.accept_button'), $actionUrl)
+            ->line(new HtmlString(__('project/projects.email.decline_text', ['url' => $declineUrl])));
     }
 
 }

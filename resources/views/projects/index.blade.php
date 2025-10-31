@@ -74,36 +74,76 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex align-items-center justify-content-end">
+                                                <div class="d-flex align-items-center justify-content-end gap-1">
+
                                                     @can('access-project', $project)
-                                                    <div class="d-flex align-items-center justify-content-end gap-1">
-                                                        @if($project->is_public)
-                                                            @livewire('projects.public-protocol', ['project' => $project], key('public-protocol-'.$project->id_project))
+                                                        {{-- Usuário tem acesso ao projeto --}}
+                                                        @php
+                                                            $user = auth()->user();
+                                                            $isAdmin = $project->userHasLevel($user, '1');
+                                                            $isResearcherOrReviewer = $project->userHasLevel($user, '3') || $project->userHasLevel($user, '4');
+                                                            $isViewer = $project->userHasLevel($user, '2');
+                                                        @endphp
+
+                                                        {{-- Botão Protocolo sempre aparece para quem tem acesso --}}
+                                                        @livewire('projects.public-protocol', ['project' => $project], key('public-protocol-'.$project->id_project))
+
+                                                        {{-- Admin Level 1 → todos os botões --}}
+                                                        @if($isAdmin)
+                                                            <a class="btn py-1 px-3 btn-outline-success"
+                                                               href="{{ route("projects.show", $project->id_project) }}">
+                                                                <i class="fas fa-search-plus"></i>
+                                                                {{ __("project/projects.project.options.view") }}
+                                                            </a>
+
+                                                            <a class="btn py-1 px-3 btn-outline-secondary"
+                                                               href="{{ route("projects.edit", $project->id_project) }}">
+                                                                <i class="fas fa-edit"></i>
+                                                                {{ __("project/projects.project.options.edit") }}
+                                                            </a>
+
+                                                            <a class="btn py-1 px-3 btn-outline-dark"
+                                                               href="{{ route("projects.add", $project->id_project) }}">
+                                                                <i class="fas fa-user-check"></i>
+                                                                {{ __("project/projects.project.options.add_member") }}
+                                                            </a>
+
+                                                            {{-- Delete --}}
+                                                            <form id="delete-project-{{ $project->id_project }}" action="{{ route("projects.destroy", $project) }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method("DELETE")
+                                                            </form>
+
+                                                            <x-helpers.confirm-modal
+                                                                modalTitle="{{ __('project/projects.project.modal.delete.title') }}"
+                                                                modalContent="{{ __('project/projects.project.modal.delete.content') }}"
+                                                                textClose="{{ __('project/projects.project.modal.delete.close') }}"
+                                                                textConfirm="{{ __('project/projects.project.modal.delete.confirm') }}"
+                                                                class="font-weight-bold btn btn-link text-danger px-1 py-0 mb-0"
+                                                                onConfirmNativeClick="document.getElementById('delete-project-{{ $project->id_project }}').submit();">
+                                                                <a class="btn py-1 px-3 btn-outline-danger">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            </x-helpers.confirm-modal>
+
+                                                            {{-- Researcher & Reviewer (level 3 / 4) → protocolo + ver --}}
+                                                        @elseif($isResearcherOrReviewer)
+                                                            <a class="btn py-1 px-3 btn-outline-success"
+                                                               href="{{ route("projects.show", $project->id_project) }}">
+                                                                <i class="fas fa-search-plus"></i>
+                                                                {{ __("project/projects.project.options.view") }}
+                                                            </a>
+
+                                                            {{-- Viewer Level 2 → só protocolo --}}
+                                                        @elseif($isViewer)
+                                                            {{-- Já tem o protocolo ali em cima --}}
+
                                                         @endif
-                                                        <a class="btn py-1 px-3 btn-outline-success" data-toggle="tooltip" data-original-title="View Project" href="{{ route("projects.show", $project->id_project) }}">
-                                                            <i class="fas fa-search-plus"></i>
-                                                            {{ __("project/projects.project.options.view") }}
-                                                        </a>
-                                                        <a class="btn py-1 px-3 btn-outline-secondary" data-toggle="tooltip" data-original-title="Edit Project" href="{{ route("projects.edit", $project->id_project) }}">
-                                                            <i class="fas fa-edit"></i>
-                                                            {{ __("project/projects.project.options.edit") }}
-                                                        </a>
-                                                        <a class="btn py-1 px-3 btn-outline-dark" data-toggle="tooltip" data-original-title="Add member" href="{{ route("projects.add", $project->id_project) }}">
-                                                            <i class="fas fa-user-check"></i>
-                                                            {{ __("project/projects.project.options.add_member") }}
-                                                        </a>
-                                                    </div>
-                                                    <form id="delete-project-{{ $project->id_project }}" action="{{ route("projects.destroy", $project) }}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form>
-                                                    <x-helpers.confirm-modal modalTitle="{{ __('project/projects.project.modal.delete.title') }}" modalContent="{{ __('project/projects.project.modal.delete.content') }}" textClose="{{ __('project/projects.project.modal.delete.close') }}" textConfirm="{{ __('project/projects.project.modal.delete.confirm') }}" class="font-weight-bold btn btn-link text-danger px-1 py-0 mb-0" onConfirmNativeClick="document.getElementById('delete-project-{{ $project->id_project }}').submit();">
-                                                        <a class="btn py-1 px-3 btn-outline-danger">
-                                                            <i class="fas fa-trash"></i>
-                                                        </a>
-                                                    </x-helpers.confirm-modal>
+
                                                     @endcan
+
                                                 </div>
+
                                             </td>
                                         </tr>
                                     @empty
