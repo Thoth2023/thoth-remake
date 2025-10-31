@@ -55,7 +55,9 @@
                                                 <td>
                                                     <div class="d-flex px-3">
                                                         <div class="my-auto">
-                                                            <h6 class="mb-0 text-sm">{{ $project->title }}</h6>
+                                                            <h6 class="mb-0 text-sm" title="{{ $project->title }}" data-toggle="tooltip">
+                                                                {{ Str::limit($project->title, 50) }}
+                                                            </h6>
                                                         </div>
                                                     </div>
                                                 </td>
