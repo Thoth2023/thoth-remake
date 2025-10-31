@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CollaboratorsController;
 use App\Http\Controllers\DonationsController;
+use App\Http\Controllers\InviteController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChangePassword;
@@ -142,6 +143,15 @@ Route::delete('/projects/{idProject}/add-member/{idMember}', [ProjectController:
 Route::put('/projects/{idProject}/members/{idMember}/update-level', [ProjectController::class, 'update_member_level'])->name('projects.update_member_level');
 // End of the Projects Routes
 Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 'acceptInvitation'])->name('projects.accept_invitation');
+//re-send invitation
+Route::post('/projects/{idProject}/resend-invitation/{idMember}', [ProjectController::class, 'resendInvitation'])->name('projects.resend_invitation');
+
+// Finalizar cadastro de convidado
+Route::get('/invite/complete/{token}', [InviteController::class, 'form'])->name('invite.complete');
+Route::post('/invite/complete/{token}', [InviteController::class, 'save'])->name('invite.complete.save');
+
+
+
 
 //Notificaçoes
 Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');

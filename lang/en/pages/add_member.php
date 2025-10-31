@@ -39,13 +39,18 @@ return [
     'confirm' => 'Confirm',
     'confirm_short' => 'Confirm',
 
+
+    'resend_invite' => 'Resend invitation',
+
+
+
     // Tooltip
     'confirm_level_tooltip' => 'Confirm member level change',
 
     // Help Modals (Instructions)
     'instruction_email' => 'Email Instruction',
     'instruction_level' => 'Permission Levels',
-    'user_registered' => 'The user must be registered in the system to be added.',
+    'user_registered' => 'If the email does not belong to an existing user, a guest account will be created and the person will receive an invitation to complete the registration.',
     'got_it' => 'Got It',
 
     // Permission Levels Description

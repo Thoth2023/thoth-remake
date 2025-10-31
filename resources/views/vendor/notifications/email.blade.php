@@ -1,4 +1,4 @@
-@component('mail::message')
+<x-mail::message>
 {{-- Greeting --}}
 @if (! empty($greeting))
 # {{ $greeting }}
@@ -19,18 +19,14 @@
 {{-- Action Button --}}
 @isset($actionText)
 <?php
-    switch ($level) {
-        case 'success':
-        case 'error':
-            $color = $level;
-            break;
-        default:
-            $color = 'primary';
-    }
+    $color = match ($level) {
+        'success', 'error' => $level,
+        default => 'primary',
+    };
 ?>
-@component('mail::button', ['url' => $actionUrl, 'color' => $color])
+<x-mail::button :url="$actionUrl" :color="$color">
 {{ $actionText }}
-@endcomponent
+</x-mail::button>
 @endisset
 
 {{-- Outro Lines --}}
@@ -43,15 +39,15 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-    {{ __('project/projects.email.regards') }},<br>
-    {{ config('app.name') }}
+{{ __('project/projects.email.regards') }},,<br>
+{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
-@slot('subcopy')
+<x-slot:subcopy>
     {{ __('project/projects.email.subcopy', ['actionText' => $actionText]) }}
     <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
-@endslot
+</x-slot:subcopy>
 @endisset
-@endcomponent
+</x-mail::message>

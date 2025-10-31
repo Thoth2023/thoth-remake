@@ -22,7 +22,7 @@ class ProjectAddMemberRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email_member' => 'required|email|exists:users,email',
+            'email_member' => 'required|email',
             'level_member' => 'required|integer|between:2,4',
         ];
     }
@@ -30,10 +30,12 @@ class ProjectAddMemberRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email_member.required' => 'Email cannot be empty!',
-            'email_member.email' => 'Email has to be valid!',
-            'email_member.exists:users,email' => 'Email entered does not exist!',
-            'level_member.required' => 'Level cannot be empty!',
+            'email_member.required' => __('project/projects.errors.email_required'),
+            'email_member.email' => __('project/projects.errors.email_invalid'),
+
+            'level_member.required' => __('project/projects.errors.level_required'),
+            'level_member.integer' => __('project/projects.errors.level_integer'),
+            'level_member.between' => __('project/projects.errors.level_between'),
         ];
     }
 }

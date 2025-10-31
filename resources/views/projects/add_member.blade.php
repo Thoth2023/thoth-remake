@@ -61,9 +61,27 @@
         @include('components.alert')
 
         <div class="container-fluid py-4 px-4">
-            <h5 class="card-header p-0 mb-3">{{__('pages/add_member.add_member')}}</h5>
+
+            <div class="card-header pb-0 mt-0 mb-5 d-flex justify-content-between align-items-center">
+                <h5 class="card-header p-0 ">{{__('pages/add_member.add_member')}}</h5>
+
+                <x-helpers.modal
+                    target="permissions-modal"
+                    modalTitle=""
+                    modalContent="{!! __('project/permissions.modal.content') !!}"
+                    textClose="{{ __('project/permissions.modal.close') }}"
+                >
+                    <x-slot:trigger>
+                                <span class="ms-2" data-bs-toggle="tooltip" title="{{ __('project/permissions.modal.title') }}">
+                                    <i class="fas fa-question-circle text-primary" style="cursor:pointer; font-size:18px;"></i>
+                                </span>
+                    </x-slot:trigger>
+                </x-helpers.modal>
+
+            </div>
 
             <form method="POST" action="{{ route('projects.add_member', $project->id_project) }}">
+
                 @csrf
                 @method('PUT')
 
@@ -103,7 +121,7 @@
                     <a href="{{ route('projects.index') }}" class="btn btn-secondary me-2">
                         {{__('pages/add_member.cancel_button')}}
                     </a>
-                    <button type="submit" class="btn btn-primary">{{__('pages/add_member.add')}}</button>
+                    <button type="submit" class="btn btn-success"> <i class="fa fa-check me-1"></i> {{__('pages/add_member.add')}}</button>
                 </div>
             </form>
 
@@ -111,6 +129,8 @@
 
             <h5 class="mb-3">{{__('pages/add_member.current_members')}}</h5>
         </div>
+
+
 
         <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
@@ -158,17 +178,17 @@
 
                                     <select class="form-select level-select-small me-2" name="level_member" required>
                                         <option value="2"
-                                            {{ $member->level_name == 'Viewer' ? 'selected' : '' }}>{{__('pages/add_member.level_viewer_short')}}
+                                            {{ $member->level_name == 'Viewer' ? 'selected' : '' }}>{{__('pages/add_member.viewer')}}
                                         </option>
                                         <option value="3"
                                             {{ $member->level_name == 'Researcher' ? 'selected' : '' }}>
-                                            {{__('pages/add_member.level_researcher_short')}}</option>
+                                            {{__('pages/add_member.researcher')}}</option>
                                         <option value="4"
-                                            {{ $member->level_name == 'Reviser' ? 'selected' : '' }}>{{__('pages/add_member.level_reviser_short')}}
+                                            {{ $member->level_name == 'Reviser' ? 'selected' : '' }}>{{__('pages/add_member.reviser')}}
                                         </option>
                                     </select>
 
-                                    <button type="submit" class="btn btn-success"
+                                    <button type="submit" class="btn btn-outline-success"
                                             data-bs-toggle="tooltip" data-bs-placement="right"
                                             title="{{__('pages/add_member.confirm_level_tooltip')}}">
                                         <i class="fa fa-check me-1"></i> {{__('pages/add_member.confirm')}}
@@ -176,9 +196,8 @@
                                 </form>
                             </td>
 
-                            <td >
+                            <td class="table-action-cell">
                                 @php
-                                    // Lógica PHP mantida intacta
                                     $status = $member->pivot->status ?? null;
                                     $statusText = __('pages/add_member.status_accepted');
                                     $statusClass = 'bg-success';
@@ -189,15 +208,34 @@
                                     } elseif ($status === 'declined') {
                                         $statusText = __('pages/add_member.status_declined');
                                         $statusClass = 'bg-danger';
-                                    } elseif ($status === 'accepted' || $status === null) {
-                                        $statusText = __('pages/add_member.status_accepted');
-                                        $statusClass = 'bg-success';
                                     }
                                 @endphp
-                                <div >
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    {{-- Badge de Status --}}
                                     <span class="badge {{ $statusClass }}">{{ $statusText }}</span>
+
+                                    {{-- Ícone para reenviar convite se pendente --}}
+                                    @if($status === 'pending')
+                                        <form action="{{ route('projects.resend_invitation', [
+                                                            'idProject' => $project->id_project,
+                                                            'idMember' => $member->id
+                                                        ]) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="btn btn-link p-0 m-0 text-info"
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ __('pages/add_member.resend_invite') }}">
+                                                <i class="fa-regular fa-envelope"></i>
+                                            </button>
+                                        </form>
+
+                                    @endif
+
                                 </div>
                             </td>
+
 
                             <td class="text-center">
                                 <button type="button" class="btn btn-danger"
@@ -249,7 +287,7 @@
 
 <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog"
      aria-labelledby="modal-notification" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-notification">{{__('pages/add_member.instruction_email')}}
@@ -258,13 +296,13 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="py-3 text-center">
-                    <h4 class="text-gradient text-danger mt-4"><i class="ni ni-single-copy-04"></i>
-                        {{__('pages/add_member.user_registered')}}</h4>
+                <div class="py-3">
+                    <h5 class="text-sm mt-4"><i class="ni ni-single-copy-04"></i>
+                        {{__('pages/add_member.user_registered')}}</h5>
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-white" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">{{__('pages/add_member.got_it')}}</button>
             </div>
         </div>
     </div>
