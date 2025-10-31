@@ -3,76 +3,100 @@
 namespace App\Services;
 
 use App\Models\BibUpload;
-use App\Models\Project\Conducting\Papers;
 use App\Models\ProjectDatabases;
-use App\Livewire\Conducting\StudySelection\Count as StudySelectionCount;
-use App\Livewire\Conducting\QualityAssessment\Count as QualityAssessmentCount;
-use App\Livewire\Conducting\DataExtraction\Count as DataExtractionCount;
+use App\Models\Project\Conducting\Papers;
+use App\Models\Member;
+use App\Models\StatusSelection;
+use App\Models\StatusQualityAssessment;
+use App\Models\StatusExtraction;
 
 class ConductingProgressService
 {
     public function calculateProgress(int $projectId): array
     {
-        // Importar Estudos
+        // 1) Importação
         $totalImported = $this->getTotalImportedStudies($projectId);
         $importStudies = $totalImported > 0 ? 100.0 : 0.0;
 
-        // Seleção de Estudos
-        $studySelection = $this->getStudySelectionPercentage($totalImported);
-        $progressStudySelection = $studySelection['percentage'];
-        $unclassifiedStudySelection = $studySelection['unclassified'];
+        // 2) Seleção de Estudos
+        $studySelection = $this->getStudySelection($projectId, $totalImported);
+        $progressStudySelection       = (float) ($studySelection['percentage']  ?? 0.0);
+        $unclassifiedStudySelection   = (int)   ($studySelection['unclassified'] ?? 0);
 
-        // Avaliação de Qualidade
-        $qualityAssessment = $this->getQualityAssessmentPercentage($totalImported, $unclassifiedStudySelection);
-        $progressQualityAssessment = $qualityAssessment['percentage'];
-        $unclassifiedQualityAssessment = $qualityAssessment['unclassified'];
+        // 3) Avaliação de Qualidade
+        $qualityAssessment = $this->getQualityAssessment($projectId, $totalImported, $unclassifiedStudySelection);
+        $progressQualityAssessment    = (float) ($qualityAssessment['percentage']  ?? 0.0);
+        $unclassifiedQualityAssessment= (int)   ($qualityAssessment['unclassified'] ?? 0);
 
-        // Extração de Dados
-        $dataExtraction = $this->getDataExtractionPercentage($totalImported, $unclassifiedQualityAssessment);
+        // 4) Extração de Dados
+        $dataExtraction = $this->getExtraction($projectId, $totalImported, $unclassifiedQualityAssessment);
 
-        // Progresso geral (25% cada etapa)
-        $overall = ($importStudies * 0.25) +
-            ($progressStudySelection * 0.25) +
-            ($progressQualityAssessment * 0.25) +
-            ($dataExtraction * 0.25);
+        // 5) Progresso geral (25% cada etapa)
+        $overall = ($importStudies * 0.25)
+            + ($progressStudySelection * 0.25)
+            + ($progressQualityAssessment * 0.25)
+            + ($dataExtraction * 0.25);
 
         return [
-            'overall' => round($overall, 2),
-            'import_studies' => round($importStudies, 2),
-            'study_selection' => round($progressStudySelection, 2),
+            'overall'            => round($overall, 2),
+            'import_studies'     => round($importStudies, 2),
+            'study_selection'    => round($progressStudySelection, 2),
             'quality_assessment' => round($progressQualityAssessment, 2),
-            'data_extraction' => round($dataExtraction, 2),
-            'snowballing' => 0.0 // por enquanto zerado, se precisar depois implementa
+            'data_extraction'    => round($dataExtraction, 2),
+            'snowballing'        => 0.0, // por enquanto
         ];
     }
 
 
-    private function getTotalImportedStudies(int $projectId): int
+    private function getUserIds(int $projectId)
     {
-        $idsDatabase = ProjectDatabases::where('id_project', $projectId)->pluck('id_project_database');
-
-        if ($idsDatabase->isEmpty()) return 0;
-
-        $idsBib = BibUpload::whereIn('id_project_database', $idsDatabase)->pluck('id_bib');
-
-        if ($idsBib->isEmpty()) return 0;
-
-        return Papers::whereIn('id_bib', $idsBib)->count();
+        return Member::where('id_project', $projectId)->pluck('id_members');
     }
 
-    private function getStudySelectionPercentage(int $totalImported): array
+    private function getBibIds(int $projectId)
     {
-        if ($totalImported === 0) {
-            return ['percentage' => 0.0, 'unclassified' => 0];
-        }
+        $db = ProjectDatabases::where('id_project', $projectId)->pluck('id_project_database');
+        return BibUpload::whereIn('id_project_database', $db)->pluck('id_bib');
+    }
 
-        $count = new StudySelectionCount();
-        $count->mount();
-        $count->loadCounters();
+    private function getTotalImportedStudies(int $projectId): int
+    {
+        return Papers::whereIn('id_bib', $this->getBibIds($projectId))->count();
+    }
 
-        $unclassified = count($count->unclassified);
-        $classified = $totalImported - $unclassified;
-        $percentage = ($classified / $totalImported) * 100;
+    private function getStudySelection(int $projectId, int $totalImported): array
+    {
+        if ($totalImported === 0)
+            return ['percentage' => 0, 'unclassified' => 0];
+
+        $memberIds = $this->getUserIds($projectId);
+        $bibIds = $this->getBibIds($projectId);
+
+        // pegar IDs dos status
+        $statuses = StatusSelection::whereIn('description', [
+            'Rejected', 'Unclassified', 'Removed', 'Accepted', 'Duplicate'
+        ])->pluck('id_status', 'description');
+
+        // total de papers avaliados pelo usuário
+        $totalEvaluated = Papers::whereIn('id_bib', $bibIds)
+            ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers.id_paper')
+            ->whereIn('papers_selection.id_member', $memberIds)
+            ->count();
+
+        // total unclassified
+        $unclassified = Papers::whereIn('id_bib', $bibIds)
+            ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers.id_paper')
+            ->whereIn('papers_selection.id_member', $memberIds)
+            ->where('papers_selection.id_status', $statuses['Unclassified'])
+            ->count();
+
+        // classificados = avaliados - unclassified
+        $classified = max(0, $totalEvaluated - $unclassified);
+
+        // porcentagem com base apenas nos avaliados
+        $percentage = $totalEvaluated > 0
+            ? ($classified / $totalEvaluated) * 100
+            : 0;
 
         return [
             'percentage' => $percentage,
@@ -80,36 +104,91 @@ class ConductingProgressService
         ];
     }
 
-    private function getQualityAssessmentPercentage(int $totalImported, int $unclassifiedStudySelection): array
+
+
+    private function getQualityAssessment(int $projectId, int $totalImported, int $unclassifiedSelection): array
     {
-        if ($totalImported === 0) {
-            return ['percentage' => 0.0, 'unclassified' => 0];
-        }
+        if ($totalImported === 0)
+            return ['percentage' => 0, 'unclassified' => 0];
 
-        $count = new QualityAssessmentCount();
-        $count->mount();
-        $count->loadCounters();
+        $memberIds = $this->getUserIds($projectId);
+        $bibIds = $this->getBibIds($projectId);
 
-        $unclassified = count($count->unclassified);
-        $classified = $totalImported - $unclassified - $unclassifiedStudySelection;
-        $percentage = ($classified / $totalImported) * 100;
+        $statuses = StatusQualityAssessment::whereIn('status', [
+            'Rejected', 'Unclassified', 'Removed', 'Accepted'
+        ])->pluck('id_status', 'status');
+
+        $unclassifiedStatus = $statuses['Unclassified'];
+
+        // Somente papers que entraram na QA
+        $papers = Papers::whereIn('id_bib', $bibIds)
+            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+            ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers_qa.id_paper')
+            ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+            ->where(function ($query) {
+                $query->where('papers_selection.id_status', 1)
+                    ->orWhere(function ($query) {
+                        $query->where('papers_selection.id_status', 2)
+                            ->where('paper_decision_conflicts.new_status_paper', 1);
+                    });
+            })
+            ->whereIn('papers_selection.id_member', $memberIds)
+            ->whereIn('papers_qa.id_member', $memberIds);
+
+        $totalEvaluated = $papers->count();
+
+        $unclassifiedQA = $papers->where('papers_qa.id_status', $unclassifiedStatus)->count();
+
+        $totalUnclassified = $unclassifiedSelection + $unclassifiedQA;
+
+        $classified = max(0, $totalEvaluated - $unclassifiedQA);
+
+        $percentage = $totalEvaluated > 0
+            ? ($classified / $totalEvaluated) * 100
+            : 0;
 
         return [
             'percentage' => $percentage,
-            'unclassified' => $unclassified + $unclassifiedStudySelection
+            'unclassified' => $totalUnclassified
         ];
     }
 
-    private function getDataExtractionPercentage(int $totalImported, int $unclassifiedQualityAssessment): float
+
+
+    private function getExtraction(int $projectId, int $totalImported, int $unclassifiedQA): float
     {
-        if ($totalImported === 0) return 0.0;
+        if ($totalImported === 0) return 0;
 
-        $count = new DataExtractionCount();
-        $count->mount();
-        $count->loadCounters();
+        $memberIds = $this->getUserIds($projectId);
+        $bibIds = $this->getBibIds($projectId);
 
-        $classified = $totalImported - count($count->to_do) - $unclassifiedQualityAssessment;
+        $statuses = StatusExtraction::whereIn('description', ['Done', 'To Do', 'Removed'])
+            ->pluck('id_status', 'description');
 
-        return ($classified / $totalImported) * 100;
+        $todoStatus = $statuses['To Do'];
+
+        $papers = Papers::whereIn('id_bib', $bibIds)
+            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+            ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+            ->where(function ($query) {
+                $query->where('papers_qa.id_status', 1)
+                    ->orWhere(function ($query) {
+                        $query->where('papers_qa.id_status', 2)
+                            ->where('paper_decision_conflicts.phase', 'quality')
+                            ->where('paper_decision_conflicts.new_status_paper', 1);
+                    });
+            })
+            ->whereIn('papers_qa.id_member', $memberIds);
+
+        $totalEvaluated = $papers->count();
+        $todo = $papers->where('status_extraction', $todoStatus)->count();
+
+        $classified = max(0, $totalEvaluated - $todo);
+
+        return $totalEvaluated > 0
+            ? ($classified / $totalEvaluated) * 100
+            : 0;
     }
+
+
 }

@@ -60,7 +60,26 @@ class ProjectController extends Controller
         $merged_projects = $projects_relation->merge($projects);
 
         foreach ($merged_projects as $project) {
-            $project->setUserLevel($user);
+
+            try {
+                // 1) Calcular progresso do planejamento
+                $planningProgress = $this->progressCalculator->calculate($project->id_project);
+                $project->dbg_planning = round($planningProgress['overall'], 2);
+
+                // 2) Calcular progresso da condução
+                $conductingProgress = $this->conductingProgress->calculateProgress($project->id_project);
+                $project->dbg_conducting = round($conductingProgress['overall'], 2);
+
+                // 3) Peso proporcional — planning 30%, conducting 70%
+                $project->progress_percent = round(
+                    ($planningProgress['overall'] * 0.30) +
+                    ($conductingProgress['overall'] * 0.70),
+                    2);
+
+            } catch (\Throwable $e) {
+                $project->dbg_error = $e->getMessage();
+                $project->progress_percent = 0;
+            }
         }
 
         return view('projects.index', compact('merged_projects'));
@@ -134,6 +153,7 @@ class ProjectController extends Controller
         $t1 = microtime(true);
         try {
             $conductingProgress = $this->conductingProgress->calculateProgress($idProject);
+
         } catch (\Throwable $e) {
             Log::error('conductingProgress error', [
                 'msg' => $e->getMessage(),
