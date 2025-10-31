@@ -53,27 +53,56 @@
                                         @forelse ($projects as $project)
                                             <tr>
                                                 <td>
-                                                    <div class="d-flex px-3">
-                                                        <div class="my-auto">
-                                                            <h6 class="mb-0 text-sm">{{ $project->title }}</h6>
+                                                    <div class="px-3">
+                                                        <!-- Título -->
+                                                        <h6 class="mb-1 text-sm fw-bold" title="{{ $project->title }}" data-toggle="tooltip">
+                                                            {{ Str::limit($project->title, 50) }}
+                                                        </h6>
+
+                                                        <!-- Descrição -->
+                                                        <div class="text-muted fst-italic"
+                                                             style="font-size: 0.75rem; white-space: normal; word-wrap: break-word; max-width: 320px;"  title="{{ $project->description }}" data-toggle="tooltip">
+                                                            {{ Str::limit($project->description, 105) }}
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <p class="text-sm font-weight-bold mb-0">{{ $project->created_by }}</p>
                                                 </td>
+                                                @php
+                                                    $progress = (float) ($project->progress_percent ?? 0);
+                                                    $progress = max(0, min(100, $progress)); // clamp 0..100
+
+                                                    $color = $progress < 30
+                                                        ? 'bg-gradient-danger'
+                                                        : ($progress < 60 ? 'bg-gradient-warning' : 'bg-gradient-success');
+                                                @endphp
+
                                                 <td class="align-middle text-center">
+
+                                                    @isset($project->dbg_error)
+                                                        <div class="text-danger text-xs">error: {{ $project->dbg_error }}</div>
+                                                    @endisset
+
                                                     <div class="d-flex align-items-center justify-content-center">
-                                                        <span class="me-2 text-xs font-weight-bold">100%</span>
-                                                        <div>
+                                                    <span class="me-2 text-xs font-weight-bold">
+                                                        {{ number_format($progress, 2) }}%
+                                                    </span>
+
+                                                        <div style="min-width:120px;">
                                                             <div class="progress">
-                                                                <div class="progress-bar bg-gradient-success"
-                                                                    role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 100%;"></div>
+                                                                <div class="progress-bar {{ $color }}"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="{{ $progress }}"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width: {{ $progress }}%;">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
+
                                                 @php
                                                     $user = auth()->user();
 
@@ -163,5 +192,42 @@
         </div>
         @include('layouts.footers.auth.footer')
     </div>
-    </div>
+    <style>
+        @media (max-width: 768px) {
+            table thead {
+                display: none !important;
+            }
+
+            .project-row-card {
+                display: block;
+                margin-bottom: 12px;
+                border: 1px solid #e0e6ed;
+                border-radius: 10px;
+                padding: 12px;
+                background: #fff;
+            }
+
+            .project-row-card td {
+                display: flex;
+                justify-content: space-between;
+                padding: 6px 0;
+                width: 100%;
+                font-size: 14px;
+            }
+
+            .project-row-card td::before {
+                content: attr(data-title);
+                font-weight: 600;
+                color: #6c757d;
+                margin-right: 8px;
+            }
+
+            .project-row-card .btn {
+                width: 32px;
+                padding: 4px;
+                text-align: center;
+            }
+        }
+    </style>
+
 @endsection

@@ -47,11 +47,15 @@
                                     @forelse ($merged_projects as $project)
                                         <tr>
                                             <td>
-                                                <div class="d-flex px-3">
-                                                    <div class="my-auto">
-                                                        <h6 class="mb-0 text-sm" title="{{ $project->title }}" data-toggle="tooltip">
-                                                            {{ Str::limit($project->title, 50) }}
-                                                        </h6>
+                                                <div class="px-3">
+                                                    <!-- Título -->
+                                                    <h6 class="mb-1 text-sm fw-bold" title="{{ $project->title }}" data-toggle="tooltip">
+                                                        {{ Str::limit($project->title, 50) }}
+                                                    </h6>
+                                                    <!-- Descrição -->
+                                                    <div class="text-muted fst-italic"
+                                                         style="font-size: 0.75rem; white-space: normal; word-wrap: break-word; max-width: 300px;"  title="{{ $project->description }}" data-toggle="tooltip">
+                                                        {{ Str::limit($project->description, 95) }}
                                                     </div>
                                                 </div>
                                             </td>
@@ -61,18 +65,41 @@
                                                 </p>
                                             </td>
 
+                                            @php
+                                                $progress = (float) ($project->progress_percent ?? 0);
+                                                $progress = max(0, min(100, $progress)); // clamp 0..100
+
+                                                // Argon/SoftUI usam bg-gradient-*
+                                                $color = $progress < 30
+                                                    ? 'bg-gradient-danger'
+                                                    : ($progress < 60 ? 'bg-gradient-warning' : 'bg-gradient-success');
+                                            @endphp
+
                                             <td class="align-middle text-center">
+                                                @isset($project->dbg_error)
+                                                    <div class="text-danger text-xs">error: {{ $project->dbg_error }}</div>
+                                                @endisset
+
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                        <span class="me-2 text-xs font-weight-bold">
-                                                            {{ $project->totalProgress }}%
-                                                        </span>
-                                                    <div>
+                                        <span class="me-2 text-xs font-weight-bold">
+                                            {{ number_format($progress, 2) }}%
+                                        </span>
+
+                                                    <div style="min-width:120px;">
                                                         <div class="progress">
-                                                            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="{{ $project->totalProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $project->totalProgress }}%;"></div>
+                                                            <div class="progress-bar {{ $color }}"
+                                                                 role="progressbar"
+                                                                 aria-valuenow="{{ $progress }}"
+                                                                 aria-valuemin="0"
+                                                                 aria-valuemax="100"
+                                                                 style="width: {{ $progress }}%;">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
+
+
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-end gap-1">
 
