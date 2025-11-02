@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Projects;
 
+use App\Models\SearchStrategy;
 use Livewire\Component;
 use App\Models\Project;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -126,8 +127,11 @@ class PublicProtocol extends Component
 
     public function render()
     {
+        $searchStrategy = $this->project->searchStrategy()->first();
+
         return view('livewire.projects.public-protocol', [
             'project' => $this->project,
+            'searchStrategy' => $searchStrategy,
         ]);
     }
 }

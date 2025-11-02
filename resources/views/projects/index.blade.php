@@ -50,7 +50,7 @@
                                                 <div class="px-3">
                                                     <!-- Título -->
                                                     <h6 class="mb-1 text-sm fw-bold" title="{{ $project->title }}" data-toggle="tooltip">
-                                                        {{ Str::limit($project->title, 50) }}
+                                                        {{ Str::limit($project->title, 40) }}
                                                     </h6>
                                                     <!-- Descrição -->
                                                     <div class="text-muted fst-italic"
@@ -85,7 +85,7 @@
                                             {{ number_format($progress, 2) }}%
                                         </span>
 
-                                                    <div style="min-width:120px;">
+                                                    <div style="min-width:110px;">
                                                         <div class="progress">
                                                             <div class="progress-bar {{ $color }}"
                                                                  role="progressbar"
