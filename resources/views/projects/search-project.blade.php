@@ -56,7 +56,7 @@
                                                     <div class="px-3">
                                                         <!-- Título -->
                                                         <h6 class="mb-1 text-sm fw-bold" title="{{ $project->title }}" data-toggle="tooltip">
-                                                            {{ Str::limit($project->title, 50) }}
+                                                            {{ Str::limit($project->title, 40) }}
                                                         </h6>
 
                                                         <!-- Descrição -->
