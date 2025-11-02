@@ -40,10 +40,43 @@
                             <!-- Tab do Protocolo -->
                             <div class="tab-pane fade @if($activeTab === 'protocol') show active @endif">
                                 <div class="row">
+                                    <!-- Project Info -->
+                                    <div class="col-md-12 mb-1">
+                                        @livewire('projects.public.project-info', ['project' => $project])
+                                    </div>
+                                    <!-- Project Overview-->
+                                    <div class="col-md-12 mb-4">
+                                        @livewire('projects.public.project-overview', ['project' => $project])
+                                    </div>
+                                    {{-- Search Strategy --}}
+                                    <div class="col-md-12 mb-6">
+                                        <h6 class="text-uppercase mb-2">
+                                            {{ __('project/public_protocol.search_strategy') }}
+                                        </h6>
+
+                                        @if(!empty($searchStrategy?->description))
+                                            <div class="protocol-box mb-2">
+                                                <div class="text-break">
+                                                    {!! nl2br($searchStrategy->description) !!}
+                                                </div>
+                                            </div>
+                                        @else
+                                            <p class="text-muted small">{{ __('project/public_protocol.no_search_strategy') }}</p>
+                                        @endif
+                                    </div>
                                     <!-- Research Questions -->
                                     <div class="col-md-12 mb-4">
                                         <h6 class="text-uppercase">{{ __('project/public_protocol.research_questions') }}</h6>
                                         @livewire('projects.public.research-questions', ['project' => $project], key('questions-'.$project->id_project))
+                                    </div>
+                                    <!-- Criterias -->
+                                    <div class="col-md-12 mb-4">
+                                        <h6 class="text-uppercase">{{ __('project/public_protocol.criteria') }}</h6>
+                                        @livewire('projects.public.criterias', ['project' => $project])
+                                    </div>
+                                    <!-- Search String -->
+                                    <div class="col-md-12 mb-4">
+                                        @livewire('projects.public.project-terms', ['project' => $project])
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +93,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" wire:click="closeModal">
-                            {{ __('Close') }}
+                            {{ __('project/conducting.study-selection.modal.close' )}}
                         </button>
                     </div>
                 </div>

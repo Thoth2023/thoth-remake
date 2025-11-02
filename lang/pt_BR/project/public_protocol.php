@@ -29,4 +29,32 @@ return [
     'start_date' => 'Data Inicial.',
     'end_date' => 'Data Final.',
     'no_questions' => 'Nenhuma questão de pesquisa definida.',
+
+    'title' => 'Título',
+
+    'domains' => 'Domínios',
+    'languages' => 'Idiomas',
+    'study_types' => 'Tipos de Estudo',
+    'keywords' => 'Palavras-chave',
+    'project_dates' => 'Data do Projeto',
+    'start' => 'Início',
+    'end' => 'Fim',
+
+    'no_search_strategy' => 'Nenhuma estratégia de busca definida.',
+
+    'inclusion' => 'Inclusão',
+    'exclusion' => 'Exclusão',
+    'rule' => 'Regra',
+    'type'=>'Tipo',
+    'no_criteria' => 'Nenhum critério definido.',
+
+    'terms_synonyms' => 'Termos & Sinônimos',
+    'generic_search_string' => 'String de Busca Genérica',
+    'no_terms' => 'Nenhum termo definido ainda.',
+    'no_generic_string' => 'Nenhuma string genérica definida.',
+
+    'term' => 'Termo',
+    'synonyms' => 'Sinônimos',
+
+
 ];
