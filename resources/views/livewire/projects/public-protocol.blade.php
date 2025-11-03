@@ -60,7 +60,7 @@
                                         @if(!empty($searchStrategy?->description))
                                             <div class="protocol-box mb-4">
                                                 <div class="protocol-text mt-2">
-                                                    {{ nl2br(strip_tags($searchStrategy->description)) }}
+                                                    {!! nl2br(strip_tags($searchStrategy->description, '<p><br><b><strong><i><em><ul><ol><li>')) !!}
                                                 </div>
                                             </div>
                                         @else
