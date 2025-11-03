@@ -1,9 +1,24 @@
 <style>
+    .protocol-box {
+        background: #f9fafb;
+        border: 1px solid #e3e6ea;
+        border-radius: 8px;
+        padding: 12px 15px;
+        height: 100%;
+        font-size: 0.9rem;
+    }
+
+    .protocol-box strong {
+        font-size: 0.85rem;
+        color: #344767;
+    }
+
     .protocol-table {
         font-size: .9rem;
         border: 1px solid #e3e6ea;
         border-radius: 8px;
         overflow: hidden;
+        width: 100%;
     }
 
     .protocol-table thead {
@@ -15,10 +30,11 @@
 
     .protocol-table td,
     .protocol-table th {
-        padding: 10px;
+        padding: 8px 10px;
         vertical-align: top;
         word-break: break-word;
-        white-space: normal; /* garante quebra */
+        overflow-wrap: break-word;
+        white-space: normal;
     }
 
     .protocol-table tbody tr:nth-child(odd) {
@@ -28,7 +44,13 @@
     .protocol-table tbody tr:nth-child(even) {
         background: #f3f6fa;
     }
+
+    .highlight-approval {
+        background-color: #d1fae5;
+        font-weight: bold;
+    }
 </style>
+
 
 <div class="mt-4">
 

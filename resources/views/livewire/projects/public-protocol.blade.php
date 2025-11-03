@@ -59,8 +59,9 @@
 
                                         @if(!empty($searchStrategy?->description))
                                             <div class="protocol-box mb-4">
-                                                <div class="whitespace-pre-line break-words break-all hyphens-auto">
-                                                    {!! nl2br($searchStrategy->description) !!}
+                                                <strong>{{ __('project/public_protocol.search_strategy') }}:</strong>
+                                                <div class="protocol-text mt-2">
+                                                    {!! nl2br(e($searchStrategy->description)) !!}
                                                 </div>
                                             </div>
                                         @else
@@ -75,7 +76,7 @@
                                     </div>
 
                                     <!-- Criteria -->
-                                    <div class="col-md-12 mb-4">
+                                    <div class="col-md-12 mb-2">
                                         <h6 class="text-uppercase">{{ __('project/public_protocol.criteria') }}</h6>
                                         @livewire('projects.public.criterias', ['project' => $project])
                                     </div>
@@ -85,6 +86,17 @@
                                         @livewire('projects.public.project-terms', ['project' => $project])
                                     </div>
 
+                                    <!-- Quality-->
+                                    <div class="col-md-12 mb-4 mt-4">
+                                        <h6 class="text-uppercase">{{ __('project/public_protocol.quality_assessment') }}</h6>
+                                        @livewire('projects.public.project-quality-public', ['project' => $project])
+                                    </div>
+
+                                    <!-- Quality-->
+                                    <div class="col-md-12 mb-2">
+                                        <h6 class="text-uppercase">{{ __('project/public_protocol.data_extraction') }}</h6>
+                                        @livewire('projects.public.project-data-extraction-public', ['project' => $project])
+                                    </div>
                                 </div>
                             </div>
 

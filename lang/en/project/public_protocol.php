@@ -56,5 +56,25 @@ return [
     'term' => 'Term',
     'synonyms' => 'Synonyms',
 
+    'quality_questions' => 'Quality Questions',
+    'general_score_ranges' => 'General Score Ranges',
+    'weight' => 'Weight',
+    'min_approval' => 'Min. Approval',
+    'min' => 'Min',
+    'max' => 'Max',
+    'category' => 'Category',
+    'min_general_score_to_pass' => 'Minimum overall score to pass',
+    'no_quality_questions' => 'No quality questions defined',
+    'options_and_scores' => 'Scores',
+
+    'min_general_approval' => 'Minimum general score required for approval',
+    'min_for_approval' => 'Min. for approval',
+
+    'data_extraction_questions' => 'Data Extraction Questions',
+    'question_type' => 'Question Type',
+    'options' => 'Options',
+    'no_data_extraction_questions' => 'No extraction questions defined.',
+
+
 
 ];
