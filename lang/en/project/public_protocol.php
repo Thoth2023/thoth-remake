@@ -67,7 +67,7 @@ return [
     'no_quality_questions' => 'No quality questions defined',
     'options_and_scores' => 'Scores',
 
-    'min_general_approval' => 'Minimum general score required for approval',
+    'min_general_approval' => 'Minimum score for approval',
     'min_for_approval' => 'Min. for approval',
 
     'data_extraction_questions' => 'Data Extraction Questions',

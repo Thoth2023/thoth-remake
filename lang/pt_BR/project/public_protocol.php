@@ -66,7 +66,7 @@ return [
     'min_general_score_to_pass' => 'Pontuação mínima geral para aprovação',
     'no_quality_questions' => 'Nenhuma questão de qualidade definida',
 
-    'min_general_approval' => 'Pontuação mínima geral para aprovação',
+    'min_general_approval' => 'Pontuação mínima para aprovação',
     'min_for_approval' => 'Mín. para aprovação',
     'options_and_scores' => 'Pontuação',
 
