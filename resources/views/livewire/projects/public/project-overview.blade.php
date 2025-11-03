@@ -14,10 +14,14 @@
     .protocol-box ul {
         padding-left: 18px !important;
         margin-bottom: 0;
+        max-width: 100%;
     }
     .protocol-box li {
+        word-wrap: break-word;
         word-break: break-word;
+        overflow-wrap: break-word;
         margin-bottom: 2px;
+        white-space: normal;
     }
 </style>
 

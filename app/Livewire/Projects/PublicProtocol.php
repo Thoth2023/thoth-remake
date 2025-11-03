@@ -108,11 +108,15 @@ class PublicProtocol extends Component
     public function mount(Project $project)
     {
         $this->project = $project;
+        // Obtém o ID do projeto a partir da URL
+
+        $this->dispatch('setCurrentProjectForChildren', projectId: $project->id_project);
     }
 
     public function showPublicProtocol()
     {
         $this->showModal = true;
+        //$this->dispatch('public-reports-attempt-render');
     }
 
     public function closeModal()

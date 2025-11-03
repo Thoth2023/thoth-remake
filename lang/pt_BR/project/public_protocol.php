@@ -2,7 +2,7 @@
 
 return [
     'make_public' => 'Tornar projeto público',
-    'public_protocol' => 'Protocolo Público',
+    'public_protocol' => 'Protocolo RSL',
     'protocol_and_reports' => 'Protocolo e Relatórios',
     'protocol' => 'Protocolo',
     'reports' => 'Relatórios',
