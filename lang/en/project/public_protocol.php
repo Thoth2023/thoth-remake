@@ -2,7 +2,7 @@
 
 return [
     'make_public' => 'Make project public',
-    'public_protocol' => 'Public Protocol',
+    'public_protocol' => 'SLR Protocol',
     'protocol_and_reports' => 'Protocol and Reports',
     'protocol' => 'Protocol',
     'reports' => 'Reports',
