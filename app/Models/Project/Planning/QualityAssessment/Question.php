@@ -31,4 +31,8 @@ class Question extends Model
     {
         return $this->hasMany(QualityScore::class, 'id_qa');
     }
+    public function getMinScoreValueAttribute()
+    {
+        return $this->qualityScores->firstWhere('id_score', $this->min_to_app)?->score;
+    }
 }

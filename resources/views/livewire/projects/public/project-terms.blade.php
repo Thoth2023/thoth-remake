@@ -1,4 +1,4 @@
-<div class="row g-3 mt-3">
+<div class="row g-3 mt-1">
 
     {{-- Coluna Termos & Sinônimos --}}
     <div class="col-12 col-lg-6">

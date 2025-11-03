@@ -56,5 +56,24 @@ return [
     'term' => 'Termo',
     'synonyms' => 'Sinônimos',
 
+    'quality_questions' => 'Questões de Qualidade',
+    'general_score_ranges' => 'Intervalos de Pontuação Geral',
+    'weight' => 'Peso',
+    'min_approval' => 'Mín. Aprov.',
+    'min' => 'Min',
+    'max' => 'Max',
+    'category' => 'Categoria',
+    'min_general_score_to_pass' => 'Pontuação mínima geral para aprovação',
+    'no_quality_questions' => 'Nenhuma questão de qualidade definida',
+
+    'min_general_approval' => 'Pontuação mínima geral para aprovação',
+    'min_for_approval' => 'Mín. para aprovação',
+    'options_and_scores' => 'Pontuação',
+
+    'data_extraction_questions' => 'Questões de Extração de Dados',
+    'question_type' => 'Tipo de Pergunta',
+    'options' => 'Opções',
+    'no_data_extraction_questions' => 'Nenhuma questão de extração definida.',
+
 
 ];

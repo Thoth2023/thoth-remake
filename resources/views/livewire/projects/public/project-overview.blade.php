@@ -6,7 +6,9 @@
         padding: 12px 15px;
         height: 100%;
         font-size: 0.9rem;
+
     }
+
     .protocol-box strong {
         font-size: 0.85rem;
         color: #344767;
@@ -22,6 +24,13 @@
         overflow-wrap: break-word;
         margin-bottom: 2px;
         white-space: normal;
+    }
+    .protocol-text {
+        white-space: pre-line; /* mantém quebras de linha */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
     }
 </style>
 
