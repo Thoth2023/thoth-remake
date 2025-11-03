@@ -59,9 +59,8 @@
 
                                         @if(!empty($searchStrategy?->description))
                                             <div class="protocol-box mb-4">
-                                                <strong>{{ __('project/public_protocol.search_strategy') }}:</strong>
                                                 <div class="protocol-text mt-2">
-                                                    {!! nl2br(e($searchStrategy->description)) !!}
+                                                    {{ nl2br(strip_tags($searchStrategy->description)) }}
                                                 </div>
                                             </div>
                                         @else
