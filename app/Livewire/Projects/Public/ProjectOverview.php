@@ -26,13 +26,20 @@ class ProjectOverview extends Component
     {
         return view('livewire.projects.public.project-overview', [
             'domains'        => Domain::where('id_project', $this->project->id_project)->get(),
-            'keywords'       => Keyword::where('id_project', $this->project->id_project)->get(),
-            'languages'      => ProjectLanguage::where('id_project', $this->project->id_project)
-                ->join('language', 'language.id_language', '=', 'language.id_language')
-                ->select('language.description')->get(),
-            'studyTypes'     => ProjectStudyType::where('id_project', $this->project->id_project)
-                ->join('study_type', 'study_type.id_study_type', '=', 'study_type.id_study_type')
-                ->select('study_type.description')->get(),
+            'keywords' => Keyword::where('id_project', $this->project->id_project)
+                ->select('description')
+                ->distinct()
+                ->get(),
+            'languages' => ProjectLanguage::where('id_project', $this->project->id_project)
+                ->join('language', 'language.id_language', '=', 'project_languages.id_language')
+                ->select('language.description')
+                ->distinct()
+                ->get(),
+            'studyTypes' => ProjectStudyType::where('id_project', $this->project->id_project)
+                ->join('study_type', 'study_type.id_study_type', '=', 'project_study_types.id_study_type')
+                ->select('study_type.description')
+                ->distinct()
+                ->get(),
             'databases'      => ProjectDatabase::where('id_project', $this->project->id_project)
                 ->join('data_base', 'data_base.id_database', '=', 'project_databases.id_database')
                 ->select('data_base.name')->get(),
