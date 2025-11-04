@@ -11,6 +11,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
 use App\Http\Controllers\Project\ExportController;
+use App\Http\Controllers\PublicProtocolPdfController;
 use App\Http\Controllers\SnowballingController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
@@ -149,6 +150,10 @@ Route::post('/projects/{idProject}/resend-invitation/{idMember}', [ProjectContro
 // Finalizar cadastro de convidado
 Route::get('/invite/complete/{token}', [InviteController::class, 'form'])->name('invite.complete');
 Route::post('/invite/complete/{token}', [InviteController::class, 'save'])->name('invite.complete.save');
+
+Route::get('/public-protocol/{project}/download', [PublicProtocolPdfController::class, 'download'])
+    ->name('public-protocol.download');
+
 
 
 
