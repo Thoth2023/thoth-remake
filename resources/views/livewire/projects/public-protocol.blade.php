@@ -13,7 +13,7 @@
 
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('project/public_protocol.public_protocol') }}</h5>
-                        <button wire:click="downloadPdf" class="btn btn-primary btn-sm">
+                        <button wire:click.prevent="downloadPdf" class="btn btn-primary btn-sm">
                             {{ __('project/public_protocol.download_pdf') }}
                         </button>
                     </div>
@@ -59,9 +59,8 @@
 
                                         @if(!empty($searchStrategy?->description))
                                             <div class="protocol-box mb-4">
-                                                <strong>{{ __('project/public_protocol.search_strategy') }}:</strong>
                                                 <div class="protocol-text mt-2">
-                                                    {!! nl2br(e($searchStrategy->description)) !!}
+                                                    {!! nl2br(strip_tags($searchStrategy->description, '<p><br><b><strong><i><em><ul><ol><li>')) !!}
                                                 </div>
                                             </div>
                                         @else

@@ -63,10 +63,10 @@ return [
     'min' => 'Min',
     'max' => 'Max',
     'category' => 'Categoria',
-    'min_general_score_to_pass' => 'Pontuação mínima geral para aprovação',
+    'min_general_score_to_pass' => 'Pontuação mínima para aprovar',
     'no_quality_questions' => 'Nenhuma questão de qualidade definida',
 
-    'min_general_approval' => 'Pontuação mínima geral para aprovação',
+    'min_general_approval' => 'Pontuação mínima para aprovação',
     'min_for_approval' => 'Mín. para aprovação',
     'options_and_scores' => 'Pontuação',
 
@@ -74,6 +74,14 @@ return [
     'question_type' => 'Tipo de Pergunta',
     'options' => 'Opções',
     'no_data_extraction_questions' => 'Nenhuma questão de extração definida.',
+
+    'feature_review' => 'Abordagem da Revisão',
+
+    'feature_review_options' => [
+        'Systematic review' => 'Revisão Sistemática da Literatura (RSL)',
+        'Systematic review and Snowballing' => 'RSL + Snowballing',
+        'Snowballing' => 'Snowballing',
+    ],
 
 
 ];

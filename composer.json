@@ -22,6 +22,7 @@
         "livewire/livewire": "*",
         "macellan/laravel-zip": "^1.0",
         "renanbr/bibtex-parser": "^2.2",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-model-states": "^2.7",
         "spatie/laravel-permission": "^6.10",
         "tecnickcom/tcpdf": "^6.7"
