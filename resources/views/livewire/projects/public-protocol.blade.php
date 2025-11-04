@@ -13,9 +13,11 @@
 
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('project/public_protocol.public_protocol') }}</h5>
-                        <button wire:click.prevent="downloadPdf" class="btn btn-primary btn-sm">
-                            {{ __('project/public_protocol.download_pdf') }}
-                        </button>
+                        <form wire:ignore action="{{ route('public-protocol.download', $project->id_project) }}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('project/public_protocol.download_pdf') }}
+                            </button>
+                        </form>
                     </div>
 
                     <div class="modal-body">
