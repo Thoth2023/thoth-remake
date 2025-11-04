@@ -2,12 +2,25 @@
 
 namespace App\Livewire\Projects;
 
+use App\Models\Domain;
+use App\Models\Keyword;
+use App\Models\ProjectDatabase;
+use App\Models\ProjectLanguage;
+use App\Models\ProjectStudyType;
+use App\Models\Project\Planning\QualityAssessment\Question;
+use App\Models\Project\Planning\QualityAssessment\GeneralScore;
+use App\Models\Project\Planning\QualityAssessment\Cutoff;
 use App\Models\SearchStrategy;
 use Livewire\Component;
 use App\Models\Project;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 
 class PublicProtocol extends Component
 {
@@ -20,39 +33,69 @@ class PublicProtocol extends Component
     public function downloadPdf() // cuidado ao mexer nas funções auxiliares deste método, pois são usadas para a formatação do arquivo
     {
         try {
-            $fileName = 'protocolo-' . $this->sanitizeFilename($this->project->title) . '.pdf';
+            $project = Project::findOrFail($this->project->id_project);
 
-            $html = view('livewire.projects.public-protocol-pdf', [
-                'project' => $this->project
-            ])->render();
+            $domains        = Domain::where('id_project',$project->id_project)->get();
+            $keywords       = Keyword::where('id_project',$project->id_project)->get();
+            $languages      = ProjectLanguage::where('id_project',$project->id_project)
+                ->join('language','language.id_language','=','project_languages.id_language')
+                ->select('language.description')->get();
+            $studyTypes     = ProjectStudyType::where('id_project',$project->id_project)
+                ->join('study_type','study_type.id_study_type','=','project_study_types.id_study_type')
+                ->select('study_type.description')->get();
+            $databases      = ProjectDatabase::where('id_project',$project->id_project)
+                ->join('data_base','data_base.id_database','=','project_databases.id_database')
+                ->select('data_base.name')->get();
 
-            $html = $this->sanitizeHtml($html);
+            $researchQuestions   = $project->researchQuestions()->get();
+            $searchStrategy      = $project->searchStrategy;
+            $criteria = $project->criterias()->orderBy('id_criteria')->get();
 
-            $pdf = Pdf::loadHTML($html);
+            $qualityQuestions = Question::with('qualityScores')
+                ->where('id_project', $project->id_project)
+                ->get();
 
-            $pdf->setPaper('a4');
-            $pdf->setOptions([
-                'isRemoteEnabled' => true,
-                'isHtml5ParserEnabled' => true,
-                'isFontSubsettingEnabled' => true,
-                'defaultFont' => 'DejaVu Sans',
-            ]);
+            $qualityRanges = GeneralScore::where('id_project',$project->id_project)
+                ->orderBy('start','asc')->get();
 
-            return response()->streamDownload(
-                function() use ($pdf) {
-                    echo $pdf->output();
-                },
-                $fileName,
-                [
-                    'Content-Type' => 'application/pdf',
-                ]
+            $qualityCutoff = Cutoff::where('id_project',$project->id_project)->first();
+
+            $extractionQuestions = $project->dataExtractionQuestions()->with('options')->get();
+
+            $publicUrl = "https://thoth-slr.com"; // Somente a home do sistema
+
+            // Bypass Imagick → gerar QR com GD via BaconQrCode
+            $renderer = new ImageRenderer(
+                new RendererStyle(200),
+                new SvgImageBackEnd()
             );
-        } catch (\Exception $e) {
-            Log::error('Erro ao gerar PDF', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
 
+            $writer = new Writer($renderer);
+            $qrCodeSvg = $writer->writeString($publicUrl);
+            $qrCodeSvgBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrCodeSvg);
+
+
+            $html = view('livewire.projects.public-protocol-pdf', compact(
+                'project','domains','keywords','languages','studyTypes','databases',
+                'researchQuestions','searchStrategy','criteria',
+                'qualityQuestions','qualityRanges','qualityCutoff','extractionQuestions', 'publicUrl', 'qrCodeSvgBase64'
+            ))->render();
+
+            $fileName = 'protocolo-'.$this->sanitizeFilename($project->title).'.pdf';
+            $pdf = Pdf::loadHTML($html)->setPaper('a4');
+
+
+
+            // Footer com paginação/data/título
+            $dompdf = $pdf->getDomPDF();
+            $canvas = $dompdf->get_canvas();
+            $w = $canvas->get_width(); $h = $canvas->get_height();
+            $canvas->page_text(36, $h-28, $project->title, null, 8, [0.34,0.34,0.34]);
+            $canvas->page_text($w-140, $h-28, date('d-m-y H:i'), null, 8, [0.34,0.34,0.34]);
+
+            return response()->streamDownload(fn()=>print($pdf->output()), $fileName);
+        } catch (\Exception $e) {
+            Log::error('Erro ao gerar PDF', ['error'=>$e->getMessage()]);
             session()->flash('error', 'Não foi possível gerar o PDF. Por favor, tente novamente.');
             return null;
         }

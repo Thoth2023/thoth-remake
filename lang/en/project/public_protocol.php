@@ -63,7 +63,7 @@ return [
     'min' => 'Min',
     'max' => 'Max',
     'category' => 'Category',
-    'min_general_score_to_pass' => 'Minimum overall score to pass',
+    'min_general_score_to_pass' => 'Minimum score to pass',
     'no_quality_questions' => 'No quality questions defined',
     'options_and_scores' => 'Scores',
 
@@ -75,6 +75,12 @@ return [
     'options' => 'Options',
     'no_data_extraction_questions' => 'No extraction questions defined.',
 
+    'feature_review' => 'Review Approach',
 
+    'feature_review_options' => [
+        'Systematic review' => 'Systematic Literature Review (SLR)',
+        'Systematic review and Snowballing' => 'SLR + Snowballing',
+        'Snowballing' => 'Snowballing',
+    ],
 
 ];
