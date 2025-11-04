@@ -31,7 +31,7 @@ class LoginController extends Controller
     {
         try {
             // O erro ocorre nesta linha (comunicação backend)
-            $googleUser = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->stateless()->user();
 
             // Se esta linha for alcançada, o login está OK
             $this->_registerOrLoginUser($googleUser);

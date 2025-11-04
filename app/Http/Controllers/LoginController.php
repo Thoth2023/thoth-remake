@@ -41,14 +41,19 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            // 3. VERIFICAÇÃO DE MUDANÇA DE IP (Sua nova segurança)
-            $userIp = session('user_ip');
-            $currentIp = $request->ip();
+            // Ignorar verificação de IP para login via Google OAuth
+            if (!$request->has('code') && !$request->has('state')) {
 
-            if ($userIp && $userIp !== $currentIp) {
-                Auth::logout();
-                $request->session()->invalidate();
-                return redirect()->route('login')->with('error', 'Sessão expirada devido a mudança de IP.');
+                $userIp = session('user_ip');
+                $currentIp = $request->ip();
+
+                if ($userIp && $userIp !== $currentIp) {
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    return redirect()->route('login')->with('error', 'Sessão expirada devido a mudança de IP.');
+                }
+
+                session(['user_ip' => $currentIp]);
             }
 
             // Armazena o IP na sessão
