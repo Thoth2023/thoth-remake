@@ -80,7 +80,12 @@ class PublicProtocolPdfController extends Controller
             $canvas = $dompdf->get_canvas();
             $w = $canvas->get_width();
             $h = $canvas->get_height();
-            $canvas->page_text(36, $h - 28, $project->title, null, 8, [0.34, 0.34, 0.34]);
+            $footerTitle = $project->title;
+            $maxChars = 120;
+            if (mb_strlen($footerTitle) > $maxChars) {
+                $footerTitle = mb_substr($footerTitle, 0, $maxChars) . '...';
+            }
+            $canvas->page_text(36, $h - 28, $footerTitle, null, 8, [0.34, 0.34, 0.34]);
             $canvas->page_text($w - 140, $h - 28, date('d-m-y H:i'), null, 8, [0.34, 0.34, 0.34]);
 
             return response()->streamDownload(fn() => print($pdf->output()), $fileName);
