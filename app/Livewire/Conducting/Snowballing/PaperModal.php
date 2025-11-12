@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Conducting\Snowballing;
 
+use App\Jobs\RunFullSnowballingJob;
 use App\Models\Project;
 use App\Models\Project\Conducting\PaperSnowballing;
+use App\Models\Project\Conducting\SnowballJob;
 use App\Services\SnowballingService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,6 +22,9 @@ class PaperModal extends Component
     public $paper = null;
     public $canEdit = false;
     public $doi;
+    public $jobId = null;
+    public $jobProgress = 0;
+    public $jobMessage = '';
 
     public $manualBackwardDone = false;
     public $manualForwardDone = false;
@@ -28,6 +33,21 @@ class PaperModal extends Component
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
+    }
+
+    public function checkJobProgress()
+    {
+        if (!$this->jobId) return;
+
+        $job = SnowballJob::find($this->jobId);
+        if (!$job) return;
+
+        $this->jobProgress = $job->progress ?? 0;
+        $this->jobMessage = $job->message ?? __('project/conducting.snowballing.modal.processing');
+
+        if ($job->status === 'completed') {
+            $this->dispatch('show-success-snowballing');
+        }
     }
 
     #[On('showPaperSnowballing')]
@@ -68,8 +88,9 @@ class PaperModal extends Component
         if (!$this->canEdit) return;
 
         $paperId = $this->paper['id_paper'] ?? null;
+        $doi = $this->doi;
 
-        if (!$paperId || !$this->doi) {
+        if (!$paperId || !$doi) {
             session()->flash('successMessage', __('project/conducting.snowballing.messages.doi_missing'));
             $this->dispatch('show-success-snowballing');
             return;
@@ -87,55 +108,78 @@ class PaperModal extends Component
             return;
         }
 
+        // evita duplicar execução
+        $runningExists = SnowballJob::where('paper_id', $paperId)
+            ->whereIn('status', ['queued', 'running'])
+            ->exists();
+
+        if ($runningExists) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.already_running'));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+
         try {
             DB::beginTransaction();
 
-            /** @var SnowballingService $service */
-            $service = app(SnowballingService::class);
-
-            // Executa apenas 1 iteração (sem loop)
-            $service->processSingleIteration($this->doi, $paperId, $type, false);
-
-            // Atualiza flags locais
-            if ($type === 'backward') $this->manualBackwardDone = true;
-            if ($type === 'forward') $this->manualForwardDone = true;
-
-            //  Atualiza o status do paper para "Done" (id = 1)
+            // Marca paper como "Done"
             DB::table('papers')
                 ->where('id_paper', $paperId)
                 ->update(['status_snowballing' => 1]);
 
+            // Cria registro na tabela de jobs
+            $job = SnowballJob::create([
+                'project_id' => $this->currentProject->id_project,
+                'paper_id'   => $paperId,
+                'seed_doi'   => $doi,
+                'modes'      => [$type],
+                'status'     => 'queued',
+                'message'    => ucfirst($type) . ' snowballing iniciado…',
+            ]);
+
+            $this->jobId = $job->id;
+
+            // Dispara o job em background
+            dispatch(new RunFullSnowballingJob($job->id));
+
             DB::commit();
 
-            $this->dispatch('update-references', ['paper_reference_id' => $paperId]);
-            session()->flash(
-                'successMessage',
-                __('project/conducting.snowballing.messages.manual_done', ['type' => ucfirst($type)])
-            );
+            // Atualiza flags locais
+            if ($type === 'backward') $this->manualBackwardDone = true;
+            if ($type === 'forward')  $this->manualForwardDone = true;
+
+            // Inicia polling no frontend
+            $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
+
+            // Feedback inicial
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.manual_job_started', [
+                'type' => ucfirst($type),
+            ]));
             $this->dispatch('show-success-snowballing');
 
         } catch (\Throwable $e) {
             DB::rollBack();
 
-            Log::error('[Snowballing] Erro no modo manual', [
-                'type' => $type,
+            Log::error('[Snowballing] Erro no modo manual assíncrono', [
+                'type'  => $type,
+                'doi'   => $doi,
                 'error' => $e->getMessage(),
             ]);
 
             session()->flash('successMessage', __('project/conducting.snowballing.messages.error', [
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]));
             $this->dispatch('show-success-snowballing');
         }
     }
+
+
 
     /**
      * Snowballing completo automático (iterações até esgotar)
      */
     public function handleFullSnowballing()
     {
-        Log::info('[Snowballing] Iniciando modo automático', ['doi' => $this->doi]);
-
         $paperId = (int)($this->paper['id_paper'] ?? 0);
         if (!$paperId || !$this->doi) {
             session()->flash('successMessage', __('project/conducting.snowballing.messages.missing_paper'));
@@ -149,12 +193,18 @@ class PaperModal extends Component
             return;
         }
 
-        $hasBackward = PaperSnowballing::where('paper_reference_id', $paperId)
-            ->where('type_snowballing', 'backward')
-            ->exists();
-        $hasForward = PaperSnowballing::where('paper_reference_id', $paperId)
-            ->where('type_snowballing', 'forward')
-            ->exists();
+        // evita duplicar execução
+        $runningExists = SnowballJob::where('paper_id', $paperId)
+            ->whereIn('status', ['queued','running'])->exists();
+        if ($runningExists) {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.already_running'));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+
+        // modos pendentes (igual sua lógica)
+        $hasBackward = PaperSnowballing::where('paper_reference_id', $paperId)->where('type_snowballing', 'backward')->exists();
+        $hasForward  = PaperSnowballing::where('paper_reference_id', $paperId)->where('type_snowballing', 'forward')->exists();
 
         if ($hasBackward && $hasForward) {
             session()->flash('successMessage', __('project/conducting.snowballing.messages.already_complete'));
@@ -165,40 +215,59 @@ class PaperModal extends Component
         $modes = [];
         if (!$hasBackward) $modes[] = 'backward';
         if (!$hasForward)  $modes[] = 'forward';
+        if (empty($modes)) $modes = ['backward','forward'];
 
-        try {
-            DB::beginTransaction();
+        // cria o registro de job
+        $job = SnowballJob::create([
+            'project_id' => $this->currentProject->id_project,
+            'paper_id'   => $paperId,
+            'seed_doi'   => $this->doi,
+            'modes'      => $modes,
+            'status'     => 'queued',
+            'message'    => 'Aguardando worker…',
+        ]);
 
-            $service = app(SnowballingService::class);
-            $service->runIterativeSnowballing($this->doi, $paperId, $modes);
+        $this->jobId = $job->id;
 
-            // Atualiza o status do paper para "Done" (id = 1)
-            DB::table('papers')
-                ->where('id_paper', $paperId)
-                ->update(['status_snowballing' => 1]);
+        // dispara o job
+        dispatch(new RunFullSnowballingJob($job->id));
 
-            DB::commit();
+        // dispara polling no front (mínimo, sem alterar HTML da view)
+        $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
 
-            $this->dispatch('update-references', ['paper_reference_id' => $paperId]);
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
-            $this->dispatch('show-success-snowballing');
-
-        } catch (\Throwable $e) {
-            DB::rollBack();
-
-            Log::error('[Snowballing] Erro no modo automático', [
-                'doi' => $this->doi,
-                'error' => $e->getMessage(),
-            ]);
-
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', [
-                'message' => $e->getMessage()
-            ]));
-            $this->dispatch('show-success-snowballing');
-        }
+        session()->flash('successMessage', __('project/conducting.snowballing.modal.processing'));
+        $this->dispatch('show-success-snowballing');
     }
 
+// Novo método para o polling: o JS chama isso a cada 2s
+    public function pollJobStatus(int $jobId)
+    {
+        $job = SnowballJob::find($jobId);
+        if (!$job) return ['done' => true];
 
+        if ($job->status === 'completed') {
+            // marca paper como concluído
+            DB::table('papers')->where('id_paper', $this->paper['id_paper'])->update(['status_snowballing' => 1]);
+
+            $this->dispatch('update-references', ['paper_reference_id' => $this->paper['id_paper']]);
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
+            $this->dispatch('show-success-snowballing');
+            return ['done' => true];
+        }
+
+        if ($job->status === 'failed') {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', ['message' => $job->message]));
+            $this->dispatch('show-success-snowballing');
+            return ['done' => true];
+        }
+
+        // ainda processando
+        return [
+            'done'     => false,
+            'progress' => (int)$job->progress,
+            'message'  => (string)$job->message,
+        ];
+    }
 
     public function render()
     {

@@ -530,10 +530,11 @@ return [
             'manual-readonly' => 'Read-only',
             'automated-title' => 'Automated Snowballing',
             'automated-or' => 'or',
-            'processing' => 'Processing Snowballing...',
             'close' => 'Close',
             'info' => 'Info',
             'ok' => 'OK',
+            'processing' => 'Running snowballing…',
+            'progress-note' => 'Please wait while we analyze the citations.',
         ],
 
         'messages' => [
@@ -547,6 +548,9 @@ return [
             'missing_paper' => 'DOI or base paper missing.',
             'error' => 'Error: :message',
             'relevance_updated' => 'Relevance successfully updated!',
+            'manual_job_started' => 'Manual snowballing (:type) has been successfully started. Please wait while the process is running.',
+            'already_running' => 'A snowballing process is already running for this study.',
+
         ],
 
         'status' => [

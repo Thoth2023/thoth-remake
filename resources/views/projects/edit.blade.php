@@ -49,7 +49,7 @@
                            value="Systematic review"
                         {{ $project->feature_review == 'Systematic review' ? 'checked' : '' }}>
                     <label class="form-check-label" for="feature_review1">
-                        Systematic review
+                        {{ __('project/create.systematicReview') }}
                     </label>
                 </div>
 
@@ -58,7 +58,7 @@
                            value="Systematic review and Snowballing"
                         {{ $project->feature_review == 'Systematic review and Snowballing' ? 'checked' : '' }}>
                     <label class="form-check-label" for="feature_review2">
-                        Systematic review and Snowballing
+                        {{ __('project/create.systematicAndSnowballing') }}
                     </label>
                 </div>
 
@@ -67,7 +67,7 @@
                            value="Snowballing"
                         {{ $project->feature_review == 'Snowballing' ? 'checked' : '' }}>
                     <label class="form-check-label" for="feature_review3">
-                        Snowballing
+                        {{ __('project/edit.snowballing') }}
                     </label>
                 </div>
 

@@ -74,6 +74,18 @@
                                     @endif
 
                                     <p class="text-success mt-2" wire:loading>{{ __('project/conducting.snowballing.modal.processing') }}</p>
+                                    <div class="progress mt-3" style="height: 8px;" wire:poll.3s="checkJobProgress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                             role="progressbar"
+                                             style="width: {{ $jobProgress }}%;"
+                                             aria-valuenow="{{ $jobProgress }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+
+                                    <p class="small text-muted mt-2">
+                                        {{ $jobMessage }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -124,22 +136,85 @@
 @script
 <script>
     $(document).ready(function(){
+        // Mostra o modal principal
         $wire.on('show-paper-snowballing', () => {
             setTimeout(() => { $('#paperModalSnowballing').modal('show'); }, 800);
         });
 
+        // Modal de sucesso
         Livewire.on('show-success-snowballing', () => {
             $('#paperModalSnowballing').modal('hide');
             $('#successModalSnowballing').modal('show');
         });
 
+        // Reabre modal principal após fechar o modal de sucesso
         $('#successModalSnowballing').on('hidden.bs.modal', function () {
             $('#paperModalSnowballing').modal('show');
         });
     });
 
+    // Recarregar modal (Livewire)
     Livewire.on('reload-paper-snowballing', () => {
         Livewire.emit('showPaperSnowballing', @json($paper));
     });
+
+    // POLLING do job
+    let __snowballPoll = null;
+    let __progressToast = null;
+
+    Livewire.on('start-snowballing-poll', ({ jobId }) => {
+        // Se já existir polling ativo, interrompe
+        if (__snowballPoll) clearInterval(__snowballPoll);
+
+        // Mensagem inicial (traduzida)
+        const processingText = @js(__('project/conducting.snowballing.modal.processing'));
+        const processingNote = @js(__('project/conducting.snowballing.modal.progress-note'));
+
+        // Cria o toast visual de progresso
+        if (!__progressToast) {
+            __progressToast = $(`
+                <div class="toast align-items-center text-bg-dark border-0 position-fixed bottom-0 end-0 m-3"
+                     role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fa-solid fa-dna"></i> ${processingText}
+                            <span id="snowballProgressText">(0%) — ${processingNote}</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+            $('body').append(__progressToast);
+            const bsToast = new bootstrap.Toast(__progressToast[0], { autohide: false });
+            bsToast.show();
+        }
+
+        // Inicia o polling (a cada 2 segundos)
+        __snowballPoll = setInterval(async () => {
+            const res = await $wire.pollJobStatus(jobId);
+
+            if (res && !res.done) {
+                // Atualiza progresso e mensagem
+                if (res.progress !== undefined) {
+                    $('#snowballProgressText').text(`(${res.progress}%)`);
+                }
+                if (res.message) {
+                    $('#snowballProgressText').append(` — ${res.message}`);
+                }
+            } else if (res && res.done) {
+                // Finaliza: encerra polling e remove toast
+                clearInterval(__snowballPoll);
+                __snowballPoll = null;
+
+                if (__progressToast) {
+                    const bsToast = bootstrap.Toast.getInstance(__progressToast[0]);
+                    bsToast.hide();
+                    __progressToast.remove();
+                    __progressToast = null;
+                }
+            }
+        }, 2000);
+    });
 </script>
 @endscript
+
+

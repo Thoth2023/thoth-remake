@@ -2,7 +2,6 @@
 
 return [
 
-
     'create_project' => 'Create Project',
 
     'title' => 'Title',
@@ -23,10 +22,11 @@ return [
 
     'edit' => 'Edit',
 
-    'cancel'=>'Cancel'
+    'cancel'=>'Cancel',
 
-
-
+    'systematicReview' => 'Systematic Review',
+    'systematicAndSnowballing' => 'Systematic Review and Snowballing',
+    'snowballing' => 'Snowballing',
 
 
 ];
