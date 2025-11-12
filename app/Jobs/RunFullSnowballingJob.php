@@ -17,6 +17,8 @@ class RunFullSnowballingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'snowballing';
+
     public int $jobId;
 
     public function __construct(int $jobId)

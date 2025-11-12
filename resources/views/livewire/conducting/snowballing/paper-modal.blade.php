@@ -74,7 +74,8 @@
                                     @endif
 
                                     <p class="text-success mt-2" wire:loading>{{ __('project/conducting.snowballing.modal.processing') }}</p>
-                                    <div class="progress mt-3" style="height: 8px;" wire:poll.3s="checkJobProgress">
+                                    <div class="progress mt-3" style="height: 8px;"
+                                         @if($jobId) wire:poll.3s="checkJobProgress" @endif>
                                         <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
                                              role="progressbar"
                                              style="width: {{ $jobProgress }}%;"
