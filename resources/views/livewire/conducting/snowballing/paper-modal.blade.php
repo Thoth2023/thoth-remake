@@ -164,6 +164,8 @@
     let __progressToast = null;
 
     Livewire.on('start-snowballing-poll', ({ jobId }) => {
+        if (!jobId) return; // segurança — só inicia se tiver jobId
+
         // Se já existir polling ativo, interrompe
         if (__snowballPoll) clearInterval(__snowballPoll);
 
@@ -174,16 +176,16 @@
         // Cria o toast visual de progresso
         if (!__progressToast) {
             __progressToast = $(`
-                <div class="toast align-items-center text-bg-dark border-0 position-fixed bottom-0 end-0 m-3"
-                     role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            <i class="fa-solid fa-dna"></i> ${processingText}
-                            <span id="snowballProgressText">(0%) — ${processingNote}</span>
-                        </div>
+            <div class="toast align-items-center text-bg-dark border-0 position-fixed bottom-0 end-0 m-3"
+                 role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="fa-solid fa-dna"></i> ${processingText}
+                        <span id="snowballProgressText">(0%) — ${processingNote}</span>
                     </div>
                 </div>
-            `);
+            </div>
+        `);
             $('body').append(__progressToast);
             const bsToast = new bootstrap.Toast(__progressToast[0], { autohide: false });
             bsToast.show();
@@ -191,6 +193,7 @@
 
         // Inicia o polling (a cada 2 segundos)
         __snowballPoll = setInterval(async () => {
+            if (!jobId) return; // não chama se não houver jobId ativo
             const res = await $wire.pollJobStatus(jobId);
 
             if (res && !res.done) {
@@ -215,6 +218,7 @@
             }
         }, 2000);
     });
+
 </script>
 @endscript
 

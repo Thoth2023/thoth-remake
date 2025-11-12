@@ -489,7 +489,7 @@ class SnowballingService
                 ProcessReferences::dispatch([['doi' => $doi]], [
                     'id_paper' => $seedPaperId,
                     'id'       => $created->id, // parent id irrelevante aqui; job só atualiza metadados
-                ], $type);
+                ], $type)->onQueue('snowballing');
             } catch (\Throwable $e) {
                 Log::warning('[Iterative] Falha ao enfileirar atualização de metadados: '.$e->getMessage());
             }
@@ -558,12 +558,7 @@ class SnowballingService
                 $references,
                 ['id_paper' => $paperId, 'id' => null],
                 $type
-            ));
-
-            // Iteração opcional (apenas se explicitamente solicitada)
-            if ($iterate) {
-                $this->runIterativeSnowballing($doi, $paperId, [$type]);
-            }
+            ))->onQueue('snowballing');
 
             Log::info("[Manual Snowballing] Finalizado", [
                 'type' => $type,

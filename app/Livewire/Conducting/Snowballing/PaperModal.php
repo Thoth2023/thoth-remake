@@ -139,8 +139,15 @@ class PaperModal extends Component
 
             $this->jobId = $job->id;
 
-            // Dispara o job em background
-            dispatch(new RunFullSnowballingJob($job->id))->onQueue('snowballing');
+            // executa o snowballing manual (CrossRef → fallback Semantic Scholar)
+            $svc = app(SnowballingService::class);
+            $svc->processSingleIteration($doi, $paperId, $type, false);
+
+            // atualiza status do job
+            $job->update([
+                'status'  => 'running',
+                'message' => __('project/conducting.snowballing.messages.manual_job_started', ['type' => ucfirst($type)]),
+            ]);
 
             DB::commit();
 
@@ -240,15 +247,18 @@ class PaperModal extends Component
     }
 
 // Novo método para o polling: o JS chama isso a cada 2s
-    public function pollJobStatus(int $jobId)
+    public function pollJobStatus(?int $jobId = null)
     {
+        if (!$jobId) {
+            // Evita erro e não faz nada enquanto não há job
+            return ['done' => true];
+        }
+
         $job = SnowballJob::find($jobId);
         if (!$job) return ['done' => true];
 
         if ($job->status === 'completed') {
-            // marca paper como concluído
             DB::table('papers')->where('id_paper', $this->paper['id_paper'])->update(['status_snowballing' => 1]);
-
             $this->dispatch('update-references', ['paper_reference_id' => $this->paper['id_paper']]);
             session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
             $this->dispatch('show-success-snowballing');
@@ -261,13 +271,13 @@ class PaperModal extends Component
             return ['done' => true];
         }
 
-        // ainda processando
         return [
             'done'     => false,
             'progress' => (int)$job->progress,
             'message'  => (string)$job->message,
         ];
     }
+
 
     public function render()
     {
