@@ -140,7 +140,7 @@ class PaperModal extends Component
             $this->jobId = $job->id;
 
             // Dispara o job em background
-            dispatch(new RunFullSnowballingJob($job->id));
+            dispatch(new RunFullSnowballingJob($job->id))->onQueue('snowballing');
 
             DB::commit();
 
@@ -230,7 +230,7 @@ class PaperModal extends Component
         $this->jobId = $job->id;
 
         // dispara o job
-        dispatch(new RunFullSnowballingJob($job->id));
+        dispatch(new RunFullSnowballingJob($job->id))->onQueue('snowballing');
 
         // dispara polling no front (mínimo, sem alterar HTML da view)
         $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
