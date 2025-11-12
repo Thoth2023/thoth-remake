@@ -386,6 +386,7 @@ return [
             'close' => 'Fechar',
             'info' => 'Informação',
             'ok' => 'OK',
+            'progress-note' => 'Aguarde, estamos analisando as citações.',
         ],
 
         'messages' => [
@@ -399,6 +400,8 @@ return [
             'missing_paper' => 'DOI ou paper base ausente.',
             'error' => 'Erro: :message',
             'relevance_updated' => 'Relevância atualizada com sucesso!',
+            'manual_job_started' => 'Snowballing manual (:type) iniciado com sucesso. Aguarde o processamento.',
+            'already_running' => 'Já existe um snowballing em andamento para este estudo.',
         ],
 
         'status' => [

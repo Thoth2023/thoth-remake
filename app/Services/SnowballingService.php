@@ -319,22 +319,34 @@ class SnowballingService
      * Snowballing iterativo infinito (até esgotar novas entradas)
      * $modes: ['backward','forward'] (pode reduzir se já houver um deles no banco)
      */
-    public function runIterativeSnowballing(string $seedDoi, int $seedPaperId, array $modes = ['backward','forward']): void
+    public function runIterativeSnowballing(string $seedDoi,int $seedPaperId,array $modes = ['backward','forward'],?callable $onProgress = null): void
     {
         $seedDoi = $this->normalizeDoi($seedDoi);
         Log::info("[Iterative] Iniciando para DOI {$seedDoi} com modos", $modes);
 
-        // Controle de visitados (DOIs)
         $visited = [];
-        $queue = [
-            [ 'doi' => $seedDoi, 'depth' => 0, 'parent_id' => null ]
-        ];
+        $queue = [[ 'doi' => $seedDoi, 'depth' => 0, 'parent_id' => null ]];
+
+        $processed = 0;
+        $discovered = 0;
+        $enqueued = 1;
+
+        // inicializa progresso
+        if ($onProgress) {
+            $onProgress([
+                'processed' => 0,
+                'discovered'=> 0,
+                'enqueued'  => 1,
+                'progress'  => 0,
+                'note'      => 'Iniciando snowballing...',
+            ]);
+        }
 
         while (!empty($queue)) {
             $current = array_shift($queue);
-            $doi     = $current['doi'];
-            $depth   = $current['depth'];
-            $parentId= $current['parent_id'];
+            $doi      = $current['doi'];
+            $depth    = $current['depth'];
+            $parentId = $current['parent_id'];
 
             if (!$doi || in_array($doi, $visited, true)) {
                 continue;
@@ -342,32 +354,56 @@ class SnowballingService
             $visited[] = $doi;
 
             $data = $this->getSnowballingData($doi);
+
             foreach ($modes as $mode) {
                 $list = $data[$mode] ?? [];
                 if (empty($list)) continue;
 
                 foreach ($list as $ref) {
-                    // nível 1 => parent_id = null (ligado diretamente ao semente)
-                    // nível >=2 => parent_id = id do paper pai (inserido na iteração anterior)
                     $parentSnowId = ($depth === 0) ? null : ($parentId ?: null);
-
-                    // upsert síncrono para capturar ID e permitir o encadeamento correto
                     $childId = $this->upsertSnowballingItem($ref, $seedPaperId, $mode, $parentSnowId);
 
-                    // Enfileirar próxima expansão se tiver DOI e ainda não visitado
+                    $processed++;
                     if (!empty($ref['doi']) && !in_array($ref['doi'], $visited, true)) {
                         $queue[] = [
                             'doi'       => $ref['doi'],
                             'depth'     => $depth + 1,
-                            'parent_id' => $childId, // agora temos o ID para vincular o próximo nível
+                            'parent_id' => $childId,
                         ];
+                        $enqueued++;
                     }
                 }
+
+                $discovered += count($list);
             }
+
+            // Atualiza progresso
+            if ($onProgress) {
+                $progress = min(95, (int) round(($processed * 100) / max(1, $enqueued + $discovered/2)));
+                $onProgress([
+                    'processed' => $processed,
+                    'discovered'=> $discovered,
+                    'enqueued'  => $enqueued,
+                    'progress'  => $progress,
+                    'note'      => "Processando nível {$depth} ({$progress}%)",
+                ]);
+            }
+        }
+
+        // Finaliza progresso
+        if ($onProgress) {
+            $onProgress([
+                'processed' => $processed,
+                'discovered'=> $discovered,
+                'enqueued'  => $enqueued,
+                'progress'  => 100,
+                'note'      => 'Snowballing concluído com sucesso.',
+            ]);
         }
 
         Log::info('[Iterative] Finalizado para DOI '.$seedDoi, ['visitados' => count($visited)]);
     }
+
 
     /**
      * Upsert síncrono (similar ao Job ProcessReferences) para permitir encadeamento.
@@ -544,5 +580,7 @@ class SnowballingService
             ]);
         }
     }
+
+
 
 }
