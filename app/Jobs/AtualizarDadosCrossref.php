@@ -15,7 +15,6 @@ class AtualizarDadosCrossref implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'updates';
 
     protected $paperId;
     protected $doi;
