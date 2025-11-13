@@ -1,8 +1,8 @@
 <div>
-    <div class="modal fade" id="paperModalSnowballing" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="paperModalSnowballing" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div wire:ignore class="modal-header">
                     @if ($paper)
                         <h5 class="modal-title" id="paperModalLabel">{{ $paper['title'] }}</h5>
                         <button type="button" data-bs-dismiss="modal" class="btn">
@@ -14,15 +14,15 @@
                 @if ($paper)
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-4">
+                            <div wire:ignore class="col-4">
                                 <b>{{ __('project/conducting.snowballing.modal.author') }}: </b>
                                 <p>{{ $paper['author'] }}</p>
                             </div>
-                            <div class="col-1">
+                            <div wire:ignore class="col-1">
                                 <b>{{ __('project/conducting.snowballing.modal.year') }}:</b>
                                 <p>{{ $paper['year'] }}</p>
                             </div>
-                            <div class="col-4">
+                            <div wire:ignore class="col-4">
                                 <b>{{ __('project/conducting.snowballing.modal.database') }}:</b>
                                 <p>{{ $paper['database_name'] }}</p>
                             </div>
