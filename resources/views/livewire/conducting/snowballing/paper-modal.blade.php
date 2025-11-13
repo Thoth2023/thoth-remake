@@ -61,19 +61,23 @@
                                         </x-select>
                                     @endif
 
-                                    {{-- Snowballing completo --}}
-                                    @if($canEdit && !$manualBackwardDone && !$manualForwardDone)
-                                        {{ __('project/conducting.snowballing.modal.automated-or') }}
-                                        <button wire:click="handleFullSnowballing" class="btn btn-dark w-100 mt-1">
-                                            <i class="fa-solid fa-dna"></i> {{ __('project/conducting.snowballing.buttons.automated') }}
-                                        </button>
-                                    @else
-                                        <button class="btn btn-secondary w-100 mt-1" disabled>
-                                            <i class="fa-solid fa-lock"></i> {{ __('project/conducting.snowballing.buttons.automated-unavailable') }}
-                                        </button>
-                                    @endif
+                                    {{--
+                                        Snowballing completo — REMOVIDO TEMPORARIAMENTE
 
-                                    @if($isRunning)
+                                        @if($canEdit && !$manualBackwardDone && !$manualForwardDone)
+                                            {{ __('project/conducting.snowballing.modal.automated-or') }}
+                                            <button wire:click="handleFullSnowballing" class="btn btn-dark w-100 mt-1">
+                                                <i class="fa-solid fa-dna"></i> {{ __('project/conducting.snowballing.buttons.automated') }}
+                                            </button>
+                                        @else
+                                            <button class="btn btn-secondary w-100 mt-1" disabled>
+                                                <i class="fa-solid fa-lock"></i> {{ __('project/conducting.snowballing.buttons.automated-unavailable') }}
+                                            </button>
+                                        @endif
+                                    --}}
+
+
+                                @if($isRunning)
                                         <p class="text-success mt-2">{{ __('project/conducting.snowballing.modal.processing') }}</p>
                                         <div wire:poll.2s="checkJobProgress">
                                             <div class="progress mt-3" style="height: 8px;">
