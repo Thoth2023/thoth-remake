@@ -26,6 +26,8 @@ class PaperModal extends Component
     public $jobProgress = 0;
     public $jobMessage = '';
 
+    public $isRunning = false;
+
     public $manualBackwardDone = false;
     public $manualForwardDone = false;
 
@@ -33,20 +35,6 @@ class PaperModal extends Component
     {
         $this->projectId = request()->segment(2);
         $this->currentProject = Project::findOrFail($this->projectId);
-    }
-
-    public function checkJobProgress()
-    {
-        if (!$this->jobId) return;
-
-        $job = SnowballJob::find($this->jobId);
-        if (!$job) return;
-
-        $this->jobProgress = $job->progress ?? 0;
-        $this->jobMessage = $job->message ?? __('project/conducting.snowballing.modal.processing');
-        //if ($job->status === 'completed') {
-        //    $this->dispatch('show-success-snowballing');
-        //}
     }
 
     #[On('showPaperSnowballing')]
@@ -64,6 +52,22 @@ class PaperModal extends Component
             $this->manualForwardDone = PaperSnowballing::where('paper_reference_id', $paperId)
                 ->where('type_snowballing', 'forward')
                 ->exists();
+        }
+
+        //Detecta job ativo diretamente no controller
+        if ($paperId) {
+            $job = SnowballJob::where('paper_id', $paperId)
+                ->whereIn('status', ['queued','running'])
+                ->first();
+
+            if ($job) {
+                $this->jobId = $job->id;
+                $this->jobProgress = $job->progress ?? 0;
+                $this->jobMessage  = $job->message ?? '';
+                $this->isRunning = true;
+            } else {
+                $this->isRunning = false;
+            }
         }
 
         $databaseName = DB::table('data_base')
@@ -154,9 +158,6 @@ class PaperModal extends Component
             if ($type === 'backward') $this->manualBackwardDone = true;
             if ($type === 'forward')  $this->manualForwardDone = true;
 
-            // Inicia polling no frontend
-            $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
-
             // Feedback inicial
             $this->dispatch('snowballing-toast', [
                 'type' => 'info',
@@ -177,7 +178,13 @@ class PaperModal extends Component
             session()->flash('successMessage', __('project/conducting.snowballing.messages.error', [
                 'message' => $e->getMessage(),
             ]));
-            $this->dispatch('show-success-snowballing');
+            // Feedback de erro
+            $this->dispatch('snowballing-toast', [
+                'type' => 'error',
+                'message' => __('project/conducting.snowballing.messages.error', [
+                    'type' => ucfirst($type)
+                ])
+            ]);
         }
     }
 
@@ -213,8 +220,12 @@ class PaperModal extends Component
         $hasForward  = PaperSnowballing::where('paper_reference_id', $paperId)->where('type_snowballing', 'forward')->exists();
 
         if ($hasBackward && $hasForward) {
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.already_complete'));
-            $this->dispatch('show-success-snowballing');
+            //session()->flash('successMessage', __('project/conducting.snowballing.messages.already_complete'));
+            //$this->dispatch('show-success-snowballing');
+            $this->dispatch('snowballing-toast', [
+                'type' => 'success',
+                'message' => __('project/conducting.snowballing.messages.already_complete')
+            ]);
             return;
         }
 
@@ -238,81 +249,79 @@ class PaperModal extends Component
         // dispara o job
         dispatch(new RunFullSnowballingJob($job->id))->onQueue('snowballing');
 
-        // dispara polling no front
-        $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
-
-        $this->dispatch('toast', [
+        $this->dispatch('snowballing-toast', [
             'type' => 'info',
             'message' => __('project/conducting.snowballing.modal.processing')
         ]);
     }
 
-// Novo método para o polling: o JS chama isso a cada 2s
-    public function pollJobStatus(?int $jobId = null)
+    public function checkJobProgress()
     {
-        if (!$jobId) {
-            // Evita erro e não faz nada enquanto não há job
-            return ['done' => true];
+        $paperId = $this->paper['id_paper'] ?? null;
+        if (!$paperId) return;
+
+        // Se não tiver jobId armazenado, tenta pegar automaticamente
+        if (!$this->jobId) {
+            $job = SnowballJob::where('paper_id', $paperId)
+                ->whereIn('status', ['queued','running'])
+                ->first();
+
+            if (!$job) return;
+            $this->jobId = $job->id;
         }
 
-        $job = SnowballJob::find($jobId);
-        if (!$job) return ['done' => true];
-
-        if ($job->status === 'completed') {
-            DB::table('papers')->where('id_paper', $this->paper['id_paper'])->update(['status_snowballing' => 1]);
-            $this->dispatch('update-references', ['paper_reference_id' => $this->paper['id_paper']]);
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
-            $this->dispatch('show-success-snowballing');
-            return ['done' => true];
+        // Recarrega job
+        $job = SnowballJob::find($this->jobId);
+        if (!$job) {
+            $this->jobId = null;
+            return;
         }
 
-        if ($job->status === 'failed') {
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', ['message' => $job->message]));
-            $this->dispatch('show-success-snowballing');
-            return ['done' => true];
-        }
-
-        return [
-            'done'     => false,
-            'progress' => (int)$job->progress,
-            'message'  => (string)$job->message,
-        ];
-    }
-
-    #[On('refreshJob')]
-    public function refreshJob($jobId)
-    {
-        $job = SnowballJob::find($jobId);
-        if (!$job) return;
-
-        $this->jobProgress = (int)($job->progress ?? 0);
-        $this->jobMessage  = $job->message ?? '';
+        // Atualiza progresso na classe
+        $this->jobProgress = (int) ($job->progress ?? 0);
+        $this->jobMessage  = $job->message ?? __('project/conducting.snowballing.modal.processing');
 
         if ($job->status === 'completed') {
 
+            // marca paper como finalizado
             DB::table('papers')
-                ->where('id_paper', $this->paper['id_paper'])
+                ->where('id_paper', $paperId)
                 ->update(['status_snowballing' => 1]);
 
-            // Atualiza tabela de referências
+            // atualiza tabela de referências
             $this->dispatch('update-references', [
-                'paper_reference_id' => $this->paper['id_paper'],
+                'paper_reference_id' => $paperId
             ]);
 
-            // dispara o modal e para polling
+            // feedback
             session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
             $this->dispatch('show-success-snowballing');
 
+            // Para o polling
+            $this->jobId = null;
+            $this->isRunning = false;
             return;
         }
 
+        // se falhou
         if ($job->status === 'failed') {
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', ['message' => $job->message]));
+
+            session()->flash(
+                'successMessage',
+                __('project/conducting.snowballing.messages.error', [
+                    'message' => $job->message
+                ])
+            );
+
             $this->dispatch('show-success-snowballing');
+
+            // Para polling
+            $this->jobId = null;
+            $this->isRunning = false;
             return;
         }
+        $this->isRunning = true;
     }
-
 
 
     public function render()
