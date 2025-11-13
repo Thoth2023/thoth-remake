@@ -2,7 +2,7 @@
     <div wire:ignore.self class="modal fade" id="paperModalSnowballing" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div wire:ignore class="modal-header">
+                <div class="modal-header">
                     @if ($paper)
                         <h5 class="modal-title" id="paperModalLabel">{{ $paper['title'] }}</h5>
                         <button type="button" data-bs-dismiss="modal" class="btn">
