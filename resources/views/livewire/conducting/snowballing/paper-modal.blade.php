@@ -139,18 +139,12 @@
     $(document).ready(function(){
         // Mostra o modal principal
         $wire.on('show-paper-snowballing', () => {
-            setTimeout(() => { $('#paperModalSnowballing').modal('show'); }, 800);
+            setTimeout(() => { $('#paperModalSnowballing').modal('show'); }, 200);
         });
 
-        // Modal de sucesso
+        // Apenas abre modal de sucesso — sem esconder o modal principal
         Livewire.on('show-success-snowballing', () => {
-            $('#paperModalSnowballing').modal('hide');
             $('#successModalSnowballing').modal('show');
-        });
-
-        // Reabre modal principal após fechar o modal de sucesso
-        $('#successModalSnowballing').on('hidden.bs.modal', function () {
-            $('#paperModalSnowballing').modal('show');
         });
     });
 
