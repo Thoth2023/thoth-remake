@@ -44,10 +44,9 @@ class PaperModal extends Component
 
         $this->jobProgress = $job->progress ?? 0;
         $this->jobMessage = $job->message ?? __('project/conducting.snowballing.modal.processing');
-
-        if ($job->status === 'completed') {
-            $this->dispatch('show-success-snowballing');
-        }
+        //if ($job->status === 'completed') {
+        //    $this->dispatch('show-success-snowballing');
+        //}
     }
 
     #[On('showPaperSnowballing')]
