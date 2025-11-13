@@ -123,9 +123,9 @@ class PaperModal extends Component
             DB::beginTransaction();
 
             // Marca paper como "Done"
-            DB::table('papers')
-                ->where('id_paper', $paperId)
-                ->update(['status_snowballing' => 1]);
+            //DB::table('papers')
+            //  ->where('id_paper', $paperId)
+            //  ->update(['status_snowballing' => 1]);
 
             // Cria registro na tabela de jobs
             $job = SnowballJob::create([
@@ -159,10 +159,12 @@ class PaperModal extends Component
             $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
 
             // Feedback inicial
-            session()->flash('successMessage', __('project/conducting.snowballing.messages.manual_job_started', [
-                'type' => ucfirst($type),
-            ]));
-            $this->dispatch('show-success-snowballing');
+            $this->dispatch('toast', [
+                'type' => 'info',
+                'message' => __('project/conducting.snowballing.messages.manual_job_started', [
+                    'type' => ucfirst($type)
+                ])
+            ]);
 
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -179,8 +181,6 @@ class PaperModal extends Component
             $this->dispatch('show-success-snowballing');
         }
     }
-
-
 
     /**
      * Snowballing completo automático (iterações até esgotar)
@@ -242,8 +242,10 @@ class PaperModal extends Component
         // dispara polling no front (mínimo, sem alterar HTML da view)
         $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
 
-        session()->flash('successMessage', __('project/conducting.snowballing.modal.processing'));
-        $this->dispatch('show-success-snowballing');
+        $this->dispatch('toast', [
+            'type' => 'info',
+            'message' => __('project/conducting.snowballing.modal.processing')
+        ]);
     }
 
 // Novo método para o polling: o JS chama isso a cada 2s

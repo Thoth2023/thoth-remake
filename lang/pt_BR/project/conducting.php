@@ -402,6 +402,10 @@ return [
             'relevance_updated' => 'Relevância atualizada com sucesso!',
             'manual_job_started' => 'Snowballing manual (:type) iniciado com sucesso. Aguarde o processamento.',
             'already_running' => 'Já existe um snowballing em andamento para este estudo.',
+            'manual_processing_start' => 'O snowballing manual foi iniciado. Processando referências...',
+            'manual_processing_step'  => 'Processando referência :current de :total...',
+            'manual_complete'         => 'Snowballing manual concluído com sucesso.',
+
         ],
 
         'status' => [

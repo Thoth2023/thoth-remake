@@ -550,6 +550,9 @@ return [
             'relevance_updated' => 'Relevance successfully updated!',
             'manual_job_started' => 'Manual snowballing (:type) has been successfully started. Please wait while the process is running.',
             'already_running' => 'A snowballing process is already running for this study.',
+            'manual_processing_start' => 'Manual snowballing has started. Processing references...',
+            'manual_processing_step'  => 'Processing reference :current of :total...',
+            'manual_complete'         => 'Manual snowballing completed successfully.',
 
         ],
 
