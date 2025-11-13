@@ -74,19 +74,26 @@
                                     @endif
 
                                     <p class="text-success mt-2" wire:loading>{{ __('project/conducting.snowballing.modal.processing') }}</p>
-                                    <div class="progress mt-3" style="height: 8px;"
-                                         @if($jobId) wire:poll.3s="checkJobProgress" @endif>
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
-                                             role="progressbar"
-                                             style="width: {{ $jobProgress }}%;"
-                                             aria-valuenow="{{ $jobProgress }}"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-                                    </div>
+                                    {{-- PROGRESSO DO SNOWBALLING --}}
+                                    @php
+                                        $runningJob = \App\Models\Project\Conducting\SnowballJob::where('paper_id', $paper['id_paper'] ?? null)
+                                            ->where('status','running')->first();
+                                    @endphp
+                                    @if($runningJob)
+                                        <div class="progress mt-3" style="height: 8px;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                                 role="progressbar"
+                                                 style="width: {{ $jobProgress }}%;"
+                                                 aria-valuenow="{{ $jobProgress }}"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <p class="small text-muted mt-2">
+                                            {{ $jobMessage }}
+                                        </p>
+                                    @endif
 
-                                    <p class="small text-muted mt-2">
-                                        {{ $jobMessage }}
-                                    </p>
                                 </div>
                             </div>
 
@@ -136,30 +143,49 @@
 
 @script
 <script>
+
     $(document).ready(function(){
-        // Mostra o modal principal
         $wire.on('show-paper-snowballing', () => {
             setTimeout(() => { $('#paperModalSnowballing').modal('show'); }, 800);
         });
 
-        // Modal de sucesso
         Livewire.on('show-success-snowballing', () => {
             $('#paperModalSnowballing').modal('hide');
             $('#successModalSnowballing').modal('show');
         });
 
-        // Reabre modal principal após fechar o modal de sucesso
         $('#successModalSnowballing').on('hidden.bs.modal', function () {
             $('#paperModalSnowballing').modal('show');
         });
     });
 
-    // Recarregar modal (Livewire)
     Livewire.on('reload-paper-snowballing', () => {
         Livewire.emit('showPaperSnowballing', @json($paper));
     });
 
+
+    // -------------- Progresso --------------
+    document.addEventListener('livewire:init', () => {
+        let snowballInterval = null;
+        // inicia polling quando job começar
+        Livewire.on('begin-job-polling', ({ jobId }) => {
+            if (snowballInterval) clearInterval(snowballInterval);
+            snowballInterval = setInterval(() => {
+                Livewire.dispatch('refreshJob', jobId);
+            }, 2500);
+        });
+
+        // finalizou job → parar polling
+        Livewire.on('show-success-snowballing', () => {
+            if (snowballInterval) {
+                clearInterval(snowballInterval);
+                snowballInterval = null;
+            }
+        });
+    });
+
 </script>
 @endscript
+
 
 
