@@ -158,7 +158,7 @@ class PaperModal extends Component
             $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
 
             // Feedback inicial
-            $this->dispatch('toast', [
+            $this->dispatch('snowballing-toast', [
                 'type' => 'info',
                 'message' => __('project/conducting.snowballing.messages.manual_job_started', [
                     'type' => ucfirst($type)

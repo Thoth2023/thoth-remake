@@ -163,6 +163,11 @@
         Livewire.emit('showPaperSnowballing', @json($paper));
     });
 
+    // Toast customizado
+    $wire.on('snowballing-toast', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+
 
     // -------------- Progresso --------------
     document.addEventListener('livewire:init', () => {
