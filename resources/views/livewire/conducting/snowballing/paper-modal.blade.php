@@ -73,8 +73,8 @@
                                         </button>
                                     @endif
 
-                                    <p class="text-success mt-2" wire:loading>{{ __('project/conducting.snowballing.modal.processing') }}</p>
                                     @if($isRunning)
+                                        <p class="text-success mt-2">{{ __('project/conducting.snowballing.modal.processing') }}</p>
                                         <div wire:poll.2s="checkJobProgress">
                                             <div class="progress mt-3" style="height: 8px;">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"

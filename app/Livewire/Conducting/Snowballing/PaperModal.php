@@ -158,6 +158,12 @@ class PaperModal extends Component
             if ($type === 'backward') $this->manualBackwardDone = true;
             if ($type === 'forward')  $this->manualForwardDone = true;
 
+            session()->flash(
+                'successMessage',
+                __('project/conducting.snowballing.messages.manual_job_started', ['type' => ucfirst($type)])
+            );
+            $this->dispatch('show-success-snowballing');
+
             // Feedback inicial
             $this->dispatch('snowballing-toast', [
                 'type' => 'info',
@@ -248,6 +254,11 @@ class PaperModal extends Component
 
         // dispara o job
         dispatch(new RunFullSnowballingJob($job->id))->onQueue('snowballing');
+
+        session()->flash(
+            'successMessage',__('project/conducting.snowballing.modal.processing')
+        );
+        $this->dispatch('show-success-snowballing');
 
         $this->dispatch('snowballing-toast', [
             'type' => 'info',
