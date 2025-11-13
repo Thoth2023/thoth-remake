@@ -279,6 +279,41 @@ class PaperModal extends Component
         ];
     }
 
+    #[On('refreshJob')]
+    public function refreshJob($jobId)
+    {
+        $job = SnowballJob::find($jobId);
+        if (!$job) return;
+
+        $this->jobProgress = (int)($job->progress ?? 0);
+        $this->jobMessage  = $job->message ?? '';
+
+        if ($job->status === 'completed') {
+
+            DB::table('papers')
+                ->where('id_paper', $this->paper['id_paper'])
+                ->update(['status_snowballing' => 1]);
+
+            // Atualiza tabela de referências
+            $this->dispatch('update-references', [
+                'paper_reference_id' => $this->paper['id_paper'],
+            ]);
+
+            // dispara o modal e para polling
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.automatic_complete'));
+            $this->dispatch('show-success-snowballing');
+
+            return;
+        }
+
+        if ($job->status === 'failed') {
+            session()->flash('successMessage', __('project/conducting.snowballing.messages.error', ['message' => $job->message]));
+            $this->dispatch('show-success-snowballing');
+            return;
+        }
+    }
+
+
 
     public function render()
     {
