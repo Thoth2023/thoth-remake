@@ -168,7 +168,7 @@
     document.addEventListener('livewire:init', () => {
         let snowballInterval = null;
         // inicia polling quando job começar
-        Livewire.on('begin-job-polling', ({ jobId }) => {
+        Livewire.on('start-snowballing-poll', ({ jobId }) => {
             if (snowballInterval) clearInterval(snowballInterval);
             snowballInterval = setInterval(() => {
                 Livewire.dispatch('refreshJob', jobId);
