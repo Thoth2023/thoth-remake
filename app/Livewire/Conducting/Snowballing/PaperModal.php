@@ -238,7 +238,7 @@ class PaperModal extends Component
         // dispara o job
         dispatch(new RunFullSnowballingJob($job->id))->onQueue('snowballing');
 
-        // dispara polling no front (mínimo, sem alterar HTML da view)
+        // dispara polling no front
         $this->dispatch('start-snowballing-poll', ['jobId' => $job->id]);
 
         $this->dispatch('toast', [
