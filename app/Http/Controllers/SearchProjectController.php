@@ -27,11 +27,13 @@ class SearchProjectController extends Controller
         $searchProject = $request->searchProject;
 
         $projects = Project::where(function($query) use ($user) {
-            // Projetos que o usuário participa
             $query->whereHas('users', function($q) use ($user) {
-                $q->where('id_user', $user->id);
+                $q->where('id_user', $user->id)
+                    ->where(function($q2) {
+                        $q2->where('members.status', 'accepted')
+                            ->orWhereNull('members.status');
+                    });
             })
-                // OU projetos públicos
                 ->orWhere('is_public', 1);
         })
             ->where(function($query) use ($searchProject) {

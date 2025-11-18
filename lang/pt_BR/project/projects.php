@@ -28,7 +28,7 @@ return [
             'delete' => 'Deletar',
             'edit' => 'Editar',
             'view' => 'Abrir',
-            'add_member' => 'Colaboradores',
+            'add_member' => 'Equipe',
             'open_project' => 'Abrir Projeto',
         ],
     ],

@@ -1,0 +1,368 @@
+/* ===========================================
+   TOPNAV – MOBILE MODE (≤768px)
+   =========================================== */
+
+/* Oculta textos e breadcrumb */
+@media (max-width: 768px) {
+
+    /* Esconde breadcrumb */
+    .topnav-breadcrumb {
+        display: none !important;
+    }
+
+    /* Esconde textos dos botões */
+    .topnav-item .nav-link-text,
+    .topnav-item span {
+        display: none !important;
+    }
+
+    /* Ajusta ícones */
+    .topnav-item i {
+        font-size: 20px !important;
+        margin: 0 !important;
+    }
+
+    /* Centraliza search no mobile */
+    .topnav-search {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Remove espaçamentos exagerados */
+    #navbar {
+        justify-content: center !important;
+        gap: 12px;
+    }
+
+    .topnav-actions {
+        gap: 15px;
+    }
+}
+
+/* Ícone hambúrguer do TopNav (mobile) */
+/* Anula estilos padrões do Argon */
+.thoth-burger-custom .sidenav-toggler-line {
+    display: block !important;
+    width: 22px !important;
+    height: 2px !important;
+    background: #5a6b82 !important; /* mesma cor do seu exemplo */
+    border-radius: 2px;
+    margin: 4px 0 !important;
+    opacity: 1 !important;
+}
+
+/* Remove possíveis animações ou efeitos do Argon */
+.thoth-burger-custom {
+    width: 22px;
+    height: auto;
+    padding: 0;
+}
+
+/* Dark mode */
+body.dark-mode .thoth-burger-custom .sidenav-toggler-line {
+    background: #fff !important;
+}
+
+
+
+/* ===========================================
+   DARK MODE – estilo igual ao Sidenav (Argon)
+   =========================================== */
+
+body.dark-mode .topnav-thoth {
+    background: #0f172a !important; /* Azul escuro Argon */
+    color: #fff !important;
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark-mode .topnav-thoth .nav-link,
+body.dark-mode .topnav-thoth i {
+    color: #fff !important;
+}
+
+body.dark-mode .topnav-thoth .input-group-text {
+    background: rgba(255,255,255,0.08) !important;
+    color: #fff !important;
+}
+
+body.dark-mode .topnav-thoth input {
+    background: rgba(255,255,255,0.05) !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+body.dark-mode .topnav-thoth input::placeholder {
+    color: rgba(255,255,255,0.4) !important;
+}
+
+/* Prioridade ALTA do sidenav quando aberto */
+#sidenav-main {
+    z-index: 1040 !important; /* maior que topnav, dropdowns e modals pequenos */
+}
+
+/* Mobile fix */
+@media (max-width: 991px) {
+    #sidenav-main {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        z-index: 2000 !important; /* alto o suficiente */
+    }
+}
+
+/* ==========================================================================
+   MOBILE – PÁGINA DE RESULTADOS DA PESQUISA
+   Converte tabela em cards responsivos
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    /* Remove header da tabela */
+    .table thead {
+        display: none !important;
+    }
+
+    /* Cada linha vira um card */
+    .project-row-card {
+        display: block !important;
+        margin-bottom: 12px !important;
+        border: 1px solid #e0e6ed !important;
+        border-radius: 10px !important;
+        padding: 12px !important;
+        background: #fff !important;
+    }
+
+    /* Dark mode */
+    body.dark-mode .project-row-card {
+        background: #1e293b !important;
+        border-color: rgba(255,255,255,0.08) !important;
+    }
+
+    .project-row-card td {
+        display: flex !important;
+        justify-content: space-between !important;
+        padding: 6px 0 !important;
+        width: 100% !important;
+        font-size: 14px !important;
+    }
+
+    .project-row-card td::before {
+        content: attr(data-title);
+        font-weight: 600;
+        color: #6c757d;
+        margin-right: 8px;
+    }
+
+    /* Botões menores */
+    .project-row-card .btn {
+        width: auto !important;
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+    }
+
+    /* Progresso ajustado */
+    .project-row-card .progress {
+        height: 6px !important;
+    }
+}
+
+/* ==========================================================================
+   MOBILE – PÁGINA DE RESULTADOS / LISTA DE PROJETOS
+   Converte a linha da tabela em "card"
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    /* Esconde cabeçalho da tabela */
+    .thoth-project-table thead {
+        display: none !important;
+    }
+
+    /* Cada <tr> vira um card */
+    .thoth-project-table .project-row-card {
+        display: block !important;
+        margin: 0 0 14px !important;
+        padding: 12px 14px !important;
+        border-radius: 14px !important;
+        border: 1px solid #e0e6ed !important;
+        background: #ffffff !important;
+
+        /* sombra + animação suave */
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06) !important;
+        transition:
+            transform 0.18s ease-out,
+            box-shadow 0.18s ease-out,
+            background-color 0.18s ease-out;
+    }
+
+    /* Hover / toque – leve "expansão" */
+    .thoth-project-table .project-row-card:active,
+    .thoth-project-table .project-row-card:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.14) !important;
+    }
+
+    /* Dark mode para os cards */
+    body.dark-mode .thoth-project-table .project-row-card {
+        background: #1e293b !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.5) !important;
+    }
+
+    body.dark-mode .thoth-project-table .project-row-card:hover,
+    body.dark-mode .thoth-project-table .project-row-card:active {
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.85) !important;
+    }
+
+    /* Células dentro do card */
+    .thoth-project-table .project-row-card td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center;
+        padding: 6px 0 !important;
+        width: 100% !important;
+        font-size: 14px !important;
+        border-bottom: none !important;
+    }
+
+    /* Primeira célula (título + descrição) ocupa largura total e fica em coluna */
+    .thoth-project-table .project-row-card td:first-child {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* "Rótulo" de cada linha (usa data-title da TD) */
+    .thoth-project-table .project-row-card td::before {
+        content: attr(data-title);
+        font-weight: 600;
+        color: #6c757d;
+        margin-right: 8px;
+        font-size: 11px;
+        text-transform: uppercase;
+    }
+
+    /* Não mostra rótulo na primeira célula (já tem visual próprio) */
+    .thoth-project-table .project-row-card td:first-child::before {
+        content: "";
+        display: none;
+    }
+
+    /* Descrição um pouco menor e quebrando linhas */
+    .thoth-project-description {
+        font-size: 0.8rem !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        max-width: 100% !important;
+        margin-top: 2px;
+    }
+
+    /* Área de progresso mais compacta */
+    .thoth-project-table .project-row-card .progress {
+        height: 6px !important;
+    }
+
+    .thoth-project-table .project-row-card .progress + span,
+    .thoth-project-table .project-row-card span.me-2 {
+        margin-bottom: 0 !important;
+    }
+
+    /* Botões alinhados à direita e menores no mobile */
+    .thoth-project-table .project-row-card td:last-child {
+        justify-content: flex-end !important;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .thoth-project-table .project-row-card td:last-child .btn {
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+        border-radius: 999px !important;
+    }
+}
+
+/* ==========================================================================
+   LOGIN – padding especial no mobile
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .thoth-login-container {
+        padding-left: var(--bs-gutter-x, 3.5rem) !important;
+        padding-right: var(--bs-gutter-x, 3.5rem) !important;
+    }
+}
+
+/* =====================================================================
+   MOBILE – remover padding horizontal do bloco de título/descrição
+   quando estiver dentro da célula da tabela de projetos
+   ===================================================================== */
+@media (max-width: 768px) {
+
+    /* Remove padding horizontal apenas no layout mobile */
+    td[data-title] > .px-3 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* Ajuste para melhorar layout do título + descrição */
+    td[data-title] h6 {
+        margin-bottom: 4px !important;
+        line-height: 1.25 !important;
+    }
+
+    td[data-title] .thoth-project-description {
+        max-width: 100% !important;
+        display: block;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        font-size: 0.80rem !important;
+        line-height: 1.3 !important;
+    }
+}
+
+/* ===========================================
+   PAGES: ABOUT & HELP — REDUZIR FONTE NO MOBILE
+   =========================================== */
+
+@media (max-width: 768px) {
+
+    /* Reduz toda a tipografia dentro do container principal */
+    .thoth-page-about,
+    .thoth-page-help {
+        font-size: 0.85rem !important; /* 25% menor */
+        line-height: 1.35 !important;
+    }
+
+    /* Títulos */
+    .thoth-page-about h1,
+    .thoth-page-help h1 {
+        font-size: 1.4rem !important;
+    }
+
+    .thoth-page-about h4,
+    .thoth-page-help h4 {
+        font-size: 1.15rem !important;
+    }
+
+    .thoth-page-about h5,
+    .thoth-page-help h5,
+    .thoth-page-about h6,
+    .thoth-page-help h6 {
+        font-size: 1rem !important;
+    }
+
+    /* Lista */
+    .thoth-page-about li,
+    .thoth-page-help li {
+        font-size: 0.88rem !important;
+        margin-left: 4px !important;
+    }
+
+    /* Parágrafos */
+    .thoth-page-about p,
+    .thoth-page-help p {
+        font-size: 0.82rem !important;
+    }
+}
+
