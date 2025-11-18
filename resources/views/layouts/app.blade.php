@@ -27,6 +27,7 @@
 
     <!-- CSS principal do template -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('css/thoth-mobile.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/select.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"/>
 

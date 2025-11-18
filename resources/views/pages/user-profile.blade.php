@@ -3,14 +3,14 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => __('pages/profile.your_profile')])
 
-<div class="container mt-1 mb-3">
+<div class="container mt-3 mb-3">
 
     <div class="page-header d-flex flex-column border-radius-lg">
         <div
             class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 "
             style="width: 100%"
         >
-            <div class="text-center mx-auto">
+            <div class="text-center mx-auto thoth-page-help">
                 <h1 class="text-white">
                     {{ __("pages/profile.title-page") }}
                 </h1>

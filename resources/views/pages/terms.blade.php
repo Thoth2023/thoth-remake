@@ -9,7 +9,7 @@
     @include("layouts.navbars.auth.topnav", ["title" => __("pages/terms.terms")])
 @endauth
 
-<div class="container mt-6 mb-3">
+<div class="container mt-4 mb-3">
 
     <!-- Cabeçalho -->
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
