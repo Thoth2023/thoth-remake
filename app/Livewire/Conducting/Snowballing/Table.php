@@ -105,6 +105,7 @@ class Table extends Component
 
     public function applyFilters() { $this->resetPage(); }
 
+    #[On('success-relevant-paper')]
     #[On('show-success-snowballing')]
     #[On('show-success-quality')]
     #[On('show-success-conflicts-quality')]

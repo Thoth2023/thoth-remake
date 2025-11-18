@@ -114,6 +114,7 @@ class ProcessReferences implements ShouldQueue
                 $created = PaperSnowballing::create([
                     'paper_reference_id' => $paperId,
                     'parent_snowballing_id' => null,
+                    'depth'=> 1, //nivel_inicial
                     'doi' => $doi,
                     'title' => $title ?? 'unknown',
                     'authors' => $authors,

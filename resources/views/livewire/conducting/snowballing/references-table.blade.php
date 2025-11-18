@@ -44,7 +44,14 @@
                         </div>
                     @endif
 
+
                     <div class="d-flex flex-wrap gap-1 mt-1">
+                        @if(!is_null($reference->depth))
+                            <span class="btn btn-secondary btn-sm py-0 px-2 disabled"
+                                  style="pointer-events:none; opacity:1;">
+                                {{ __('project/conducting.snowballing.depth') }} {{ $reference->depth }}
+                            </span>
+                        @endif
                         @if ($reference->doi)
                             <a href="https://doi.org/{{ $reference->doi }}"
                                target="_blank"

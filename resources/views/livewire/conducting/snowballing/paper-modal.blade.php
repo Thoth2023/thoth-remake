@@ -61,10 +61,7 @@
                                         </x-select>
                                     @endif
 
-                                    {{--
-                                        Snowballing completo — REMOVIDO TEMPORARIAMENTE
-
-                                        @if($canEdit && !$manualBackwardDone && !$manualForwardDone)
+                                    @if($canEdit && !$manualBackwardDone && !$manualForwardDone)
                                             {{ __('project/conducting.snowballing.modal.automated-or') }}
                                             <button wire:click="handleFullSnowballing" class="btn btn-dark w-100 mt-1">
                                                 <i class="fa-solid fa-dna"></i> {{ __('project/conducting.snowballing.buttons.automated') }}
@@ -74,8 +71,6 @@
                                                 <i class="fa-solid fa-lock"></i> {{ __('project/conducting.snowballing.buttons.automated-unavailable') }}
                                             </button>
                                         @endif
-                                    --}}
-
 
                                 @if($isRunning)
                                         <p class="text-success mt-2">{{ __('project/conducting.snowballing.modal.processing') }}</p>
@@ -155,6 +150,8 @@
 
         $('#successModalSnowballing').on('hidden.bs.modal', function () {
             $('#paperModalSnowballing').modal('show');
+            // força o reload das referências
+            Livewire.emit('reload-paper-snowballing');
         });
     });
 

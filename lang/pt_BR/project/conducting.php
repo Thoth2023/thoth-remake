@@ -319,6 +319,8 @@ return [
 <p><i class="fa-solid fa-users"></i> Se houver Avaliação por Pares na revisão, o ícone acima indica que o paper foi aceito na etapa anterior.</p>'
         ],
 
+        'depth' => 'Nível',
+
         'tasks' => 'Complete essas tarefas para avançar',
 
         'papers' => [
@@ -429,7 +431,7 @@ return [
         'references'=>[
             'relevant'=>'Referências Assinaladas como Relevantes',
             'relevant-children' => 'Referências derivadas deste estudo',
-            'none' => 'Nenhuma referência relevante encontrada.',
+            'none' => 'Nenhuma referência encontrada.',
         ],
 
         'count' => [
