@@ -62,11 +62,12 @@ class ReferencesTable extends Component
         $reference->save();
 
         // Mensagem multilíngue de sucesso
-        $this->dispatch('success-relevant-paper', [
+        $this->dispatch('snowballing-toast', [
             'message' => __('project/conducting.snowballing.messages.relevance_updated', [], app()->getLocale())
                 ?? __('project/conducting.snowballing.messages.manual_done', ['type' => 'Relevance']),
             'type' => 'success'
         ]);
+        $this->dispatch('success-relevant-paper');
 
         $this->loadReferences();
     }

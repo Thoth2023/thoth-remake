@@ -103,6 +103,11 @@
                                                                 <strong>{{ number_format($ref->relevance_score, 2) }}</strong>
                                                             </span>
                                                     @endif
+                                                    @if(!is_null($ref->depth))
+                                                        <span class="badge bg-dark text-white small ms-2">
+                                                                {{ __('project/conducting.snowballing.depth') }}: {{ $ref->depth }}
+                                                            </span>
+                                                    @endif
                                                 </div>
 
 

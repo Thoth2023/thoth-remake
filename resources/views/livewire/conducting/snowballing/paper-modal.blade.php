@@ -1,5 +1,5 @@
 <div>
-    <div class="modal fade" id="paperModalSnowballing" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="paperModalSnowballing" tabindex="-1" role="dialog" aria-labelledby="paperModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -14,15 +14,15 @@
                 @if ($paper)
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-4">
+                            <div wire:ignore class="col-4">
                                 <b>{{ __('project/conducting.snowballing.modal.author') }}: </b>
                                 <p>{{ $paper['author'] }}</p>
                             </div>
-                            <div class="col-1">
+                            <div wire:ignore class="col-1">
                                 <b>{{ __('project/conducting.snowballing.modal.year') }}:</b>
                                 <p>{{ $paper['year'] }}</p>
                             </div>
-                            <div class="col-4">
+                            <div wire:ignore class="col-4">
                                 <b>{{ __('project/conducting.snowballing.modal.database') }}:</b>
                                 <p>{{ $paper['database_name'] }}</p>
                             </div>
@@ -61,19 +61,33 @@
                                         </x-select>
                                     @endif
 
-                                    {{-- Snowballing completo --}}
                                     @if($canEdit && !$manualBackwardDone && !$manualForwardDone)
-                                        {{ __('project/conducting.snowballing.modal.automated-or') }}
-                                        <button wire:click="handleFullSnowballing" class="btn btn-dark w-100 mt-1">
-                                            <i class="fa-solid fa-dna"></i> {{ __('project/conducting.snowballing.buttons.automated') }}
-                                        </button>
-                                    @else
-                                        <button class="btn btn-secondary w-100 mt-1" disabled>
-                                            <i class="fa-solid fa-lock"></i> {{ __('project/conducting.snowballing.buttons.automated-unavailable') }}
-                                        </button>
-                                    @endif
+                                            {{ __('project/conducting.snowballing.modal.automated-or') }}
+                                            <button wire:click="handleFullSnowballing" class="btn btn-dark w-100 mt-1">
+                                                <i class="fa-solid fa-dna"></i> {{ __('project/conducting.snowballing.buttons.automated') }}
+                                            </button>
+                                        @else
+                                            <button class="btn btn-secondary w-100 mt-1" disabled>
+                                                <i class="fa-solid fa-lock"></i> {{ __('project/conducting.snowballing.buttons.automated-unavailable') }}
+                                            </button>
+                                        @endif
 
-                                    <p class="text-success mt-2" wire:loading>{{ __('project/conducting.snowballing.modal.processing') }}</p>
+                                @if($isRunning)
+                                        <p class="text-success mt-2">{{ __('project/conducting.snowballing.modal.processing') }}</p>
+                                        <div wire:poll.2s="checkJobProgress">
+                                            <div class="progress mt-3" style="height: 8px;">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                                     role="progressbar"
+                                                     style="width: {{ $jobProgress }}%;"
+                                                     aria-valuenow="{{ $jobProgress }}"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                </div>
+                                            </div>
+
+                                            <p class="small text-muted mt-2">{{ $jobMessage }}</p>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
@@ -123,6 +137,7 @@
 
 @script
 <script>
+
     $(document).ready(function(){
         $wire.on('show-paper-snowballing', () => {
             setTimeout(() => { $('#paperModalSnowballing').modal('show'); }, 800);
@@ -135,11 +150,22 @@
 
         $('#successModalSnowballing').on('hidden.bs.modal', function () {
             $('#paperModalSnowballing').modal('show');
+            // força o reload das referências
+            Livewire.emit('reload-paper-snowballing');
         });
     });
 
     Livewire.on('reload-paper-snowballing', () => {
         Livewire.emit('showPaperSnowballing', @json($paper));
     });
+
+    // Toast customizado
+    $wire.on('snowballing-toast', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+
 </script>
 @endscript
+
+
+

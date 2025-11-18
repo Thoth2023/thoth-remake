@@ -474,6 +474,8 @@ return [
             'no-results' => 'No results found.'
         ],
 
+        'depth' => 'Depth level',
+
         'table' => [
             'id' => 'ID',
             'title' => 'Title',
@@ -530,10 +532,11 @@ return [
             'manual-readonly' => 'Read-only',
             'automated-title' => 'Automated Snowballing',
             'automated-or' => 'or',
-            'processing' => 'Processing Snowballing...',
             'close' => 'Close',
             'info' => 'Info',
             'ok' => 'OK',
+            'processing' => 'Running snowballing…',
+            'progress-note' => 'Please wait while we analyze the citations.',
         ],
 
         'messages' => [
@@ -542,11 +545,18 @@ return [
             'forward_done' => 'Forward citations have already been processed.',
             'manual_done' => ':type manually processed successfully!',
             'manual_disabled' => 'Manual Snowballing already performed — automatic mode disabled.',
-            'automatic_complete' => 'Full Snowballing processed successfully!',
+            'automatic_complete' => 'Snowballing processed successfully!',
             'already_complete' => 'Snowballing already complete for this paper.',
             'missing_paper' => 'DOI or base paper missing.',
             'error' => 'Error: :message',
             'relevance_updated' => 'Relevance successfully updated!',
+            'manual_job_started' => 'Manual snowballing (:type) has been successfully started. Please wait while the process is running.',
+            'already_running' => 'A snowballing process is already running for this study.',
+            'automatic_processing_start' => 'Full snowballing has started. Processing references...',
+            'manual_processing_start' => 'Manual snowballing has started. Processing references...',
+            'manual_processing_step'  => 'Processing reference :current of :total...',
+            'manual_complete'         => 'Manual snowballing completed successfully.',
+
         ],
 
         'status' => [
@@ -569,7 +579,7 @@ return [
         'references' => [
             'relevant' => 'References Marked as Relevant',
             'relevant-children' => 'References derived from this study',
-            'none' => 'No relevant references found.',
+            'none' => 'No references found.',
         ],
 
         'count' => [

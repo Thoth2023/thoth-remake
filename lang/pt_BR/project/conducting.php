@@ -319,6 +319,8 @@ return [
 <p><i class="fa-solid fa-users"></i> Se houver Avaliação por Pares na revisão, o ícone acima indica que o paper foi aceito na etapa anterior.</p>'
         ],
 
+        'depth' => 'Nível',
+
         'tasks' => 'Complete essas tarefas para avançar',
 
         'papers' => [
@@ -386,6 +388,7 @@ return [
             'close' => 'Fechar',
             'info' => 'Informação',
             'ok' => 'OK',
+            'progress-note' => 'Aguarde, estamos analisando as citações.',
         ],
 
         'messages' => [
@@ -394,11 +397,18 @@ return [
             'forward_done' => 'Citações forward já foram processadas.',
             'manual_done' => ':type processado manualmente com sucesso!',
             'manual_disabled' => 'Snowballing manual já realizado — modo automático desativado.',
-            'automatic_complete' => 'Snowballing completo processado com sucesso!',
+            'automatic_complete' => 'Snowballing processado com sucesso!',
             'already_complete' => 'Snowballing já completo para este paper.',
             'missing_paper' => 'DOI ou paper base ausente.',
             'error' => 'Erro: :message',
             'relevance_updated' => 'Relevância atualizada com sucesso!',
+            'manual_job_started' => 'Snowballing manual (:type) iniciado com sucesso. Aguarde o processamento.',
+            'already_running' => 'Já existe um snowballing em andamento para este estudo.',
+            'automatic_processing_start' => 'O snowballing automático foi iniciado. Processando referências...',
+            'manual_processing_start' => 'O snowballing manual foi iniciado. Processando referências...',
+            'manual_processing_step'  => 'Processando referência :current de :total...',
+            'manual_complete'         => 'Snowballing manual concluído com sucesso.',
+
         ],
 
         'status' => [
@@ -421,7 +431,7 @@ return [
         'references'=>[
             'relevant'=>'Referências Assinaladas como Relevantes',
             'relevant-children' => 'Referências derivadas deste estudo',
-            'none' => 'Nenhuma referência relevante encontrada.',
+            'none' => 'Nenhuma referência encontrada.',
         ],
 
         'count' => [

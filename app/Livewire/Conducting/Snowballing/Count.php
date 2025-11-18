@@ -101,6 +101,7 @@ class Count extends Component
         $this->todoPercentage = $this->totalPapers > 0 ? count($this->todo) / $this->totalPapers * 100 : 0;
     }
 
+    #[On('success-relevant-paper')]
     #[On('show-success-snowballing')]
     #[On('refreshPapersCount')]
     #[On('show-success-quality')]

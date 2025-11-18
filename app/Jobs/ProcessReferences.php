@@ -12,6 +12,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\Project\Conducting\SnowballJob;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProcessReferences implements ShouldQueue
 {
@@ -30,20 +33,41 @@ class ProcessReferences implements ShouldQueue
 
     public function handle()
     {
+        $paperId = $this->paper['id_paper'] ?? null;
+        $total = count($this->references);
+
         Log::info("Job ProcessReferences iniciado", [
             'type' => $this->type,
-            'paper_id' => $this->paper['id_paper'] ?? null,
-            'reference_id' => $this->paper['id'] ?? null,
-            'total_references' => count($this->references),
+            'paper_id' => $paperId,
+            'total_references' => $total,
         ]);
 
-        if (empty($this->references)) {
-            Log::warning("Nenhuma referência fornecida para processamento.");
+        if (!$paperId || $total === 0) {
             return;
         }
 
+        // pega o job correspondente
+        $job = SnowballJob::where('paper_id', $paperId)
+            ->whereIn('status', ['queued', 'running'])
+            ->latest()
+            ->first();
+
+        if ($job) {
+            $job->update([
+                'status' => 'running',
+                'progress' => 1,
+                'message' => __('project/conducting.snowballing.messages.manual_processing_start'),
+                'started_at' => Carbon::now(),
+            ]);
+        }
+
+        // processamento com progresso contínuo
+        $index = 0;
         foreach ($this->references as $ref) {
-            // normalize
+
+            $index++;
+
+            // NORMALIZAÇÃO
             $doi     = $ref['DOI'] ?? $ref['doi'] ?? null;
             $title   = $ref['article-title'] ?? $ref['title'] ?? null;
             $authors = $ref['authors'] ?? $ref['author'] ?? null;
@@ -53,18 +77,14 @@ class ProcessReferences implements ShouldQueue
             $score   = $ref['score'] ?? null;
 
             if (!$doi && !$title) {
-                Log::warning("Ref ignorada: sem DOI e título");
                 continue;
             }
 
-            // duplicata no contexto do semente
+            // DUPLICATAS
             $existing = PaperSnowballing::query()
                 ->when($doi, fn($q) => $q->where('doi', $doi))
                 ->when(!$doi && $title, fn($q) => $q->where('title', $title))
-                ->where(function ($q) {
-                    $q->where('paper_reference_id', $this->paper['id_paper'] ?? null)
-                        ->orWhere('parent_snowballing_id', $this->paper['id'] ?? null);
-                })
+                ->where('paper_reference_id', $paperId)
                 ->first();
 
             if ($existing) {
@@ -76,68 +96,78 @@ class ProcessReferences implements ShouldQueue
                         : $score;
                 }
 
-                $mergedSources = collect(explode(';', (string)$existing->source))
-                    ->merge([$source])
-                    ->filter()
-                    ->map(fn($s) => trim($s))
-                    ->unique()
-                    ->implode('; ');
-
-                $existing->source = $mergedSources;
                 $existing->save();
-                continue;
-            }
+            } else {
 
-            // parent id válido?
-            $parentId = null;
-            if (!empty($this->paper['id'])) {
-                if (PaperSnowballing::where('id', $this->paper['id'])->exists()) {
-                    $parentId = $this->paper['id'];
+                // autores → string
+                if (is_array($authors)) {
+                    if (isset($authors[0]['given']) || isset($authors[0]['family'])) {
+                        $authors = implode('; ', array_map(fn($a) =>
+                        trim(($a['given'] ?? '') . ' ' . ($a['family'] ?? '')), $authors));
+                    } else {
+                        $authors = implode('; ', array_map(fn($a) =>
+                            $a['name'] ?? (is_string($a) ? $a : ''), $authors));
+                    }
+                }
+
+                // CRIAÇÃO
+                $created = PaperSnowballing::create([
+                    'paper_reference_id' => $paperId,
+                    'parent_snowballing_id' => null,
+                    'depth'=> 1, //nivel_inicial
+                    'doi' => $doi,
+                    'title' => $title ?? 'unknown',
+                    'authors' => $authors,
+                    'year' => $year,
+                    'url' => $url,
+                    'type' => $ref['type'] ?? 'unknown',
+                    'abstract' => $ref['abstract'] ?? null,
+                    'bib_key' => $ref['key'] ?? null,
+                    'type_snowballing' => $this->type,
+                    'snowballing_process' => 'manual snowballing',
+                    'source' => $source,
+                    'relevance_score' => $score,
+                    'duplicate_count' => 1,
+                ]);
+
+                // meta CrossRef
+                if ($doi) {
+                    $this->updateMetadata($created, $doi);
                 }
             }
 
-            // autores -> string
-            if (is_array($authors)) {
-                if (isset($authors[0]['given']) || isset($authors[0]['family'])) {
-                    $authors = implode('; ', array_map(fn($a) =>
-                    trim(($a['given'] ?? '') . ' ' . ($a['family'] ?? '')), $authors));
-                } else {
-                    $authors = implode('; ', array_map(fn($a) =>
-                        $a['name'] ?? (is_string($a) ? $a : ''), $authors));
-                }
-            }
-
-            $created = PaperSnowballing::create([
-                'paper_reference_id'    => $this->paper['id_paper'] ?? null,
-                'parent_snowballing_id' => $parentId,
-                'doi'      => $doi,
-                'title'    => $title ?? 'unknown',
-                'authors'  => $authors,
-                'year'     => $year,
-                'url'      => $url,
-                'type'     => $ref['type'] ?? 'unknown',
-                'abstract' => $ref['abstract'] ?? null,
-                'bib_key'  => $ref['key'] ?? null,
-                'type_snowballing' => in_array($this->type, ['backward','forward']) ? $this->type : ($ref['type_snowballing'] ?? 'backward'),
-                'snowballing_process' => in_array($this->type, ['backward','forward'])
-                    ? 'manual snowballing'
-                    : 'automatic snowballing',
-                'source'   => $source,
-                'relevance_score' => $score,
-                'duplicate_count' => 1,
-                'is_duplicate'    => false,
-                'is_relevant'     => null,
-            ]);
-
-            // atualiza metadados CrossRef (se DOI)
-            if ($doi) {
-                $this->updateMetadata($created, $doi);
+            // === PROGRESSO CONTÍNUO ===
+            if ($job) {
+                $progress = (int) round(($index / $total) * 95); // garante que termina no 95, finalização no 100
+                $job->update([
+                    'progress' => $progress,
+                    'message' => __('project/conducting.snowballing.messages.manual_processing_step', [
+                        'current' => $index,
+                        'total' => $total
+                    ]),
+                ]);
             }
         }
 
+        // FINALIZAÇÃO
+        if ($job) {
+            $job->update([
+                'status' => 'completed',
+                'progress' => 100,
+                'finished_at' => Carbon::now(),
+                'message' => __('project/conducting.snowballing.messages.manual_complete'),
+            ]);
+        }
+
+        // marca paper como concluído SOMENTE AGORA
+        DB::table('papers')
+            ->where('id_paper', $paperId)
+            ->update(['status_snowballing' => 1]);
+
         Log::info("Job ProcessReferences concluído", [
             'type' => $this->type,
-            'total' => count($this->references),
+            'total' => $total,
+            'paper' => $paperId,
         ]);
     }
 
