@@ -63,4 +63,7 @@ return [
     'crossref' => [
         'mailto' => env('CROSSREF_MAILTO', 'thothslr@gmail.com'),
     ],
+    'openalex' => [
+        'mailto' => env('OPENALEX_MAILTO', 'thothslr@gmail.com'),
+    ],
 ];

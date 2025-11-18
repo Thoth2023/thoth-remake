@@ -43,6 +43,48 @@
                                     <i class="fa-solid fa-graduation-cap"></i> Scholar
                                 </a>
                             </div>
+                            @if(!is_null($paper['depth'] ?? null))
+                                <div class="small text-muted mt-1">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    {{ __('project/conducting.snowballing.depth') }}:
+                                    <strong>{{ $paper['depth'] }}</strong>
+                                </div>
+                            @endif
+                            <div class="mt-2">
+                                <h6>{{ __('project/conducting.snowballing.modal.manual-title') }}</h6>
+
+                                {{-- Seleção manual --}}
+                                <x-select wire:change="handleReferenceType($event.target.value)" class="form-select mb-2">
+                                    <option selected disabled>{{ __('project/conducting.snowballing.modal.manual-select') }}</option>
+                                    <option value="backward" @if($manualBackwardDone) disabled @endif>
+                                        {{ __('project/conducting.snowballing.modal.manual-backward') }}
+                                        {{ $manualBackwardDone ? __('project/conducting.snowballing.modal.manual-processed') : '' }}
+                                    </option>
+                                    <option value="forward" @if($manualForwardDone) disabled @endif>
+                                        {{ __('project/conducting.snowballing.modal.manual-forward') }}
+                                        {{ $manualForwardDone ? __('project/conducting.snowballing.modal.manual-processed') : '' }}
+                                    </option>
+                                </x-select>
+
+                                @if($isRunning)
+                                    <p class="text-success mt-2">{{ __('project/conducting.snowballing.modal.processing') }}</p>
+
+                                    <div wire:poll.2s="checkJobProgress">
+                                        <div class="progress mt-3" style="height: 8px;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark"
+                                                 role="progressbar"
+                                                 style="width: {{ $jobProgress }}%;"
+                                                 aria-valuenow="{{ $jobProgress }}"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                            </div>
+                                        </div>
+
+                                        <p class="small text-muted mt-2">{{ $jobMessage }}</p>
+                                    </div>
+                                @endif
+                            </div>
+
 
                             <div class="col-12 mt-3">
                                 <b>{{ __('project/conducting.snowballing.modal.abstract') }}: </b>
@@ -66,15 +108,57 @@
                 </div>
             </div>
         </div>
+
     </div>
 
+    {{-- Modal de sucesso --}}
+    <div wire:ignore.self class="modal fade" id="successModalSnowballingRelevant" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">{{ __('project/conducting.snowballing.modal.info') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ session('successMessage') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __('project/conducting.snowballing.modal.ok') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
     @script
     <script>
+
         $(document).ready(function(){
             $wire.on('show-paper-snowballing-relevant', () => {
-                setTimeout(() => { $('#paperModalSnowballingRelevant').modal('show'); }, 500);
+                setTimeout(() => { $('#paperModalSnowballingRelevant').modal('show'); }, 800);
+            });
+
+            Livewire.on('show-success-snowballing-relevant', () => {
+                $('#paperModalSnowballingRelevant').modal('hide');
+                $('#successModalSnowballingRelevant').modal('show');
+            });
+
+            $('#successModalSnowballingRelevant').on('hidden.bs.modal', function () {
+                $('#paperModalSnowballingRelevant').modal('show');
+                // força o reload das referências
+                Livewire.emit('reload-paper-snowballing-relevant');
             });
         });
+
+        Livewire.on('reload-paper-snowballing-relevant', () => {
+            Livewire.emit('showPaperSnowballingRelevant', @json($paper));
+        });
+
+        // Toast customizado
+        $wire.on('snowballing-relevant-toast', ([{ message, type }]) => {
+            toasty({ message, type });
+        });
+
     </script>
     @endscript
-</div>
+

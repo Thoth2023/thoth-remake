@@ -474,6 +474,8 @@ return [
             'no-results' => 'No results found.'
         ],
 
+        'depth' => 'Depth level',
+
         'table' => [
             'id' => 'ID',
             'title' => 'Title',
@@ -577,7 +579,7 @@ return [
         'references' => [
             'relevant' => 'References Marked as Relevant',
             'relevant-children' => 'References derived from this study',
-            'none' => 'No relevant references found.',
+            'none' => 'No references found.',
         ],
 
         'count' => [

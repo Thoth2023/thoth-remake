@@ -74,7 +74,7 @@ class CrossrefCitedByService
             })->toArray();
 
         } catch (\Throwable $e) {
-            Log::error("[Crossref] Erro no Cited-by", [
+            Log::error("[Crossref] Cited-by não disponível (fallback será usado)", [
                 'doi'   => $doi,
                 'error' => $e->getMessage(),
             ]);
