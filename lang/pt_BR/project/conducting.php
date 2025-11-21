@@ -2,8 +2,43 @@
 
 return [
     'conducting' => [
-        'title' => 'Condução'
+        'title' => 'Condução',
     ],
+    'content-helper' => '
+        <p>A etapa de <strong>Condução</strong> representa o processo principal de execução da Revisão Sistemática da Literatura (RSL) na Thoth.
+        Ela é dividida em fases sequenciais e guiadas, permitindo que o pesquisador aplique rigor metodológico de forma simples e organizada.
+        A seguir, você encontrará uma descrição clara de cada fase da condução:</p>
+
+        <h5><strong>1. Importar Estudos</strong></h5>
+        <p>Nesta fase, você importa os estudos identificados nas bases científicas utilizando arquivos
+        <code>.bib</code>. O sistema processa os registros, organiza os metadados e prepara os estudos para as próximas etapas.</p>
+
+        <h5><strong>2. Seleção de Estudos</strong></h5>
+        <p>Com os estudos importados, inicia-se a aplicação dos <strong>critérios de inclusão e exclusão</strong>.
+        Você classifica cada estudo como Aceito, Rejeitado, Excluído ou Duplicado.
+        Esta etapa garante que apenas estudos relevantes avancem no processo.</p>
+
+        <h5><strong>3. Avaliação de Qualidade</strong></h5>
+        <p>Os estudos aceitos passam por uma avaliação baseada nas <strong>questões de qualidade</strong> definidas no planejamento.
+        Cada resposta possui um peso, e o sistema calcula automaticamente a pontuação total e a classificação do estudo,
+        contribuindo para a análise robusta dos resultados.</p>
+
+        <h5><strong>4. Snowballing</strong></h5>
+        <p>Se a revisão incluir Snowballing, você poderá realizar as etapas <strong>Backward</strong> (analisar referências citadas)
+        e <strong>Forward</strong> (analisar estudos que citam o estudo semente). A Thoth permite realizar isso de duas formas:</p>
+        <ul>
+            <li><strong>Semi-automática (Manual):</strong> revisando sugestões de referências buscadas pelo sistema.</li>
+            <li><strong>Totalmente automatizada:</strong> via integração com APIs externas (quando ativado).</li>
+        </ul>
+        <p>O pesquisador escolhe o método mais adequado ao seu protocolo.</p>
+
+        <h5><strong>5. Extração de Dados</strong></h5>
+        <p>Na última fase, você responde às <strong>perguntas de extração</strong> definidas no planejamento, coletando todas as informações
+        essenciais para síntese dos resultados da revisão. Aqui são extraídos elementos como características dos estudos, métodos, métricas,
+        resultados e demais dados relevantes.</p>
+
+        <p>Ao finalizar todas as etapas, sua revisão possui um conjunto estruturado de dados prontos para análise e elaboração do relatório final.</p>
+    ',
     'header' => [
         'overview' => 'Visão Geral',
         'import_studies' => 'Importar Estudos',
@@ -13,22 +48,22 @@ return [
         'data_extraction' => 'Extração de Dados',
     ],
     'check' => [
-        'domain' => '<li>Cadastre os dados de "Domínio" para este projeto de revisão.</li>',
-        'language' => '<li>Cadastre os dados de "Linguagem" para este projeto de revisão.</li>',
-        'study-types' => '<li>Cadastre os dados de "Tipos de Estudo" para este projeto de revisão.</li>',
-        'research-questions' => '<li>Cadastre os dados de "Questões de Pesquisa" para este projeto de revisão.</li>',
-        'databases' => '<li>Cadastre os dados de "Base de Dados" para este projeto de revisão.</li>',
-        'term' => '<li>Cadastre os dados de "Termos de busca" na String de Busca para este projeto de revisão.</li>',
-        'search-strategy' => '<li>Cadastre os dados de "Estratégia de busca" para este projeto de revisão.</li>',
-        'criteria' => '<li>Cadastre os dados de "Critérios de Inclusão ou Exclusão" para este projeto de revisão.</li>',
-        'general-score' => '<li>Cadastre os dados de "Pontuação Geral/Intervalos" na Avaliação de Qualidade para este projeto de revisão.</li>',
-        'cutoff' => '<li>Cadastre os dados de "Pontuação Mínima para Aprovação" ou complete a "pontuação geral" para este projeto de revisão.</li>',
-        'score-min' => '<li>Defina a "Pontuação de Qualidade Mínima para Aprovação" nas perguntas deste projeto de revisão.</li>',
-        'question-qa' => '<li>Cadastre as "Questões de Qualidade" ou defina a "Pontuação Mínima para Aprovação" para este projeto de revisão.</li>',
-        'score-qa' => '<li>Cadastre os dados de "Pontuação de Qualidade" para este projeto de revisão.</li>',
-        'data-extraction' => '<li>Cadastre as "Questões de Extração de Dados" para este projeto de revisão.</li>',
-        'option-extraction' => '<li>Cadastre as "Opções" das questões de extração de dados para este projeto de revisão.</li>',
-        'mismatch-weight-general-score' =>'<li>A soma dos pesos das Questões de Qualidade não corresponde ao valor máximo do último intervalo em "Intervalos de Pontuação Geral". <br>Verifique e gere novamente os intervalos no módulo de Planejamento.</li>',
+        'domain' => '<li> [1] Cadastre os dados de "Domínio" para este projeto de revisão.</li>',
+        'language' => '<li>[2] Cadastre os dados de "Linguagem" para este projeto de revisão.</li>',
+        'study-types' => '<li>[3] Cadastre os dados de "Tipos de Estudo" para este projeto de revisão.</li>',
+        'research-questions' => '<li>[6] Cadastre os dados de "Questões de Pesquisa" para este projeto de revisão.</li>',
+        'databases' => '<li>[7] Cadastre os dados de "Base de Dados" para este projeto de revisão.</li>',
+        'term' => '<li>[9 ]Cadastre os dados de "Termos de busca" na String de Busca para este projeto de revisão.</li>',
+        'search-strategy' => '<li>[11] Cadastre os dados de "Estratégia de busca" para este projeto de revisão.</li>',
+        'criteria' => '<li>[12] Cadastre os dados de "Critérios de Inclusão ou Exclusão" para este projeto de revisão.</li>',
+        'general-score' => '<li>[16] Cadastre os dados de "Pontuação Geral/Intervalos" na Avaliação de Qualidade para este projeto de revisão.</li>',
+        'cutoff' => '<li>[17] Cadastre os dados de "Pontuação Mínima para Aprovação" ou complete a "pontuação geral" para este projeto de revisão.</li>',
+        'score-min' => '<li>[15] Defina a "Pontuação de Qualidade Mínima para Aprovação" nas perguntas deste projeto de revisão.</li>',
+        'question-qa' => '<li>[13] Cadastre as "Questões de Qualidade" ou defina a "Pontuação Mínima para Aprovação" para este projeto de revisão.</li>',
+        'score-qa' => '<li>[14] Cadastre os dados de "Pontuação de Qualidade" para este projeto de revisão.</li>',
+        'data-extraction' => '<li>[18] Cadastre as "Questões de Extração de Dados" para este projeto de revisão.</li>',
+        'option-extraction' => '<li>[19] Cadastre as "Opções" das questões de extração de dados para este projeto de revisão.</li>',
+        'mismatch-weight-general-score' =>'<li>[16] A soma dos pesos das Questões de Qualidade não corresponde ao valor máximo do último intervalo em "Intervalos de Pontuação Geral". <br>Verifique e gere novamente os intervalos no módulo de Planejamento.</li>',
     ],
     'protocol_warning' => [
         'title'   => 'Atenção antes de iniciar a Condução',

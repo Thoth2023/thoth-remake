@@ -3,6 +3,28 @@
 return [
 
     'reporting' => 'Relatórios',
+    'content-helper' => '
+        <p>O módulo de <strong>Relatórios</strong> reúne todas as informações geradas ao longo da sua Revisão Sistemática ou Mapeamento Sistemático.
+        Nesta área, você pode visualizar gráficos, tabelas, contagens e estatísticas que representam o progresso e os resultados da revisão.</p>
+
+        <h5><strong>Como utilizar os relatórios?</strong></h5>
+        <ul>
+            <li><strong>Visualização:</strong> explore gráficos que representam cada etapa da revisão — Importação, Seleção, Qualidade, Snowballing e Extração de Dados.</li>
+            <li><strong>Acompanhamento:</strong> veja o funil de estudos, números de aceitos, rejeitados, duplicados, removidos e demais métricas relevantes.</li>
+            <li><strong>Conferência:</strong> valide rapidamente se todas as etapas foram concluídas e identifique possíveis inconsistências.</li>
+        </ul>
+
+        <h5><strong>Exportação de Dados</strong></h5>
+        <p>Você pode exportar tabelas e resultados nos formatos mais comuns utilizados em pesquisas:</p>
+        <ul>
+            <li><strong>CSV:</strong> para manipular em Excel, Google Sheets ou scripts estatísticos.</li>
+            <li><strong>XML:</strong> ideal para intercâmbio de dados ou automações personalizadas.</li>
+            <li><strong>PDF:</strong> excelente para anexar ao relatório da revisão, artigos ou documentos formais.</li>
+        </ul>
+
+        <p>O módulo de relatórios foi projetado para ajudar no entendimento global do estudo, facilitar análises quantitativas e
+        gerar dados que podem ser diretamente utilizados em artigos científicos, dissertações e relatórios técnicos.</p>
+    ',
     'header' => [
         'overview' => 'Visão Geral',
         'reliability' => 'Concordância',
@@ -108,11 +130,54 @@ return [
     'reliability' =>[
         'selection' =>[
             'title' => 'Seleção de Estudos',
-            'content'=>'',
+            'content' => '
+        <p>O relatório de <strong>Avaliação por Pares na Seleção de Estudos</strong> permite comparar as classificações feitas por dois pesquisadores sobre cada estudo importado para a revisão.</p>
+
+        <h5><strong>Como funciona?</strong></h5>
+        <ul>
+            <li>Cada pesquisador classifica os estudos de forma independente, aplicando os critérios de inclusão e exclusão.</li>
+            <li>O sistema registra a decisão de cada avaliador: Aceito, Rejeitado, Não Classificado, Removido ou Duplicado.</li>
+            <li>O relatório exibe lado a lado as decisões do Pesquisador #1 e do Pesquisador #2.</li>
+            <li>Uma coluna adicional mostra o resultado da <strong>avaliação por pares</strong>, consolidando ou destacando divergências.</li>
+        </ul>
+
+        <h5><strong>Métricas de Confiabilidade</strong></h5>
+        <p>O relatório também apresenta gráficos de:</p>
+        <ul>
+            <li><strong>Concordância Simples:</strong> mostra o percentual de estudos em que os avaliadores tomaram a mesma decisão.</li>
+            <li><strong>Método Kappa:</strong> indicador estatístico que considera a concordância além do acaso.</li>
+        </ul>
+
+        <h5><strong>Exportação dos Resultados</strong></h5>
+        <p>Os dados podem ser exportados em CSV, XML ou PDF para uso em artigos, relatórios ou análises externas.</p>
+
+        <p>Esse módulo ajuda a garantir rigor metodológico e transparência no processo de seleção dos estudos.</p>
+    ',
         ],
         'quality'=>[
             'title' => 'Avaliação de Qualidade ',
-            'content'=>'',
+            'content' => '
+        <p>No relatório de <strong>Avaliação por Pares na Avaliação de Qualidade</strong>, você pode comparar como cada pesquisador respondeu às questões de qualidade definidas no planejamento.</p>
+
+        <h5><strong>Como funciona?</strong></h5>
+        <ul>
+            <li>Cada pesquisador avalia individualmente os estudos aceitos na etapa de seleção.</li>
+            <li>As respostas são comparadas entre Pesquisador #1 e Pesquisador #2.</li>
+            <li>O relatório destaca concordâncias, divergências e casos que ainda não foram avaliados.</li>
+            <li>É possível visualizar também o resultado consolidado (quando aplicável).</li>
+        </ul>
+
+        <h5><strong>Métricas de Confiabilidade</strong></h5>
+        <ul>
+            <li><strong>Concordância Simples:</strong> percentual de respostas iguais entre os revisores.</li>
+            <li><strong>Índice Kappa:</strong> avaliação estatística considerando a concordância ao acaso.</li>
+        </ul>
+
+        <h5><strong>Exportação</strong></h5>
+        <p>Todos os dados podem ser exportados em CSV, XML ou PDF para inclusão no relatório final ou artigo científico.</p>
+
+        <p>Este módulo fornece evidências da confiabilidade da avaliação e fortalece a validade dos resultados da revisão.</p>
+    ',
         ],
         'agreement'=>[
             'title' => 'Concordância Simples',

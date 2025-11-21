@@ -1,6 +1,8 @@
-<div>
-    <hr class="mt-0" />
-    <div class="card-header py-0">
+<div class="card">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+            <!-- Badge numérico moderno -->
+            <div class="thoth-card-badge"><b>17</b></div>
         <x-helpers.modal
             target="question-cutoff"
             modalTitle="{{ __('project/planning.quality-assessment.min-general-score.title') }}"

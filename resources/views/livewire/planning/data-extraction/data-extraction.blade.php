@@ -1,4 +1,6 @@
 <div class="card mt-4" style="border-radius: 20px 20px 0px 0px">
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>20</b></div>
     {{-- <div class="card-body"> --}}
     <div class="mt-0 mx-0">
         <div class="table-container">
@@ -33,7 +35,7 @@
                                 {{ $question->description }}
                             </td>
                             <td id="question-type-{{ $question->id }}">
-                                {{ $question->question_type->type }}
+                                {!!  __('project/planning.data-extraction.question-form.types.' . $question->question_type->type) !!}
                             </td>
                             <td>
                                 <div style="min-width: fit-content">

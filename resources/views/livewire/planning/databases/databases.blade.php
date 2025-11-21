@@ -1,10 +1,13 @@
 <div class="d-flex flex-column gap-4">
     <div class="card">
-        <div class="card-header mb-0 pb-0">
+        <div class="card-header thoth-card-header mb-0 pb-0">
+
+            <!-- Badge numérico moderno -->
+            <div class="thoth-card-badge"><b>7</b></div>
             <x-helpers.modal
                 target="database"
                 modalTitle="{{ __('project/planning.databases.title') }}"
-                modalContent="{{ __('project/planning.databases.help.content') }}"
+                modalContent="{!! __('project/planning.databases.help.content') !!}"
             />
         </div>
         <div class="card-body">

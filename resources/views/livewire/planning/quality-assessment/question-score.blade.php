@@ -1,6 +1,9 @@
 <div class="d-flex flex-column gap-4">
     <div class="card h-100">
-        <div class="card-header pb-0">
+        <div class="card-header thoth-card-header mb-0 pb-0">
+
+            <!-- Badge numérico moderno -->
+            <div class="thoth-card-badge"><b>14</b></div>
             <x-helpers.modal
                 target="question-score"
                 modalTitle="{{ __('project/planning.quality-assessment.question-score.title') }}"
@@ -66,7 +69,7 @@
                             </span>
                         @enderror
                     </div>
-                    
+
                     <div class="d-flex flex-column gap-1">
                         <label for="range-score" class="form-control-label required">
                             {{ __("project/planning.quality-assessment.question-score.range.score") }}
