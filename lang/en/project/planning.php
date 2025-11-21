@@ -2,6 +2,76 @@
 
 return [
     'planning' => 'Planning',
+    'content-helper'=>'<p>
+The planning phase of the protocol SLR is the moment when you transform your review idea into a structured and reproducible plan.
+A carefully completed protocol reduces bias, improves transparency, and makes collaboration easier.
+We recommend filling in each section in the order below, because many decisions depend on previous ones.
+</p>
+<p>
+Use this list as a planning checklist before you start conducting the review.
+</p>
+
+<ol>
+  <li><strong>Domains:</strong> Clearly define the domains or application areas of your study
+(for example, Software Engineering, Health, Education). This keeps the review thematically focused.</li>
+
+  <li><strong>Languages:</strong> Specify the languages that will be considered in the review.
+Make sure these choices are aligned with your team and the scope of the study.</li>
+
+  <li><strong>Study Types:</strong> Describe which types of studies will be included
+(for example, empirical studies, case studies, surveys, previous reviews).</li>
+
+  <li><strong>Keywords:</strong> Register terms or phrases that represent the key concepts in your research.
+They are the basis for building search terms and search strings.</li>
+
+  <li><strong>Project Dates:</strong> Define the time period during which the review will be carried out.
+This supports schedule planning and documents the temporal window of your study.</li>
+
+  <li><strong>Research Questions:</strong> Formulate the questions that the review aims to answer.
+They guide every later decision about search, selection, data extraction, and synthesis.</li>
+
+  <li><strong>Databases:</strong> Choose the article repositories and academic digital libraries that will be used
+(for example, Scopus, Web of Science, IEEE Xplore).</li>
+
+  <li><strong>Suggest a New Database:</strong> If an important database for your area is not available,
+      use this option to suggest its inclusion in Thoth.</li>
+
+  <li><strong>Search Terms:</strong> Based on domains, keywords, and research questions,
+      define the terms that will be combined to retrieve relevant studies.</li>
+
+  <li><strong>Search String:</strong> Build search strings by combining terms, Boolean operators,
+      and filters suitable for each database.</li>
+
+  <li><strong>Search Strategy:</strong> Describe how the searches will be conducted
+(pilot searches, iterative refinements, combination of databases, per-database adjustments).</li>
+
+  <li><strong>Inclusion and Exclusion Criteria:</strong> Define objective criteria that determine
+      whether a study is selected or discarded, considering title, abstract, full text, and quality.</li>
+
+  <li><strong>Quality Questions:</strong> Register the questions that will be used to assess the quality of each study.
+Questions may have different weights according to their importance.</li>
+
+  <li><strong>Quality Scoring:</strong> For each quality question, define the scoring rules
+(for example, Yes, Partially, No) and the corresponding numerical values.</li>
+
+  <li><strong>Quality Questions Table:</strong> Review the consolidated view of all quality questions and their scores.
+At this point, adjust weights and ensure that all questions are clear and consistent.</li>
+
+  <li><strong>Global Score Ranges:</strong> Define score ranges (for example, High, Medium, Low quality)
+    that will be used to classify each study after the quality assessment.</li>
+
+  <li><strong>Minimum Global Score for Approval:</strong> Set the minimum global score that a study must reach
+      in order to be accepted and move to the next stages of the review.</li>
+
+  <li><strong>Data Extraction Questions:</strong> Register the questions that define which information
+      you want to extract from the studies in order to answer the research questions.</li>
+
+  <li><strong>Data Extraction Question Options:</strong> For each extraction question, configure answer types
+      such as free text, multiple choice, or numeric fields, in a standardized and analysis-friendly way.</li>
+
+  <li><strong>Extraction Table:</strong> Review the complete list of extraction questions.
+      Use this view to identify gaps, edit items, and ensure that all required data will be collected.</li>
+</ol>',
     'button' => [
         'close' => 'Close',
     ],
@@ -191,9 +261,23 @@ return [
             ],
             'help' => [
                 'title' => 'Keywords',
-                'content' => 'Keywords are terms or phrases that represent key concepts in your research. ' .
-                    'You can use keywords to categorize and organize your literature sources, making ' .
-                    'it easier to identify relevant information for your project.',
+                'content' => '
+<p><strong>Keywords</strong> are terms or phrases that represent the core concepts of your research. They guide the search process in academic databases, helping retrieve studies that are relevant to your Systematic Literature Review (SLR).</p>
+
+<p>Keywords can also be used to organize, categorize, and filter studies, making it easier to identify information aligned with your research topic.</p>
+
+<p>Below are some examples of keywords in different research domains:</p>
+
+<ul>
+    <li><strong>Software Engineering:</strong> "software testing", "agile development", "software metrics", "DevOps", "requirements engineering".</li>
+    <li><strong>Computer Science:</strong> "machine learning", "neural networks", "data mining", "cybersecurity", "cloud computing".</li>
+    <li><strong>Health:</strong> "public health", "diabetes treatment", "mental health", "nutrition", "epidemiology".</li>
+    <li><strong>Education:</strong> "e-learning", "pedagogical strategies", "assessment methods", "inclusive education", "remote learning".</li>
+    <li><strong>Business/Management:</strong> "project management", "leadership", "organizational behavior", "strategic planning", "marketing analysis".</li>
+</ul>
+
+<p>Use a mix of broad and specific terms to improve search accuracy. When possible, check previous studies to identify commonly used keywords in your research area.</p>
+',
             ],
             'livewire' => [
                 'logs' => [
@@ -250,8 +334,57 @@ return [
         'title' => 'Research Questions',
         'help' => [
             'title' => 'Research Questions Help',
-            'content' => 'Research questions are key inquiries that guide your literature review. Each question should be clear, focused, and directly related to your research objectives. Add, edit, or delete research questions to refine the scope of your literature review.
-            <br><strong>Example:</strong> RQ01 - Are the studies systematic literature reviews?',
+            'content' => '
+<p><strong>What are Research Questions?</strong></p>
+
+<p>
+Research Questions (RQs) are the central questions that guide your entire Systematic Literature Review (SLR).
+They define <em>exactly what you want to investigate</em>, directly influencing all subsequent phases: study selection, criteria definition, data extraction, quality assessment, and synthesis.
+</p>
+
+<p><strong>How to fill in the fields:</strong></p>
+
+<ul>
+<li>
+    <strong>ID:</strong>
+    A short and unique identifier for each research question.
+    The recommended format is a simple code such as <strong>RQ01</strong>, <strong>RQ02</strong>, etc.
+    This makes it easier to reference questions during quality assessment, data extraction, and reporting.
+</li>
+
+<li>
+    <strong>Description:</strong>
+    Write a clear, objective, and focused research question.
+    The description should reflect exactly what you intend to answer through your review.
+</li>
+</ul>
+
+<p><strong>Important tips:</strong></p>
+
+<ul>
+<li>Register one question at a time;</li>
+<li>Ensure that each question can be fully answered using evidence from the studies;</li>
+<li>Use simple, clear, and non-ambiguous formulations;</li>
+<li>Review each question with your supervisor or research team to ensure conceptual alignment.</li>
+</ul>
+
+<p><strong>Practical examples:</strong></p>
+
+<ul>
+<li><strong>ID:</strong> RQ01 — <strong>Description:</strong> What requirements engineering methods are used in large-scale software projects?</li>
+
+<li><strong>ID:</strong> RQ02 — <strong>Description:</strong> What are the main limitations reported in studies on automated testing?</li>
+
+<li><strong>ID:</strong> RQ03 — <strong>Description:</strong> How has artificial intelligence been applied to support software development?</li>
+
+<li><strong>ID:</strong> RQ04 — <strong>Description:</strong> What metrics are used to evaluate code quality in recent studies?</li>
+</ul>
+
+<p>
+These research questions will serve as the main guide for your review.
+All collected data throughout the process should contribute to answering them clearly, consistently, and with strong evidence.
+</p>
+'
         ],
         'form' => [
             'id' => 'ID',
@@ -295,9 +428,50 @@ return [
     'databases' => [
         'title' => 'Databases',
         'help' => [
-            'title' => 'Databases Help',
-            'content' => 'Databases are repositories of scholarly articles and publications. Select the databases you plan to search to gather relevant literature for your review. Add or remove databases based on the relevance to your research topic.',
+            'title' => 'Databases',
+            'content' => '
+<p><strong>What are Databases?</strong></p>
+<p>
+Databases are online platforms that store scientific articles, technical reports, books, and other academic publications.
+They work as large searchable catalogs where you can find studies using keywords or search strings.
+</p>
+
+<p>
+In a Systematic Literature Review (SLR), databases are essential because they allow you to retrieve a comprehensive and reliable set of studies.
+Each database covers different topics, types of publications, and scientific communities.
+</p>
+
+<p><strong>How to choose the best databases?</strong></p>
+<ul>
+<li>Consider your research area (e.g., Software Engineering, Health, Education, Business, etc.).</li>
+<li>Check which databases are most cited or recommended in your field.</li>
+<li>Use multiple databases to avoid missing relevant studies.</li>
+<li>Select databases known for strong indexing and high-quality publications.</li>
+</ul>
+
+<p><strong>Examples of academic databases:</strong></p>
+<ul>
+<li><strong>Scopus:</strong> multidisciplinary and widely used worldwide.</li>
+<li><strong>Web of Science:</strong> highly recognized, with well-indexed high-quality studies.</li>
+<li><strong>IEEE Xplore:</strong> ideal for Computer Science, Engineering, and Technology.</li>
+<li><strong>ACM Digital Library:</strong> essential for Computer Science research.</li>
+<li><strong>PubMed:</strong> excellent for health-related areas.</li>
+<li><strong>ScienceDirect:</strong> strong coverage of applied sciences and technology.</li>
+</ul>
+
+<p><strong>How to use this section in Thoth 2.0:</strong></p>
+<ul>
+<li>Select the databases you want to include in your review.</li>
+<li>Add a new database if one relevant to your field is missing.</li>
+<li>Remove databases that are not useful for your research scope.</li>
+</ul>
+
+<p>
+Choosing proper databases ensures your review is comprehensive, reliable, and methodologically sound.
+</p>
+',
         ],
+
         'form' => [
             'select-placeholder' => 'Select a Database',
             'add-button' => 'Add Database',
@@ -314,8 +488,51 @@ return [
             'title' => 'Suggest a New Database',
             'help' => [
                 'title' => 'Suggest a New Database',
-                'content' => "Suggest a new database if it is necessary for your research and it is not included in Thoth's current list. It is important to note that this database will only be available for use after approval by the system administrators.",
+                'content' => '
+<p>If your research requires a specific database that is **not listed in Thoth**, you can submit a suggestion for it to be added.
+This is especially useful in cases where your study area relies on specialized repositories that are not part of the default system configuration.</p>
+
+<p><strong>Important:</strong> The suggested database will <em>not</em> become available immediately.
+It must first be reviewed and approved by the system administrators, who check its relevance, accessibility, and trustworthiness.</p>
+
+<hr>
+
+<p><strong>How to fill in the fields:</strong></p>
+
+<ul>
+<li>
+    <strong>Database Name:</strong><br>
+    Enter the official name of the database you want to suggest.<br>
+    Examples:
+    <ul>
+        <li><em>ACM Digital Library</em></li>
+        <li><em>PubMed</em></li>
+        <li><em>Google Scholar</em></li>
+        <li><em>ScienceDirect</em></li>
+    </ul>
+</li>
+
+<li>
+    <strong>Database Link:</strong><br>
+    Provide the main URL of the database (its home page).<br>
+    Examples:
+    <ul>
+        <li>https://dl.acm.org/</li>
+        <li>https://pubmed.ncbi.nlm.nih.gov/</li>
+        <li>https://scholar.google.com/</li>
+        <li>https://www.sciencedirect.com/</li>
+    </ul>
+    The link should direct users to the main repository page, not a specific article or search result.
+</li>
+</ul>
+
+<hr>
+
+<p>After submitting your suggestion, please wait for the review process.
+Once approved, the database will be added to the list and become available for use during your planning.</p>
+',
             ],
+
             'name-label' => 'Database Name',
             'enter-name' => 'Enter database name',
             'link-label' => 'Database Link',
@@ -392,7 +609,53 @@ return [
     'search-string' => [
         'generate-all' => 'Generate All Search Strings',
         'title' => 'Search String',
-        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add search strings to each database to refine your search and improve the accuracy of your search results.',
+        'help' => 'Search string is a combination of search terms that you use to search for relevant literature in databases. Add search strings to each database to refine your search and improve the accuracy of your search results.
+        <br>
+        <hr>
+<p><strong>How Thoth builds the Search String automatically:</strong></p>
+
+<ul>
+<li>
+    Each <strong>main keyword</strong> is combined using the <strong>AND</strong> operator.
+    Example:
+    <code>(tools) AND (web-based) AND (systematic review)</code>
+</li>
+
+<li>
+    Each <strong>synonym</strong> is combined using the <strong>OR</strong> operator.
+    Example:
+    <code>(tools OR "software tools" OR "support tools")</code>
+</li>
+
+<li>
+    Thoth automatically generates the final string in the ideal academic search format.
+</li>
+</ul>
+
+<hr>
+
+<p><strong>Example of an Automatically Generated Search String:</strong></p>
+
+<pre>
+("systematic review" OR "literature review")
+AND
+(tools OR "software tools" OR "support tools")
+AND
+(web-based OR online OR "browser-based")
+</pre>
+
+<p>
+This is the string that will later be used for searching academic databases defined in your project.
+</p>
+
+<p><strong>Final Tips:</strong></p>
+<ul>
+<li>Start by adding all core concepts;</li>
+<li>Include widely used synonyms in the literature;</li>
+<li>Prefer English keywords when searching international databases;</li>
+<li>No need to worry about operators — Thoth handles that automatically.</li>
+</ul>
+        ',
         'form' => [
             'description' => 'Generic search string',
             'enter-description' => 'Enter search string description',
@@ -409,7 +672,63 @@ return [
         ],
         'term' => [
             'title' => 'Search Term',
-            'help' => 'Search terms are keywords that you use to search for relevant literature in databases. Add, edit, or delete search terms to refine your search string and improve the accuracy of your search results.',
+            'help' => '<p><strong>What is a Search String?</strong></p>
+
+<p>
+A Search String is a structured combination of keywords, logical operators, and synonyms that you use to
+search for studies in academic databases. A well-constructed string ensures that your search is
+<em>accurate, comprehensive, and reproducible</em>, helping you find all relevant studies for your
+Systematic Literature Review (SLR).
+</p>
+
+<p>
+A good search string reduces bias, avoids missing important papers, and allows consistent comparison across
+different databases (IEEE, Scopus, ACM, etc.).
+</p>
+
+<hr>
+
+<p><strong>How to fill out the fields shown on the screen:</strong></p>
+
+<ul>
+<li>
+    <strong>Search Term:</strong>
+    These are the main concepts of your research.
+    Example: <em>“tools”</em>, <em>“web-based”</em>, <em>“systematic review”</em>.
+</li>
+
+<li>
+    <strong>Add Term:</strong>
+    After typing the keyword, click <strong>“Add Term”</strong> to save it.
+</li>
+
+<li>
+    <strong>Select a Term:</strong>
+    Choose a previously added term to attach synonyms to it.
+</li>
+
+<li>
+    <strong>Synonyms:</strong>
+    These are alternative expressions or variations of the same idea.
+    Example:
+    <ul>
+        <li>Term: <em>tools</em> → Synonyms: <em>software tools</em>, <em>support tools</em></li>
+        <li>Term: <em>web-based</em> → Synonyms: <em>online</em>, <em>browser-based</em></li>
+    </ul>
+</li>
+
+<li>
+    <strong>Suggestion Language:</strong>
+    Thoth automatically provides synonym suggestions based on the selected language.
+    If no suitable suggestion appears, you may add your own synonyms manually.
+</li>
+
+<li>
+    <strong>“+” Button (Add Synonym):</strong>
+    Click to attach the synonym to the selected keyword.
+</li>
+</ul>
+',
             'form' => [
                 'title' => 'Term',
                 'placeholder' => 'Enter the search term',
@@ -476,13 +795,113 @@ return [
         'help' => [
             'title' => 'Inclusion/Exclusion Criteria',
             'content' => '
-                <p>In the criteria section, you define the criteria for selecting or excluding studies in your research project.</p>
-                <p><strong>Inclusion Criteria:</strong> Specify the criteria that studies must meet to be included in your research. Ex.: IC1 - The publication should propose a tool to support the performance test.</p>
-                <p><strong>Exclusion Criteria:</strong> Specify the criteria that studies must meet to be excluded from your research. Ex.: EC1 Duplicate articles.</p>
-                <p>Make sure to carefully consider and document your criteria to ensure a systematic and transparent selection process.</p>
-                <ul><li><strong>All:</strong> The study must contain all the inclusion or exclusion criteria.</li>
-                <li><strong>At Least:</strong> The study should contain at least the criteria selected.</li>
-                <li><strong>Any:</strong> The study may contain any of the criteria.</li></ul>
+                <p><strong>What are Inclusion and Exclusion Criteria?</strong></p>
+
+<p>
+Inclusion and Exclusion Criteria are essential rules that determine
+<strong>which studies will be considered</strong> in your Systematic Literature Review (SLR)
+and which ones should be removed.
+They ensure that the selection process is <strong>clear, consistent, and reproducible</strong>,
+preventing bias and keeping your review aligned with its objectives.
+</p>
+
+<p><strong>How to fill in the fields:</strong></p>
+
+<ul>
+    <li>
+        <strong>ID:</strong>
+        Use a short and unique identifier for each criterion.
+        For Inclusion, use the pattern <strong>IC1, IC2, IC3...</strong>
+        For Exclusion, use <strong>EC1, EC2, EC3...</strong>
+        These identifiers make tracking and reporting easier.
+    </li>
+
+    <li>
+        <strong>Description:</strong>
+        Write a clear, objective, and verifiable rule.
+        The description should allow any researcher to assess the study
+        in the same way, reducing ambiguity.
+        <br><em>Good examples:</em>
+        <br>• “The study must provide an empirical evaluation of tool X.”
+        <br>• “Duplicate articles must be excluded.”
+    </li>
+
+    <li>
+        <strong>Type:</strong>
+        Choose whether the criterion is <strong>Inclusion</strong> or <strong>Exclusion</strong>.
+        This automatically organizes the tables and selection workflow.
+    </li>
+</ul>
+
+<hr>
+
+<p><strong>Inclusion Criteria (IC):</strong></p>
+<p>
+These are the conditions a study <strong>must fulfill</strong> to be considered relevant.
+They define the scope of the review and ensure that only meaningful studies proceed.
+</p>
+
+<p><strong>Example:</strong><br>
+IC1 — The publication must propose a tool to support performance testing.
+</p>
+
+<hr>
+
+<p><strong>Exclusion Criteria (EC):</strong></p>
+<p>
+These conditions indicate that a study <strong>should not be included</strong>,
+even if it meets some inclusion criteria.
+They are typically used to remove noise, duplicates, or out-of-scope publications.
+</p>
+
+<p><strong>Examples:</strong><br>
+EC1 — Duplicate articles.
+EC2 — The study is not available in full text.
+</p>
+
+<hr>
+
+<p><strong>Inclusion / Exclusion Rule (Important):</strong></p>
+
+<p>This rule defines how the criteria will be applied:</p>
+
+<ul>
+    <li>
+        <strong>All:</strong>
+        The study must meet <strong>all selected criteria</strong>.
+        More restrictive, ensuring high precision.
+    </li>
+
+    <li>
+        <strong>At least:</strong>
+        The study must meet <strong>a minimum number</strong> of selected criteria.
+        Useful for broader areas or complementary criteria.
+    </li>
+
+    <li>
+        <strong>Any:</strong>
+        If the study meets <strong>any</strong> of the selected criteria, it will be marked.
+        Less restrictive, increasing sensitivity.
+    </li>
+</ul>
+
+<hr>
+
+<p><strong>Practical tips:</strong></p>
+
+<ul>
+    <li>Avoid vague descriptions such as “relevant paper”.</li>
+    <li>Prefer objective and testable conditions.</li>
+    <li>Include exclusion rules to filter noise (e.g., posters, 1-page summaries).</li>
+    <li>Review the criteria with your supervisor to ensure alignment.</li>
+    <li>Use consistent IDs to facilitate data extraction.</li>
+</ul>
+
+<p>
+These criteria form the foundation of your study selection process, ensuring
+<strong>a transparent, auditable, and replicable SLR workflow</strong>.
+</p>
+
             ',
         ],
         'form' => [
@@ -577,68 +996,62 @@ return [
             'title' => 'General Score Interval',
             'help' => [
                 'title' => 'General Score Interval',
-                'content' => '<p>You can define as many intervals as you consider necessary for your systematic review.
-                        However, remember to save the configurations and define the <strong>"minimum for approval"</strong>.
-                        This planning will be crucial during the conducting phase of your review.</p>
+                'content' => '<p>The <strong>general score ranges</strong> are used to classify the final quality level of each study after evaluating all quality questions. These ranges group the total score of a study into categories (e.g., “Very Low”, “Low”, “Good”, “Very Good”), making it easy to determine the quality tier of each study.</p>
 
-                        <p>If you add or modify quality assessment questions in the planning phase,
-                        please make sure that the <strong>maximum value of the last registered interval matches the total sum of weights</strong>
-                        calculated by the system. This ensures that the scoring intervals are properly aligned
-                        with the current set of quality questions.</p>
+<p>The generation of ranges is <strong>automatic</strong>. The user simply chooses <strong>how many ranges</strong> they want, and Thoth generates them based on the <strong>total sum of weights</strong> assigned to the quality questions. This total represents the <strong>maximum possible score</strong> a study can achieve.</p>
 
-                        <p>If you want to <strong>reduce the number of intervals</strong>,
-                        the system will only allow this action if <strong>no evaluated studies</strong>
-                        are linked to the same review project.</p>
+<p><strong>How to fill in the fields:</strong></p>
 
-                        <p>If you only wish to <strong>update the final scoring values</strong> of the existing intervals,
-                        simply generate the <strong>same number of intervals</strong> again.
-                        The system will automatically recalculate the interval ranges based on the
-                        <strong>sum of the weights</strong> defined in the quality questions.</p>
+<ul>
+    <li>In the <strong>"Generate ranges"</strong> field, enter the number of score ranges you want (e.g., 4, 5, 6).</li>
+    <li>Click <strong>"Generate ranges"</strong>. Thoth will create the ranges automatically, including minimum values, maximum values, and default labels.</li>
+    <li>The fields <strong>Min</strong> and <strong>Label</strong> can be edited by the user.</li>
+    <li>The <strong>Max</strong> fields of intermediate ranges and any <strong>locked fields</strong> are automatically calculated by Thoth and <strong>cannot be edited</strong>.</li>
+    <li>The <strong>Max value of the last range</strong> is always equal to the <strong>total sum of weights</strong> — this limit is mandatory and cannot be changed.</li>
+</ul>
 
-                        <p>Finally, if you want to <strong>add more intervals</strong>, for example,
-                        if there are currently 5 intervals and you wish to have 6, just enter <strong>6</strong>
-                        in the generation field and click the corresponding button.
-                        The system will check the existing intervals and create only the <strong>missing one</strong>,
-                        without affecting the others.</p>
+<p><strong>Important rules:</strong></p>
+<ul>
+    <li>If you modify quality questions (including their weights), review the score ranges again — the total weight may have changed.</li>
+    <li>If you want to <strong>reduce the number of ranges</strong>, this is only possible if <strong>no studies have been evaluated yet</strong>.</li>
+    <li>If you only want to <strong>recalculate the ranges</strong> based on updated weights, generate the same number of ranges again. Thoth will automatically adjust them.</li>
+    <li>If you want to <strong>add new ranges</strong> (e.g., from 4 to 5), simply enter the new total. Thoth will generate only the missing range(s).</li>
+</ul>
 
-                        <strong>Example:</strong>
-                        <table class="table table-bordered table-striped small">
-                            <thead>
-                                <tr>
-                                    <th>Minimum</th>
-                                    <th>Maximum</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>0</td>
-                                    <td>1</td>
-                                    <td>Very Poor</td>
-                                </tr>
-                                <tr>
-                                    <td>1.1</td>
-                                    <td>2</td>
-                                    <td>Poor</td>
-                                </tr>
-                                <tr>
-                                    <td>2.1</td>
-                                    <td>3</td>
-                                    <td>Fair</td>
-                                </tr>
-                                <tr>
-                                    <td>3.1</td>
-                                    <td>4</td>
-                                    <td>Good</td>
-                                </tr>
-                                <tr>
-                                    <td>4.1</td>
-                                    <td>5</td>
-                                    <td>Very Good</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    ',
+<p><strong>Example:</strong></p>
+
+<table class="table table-bordered table-striped small">
+    <thead>
+        <tr>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0.01</td>
+            <td>1.25</td>
+            <td>Very Low</td>
+        </tr>
+        <tr>
+            <td>1.26</td>
+            <td>2.5</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>2.51</td>
+            <td>3.75</td>
+            <td>Good</td>
+        </tr>
+        <tr>
+            <td>3.76</td>
+            <td>5</td>
+            <td>Very Good</td>
+        </tr>
+    </tbody>
+</table>
+ ',
             ],
             'start' => 'Enter the Minimum Score',
             'end' => 'Enter the Max Score',
@@ -683,30 +1096,62 @@ return [
         'question-quality' => [
             'title' => 'Question Quality',
             'help' => [
-                'title' => 'Question Quality',
+                'title' => 'Quality Question',
                 'content' => '
-                            <p>In addition to the general inclusion and exclusion criteria, it is essential to assess the <strong>quality</strong> of primary studies,
-                            as this evaluation provides a more reliable and meaningful interpretation of the evidence collected.</p>
+<p><strong>Quality Questions</strong> are used to assess how reliable, complete, and well-conducted each primary study is.
+Even if a publication meets your inclusion criteria, its methodological quality can vary — and this evaluation helps you understand how trustworthy each study is when answering your Research Questions.</p>
 
-                            <ul>
-                                <li>Provides more detailed inclusion and exclusion criteria.</li>
-                                <li>Helps investigate whether quality differences explain variations in study results.</li>
-                                <li>Acts as a way to weigh the importance of individual studies when synthesizing results.</li>
-                                <li>Guides the interpretation of findings and the strength of inferences.</li>
-                                <li>Supports recommendations for future research.</li>
-                            </ul><br>
+<p><strong>Why is quality assessment important?</strong></p>
 
-                            <p>Each <strong>quality assessment question</strong> can have an associated <strong>weight</strong>,
-                            which reflects its relative importance in the overall evaluation.
-                            Questions with higher weights have a greater impact on the total score,
-                            directly influencing the <strong>quality classification</strong> of each study.
-                            Thus, the weight determines how much each question contributes to the final assessment result.</p>
+<ul>
+    <li>Identifies more reliable and well-designed studies.</li>
+    <li>Prevents weak studies from influencing your final conclusions.</li>
+    <li>Allows you to assign more weight to stronger evidence.</li>
+    <li>Improves transparency and credibility of the review process.</li>
+    <li>Supports stronger interpretation and future recommendations.</li>
+</ul>
 
-                            <p>Therefore, it is important to assign weights carefully,
-                            ensuring that the most relevant questions for the review carry greater influence in the final scoring outcome.</p>
+<hr>
 
-                            <strong>Example:</strong> QA01 - Does the study present the implementation of a tool for systematic literature review?',
-                ],
+<p><strong>How to fill in the fields:</strong></p>
+
+<ul>
+    <li><strong>ID:</strong> A short and unique identifier for the quality question.
+        Common examples include <strong>QA01</strong>, <strong>QA02</strong>, etc., which help organize the evaluation later.</li>
+
+    <li><strong>Weight:</strong> Indicates how important this question is when computing the study’s final quality score.
+        <ul>
+            <li><strong>Higher weights</strong> = more influence on the final score.</li>
+            <li><strong>Lower weights</strong> = less influence.</li>
+        </ul>
+        Assign weights carefully so that the most relevant questions have the most impact.</li>
+
+    <li><strong>Description:</strong> Write a clear, objective question that evaluates some aspect of the study’s reliability or completeness.</li>
+</ul>
+
+<hr>
+
+<p><strong>Important tips:</strong></p>
+<ul>
+    <li>Keep each question clear and specific.</li>
+    <li>Register <strong>one question at a time</strong>.</li>
+    <li>Use weights consistently based on the relevance of each item.</li>
+    <li>Review the list of questions with your team or supervisor.</li>
+</ul>
+
+<hr>
+
+<p><strong>Example:</strong></p>
+<ul>
+    <li><strong>ID:</strong> QA01</li>
+    <li><strong>Weight:</strong> 2</li>
+    <li><strong>Description:</strong> Does the study clearly describe the method used to conduct the review?</li>
+</ul>
+
+<p>These questions will be used later in the Quality Assessment step, where each study receives scores based on the answers to the questions you define here.</p>
+',
+            ],
+
             'id' => 'ID',
             'description' => 'Description',
             'weight' => 'Weight',
@@ -748,38 +1193,100 @@ return [
             'help' => [
                 'title' => 'Question Score',
                 'content' => '
-                    <p> The score and score rules are recorded as responses, and each response is associated with the previously registered quality questions.
-                    For each question, after registering the scoring rules, a minimum criterion must be established for the approval of each quality question.</p>
-                    <br>
-                    <strong>Example</strong> (minimum to approval "*"):<br>
-                <table class="table table-bordered table-striped small">
-                    <thead>
-                        <tr class="w-5">
-                            <th>Score Rule</th>
-                            <th>Score</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="w-5">
-                            <td>Yes</td>
-                            <td>100%</td>
-                            <td>This study presents the implementation of a <br>tool for systematic literature review.</td>
-                        </tr>
-                        <tr class="50">
-                            <td><strong>Partially*</strong></td>
-                            <td>50%</td>
-                            <td>This study presents partially the implementation of<br> a tool for systematic literature review.</td>
-                        </tr>
-                        <tr>
-                            <td>No</td>
-                            <td>0%</td>
-                            <td>This study doesn\'t present the implementation of <br>a tool for systematic literature review.</td>
-                        </tr>
-                    </tbody>
-                </table>
-                ',
+    <p>The <strong>Question Score</strong> step allows you to define how each quality question will be evaluated.
+    Here you create the <strong>scoring rules</strong>, which function as the possible answers for each quality question.</p>
+
+    <p>Each scoring rule contains:</p>
+    <ul>
+        <li><strong>A linked quality question</strong> (selected in the "Question" field);</li>
+        <li><strong>A scoring rule name</strong> (e.g., Yes, No, Partial);</li>
+        <li><strong>A percentage value</strong> (0% to 100%) representing the weight of that answer;</li>
+        <li><strong>A description</strong> explaining exactly when that rule should be selected.</li>
+    </ul>
+
+    <p><strong>You must register one scoring rule at a time for each question.</strong><br>
+    After registering all rules, each question will have its own set of possible answers and respective scores.</p>
+
+    <hr>
+
+    <h5><strong>How to fill in the fields:</strong></h5>
+
+    <ul>
+        <li>
+            <strong>Question:</strong> Select the quality question that this scoring rule belongs to (e.g., QA01, QA02...).<br>
+            Each rule is always linked to a single question.
+        </li>
+
+        <li>
+            <strong>Scoring Rule:</strong> Short name for the answer option.<br>
+            Common examples:
+            <ul>
+                <li>Yes</li>
+                <li>Partial</li>
+                <li>No</li>
+                <li>High Evidence</li>
+                <li>Moderate Evidence</li>
+                <li>Low Evidence</li>
+            </ul>
+        </li>
+
+        <li>
+            <strong>Score:</strong> Select a value between 0% and 100% using the slider. <br>
+            This score will be applied when the reviewer chooses that answer.
+        </li>
+
+        <li>
+            <strong>Description:</strong> Provide a detailed explanation of when this rule should be applied. <br>
+            Example:
+            <em>"The study fully describes the implemented tool, including methodology and validation."</em>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h5><strong>Complete Example</strong></h5>
+
+    <p>Suppose quality question <strong>QA01</strong> is:</p>
+    <p><em>"Does the study present the implementation of a tool for systematic literature review?"</em></p>
+
+    <p>Example scoring rules:</p>
+
+    <table class="table table-bordered table-striped small table-break-text">
+        <thead>
+            <tr>
+                <th class="w-15">Question ID</th>
+                <th class="w-15">Rule</th>
+                <th class="w-20">Score</th>
+                <th class="w-50 break-words">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>QA01</td>
+                <td><strong>Yes</strong></td>
+                <td>100%</td>
+                <td>The study clearly presents the full implementation of the tool, including methodology and validation.</td>
+            </tr>
+            <tr>
+                <td>QA01</td>
+                <td><strong>Partial*</strong></td>
+                <td>50%</td>
+                <td>The study presents the tool but does not describe all implementation or validation details.</td>
+            </tr>
+            <tr>
+                <td>QA01</td>
+                <td><strong>No</strong></td>
+                <td>0%</td>
+                <td>The study does not present the implementation of a tool.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Repeat this process for <strong>each</strong> quality question.
+    At the end, you will have a complete scoring matrix to evaluate all included studies.</p>
+    ',
             ],
+
             'description' => [
                 'title' => 'Description',
                 'placeholder' => 'Enter description',
@@ -828,18 +1335,45 @@ return [
 
         'min-general-score' => [
             'title' => 'Minimal General Score to Approve',
-            'help-content' => '<p>After registering the quality assessment questions, the total sum of all question weights is automatically calculated by Thoth.</p>
-                            <p>This sum represents the <strong>maximum scoring limit</strong> that a study can achieve during the quality assessment process.
-                            Therefore, the <strong>maximum value of the general score intervals</strong> must always <strong>match the total sum of weights</strong>
-                            defined for the project. This alignment is crucial to ensure that scoring and quality classification
-                            calculations work properly during the conducting phase of the review.</p>
+            'help-content' => '
+<p>After registering all quality questions, the sum of the weights of all previously recorded questions is automatically calculated by Thoth.</p>
 
-                            <strong>Minimum for Approval:</strong>
-                            <p>This item defines the general minimum score interval that should be considered as the minimum acceptance criterion for studies in the review.</p>
+<p>This total represents the <strong>maximum score limit</strong> that a study can achieve during the quality assessment stage.
+For this reason, the <strong>upper bound of the general scoring intervals</strong> must always <strong>match the total sum of all weights</strong>
+defined in the project. This alignment is essential to ensure that the scoring calculations and quality classifications
+operate correctly during the review conduction phase.</p>
 
-                            <p><strong>Note:</strong> To register, you must first create the quality assessment questions, generate the general score intervals,
-                            and save them within the ongoing review project. Also ensure that the <strong>maximum value of the last interval</strong>
-                            is always aligned with the <strong>sum of all question weights</strong>.</p>',
+<p><strong>Minimum Overall Score for Approval:</strong><br>
+This setting defines the minimum general scoring interval that will be considered the threshold to accept studies in the review.</p>
+
+<p><strong>How does this work in practice?</strong><br>
+During the <strong>quality assessment phase</strong>, each evaluated study receives a <strong>total score</strong>, calculated based on the rules and weights previously defined.
+The purpose of the <strong>general scoring intervals</strong> is to classify this study within a level or category — for example, “Very Low”, “Low”, “Moderate”, or “High”.</p>
+
+<p>After identifying which interval the study falls into, it is compared against the <strong>configured minimum overall interval</strong>.
+Only studies whose scores are <strong>equal to or greater than the selected minimum interval</strong> will be <strong>accepted</strong> and can proceed to the next stage of the review.</p>
+
+<hr>
+<p><strong>Simple Example:</strong><br>
+If the minimum interval configured is <strong>Moderate (2.6 – 3.75)</strong> and the evaluated study receives a score within the interval <strong>Low (1.26 – 2.5)</strong>, that study will be automatically <strong>rejected</strong>.</p>
+
+<p><strong>Important:</strong><br>
+In addition to the overall minimum score, each individual quality question also has a <strong>minimum score requirement</strong>.
+This means that even if a study reaches an overall interval above the defined minimum,
+it <strong>may still be rejected</strong> if it fails to meet the minimum score set for any specific quality question.
+This ensures that all critical criteria are properly evaluated and respected.</p>
+
+<hr>
+<p><strong>Important:</strong> To correctly configure this step, you must first:
+<ul>
+    <li>Register all quality questions;</li>
+    <li>Define scoring rules and weights for each question;</li>
+    <li>Generate the general scoring intervals;</li>
+    <li>Save the intervals in the review project.</li>
+</ul>
+Also ensure that the <strong>maximum value of the last interval</strong> always matches the <strong>sum of all question weights</strong>.</p>
+',
+
             'cutoff' => 'Cutoff (Min Score general)',
             'sum' => 'Total Weight',
             'form' => [
@@ -869,26 +1403,48 @@ return [
     'data-extraction' => [
         'title' => 'Data Extraction',
         'question-form' => [
-            'title' => 'Create Data Extraction Question',
+            'title' => 'Data Extraction Question',
             'help' => [
                 'title' => 'Data Extraction Question Form Help',
                 'content' => '
-                <p>The data extraction forms must be designed to collect all the information needed to address the review questions and the study quality criteria. If the quality criteria are to be used to identify inclusion/exclusion criteria, they require separate forms (since the information must be collected prior to the main data extraction exercise). If the quality criteria are to be used as part of the data analysis, the quality criteria and the review data can be included in the same form.
-                </p>
-                <p>In most cases, data extraction will define a set of numerical values that should be extracted for each study (e.g. number of subjects, treatment effect, confidence intervals, etc.). Numerical data are important for any attempt to summarise the results of a set of primary studies and are a prerequisite for meta-analysis (i.e. statistical techniques aimed at integrating the results of the primary studies).
-                </p>
-                <p>The extraction quest should be defined from a description and the type of data. The data types are:
-                </p>
-                <ul>
-                    <li><strong>Text:</strong> The extracted data is defined through simple text, giving the researcher the freedom to define the extracted data.</li>
-                    <li><strong>Pick One List:</strong> Through a predefined list of data, the researcher should choose only one data extraction option.</li>
-                    <li><strong>Multiple Choice List:</strong> Through a predefined list of data, the researcher can choose more than one data extraction option.</li>
-                </ul>
+            <p>Data extraction forms must be designed to collect all information required to answer the review questions and assess study quality.
+            If quality criteria are used for inclusion/exclusion, they must be collected separately.
+            If they are part of the analysis, they may be included in the same extraction form.</p>
 
-                ',
-            ],
-            'type-selection'=> [
+            <p>In most cases, data extraction involves numeric values (e.g., sample size, treatment effect, confidence intervals).
+            These values are essential for summarizing primary studies and conducting meta-analyses.</p>
+
+            <p>Each extraction question must include: ID, description, and data type.</p>
+
+            <p><strong>Data Types:</strong></p>
+            <ul>
+                <li><strong>Text:</strong> allows the researcher to freely describe the extracted data.</li>
+                <li><strong>Single Choice List:</strong> the researcher must select only one predefined option.</li>
+                <li><strong>Multiple Choice List:</strong> the researcher may select multiple predefined options.</li>
+            </ul>
+
+            <h5>How to fill in the fields:</h5>
+            <ul>
+                <li><strong>ID:</strong> unique identifier for the question (e.g., "DE1", "DE2").</li>
+                <li><strong>Description:</strong> clearly describe what must be extracted (e.g., "How many participants are in the study?").</li>
+                <li><strong>Type:</strong> select the appropriate answer format (Text, Single Choice, Multiple Choice).</li>
+            </ul>
+
+            <h5>Examples of questions:</h5>
+            <ul>
+                <li><strong>Text:</strong> "Describe the approach used by the study."</li>
+                <li><strong>Single Choice:</strong> "What is the study type?" (Experimental, Observational, Survey)</li>
+                <li><strong>Multiple Choice:</strong> "Which evaluation metrics were used?" (Accuracy, Recall, F1-Score, AUC)</li>
+            </ul>
+        ',
+          ],
+           'type-selection'=> [
                 'title' => 'Select a Type',
+            ],
+            'types' => [
+                'Text' => 'Text',
+                'Pick One List' => 'Pick One List',
+                'Multiple Choice List' => 'Multiple Choice List',
             ],
             'id' => 'ID',
             'dont-use' => 'Do not use special characters',
@@ -902,16 +1458,34 @@ return [
             'help' => [
                 'title' => 'Data Extraction Option Form Help',
                 'content' => '
-                 <p>Use the data extraction option form to add specific options for questions,
-                 facilitating the detailed capture of information during the data extraction process. Define the question to which
-                 the option belongs, provide a description, and ensure that the options cover all relevant aspects of the question.</p>
-                 <p><strong>Note:</strong> You can only add extraction options to "Multiple Choice" and "Pick One List" types.</p>
-                <p><strong>Example:</strong></p>
-                <ul>
-                    <li>Description: Abstract - Type of data: Text.</li>
-                    <li>Description: Database - Type of data: Pick One List. (List: ACM, IEEE, Scopus)</li>
-                </ul>
-                ',
+        <p>Use this form to create <strong>response options</strong> for data extraction questions that use list-based answers.
+        Options help standardize responses and simplify the analysis of extracted data during the review.</p>
+
+        <h5><strong>When can options be added?</strong></h5>
+        <p>Options can only be added to questions whose data type is:</p>
+        <ul>
+            <li><strong>Single Choice List</strong></li>
+            <li><strong>Multiple Choice List</strong></li>
+        </ul>
+        <p>Questions of type <strong>Text</strong> do not support predefined options, since the researcher must enter the response manually.</p>
+
+        <h5><strong>How to fill in the fields?</strong></h5>
+        <ul>
+            <li><strong>Question:</strong> select the extraction question to which this option will belong. Only questions of list-based types will appear in this dropdown.</li>
+            <li><strong>Option:</strong> enter the option that will be shown to the user during the data extraction phase.</li>
+        </ul>
+
+        <p>Each option must be added individually. If a question requires multiple options, you must register them one at a time.</p>
+
+        <h5><strong>Examples:</strong></h5>
+        <ul>
+            <li><strong>Question:</strong> "Database Source" — Type: Single Choice List<br>
+                <strong>Possible options:</strong> ACM, IEEE Xplore, Scopus, Web of Science</li>
+
+            <li><strong>Question:</strong> "Which evaluation metrics are used?" — Type: Multiple Choice List<br>
+                <strong>Possible options:</strong> Accuracy, Recall, F1-Score, AUC</li>
+        </ul>
+    ',
             ],
             'question-selection'=> [
                 'title' => 'Select a Question',

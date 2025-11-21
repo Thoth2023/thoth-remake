@@ -132,12 +132,6 @@ class CheckProjectDataPlanning
             $errors[] = __('project/conducting.check.mismatch-weight-general-score');
         }
 
-        if(!empty($errors)) {
-            $compiledErrors = implode('<br>', $errors);
-            session()->flash('error', $compiledErrors);
-            return false;
-        }
-
 
         // Verificar se existem dados na tabela 'data_extraction'
         $questionExists = DataExtractionQuestion::where('id_project', $projectId)->exists();
@@ -145,13 +139,24 @@ class CheckProjectDataPlanning
             $errors[] = __('project/conducting.check.data-extraction');
         }
 
-        // Verificar se existem dados na tabela 'options_extraction' relacionados a 'questions_extraction'
-        $optionExists = Option::whereHas('question', function ($query) use ($projectId) {
-            $query->where('id_project', $projectId);
-        })->exists();
+        // Verificar se existem dados na tabela 'data_extraction'
+        // Buscar todas as perguntas
+        $questions = DataExtractionQuestion::where('id_project', $projectId)->get();
 
-        if (!$optionExists) {
-            $errors[] = __('project/conducting.check.option-extraction');
+        // Perguntas que precisam de opções (type 2 = Multiple Choice, type 3 = Pick One)
+        $questionsRequiringOptions = $questions->whereIn('type', [2, 3]);
+
+        // Se existir ao menos uma pergunta que exige opções, verificar se existem opções cadastradas
+        if ($questionsRequiringOptions->isNotEmpty()) {
+
+            $optionsExists = Option::whereHas('question', function ($query) use ($projectId) {
+                $query->where('id_project', $projectId)
+                    ->whereIn('type', [2, 3]);
+            })->exists();
+
+            if (!$optionsExists) {
+                $errors[] = __('project/conducting.check.option-extraction');
+            }
         }
 
         if(!empty($errors)) {

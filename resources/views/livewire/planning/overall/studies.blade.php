@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>3</b></div>
         <x-helpers.modal
             target="search-domains"
             modalTitle="{{ __('project/planning.overall.study_type.help.title') }}"

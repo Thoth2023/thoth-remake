@@ -1,6 +1,11 @@
 <div class="card pb-2" style="overflow: hidden">
-    <div class="card-header pb-0">
-        <h6 class="text-lg mb-0 pb-0">{{ $header }}</h6>
+    <div class="card-header thoth-card-header mb-0 pb-0">
+        {{-- EXTRA BUTTONS / HELPERS --}}
+                <x-helpers.modal
+                    target="help"
+                    modalTitle="{{ $header }}"
+                    modalContent="{!! $content !!}"
+                />
         <hr class="py-0 m-0 mt-1 mb-3" style="background: #b0b0b0" />
     </div>
     <ul

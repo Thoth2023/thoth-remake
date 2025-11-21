@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>6</b></div>
         <x-helpers.modal
             target="search-questions"
             modalTitle="{{ __('project/planning.research-questions.title') }}"
@@ -165,7 +168,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form[wire\\:submit]');
     const input = document.querySelector('#questionId');
-    
+
     if (form && input) {
         form.addEventListener('submit', function() {
             // Force save the current input value to suggestions
@@ -173,16 +176,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (value) {
                 const storageKey = `suggestions_${input.id || input.name}`;
                 let suggestions = [];
-                
+
                 if (localStorage.getItem(storageKey)) {
                     suggestions = JSON.parse(localStorage.getItem(storageKey));
                 }
-                
+
                 if (!suggestions.includes(value)) {
                     suggestions.push(value);
                     localStorage.setItem(storageKey, JSON.stringify(suggestions));
                 }
-                
+
                 // Automatically refresh suggestions without showing an alert
                 setTimeout(() => {
                     refreshSuggestions('questionId', 'research_question_id', 'research_questionId_suggestions', false);

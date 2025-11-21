@@ -5,7 +5,10 @@ use App\Traits\ProjectPermissions;
 ?>
 
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>11</b></div>
         <x-helpers.modal
             target="search-strategy"
             modalTitle="{{ __('project/planning.search-strategy.title') }}"

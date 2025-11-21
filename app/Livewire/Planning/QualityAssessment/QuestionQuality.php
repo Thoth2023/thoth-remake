@@ -26,7 +26,7 @@ class QuestionQuality extends Component
     private $translationPath = 'project/planning.quality-assessment.question-quality.livewire';
 
     /** @var string Caminho para as mensagens de toast */
-    private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
+    private $toastMessages = 'project/planning.quality-assessment.question-quality.livewire.toasts';
 
     /** @var Project Projeto atual sendo avaliado */
     public $currentProject;

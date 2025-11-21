@@ -1,9 +1,12 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>4</b></div>
         <x-helpers.modal
             target="search-domains"
             modalTitle="{{ __('project/planning.overall.keyword.help.title') }}"
-            modalContent="{{ __('project/planning.overall.keyword.help.content') }}"
+            modalContent="{!!  __('project/planning.overall.keyword.help.content') !!}"
         />
     </div>
     <div class="card-body">

@@ -3,8 +3,44 @@
 return [
 
     'conducting' => [
-        'title' => 'Conducting'
+        'title' => 'Conducting',
+
     ],
+    'content-helper' => '
+        <p>The <strong>Conducting</strong> phase represents the main execution process of the Systematic Literature Review (SLR) in Thoth.
+        It is divided into sequential, guided steps that help the researcher apply methodological rigor in an organized and intuitive way.
+        Below is a clear explanation of each stage of the conducting process:</p>
+
+        <h5><strong>1. Import Studies</strong></h5>
+        <p>In this stage, you import studies retrieved from scientific databases using <code>.bib</code> files.
+        The system processes the records, organizes the metadata, and prepares the studies for the next phases.</p>
+
+        <h5><strong>2. Study Selection</strong></h5>
+        <p>Once the studies are imported, you apply the predefined <strong>inclusion and exclusion criteria</strong>.
+        Each study is classified as Accepted, Rejected, Removed, or Marked as Duplicate.
+        This step ensures that only relevant studies continue in the review process.</p>
+
+        <h5><strong>3. Quality Assessment</strong></h5>
+        <p>Accepted studies are evaluated based on the <strong>quality assessment questions</strong> defined during the planning stage.
+        Each answer receives a weight, and Thoth automatically calculates a final score and classification for each study,
+        contributing to a more robust interpretation of the evidence.</p>
+
+        <h5><strong>4. Snowballing</strong></h5>
+        <p>If your review includes Snowballing, you can perform both <strong>Backward</strong> (checking cited references)
+        and <strong>Forward</strong> (checking studies that cite the seed papers) procedures. Thoth allows the Snowballing process to be performed in two ways:</p>
+        <ul>
+            <li><strong>Semi-automatic (Manual):</strong> reviewing system-suggested references.</li>
+            <li><strong>Fully automated:</strong> through external API integrations (when available).</li>
+        </ul>
+        <p>The researcher may choose the approach that best fits their review protocol.</p>
+
+        <h5><strong>5. Data Extraction</strong></h5>
+        <p>In the final stage, you answer the predefined <strong>data extraction questions</strong>, collecting all essential information
+        needed for synthesizing the findings of the review. This includes extracting study characteristics, methods, metrics, outcomes,
+        and any other relevant data.</p>
+
+        <p>Once all stages are completed, your review will have a structured dataset ready for analysis and preparation of the final report.</p>
+    ',
     'header' => [
         'overview' => 'Overview',
         'import_studies' => 'Import Studies',
@@ -15,22 +51,22 @@ return [
 
     ],
     'check' => [
-        'domain' => '<li>Register the data for "Domain" for this review project.</li>',
-        'language' => '<li>Register the data for "Language" for this review project.</li>',
-        'study-types' => '<li>Register the data for "Study Types" for this review project.</li>',
-        'research-questions' => '<li>Register the data for "Research Questions" for this review project.</li>',
-        'databases' => '<li>Register the data for "Database" for this review project.</li>',
-        'term' => '<li>Register the data for "Search Terms" in the Search String for this review project.</li>',
-        'search-strategy' => '<li>Register the data for "Search Strategy" for this review project.</li>',
-        'criteria' => '<li>Register the data for "Inclusion or Exclusion Criteria" for this review project.</li>',
-        'general-score' => '<li>Register the data for "General Score/Intervals" in the Quality Assessment for this review project.</li>',
-        'cutoff' => '<li>Register the data for "Minimum Score for Approval" or complete the "General Score" for this review project.</li>',
-        'score-min' => '<li>Define the "Minimum Quality Score for Approval" for the questions in this review project.</li>',
-        'question-qa' => '<li>Register the "Quality Questions" or define the "Minimum Score for Approval" for this review project.</li>',
-        'score-qa' => '<li>Register the data for "Quality Score" for this review project.</li>',
-        'data-extraction' => '<li>Register the "Data Extraction Questions" for this review project.</li>',
-        'option-extraction' => '<li>Register the "Options" for the data extraction questions of this review project.</li>',
-        'mismatch-weight-general-score' =>'<li>The sum of quality question weights does not match the maximum value of the last interval in "General Score Interval". <br> Please review and regenerate the intervals in the Planning module.</li>',
+        'domain' => '<li>[1] Register the data for "Domain" for this review project.</li>',
+        'language' => '<li>[2] Register the data for "Language" for this review project.</li>',
+        'study-types' => '<li>[3] Register the data for "Study Types" for this review project.</li>',
+        'research-questions' => '<li>[6] Register the data for "Research Questions" for this review project.</li>',
+        'databases' => '<li>[7] Register the data for "Database" for this review project.</li>',
+        'term' => '<li>[9] Register the data for "Search Terms" in the Search String for this review project.</li>',
+        'search-strategy' => '<li>[11] Register the data for "Search Strategy" for this review project.</li>',
+        'criteria' => '<li>[12] Register the data for "Inclusion or Exclusion Criteria" for this review project.</li>',
+        'general-score' => '<li>[16] Register the data for "General Score/Intervals" in the Quality Assessment for this review project.</li>',
+        'cutoff' => '<li>[17] Register the data for "Minimum Score for Approval" or complete the "General Score" for this review project.</li>',
+        'score-min' => '<li>[15] Define the "Minimum Quality Score for Approval" for the questions in this review project.</li>',
+        'question-qa' => '<li>[13] Register the "Quality Questions" or define the "Minimum Score for Approval" for this review project.</li>',
+        'score-qa' => '<li>[14] Register the data for "Quality Score" for this review project.</li>',
+        'data-extraction' => '<li>[18] Register the "Data Extraction Questions" for this review project.</li>',
+        'option-extraction' => '<li>[19] Register the "Options" for the data extraction questions of this review project.</li>',
+        'mismatch-weight-general-score' =>'<li>[16] The sum of quality question weights does not match the maximum value of the last interval in "General Score Interval". <br> Please review and regenerate the intervals in the Planning module.</li>',
     ],
     'protocol_warning' => [
         'title' => 'Attention before starting the Conducting phase',

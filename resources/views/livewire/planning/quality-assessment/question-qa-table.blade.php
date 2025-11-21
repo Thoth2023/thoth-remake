@@ -1,4 +1,7 @@
+
 <div class="card" style="border-radius: 20px 20px 0px 0px; min-height: 300px;">
+    <!-- Badge numérico moderno -->
+    <div class="thoth-card-badge"><b>15</b></div>
     <div class="mt-0 mx-0" style="max-height: none; overflow-y: auto; min-height: 300px;">
         <table class="table table-custom-hover m-0" style="width: 100%; table-layout: auto; min-height: 300px;">
             <thead class="table-light">

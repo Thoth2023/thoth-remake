@@ -366,3 +366,44 @@ body.dark-mode .topnav-thoth input::placeholder {
     }
 }
 
+
+/* Badge moderno do card */
+.thoth-card-badge {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.2); /* cinza/azul igual Argon */
+    color: #fff;
+
+    font-weight: 600;
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 5;
+}
+
+/* Garantir que o card-header aceite o ícone */
+.thoth-card-header {
+    position: relative;
+    padding-top: 20px !important; /* espaço para o badge */
+}
+
+.table-break-text td,
+.table-break-text th {
+    white-space: normal !important;   /* permite quebra */
+    word-break: break-word !important; /* força quebra dentro de palavras longas */
+    overflow-wrap: break-word !important;
+}
+
+
+
+

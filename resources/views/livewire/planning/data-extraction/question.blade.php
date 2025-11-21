@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>18</b></div>
         <x-helpers.modal
             target="data-extraction"
             modalTitle="{{ __('project/planning.data-extraction.question-form.title') }}"
@@ -22,7 +25,7 @@
                     name="de_question_id"
                     list="de_questionId_suggestions"
                     maxlength="255"
-                    pattern="\d+"
+                    pattern="[A-Za-z0-9]+"
                     required
 
                 />
@@ -60,10 +63,10 @@
                     </option>
                     @foreach ($questionTypes as $questionType)
                         <option
-                            <?= ($currentQuestion->type ?? "-1") == $questionType->id_type ? "selected" : "" ?>
                             value="{{ $questionType->id_type }}"
+                            @selected( ($currentQuestion->type ?? -1) == $questionType->id_type )
                         >
-                            {{ $questionType->type }}
+                            {{ __('project/planning.data-extraction.question-form.types.' . $questionType->type) }}
                         </option>
                     @endforeach
                 </x-select>

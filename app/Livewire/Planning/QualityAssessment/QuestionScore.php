@@ -14,7 +14,7 @@ use App\Traits\ProjectPermissions;
 
 /**
  * Componente Livewire para gerenciar pontuações de questões.
- * 
+ *
  * Este componente permite criar, editar e gerenciar regras de pontuação
  * para questões de qualidade, incluindo suas descrições e valores.
  */
@@ -24,7 +24,7 @@ class QuestionScore extends Component
   use ProjectPermissions;
 
   /** @var string Caminho para as mensagens de toast */
-  private $toastMessages = 'project/planning.quality-assessment.general-score.livewire.toasts';
+  private $toastMessages = 'project/planning.quality-assessment.question-score.toasts';
   public $currentProject;
   public $currentQuestionScore;
   public $questions = [];
@@ -37,7 +37,7 @@ class QuestionScore extends Component
   public $questionId;
   public $scoreRule;
   public $score;
-  public $scoreRuleOptions = ['sim', 'partial', 'nao'];
+  public $scoreRuleOptions = ['Sim', 'Parcial', 'Insuficiente','Não'];
   public $description;
 
 
@@ -226,7 +226,7 @@ class QuestionScore extends Component
     }
   }
 
-  
+
   /**
    * Atualiza o valor da pontuação quando a regra é modificada.
    *

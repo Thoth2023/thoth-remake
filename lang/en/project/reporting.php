@@ -3,6 +3,29 @@
 return [
 
     'reporting' => 'Reporting',
+    'content-helper' => '
+        <p>The <strong>Reporting</strong> module brings together all the information generated throughout your Systematic Literature Review (SLR)
+        or Systematic Mapping Study (SMS). In this section, you can explore charts, tables, counts, and statistics that summarize the progress
+        and results of your review.</p>
+
+        <h5><strong>How to use the reports?</strong></h5>
+        <ul>
+            <li><strong>Visualization:</strong> browse visual charts that represent each stage of the review — Importing, Study Selection, Quality Assessment, Snowballing, and Data Extraction.</li>
+            <li><strong>Monitoring:</strong> view funnel charts, numbers of accepted, rejected, removed and duplicated studies, and other important metrics.</li>
+            <li><strong>Verification:</strong> quickly confirm whether all stages were completed and identify possible inconsistencies.</li>
+        </ul>
+
+        <h5><strong>Data Export</strong></h5>
+        <p>You can export tables and results in commonly used research formats:</p>
+        <ul>
+            <li><strong>CSV:</strong> for use in Excel, Google Sheets, or statistical scripts.</li>
+            <li><strong>XML:</strong> useful for data exchange or custom automation workflows.</li>
+            <li><strong>PDF:</strong> ideal for attaching to review reports, research papers, or official documents.</li>
+        </ul>
+
+        <p>The reporting module is designed to help you clearly understand your study, facilitate quantitative analysis,
+        and provide ready-to-use data for scientific papers, dissertations, and technical reports.</p>
+    ',
     'header' => [
         'overview' => 'Overview',
         'reliability' => 'Reliability',
