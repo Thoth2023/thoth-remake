@@ -18,7 +18,7 @@
                         label="{{ __('project/planning.quality-assessment.question-quality.id') }}"
                         placeholder="QA01"
                         wire:model="questionId"
-                        pattern="[a-zA-ZÀ-ÿ0-9\s]+"
+                        pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                         required
                         autocomplete="on"
                         name="quality_question_id"

@@ -25,7 +25,7 @@
                     name="de_question_id"
                     list="de_questionId_suggestions"
                     maxlength="255"
-                    pattern="[A-Za-z0-9]+"
+                    pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                     required
 
                 />

@@ -94,7 +94,7 @@
                                 <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input type="text" name="username" class="form-control"
                                         placeholder="{{ __('auth/register.username') }}"
-                                        aria-label="{{ __('auth.register.username') }}" value="{{ old('username') }}">
+                                        aria-label="{{ __('auth/register.username') }}" value="{{ old('username') }}">
                                     @error('username')
                                         <p class='text-danger text-xs pt-1'> {{ $message }} </p>
                                     @enderror
@@ -103,8 +103,7 @@
                                     <input type="password" name="password" id="password" class="form-control"
                                         placeholder="{{ __('auth/register.password') }}"
 
-                                        aria-label="{{ __('auth.register.password') }} "value="{{ old('password') }}">
-                                    <small id="passwordStrength" class="text-muted">Digite uma senha segura</small>
+                                        aria-label="{{ __('auth/register.password') }}" value="{{ old('password') }}">
                                     <span role="button" id="togglePassword"
                                         class="position-absolute top-50 end-0 translate-middle-y me-3"
                                         style="cursor: pointer; background: white; display: none;"
@@ -116,6 +115,23 @@
                                         <p class='text-danger text-xs pt-1'>{{ $message }}</p>
                                     @enderror
                                 </div>
+                                <div class="flex flex-col mb-3 col-xl-6 col-lg-5 col-md-6 mx-auto position-relative">
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
+                                           placeholder="{{ __('auth/register.confirm_password') }}"
+
+                                           aria-label="{{ __('auth/register.confirm_password') }}">
+                                    <span role="button" id="togglePassword"
+                                          class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                          style="cursor: pointer; background: white; display: none;"
+                                          tabindex="-1">
+                                        <i class="fas fa-eye" id="eyeIcon"></i>
+                                    </span>
+
+                                    @error('password_confirmation')
+                                    <p class='text-danger text-xs pt-1'>{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 <div class="form-check form-check-info text-start col-xl-6 col-lg-5 col-md-6 mx-auto">
                                     <input class="form-check-input" type="checkbox" name="terms" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">

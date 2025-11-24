@@ -12,18 +12,18 @@ use App\Traits\ProjectPermissions;
 /**
  * Componente Livewire responsável pelo gerenciamento das palavras-chave
  * de um projeto de revisão sistemática da literatura.
- * 
+ *
  * As palavras-chave são termos ou frases que representam conceitos-chave
  * na pesquisa e são fundamentais para:
  * - Categorizar e organizar as fontes de literatura
  * - Facilitar a identificação de informações relevantes
  * - Auxiliar na construção de strings de busca
  * - Definir o escopo temático da revisão sistemática
- * 
+ *
  * Este componente faz parte da fase de planejamento geral da revisão sistemática,
  * onde os pesquisadores definem os termos principais que guiarão suas buscas
  * nas bases de dados acadêmicas.
- * 
+ *
  * Funcionalidades:
  * - Adicionar novas palavras-chave ao projeto
  * - Editar palavras-chave existentes
@@ -39,15 +39,15 @@ class Keywords extends Component
     /**
      * Caminho base para as traduções específicas deste componente.
      * Utilizado para internacionalização (PT/BR e EN).
-     * 
+     *
      * @var string
      */
     private $translationPath = 'project/planning.overall.keyword.livewire';
-    
+
     /**
      * Caminho para as mensagens de toast específicas deste componente.
      * Utilizado para feedback visual ao usuário após operações CRUD.
-     * 
+     *
      * @var string
      */
     private $toastMessages = 'project/planning.overall.keyword.livewire.toasts';
@@ -55,23 +55,23 @@ class Keywords extends Component
     /**
      * Instância do projeto atual sendo editado.
      * Contém todos os dados do projeto de revisão sistemática.
-     * 
+     *
      * @var ProjectModel
      */
     public $currentProject;
-    
+
     /**
      * Palavra-chave atualmente sendo editada.
      * Null quando não há edição em andamento (modo criação).
-     * 
+     *
      * @var KeywordModel|null
      */
     public $currentKeyword;
-    
+
     /**
      * Coleção de todas as palavras-chave associadas ao projeto atual.
      * Atualizada dinamicamente conforme operações CRUD são realizadas.
-     * 
+     *
      * @var \Illuminate\Database\Eloquent\Collection
      */
     public $keywords = [];
@@ -79,12 +79,12 @@ class Keywords extends Component
     /**
      * Fields to be filled by the form.
      */
-    
+
     /**
      * Descrição da palavra-chave.
      * Campo principal que define o termo ou frase da palavra-chave.
      * Utilizado tanto para criação quanto para edição.
-     * 
+     *
      * @var string|null
      */
     public $description;
@@ -92,11 +92,11 @@ class Keywords extends Component
     /**
      * Form state.
      */
-    
+
     /**
      * Estado do formulário para controle de operações.
      * Controla se o formulário está em modo de edição ou criação.
-     * 
+     *
      * @var array
      */
     public $form = [
@@ -108,7 +108,7 @@ class Keywords extends Component
      */
     protected $rules = [
         'currentProject' => 'required',
-        'description' => 'required|string|max:255',
+        'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
     ];
 
     /**
@@ -130,13 +130,13 @@ class Keywords extends Component
         // Obtém o ID do projeto a partir da URL (segundo segmento)
         // Ex: /projects/123/planning/overall -> projectId = 123
         $projectId = request()->segment(2);
-        
+
         // Carrega o projeto atual ou falha se não encontrado
         $this->currentProject = ProjectModel::findOrFail($projectId);
-        
+
         // Inicializa a palavra-chave atual como null (modo criação)
         $this->currentKeyword = null;
-        
+
         // Carrega todas as palavras-chave associadas ao projeto
         $this->keywords = KeywordModel::where(
             'id_project',
@@ -159,10 +159,10 @@ class Keywords extends Component
     {
         // Limpa o campo de descrição
         $this->description = '';
-        
+
         // Remove a referência à palavra-chave atual
         $this->currentKeyword = null;
-        
+
         // Retorna o formulário ao modo de criação
         $this->form['isEditing'] = false;
     }
@@ -200,7 +200,7 @@ class Keywords extends Component
         $updateIf = [
             'id_keyword' => $this->currentKeyword?->id_keyword,
         ];
-        
+
         // Verifica se já existe uma palavra-chave com a mesma descrição no projeto
         // Importante para evitar duplicatas que podem confundir a estratégia de busca
         $existingKeyword = KeywordModel::where('description', $this->description)
@@ -300,7 +300,7 @@ class Keywords extends Component
 
         // Localiza a palavra-chave a ser excluída
         $currentKeyword = KeywordModel::findOrFail($keywordId);
-        
+
         // Remove a palavra-chave do banco de dados
         $currentKeyword->delete();
 
@@ -313,7 +313,7 @@ class Keywords extends Component
 
         // Atualiza a lista de palavras-chave na interface
         $this->updateKeywords();
-        
+
         // Limpa os campos do formulário
         $this->resetFields();
         $this->toast(

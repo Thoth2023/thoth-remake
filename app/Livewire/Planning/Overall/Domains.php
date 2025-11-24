@@ -101,7 +101,7 @@ class Domains extends Component
      */
     protected $rules = [
         'currentProject' => 'required',
-        'description' => 'required|string|max:255',
+        'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
     ];
 
     /**

@@ -20,7 +20,7 @@
                         label="{{ __('project/planning.search-string.term.form.title') }}"
                         wire:model="description"
                         placeholder="{{ __('project/planning.search-string.term.form.placeholder') }}"
-                        pattern="[A-Za-zÀ-ÿ\s]+"
+                        pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                         required
                     />
                     @error("description")
@@ -83,7 +83,7 @@
                                 label="{{ __('project/planning.search-string.synonym.form.title') }}"
                                 wire:model="synonym"
                                 placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
-                                pattern="[A-Za-zÀ-ÿ\s]+"
+                                pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                                 required
                             />
                             @error("synonym")

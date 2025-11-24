@@ -42,7 +42,7 @@ class SearchString extends Component
     {
         return [
             'currentProject' => 'required',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
         ];
     }
 
@@ -154,7 +154,7 @@ class SearchString extends Component
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
-        
+
         $this->currentSearchString = SearchStringModel::findOrFail($searchStringId);
         $this->description = $this->currentSearchString->description;
     }

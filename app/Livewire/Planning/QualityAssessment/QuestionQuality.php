@@ -63,7 +63,7 @@ class QuestionQuality extends Component
     protected $rules = [
         'currentProject' => 'required',
         'questionId' => 'required|string|max:10|regex:/^[a-zA-Z0-9]+$/',
-        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
+        'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
         'weight' => 'required|regex:/^\d+(\.\d{1,2})?$/',
     ];
 

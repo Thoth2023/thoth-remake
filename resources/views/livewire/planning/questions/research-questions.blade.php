@@ -44,7 +44,7 @@
                         id="description"
                         wire:model="description"
                         placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
-                        pattern="[A-Za-zÀ-ÿ\s]+"
+                        pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                         title="A descrição deve conter apenas letras e espaços."
                         required
                     ></textarea>
