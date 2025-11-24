@@ -319,7 +319,12 @@ class QuestionRanges extends Component
         $newItems = [];
 
         for ($i = 1; $i <= $this->intervals; $i++) {
-            $end = round($start + $rangeStep - 0.01, 2);
+            if ($i === $this->intervals) {
+                // Último intervalo deve fechar exatamente no valor da soma dos pesos
+                $end = round($sumWeights, 2);
+            } else {
+                $end = round($start + $rangeStep - 0.01, 2);
+            }
 
             // Atualizar existentes
             if ($i <= $existingCount) {
@@ -360,7 +365,6 @@ class QuestionRanges extends Component
 
         $this->dispatch('general-scores-generated');
     }
-
 
     /**
    * Manipula atualizações automáticas de propriedades.

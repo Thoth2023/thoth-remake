@@ -113,20 +113,23 @@
                     </div>
                 </div>
 
+                @if($project->hasSnowballing())
                 {{-- Snowballing --}}
-                <div class="mb-3">
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">{{ __('project/overview.snowballing') }}</span>
-                        <span>{{ number_format($conductingProgress['snowballing'] ?? 0, 2) }}%</span>
-                    </div>
-                    <div class="progress" style="height: 18px;">
-                        <div class="progress-bar bg-secondary"
-                             style="width: {{ $conductingProgress['snowballing'] ?? 0 }}%"
-                             aria-valuenow="{{ $conductingProgress['snowballing'] ?? 0 }}"
-                             aria-valuemin="0" aria-valuemax="100">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-semibold">{{ __('project/overview.snowballing') }}</span>
+                            <span>{{ number_format($conductingProgress['snowballing'] ?? 0, 2) }}%</span>
+                        </div>
+                        <div class="progress" style="height: 18px;">
+                            <div class="progress-bar bg-secondary"
+                                 style="width: {{ $conductingProgress['snowballing'] ?? 0 }}%"
+                                 aria-valuenow="{{ $conductingProgress['snowballing'] ?? 0 }}"
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
 
                 {{-- Data Extraction --}}
                 <div>

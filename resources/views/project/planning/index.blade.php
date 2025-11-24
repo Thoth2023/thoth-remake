@@ -56,9 +56,10 @@
                 <div class="col-12">
                     @include("project.components.project-tabs", [
                         "header" => __("project/planning.planning"),
+                        "content" => __("project/planning.content-helper"),
                         "tabs" => $tabs,
                         "activeTab" => "overall-info-tab",
-                        "scope" => "planning"
+                        "scope" => "planning",
                     ])
 
                     <div class="tab-content mt-4">

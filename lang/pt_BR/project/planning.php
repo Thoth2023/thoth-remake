@@ -2,6 +2,76 @@
 
 return [
     'planning' => 'Planejamento',
+    'content-helper'=>'<p>
+O planejamento do protocolo RSL é a etapa em que você transforma a sua ideia de revisão em um plano estruturado.
+Um protocolo bem preenchido reduz viés, torna o estudo reproduzível e facilita o trabalho em equipe.
+Recomendamos preencher cada seção na ordem abaixo, pois muitas decisões dependem das anteriores.
+</p>
+<p>
+Use esta lista como um checklist de planejamento antes de iniciar a condução da revisão.
+</p>
+
+<ol>
+  <li><strong>Domínios:</strong> Defina claramente em quais domínios ou áreas o estudo se insere
+(por exemplo, Engenharia de Software, Saúde, Educação). Isso ajuda a manter o foco temático da revisão.</li>
+
+  <li><strong>Idiomas:</strong> Informe os idiomas que serão considerados na revisão.
+Lembre-se de alinhar estas escolhas com a equipe e com o escopo do estudo.</li>
+
+  <li><strong>Tipos de Estudo:</strong> Especifique quais tipos de estudos serão incluídos
+(por exemplo, estudos empíricos, estudos de caso, surveys, revisões anteriores).</li>
+
+  <li><strong>Palavras-chave:</strong> Cadastre termos ou expressões que representam os conceitos-chave da pesquisa.
+Elas serão a base para a construção dos termos de busca e das strings.</li>
+
+  <li><strong>Datas do Projeto:</strong> Indique o período em que a revisão será realizada.
+Isto é útil para planejamento de cronograma e para registrar a janela temporal do estudo.</li>
+
+  <li><strong>Questões de Pesquisa:</strong> Formule as perguntas que a revisão pretende responder.
+Elas orientam todas as demais decisões de planejamento, seleção e análise.</li>
+
+  <li><strong>Bases de Dados:</strong> Selecione os repositórios de artigos e publicações acadêmicas que serão utilizados
+(por exemplo, Scopus, Web of Science, IEEE Xplore).</li>
+
+  <li><strong>Sugerir nova Base de Dados:</strong> Caso alguma base importante para sua área não esteja disponível,
+      utilize este recurso para sugerir a inclusão no Thoth.</li>
+
+  <li><strong>Termos de Busca:</strong> A partir dos domínios, palavras-chave e questões de pesquisa,
+      defina os termos que serão combinados para recuperar estudos relevantes.</li>
+
+  <li><strong>String de Busca:</strong> Construa as strings combinando termos, operadores booleanos e filtros
+      adequados a cada base de dados.</li>
+
+  <li><strong>Estratégia de Busca:</strong> Descreva como as buscas serão conduzidas
+(buscas piloto, refinamentos iterativos, combinação de bases, ajustes por base de dados).</li>
+
+  <li><strong>Critérios de Inclusão e Exclusão:</strong> Defina critérios objetivos para decidir
+      quais estudos entram ou saem da revisão, considerando título, resumo, texto completo e qualidade.</li>
+
+  <li><strong>Questões de Qualidade:</strong> Cadastre as questões que serão usadas para avaliar a qualidade de cada estudo.
+Elas podem ter pesos diferentes de acordo com sua importância.</li>
+
+  <li><strong>Pontuação de Qualidade:</strong> Para cada questão de qualidade, defina as regras de pontuação
+(por exemplo, Sim, Parcialmente, Não) e os valores numéricos correspondentes.</li>
+
+  <li><strong>Tabela com as Questões:</strong> Revise a visão consolidada das questões de qualidade e de suas pontuações.
+Nesta etapa, ajuste pesos e verifique se todas as questões estão claras e consistentes.</li>
+
+  <li><strong>Intervalos de Pontuação Geral:</strong> Defina faixas de pontuação (por exemplo, Alta, Média, Baixa qualidade)
+      que serão usadas para classificar cada estudo ao final da avaliação de qualidade.</li>
+
+  <li><strong>Pontuação Mínima Geral para Aprovação:</strong> Estabeleça a pontuação mínima que um estudo deve atingir
+      para ser considerado adequado e seguir para as próximas etapas da revisão.</li>
+
+  <li><strong>Perguntas de Extração de Dados:</strong> Cadastre as perguntas que definem quais informações
+      você deseja extrair dos estudos para responder às questões de pesquisa.</li>
+
+  <li><strong>Opções de Perguntas de Extração de Dados:</strong> Para cada pergunta, crie os tipos de resposta
+(texto livre, múltipla escolha, numérico etc.) de forma padronizada e fácil de analisar.</li>
+
+  <li><strong>Tabela de Extração:</strong> Revise a visão geral de todas as perguntas de extração.
+Utilize esta tela para conferir lacunas, editar itens e garantir que todos os dados necessários serão coletados.</li>
+</ol>',
     'button' => [
         'close' => 'Fechar',
     ],
@@ -191,9 +261,23 @@ return [
             ],
             'help' => [
                 'title' => 'Palavras-chave',
-                'content' => 'Palavras-chave são termos ou frases que representam conceitos-chave em sua pesquisa. ' .
-                    'Você pode usar palavras-chave para categorizar e organizar suas fontes de literatura, facilitando ' .
-                    'a identificação de informações relevantes para o seu projeto.',
+                'content' => '
+<p><strong>Palavras-chave</strong> são termos ou expressões que representam os principais conceitos envolvidos no seu estudo. Elas ajudam a orientar a busca nas bases de dados, garantindo que os resultados retornados sejam relevantes para os objetivos da sua Revisão Sistemática da Literatura (RSL).</p>
+
+<p>As palavras-chave também podem ser usadas para organizar, classificar e filtrar estudos, facilitando a identificação de informações alinhadas com o tema pesquisado.</p>
+
+<p>A seguir, alguns exemplos de palavras-chave conforme diferentes áreas de pesquisa:</p>
+
+<ul>
+    <li><strong>Engenharia de Software:</strong> "software testing", "agile development", "software metrics", "DevOps", "requirements engineering".</li>
+    <li><strong>Ciência da Computação:</strong> "machine learning", "neural networks", "data mining", "cybersecurity", "cloud computing".</li>
+    <li><strong>Saúde:</strong> "public health", "diabetes treatment", "mental health", "nutrition", "epidemiology".</li>
+    <li><strong>Educação:</strong> "e-learning", "pedagogical strategies", "assessment methods", "inclusive education", "remote learning".</li>
+    <li><strong>Administração:</strong> "project management", "leadership", "organizational behavior", "strategic planning", "marketing analysis".</li>
+</ul>
+
+<p>Use termos amplos e específicos para aumentar a precisão da sua busca. Se possível, consulte estudos anteriores para identificar palavras-chave frequentemente utilizadas na área.</p>
+',
             ],
             'livewire' => [
                 'logs' => [
@@ -251,8 +335,55 @@ return [
         'title' => 'Questões de Pesquisa',
         'help' => [
             'title' => 'Ajuda para Questões de Pesquisa',
-            'content' => 'Questões de pesquisa são investigações-chave que orientam sua revisão de literatura. Cada pergunta deve ser clara, focada e diretamente relacionada aos seus objetivos de pesquisa. Adicione, edite ou exclua perguntas de pesquisa para refinar o escopo de sua revisão de literatura.
-            <br><strong>Ex.:</strong> RQ01 - Os estudos são revisões sistemáticas da literatura?',
+            'content' => '
+<p><strong>O que são Questões de Pesquisa?</strong></p>
+<p>
+Questões de Pesquisa (Research Questions – RQs) são perguntas centrais que orientam toda a Revisão Sistemática da Literatura (RSL).
+Elas determinam <em>o que exatamente você deseja investigar</em>, influenciando todas as etapas seguintes: seleção de estudos, critérios, extração de dados, avaliação e síntese.
+</p>
+
+<p><strong>Como preencher os campos:</strong></p>
+
+<ul>
+<li>
+    <strong>ID:</strong>
+    Identificador curto e único para cada questão.
+    O padrão recomendado é usar um código simples, como <strong>RQ01</strong>, <strong>RQ02</strong>, etc.
+    Ele facilita a referência durante a qualidade, extração de dados e relatórios.
+</li>
+
+<li>
+    <strong>Descrição:</strong>
+    Escreva uma pergunta clara, objetiva e focada.
+    A descrição deve refletir exatamente o que você deseja responder com sua revisão.
+</li>
+</ul>
+
+<p><strong>Dicas importantes:</strong></p>
+<ul>
+<li>Use apenas uma pergunta por linha;</li>
+<li>Cadastre uma pergunta por vez;</li>
+<li>Certifique-se de que cada questão seja totalmente respondível com evidências dos estudos;</li>
+<li>Revise suas questões com o orientador e a equipe para garantir alinhamento conceitual.</li>
+</ul>
+
+<p><strong>Exemplos práticos:</strong></p>
+
+<ul>
+<li><strong>ID:</strong> RQ01 — <strong>Descrição:</strong> Quais métodos de engenharia de requisitos são utilizados em projetos de grande escala?</li>
+
+<li><strong>ID:</strong> RQ02 — <strong>Descrição:</strong> Quais são as principais limitações relatadas nos estudos sobre testes automatizados?</li>
+
+<li><strong>ID:</strong> RQ03 — <strong>Descrição:</strong> Como a inteligência artificial tem sido aplicada para apoio ao desenvolvimento de software?</li>
+
+<li><strong>ID:</strong> RQ04 — <strong>Descrição:</strong> Quais métricas são usadas para avaliar a qualidade de código em estudos recentes?</li>
+</ul>
+
+<p>
+Essas questões servirão como guia principal da sua revisão.
+Todos os dados coletados durante o processo devem contribuir para respondê-las de forma consistente e fundamentada.
+</p>
+'
         ],
         'form' => [
             'id' => 'ID',
@@ -297,8 +428,49 @@ return [
         'title' => 'Base de Dados',
         'help' => [
             'title' => 'Bases de Dados',
-            'content' => 'Bases de dados são repositórios de artigos e publicações acadêmicas. Selecione as bases que você planeja pesquisar para reunir literatura relevante para sua revisão. Adicione ou remova bases de acordo com a relevância para o tópico de sua pesquisa.',
+            'content' => '
+<p><strong>O que são Bases de Dados?</strong></p>
+<p>
+Bases de dados são plataformas que reúnem artigos acadêmicos, livros científicos, relatórios técnicos e outros materiais de pesquisa.
+Elas funcionam como grandes catálogos onde você pode buscar estudos confiáveis usando termos, palavras-chave ou strings de busca.
+</p>
+
+<p>
+Durante uma Revisão Sistemática da Literatura (RSL), as bases de dados são essenciais, pois garantem que você encontre a maior quantidade possível de estudos relevantes de forma organizada e rastreável.
+Cada base possui diferentes coberturas temáticas e tipos de publicações.
+</p>
+
+<p><strong>Como escolher as bases ideais?</strong></p>
+<ul>
+<li>Considere sua área de estudo (ex.: Engenharia de Software, Saúde, Educação, Administração, etc.).</li>
+<li>Verifique quais bases são mais reconhecidas na sua área.</li>
+<li>Use mais de uma base para evitar perda de estudos importantes.</li>
+<li>Escolha bases com boa indexação e histórico de publicações de qualidade.</li>
+</ul>
+
+<p><strong>Exemplos de bases de dados:</strong></p>
+<ul>
+<li><strong>Scopus:</strong> ampla cobertura multidisciplinar, muito usada em pesquisas científicas.</li>
+<li><strong>Web of Science:</strong> base altamente reconhecida com estudos de alta qualidade.</li>
+<li><strong>IEEE Xplore:</strong> ideal para Computação, Engenharia, Tecnologia e Eletrônica.</li>
+<li><strong>ACM Digital Library:</strong> referência em Ciência da Computação.</li>
+<li><strong>PubMed:</strong> excelente para pesquisas na área da saúde.</li>
+<li><strong>ScienceDirect:</strong> artigos técnicos e científicos de várias áreas.</li>
+</ul>
+
+<p><strong>Como usar esta etapa no Thoth 2.0:</strong></p>
+<ul>
+<li>Selecione as bases de dados que deseja incluir em sua revisão.</li>
+<li>Adicione novas bases se sua área exigir outras fontes que não estão na lista.</li>
+<li>Remova bases que não são relevantes para o seu tema.</li>
+</ul>
+
+<p>
+A escolha correta das bases garante uma revisão mais completa, confiável e metodologicamente sólida.
+</p>
+',
         ],
+
         'form' => [
             'select-placeholder' => 'Selecione uma Base de Dados',
             'add-button' => 'Adicionar Base de Dados',
@@ -315,8 +487,51 @@ return [
             'title' => 'Sugira uma nova Base de Dados',
             'help' => [
                 'title' => 'Sugira uma nova Base de Dados',
-                'content' => 'Caso seja necessário para sua pesquisa e ela não esteja na lista atual da Thoth. Vale ressaltar que essa base de dados só ficará disponível para uso após aprovação dos administradores responsáveis pelo sistema.',
+                'content' => '
+<p>Se você deseja utilizar uma base de dados que **ainda não está disponível na lista da Thoth**, você pode sugeri-la para inclusão.
+Essa funcionalidade é útil quando sua área de pesquisa utiliza repositórios específicos que não fazem parte da configuração padrão.</p>
+
+<p><strong>Importante:</strong> A base sugerida não ficará imediatamente disponível no sistema.
+Ela passará por uma análise dos administradores responsáveis, que avaliam a relevância, acessibilidade e confiabilidade da fonte.</p>
+
+<hr>
+
+<p><strong>Como preencher os campos:</strong></p>
+
+<ul>
+<li>
+    <strong>Nome da Base de Dados:</strong><br>
+    Insira o nome oficial da base de dados que você deseja sugerir.<br>
+    Exemplos:
+    <ul>
+        <li><em>ACM Digital Library</em></li>
+        <li><em>PubMed</em></li>
+        <li><em>Google Scholar</em></li>
+        <li><em>ScienceDirect</em></li>
+    </ul>
+</li>
+
+<li>
+    <strong>Link da Base de Dados:</strong><br>
+    Informe a URL principal (página inicial) da base de dados.<br>
+    Exemplos:
+    <ul>
+        <li>https://dl.acm.org/</li>
+        <li>https://pubmed.ncbi.nlm.nih.gov/</li>
+        <li>https://scholar.google.com/</li>
+        <li>https://www.sciencedirect.com/</li>
+    </ul>
+    O link deve levar diretamente ao repositório, e não a páginas internas ou resultados de busca.
+</li>
+</ul>
+
+<hr>
+
+<p>Após enviar sua sugestão, aguarde a avaliação da equipe responsável.
+Assim que for aprovada, a base de dados será adicionada à lista disponível no ambiente de planejamento.</p>
+',
             ],
+
             'content' => 'Sugira uma nova Base de Dados',
             'name-label' => 'Nome da Base de Dados',
             'enter-name' => 'Digite o nome da Base de Dados',
@@ -393,7 +608,53 @@ return [
     'search-string' => [
         'generate-all' => 'Gerar todas as strings de busca',
         'title' => 'String de Busca',
-        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione strings de busca para cada base de dados do projeto para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+        'help' => 'String de busca é uma sequência de termos de pesquisa que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione strings de busca para cada base de dados do projeto para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.
+        <br>
+        <hr>
+
+<p><strong>Como a Thoth monta a String de Busca automaticamente?</strong></p>
+
+<ul>
+<li>
+    Cada <strong>termo principal</strong> é combinado usando o operador <strong>AND</strong>.
+    Ex.:
+    <code>(tools) AND (web-based) AND (systematic review)</code>
+</li>
+
+<li>
+    Cada <strong>sinônimo</strong> dentro de um mesmo termo é combinado usando <strong>OR</strong>.
+    Ex.:
+    <code>(tools OR "software tools" OR "support tools")</code>
+</li>
+
+<li>
+    A Thoth gera automaticamente uma string completa no formato ideal para buscas acadêmicas.
+</li>
+</ul>
+
+<hr>
+<p><strong>Exemplo de String Gerada Automática:</strong></p>
+
+<pre>
+("systematic review" OR "literature review")
+AND
+(tools OR "software tools" OR "support tools")
+AND
+(web-based OR online OR "browser-based")
+</pre>
+
+<p>
+Essa string será utilizada posteriormente para gerar as consultas em cada base de dados configurada no seu projeto.
+</p>
+
+<p><strong>Dicas finais:</strong></p>
+<ul>
+<li>Cadastre primeiro todos os termos centrais;</li>
+<li>Inclua sinônimos amplamente utilizados na literatura;</li>
+<li>Use termos no idioma das bases de dados que você pretende consultar (geralmente inglês);</li>
+<li>Não é necessário preocupar-se com operadores — a Thoth monta tudo automaticamente.</li>
+</ul>
+        ',
         'form' => [
             'description' => 'String de Busca Genérica',
             'enter-description' => 'Digite a string de busca genérica',
@@ -410,7 +671,63 @@ return [
         ],
         'term' => [
             'title' => 'Termos',
-            'help' => 'Termos de busca são palavras-chave que você usa para pesquisar fontes de literatura relevantes para sua revisão. Adicione, edite ou exclua termos de busca para refinar sua estratégia de busca e encontrar informações relevantes para sua pesquisa.',
+            'help' => '<p><strong>O que é uma String de Busca?</strong></p>
+
+<p>
+A String de Busca é uma fórmula composta por termos, operadores lógicos e sinônimos que você utiliza para
+pesquisar estudos nas bases de dados. Ela garante que sua busca seja <em>precisa, completa e reproduzível</em>,
+encontrando o maior número possível de estudos relevantes para sua Revisão Sistemática da Literatura (RSL).
+</p>
+
+<p>
+Ao estruturar corretamente sua string, você reduz viés, evita perder artigos importantes e facilita a
+comparação dos resultados entre diferentes bases (IEEE, Scopus, ACM, etc.).
+</p>
+
+<hr>
+
+<p><strong>Como preencher os campos exibidos na tela:</strong></p>
+
+<ul>
+<li>
+    <strong>Termos de Busca:</strong>
+    São os conceitos principais da sua pesquisa.
+    Exemplo: <em>“tools”</em>, <em>“web-based”</em>, <em>“systematic review”</em>.
+</li>
+
+<li>
+    <strong>Adicionar Termo:</strong>
+    Após digitar o termo principal, clique no botão <strong>“Adicionar Termo”</strong> para registrá-lo na lista.
+</li>
+
+<li>
+    <strong>Selecione um Termo:</strong>
+    Depois de cadastrado, selecione o termo ao qual deseja adicionar sinônimos.
+</li>
+
+<li>
+    <strong>Sinônimos:</strong>
+    Os sinônimos representam variações da mesma ideia.
+    Para cada termo principal, você pode cadastrar vários sinônimos.
+    Ex.:
+    <ul>
+        <li>Termo: <em>tools</em> → Sinônimos: <em>software tools</em>, <em>support tools</em></li>
+        <li>Termo: <em>web-based</em> → Sinônimos: <em>online</em>, <em>browser-based</em></li>
+    </ul>
+</li>
+
+<li>
+    <strong>Idioma das Sugestões:</strong>
+    A Thoth exibe automaticamente sugestões de sinônimos baseadas no idioma escolhido.
+    Caso não encontre o sinônimo desejado, você pode adicionar manualmente.
+</li>
+
+<li>
+    <strong>Botão “+” (Adicionar Sinônimo):</strong>
+    Clique para vincular o sinônimo ao termo selecionado.
+</li>
+</ul>
+',
             'form' => [
                 'title' => 'Termos de Busca',
                 'placeholder' => 'Digite o termo de busca',
@@ -475,15 +792,112 @@ return [
         'help' => [
             'title' => 'Critérios de Inclusão/Exclusão',
             'content' => '
-            <p>Na seção de critérios, você define os critérios para a seleção ou exclusão de estudos em seu projeto de pesquisa.</p>
-            <p><strong>Critérios de Inclusão:</strong> Especifique os critérios que os estudos devem atender para serem incluídos em sua pesquisa.
-            <br>Ex.: IC1 - A publicação deve propor uma ferramenta para apoiar o teste de desempenho.</p>
-            <p><strong>Critérios de Exclusão:</strong> Especifique os critérios que os estudos devem atender para serem excluídos de sua pesquisa.
-            <br>Ex.: EC1 - Artigos duplicados.</p>
-            <p>Certifique-se de considerar e documentar cuidadosamente seus critérios para garantir um processo de seleção sistemático e transparente.</p>
-            <ul><li><strong>Todos:</strong> O estudo deve conter todos os critérios de inclusão ou exclusão.</li>
-            <li><strong>Pelo menos:</strong> O estudo deve conter pelo menos os critérios selecionados.</li>
-            <li><strong>Qualquer:</strong> O estudo pode conter qualquer um dos critérios.</li></ul>
+           <p><strong>O que são Critérios de Inclusão e Exclusão?</strong></p>
+
+<p>
+Critérios de Inclusão e Exclusão são regras fundamentais que determinam
+<strong>quais estudos serão considerados</strong> na sua Revisão Sistemática da Literatura (RSL)
+e quais devem ser descartados.
+Eles garantem que a seleção seja <strong>clara, consistente e reproduzível</strong>, evitando vieses
+e mantendo a revisão alinhada aos seus objetivos.
+</p>
+
+<p><strong>Como preencher os campos:</strong></p>
+
+<ul>
+    <li>
+        <strong>ID:</strong>
+        Use um identificador curto e único para cada critério.
+        Para Inclusão utilize o padrão <strong>IC1, IC2, IC3...</strong>
+        Para Exclusão utilize <strong>EC1, EC2, EC3...</strong>
+        Esses identificadores facilitam a rastreabilidade e a análise posterior.
+    </li>
+
+    <li>
+        <strong>Descrição:</strong>
+        Escreva de forma clara, objetiva e verificável.
+        A descrição deve permitir que qualquer pesquisador consiga avaliar um estudo
+        da mesma forma, reduzindo ambiguidades.
+        <br><em>Exemplos corretos:</em>
+        <br>• “O estudo deve apresentar avaliação empírica de uma ferramenta X.”
+        <br>• “Artigos duplicados devem ser excluídos.”
+    </li>
+
+    <li>
+        <strong>Tipo:</strong>
+        Escolha se o critério é de <strong>Inclusão</strong> ou <strong>Exclusão</strong>.
+        Isso organiza automaticamente a tabela e o processo de seleção.
+    </li>
+</ul>
+
+<hr>
+
+<p><strong>Critérios de Inclusão (IC):</strong></p>
+<p>
+São as condições que um estudo <strong>deve obrigatoriamente cumprir</strong> para ser considerado relevante.
+Eles delimitam o escopo da revisão e asseguram que apenas os estudos úteis avancem.
+</p>
+
+<p><strong>Exemplo:</strong><br>
+IC1 — A publicação deve propor uma ferramenta para apoiar o teste de desempenho.
+</p>
+
+<hr>
+
+<p><strong>Critérios de Exclusão (EC):</strong></p>
+<p>
+São condições que indicam que um estudo <strong>não deve ser incluído</strong>, mesmo que atenda critérios de inclusão.
+Normalmente são usados para retirar ruídos, duplicações ou estudos fora do escopo.
+</p>
+
+<p><strong>Exemplo:</strong><br>
+EC1 — Artigos duplicados.
+EC2 — O estudo não está disponível em texto completo.
+</p>
+
+<hr>
+
+<p><strong>Regra de Inclusão / Exclusão (Importante):</strong></p>
+
+<p>Essa regra define como os critérios devem ser aplicados:</p>
+
+<ul>
+    <li>
+        <strong>Todos:</strong>
+        O estudo deve atender <strong>todos os critérios</strong> selecionados.
+        Mais restritivo e garante alta precisão.
+    </li>
+
+    <li>
+        <strong>Pelo menos:</strong>
+        O estudo deve atender <strong>um mínimo</strong> de critérios selecionados.
+        Útil para áreas amplas ou critérios complementares.
+    </li>
+
+    <li>
+        <strong>Qualquer:</strong>
+        Se o estudo atender a <strong>qualquer um</strong> dos critérios, ele será marcado.
+        Menos restritivo, amplia a sensibilidade da busca.
+    </li>
+</ul>
+
+<hr>
+
+<p><strong>Dicas práticas para preencher corretamente:</strong></p>
+
+<ul>
+    <li>Evite descrições vagas como “estudo relevante”.</li>
+    <li>Prefira critérios verificáveis e objetivos.</li>
+    <li>Inclua critérios para evitar ruído (ex.: exclusão de artigos de 1 página ou posters).</li>
+    <li>Revise os critérios com o orientador para garantir alinhamento.</li>
+    <li>Use IDs consistentes para facilitar a extração de dados.</li>
+</ul>
+
+<p>
+Ao final, seus critérios formarão a base do processo de seleção da revisão, garantindo um procedimento
+<strong>transparente, auditável e replicável</strong>.
+</p>
+
             ',
         ],
         'form' => [
@@ -574,66 +988,62 @@ return [
             'title' => 'Intervalos de Pontuação Geral',
             'help' => [
                 'title' => 'Intervalos de Pontuação Geral',
-                'content' => '<p>Você pode definir os intervalos que considerar necessários para a sua revisão sistemática.
-                            No entanto, lembre-se de salvar as configurações e definir o <strong>"mínimo para aprovação"</strong>.
-                            Esse planejamento será crucial na fase de condução da revisão.</p>
+                'content' => '<p>Os <strong>intervalos de pontuação geral</strong> são usados para classificar a qualidade final de um estudo após a avaliação das questões de qualidade. Eles definem faixas de pontuação (por exemplo: “Muito Pouco”, “Pouco”, “Bom”, “Muito Bom”) e ajudam a identificar rapidamente o nível em que cada estudo se encontra.</p>
 
-                            <p>Caso você adicione ou altere questões de qualidade no planejamento,
-                            <strong>verifique se o valor máximo do último intervalo cadastrado é igual à soma total dos pesos</strong>
-                            calculados pelo sistema. Essa consistência garante que os intervalos de pontuação estejam
-                            corretamente ajustados à estrutura atual das questões de qualidade.</p>
+<p>A geração dos intervalos é <strong>automática</strong>. O usuário apenas informa <strong>quantos intervalos deseja ter</strong> em sua revisão, e a Thoth cria esses intervalos com base na <strong>soma total dos pesos das questões de qualidade</strong>. Essa soma representa o <strong>máximo possível de pontuação</strong> que um estudo pode alcançar.</p>
 
-                            <p>Se desejar <strong>reduzir o número de intervalos</strong>,
-                            o sistema somente permitirá essa ação se <strong>não houver estudos avaliados</strong>
-                            vinculados ao mesmo projeto de revisão.</p>
+<p><strong>Como preencher os campos:</strong></p>
 
-                            <p>Se desejar apenas <strong>atualizar os valores finais de pontuação</strong> dos intervalos existentes,
-                            basta gerar novamente o <strong>mesmo número de intervalos</strong>.
-                            O sistema recalculará automaticamente os limites com base na <strong>soma dos pesos</strong> definidos nas questões de qualidade.</p>
+<ul>
+    <li>No campo <strong>"Gerar intervalos"</strong>, digite a quantidade de intervalos que deseja (ex.: 4, 5, 6).</li>
+    <li>Clique em <strong>"Gerar intervalos"</strong>. O sistema criará automaticamente os intervalos com valores mínimos, máximos e labels padrão.</li>
+    <li>Os campos <strong>Mín</strong> e <strong>Label</strong> podem ser editados pelo usuário.</li>
+    <li>Os campos <strong>Máx</strong> dos intervalos intermediários e <strong>todos os campos travados</strong> são definidos automaticamente pela Thoth e <strong>não podem ser alterados</strong>.</li>
+    <li>O valor <strong>Máx do último intervalo</strong> é sempre igual à <strong>soma total dos pesos</strong> das questões cadastradas — esse valor é obrigatório e não pode ser maior nem menor.</li>
+</ul>
 
-                            <p>Por fim, se desejar <strong>acrescentar novos intervalos</strong>, por exemplo,
-                            se atualmente existem 5 intervalos e você deseja ter 6, basta informar <strong>6</strong> no campo de geração
-                            e clicar no botão correspondente. O sistema verificará os intervalos já existentes
-                            e criará apenas o <strong>intervalo que falta</strong>, sem afetar os demais.</p>
+<p><strong>Regras importantes:</strong></p>
+<ul>
+    <li>Se você alterar questões de qualidade (incluindo pesos), verifique novamente os intervalos: a soma dos pesos pode ter mudado.</li>
+    <li>Se desejar <strong>reduzir o número de intervalos</strong>, isso só será permitido caso <strong>nenhum estudo tenha sido avaliado</strong> ainda.</li>
+    <li>Se desejar <strong>apenas recalcular</strong> os intervalos com base na nova soma dos pesos, basta gerar novamente o mesmo número de intervalos já existentes.</li>
+    <li>Se quiser <strong>acrescentar novos intervalos</strong>, informe um número maior (por exemplo, de 4 para 5). O sistema criará apenas os intervalos adicionais.</li>
+</ul>
 
-                            <strong>Exemplo:</strong>
-                            <table class="table table-bordered table-striped small">
-                                <thead>
-                                    <tr>
-                                        <th>Mínimo</th>
-                                        <th>Máximo</th>
-                                        <th>Descrição</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>0</td>
-                                        <td>1</td>
-                                        <td>Muito Ruim</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.1</td>
-                                        <td>2</td>
-                                        <td>Ruim</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.1</td>
-                                        <td>3</td>
-                                        <td>Regular</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.1</td>
-                                        <td>4</td>
-                                        <td>Bom</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.1</td>
-                                        <td>5</td>
-                                        <td>Muito Bom</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        ',
+<p><strong>Exemplo:</strong></p>
+
+<table class="table table-bordered table-striped small">
+    <thead>
+        <tr>
+            <th>Mínimo</th>
+            <th>Máximo</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0,01</td>
+            <td>1,25</td>
+            <td>Muito Pouco</td>
+        </tr>
+        <tr>
+            <td>1,26</td>
+            <td>2,5</td>
+            <td>Pouco</td>
+        </tr>
+        <tr>
+            <td>2,51</td>
+            <td>3,75</td>
+            <td>Bom</td>
+        </tr>
+        <tr>
+            <td>3,76</td>
+            <td>5</td>
+            <td>Muito Bom</td>
+        </tr>
+    </tbody>
+</table>
+ ',
             ],
             'start' => 'Digite a Pontuação Mínima',
             'end' => 'Digite a Pontuação Máxima',
@@ -679,28 +1089,63 @@ return [
             'title' => 'Questão de Qualidade',
             'help' => [
                 'title' => 'Questão de Qualidade',
-                'content' => '<p>Além dos critérios gerais de inclusão e exclusão, é fundamental avaliar a <strong>qualidade</strong> dos estudos primários,
-                            pois essa análise permite uma interpretação mais robusta e confiável dos resultados.</p>
+                'content' => '
+<p>As <strong>Questões de Qualidade</strong> fazem parte da etapa em que você avalia o quão confiáveis e completos são os estudos que farão parte da sua Revisão Sistemática da Literatura (RSL). Elas ajudam a identificar se cada publicação realmente apresenta informações sólidas para responder às suas Questões de Pesquisa.</p>
 
-                            <ul>
-                                <li>Fornece critérios de inclusão/exclusão ainda mais detalhados.</li>
-                                <li>Permite investigar se diferenças de qualidade explicam diferenças nos resultados dos estudos.</li>
-                                <li>Serve como um meio de ponderar a importância de estudos individuais quando os resultados são sintetizados.</li>
-                                <li>Auxilia na interpretação dos achados e na determinação da força das inferências.</li>
-                                <li>Orienta recomendações para futuras pesquisas.</li>
-                            </ul><br>
+<p>Mesmo que um estudo atenda aos critérios de inclusão, ele ainda pode ter limitações — e a avaliação de qualidade permite medir o quanto essas limitações afetam sua utilidade na revisão.</p>
 
-                            <p>Cada <strong>questão de qualidade</strong> pode possuir um <strong>peso</strong> associado,
-                            que representa sua importância relativa dentro da avaliação.
-                            Questões com pesos maiores têm um impacto mais significativo no cálculo da pontuação total,
-                            influenciando diretamente a <strong>classificação de qualidade</strong> de cada estudo.
-                            Dessa forma, o peso determina o quanto aquela questão contribui para o resultado geral da avaliação.</p>
+<p><strong>Por que a avaliação de qualidade é importante?</strong></p>
 
-                            <p>Por isso, é importante atribuir pesos de forma criteriosa,
-                            garantindo que questões mais relevantes para a revisão tenham maior influência na pontuação final.</p>
+<ul>
+    <li>Ajuda a identificar estudos mais robustos e confiáveis.</li>
+    <li>Reduz o risco de conclusões baseadas em pesquisas fracas ou incompletas.</li>
+    <li>Permite dar mais peso aos estudos bem conduzidos.</li>
+    <li>Aumenta a transparência e a credibilidade do processo da revisão.</li>
+    <li>Facilita análises posteriores e recomendações mais consistentes.</li>
+</ul>
 
-                            <strong>Exemplo:</strong> QA01 - O estudo apresenta a implementação de uma ferramenta para revisão sistemática da literatura?',
-                ],
+<hr>
+
+<p><strong>Como preencher os campos:</strong></p>
+
+<ul>
+    <li><strong>ID:</strong> É o identificador único da questão de qualidade.
+        O formato mais comum é usar códigos como <strong>QA01</strong>, <strong>QA02</strong>, etc., facilitando a organização durante a avaliação dos estudos.</li>
+
+    <li><strong>Peso:</strong> Indica o quanto essa pergunta influencia na pontuação final do estudo.
+        <ul>
+            <li><strong>Pesos maiores</strong> = maior importância na avaliação.</li>
+            <li><strong>Pesos menores</strong> = influência reduzida.</li>
+        </ul>
+        Use pesos de forma coerente: perguntas mais críticas devem ter peso maior.</li>
+
+    <li><strong>Descrição:</strong> Escreva a pergunta de qualidade que será feita ao analisar cada estudo.
+        Deve ser clara, objetiva e focada em avaliar a confiabilidade ou completude da publicação.</li>
+</ul>
+
+<hr>
+
+<p><strong>Dicas importantes:</strong></p>
+<ul>
+    <li>Evite perguntas vagas — seja direto e específico.</li>
+    <li>Cadastre <strong>uma pergunta por vez</strong>.</li>
+    <li>Use pesos consistentes com o que realmente importa na sua revisão.</li>
+    <li>Reveja as questões com o orientador ou equipe para garantir alinhamento.</li>
+</ul>
+
+<hr>
+
+<p><strong>Exemplo:</strong></p>
+<ul>
+    <li><strong>ID:</strong> QA01</li>
+    <li><strong>Peso:</strong> 2</li>
+    <li><strong>Descrição:</strong> O estudo apresenta de forma clara o método utilizado para condução da revisão?</li>
+</ul>
+
+<p>Essas perguntas serão utilizadas posteriormente, na etapa de Avaliação de Qualidade, onde cada estudo receberá pontuações de acordo com as respostas às questões cadastradas.</p>
+',
+            ],
+
             'id' => 'ID',
             'description' => 'Descrição',
             'weight' => 'Peso',
@@ -742,38 +1187,100 @@ return [
             'help' => [
                 'title' => 'Pontuação de Qualidade',
                 'content' => '
-                   <p> A pontuação e as regras de pontuação são registradas como respostas, e cada resposta é associada às questões de qualidade previamente cadastradas.
-                    Para cada questão, após o cadastro das regras de pontuação, deve-se estabelecer um critério mínimo para a aprovação de cada questão de qualidade.</p>
-                   <br>
-                    <strong>Exemplo</strong> (mínimo para aprovação "*"):<br>
-                <table class="table table-bordered table-striped small">
-                    <thead>
-                        <tr class="w-5">
-                            <th>Regra</th>
-                            <th>Pontuação</th>
-                            <th>Descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="w-5">
-                            <td>Sim</td>
-                            <td>100%</td>
-                            <td>Este estudo apresenta a implementação de uma ferramenta<br>  para revisão sistemática da literatura.</td>
-                        </tr>
-                        <tr  class="50 ">
-                            <td><b>Parcial*</b></td>
-                            <td>50%</td>
-                            <td>Este estudo apresenta parcialmentea implementação de uma <br>ferramenta para revisão sistemática da literatura.</td>
-                        </tr>
-                        <tr>
-                            <td>Não</td>
-                            <td>0%</td>
-                            <td>Este estudo não apresenta a implementação de uma <br>ferramenta  para revisão sistemática da literatura.</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <p>A etapa de <strong>Pontuação de Qualidade</strong> permite definir como cada questão de qualidade será avaliada.
+    Aqui você cria as <strong>regras de pontuação</strong>, que funcionam como as possíveis respostas para cada questão.</p>
 
-                ',
+    <p>Cada regra possui:</p>
+    <ul>
+        <li><strong>Uma questão associada</strong> (selecionada no campo "Questão");</li>
+        <li><strong>Uma regra de resposta</strong> (ex.: Sim, Não, Parcialmente);</li>
+        <li><strong>Um valor percentual</strong> (0% a 100%) representando a pontuação daquela resposta;</li>
+        <li><strong>Uma descrição</strong> explicando claramente quando essa regra deve ser usada.</li>
+    </ul>
+
+    <p><strong>Isso significa que você deve cadastrar uma regra por vez para cada questão.</strong><br>
+    Ao final, cada questão terá seu conjunto de respostas possíveis e respectivas pontuações.</p>
+
+    <hr>
+
+    <h5><strong>Como preencher os campos:</strong></h5>
+
+    <ul>
+        <li>
+            <strong>Questão:</strong> Selecione qual questão de qualidade receberá esta regra de pontuação
+            (ex.: QA01, QA02...).<br>
+            Cada regra sempre pertence a uma única questão.
+        </li>
+
+        <li>
+            <strong>Regra de Pontuação:</strong> Nome curto da resposta.<br>
+            Exemplos comuns:
+            <ul>
+                <li>Sim</li>
+                <li>Parcial</li>
+                <li>Não</li>
+                <li>Alta Evidência</li>
+                <li>Média Evidência</li>
+                <li>Baixa Evidência</li>
+            </ul>
+        </li>
+
+        <li>
+            <strong>Pontuação:</strong> Escolha um valor entre 0% e 100% usando o slider.<br>
+            Este valor será aplicado quando o avaliador escolher essa resposta.
+        </li>
+
+        <li>
+            <strong>Descrição:</strong> Explique, em detalhes, quando essa regra deve ser aplicada. <br>
+            Exemplo:
+            <em>"O estudo apresenta de forma completa a ferramenta analisada, com metodologia clara e validação experimental."</em>
+        </li>
+    </ul>
+
+    <p>A descrição é muito importante: ela garante que <strong>todos os avaliadores apliquem as regras do mesmo modo</strong>.</p>
+
+    <hr>
+
+    <h5><strong>Exemplo completo</strong></h5>
+    <p>Suponha que a questão de qualidade <strong>QA01</strong> seja:</p>
+    <p><em>"O estudo apresenta a implementação de uma ferramenta para revisão sistemática da literatura?"</em></p>
+
+    <p>As regras de pontuação poderiam ser:</p>
+
+    <table class="table table-bordered table-striped small table-break-text">
+        <thead>
+            <tr>
+                <th class="w-15">Questão</th>
+                <th class="w-15">Regra</th>
+                <th class="w-20">Pontuação</th>
+                <th class="w-50 break-words">Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>QA01</td>
+                <td><strong>Sim</strong></td>
+                <td>100%</td>
+                <td>O estudo apresenta claramente a implementação completa da ferramenta, incluindo metodologia e validação.</td>
+            </tr>
+            <tr>
+                <td>QA01</td>
+                <td><strong>Parcial*</strong></td>
+                <td>50%</td>
+                <td>O estudo apresenta a ferramenta, mas não descreve todos os detalhes de implementação ou validação.</td>
+            </tr>
+            <tr>
+                <td>QA01</td>
+                <td><strong>Não</strong></td>
+                <td>0%</td>
+                <td>O estudo não apresenta a implementação de uma ferramenta.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Repita este processo para <strong>cada questão</strong> de qualidade cadastrada.
+    Ao final, você terá uma matriz completa de pontuação para avaliar todos os estudos.</p>
+    ',
             ],
             'description' => [
                 'title' => 'Descrição',
@@ -829,17 +1336,44 @@ return [
             'title' => 'Pontuação Mínima Geral para Aprovação',
             'help-content' => '<p>Após o cadastro das questões de qualidade, a soma dos pesos de todas as questões registradas anteriormente é calculada automaticamente pela Thoth.</p>
 
-                        <p>Essa soma representa o <strong>limite máximo de pontuação</strong> que um estudo pode alcançar durante a avaliação de qualidade.
-                        Por isso, o <strong>intervalo máximo dos intervalos de pontuação geral</strong> deve sempre <strong>corresponder ao valor da soma total dos pesos</strong>
-                        do projeto. Essa correspondência é essencial para garantir que os cálculos de pontuação e as classificações de qualidade
-                        funcionem corretamente durante a etapa de condução da revisão.</p>
+<p>Essa soma representa o <strong>limite máximo de pontuação</strong> que um estudo pode alcançar durante a avaliação de qualidade.
+Por isso, o <strong>intervalo máximo dos intervalos de pontuação geral</strong> deve sempre <strong>corresponder ao valor da soma total dos pesos</strong>
+do projeto. Essa correspondência é essencial para garantir que os cálculos de pontuação e as classificações de qualidade
+funcionem corretamente durante a etapa de condução da revisão.</p>
 
-                        <strong>Mínimo para Aprovação:</strong>
-                        <p>Este item define o intervalo de pontuação mínima geral que deve ser considerado como o critério mínimo para aceitar estudos na revisão.</p>
+<p><strong>Pontuação Mínima Geral para Aprovação:</strong><br>
+Este item define o intervalo de pontuação mínima geral que deve ser considerado como o critério mínimo para aceitar estudos na revisão.</p>
 
-                        <p><strong>Observação:</strong> Para registrar, é necessário primeiro cadastrar as questões de qualidade, gerar os intervalos de pontuação geral
-                        e salvar no projeto da revisão em andamento. Certifique-se também de que o <strong>valor máximo do último intervalo</strong> esteja
-                        sempre alinhado à <strong>soma dos pesos das questões</strong>.</p>',
+<p><strong>Como isso funciona na prática?</strong><br>
+Durante a <strong>etapa de condução da avaliação de qualidade</strong>, cada estudo analisado receberá uma <strong>pontuação total</strong>, calculada com base nas regras e pesos definidos anteriormente.
+A função dos <strong>intervalos de pontuação geral</strong> é classificar esse estudo dentro de um nível ou categoria — por exemplo, “Muito Baixa”, “Baixa”, “Moderada” ou “Alta”.</p>
+
+<p>Após identificar em qual intervalo o estudo se enquadra, ele será comparado com o <strong>intervalo mínimo geral configurado</strong>.
+Somente estudos cuja pontuação esteja <strong>igual ou acima do intervalo mínimo selecionado</strong> serão <strong>aceitos</strong> e poderão avançar para a próxima etapa da revisão.</p>
+
+<hr>
+<p><strong>Exemplo simples:</strong><br>
+Se o intervalo mínimo configurado for <strong>Moderado (2.6 – 3.75)</strong> e o estudo avaliado obtiver pontuação equivalente ao intervalo <strong>Pouco (1.26 – 2.5)</strong>, este estudo será <strong>rejeitado</strong> automaticamente.</p>
+
+<p><strong>Atenção — Rejeição por questão individual:</strong><br>
+Além do intervalo geral, cada questão de qualidade também possui um <strong>valor mínimo individual</strong> definido pelo pesquisador.
+Isso significa que mesmo que o estudo alcance uma <strong>pontuação total superior ao mínimo geral</strong>, ele ainda pode ser <strong>rejeitado</strong> caso não atenda ao mínimo exigido em <strong>qualquer uma das questões específicas</strong>.</p>
+
+<p>Exemplo adicional:<br>
+Se a questão <strong>QA02</strong> exige um mínimo de <strong>50%</strong>, mas o estudo obteve apenas <strong>0%</strong> nessa questão, ele poderá ser <strong>rejeitado</strong>, mesmo que sua pontuação total esteja dentro de um intervalo aprovado.
+Isso garante que todas as questões consideradas essenciais sejam avaliadas adequadamente.</p>
+
+<hr>
+
+<p><strong>Observação:</strong> Para configurar corretamente esta etapa, primeiro é necessário:
+<ul>
+    <li>Cadastrar todas as questões de qualidade;</li>
+    <li>Definir regras e pontuações para cada questão;</li>
+    <li>Gerar os intervalos de pontuação geral;</li>
+    <li>Salvar os intervalos no projeto da revisão.</li>
+</ul>
+Certifique-se também de que o <strong>valor máximo do último intervalo</strong> esteja sempre alinhado à <strong>soma dos pesos das questões</strong>.</p>
+',
             'cutoff' => 'Pontuação Mínima Geral',
             'sum' => 'Soma dos Pesos',
             'form' => [
@@ -869,27 +1403,49 @@ return [
     'data-extraction' => [
         'title' => 'Extração de Dados',
         'question-form' => [
-            'title' => 'Criar Pergunta de Extração de Dados',
+            'title' => 'Pergunta de Extração de Dados',
             'help' => [
                 'title' => 'Ajuda para Formulário de Pergunta de Extração de Dados',
                 'content' => '
-                <p>Os formulários de extração de dados devem ser projetados para coletar todas as informações necessárias para responder às questões da revisão e aos critérios de qualidade do estudo. Se os critérios de qualidade forem utilizados para identificar critérios de inclusão/exclusão, eles exigem formulários separados (uma vez que as informações devem ser coletadas antes do exercício principal de extração de dados). Se os critérios de qualidade forem usados como parte da análise de dados, os critérios de qualidade e os dados da revisão podem ser incluídos no mesmo formulário.
-                </p>
-                <p>Na maioria dos casos, a extração de dados definirá um conjunto de valores numéricos que devem ser extraídos de cada estudo (por exemplo, número de sujeitos, efeito do tratamento, intervalos de confiança, etc.). Os dados numéricos são importantes para qualquer tentativa de resumir os resultados de um conjunto de estudos primários e são um pré-requisito para a meta-análise (ou seja, técnicas estatísticas destinadas a integrar os resultados dos estudos primários).
-                </p>
-                <p>A questão de extração deve ser definida a partir de uma descrição e do tipo de dado. Os tipos de dados são:
-                </p>
-                <ul>
-                    <li><strong>Texto:</strong> Os dados extraídos são definidos por meio de texto simples, dando ao pesquisador a liberdade de definir os dados extraídos.</li>
-                    <li><strong>Lista de Escolha Única:</strong> Através de uma lista predefinida de dados, o pesquisador deve escolher apenas uma opção de extração de dados.</li>
-                    <li><strong>Lista de Múltipla Escolha:</strong> Através de uma lista predefinida de dados, o pesquisador pode escolher mais de uma opção de extração de dados.</li>
-                </ul>
+            <p>Os formulários de extração de dados devem ser projetados para coletar todas as informações necessárias para responder às questões da revisão e aos critérios de qualidade.
+            Quando critérios de qualidade forem usados para incluir ou excluir estudos, eles devem ser coletados separadamente.
+            Quando forem parte da análise, podem ser extraídos no mesmo formulário.</p>
 
-                ',
+            <p>Na maioria dos casos, a extração envolve valores numéricos (ex.: número de participantes, efeito do tratamento, intervalos de confiança).
+            Esses valores são importantes para sumarizar os estudos primários e executar meta-análises.</p>
+
+            <p>Cada pergunta de extração deve ser definida contendo: ID, descrição e tipo de dado.</p>
+
+            <p><strong>Tipos de dados:</strong></p>
+            <ul>
+                <li><strong>Texto:</strong> permite ao pesquisador escrever livremente os dados extraídos.</li>
+                <li><strong>Lista de Escolha Única:</strong> o pesquisador seleciona apenas uma opção.</li>
+                <li><strong>Lista de Múltipla Escolha:</strong> o pesquisador pode selecionar várias opções.</li>
+            </ul>
+
+            <h5>Como preencher os campos:</h5>
+            <ul>
+                <li><strong>ID:</strong> identificador único da pergunta (ex.: "DE1", "DE2").</li>
+                <li><strong>Descrição:</strong> explique claramente o que deve ser extraído (ex.: "Quantos participantes o estudo possui?").</li>
+                <li><strong>Tipo:</strong> selecione o formato de resposta adequado (Texto, Escolha Única ou Múltipla Escolha).</li>
+            </ul>
+
+            <h5>Exemplos de perguntas:</h5>
+            <ul>
+                <li><strong>Texto:</strong> "Descreva a abordagem utilizada pelo estudo."</li>
+                <li><strong>Escolha Única:</strong> "Qual é o tipo de estudo?" (Experimental, Observacional, Survey)</li>
+                <li><strong>Múltipla Escolha:</strong> "Quais métricas de avaliação foram utilizadas?" (Precisão, Recall, F1-Score, AUC)</li>
+            </ul>
+        ',
             ],
             'type-selection'=> [
                 'title' => 'Selecione um tipo',
 
+            ],
+            'types' => [
+                'Text' => 'Texto',
+                'Pick One List' => 'Lista de Escolha Única',
+                'Multiple Choice List' => 'Lista de Múltipla Escolha',
             ],
             'id' => 'ID',
             'dont-use' => 'Não utilize caracteres especiais',
@@ -899,18 +1455,38 @@ return [
             'edit-question' => 'Editar Pergunta'
         ],
         'option-form' => [
-            'title' => 'Criar Opção de Pergunta de Extração de Dados',
+            'title' => 'Opção de Pergunta de Extração de Dados',
             'help' => [
                 'title' => 'Ajuda para Formulário de Opção de Extração de Dados',
-                'content' => '<p>Use o formulário de opção de extração de dados para adicionar opções específicas para perguntas,
-                 facilitando a captura detalhada de informações durante o processo de extração de dados. Defina a pergunta à qual
-                  a opção pertence, forneça uma descrição e certifique-se de que as opções cubram todos os aspectos relevantes da pergunta.</p>
-                  <p><strong>Observação:</strong> Somente poderá adicionar opções de extração aos tipos, "Múltipla Escoljha" e "Única Escolha"</p>
-                  <p><strong>Exemplo:</strong></p>
-                <ul>
-                    <li>Descrição: Resumo - Tipo de dado: Texto.</li>
-                    <li>Descrição: Base de Dados - Tipo de dado: Lista de Escolha Única. (Lista: ACM, IEEE, Scopus)</li>
-                </ul>',
+                'content' => '
+        <p>Use este formulário para cadastrar <strong>opções de resposta</strong> para perguntas de extração de dados que utilizam listas.
+        As opções permitem padronizar as respostas e facilitam a análise dos dados coletados durante a revisão.</p>
+
+        <h5><strong>Quando é possível adicionar opções?</strong></h5>
+        <p>Somente é possível adicionar opções de extração para perguntas cujo tipo seja:</p>
+        <ul>
+            <li><strong>Lista de Escolha Única (Pick One List)</strong></li>
+            <li><strong>Lista de Múltipla Escolha (Multiple Choice List)</strong></li>
+        </ul>
+        <p>Perguntas do tipo <strong>Texto</strong> não suportam opções, pois o pesquisador deverá escrever livremente a resposta.</p>
+
+        <h5><strong>Como preencher os campos?</strong></h5>
+        <ul>
+            <li><strong>Pergunta:</strong> selecione a pergunta de extração à qual esta opção pertencerá. Somente perguntas de tipo lista aparecerão nessa seleção.</li>
+            <li><strong>Opção:</strong> escreva a opção que será exibida ao usuário no momento da extração dos dados.</li>
+        </ul>
+
+        <p>Cada nova opção deve ser cadastrada individualmente. Caso uma pergunta possua várias opções, você deverá adicionar uma por vez.</p>
+
+        <h5><strong>Exemplos:</strong></h5>
+        <ul>
+            <li><strong>Pergunta:</strong> "Base de Dados" — Tipo: Lista de Escolha Única<br>
+                <strong>Opções possíveis:</strong> ACM, IEEE Xplore, Scopus, Web of Science</li>
+
+            <li><strong>Pergunta:</strong> "Quais métricas o estudo utiliza?" — Tipo: Lista de Múltipla Escolha<br>
+                <strong>Opções possíveis:</strong> Precisão, Recall, F1-Score, AUC</li>
+        </ul>
+    ',
             ],
             'question-selection'=> [
                 'title' => 'Selecione uma pergunta',

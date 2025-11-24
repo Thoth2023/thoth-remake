@@ -35,6 +35,7 @@
                         "project.components.project-tabs",
                         [
                             'header' => __('project/conducting.conducting.title'),
+                            "content" => __("project/conducting.content-helper"),
                             "tabs" => collect([
                                 [
                                     'id' => 'import-studies-tab',

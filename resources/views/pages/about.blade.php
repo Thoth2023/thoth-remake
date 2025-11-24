@@ -10,7 +10,7 @@
 @endauth
 
 
-<div class="container mt-6 mb-3">
+<div class="container mt-6 mb-3 thoth-page-about">
     <!-- cabeçalho -->
     <div class="page-header d-flex flex-column pt-4 pb-11 border-radius-lg">
         <div class="row justify-content-center rounded-3 py-4 bg-gradient-faded-dark opacity-8 w-100">
@@ -23,15 +23,10 @@
         <div class="row">
             <div class="mt-lg-n12 mt-md-n13 mt-n12 justify-content-center">
                 <div class="card d-inline-flex p-3 mt-6">
-                    <div class="card-body pt-2">
-                        <span
-                            href="#"
-                            onclick="event.preventDefault();"
-                            class="card-title h4 d-block text-darker"
-                            style="cursor: default; transition: color 0.2s;"
-                        >
-                            Thoth 2.0
-                        </span>
+                    <div class="card-body pt-2"><br/>
+                        <span href="javascript:;" class="card-title h4 d-block text-darker">
+                        Thoth 2.0
+                    </span>
 
                         <div class="card-body pt-2">
                             <span

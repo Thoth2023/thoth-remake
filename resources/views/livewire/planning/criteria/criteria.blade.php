@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>12</b></div>
         <x-helpers.modal target="criteria" modalTitle="{{ __('project/planning.criteria.title') }}"
             modalContent="{!!  __('project/planning.criteria.help.content') !!}" />
     </div>

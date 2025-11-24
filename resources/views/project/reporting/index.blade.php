@@ -56,6 +56,7 @@
                 <div class="col-12">
                     @include('project.components.project-tabs', [
                         'header' => __('project/reporting.reporting'),
+                        "content" => __("project/reporting.content-helper"),
                         'tabs' => $tabs,
                         'activeTab' => 'overview-tab',
                     ])

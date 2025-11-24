@@ -11,7 +11,7 @@
     <main class="main-content  mt-0">
         <section>
             <div class="page-header min-vh-100">
-                <div class="container">
+                <div class="container thoth-login-container">
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                             <div class="card card-plain">
@@ -36,7 +36,7 @@
                                                 placeholder="{{ __('auth/login.password') }}">
                                                 <span role="button" class="position-absolute top-50 end-0 translate-middle-y me-3 bg-white"
                                                     id="togglePassword" style="cursor: pointer; display: none;" tabindex="-1">
-                                                    <i class="fas fa-eye" id="eyeIcon"></i> 
+                                                    <i class="fas fa-eye" id="eyeIcon"></i>
                                                 </span>
                                             @error('password')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>

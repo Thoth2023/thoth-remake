@@ -13,11 +13,12 @@ return [
     'sign_up' => 'Sign up',
     'already_have_account' => 'Already have an account?',
     'sign_in' => 'Sign in',
-    'username' => 'Username',
+    'username' => 'Username (firstname.lastname)',
     'firstname' => 'Firstname',
     'lastname' => 'Lastname',
     'institution' => 'Institution',
     'email' => 'Email',
     'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
     'terms_error' => 'You must agree to the Terms and Conditions.',
 ];

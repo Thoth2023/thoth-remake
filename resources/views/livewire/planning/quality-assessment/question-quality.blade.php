@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>13</b></div>
         <x-helpers.modal
             target="question-quality"
             modalTitle="{{ __('project/planning.quality-assessment.question-quality.title') }}"
@@ -15,7 +18,7 @@
                         label="{{ __('project/planning.quality-assessment.question-quality.id') }}"
                         placeholder="QA01"
                         wire:model="questionId"
-                        pattern="[a-zA-ZÀ-ÿ0-9\s]+"
+                        pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                         required
                         autocomplete="on"
                         name="quality_question_id"
@@ -82,7 +85,6 @@
             </x-helpers.submit-button>
         </form>
     </div>
-    @livewire("planning.quality-assessment.question-cutoff")
 </div>
 
 <script>
@@ -105,27 +107,27 @@
         .addEventListener('input', function () {
             limit(this, 10);
         });
-        
+
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form[wire\\:submit]');
         const input = document.querySelector('#question-quality-id');
-        
+
         if (form && input) {
             form.addEventListener('submit', function() {
                 const value = input.value.trim();
                 if (value) {
                     const storageKey = `suggestions_${input.id || input.name}`;
                     let suggestions = [];
-                    
+
                     if (localStorage.getItem(storageKey)) {
                         suggestions = JSON.parse(localStorage.getItem(storageKey));
                     }
-                    
+
                     if (!suggestions.includes(value)) {
                         suggestions.push(value);
                         localStorage.setItem(storageKey, JSON.stringify(suggestions));
                     }
-                    
+
                     // Automatically refresh suggestions without showing an alert
                     setTimeout(() => {
                         refreshSuggestions('question-quality-id', 'quality_question_id', 'quality_questionId_suggestions', false);

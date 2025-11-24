@@ -1,10 +1,13 @@
 <div class="d-flex flex-column gap-4">
     <div class="card">
-        <div class="card-header mb-2 pb-0">
+        <div class="card-header thoth-card-header mb-0 pb-0">
+
+            <!-- Badge numérico moderno -->
+            <div class="thoth-card-badge"><b>9</b></div>
             <x-helpers.modal
                 target="search-string"
                 modalTitle="{{ __('project/planning.search-string.term.title') }}"
-                modalContent="{{ __('project/planning.search-string.term.help') }}"
+                modalContent="{!! __('project/planning.search-string.term.help') !!}"
             />
         </div>
         <div class="card-body">
@@ -17,7 +20,7 @@
                         label="{{ __('project/planning.search-string.term.form.title') }}"
                         wire:model="description"
                         placeholder="{{ __('project/planning.search-string.term.form.placeholder') }}"
-                        pattern="[A-Za-zÀ-ÿ\s]+"
+                        pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                         required
                     />
                     @error("description")
@@ -80,7 +83,7 @@
                                 label="{{ __('project/planning.search-string.synonym.form.title') }}"
                                 wire:model="synonym"
                                 placeholder="{{ __('project/planning.search-string.synonym.form.placeholder') }}"
-                                pattern="[A-Za-zÀ-ÿ\s]+"
+                                pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                                 required
                             />
                             @error("synonym")

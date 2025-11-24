@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>16</b></div>
         <x-helpers.modal
             target="question-quality"
             modalTitle="{{ __('project/planning.quality-assessment.general-score.title') }}"

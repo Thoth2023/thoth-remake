@@ -36,7 +36,7 @@ class Question extends Component
 	// Regra de validação para os campos do formulário.
     protected $rules = [
         'questionId' => ['required', 'max:255', 'regex:/^(?!\s*$)[a-zA-Z0-9\s]+$/'],
-        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
+        'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
         'type' => 'required|array',
     ];
 

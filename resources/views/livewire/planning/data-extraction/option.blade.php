@@ -1,5 +1,8 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>19</b></div>
         <x-helpers.modal
             target="data-extraction"
             modalTitle="{{ __('project/planning.data-extraction.option-form.title') }}"
@@ -43,7 +46,7 @@
                     wire:model="description"
                     placeholder=""
                     maxlength="255"
-                    pattern="[a-zA-ZÀ-ÿ0-9\s]+"
+                    pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                     required
                 />
                 @error("description")

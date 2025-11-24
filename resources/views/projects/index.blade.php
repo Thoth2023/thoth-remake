@@ -1,6 +1,8 @@
 @extends("layouts.app", ["class" => "g-sidenav-show bg-gray-100"])
+
 @section("content")
-@include("layouts.navbars.auth.topnav", ["title" => __("project/projects.project.title")])
+    @include("layouts.navbars.auth.topnav", ["title" => __("project/projects.project.title")])
+
     <div class="container-fluid py-2 mt-4">
         <div class="container-fluid py-2">
             <div class="row">
@@ -22,9 +24,10 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center justify-content-center mb-0">
+                                <table class="table align-items-center justify-content-center mb-0 thoth-project-table">
                                     <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -33,7 +36,6 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             {{ __("project/projects.project.table.headers.created_by") }}
                                         </th>
-
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                             {{ __("project/projects.project.table.headers.completion") }}
                                         </th>
@@ -43,47 +45,57 @@
                                         <th></th>
                                     </tr>
                                     </thead>
+
                                     <tbody>
                                     @forelse ($merged_projects as $project)
-                                        <tr>
-                                            <td>
+                                        <tr class="project-row-card">
+                                            {{-- TÍTULO + DESCRIÇÃO --}}
+                                            <td data-title="{{ __('project/projects.project.table.headers.title') }}">
                                                 <div class="px-3">
-                                                    <!-- Título -->
-                                                    <h6 class="mb-1 text-sm fw-bold" title="{{ $project->title }}" data-toggle="tooltip">
-                                                        {{ Str::limit($project->title, 40) }}
+                                                    <h6 class="mb-1 text-sm fw-bold"
+                                                        title="{{ $project->title }}"
+                                                        data-toggle="tooltip">
+                                                        {{ Str::limit($project->title, 35) }}
                                                     </h6>
-                                                    <!-- Descrição -->
-                                                    <div class="text-muted fst-italic"
-                                                         style="font-size: 0.75rem; white-space: normal; word-wrap: break-word; max-width: 300px;"  title="{{ $project->description }}" data-toggle="tooltip">
-                                                        {{ Str::limit($project->description, 95) }}
+
+                                                    <div class="small text-muted fst-italic thoth-project-description"
+                                                         style="font-size: 0.75rem; white-space: normal; word-wrap: break-word; max-width: 300px;"
+                                                         title="{{ $project->description }}"
+                                                         data-toggle="tooltip">
+                                                        {{ Str::limit($project->description, 90) }}
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+
+                                            {{-- CRIADO POR --}}
+                                            <td data-title="{{ __('project/projects.project.table.headers.created_by') }}">
                                                 <p class="text-sm font-weight-bold mb-0">
                                                     {{ $project->created_by }}
                                                 </p>
                                             </td>
 
+                                            {{-- PROGRESSO --}}
                                             @php
                                                 $progress = (float) ($project->progress_percent ?? 0);
-                                                $progress = max(0, min(100, $progress)); // clamp 0..100
-
-                                                // Argon/SoftUI usam bg-gradient-*
+                                                $progress = max(0, min(100, $progress));
                                                 $color = $progress < 30
                                                     ? 'bg-gradient-danger'
                                                     : ($progress < 60 ? 'bg-gradient-warning' : 'bg-gradient-success');
                                             @endphp
 
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-center"
+                                                data-title="{{ __('project/projects.project.table.headers.completion') }}">
+
                                                 @isset($project->dbg_error)
-                                                    <div class="text-danger text-xs">error: {{ $project->dbg_error }}</div>
+                                                    <div class="text-danger text-xs">
+                                                        error: {{ $project->dbg_error }}
+                                                    </div>
                                                 @endisset
 
                                                 <div class="d-flex align-items-center justify-content-center">
-                                        <span class="me-2 text-xs font-weight-bold">
-                                            {{ number_format($progress, 2) }}%
-                                        </span>
+                                                    <span class="me-2 text-xs font-weight-bold">
+                                                        {{ number_format($progress, 2) }}%
+                                                    </span>
 
                                                     <div style="min-width:110px;">
                                                         <div class="progress">
@@ -99,12 +111,11 @@
                                                 </div>
                                             </td>
 
-
-                                            <td>
+                                            {{-- OPÇÕES / AÇÕES --}}
+                                            <td data-title="{{ __('project/projects.project.table.headers.options') }}">
                                                 <div class="d-flex align-items-center justify-content-end gap-1">
 
                                                     @can('access-project', $project)
-                                                        {{-- Usuário tem acesso ao projeto --}}
                                                         @php
                                                             $user = auth()->user();
                                                             $isAdmin = $project->userHasLevel($user, '1');
@@ -112,10 +123,9 @@
                                                             $isViewer = $project->userHasLevel($user, '2');
                                                         @endphp
 
-                                                        {{-- Botão Protocolo sempre aparece para quem tem acesso --}}
+                                                        {{-- Protocolo sempre visível para quem tem acesso --}}
                                                         @livewire('projects.public-protocol', ['project' => $project], key('public-protocol-'.$project->id_project))
 
-                                                        {{-- Admin Level 1 → todos os botões --}}
                                                         @if($isAdmin)
                                                             <a class="btn py-1 px-3 btn-outline-success"
                                                                href="{{ route("projects.show", $project->id_project) }}">
@@ -136,7 +146,10 @@
                                                             </a>
 
                                                             {{-- Delete --}}
-                                                            <form id="delete-project-{{ $project->id_project }}" action="{{ route("projects.destroy", $project) }}" method="POST" style="display: none;">
+                                                            <form id="delete-project-{{ $project->id_project }}"
+                                                                  action="{{ route("projects.destroy", $project) }}"
+                                                                  method="POST"
+                                                                  style="display: none;">
                                                                 @csrf
                                                                 @method("DELETE")
                                                             </form>
@@ -153,7 +166,6 @@
                                                                 </a>
                                                             </x-helpers.confirm-modal>
 
-                                                            {{-- Researcher & Reviewer (level 3 / 4) → protocolo + ver --}}
                                                         @elseif($isResearcherOrReviewer)
                                                             <a class="btn py-1 px-3 btn-outline-success"
                                                                href="{{ route("projects.show", $project->id_project) }}">
@@ -161,16 +173,12 @@
                                                                 {{ __("project/projects.project.options.view") }}
                                                             </a>
 
-                                                            {{-- Viewer Level 2 → só protocolo --}}
                                                         @elseif($isViewer)
-                                                            {{-- Já tem o protocolo ali em cima --}}
-
+                                                            {{-- viewer: só protocolo (já renderizado acima) --}}
                                                         @endif
 
                                                     @endcan
-
                                                 </div>
-
                                             </td>
                                         </tr>
                                     @empty
@@ -188,19 +196,26 @@
                 </div>
             </div>
         </div>
+
         @include("layouts.footers.auth.footer")
     </div>
+
+    {{-- LGPD modal e scripts permanecem iguais --}}
     <!-- Modal LGPD -->
     <div class="modal fade" id="lgpdModal" tabindex="-1" aria-labelledby="lgpdModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content modal-transparent">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lgpdModalLabel"><i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}</h5>
+                    <h5 class="modal-title" id="lgpdModalLabel">
+                        <i class="fas fa-user-shield me-1"></i>{{ __("pages/home.terms_and_lgpd") }}
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>{{ __("pages/terms.modal_lgpd") }}</p>
-                    <a href="/terms"><i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}</a>
+                    <a href="/terms">
+                        <i class="fas fa-file-alt"></i>{{ __("pages/home.terms_and_conditions") }}
+                    </a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="acceptTermsAndLgpd()">
@@ -213,6 +228,7 @@
             </div>
         </div>
     </div>
+
     @push('js')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -242,6 +258,7 @@
             }
         </script>
     @endpush
+
     @push('scripts')
         <script>
             $(document).ready(function () {

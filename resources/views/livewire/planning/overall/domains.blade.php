@@ -1,5 +1,10 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>1</b></div>
+
+        <!-- Ícone de ajuda -->
         <x-helpers.modal
             target="search-domains"
             modalTitle="{{ __('project/planning.overall.domain.help.title') }}"
@@ -15,7 +20,7 @@
                     wire:model="description"
                     placeholder="{{ __('project/planning.overall.domain.list.headers.enter_description') }}"
                     maxlength="255"
-                    pattern="[A-Za-zÀ-ÿ\s]+"
+                    pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                     required
                 />
                 @error("description")

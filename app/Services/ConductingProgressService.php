@@ -3,22 +3,37 @@
 namespace App\Services;
 
 use App\Models\BibUpload;
+use App\Models\Project;
 use App\Models\ProjectDatabases;
 use App\Models\Project\Conducting\Papers;
 use App\Models\Member;
 use App\Models\StatusSelection;
 use App\Models\StatusQualityAssessment;
 use App\Models\StatusExtraction;
+use App\Models\StatusSnowballing;
 
 class ConductingProgressService
 {
     public function calculateProgress(int $projectId): array
     {
+        // Snowballing
+        $project = Project::find($projectId);
+        $hasSnowballing = $project->hasSnowballing();
+
+        /**
+         * Total de etapas:
+         * - Sem snowballing = 4 etapas (25% cada)
+         * - Com snowballing = 5 etapas (20% cada)
+         */
+        $stageCount = $hasSnowballing ? 5 : 4;
+        $stageWeight = 100 / $stageCount; // peso em %
+
         // 1) Importação
         $totalImported = $this->getTotalImportedStudies($projectId);
         $importStudies = $totalImported > 0 ? 100.0 : 0.0;
 
         // 2) Seleção de Estudos
+
         $studySelection = $this->getStudySelection($projectId, $totalImported);
         $progressStudySelection       = (float) ($studySelection['percentage']  ?? 0.0);
         $unclassifiedStudySelection   = (int)   ($studySelection['unclassified'] ?? 0);
@@ -31,22 +46,37 @@ class ConductingProgressService
         // 4) Extração de Dados
         $dataExtraction = $this->getExtraction($projectId, $totalImported, $unclassifiedQualityAssessment);
 
-        // 5) Progresso geral (25% cada etapa)
-        $overall = ($importStudies * 0.25)
-            + ($progressStudySelection * 0.25)
-            + ($progressQualityAssessment * 0.25)
-            + ($dataExtraction * 0.25);
+        // 5) Snowballing (opcional)
+        $snowballing = 0.0;
+        if ($hasSnowballing) {
+            $snowballing = $this->getSnowballing($projectId); // método com o padrão solicitado
+        }
 
+        // Cálculo do Progresso Geral
+
+        // Importação
+        $overall  = ($importStudies * ($stageWeight / 100));
+        // Seleção
+        $overall += ($progressStudySelection * ($stageWeight / 100));
+        // QA
+        $overall += ($progressQualityAssessment * ($stageWeight / 100));
+        // Extração
+        $overall += ($dataExtraction * ($stageWeight / 100));
+        // Snowballing (somente se existir)
+        if ($hasSnowballing) {
+            $overall += ($snowballing * ($stageWeight / 100));
+        }
+
+        // Retorno final
         return [
             'overall'            => round($overall, 2),
             'import_studies'     => round($importStudies, 2),
             'study_selection'    => round($progressStudySelection, 2),
             'quality_assessment' => round($progressQualityAssessment, 2),
             'data_extraction'    => round($dataExtraction, 2),
-            'snowballing'        => 0.0, // por enquanto
+            'snowballing'        => round($snowballing, 2),
         ];
     }
-
 
     private function getUserIds(int $projectId)
     {
@@ -189,6 +219,63 @@ class ConductingProgressService
             ? ($classified / $totalEvaluated) * 100
             : 0;
     }
+
+    private function getSnowballing(int $projectId): float
+    {
+        // 1) Buscar membros
+        $memberIds = $this->getUserIds($projectId);
+        if ($memberIds->isEmpty()) return 0;
+
+        // 2) Buscar bases do projeto
+        $bibIds = $this->getBibIds($projectId);
+        if ($bibIds->isEmpty()) return 0;
+
+        // 3) Buscar status do snowballing (Done / To Do)
+        $statuses = StatusSnowballing::whereIn('description', ['Done', 'To Do'])
+            ->pluck('id', 'description');
+
+        if (!isset($statuses['Done']) || !isset($statuses['To Do'])) {
+            return 0; // fallback seguro
+        }
+
+        $doneStatus = $statuses['Done'];
+        $todoStatus = $statuses['To Do'];
+
+        // 4) Papers aceitos na QA — mesmo critério do Snowballing\Count
+        $papers = Papers::whereIn('id_bib', $bibIds)
+            ->join('papers_qa', 'papers_qa.id_paper', '=', 'papers.id_paper')
+            ->leftJoin('paper_decision_conflicts', 'papers.id_paper', '=', 'paper_decision_conflicts.id_paper')
+            ->select('papers.*', 'papers_qa.id_status as qa_status')
+            ->where(function ($query) {
+                $query->where('papers_qa.id_status', 1)
+                    ->orWhere('papers.data_base', 16)
+                    ->orWhere(function ($query) {
+                        $query->where('papers_qa.id_status', 2)
+                            ->where('paper_decision_conflicts.phase', 'quality')
+                            ->where('paper_decision_conflicts.new_status_paper', 1);
+                    });
+            })
+            ->where('papers.status_qa', 1)
+            ->whereIn('papers_qa.id_member', $memberIds)
+            ->distinct()
+            ->get();
+
+        $total = $papers->count();
+        if ($total === 0) {
+            return 0;
+        }
+
+        // 5) Separar por status Done / To Do
+        $done = $papers->where('status_snowballing', $doneStatus)->count();
+        $todo = $papers->where('status_snowballing', $todoStatus)->count();
+
+        $classified = max(0, $done); // somente Done conta como finalizado
+
+        // 6) Retornar porcentagem
+        return ($classified / $total) * 100;
+    }
+
+
 
 
 }

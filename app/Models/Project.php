@@ -469,6 +469,14 @@ class Project extends Model
         return false;
     }
 
+    public function hasSnowballing(): bool
+    {
+        if (!$this->feature_review) {
+            return false;
+        }
+        return str_contains($this->feature_review, 'Snowballing');
+    }
+
     /**
      * Retorna o usuário proprietário do projeto.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

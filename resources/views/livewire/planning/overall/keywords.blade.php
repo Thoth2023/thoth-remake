@@ -1,9 +1,12 @@
 <div class="card">
-    <div class="card-header mb-0 pb-0">
+    <div class="card-header thoth-card-header mb-0 pb-0">
+
+        <!-- Badge numérico moderno -->
+        <div class="thoth-card-badge"><b>4</b></div>
         <x-helpers.modal
             target="search-domains"
             modalTitle="{{ __('project/planning.overall.keyword.help.title') }}"
-            modalContent="{{ __('project/planning.overall.keyword.help.content') }}"
+            modalContent="{!!  __('project/planning.overall.keyword.help.content') !!}"
         />
     </div>
     <div class="card-body">
@@ -15,7 +18,7 @@
                     wire:model="description"
                     placeholder="{{ __('project/planning.overall.keyword.enter_description') }}"
                     maxlength="255"
-                    pattern="[A-Za-zÀ-ÿ\s]+"
+                    pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                     required
                 />
                 @error("description")

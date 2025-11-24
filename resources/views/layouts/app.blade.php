@@ -27,6 +27,7 @@
 
     <!-- CSS principal do template -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('css/thoth-mobile.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/select.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"/>
 
@@ -124,43 +125,46 @@
     }
 </script>
 
-<!-- Toast -->
-<div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Bootstrap</strong>
-            <small class="toast-time"></small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+@guest
+    <!-- Toast -->
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Bootstrap</strong>
+                <small class="toast-time"></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
         </div>
-        <div class="toast-body"></div>
     </div>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const toastElement = document.getElementById('liveToast');
-        const toastBody = toastElement.querySelector('.toast-body');
 
-        function showToast(message, type) {
-            toastBody.innerText = message;
-            toastElement.querySelector('.toast-header strong').innerText = type;
-            new bootstrap.Toast(toastElement).show();
-        }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastElement = document.getElementById('liveToast');
+            const toastBody = toastElement.querySelector('.toast-body');
 
-        const errorMessage = @json(session('error'));
-        const successMessage = @json(session('success'));
+            function showToast(message, type) {
+                toastBody.innerText = message;
+                toastElement.querySelector('.toast-header strong').innerText = type;
+                new bootstrap.Toast(toastElement).show();
+            }
 
-        if (errorMessage) {
-            showToast(errorMessage, 'Error');
-        } else if (successMessage) {
-            showToast(successMessage, 'Success');
-        } else {
-            @if($errors->any())
-            const validationErrors = @json($errors->all());
-            showToast(validationErrors.join(' '), 'Error');
-            @endif
-        }
-    });
-</script>
+            const errorMessage = @json(session('error'));
+            const successMessage = @json(session('success'));
+
+            if (errorMessage) {
+                showToast(errorMessage, 'Error');
+            } else if (successMessage) {
+                showToast(successMessage, 'Success');
+            } else {
+                @if($errors->any())
+                const validationErrors = @json($errors->all());
+                showToast(validationErrors.join(' '), 'Error');
+                @endif
+            }
+        });
+    </script>
+@endguest
 
 @auth
     <script>
