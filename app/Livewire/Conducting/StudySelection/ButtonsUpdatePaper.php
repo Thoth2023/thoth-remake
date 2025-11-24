@@ -47,7 +47,7 @@ class ButtonsUpdatePaper extends Component
         }
 
         Log::info("Despachando Job para paper ID {$this->paperId}, DOI: {$this->doi} e Título: {$this->title}");
-        AtualizarDadosCrossref::dispatch($this->paperId, $this->doi, $this->title)->onQueue('updates');
+        dispatch_sync(new AtualizarDadosCrossref($this->paperId, $this->doi, $this->title));
 
         $this->toast(__('project/conducting.study-selection.modal.buttons.crossref.success'), 'success');
         $this->dispatch('refresh-paper-data');
@@ -62,7 +62,7 @@ class ButtonsUpdatePaper extends Component
         }
 
         Log::info("Despachando Job para atualização via Springer para paper ID {$this->paperId}");
-        AtualizarDadosSpringer::dispatch($this->paperId, $this->doi)->onQueue('updates');
+        dispatch_sync(new AtualizarDadosSpringer($this->paperId, $this->doi));
 
         $this->toast(__('project/conducting.study-selection.modal.buttons.springer.success'), 'success');
         $this->dispatch('refresh-paper-data');
@@ -80,7 +80,7 @@ class ButtonsUpdatePaper extends Component
             $queryType = !empty($this->doi) ? 'DOI' : 'Título';
             Log::info("Atualizando via Semantic Scholar ({$queryType}) → paper ID {$this->paperId}");
 
-            AtualizarDadosSemantic::dispatch($this->paperId, $this->doi, $this->title)->onQueue('updates');
+            dispatch_sync(new AtualizarDadosSemantic($this->paperId, $this->doi, $this->title));
 
             $this->toast(__('project/conducting.study-selection.modal.buttons.semantic.success'), 'success');
         } catch (\Throwable $e) {
