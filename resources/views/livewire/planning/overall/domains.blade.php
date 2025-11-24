@@ -20,7 +20,7 @@
                     wire:model="description"
                     placeholder="{{ __('project/planning.overall.domain.list.headers.enter_description') }}"
                     maxlength="255"
-                    pattern="[A-Za-zÀ-ÿ\s]+"
+                    pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                     required
                 />
                 @error("description")

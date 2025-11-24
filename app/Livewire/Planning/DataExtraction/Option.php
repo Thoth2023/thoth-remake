@@ -31,7 +31,7 @@ class Option extends Component
 
     // Regras de validação para os campos do formulário.
     protected $rules = [
-        'description' => 'required|string|regex:/^[\pL\pN\s\?\/:#\\\\-]+$/u|max:255',
+        'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
         'questionId' => 'required|array',
         'questionId.*.value' => 'exists:question_extraction,id',
     ];

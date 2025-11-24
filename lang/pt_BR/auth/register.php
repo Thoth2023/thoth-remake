@@ -13,11 +13,12 @@ return [
         'sign_up' => 'Cadastrar',
         'already_have_account' => 'Já tem uma conta?',
         'sign_in' => 'Entrar',
-        'username' => 'Nome de usuário',
+        'username' => 'Nome de usuário (nome.sobrenome)',
         'firstname' => 'Nome',
         'lastname' => 'Sobrenome',
         'institution' => 'Instituição',
         'email' => 'E-mail',
         'password' => 'Senha',
+        'confirm_password' => 'Confirme a Senha',
         'terms_error' => 'Você deve concordar com os Termos e Condições.'
 ];
