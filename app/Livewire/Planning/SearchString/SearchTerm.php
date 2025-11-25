@@ -147,6 +147,7 @@ class SearchTerm extends Component
             Log::logActivity(
                 action: $value,
                 description: $updatedOrCreated->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -202,6 +203,7 @@ class SearchTerm extends Component
             Log::logActivity(
                 action: 'Deleted the term',
                 description: $currentTerm->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -257,6 +259,7 @@ class SearchTerm extends Component
             Log::logActivity(
                 action: $value,
                 description: $created->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -309,6 +312,7 @@ class SearchTerm extends Component
             Log::logActivity(
                 action: 'Deleted the synonym',
                 description: $currentSynonym->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 

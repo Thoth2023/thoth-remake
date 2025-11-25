@@ -487,6 +487,7 @@ class Criteria extends Component
             Log::logActivity(
                 action: $value,
                 description: $updatedOrCreated->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -550,6 +551,7 @@ class Criteria extends Component
             Log::logActivity(
                 action: 'Deleted the criteria',
                 description: $currentCriteria->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 

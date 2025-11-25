@@ -171,6 +171,7 @@ class QuestionQuality extends Component
             Log::logActivity(
                 action: 'Deleted the quality score',
                 description: $currentQuestion->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -246,6 +247,7 @@ class QuestionQuality extends Component
             Log::logActivity(
                 action: $value,
                 description: $updatedOrCreated->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 

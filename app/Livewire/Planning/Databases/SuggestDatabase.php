@@ -106,6 +106,7 @@ class SuggestDatabase extends Component
             Log::logActivity(
                 action: 'Database suggested',
                 description: $suggestion->name,
+                module: 1,
                 projectId: $this->currentProject->id_project,
             );
 

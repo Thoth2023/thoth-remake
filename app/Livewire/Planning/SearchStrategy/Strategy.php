@@ -27,7 +27,7 @@ class Strategy extends Component
             'string',
         ],
     ];
-    
+
     protected $messages = [
         'currentDescription.required' => 'O campo descrição é obrigatório.',
         'currentDescription.regex' => 'A descrição deve conter pelo menos uma letra e não pode conter apenas caracteres especiais ou números.',
@@ -69,6 +69,7 @@ class Strategy extends Component
             Log::logActivity(
                 action: 'Updated the search strategy',
                 description: $this->currentDescription,
+                module: 1,
                 projectId: $this->projectId
             );
 
@@ -97,7 +98,7 @@ class Strategy extends Component
         if (preg_match('/^[\d\W]+$/', $trimmedDescription)) {
             return false;
         }
-    
+
         return true;
     }
 

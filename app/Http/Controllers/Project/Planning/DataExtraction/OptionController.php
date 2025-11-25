@@ -13,9 +13,11 @@
 
 namespace App\Http\Controllers\Project\Planning\DataExtraction;
 
+use App\Http\Controllers\Project\Planning\PlanningProgressController;
 use App\Http\Requests\Project\Planning\DataExtraction\Option\StoreOptionRequest;
 use App\Http\Requests\Project\Planning\DataExtraction\Option\UpdateOptionRequest;
 use App\Models\Project\Planning\DataExtraction\Option;
+use App\Utils\ActivityLogHelper as Log;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Project\Planning\DataExtraction\Question;
@@ -53,13 +55,14 @@ class OptionController extends Controller
             'description' => $request->option,
         ]);
 
-
-        $this->logActivity(
+        // Registra a edição no log do sistema
+        Log::logActivity(
             action: 'Added a option',
             description: $option->description,
-            optionId: $option->id_option,
+            module: 1,
             projectId: $projectId
         );
+
 
         $progress = app(PlanningProgressController::class)->calculate($projectId);
 
@@ -86,10 +89,11 @@ class OptionController extends Controller
             'description' => $request->option,
         ]);
 
-        $this->logActivity(
+        // Registra a edição no log do sistema
+        Log::logActivity(
             action: 'Edited a option',
             description: $description_old . " to " . $option->description,
-            optionId: $option->id_option,
+            module: 1,
             projectId: $projectId
         );
 
@@ -108,10 +112,11 @@ class OptionController extends Controller
     public function destroy(string $projectId, Option $option): RedirectResponse
     {
 
-        $this->logActivity(
+        // Registra a exclusão no log do sistema
+        Log::logActivity(
             action: 'Deleted a option',
             description: $option->description,
-            optionId: $option->id_option,
+            module: 1,
             projectId: $projectId
         );
 
@@ -125,22 +130,4 @@ class OptionController extends Controller
             ->with('success', 'Option deleted successfully');
     }
 
-    /**
-     * Log activity for the specified question.
-     *
-     * @param  string  $action
-     * @param  string  $description
-     * @param  int  $optionId
-     * @return void
-     */
-    private function logActivity(string $action, string $description, string $optionId, string $projectId): void
-    {
-        $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog(
-            activity: $activity,
-            id_module: 1,
-            id_project: $projectId,
-            id_user: Auth::user()->id
-        );
-    }
 }

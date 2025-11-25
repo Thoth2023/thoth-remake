@@ -17,6 +17,7 @@
 namespace App\Http\Controllers\Project\Planning\Overall;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Project\Planning\PlanningProgressController;
 use App\Http\Requests\DateUpdateRequest;
 use App\Models\Project;
 use App\Utils\ActivityLogHelper;

@@ -152,7 +152,7 @@ Route::get('/invite/complete/{token}', [InviteController::class, 'form'])->name(
 Route::post('/invite/complete/{token}', [InviteController::class, 'save'])->name('invite.complete.save');
 
 Route::get('/public-protocol/{project}/download', [PublicProtocolPdfController::class, 'download'])
-    ->name('public-protocol.download');
+    ->name('public-protocol.download')->middleware(Localization::class);
 
 
 

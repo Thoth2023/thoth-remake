@@ -9,11 +9,13 @@
             />
         </div>
         <br/>
-        <div>
-            @livewire('conducting.study-selection.count')
-        </div>
+        @if(!$isReviewer)
+            <div>
+                @livewire('conducting.study-selection.count')
+            </div>
+        @endif
         <div class="table-section">
-            
+
             @livewire('conducting.study-selection.table')
         </div>
 

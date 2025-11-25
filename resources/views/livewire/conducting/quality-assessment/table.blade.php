@@ -100,9 +100,11 @@
                 </div>
 
                 <div class="w-15 ms-auto">
+                    @unless($isReviewer)
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.quality-assessment.status." . strtolower($paper['status_description'])) }}
                     </b>
+                    @endunless
                     <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
                     @if($paper->peer_review_accepted)
 

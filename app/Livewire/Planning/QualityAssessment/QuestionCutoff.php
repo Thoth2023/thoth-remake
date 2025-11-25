@@ -158,6 +158,7 @@ class QuestionCutoff extends Component
         Log::logActivity(
             action: $this->translate('updated'),
             description: $selectedGeneralScore,
+            module: 1,
             projectId: $projectId
         );
 

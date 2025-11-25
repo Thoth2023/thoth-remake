@@ -167,6 +167,7 @@ class FileUpload extends Component
                         Log::logActivity(
                             action: __('project/conducting.import-studies.livewire.logs.database_associated_papers_imported'),
                             description: "$name - $papersInserted papers inserted",
+                            module: 2,
                             projectId: $projectId,
                         );
 
@@ -298,6 +299,7 @@ class FileUpload extends Component
                 Log::logActivity(
                     action: __('project/conducting.import-studies.livewire.logs.deleted_file_and_papers', ['count' => $deletedPapersCount]),
                     description: $file->name,
+                    module: 2,
                     projectId: $this->currentProject->id_project,
                 );
 
