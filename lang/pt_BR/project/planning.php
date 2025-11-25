@@ -1293,7 +1293,13 @@ Ao final, seus critérios formarão a base do processo de seleção da revisão,
             ],
             'score_rule' => [
                 'title' => 'Regra de Pontuação',
-                'placeholder' => 'Insira a Regra de Pontuação',
+                'placeholder' => 'Selecione ou digite a Regra de Pontuação',
+                'description'=>'Digite/Explique com uma descrição a regra de pontuação',
+                'yes' => 'Sim',
+                'partial' => 'Parcial',
+                'insufficient' => 'Insuficiente',
+                'no' => 'Não',
+
             ],
             'extra_score_rule' => [
                 'title' => 'Regra de Pontuação Extra',
@@ -1325,6 +1331,12 @@ Ao final, seus critérios formarão a base do processo de seleção da revisão,
                     'required' => 'O campo de regra de pontuação é obrigatório.',
                 ]
             ],
+            'messages' => [
+                'unique_score_rule' => 'A regra de pontuação com este valor já existe para esta questão.',
+                'score_rule_only_letters' => 'A regra de pontuação só pode conter letras e espaços.',
+                'description_only_letters_numbers' => 'A descrição só pode conter letras, números e espaços.',
+            ],
+
             'toasts' => [
                 'added' => 'Pontuação de Qualidade adicionada com sucesso.',
                 'updated' => 'Pontuação de Qualidade atualizada com sucesso.',

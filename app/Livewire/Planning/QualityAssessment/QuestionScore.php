@@ -37,7 +37,7 @@ class QuestionScore extends Component
   public $questionId;
   public $scoreRule;
   public $score;
-  public $scoreRuleOptions = ['Sim', 'Parcial', 'Insuficiente','Não'];
+  public $scoreRuleOptions = ['yes','partial','insufficient','no'];
   public $description;
 
 
@@ -54,7 +54,7 @@ class QuestionScore extends Component
    */
   protected $rules = [
     'questionId' => 'array|required',
-    'scoreRule' => 'required|string|max:25|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
+    'scoreRule' => 'required|string|max:30|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
     'score' => 'required|numeric',
     'description' => 'required|string|max:255|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
   ];
@@ -70,10 +70,10 @@ class QuestionScore extends Component
       'questionId.required' => __('common.required'),
       'questionId.array' => __('common.required'),
       'scoreRule.required' => __('common.required'),
-      'scoreRule.regex' => 'A regra de pontuação só pode conter letras e espaços.',
+      'scoreRule.regex' => __('project/planning.quality-assessment.question-score.messages.score_rule_only_letters'),
       'score.required' => __('common.required'),
       'description.required' => __('common.required'),
-      'description.regex' => 'A descrição só pode conter letras, números e espaços.',
+      'description.regex' => __('project/planning.quality-assessment.question-score.messages.description_only_letters_numbers'),
   ];
   }
 
@@ -189,7 +189,7 @@ class QuestionScore extends Component
 
             if ($alreadyExists) {
                 $this->toast(
-                    message: __('A regra de pontuação com este valor já existe para esta questão.'),
+                    message: __('project/planning.quality-assessment.question-score.messages.unique_score_rule'),
                     type: 'info'
                 );
                 return;
@@ -234,15 +234,18 @@ class QuestionScore extends Component
    */
   public function updatedScoreRule($value)
   {
-      if (in_array($value, ['Sim', 'Parcial', 'Não'])) {
+      if (in_array($value, ['yes', 'partial','insufficient', 'no'])) {
           switch ($value) {
-              case 'Sim':
+              case 'yes':
                   $this->score = 100;
                   break;
-              case 'Parcial':
+              case 'partial':
                   $this->score = 50;
                   break;
-              case 'Não':
+              case 'insufficient':
+                  $this->score = 25;
+                  break;
+              case 'no':
                   $this->score = 0;
                   break;
           }

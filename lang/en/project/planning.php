@@ -1298,7 +1298,12 @@ Even if a publication meets your inclusion criteria, its methodological quality 
             ],
             'score_rule' => [
                 'title' => 'Score Rule',
-                'placeholder' => 'Enter Score Rule',
+                'placeholder' => 'Select or type the Scoring Rule',
+                'description' => 'Type/Explain with a description to the scoring rule',
+                'yes' => 'Yes',
+                'partial' => 'Partial',
+                'insufficient' => 'Insufficient',
+                'no' => 'No',
             ],
             'form' => [
                 'select-qa-placeholder' => 'Select a Question Quality',
@@ -1325,6 +1330,11 @@ Even if a publication meets your inclusion criteria, its methodological quality 
                 'rule' => [
                     'required' => 'The score rule field is required.',
                 ],
+            ],
+            'messages' => [
+                'unique_score_rule' => 'The scoring rule already exists for this question.',
+                'score_rule_only_letters' => 'The score rule may contain only letters and spaces.',
+                'description_only_letters_numbers' => 'The description may contain only letters, numbers, and spaces.',
             ],
             'toasts' => [
                 'added' => 'Quality Score added successfully.',
