@@ -222,6 +222,7 @@ class Domains extends Component
             Log::logActivity(
                 action: $value,
                 description: $updatedOrCreated->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -297,6 +298,7 @@ class Domains extends Component
             Log::logActivity(
                 action: 'Deleted the domain',
                 description: $currentDomain->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 

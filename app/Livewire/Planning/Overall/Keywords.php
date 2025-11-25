@@ -235,6 +235,7 @@ class Keywords extends Component
             Log::logActivity(
                 action: $this->form['isEditing'] ? 'Updated the keyword' : 'Added a keyword',
                 description: $updatedOrCreated->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -308,6 +309,7 @@ class Keywords extends Component
         Log::logActivity(
             action: 'Deleted the keyword',
             description: $currentKeyword->description,
+            module: 1,
             projectId: $this->currentProject->id_project
         );
 

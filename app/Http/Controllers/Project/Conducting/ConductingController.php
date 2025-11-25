@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project\Conducting;
 
 use App\Http\Controllers\Controller;
 use App\Models\BibUpload;
+use App\Models\Member;
 use App\Models\Project;
 use App\Services\ConductingProgressService;
 use App\Utils\CheckProjectDataPlanning;
@@ -70,6 +71,13 @@ class ConductingController extends Controller
 
         $conductingProgress = $this->progressService->calculateProgress($project->id_project);
 
+        // 🔍 Obter o Member (e descobrir se é REVISOR)
+        $member = Member::where('id_user', auth()->id())
+            ->where('id_project', $id_project)
+            ->first();
+
+        $isReviewer = $member && $member->level == 4;
+
         return view('project.conducting.index', [
             'project' => $project,
             'studies' => $studies,
@@ -77,6 +85,7 @@ class ConductingController extends Controller
             'snowballing_projects' => $snowballing_projects,
             'dataExtractionQuestions' => $questions,
             'conductingProgress' => $conductingProgress,
+            'isReviewer' => $isReviewer,
         ]);
     }
 

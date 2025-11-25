@@ -11,6 +11,7 @@ use App\Models\Project\Conducting\StudySelection\PapersSelection;
 use App\Models\ProjectDatabases;
 use App\Models\StatusSelection;
 use App\Models\Project\Conducting\Papers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -157,57 +158,106 @@ class Table extends Component
         if (empty($idsBib)) {
             session()->flash('error', 'Não existem papers importados para este projeto.');
             $papers = new LengthAwarePaginator([], 0, $this->perPage);
+
         } else {
 
-            $query = Papers::whereIn('id_bib', $idsBib)
-                ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
-                ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers.id_paper')
-                ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
-                ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description')
-                ->where('papers_selection.id_member', $member->id_members);
+            // NOVO: identificar reviewer
+            $isReviewer = $member->level == 4;
 
-            if ($this->search) {
-                $query = $query->where(function ($query) {
-                    $query->where('papers.title', 'like', '%' . $this->search . '%');
-                });
+            // SE FOR REVISOR → MOSTRAR APENAS PAPERS EM CONFLITO
+            if ($isReviewer) {
+
+                $conflictPaperIds = PaperDecisionConflict::where('phase', 'study-selection')
+                    ->pluck('id_paper')
+                    ->toArray();
+
+                $query = Papers::whereIn('papers.id_paper', $conflictPaperIds)
+                    ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+                    ->leftJoin('papers_selection', 'papers_selection.id_paper', '=', 'papers.id_paper')
+                    ->leftJoin('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
+                    ->select(
+                        'papers.*',
+                        'data_base.name as database_name',
+                        DB::raw('MAX(status_selection.description) as status_description')
+                    )
+                    ->groupBy('papers.id_paper', 'data_base.name');
+
+                // Filtros normais
+                if ($this->search) {
+                    $query = $query->where(function ($query) {
+                        $query->where('papers.title', 'like', '%' . $this->search . '%');
+                    });
+                }
+
+                if ($this->selectedDatabase) {
+                    $query = $query->where('papers.data_base', $this->selectedDatabase);
+                }
+
+                if ($this->selectedStatus) {
+                    $query = $query->where('papers_selection.id_status', $this->selectedStatus);
+                }
+
+                foreach ($this->sorts as $field => $direction) {
+                    $query = $query->orderBy($field, $direction);
+                }
+
+                $papers = $query->paginate($this->perPage);
+
+            }
+            // SE NÃO FOR REVISOR → QUERY NORMAL (ADMIN / PESQUISADOR)
+            else {
+
+                $query = Papers::whereIn('id_bib', $idsBib)
+                    ->join('data_base', 'papers.data_base', '=', 'data_base.id_database')
+                    ->join('papers_selection', 'papers_selection.id_paper', '=', 'papers.id_paper')
+                    ->join('status_selection', 'papers_selection.id_status', '=', 'status_selection.id_status')
+                    ->select('papers.*', 'data_base.name as database_name', 'status_selection.description as status_description')
+                    ->where('papers_selection.id_member', $member->id_members);
+
+                if ($this->search) {
+                    $query = $query->where(function ($query) {
+                        $query->where('papers.title', 'like', '%' . $this->search . '%');
+                    });
+                }
+
+                if ($this->selectedDatabase) {
+                    $query = $query->where('papers.data_base', $this->selectedDatabase);
+                }
+
+                if ($this->selectedStatus) {
+                    $query = $query->where('papers_selection.id_status', $this->selectedStatus);
+                }
+
+                foreach ($this->sorts as $field => $direction) {
+                    $query = $query->orderBy($field, $direction);
+                }
+
+                $papers = $query->paginate($this->perPage);
             }
 
-            // Aplicar filtros adicionais (database e status)
-            if ($this->selectedDatabase) {
-                $query = $query->where('papers.data_base', $this->selectedDatabase);
-            }
-
-            if ($this->selectedStatus) {
-                $query = $query->where('papers_selection.id_status', $this->selectedStatus);
-            }
-
-            // Ordenação
-            foreach ($this->sorts as $field => $direction) {
-                $query = $query->orderBy($field, $direction);
-            }
-
-            // Paginação
-            $papers = $query->paginate($this->perPage);
-
-            // Verificar se há conflitos para cada paper
+            // Marcação de conflitos (para ambos os perfis)
             foreach ($papers as $paper) {
                 $paper->has_conflict = PapersSelection::where('id_paper', $paper->id_paper)
-                        ->where('id_status', '!=', 3) // Excluindo Unclassified (id=3)
+                        ->where('id_status', '!=', 3)
                         ->distinct()
                         ->count('id_status') > 1;
-                // Verificar se o paper já foi confirmado na tabela paper_decision_conflicts
+
                 $paper->is_confirmed = PaperDecisionConflict::where('id_paper', $paper->id_paper)
-                    ->where('phase', 'study-selection') // Verificar se a fase é "study-selection"
+                    ->where('phase', 'study-selection')
                     ->exists();
             }
         }
-        // Passa se o membro é administrador/pesquisador
-        $isAdministrator = $member->level == 1 || $member->level == 3;
-        
+
+        // Passa se o membro é administrador/pesquisador/revisor para exibir a opção de modal p/ registra a decisão final do conflito
+        $isAdministrator = $member->level == 1 || $member->level == 3 || $member->level == 4;
+
+        $isReviewer = $member->level == 4;
+
+
         // Emitir evento para atualizar o estado dos botões
         $this->dispatch('papers-updated', hasPapers: $papers->isNotEmpty());
-        
-        return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses','isAdministrator'));
+
+        return view('livewire.conducting.study-selection.table', compact('papers', 'databases', 'statuses','isAdministrator','isReviewer'));
     }
 
 

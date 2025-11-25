@@ -152,6 +152,7 @@ class Question extends Component
             Log::logActivity(
                 action: $value,
                 description: $this->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
@@ -231,6 +232,7 @@ class Question extends Component
             Log::logActivity(
                 action: 'Deleted the question',
                 description: $currentQuestion->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 
