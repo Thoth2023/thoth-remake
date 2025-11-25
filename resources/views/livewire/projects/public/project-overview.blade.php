@@ -70,7 +70,7 @@
             <strong>{{ __('project/public_protocol.study_types') }}:</strong>
             <ul>
                 @forelse($studyTypes as $s)
-                    <li>{{ $s->description }}</li>
+                    <li>{{ __("project/planning.overall.study_type.types.$s->description") }} </li>
                 @empty
                     <li>—</li>
                 @endforelse

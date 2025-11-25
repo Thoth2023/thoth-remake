@@ -22,7 +22,7 @@
                     </option>
                     @foreach ($studies as $studyType)
                         <option value="{{ $studyType->id_study_type }}">
-                            {{ $studyType->description }}
+                            {{ __("project/planning.overall.study_type.types.$studyType->description") }}
                         </option>
                     @endforeach
                 </x-select>
@@ -46,7 +46,7 @@
             @forelse ($project->studyTypes as $projectStudyType)
                 <div class="d-flex justify-content-between">
                     <span data-search>
-                        {{ $projectStudyType->description }}
+                        {{ __("project/planning.overall.study_type.types.$projectStudyType->description") }}
                     </span>
                     <div>
                         <button
