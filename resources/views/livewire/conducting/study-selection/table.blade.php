@@ -87,11 +87,11 @@
                 </div>
 
                 <div class="w-15 ms-auto">
-                    @unless($isReviewer)
+
                         <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                             {{ __("project/conducting.study-selection.status." . strtolower($paper['status_description'])) }}
                         </b>
-                    @endunless
+
                     @if($isAdministrator)
                         @if($paper->has_conflict && !$paper->is_confirmed)
                             <!-- Mostrar div de resolução de conflitos -->
