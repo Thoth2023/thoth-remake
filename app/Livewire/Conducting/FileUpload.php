@@ -147,7 +147,7 @@ class FileUpload extends Component
                     if (in_array($extension, ['bib', 'txt'])) {
                         // Despachar o job para arquivos .bib ou .txt
                         FacadesLog::info('Arquivo .bib ou .txt detectado, despachando o job para processamento.', ['file_path' => $filePath]);
-                        dispatch(new ProcessFileImport($filePath, $projectId, $database, $id_bib));
+                        dispatch_sync(new ProcessFileImport($filePath, $projectId, $database, $id_bib));
 
                         // Exibir uma notificação de sucesso para o usuário
                         $toastMessage = __($this->toastMessages . '.file_uploaded_success');

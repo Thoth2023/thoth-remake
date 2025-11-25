@@ -65,9 +65,11 @@
                                                         {{ Str::limit($project->title, 40) }}
                                                     </h6>
 
-                                                    <div class="text-muted fst-italic thoth-project-description"
-                                                         title="{{ $project->description }}" data-toggle="tooltip">
-                                                        {{ Str::limit($project->description, 105) }}
+                                                    <div class="small text-muted fst-italic thoth-project-description"
+                                                         style="font-size: 0.75rem; white-space: normal; word-wrap: break-word; max-width: 300px;"
+                                                         title="{{ $project->description }}"
+                                                         data-toggle="tooltip">
+                                                        {{ Str::limit($project->description, 90) }}
                                                     </div>
                                                 </div>
                                             </td>

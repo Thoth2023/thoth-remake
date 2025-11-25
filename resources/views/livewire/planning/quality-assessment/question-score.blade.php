@@ -49,18 +49,19 @@
                             id="score-rule"
                             list="score-rule-options"
                             class="form-control"
-                            placeholder="{{ __('Selecione ou digite uma regra') }}"
+                            placeholder="{{ __('project/planning.quality-assessment.question-score.score_rule.placeholder') }}"
                             wire:model.lazy="scoreRule"
                             onchange="handleScoreRuleChange(this.value)"
                             label="{{ __('project/planning.quality-assessment.question-score.score_rule.title') }}"
-                            maxlength="20"
+                            maxlength="30"
                             min="0"
                             pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                             required
                         />
                         <datalist id="score-rule-options">
                             @foreach ($scoreRuleOptions as $option)
-                                <option value="{{ $option }}"></option>
+                                <option value="{{ __('project/planning.quality-assessment.question-score.score_rule.' . $option) }}">
+                                </option>
                             @endforeach
                         </datalist>
                         @error("scoreRule")
@@ -106,8 +107,8 @@
                             class="form-control"
                             maxlength="255"
                             rows="2"
-                            placeholder="{{ __("project/planning.research-questions.form.enter_description") }}"
-                            pattern="[a-zA-ZÀ-ÿ0-9\s]+"
+                            placeholder="{{ __("project/planning.quality-assessment.question-score.score_rule.description") }}"
+                            pattern="[A-Za-zÀ-ÿ0-9.,;:?!\()\\[\\]{}\/\ _\-+=#@!%&*]+"
                             required
                         ></textarea>
                         @error("description")
