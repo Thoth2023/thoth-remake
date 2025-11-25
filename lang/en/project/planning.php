@@ -185,7 +185,14 @@ At this point, adjust weights and ensure that all questions are clear and consis
         ],
         'study_type' => [
             'title' => 'Study Types',
-            'types' => 'Types',
+            'types' => [
+                'Book' => 'Book',
+                'Thesis' => 'Thesis',
+                'Article in Press' => 'Article in Press',
+                'Article' => 'Article',
+                'Conference Paper' => 'Conference Paper',
+                'All types' => 'All types',
+            ],
             'add' => 'Add Study Type',
             'list' => [
                 'select' => [

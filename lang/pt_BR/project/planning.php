@@ -185,7 +185,14 @@ Utilize esta tela para conferir lacunas, editar itens e garantir que todos os da
         ],
         'study_type' => [
             'title' => 'Tipos de Estudo',
-            'types' => 'Tipos',
+            'types' => [
+                'Book' => 'Livro',
+                'Thesis' => 'Tese',
+                'Article in Press' => 'Artigo de Revista',
+                'Article' => 'Artigo',
+                'Conference Paper' => 'Artigo de Conferência',
+                'All types' => 'Todos os tipos',
+            ],
             'add' => 'Adicionar Tipo de Estudo',
             'list' => [
                 'select' => [

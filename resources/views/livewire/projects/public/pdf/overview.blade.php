@@ -23,7 +23,7 @@
             <div class="protocol-box">
                 <strong>{{ __('project/public_protocol.study_types') }}:</strong>
                 <ul>
-                    @forelse($studyTypes as $s) <li>{{ $s->description }}</li> @empty <li>—</li> @endforelse
+                    @forelse($studyTypes as $s) <li>{{ __("project/planning.overall.study_type.types.$s->description") }}</li> @empty <li>—</li> @endforelse
                 </ul>
             </div>
         </div>
