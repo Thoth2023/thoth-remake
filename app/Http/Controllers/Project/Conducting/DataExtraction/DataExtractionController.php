@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project\Conducting;
+namespace App\Http\Controllers\Project\Conducting\DataExtraction;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
@@ -14,5 +14,5 @@ class DataExtractionController extends Controller
         $questions = $project->dataExtractionQuestions()->get();
         return view('project.conducting.data-extraction', compact('project'), compact('questions'));
     }
-    
+
 }

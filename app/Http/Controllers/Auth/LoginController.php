@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -19,31 +20,101 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'acceptLgpd']);
     }
 
-    public function redirectToGoogle()
+    //LOGIN TRADICIONAL (Email + Senha)
+    /**
+     * Exibir página de login
+     */
+    public function show()
     {
-        return Socialite::driver('google')->redirect();
+        return view('auth.login');
     }
 
-    public function handleGoogleCallback()
+    /**
+     * Fazer login com email e senha (do LoginController original)
+     */
+    public function login(Request $request)
     {
-        try {
-            // O erro ocorre nesta linha (comunicação backend)
-            $googleUser = Socialite::driver('google')->stateless()->user();
+        // Validação
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-            // Se esta linha for alcançada, o login está OK
-            $this->_registerOrLoginUser($googleUser);
-            session()->regenerate();
+        // 1. Tentar Autenticar
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
 
-            return redirect()->intended($this->redirectTo);
+            // 2. VERIFICAÇÃO DE USUÁRIO ATIVO
+            if (!$user->active) {
+                Auth::logout();
+                $request->session()->invalidate();
+                return back()->withErrors(['email' => __('auth/login.inactive')]);
+            }
 
-        } catch (\Exception $e) {
-            // ESTE BLOCO VAI PEGAR A CAUSA REAL
-            Log::error('ERRO CRÍTICO NO SOCIALITE: ' . $e->getMessage());
-            return redirect('/login')->with('error', __('auth.google_failed'));
+            $request->session()->regenerate();
+
+            // 3. Verificação de IP (apenas para login tradicional)
+            if (!$request->has('code') && !$request->has('state')) {
+                $userIp = session('user_ip');
+                $currentIp = $request->ip();
+
+                if ($userIp && $userIp !== $currentIp) {
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    return redirect()->route('login')->with('error', 'Sessão expirada devido a mudança de IP.');
+                }
+
+                session(['user_ip' => $currentIp]);
+            }
+
+            // Armazena o IP na sessão
+            session(['user_ip' => $request->ip()]);
+
+            // 4. Fluxo LGPD/Termos
+            if (!$user->terms_and_lgpd) {
+                $request->session()->flash('show_lgpd_modal', true);
+            }
+
+            Log::info('User logged in traditionally', ['user_id' => $user->id]);
+
+            // Redirecionar para /projects (corrigido de 'about')
+            return redirect()->intended('/projects');
         }
+
+        // Falha na senha ou e-mail
+        return back()->withErrors(['password' => __('auth/login.failed')]);
+    }
+
+    //LOGOUT E LGPD
+
+    /**
+     * Fazer logout
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    /**
+     * Aceitar termos LGPD
+     */
+    public function acceptLgpd(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user->update(['terms_and_lgpd' => true]);
+            Log::info('User accepted LGPD', ['user_id' => $user->id]);
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 401);
     }
 
     protected function _registerOrLoginUser($data)
@@ -61,4 +132,5 @@ class LoginController extends Controller
 
         Auth::login($user);
     }
+
 }

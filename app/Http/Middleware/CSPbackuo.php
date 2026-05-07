@@ -12,17 +12,10 @@ class ContentSecurityPolicy
     {
         Log::info('ContentSecurityPolicy::handle - iniciado', [
             'path' => $request->path(),
-            'url' => $request->url(),
-            'full_url' => $request->getRequestUri(),
         ]);
 
-        // PULAR CSP PARA CALLBACKS DE OAUTH
-        if (strpos($request->path(), 'auth/') === 0 && strpos($request->path(), 'callback') !== false) {
-            Log::info('ContentSecurityPolicy - pulando CSP para callback OAuth');
-            return $next($request);
-        }
-
         $response = $next($request);
+
 
         $isLocal = app()->environment('local');
 
@@ -181,11 +174,6 @@ class ContentSecurityPolicy
 
         $policy = implode('; ', $directives) . ';';
         $response->headers->set('Content-Security-Policy', $policy);
-
-        Log::info('ContentSecurityPolicy - response status', [
-            'status' => $response->getStatusCode(),
-            'location_header' => $response->headers->get('Location'),
-        ]);
 
         return $response;
     }

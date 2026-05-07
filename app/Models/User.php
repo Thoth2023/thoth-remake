@@ -36,8 +36,11 @@ class User extends Authenticatable
         'username',
         'firstname',
         'lastname',
+        'name',
         'email',
         'password',
+        'provider_id',      // ID do Google/Facebook/Apple)
+        'avatar',           // (Foto do provedor)
         'address',
         'city',
         'country',
@@ -49,6 +52,7 @@ class User extends Authenticatable
         'role',
         'active',
         'terms_and_lgpd',
+        'email_verified_at',
     ];
 
     /**
@@ -170,8 +174,8 @@ class User extends Authenticatable
         // Anonimiza os dados do usuário
         $this->update([
             'username' => 'anonimo_' . Str::random(8),
-            'firstname' => 'Anônimo',
-            'lastname' => 'Anônimo',
+            'firstname' => 'none',
+            'lastname' => 'none',
             'email' => 'deleted' . $this->id . '@example.com',
             'address' => null,
             'city' => null,
@@ -181,6 +185,8 @@ class User extends Authenticatable
             'occupation' => null,
             'lattes_link' => null,
             'about' => null,
+            'provider_id' => null,
+            'avatar' => null,
             'active' => false, // Desativa a conta
         ]);
     }

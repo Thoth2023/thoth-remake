@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -85,50 +84,17 @@ class RegisterController extends Controller
     public function handleGoogleCallback(Request $request)
     {
         try {
-            Log::info('=== GOOGLE CALLBACK START ===', [
-                'session_id' => session()->getId(),
-                'user_id_before' => Auth::id(),
-                'has_code' => $request->has('code'),
-            ]);
-
             $googleUser = Socialite::driver('google')->stateless()->user();
-
-            Log::info('Google user retrieved', [
-                'email' => $googleUser->getEmail(),
-                'name' => $googleUser->name,
-                'user_id_before_login' => Auth::id(),
-            ]);
 
             // Procurar o usuário pelo e-mail
             $user = User::where('email', $googleUser->getEmail())->first();
 
-            Log::info('User lookup result', [
-                'user_found' => $user ? true : false,
-                'user_id' => $user->id ?? null,
-            ]);
-
             if ($user) {
-                Log::info('Before Auth::login', [
-                    'user_id' => $user->id,
-                    'authenticated' => Auth::check(),
-                ]);
-
                 // Se o usuário já estiver registrado, faça o login
                 Auth::login($user);
 
-                Log::info('After Auth::login', [
-                    'user_id' => Auth::id(),
-                    'authenticated' => Auth::check(),
-                    'session_id' => session()->getId(),
-                ]);
-
                 // Regenerar sessão para segurança
-                //$request->session()->regenerate();
-
-                Log::info('After session regenerate', [
-                    'user_id' => Auth::id(),
-                    'authenticated' => Auth::check(),
-                ]);
+                $request->session()->regenerate();
 
                 // Verificar se o usuário já aceitou os termos e exibir modal se não aceitou
                 if (!$user->terms_and_lgpd) {
@@ -136,19 +102,8 @@ class RegisterController extends Controller
                     $request->session()->flash('show_lgpd_modal', true);
                 }
 
-                Log::info('FINAL - Before redirect to /projects', [
-                    'user_id' => Auth::id(),
-                    'authenticated' => Auth::check(),
-                    'session_id' => session()->getId(),
-                    'has_guard_user' => Auth::user() ? Auth::user()->id : null,
-                ]);
-
                 return redirect()->intended('/projects');
             } else {
-                Log::info('New user registration via Google', [
-                    'email' => $googleUser->getEmail(),
-                ]);
-
                 // Se o usuário não estiver registrado, crie o cadastro e redirecione para /about
                 // Extrair o nome completo do usuário e separar em firstname e lastname
                 $nameParts = explode(' ', $googleUser->name);
@@ -157,13 +112,6 @@ class RegisterController extends Controller
 
                 // Criar o username concatenando firstname e lastname
                 $username = strtolower($firstname . $lastname);
-
-                Log::info('New user data prepared', [
-                    'email' => $googleUser->getEmail(),
-                    'username' => $username,
-                    'firstname' => $firstname,
-                    'lastname' => $lastname,
-                ]);
 
                 // Criar um novo usuário com os dados recebidos
                 $newUser = User::create([
@@ -178,46 +126,17 @@ class RegisterController extends Controller
                     'country' => $googleUser->user['locale'] ?? null,
                 ]);
 
-                Log::info('New user created', [
-                    'user_id' => $newUser->id,
-                    'email' => $newUser->email,
-                ]);
-
-                Log::info('Before Auth::login for new user', [
-                    'user_id' => $newUser->id,
-                    'authenticated' => Auth::check(),
-                ]);
-
                 Auth::login($newUser);
 
-                Log::info('After Auth::login for new user', [
-                    'user_id' => Auth::id(),
-                    'authenticated' => Auth::check(),
-                ]);
-
                 // Regenerar sessão
-                //$request->session()->regenerate();
-
-                Log::info('After session regenerate for new user', [
-                    'user_id' => Auth::id(),
-                    'authenticated' => Auth::check(),
-                ]);
+                $request->session()->regenerate();
 
                 // Define uma sessão para mostrar o modal LGPD após o login
                 $request->session()->flash('show_lgpd_modal', true);
 
-                Log::info('Before redirect to /about', [
-                    'user_id' => Auth::id(),
-                    'authenticated' => Auth::check(),
-                ]);
-
                 return redirect()->route('about');
             }
         } catch (\Exception $e) {
-            Log::error('Google OAuth error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
             return redirect()->route('login')->withErrors('Erro ao autenticar com o Google.');
         }
     }

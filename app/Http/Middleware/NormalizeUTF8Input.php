@@ -9,6 +9,16 @@ class NormalizeUTF8Input
 {
     public function handle($request, Closure $next)
     {
+        if (strpos($request->path(), 'auth/') === 0) {
+            \Illuminate\Support\Facades\Log::info('NormalizeUTF8Input - AUTH REQUEST!', [
+                'path' => $request->path(),
+                'full_uri' => $request->getRequestUri(),
+                'method' => $request->method(),
+                'has_code' => $request->has('code'),
+                'has_state' => $request->has('state'),
+            ]);
+        }
+
         try {
             $input = $request->all();
 
