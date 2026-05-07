@@ -174,6 +174,7 @@ class SearchString extends Component
             Log::logActivity(
                 action: 'Deleted the search string',
                 description: $currentSearchString->description,
+                module: 1,
                 projectId: $this->currentProject->id_project
             );
 

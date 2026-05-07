@@ -13,10 +13,12 @@
 
 namespace App\Http\Controllers\Project\Planning\DataExtraction;
 
+use App\Http\Controllers\Project\Planning\PlanningProgressController;
 use App\Http\Requests\Project\Planning\DataExtraction\Question\StoreQuestionRequest;
 use App\Http\Requests\Project\Planning\DataExtraction\Question\UpdateQuestionRequest;
 use App\Models\Project\Planning\DataExtraction\Question;
 use App\Http\Controllers\Controller;
+use App\Utils\ActivityLogHelper as Log;
 use Illuminate\Support\Facades\Auth;
 use App\Utils\ActivityLogHelper;
 use Illuminate\Http\RedirectResponse;
@@ -40,10 +42,11 @@ class QuestionController extends Controller
             'type' => $request->type,
         ]);
 
-        $this->logActivity(
+        // Registra a adição no log do sistema
+        Log::logActivity(
             action: 'Added a question',
             description: $question->description,
-            questionId: $question->id,
+            module: 1,
             projectId: $projectId
         );
 
@@ -74,10 +77,11 @@ class QuestionController extends Controller
             'type' => $request->type,
         ]);
 
-        $this->logActivity(
+        // Registra a edição no log do sistema
+        Log::logActivity(
             action: 'Edited a question',
             description: $description_old . " to " . $question->description,
-            questionId: $question->id,
+            module: 1,
             projectId: $projectId
         );
 
@@ -95,11 +99,11 @@ class QuestionController extends Controller
      */
     public function destroy(string $projectId, Question $question): RedirectResponse
     {
-
-        $this->logActivity(
+        // Registra a exclusão no log do sistema
+        Log::logActivity(
             action: 'Deleted a question',
             description: $question->description,
-            questionId: $question->id,
+            module: 1,
             projectId: $projectId
         );
 
@@ -111,24 +115,5 @@ class QuestionController extends Controller
             ->with('activePlanningTab', 'data-extraction')
             ->with('success', 'Question deleted successfully')
             ->with('progress', $progress);
-    }
-
-    /**
-     * Log activity for the specified question.
-     *
-     * @param  string  $action
-     * @param  string  $description
-     * @param  int  $questionId
-     * @return void
-     */
-    private function logActivity(string $action, string $description, string $questionId, string $projectId): void
-    {
-        $activity = $action . " " . $description;
-        ActivityLogHelper::insertActivityLog(
-            activity: $activity,
-            id_module: 1,
-            id_project: $projectId,
-            id_user: Auth::user()->id
-        );
     }
 }

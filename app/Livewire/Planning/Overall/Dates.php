@@ -11,7 +11,7 @@ use App\Traits\ProjectPermissions;
 /**
  * Componente Livewire responsável pelo gerenciamento das datas de início e fim
  * de um projeto de revisão sistemática da literatura.
- * 
+ *
  * Este componente faz parte da fase de planejamento geral da revisão sistemática,
  * permitindo que os pesquisadores definam o cronograma temporal do projeto.
  * As datas são fundamentais para o controle e acompanhamento do progresso
@@ -20,19 +20,19 @@ use App\Traits\ProjectPermissions;
 class Dates extends Component
 {
     use ProjectPermissions;
-    
+
     /**
      * Caminho base para as traduções específicas deste componente.
      * Utilizado para internacionalização (PT/BR e EN).
-     * 
+     *
      * @var string
      */
     private $translationPath = 'project/planning.overall.dates.livewire';
-    
+
     /**
      * Caminho para as mensagens de toast específicas deste componente.
      * Utilizado para feedback visual ao usuário após operações.
-     * 
+     *
      * @var string
      */
     private $toastMessages = 'project/planning.overall.dates.livewire.toasts';
@@ -40,7 +40,7 @@ class Dates extends Component
     /**
      * Instância do projeto atual sendo editado.
      * Contém todos os dados do projeto de revisão sistemática.
-     * 
+     *
      * @var ProjectModel
      */
     public $currentProject;
@@ -48,20 +48,20 @@ class Dates extends Component
     /**
      * Fields to be filled by the form.
      */
-    
+
     /**
      * Data de início do projeto de revisão sistemática.
      * Define quando o projeto começou ou deve começar.
-     * 
+     *
      * @var string|null
      */
     public $startDate;
-    
+
     /**
      * Data de fim do projeto de revisão sistemática.
      * Define quando o projeto terminou ou deve terminar.
      * Deve ser posterior à data de início.
-     * 
+     *
      * @var string|null
      */
     public $endDate;
@@ -97,10 +97,10 @@ class Dates extends Component
     {
         // Obtém o ID do projeto a partir da URL (segundo segmento)
         $projectId = request()->segment(2);
-        
+
         // Carrega o projeto atual ou falha se não encontrado
         $this->currentProject = ProjectModel::findOrFail($projectId);
-        
+
         // Pré-popula os campos com as datas existentes do projeto
         $this->startDate = $this->currentProject->start_date;
         $this->endDate = $this->currentProject->end_date;
@@ -142,6 +142,7 @@ class Dates extends Component
         Log::logActivity(
             action: $dates === null ? 'Added project dates: ' : 'Updated project dates: ',
             description: $this->startDate . ' - ' . $this->endDate,
+            module: 1,
             projectId: $this->currentProject->id_project,
         );
 

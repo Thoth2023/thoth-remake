@@ -11,23 +11,23 @@ class ActivityLogHelper
 {
     public static function insertActivityLog($activity, $id_module, $id_project, $id_user = null)
     {
-       
-    //Activity::create([
-    //'activity' => $descricao,
-    //'id_module' => 1,
-       //'id_project' => $idProjeto,
-     //'id_user' => Auth::id(),
-    //]);
+
+    Activity::create([
+    'activity' => $activity,
+    'id_module' => $id_module,
+       'id_project' => $id_project,
+     'id_user' => Auth::id(),
+    ]);
 
     }
-    
-    public static function logActivity(string $action, string $description, string $projectId, string $userId = null): void
+
+    public static function logActivity(string $action, string $description, string $module, string $projectId, string $userId = null): void
     {
         $activity = $action . " " . $description;
 
         ActivityLogHelper::insertActivityLog(
             activity: $activity,
-            id_module: 1,
+            id_module: $module,
             id_project: $projectId,
             id_user: $userId ?? Auth::user()->id
         );

@@ -208,6 +208,7 @@ class QuestionScore extends Component
         Log::logActivity(
             action: $value,
             description: $create->description,
+            module: 1,
             projectId: $this->currentProject->id_project
         );
 

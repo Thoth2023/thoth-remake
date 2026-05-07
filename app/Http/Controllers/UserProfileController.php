@@ -81,6 +81,7 @@ class UserProfileController extends Controller
         Log::logActivity(
             action: 'delete_user_data',
             description: "Dados do usuário {$user->id} ({$user->email}) foram solicitados para exclusão em conformidade com a LGPD.",
+            module: 1,
             projectId: 1
         );
         // Armazenar mensagem de sucesso na sessão

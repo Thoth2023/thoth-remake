@@ -1306,7 +1306,7 @@ Even if a publication meets your inclusion criteria, its methodological quality 
             'score_rule' => [
                 'title' => 'Score Rule',
                 'placeholder' => 'Select or type the Scoring Rule',
-                'description' => 'Type/Explain with a description to the scoring rule',
+                'description' => 'Write/Explain with a description to the scoring rule',
                 'yes' => 'Yes',
                 'partial' => 'Partial',
                 'insufficient' => 'Insufficient',

@@ -191,7 +191,7 @@ class Table extends Component
 
         }
         // Passa se o membro é administrador/pesquisador
-        $isAdministrator = $member->level == 1 || $member->level == 3;
+        $isAdministrator = $member->level == 1 || $member->level == 3 || $member->level == 4;
 
         // Emitir evento para atualizar o estado dos botões
         $this->dispatch('papers-updated', hasPapers: $papers->isNotEmpty());

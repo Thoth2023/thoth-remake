@@ -31,51 +31,71 @@
                             });
                         </script>
                     @else
-                    @include(
-                        "project.components.project-tabs",
-                        [
-                            'header' => __('project/conducting.conducting.title'),
-                            "content" => __("project/conducting.content-helper"),
-                            "tabs" => collect([
-                                [
-                                    'id' => 'import-studies-tab',
-                                    'label' =>__('project/conducting.header.import_studies'),
-                                    'href' => '#import-studies',
-                                ],
-                                [
-                                    'id' => 'study-selection-tab',
-                                    'label' => __('project/conducting.header.study_selection'),
-                                    'href' => '#study-selection',
-                                ],
-                                [
-                                    'id' => 'quality-assessment-tab',
-                                    'label' => __('project/conducting.header.quality_assessment'),
-                                    'href' => '#quality-assessment',
-                                ],
+                        @include(
+        "project.components.project-tabs",
+        [
+            'header' => __('project/conducting.conducting.title'),
+            "content" => __("project/conducting.content-helper"),
 
-                            ])->when(strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false, function ($collection) {
-                                return $collection->push([
-                                    'id' => 'snowballing-tab',
-                                    'label' => __('project/conducting.header.snowballing'),
-                                    'href' => '#snowballing',
-                                ]);
+            "tabs" => collect([
+                    !$isReviewer ? [
+                        'id' => 'import-studies-tab',
+                        'label' => __('project/conducting.header.import_studies'),
+                        'href' => '#import-studies',
+                    ] : null,
 
-                            })->push([
-                                'id' => 'data-extraction-tab',
-                                'label' => __('project/conducting.header.data_extraction'),
-                                'href' => '#data-extraction',
+                    [
+                        'id' => 'study-selection-tab',
+                        'label' => __('project/conducting.header.study_selection'),
+                        'href' => '#study-selection',
+                    ],
 
-                            ]),
-                            "activeTab" => "import-studies-tab",
-                        ]
-                    )
+                    [
+                        'id' => 'quality-assessment-tab',
+                        'label' => __('project/conducting.header.quality_assessment'),
+                        'href' => '#quality-assessment',
+                    ],
+                ])
 
-                    <div class="tab-content mt-4">
+                //  Remove qualquer item null
+                ->filter()
+
+                //  Adiciona snowballing apenas se permitido e não revisor
+                ->when(
+                    !$isReviewer &&
+                    (
+                        str_contains($project->feature_review, 'Snowballing') ||
+                        str_contains($project->feature_review, 'Systematic Review and Snowballing')
+                    ),
+                    fn($collection) => $collection->push([
+                        'id' => 'snowballing-tab',
+                        'label' => __('project/conducting.header.snowballing'),
+                        'href' => '#snowballing',
+                    ])
+                )
+
+                // Data Extraction → só para NÃO revisor
+            ->when(
+                !$isReviewer,
+                fn($collection) => $collection->push([
+                    'id' => 'data-extraction-tab',
+                    'label' => __('project/conducting.header.data_extraction'),
+                    'href' => '#data-extraction',
+                ])
+            ),
+
+            "activeTab" => !$isReviewer ? "import-studies-tab" : "study-selection-tab",
+        ]
+    )
+
+
+                        <div class="tab-content mt-4">
+                        @if(!$isReviewer)
                         <div class="tab-pane fade show active" id="import-studies">
                             <!-- Conteúdo da aba Import Studies -->
                             @livewire("conducting.file-upload")
                         </div>
-
+                        @endif
                         <div id="study-selection" class="tab-pane fade">
                             @include("project.conducting.study-selection.index", ["project" => $project])
                         </div>
@@ -85,14 +105,18 @@
                         </div>
 
                         @if (strpos($project->feature_review, 'Snowballing') !== false || strpos($project->feature_review, 'Systematic Review and Snowballing') !== false)
-                            <div id="snowballing" class="tab-pane fade">
+                             @if(!$isReviewer)
+                             <div id="snowballing" class="tab-pane fade">
                                 @include("project.conducting.snowballing.index",["project" => $project])
                             </div>
+                             @endif
                         @endif
-
+                            @if(!$isReviewer)
                         <div id="data-extraction" class="tab-pane fade">
                             @include("project.conducting.data-extraction.index", ["project" => $project])
                         </div>
+                            @endif
+
                     </div>
                     @endif
                 </div>

@@ -23,6 +23,7 @@ class PublicProtocolPdfController extends Controller
     public function download(Project $project)
     {
         try {
+
             $project = Project::findOrFail($project->id_project);
 
             $domains = Domain::where('id_project', $project->id_project)->get();
@@ -65,10 +66,16 @@ class PublicProtocolPdfController extends Controller
             $qrCodeSvgBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrCodeSvg);
 
 
+            // Forçar o idioma da sessão antes de carregar a view
+            $locale = session('locale', config('app.locale'));
+            app()->setLocale($locale);
+
+            //dd($locale);
+
             $html = view('livewire.projects.public-protocol-pdf', compact(
                 'project', 'domains', 'keywords', 'languages', 'studyTypes', 'databases',
                 'researchQuestions', 'searchStrategy', 'criteria',
-                'qualityQuestions', 'qualityRanges', 'qualityCutoff', 'extractionQuestions', 'publicUrl', 'qrCodeSvgBase64'
+                'qualityQuestions', 'qualityRanges', 'qualityCutoff', 'extractionQuestions', 'publicUrl', 'qrCodeSvgBase64', 'locale'
             ))->render();
 
             $fileName = 'protocolo-' . $this->sanitizeFilename($project->title) . '.pdf';

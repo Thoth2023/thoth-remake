@@ -530,7 +530,7 @@ class ProjectController extends Controller
  public function exportActivities($projectId)
     {
         $project = Project::findOrFail($projectId);
-        $activities = \App\Models\Activity::where('id_project', $projectId)
+        $activities = Activity::where('id_project', $projectId)
             ->with('user')
             ->orderBy('created_at', 'DESC')
             ->get();

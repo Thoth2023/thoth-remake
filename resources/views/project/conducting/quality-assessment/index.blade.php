@@ -9,9 +9,11 @@
             />
         </div>
         <br/>
+        @if(!$isReviewer)
         <div>
             @livewire('conducting.quality-assessment.count')
         </div>
+        @endif
         <div class="table-section">
             @livewire('conducting.quality-assessment.table')
         </div>

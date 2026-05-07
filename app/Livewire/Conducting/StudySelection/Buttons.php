@@ -138,6 +138,7 @@ class Buttons extends Component
                 Log::logActivity(
                     action: 'Paper duplicated successfully marked',
                     description: $this->translate('confirm-duplicate'). ' - ' . $paperId,
+                    module: 2,
                     projectId: $this->projectId,
                 );
             } else {
@@ -189,6 +190,7 @@ class Buttons extends Component
                 Log::logActivity(
                     action: 'Paper marked as unclassified',
                     description: $this->translate('marked-unclassified'). ' - ' . $paperId,
+                    module: 2,
                     projectId: $this->projectId,
                 );
             } else {

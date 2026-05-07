@@ -132,6 +132,7 @@ class Databases extends Component
             Log::logActivity(
                 action: 'Added database',
                 description: $database->name,
+                module: 1,
                 projectId: $this->currentProject->id_project,
             );
 
@@ -169,11 +170,12 @@ class Databases extends Component
 
         // Remove o relacionamento
         $projectDatabase->delete();
-        
+
         // Registra a exclusão no log de atividades
         Log::logActivity(
             action: 'Deleted database',
             description: $deleted->name,
+            module: 1,
             projectId: $this->currentProject->id_project,
         );
 

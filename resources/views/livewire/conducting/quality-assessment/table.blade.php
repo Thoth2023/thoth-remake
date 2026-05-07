@@ -100,13 +100,15 @@
                 </div>
 
                 <div class="w-15 ms-auto">
+
                     <b data-search class="{{ 'text-' . strtolower($paper['status_description']) }}">
                         {{ __("project/conducting.quality-assessment.status." . strtolower($paper['status_description'])) }}
                     </b>
+
                     <!-- Exibir o ícone de exclamação se aceito em "Avaliação por Pares" -->
                     @if($paper->peer_review_accepted)
 
-                            <i class="fa-solid fa-users" title=" {{ __('project/conducting.quality-assessment.resolve.resolved-decision') }}"></i>
+                        <i class="fa-solid fa-users" title=" {{ __('project/conducting.quality-assessment.resolve.resolved-decision') }}"></i>
 
                     @endif
                     @if($isAdministrator)
