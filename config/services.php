@@ -34,7 +34,9 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_REDIRECT_URI'),
+        'redirect' => env('APP_ENV') === 'local'
+            ? env('GOOGLE_REDIRECT_URI_LOCAL')      // localhost
+            : env('GOOGLE_REDIRECT_URI'),           // produção
     ],
 
     'facebook' => [

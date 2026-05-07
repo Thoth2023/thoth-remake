@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CollaboratorsController;
 use App\Http\Controllers\DonationsController;
 use App\Http\Controllers\InviteController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\DatabaseManagerController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionManagerController;
+use App\Http\Controllers\Project\Conducting\DataExtraction\DataExtractionController;
 use App\Http\Controllers\Project\ExportController;
 use App\Http\Controllers\PublicProtocolPdfController;
 use App\Http\Controllers\SnowballingController;
@@ -17,10 +19,8 @@ use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Project\Conducting\ConductingController;
-use App\Http\Controllers\Project\Conducting\DataExtractionController;
 use App\Http\Controllers\Project\Planning\CriteriaController;
 use App\Http\Controllers\Project\Planning\Overall\OverallController;
 use App\Http\Controllers\Project\conducting\OverallController as OverallConductingController;
@@ -31,8 +31,8 @@ use App\Http\Controllers\Project\Planning\SearchStrategyController;
 use App\Http\Controllers\Project\Planning\SearchStringController;
 use App\Http\Controllers\Project\Planning\DataExtraction\OptionController;
 use App\Http\Controllers\Project\Planning\DataExtraction\QuestionController;
-use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
-use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
+//use App\Http\Controllers\Project\Planning\QualityAssessment\GeneralScoreController;
+//use App\Http\Controllers\Project\Planning\QualityAssessment\QuestionController as QualityAssessmentQuestionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Project\ReportingController;
@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Project\ActivityController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\TranslationController;
+//use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsSourceController;
 
@@ -225,7 +225,7 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
             ->name('project.planning.criteria.change-preselected');
 
         // Quality Assessment Routes
-        Route::prefix('/quality-assessment')->group(function () {
+      /*  Route::prefix('/quality-assessment')->group(function () {
             Route::resource('/general-score', GeneralScoreController::class)
                 ->only(['store', 'update', 'destroy'])
                 ->names([
@@ -241,6 +241,7 @@ Route::prefix('project/{projectId}')->middleware(['auth', Localization::class])-
                     'destroy' => 'project.planning.quality-assessment.question.destroy',
                 ]);
         });
+*/
 
         // Data Extraction Routes
         Route::prefix('/data-extraction/')->group(function () {
@@ -313,7 +314,7 @@ Route::post('/csp-report', function (Request $request) {
 // snowballing IA (Semantic Scholar)
 Route::get('/snowballing', [SnowballingController::class, 'index'])->name('snowballing.index')->middleware('auth')->middleware(Localization::class);
 Route::post( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
-Route::get( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
+//Route::get( '/snowballing/fetch', [SnowballingController::class, 'fetchReferences'])->name('snowballing.fetch')->middleware('auth')->middleware(Localization::class);
 
 
 //SUPER USER ROUTES
@@ -356,7 +357,7 @@ Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(funct
     Route::post('levels', [LevelController::class, 'store'])->name('levels.store')->middleware('auth');
     Route::get('levels/{level}', [LevelController::class, 'show'])->name('levels.show')->middleware('auth');
     Route::get('levels/{level}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware('auth');
-    Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
+    //Route::put('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
     Route::post('levels/{level}', [LevelController::class, 'update'])->name('levels.update')->middleware('auth');
     Route::delete('levels/{level}', [LevelController::class, 'destroy'])->name('levels.destroy')->middleware('auth');
     Route::resource('permissions', PermissionController::class);
@@ -364,7 +365,7 @@ Route::middleware(['auth', 'role:SUPER_USER', Localization::class])->group(funct
 
 //Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 Route::middleware(['locale', 'guest'])->group(function () {
-    Route::get('/', [HomeController::class, 'guest_home'])->name('home');
+    Route::get('/', [HomeController::class, 'guest_home'])->name('guest.home');
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
     Route::get('/login', [LoginController::class, 'show'])->name('login')->middleware(Localization::class);
@@ -391,8 +392,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/accept-lgpd', [LoginController::class, 'acceptLgpd'])->name('accept.lgpd');
 });
 
+//google
 Route::get('auth/google', [RegisterController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [RegisterController::class, 'handleGoogleCallback']);
+
+//outras redes sociais
 Route::get('auth/facebook', [RegisterController::class, 'redirectToFacebook'])->name('auth.facebook');
 Route::get('auth/facebook/callback', [RegisterController::class, 'handleFacebookCallback']);
 Route::get('auth/apple', [RegisterController::class, 'redirectToApple'])->name('auth.apple');
