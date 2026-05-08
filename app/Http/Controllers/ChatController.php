@@ -25,11 +25,19 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request, $projeto_id)
     {
-        $usuario = "Usuário Teste"; // Nome do usuário fixo
+        // Pegar o usuário logado
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuário não autenticado'], 401);
+        }
+
+        // Usar o nome do usuário logado
+        $nomeusuario = $user->firstname . ' ' . $user->lastname;
 
         return Mensagem::create([
             'projeto_id' => $projeto_id,
-            'usuario' => $usuario,
+            'usuario' => $nomeusuario,
             'mensagem' => $request->mensagem,
         ]);
     }
