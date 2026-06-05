@@ -63,7 +63,7 @@ class Bibtex extends Component
             // 2) Para cada paper semente, pegar seus papers relevantes
             foreach ($seedPapers as $seedPaper) {
                 // Adiciona o paper semente como cabeçalho
-                $bibtexContent .= "\n% ======= PAPER SEMENTE: {$seedPaper->id} =======\n";
+                $bibtexContent .= "\n% ======= SEED PAPER : {$seedPaper->id} =======\n";
                 $bibtexContent .= $this->formatBibtexEntry($seedPaper);
 
                 // 3) Pegar papers relevantes deste paper semente, agrupados por tipo
@@ -74,7 +74,7 @@ class Bibtex extends Component
 
                 // 4) Exibir backward
                 if ($relevantPapers->has('backward')) {
-                    $bibtexContent .= "\n% ---- BACKWARD (REFERÊNCIAS) ----\n";
+                    $bibtexContent .= "\n% ---- BACKWARD (REFERENCES) ----\n";
                     foreach ($relevantPapers['backward'] as $ref) {
                         $bibtexContent .= $this->formatPaperSnowballingBibtex($ref);
                     }
@@ -82,13 +82,13 @@ class Bibtex extends Component
 
                 // 5) Exibir forward
                 if ($relevantPapers->has('forward')) {
-                    $bibtexContent .= "\n% ---- FORWARD (CITAÇÕES) ----\n";
+                    $bibtexContent .= "\n% ---- FORWARD (CITATIONS) ----\n";
                     foreach ($relevantPapers['forward'] as $ref) {
                         $bibtexContent .= $this->formatPaperSnowballingBibtex($ref);
                     }
                 }
 
-                $bibtexContent .= "\n% ======= FIM DO PAPER SEMENTE: {$seedPaper->id} =======\n\n";
+                $bibtexContent .= "\n% ======= END SEED PAPER: {$seedPaper->id} =======\n\n";
             }
         } else {
             $bibtexContent = '% No data available for the selected option.';
