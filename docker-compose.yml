@@ -10,7 +10,10 @@ services:
         volumes:
             - ./:/var/www
         depends_on:
-            - redis
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_started
         networks:
             - thoth
 
@@ -24,6 +27,8 @@ services:
         volumes:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
+        depends_on:
+            - app
         networks:
             - thoth
 
@@ -48,7 +53,13 @@ services:
             nofile:
                 soft: 20000
                 hard: 40000
-    #phpmyadmin
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD:-root}"]
+            interval: 10s
+            timeout: 20s
+            retries: 10
+
+    # phpmyadmin
     db-phpmyadmin:
         depends_on:
             - db
@@ -76,17 +87,24 @@ services:
             - 8025:8025 # web ui
         networks:
             - thoth
+
     # queue
     queue:
-        image: especializati/laravel9-app
+        build:
+            context: .
+            dockerfile: Dockerfile
         container_name: queue
         restart: unless-stopped
-        command: "php artisan queue:work"
+        command: "php artisan queue:work --timeout=300 --tries=3"
         volumes:
             - ./:/var/www
         depends_on:
-            - redis
-            - app
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_started
+            app:
+                condition: service_started
         networks:
             - thoth
 

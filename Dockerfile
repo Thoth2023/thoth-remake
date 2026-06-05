@@ -51,7 +51,7 @@ RUN echo "file_uploads = On\n" \
          "memory_limit = 512M\n" \
          "upload_max_filesize = 256M\n" \
          "post_max_size = 256M\n" \
-         "max_execution_time = 60\n" \
+         "max_execution_time = 600\n" \
          > /usr/local/etc/php/conf.d/docker-php-uploads.ini
 
 # Set working directory
