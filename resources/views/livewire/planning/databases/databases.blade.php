@@ -83,8 +83,8 @@
                             </td>
                             <td class="px-3">
                                 <x-helpers.confirm-modal
-                                    modalTitle="Delete Database"
-                                    modalContent="This action <strong>cannot</strong> be undone. This will remove the <b>{{ $projectDatabase->name }}</b> source, and permanently delete all imported articles associated with it."
+                                    modalTitle="{{ __('project/planning.databases.delete.title') }}"
+                                    modalContent="{!! __('project/planning.databases.delete.warning', ['name' => '<b>' . $projectDatabase->name . '</b>']) !!}"
                                     class="btn py-1 px-3 btn-outline-danger"
                                     onConfirm="delete({{ $projectDatabase->id_database }})"
                                 >

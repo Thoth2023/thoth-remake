@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Planning\Criteria;
 
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use App\Models\Project as ProjectModel;
 use App\Models\Project\Conducting\StudySelection\PapersSelection as PapersSelectionModel;
@@ -26,17 +25,14 @@ use App\Traits\LivewireExceptionHandler;
  */
 class Criteria extends Component
 {
+    use ProjectPermissions;
+    use LivewireExceptionHandler;
 
     /**
      * Caminho base para as mensagens de toast traduzidas.
      *
      * @var string
      */
-
-
-    use ProjectPermissions;
-    use LivewireExceptionHandler;
-
     private $toastMessages = 'project/planning.criteria.livewire.toasts';
 
     /**
@@ -104,26 +100,55 @@ class Criteria extends Component
         'isEditing' => false,
     ];
 
+    // -----------------------------------------------------------------------
+    // Estado dos modais de confirmação
+    // -----------------------------------------------------------------------
+
+    /**
+     * ID do critério pendente de exclusão.
+     *
+     * @var string|null
+     */
+    public $confirmingDeleteId = null;
+
+    /**
+     * Indica se o critério a ser excluído possui avaliações vinculadas.
+     *
+     * @var bool
+     */
+    public $deletionHasEvaluations = false;
+
+    /**
+     * Controla exibição do modal de confirmação do submit.
+     *
+     * @var bool
+     */
+    public $confirmingSubmit = false;
+
+    // -----------------------------------------------------------------------
+    // Validação
+    // -----------------------------------------------------------------------
+
     /**
      * Define as regras de validação para os campos do formulário.
      *
-     * @return array Array contendo as regras de validação
+     * @return array
      */
     protected function rules()
     {
         return [
-            'currentProject' => 'required',
-            'criteriaId' => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
-            'description' => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
-            'type' => 'required|array',
-            'type.*.value' => 'string'
+            'currentProject'  => 'required',
+            'criteriaId'      => 'required|string|max:20|regex:/^[a-zA-Z0-9]+$/',
+            'description'     => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
+            'type'            => 'required|array',
+            'type.*.value'    => 'string',
         ];
     }
 
     /**
      * Define mensagens personalizadas para as regras de validação.
      *
-     * @return array Array contendo as mensagens de erro personalizadas
+     * @return array
      */
     protected function messages()
     {
@@ -131,18 +156,19 @@ class Criteria extends Component
 
         return [
             'description.required' => __($tpath . '.description.required'),
-            'criteriaId.required' => __($tpath . '.criteriaId.required'),
-            'criteriaId.regex' => __($tpath . '.criteriaId.regex'),
-            'type.value.required' => __($tpath . '.type.required'),
-            'type.value.in' => __($tpath . '.type.in'),
+            'criteriaId.required'  => __($tpath . '.criteriaId.required'),
+            'criteriaId.regex'     => __($tpath . '.criteriaId.regex'),
+            'type.value.required'  => __($tpath . '.type.required'),
+            'type.value.in'        => __($tpath . '.type.in'),
         ];
     }
 
+    // -----------------------------------------------------------------------
+    // Ciclo de vida
+    // -----------------------------------------------------------------------
+
     /**
      * Inicializa o componente quando é montado.
-     *
-     * Recupera o projeto atual da URL, carrega todos os critérios associados
-     * e define os valores padrão para as regras de inclusão e exclusão.
      *
      * @return void
      */
@@ -151,16 +177,13 @@ class Criteria extends Component
         try {
             $projectId = request()->segment(2);
 
-            // Verifica se o projeto existe
             $this->currentProject = ProjectModel::findOrFail($projectId);
 
-            // Inicializa os critérios
             $this->criterias = CriteriaModel::where(
                 'id_project',
                 $this->currentProject->id_project
             )->get();
 
-            // Define as regras de inclusão e exclusão com fallback
             $this->inclusion_rule['value'] = CriteriaModel::where(
                 'id_project',
                 $this->currentProject->id_project
@@ -171,24 +194,25 @@ class Criteria extends Component
                 $this->currentProject->id_project
             )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
 
-            // Define o tipo padrão
             $this->type['value'] = 'NONE';
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Caso o projeto não seja encontrado
             $this->toast(
                 message: __('O projeto não foi encontrado.'),
                 type: 'error'
             );
-            return redirect()->route('projects.index'); // Redireciona para a lista de projetos
+            return redirect()->route('projects.index');
         } catch (\Exception $e) {
-            // Captura outros erros inesperados
             $this->toast(
                 message: __('Ocorreu um erro ao carregar os dados: ') . $e->getMessage(),
                 type: 'error'
             );
         }
-
     }
+
+    // -----------------------------------------------------------------------
+    // Helpers internos
+    // -----------------------------------------------------------------------
 
     /**
      * Reseta todos os campos do formulário para seus valores padrão.
@@ -197,175 +221,77 @@ class Criteria extends Component
      */
     public function resetFields()
     {
-        $this->criteriaId = null;
-        $this->description = null;
-        $this->type['value'] = null;
-        $this->currentCriteria = null;
-        $this->form['isEditing'] = false;
+        $this->criteriaId              = null;
+        $this->description             = null;
+        $this->type['value']           = null;
+        $this->currentCriteria         = null;
+        $this->form['isEditing']       = false;
+        $this->confirmingSubmit        = false;
+        $this->confirmingDeleteId      = null;
+        $this->deletionHasEvaluations  = false;
     }
 
     /**
-
-     * Alterna o status de pré-seleção de um critério e atualiza automaticamente
-     * as regras correspondentes baseado na quantidade de critérios selecionados.
+     * Envia uma mensagem toast para a view.
      *
-     * @param string $id ID do critério a ser alternado
-     * @param string $type Tipo do critério (Inclusion/Exclusion)
+     * @param string $message
+     * @param string $type
      * @return void
-
-     * Toggle the "pre_selected" state of a criterion and update the corresponding rule
-     * based on the selection count.
-
      */
-    public function changePreSelected($id, $type)
+    public function toast(string $message, string $type)
     {
-
-        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
-            return;
-        }
-
-        $preselected = CriteriaModel::where('id_criteria', $id)->first()->pre_selected == 1 ? 0 : 1;
-        CriteriaModel::where('id_criteria', $id)->update(['pre_selected' => $preselected]);
-
-        $allCriterias = CriteriaModel::where([
-            'id_project' => $this->currentProject->id_project,
-            'type' => $type,
-        ])->get();
-
-        $preselecteds = $allCriterias->where('pre_selected', 1)->count();
-        $countCriterias = $allCriterias->count();
-
-        $ruleValue = match (true) {
-            $preselecteds > 0 && $preselecteds < $countCriterias => 'AT_LEAST',
-            $preselecteds == 0 => 'ANY',
-            $preselecteds == $countCriterias => 'ALL',
-            default => 'ALL'
-        };
-
-        switch ($type) {
-            case 'Inclusion':
-                $this->inclusion_rule['value'] = $ruleValue;
-                CriteriaModel::where([
-                    'id_project' => $this->currentProject->id_project,
-                    'type' => 'Inclusion'
-                ])->update(['rule' => $this->inclusion_rule['value']]);
-                break;
-            case 'Exclusion':
-                $this->exclusion_rule['value'] = $ruleValue;
-                CriteriaModel::where([
-                    'id_project' => $this->currentProject->id_project,
-                    'type' => 'Exclusion'
-                ])->update(['rule' => $this->exclusion_rule['value']]);
-                break;
-        }
-
-        $this->updateCriterias();
+        $this->dispatch('criteria', ToastHelper::dispatch($type, $message));
     }
 
     /**
-
-     * Define uma regra específica para um tipo de critério e atualiza
-     * automaticamente o status de pré-seleção dos critérios conforme a regra.
+     * Traduz mensagens baseado na chave fornecida.
      *
-     * @param string $rule Regra a ser aplicada (ALL, ANY, AT_LEAST)
-     * @param string $type Tipo do critério (Inclusion/Exclusion)
-     * @return void
-
-     * Updates the selection rule,
-     * and adjusts the "pre_selected" values.
-
+     * @param string $key
+     * @return string
      */
-    public function selectRule($rule, $type)
+    public function translate($key)
     {
-
-        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
-            $this->inclusion_rule['value'] = CriteriaModel::where(
-                'id_project',
-                $this->currentProject->id_project
-            )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
-            $this->exclusion_rule['value'] = CriteriaModel::where(
-                'id_project',
-                $this->currentProject->id_project
-            )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
-            return;
-        }
-
-        $where = [
-            'id_project' => $this->currentProject->id_project,
-            'rule' => $rule,
-            'type' => $type,
-        ];
-
-        CriteriaModel::where([
-            'id_project' => $this->currentProject->id_project,
-            'type' => $type,
-        ])->update(['rule' => $rule]);
-
-        switch ($rule) {
-            case 'ALL':
-                CriteriaModel::where($where)->update(['pre_selected' => 1]);
-                break;
-            case 'ANY':
-                CriteriaModel::where($where)->update(['pre_selected' => 0]);
-                break;
-            case 'AT_LEAST':
-                $selectedCount = CriteriaModel::where([
-                    'id_project' => $this->currentProject->id_project,
-                    'pre_selected' => 1,
-                    'type' => $type,
-                    'rule' => $rule,
-                ])->count();
-
-                // Check if there are any criteria of the same type
-                $projectCriterias = CriteriaModel::where([
-                    'id_project' => $this->currentProject->id_project,
-                    'type' => $type,
-                ])->count();
-
-                // If there are no criteria of the same type, show a error toast message
-                if ($projectCriterias === 0){
-                    $this->toast(
-                        message: __('project/planning.criteria.livewire.toasts.no_criteria'),
-                        type: 'error'
-                    );
-                    return;
-                }
-
-                if ($selectedCount === 0) {
-                    CriteriaModel::where($where)
-                        ->first()->update(['pre_selected' => 1]);
-                }
-                break;
-        }
-
-        $this->resetPaperEvaluations();
-        $this->updateCriterias();
+        return __($this->toastMessages . '.' . $key);
     }
 
+    /**
+     * Verifica se já existem avaliações feitas por membros do projeto atual.
+     *
+     * @return bool
+     */
+    private function projectHasEvaluations(): bool
+    {
+        $memberIds = MemberModel::where('id_project', $this->currentProject->id_project)
+            ->pluck('id_members');
+
+        return PapersSelectionModel::whereIn('id_member', $memberIds)
+            ->where('id_status', '!=', 3)
+            ->exists();
+    }
+
+    /**
+     * Reseta todas as avaliações de artigos do projeto,
+     * removendo os critérios avaliados e marcando os artigos como não avaliados.
+     *
+     * @return void
+     */
     private function resetPaperEvaluations()
     {
+        $memberIds = MemberModel::where('id_project', $this->currentProject->id_project)
+            ->pluck('id_members');
 
-        // Get all members related to the current project
-        $members = MemberModel::where('id_project', $this->currentProject->id_project)
-            ->pluck('id_members'); // Retrieve all member IDs for the project
-
-        // Get all evaluation records related to the members of the current project
-        $papersSelection = PapersSelectionModel::whereIn('id_member', $members)
-            ->where('id_status', '!=', 3) // Exclude already "not evaluated" papers
+        $papersSelection = PapersSelectionModel::whereIn('id_member', $memberIds)
+            ->where('id_status', '!=', 3)
             ->get();
 
-        // Delete inclusion and exclusion criteria selected in the evaluation_criteria table
-        EvaluationCriteriaModel::whereIn('id_member', $members)
-            ->whereIn('id_paper', $papersSelection->pluck('id_paper')) // Filter by affected papers
+        EvaluationCriteriaModel::whereIn('id_member', $memberIds)
+            ->whereIn('id_paper', $papersSelection->pluck('id_paper'))
             ->delete();
 
-        // Check if there are evaluation records made by members,
-        // if none exist, there is nothing to do
-        if ($papersSelection->count() === 0) {
+        if ($papersSelection->isEmpty()) {
             return;
         }
 
-        // Update the selection status to "not evaluated"
         foreach ($papersSelection as $paperSelection) {
             $paperSelection->update(['id_status' => 3]);
         }
@@ -384,7 +310,6 @@ class Criteria extends Component
      */
     public function updateCriterias()
     {
-
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
@@ -401,105 +326,121 @@ class Criteria extends Component
 
         $this->exclusion_rule['value'] = CriteriaModel::where(
             'id_project',
-            $this->currentProject->id_project,
+            $this->currentProject->id_project
         )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
     }
 
-    /**
-     * Envia uma mensagem toast para a view.
-     *
-     * @param string $message Mensagem a ser exibida
-     * @param string $type Tipo da mensagem (success, error, info, warning)
-     * @return void
-     */
-    public function toast(string $message, string $type)
-    {
-        $this->dispatch('criteria', ToastHelper::dispatch($type, $message));
-    }
+    // -----------------------------------------------------------------------
+    // Submit — criação e edição de critério
+    // -----------------------------------------------------------------------
 
     /**
-     * Traduz mensagens baseado na chave fornecida.
+     * Processa o envio do formulário.
      *
-     * @param string $key Chave da tradução
-     * @return string Mensagem traduzida
-     */
-    public function translate($key)
-    {
-        return __($this->toastMessages . '.' . $key);
-    }
-
-    /**
-     * Processa o envio do formulário, validando os dados e criando
-     * ou atualizando um critério.
-     *
-     * Realiza validações personalizadas, verifica duplicidade de IDs,
-     * salva o critério no banco de dados e registra a atividade no log.
+     * Se tipo ou regra mudarem em relação ao valor anterior,
+     * abre modal de confirmação antes de salvar, pois as avaliações
+     * existentes serão resetadas.
+     * Edições apenas de descrição ou ID salvam diretamente, sem impacto
+     * nas avaliações.
      *
      * @return void
      */
     public function submit()
     {
-
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
 
         $this->validate();
 
-        $updateIf = [
-            'id_criteria' => $this->currentCriteria?->id_criteria,
-        ];
+        $isEditing = $this->form['isEditing'];
 
+        // Verifica duplicidade de ID
+        if (!$isEditing && $this->currentProject->criterias->contains('id', $this->criteriaId)) {
+            $this->toast(message: $this->translate('unique-id'), type: 'error');
+            return;
+        }
+
+        if (
+            $isEditing
+            && $this->currentCriteria->id != $this->criteriaId
+            && $this->currentProject->criterias->contains('id', $this->criteriaId)
+        ) {
+            $this->toast(message: $this->translate('unique-id'), type: 'error');
+            return;
+        }
+
+        $newRule = $this->type['value'] === 'Inclusion'
+            ? $this->inclusion_rule['value']
+            : $this->exclusion_rule['value'];
+
+        $typeChanged = $isEditing && $this->currentCriteria->type !== $this->type['value'];
+        $ruleChanged = $isEditing && $this->currentCriteria->rule !== $newRule;
+
+        // Se tipo ou regra mudaram E já existem avaliações, pede confirmação
+        if (($typeChanged || $ruleChanged) && $this->projectHasEvaluations()) {
+            $this->confirmingSubmit = true;
+            $this->dispatch('openSubmitConfirm');
+            return;
+        }
+
+        // Sem impacto em avaliações: salva diretamente
+        $this->persistCriteria(resetEvaluations: false);
+    }
+
+    /**
+     * Chamado quando o usuário confirma o modal de aviso do submit.
+     * Persiste o critério e reseta as avaliações.
+     *
+     * @return void
+     */
+    public function confirmSubmit()
+    {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
+        $this->persistCriteria(resetEvaluations: true);
+    }
+
+    /**
+     * Persiste o critério no banco de dados (criação ou edição).
+     *
+     * @param bool $resetEvaluations Se true, reseta as avaliações dos artigos.
+     * @return void
+     */
+    private function persistCriteria(bool $resetEvaluations = false)
+    {
         try {
-            $value = $this->form['isEditing'] ? 'Updated the criteria' : 'Added a criteria';
+            $isEditing    = $this->form['isEditing'];
+            $toastMessage = $this->translate($isEditing ? 'updated' : 'added');
 
-            $toastMessage = $this->translate($this->form['isEditing'] ? 'updated' : 'added');
-
-            if (!$this->form['isEditing'] && $this->currentProject->criterias->contains('id', $this->criteriaId)) {
-                $this->toast(
-                    message: $this->translate('unique-id'),
-                    type: 'error'
-                );
-                return;
-            }
-
-            if (
-                $this->form['isEditing']
-                && $this->currentCriteria->id != $this->criteriaId
-                && $this->currentProject->criterias->contains('id', $this->criteriaId)
-            ) {
-                $this->toast(
-                    message: $this->translate('unique-id'),
-                    type: 'error'
-                );
-                return;
-            }
-
-            $updatedOrCreated = CriteriaModel::updateOrCreate($updateIf, [
-                'id_project' => $this->currentProject->id_project,
-                'id' => $this->criteriaId,
-                'description' => $this->description,
-                'type' => $this->type['value'],
-                'rule' => $this->type['value'] == 'Inclusion' ?
-                    $this->inclusion_rule['value'] : $this->exclusion_rule['value'],
-            ]);
+            $updatedOrCreated = CriteriaModel::updateOrCreate(
+                ['id_criteria' => $this->currentCriteria?->id_criteria],
+                [
+                    'id_project'  => $this->currentProject->id_project,
+                    'id'          => $this->criteriaId,
+                    'description' => $this->description,
+                    'type'        => $this->type['value'],
+                    'rule'        => $this->type['value'] === 'Inclusion'
+                        ? $this->inclusion_rule['value']
+                        : $this->exclusion_rule['value'],
+                ]
+            );
 
             Log::logActivity(
-                action: $value,
+                action: $isEditing ? 'Updated the criteria' : 'Added a criteria',
                 description: $updatedOrCreated->description,
                 module: 1,
                 projectId: $this->currentProject->id_project
             );
 
             $this->selectRule($updatedOrCreated->rule, $this->type['value']);
+            $this->toast(message: $toastMessage, type: 'success');
 
-            $this->toast(
-                message: $toastMessage,
-                type: 'success'
-            );
-
-            // Reset the evaluations case already existed any evaluation made before the creation or editing of any criteria
-            $this->resetPaperEvaluations();
+            if ($resetEvaluations) {
+                $this->resetPaperEvaluations();
+            }
 
         } catch (\Exception $e) {
             $this->handleException($e);
@@ -508,39 +449,43 @@ class Criteria extends Component
         }
     }
 
+    // -----------------------------------------------------------------------
+    // Delete — exclusão de critério
+    // -----------------------------------------------------------------------
+
     /**
-     * Preenche os campos do formulário com os dados do critério
-     * especificado para edição.
+     * Verifica se há avaliações vinculadas ao critério e abre
+     * o modal de confirmação antes de excluir.
      *
-     * @param string $criteriaId ID do critério a ser editado
+     * @param string $criteriaId
      * @return void
      */
-    public function edit(string $criteriaId)
+    public function confirmDelete(string $criteriaId)
     {
-
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
 
-        $this->currentCriteria = CriteriaModel::findOrFail($criteriaId);
-        $this->criteriaId = $this->currentCriteria->id;
-        $this->description = $this->currentCriteria->description;
-        $this->type['value'] = $this->currentCriteria->type;
-        $this->form['isEditing'] = true;
+        $criteria  = CriteriaModel::findOrFail($criteriaId);
+        $memberIds = MemberModel::where('id_project', $this->currentProject->id_project)
+            ->pluck('id_members');
+
+        $this->confirmingDeleteId     = $criteriaId;
+        $this->deletionHasEvaluations = EvaluationCriteriaModel::where('id_criteria', $criteria->id_criteria)
+            ->whereIn('id_member', $memberIds)
+            ->exists();
+
+        $this->dispatch('openDeleteConfirm');
     }
 
     /**
-     * Exclui um critério do banco de dados.
+     * Executa a exclusão após confirmação do usuário.
      *
-     * Remove o critério especificado, registra a atividade no log
-     * e atualiza a lista de critérios.
-     *
-     * @param string $criteriaId ID do critério a ser excluído
+     * @param string $criteriaId
      * @return void
      */
     public function delete(string $criteriaId)
     {
-
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
@@ -548,6 +493,7 @@ class Criteria extends Component
         try {
             $currentCriteria = CriteriaModel::findOrFail($criteriaId);
             $currentCriteria->delete();
+
             Log::logActivity(
                 action: 'Deleted the criteria',
                 description: $currentCriteria->description,
@@ -555,64 +501,202 @@ class Criteria extends Component
                 projectId: $this->currentProject->id_project
             );
 
-            $this->toast(
-                message: $this->translate('deleted'),
-                type: 'success'
-            );
-
-            // Reset the evaluations case already existed any evaluation made before the delete of any criteria
+            $this->toast(message: $this->translate('deleted'), type: 'success');
             $this->resetPaperEvaluations();
-
             $this->updateCriterias();
+
         } catch (\Exception $e) {
-            $this->toast(
-                message: $e->getMessage(),
-                type: 'error'
-            );
+            $this->toast(message: $e->getMessage(), type: 'error');
         } finally {
             $this->resetFields();
         }
     }
 
+    // -----------------------------------------------------------------------
+    // Regras e pré-seleção
+    // -----------------------------------------------------------------------
+
     /**
-     * Atualiza as regras de critérios de inclusão ou exclusão no banco de dados.
+     * Alterna o status de pré-seleção de um critério e atualiza
+     * automaticamente a regra correspondente.
      *
-     * @param string $type Tipo do critério para determinar a mensagem de sucesso
+     * @param string $id
+     * @param string $type
      * @return void
      */
-    public function updateCriteriaRule($type)
+    public function changePreSelected($id, $type)
     {
-
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
 
-        $this->exclusion_rule['value'] = CriteriaModel::where([
+        $preselected = CriteriaModel::where('id_criteria', $id)->first()->pre_selected == 1 ? 0 : 1;
+        CriteriaModel::where('id_criteria', $id)->update(['pre_selected' => $preselected]);
+
+        $allCriterias    = CriteriaModel::where([
             'id_project' => $this->currentProject->id_project,
-            'type' => 'Exclusion'
-        ])->update(['rule' => $this->exclusion_rule['value']]);
+            'type'       => $type,
+        ])->get();
 
-        $this->inclusion_rule['value'] = CriteriaModel::where([
-            'id_project' => $this->currentProject->id_project,
-            'type' => 'Inclusion'
-        ])->update(['rule' => $this->inclusion_rule['value']]);
+        $preselecteds    = $allCriterias->where('pre_selected', 1)->count();
+        $countCriterias  = $allCriterias->count();
 
-        if ($type == 'Inclusion') {
-            $this->toast(
-                message: $this->translate('updated-inclusion'),
-                type: 'success'
-            );
-        }
+        $ruleValue = match (true) {
+            $preselecteds > 0 && $preselecteds < $countCriterias => 'AT_LEAST',
+            $preselecteds == 0                                    => 'ANY',
+            $preselecteds == $countCriterias                      => 'ALL',
+            default                                               => 'ALL',
+        };
 
-        if ($type == 'Exclusion') {
-            $this->toast(
-                message: $this->translate('updated-exclusion'),
-                type: 'success'
-            );
+        switch ($type) {
+            case 'Inclusion':
+                $this->inclusion_rule['value'] = $ruleValue;
+                CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type'       => 'Inclusion',
+                ])->update(['rule' => $ruleValue]);
+                break;
+            case 'Exclusion':
+                $this->exclusion_rule['value'] = $ruleValue;
+                CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type'       => 'Exclusion',
+                ])->update(['rule' => $ruleValue]);
+                break;
         }
 
         $this->updateCriterias();
     }
+
+    /**
+     * Define uma regra específica para um tipo de critério e atualiza
+     * automaticamente o status de pré-seleção dos critérios conforme a regra.
+     *
+     * Nota: selectRule é chamado internamente após salvar um critério,
+     * por isso não exige confirmação — o modal já foi exibido no submit/delete.
+     *
+     * @param string $rule
+     * @param string $type
+     * @return void
+     */
+    public function selectRule($rule, $type)
+    {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            $this->inclusion_rule['value'] = CriteriaModel::where(
+                'id_project', $this->currentProject->id_project
+            )->where('type', 'Inclusion')->first()->rule ?? 'ALL';
+
+            $this->exclusion_rule['value'] = CriteriaModel::where(
+                'id_project', $this->currentProject->id_project
+            )->where('type', 'Exclusion')->first()->rule ?? 'ANY';
+
+            return;
+        }
+
+        $where = [
+            'id_project' => $this->currentProject->id_project,
+            'rule'       => $rule,
+            'type'       => $type,
+        ];
+
+        CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type'       => $type,
+        ])->update(['rule' => $rule]);
+
+        switch ($rule) {
+            case 'ALL':
+                CriteriaModel::where($where)->update(['pre_selected' => 1]);
+                break;
+            case 'ANY':
+                CriteriaModel::where($where)->update(['pre_selected' => 0]);
+                break;
+            case 'AT_LEAST':
+                $projectCriterias = CriteriaModel::where([
+                    'id_project' => $this->currentProject->id_project,
+                    'type'       => $type,
+                ])->count();
+
+                if ($projectCriterias === 0) {
+                    $this->toast(
+                        message: __('project/planning.criteria.livewire.toasts.no_criteria'),
+                        type: 'error'
+                    );
+                    return;
+                }
+
+                $selectedCount = CriteriaModel::where([
+                    'id_project'   => $this->currentProject->id_project,
+                    'pre_selected' => 1,
+                    'type'         => $type,
+                    'rule'         => $rule,
+                ])->count();
+
+                if ($selectedCount === 0) {
+                    CriteriaModel::where($where)->first()->update(['pre_selected' => 1]);
+                }
+                break;
+        }
+
+        $this->updateCriterias();
+    }
+
+    /**
+     * Atualiza as regras de critérios de inclusão ou exclusão no banco de dados.
+     *
+     * @param string $type
+     * @return void
+     */
+    public function updateCriteriaRule($type)
+    {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
+        CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type'       => 'Exclusion',
+        ])->update(['rule' => $this->exclusion_rule['value']]);
+
+        CriteriaModel::where([
+            'id_project' => $this->currentProject->id_project,
+            'type'       => 'Inclusion',
+        ])->update(['rule' => $this->inclusion_rule['value']]);
+
+        $this->toast(
+            message: $this->translate($type === 'Inclusion' ? 'updated-inclusion' : 'updated-exclusion'),
+            type: 'success'
+        );
+
+        $this->updateCriterias();
+    }
+
+    // -----------------------------------------------------------------------
+    // Edição
+    // -----------------------------------------------------------------------
+
+    /**
+     * Preenche os campos do formulário com os dados do critério para edição.
+     *
+     * @param string $criteriaId
+     * @return void
+     */
+    public function edit(string $criteriaId)
+    {
+        if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
+            return;
+        }
+
+        $this->currentCriteria   = CriteriaModel::findOrFail($criteriaId);
+        $this->criteriaId        = $this->currentCriteria->id;
+        $this->description       = $this->currentCriteria->description;
+        $this->type['value']     = $this->currentCriteria->type;
+        $this->form['isEditing'] = true;
+    }
+
+    // -----------------------------------------------------------------------
+    // Render
+    // -----------------------------------------------------------------------
 
     /**
      * Renderiza o componente Livewire.
