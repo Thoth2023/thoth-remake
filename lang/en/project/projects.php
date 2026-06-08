@@ -89,4 +89,10 @@ return [
     // Success accepting invite
     'invitation_accepted' => 'Invitation successfully accepted! Welcome to the project.',
     'invitation_declined' => 'You declined the invitation to join the project.',
+
+    'project_marked_finished' => 'Project successfully marked as finished.',
+    'project_marked_ongoing' => 'Project successfully marked as ongoing.',
+
+    'activity_project_finished' => 'Project marked as finished.',
+    'activity_project_reopened' => 'Project reopened and marked as ongoing.',
 ];

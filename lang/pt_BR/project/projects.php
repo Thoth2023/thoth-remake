@@ -88,5 +88,10 @@ return [
     'invitation_accepted' => 'Convite aceito com sucesso! Bem-vindo ao projeto.',
     'invitation_declined' => 'Você recusou o convite para participar do projeto.',
 
+    'project_marked_finished' => 'Projeto marcado como finalizado.',
+    'project_marked_ongoing' => 'Projeto marcado como em andamento.',
+    'activity_project_finished' => 'Projeto marcado como finalizado.',
+    'activity_project_reopened' => 'Projeto reaberto e marcado como em andamento.',
+
 
 ];

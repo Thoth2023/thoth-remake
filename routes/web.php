@@ -147,6 +147,17 @@ Route::get('/project/{idProject}/accept-invitation', [ProjectController::class, 
 //re-send invitation
 Route::post('/projects/{idProject}/resend-invitation/{idMember}', [ProjectController::class, 'resendInvitation'])->name('projects.resend_invitation');
 
+
+Route::patch('/projects/{id}/finish', [ProjectController::class, 'markAsFinished'])
+    ->name('projects.finish')
+    ->middleware('auth')
+    ->middleware(Localization::class);
+
+Route::patch('/projects/{id}/reopen', [ProjectController::class, 'markAsOngoing'])
+    ->name('projects.reopen')
+    ->middleware('auth')
+    ->middleware(Localization::class);
+
 // Finalizar cadastro de convidado
 Route::get('/invite/complete/{token}', [InviteController::class, 'form'])->name('invite.complete');
 Route::post('/invite/complete/{token}', [InviteController::class, 'save'])->name('invite.complete.save');
