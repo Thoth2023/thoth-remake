@@ -39,10 +39,10 @@
     ];
 @endphp
 
-<div class="col-12 mt-1">
-    <div class="card">
+<div class="card shadow-lg mt-1">
+    <div class="container-fluid py-0 px-2">
         <div class="card-header">
-            <h4>{{ $project->title }}</h4>
+            <h5>{{ $project->title }}</h5>
         </div>
         <div class="card-body pt-0">
             <div class="nav-wrapper position-relative end-0">

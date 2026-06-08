@@ -3,11 +3,10 @@
 @section("content")
     @include("layouts.navbars.auth.topnav", ["title" => __("project/projects.project.title")])
 
-    <div class="container-fluid py-2 mt-4">
-        <div class="container-fluid py-2">
+    <div class="card shadow-lg mx-4 mt-5">
+    <div class="container-fluid py-2 px-0">
             <div class="row">
                 <div class="col-12">
-                    <div class="card mb-4">
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
@@ -192,13 +191,12 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
-
-        @include("layouts.footers.auth.footer")
     </div>
+
+    @include("layouts.footers.auth.footer")
 
     {{-- LGPD modal e scripts permanecem iguais --}}
     <!-- Modal LGPD -->
