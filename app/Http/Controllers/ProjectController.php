@@ -67,7 +67,7 @@ class ProjectController extends Controller
                 $project->dbg_planning = round($planningProgress['overall'], 2);
 
                 // 2) Calcular progresso da condução
-                $conductingProgress = $this->conductingProgress->calculateProgress($project->id_project);
+                $conductingProgress = $this->conductingProgress->calculateProgress($project->id_project,auth()->id());
                 $project->dbg_conducting = round($conductingProgress['overall'], 2);
 
                 // 3) Peso proporcional — planning 30%, conducting 70%
@@ -152,7 +152,7 @@ class ProjectController extends Controller
         // 2) Conducting progress
         $t1 = microtime(true);
         try {
-            $conductingProgress = $this->conductingProgress->calculateProgress($idProject);
+            $conductingProgress = $this->conductingProgress->calculateProgress($idProject,auth()->id());
 
         } catch (\Throwable $e) {
             Log::error('conductingProgress error', [

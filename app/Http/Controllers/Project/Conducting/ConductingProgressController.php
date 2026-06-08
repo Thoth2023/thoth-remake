@@ -16,6 +16,13 @@ class ConductingProgressController
 
     public function calculateProgress($projectId)
     {
-        return $this->progressService->calculateProgress($projectId);
+        dd([
+            'project_id' => $projectId,
+            'auth_id' => auth()->id(),
+            'member' => \App\Models\Member::where('id_project', $projectId)
+                ->where('id_user', auth()->id())
+                ->get()
+        ]);
+        //return $this->progressService->calculateProgress($projectId, auth()->id());
     }
 }

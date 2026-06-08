@@ -14,7 +14,7 @@ use App\Models\StatusSnowballing;
 
 class ConductingProgressService
 {
-    public function calculateProgress(int $projectId): array
+    public function calculateProgress(int $projectId, int $userId): array
     {
         // Snowballing
         $project = Project::find($projectId);
@@ -34,22 +34,32 @@ class ConductingProgressService
 
         // 2) Seleção de Estudos
 
-        $studySelection = $this->getStudySelection($projectId, $totalImported);
+        $studySelection = $this->getStudySelection($projectId, $totalImported, $userId);
         $progressStudySelection       = (float) ($studySelection['percentage']  ?? 0.0);
         $unclassifiedStudySelection   = (int)   ($studySelection['unclassified'] ?? 0);
 
         // 3) Avaliação de Qualidade
-        $qualityAssessment = $this->getQualityAssessment($projectId, $totalImported, $unclassifiedStudySelection);
+        $qualityAssessment = $this->getQualityAssessment(
+            $projectId,
+            $totalImported,
+            $unclassifiedStudySelection,
+            $userId
+        );
         $progressQualityAssessment    = (float) ($qualityAssessment['percentage']  ?? 0.0);
         $unclassifiedQualityAssessment= (int)   ($qualityAssessment['unclassified'] ?? 0);
 
         // 4) Extração de Dados
-        $dataExtraction = $this->getExtraction($projectId, $totalImported, $unclassifiedQualityAssessment);
+        $dataExtraction = $this->getExtraction(
+            $projectId,
+            $totalImported,
+            $unclassifiedQualityAssessment,
+            $userId
+        );
 
         // 5) Snowballing (opcional)
         $snowballing = 0.0;
         if ($hasSnowballing) {
-            $snowballing = $this->getSnowballing($projectId); // método com o padrão solicitado
+            $snowballing = $this->getSnowballing($projectId, $userId); // método com o padrão solicitado
         }
 
         // Cálculo do Progresso Geral
@@ -78,9 +88,11 @@ class ConductingProgressService
         ];
     }
 
-    private function getUserIds(int $projectId)
+    private function getUserIds(int $projectId, int $userId)
     {
-        return Member::where('id_project', $projectId)->pluck('id_members');
+        return Member::where('id_project', $projectId)
+            ->where('id_user', $userId)
+            ->pluck('id_members');
     }
 
     private function getBibIds(int $projectId)
@@ -94,12 +106,12 @@ class ConductingProgressService
         return Papers::whereIn('id_bib', $this->getBibIds($projectId))->count();
     }
 
-    private function getStudySelection(int $projectId, int $totalImported): array
+    private function getStudySelection(int $projectId, int $totalImported, int $userId): array
     {
         if ($totalImported === 0)
             return ['percentage' => 0, 'unclassified' => 0];
 
-        $memberIds = $this->getUserIds($projectId);
+        $memberIds = $this->getUserIds($projectId, $userId);
         $bibIds = $this->getBibIds($projectId);
 
         // pegar IDs dos status
@@ -136,12 +148,12 @@ class ConductingProgressService
 
 
 
-    private function getQualityAssessment(int $projectId, int $totalImported, int $unclassifiedSelection): array
+    private function getQualityAssessment(int $projectId, int $totalImported, int $unclassifiedSelection, int $userId): array
     {
         if ($totalImported === 0)
             return ['percentage' => 0, 'unclassified' => 0];
 
-        $memberIds = $this->getUserIds($projectId);
+        $memberIds = $this->getUserIds($projectId, $userId);
         $bibIds = $this->getBibIds($projectId);
 
         $statuses = StatusQualityAssessment::whereIn('status', [
@@ -185,11 +197,11 @@ class ConductingProgressService
 
 
 
-    private function getExtraction(int $projectId, int $totalImported, int $unclassifiedQA): float
+    private function getExtraction(int $projectId, int $totalImported, int $unclassifiedQA, int $userId): float
     {
         if ($totalImported === 0) return 0;
 
-        $memberIds = $this->getUserIds($projectId);
+        $memberIds = $this->getUserIds($projectId, $userId);
         $bibIds = $this->getBibIds($projectId);
 
         $statuses = StatusExtraction::whereIn('description', ['Done', 'To Do', 'Removed'])
@@ -220,10 +232,10 @@ class ConductingProgressService
             : 0;
     }
 
-    private function getSnowballing(int $projectId): float
+    private function getSnowballing(int $projectId, int $userId): float
     {
         // 1) Buscar membros
-        $memberIds = $this->getUserIds($projectId);
+        $memberIds = $this->getUserIds($projectId, $userId);
         if ($memberIds->isEmpty()) return 0;
 
         // 2) Buscar bases do projeto
