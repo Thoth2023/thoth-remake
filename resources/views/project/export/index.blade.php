@@ -7,7 +7,7 @@
 
         @include('project.components.project-header', ['project' => $project, 'activePage' => 'export'])
 
-        <div class="container-fluid py-4">
+        <div class="container-fluid py-2 px-0">
             <div class="row">
                 <div class="col-12">
                     <div class="grid-items-2 gap-4">

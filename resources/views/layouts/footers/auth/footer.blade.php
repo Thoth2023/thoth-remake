@@ -1,6 +1,6 @@
-<footer class="footer mt-2 ">
+<footer class="footer mt-4 mb-4 ">
     <!-- Início do rodapé com uma margem superior (mt-2) -->
-    
+
     <div class="container-fluid">
         <!-- Container que ocupa toda a largura da tela, usado para agrupar o conteúdo interno -->
 
