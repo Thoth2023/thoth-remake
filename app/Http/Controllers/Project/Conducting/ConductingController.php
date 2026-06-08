@@ -69,7 +69,7 @@ class ConductingController extends Controller
             }
         }
 
-        $conductingProgress = $this->progressService->calculateProgress($project->id_project);
+        $conductingProgress = $this->progressService->calculateProgress($project->id_project,auth()->id());
 
         // 🔍 Obter o Member (e descobrir se é REVISOR)
         $member = Member::where('id_user', auth()->id())
