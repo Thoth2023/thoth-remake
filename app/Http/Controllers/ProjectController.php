@@ -527,6 +527,50 @@ class ProjectController extends Controller
         return redirect('/projects')->with('success', 'You have successfully joined the project!');
     }
 
+    public function markAsFinished(string $idProject)
+    {
+        $project = Project::findOrFail($idProject);
+        $user = auth()->user();
+
+        if (!$project->userHasLevel($user, '1')) {
+            return redirect()->back()->with('error', __('project/projects.no_permission_edit'));
+        }
+
+        $project->is_finished = 1;
+        $project->save();
+
+        ActivityLogHelper::insertActivityLog(
+            __('project/projects.activity_project_finished'),
+            1,
+            $project->id_project,
+            $user->id
+        );
+
+        return redirect()->back()->with('success', __('project/projects.project_marked_finished'));
+    }
+
+    public function markAsOngoing(string $idProject)
+    {
+        $project = Project::findOrFail($idProject);
+        $user = auth()->user();
+
+        if (!$project->userHasLevel($user, '1')) {
+            return redirect()->back()->with('error', __('project/projects.no_permission_edit'));
+        }
+
+        $project->is_finished = 0;
+        $project->save();
+
+        ActivityLogHelper::insertActivityLog(
+            __('project/projects.activity_project_reopened'),
+            1,
+            $project->id_project,
+            $user->id
+        );
+
+        return redirect()->back()->with('success', __('project/projects.project_marked_ongoing'));
+    }
+
  public function exportActivities($projectId)
     {
         $project = Project::findOrFail($projectId);

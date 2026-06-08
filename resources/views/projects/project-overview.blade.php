@@ -48,8 +48,13 @@
     <!-- Progresso -->
     <div class="col-lg-6">
         <div class="card shadow-sm">
-            <div class="card-header bg-white border-0">
-                <h5 class="mb-0">{{ __("project/overview.progress") }}</h5>
+            <div class="card-header thoth-card-header mb-0 pb-0">
+
+                <x-helpers.modal
+                    target="project-status-help"
+                    modalTitle="{{ __('project/overview.progress') }}"
+                    modalContent="{!! __('project/overview.project_status_help.content') !!}"
+                />
             </div>
             <div class="card-body">
 
@@ -145,6 +150,56 @@
                         </div>
                     </div>
                 </div>
+
+                @php
+                    $isAdmin = $project->userHasLevel(auth()->user(), '1');
+                @endphp
+
+                @if($isAdmin)
+                    <hr class="my-3">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-2">
+            <span class="text-muted small fw-semibold">
+                {{ __('project/overview.project_status') }}:
+            </span>
+
+                            @if($project->is_finished)
+                                <span class="badge bg-success d-inline-flex align-items-center gap-1 px-3 py-2">
+                    <i class="fas fa-check-circle"></i>
+                    {{ __('project/overview.finished_project') }}
+                </span>
+                            @else
+                                <span class="badge bg-light text-dark d-inline-flex align-items-center gap-1 px-3 py-2">
+                    <i class="fas fa-spinner"></i>
+                    {{ __('project/overview.ongoing_project') }}
+                </span>
+                            @endif
+                        </div>
+
+                        @if(!$project->is_finished)
+                            <form method="POST" action="{{ route('projects.finish', $project->id_project) }}" class="mb-0">
+                                @csrf
+                                @method('PATCH')
+
+                                <button type="submit" class="btn btn-success btn-sm d-inline-flex align-items-center gap-2 px-3 mb-0">
+                                    <i class="fas fa-check-circle"></i>
+                                    {{ __('project/overview.mark_as_finished') }}
+                                </button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('projects.reopen', $project->id_project) }}" class="mb-0">
+                                @csrf
+                                @method('PATCH')
+
+                                <button type="submit" class="btn btn-outline-warning btn-sm d-inline-flex align-items-center gap-2 px-3 mb-0">
+                                    <i class="fas fa-undo-alt"></i>
+                                    {{ __('project/overview.mark_as_ongoing') }}
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                @endif
 
             </div>
         </div>
