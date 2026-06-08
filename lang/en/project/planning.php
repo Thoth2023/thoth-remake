@@ -491,6 +491,13 @@ Choosing proper databases ensures your review is comprehensive, reliable, and me
             'no-databases' => 'No databases found.',
             'empty' => 'No database registered in the project.',
         ],
+        'delete' => [
+            'title'           => 'Remove Database',
+            'warning'         => 'Removing :name will permanently delete all articles imported from this source. This action cannot be undone.',
+            'confirm_message' => 'Are you sure you want to remove this database from the project?',
+            'cancel'          => 'Cancel',
+            'confirm'         => 'Yes, remove',
+        ],
         'suggest-new' => [
             'title' => 'Suggest a New Database',
             'help' => [
@@ -946,6 +953,20 @@ These criteria form the foundation of your study selection process, ensuring
             'empty' => 'No criteria found',
             'actions' => 'Actions',
         ],
+        'delete' => [
+            'title'               => 'Delete Criteria',
+            'confirm_message'     => 'Are you sure you want to delete this criteria? This action cannot be undone.',
+            'warning_evaluations' => 'This criteria has evaluations linked to it. Deleting it may reset paper evaluations in the conducting phase.',
+            'cancel'              => 'Cancel',
+            'confirm'             => 'Delete',
+        ],
+        'submit' => [
+            'warning_title'       => 'Changes May Reset Evaluations',
+            'warning_evaluations' => 'Changing the type or rule of this criteria will reset all paper evaluations to "Not Evaluated". This action affects the conducting phase.',
+            'confirm_message'     => 'Do you want to proceed?',
+            'cancel'              => 'Cancel',
+            'confirm'             => 'Yes, proceed',
+        ],
         'livewire' => [
             'description' => [
                 'required' => 'The description field is required.'
@@ -988,22 +1009,29 @@ These criteria form the foundation of your study selection process, ensuring
         'title' => 'Quality Assessment',
         'generate-intervals' => 'Generate Intervals',
         'ranges' => [
-            'label-updated' => 'Label updated successfully.',
-            'interval-updated' => 'Interval updated successfully.',
-            'deletion-restricted' => 'Cannot delete the interval ":description". There are  associated records/papers depending on this interval.',
-            'generated' => 'Intervals generated successfully.',
-            'reduction-not-allowed' => 'It is not possible to reduce the number of intervals because evaluations are already in progress for this project.',
-            'new-label' => 'Range :n',
+            'label-updated'          => 'Label updated successfully.',
+            'interval-updated'       => 'Interval updated successfully.',
+            'deletion-restricted'    => 'Cannot delete the interval ":description". There are associated records/papers depending on this interval.',
+            'generated'              => 'Intervals generated successfully.',
+            'reduction-not-allowed'  => 'It is not possible to reduce the number of intervals because evaluations are already in progress for this project.',
+            'new-label'              => 'Range :n',
             'generated-successfully' => 'Scoring intervals successfully updated.',
         ],
-        'qa-table'=>[
+        'qa-table' => [
             'min-general-score' => 'Minimal Score to Approve',
+        ],
+        'cutoff' => [
+            'warning_title'       => 'Cutoff Change May Reset Evaluations',
+            'warning_evaluations' => 'Changing the minimum general score cutoff will reset all quality assessments to "Not Evaluated". This action affects the conducting phase.',
+            'confirm_message'     => 'Do you want to proceed?',
+            'cancel'              => 'Cancel',
+            'confirm'             => 'Yes, proceed',
         ],
         'general-score' => [
             'title' => 'General Score Interval',
-            'help' => [
-                'title' => 'General Score Interval',
-                'content' => '<p>The <strong>general score ranges</strong> are used to classify the final quality level of each study after evaluating all quality questions. These ranges group the total score of a study into categories (e.g., “Very Low”, “Low”, “Good”, “Very Good”), making it easy to determine the quality tier of each study.</p>
+            'help'  => [
+                'title'   => 'General Score Interval',
+                'content' => '<p>The <strong>general score ranges</strong> are used to classify the final quality level of each study after evaluating all quality questions. These ranges group the total score of a study into categories (e.g., "Very Low", "Low", "Good", "Very Good"), making it easy to determine the quality tier of each study.</p>
 
 <p>The generation of ranges is <strong>automatic</strong>. The user simply chooses <strong>how many ranges</strong> they want, and Thoth generates them based on the <strong>total sum of weights</strong> assigned to the quality questions. This total represents the <strong>maximum possible score</strong> a study can achieve.</p>
 
@@ -1036,80 +1064,61 @@ These criteria form the foundation of your study selection process, ensuring
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>0.01</td>
-            <td>1.25</td>
-            <td>Very Low</td>
-        </tr>
-        <tr>
-            <td>1.26</td>
-            <td>2.5</td>
-            <td>Low</td>
-        </tr>
-        <tr>
-            <td>2.51</td>
-            <td>3.75</td>
-            <td>Good</td>
-        </tr>
-        <tr>
-            <td>3.76</td>
-            <td>5</td>
-            <td>Very Good</td>
-        </tr>
+        <tr><td>0.01</td><td>1.25</td><td>Very Low</td></tr>
+        <tr><td>1.26</td><td>2.5</td><td>Low</td></tr>
+        <tr><td>2.51</td><td>3.75</td><td>Good</td></tr>
+        <tr><td>3.76</td><td>5</td><td>Very Good</td></tr>
     </tbody>
-</table>
- ',
+</table>',
             ],
-            'start' => 'Enter the Minimum Score',
-            'end' => 'Enter the Max Score',
-            'description' => 'Description',
+            'start'             => 'Enter the Minimum Score',
+            'end'               => 'Enter the Max Score',
+            'description'       => 'Description',
             'placeholder-start' => 'Min Score (0.0)',
-            'placeholder-end' => 'Max Score (0.0)',
-            'add' => 'Add General Score',
-            'update' => 'Update General Score',
-            'table' => [
-                'min' => 'Min Score',
-                'max' => 'Max Score',
+            'placeholder-end'   => 'Max Score (0.0)',
+            'add'               => 'Add General Score',
+            'update'            => 'Update General Score',
+            'table'             => [
+                'min'         => 'Min Score',
+                'max'         => 'Max Score',
                 'description' => 'Description',
-                'action' => 'Actions',
-                'no-results' => 'No general score found.',
-                'empty' => 'No general score registered in the project.',
+                'action'      => 'Actions',
+                'no-results'  => 'No general score found.',
+                'empty'       => 'No general score registered in the project.',
             ],
             'livewire' => [
                 'logs' => [
-                    'added' => 'General Score added',
+                    'added'   => 'General Score added',
                     'updated' => 'General Score updated',
                 ],
                 'start' => [
-                    'invalid' => 'The general score field is invalid. Please enter a valid general score.',
+                    'invalid'  => 'The general score field is invalid. Please enter a valid general score.',
                     'required' => 'The general score field is invalid. Please enter a valid general score.',
                 ],
                 'end' => [
                     'required' => 'The end general score field is required.',
-                    'after' => 'The end general score must be greater than the start general score.',
+                    'after'    => 'The end general score must be greater than the start general score.',
                 ],
                 'description' => [
                     'required' => 'The description general score field is required.',
                 ],
                 'toasts' => [
-                    'added' => 'General Score added successfully.',
+                    'added'   => 'General Score added successfully.',
                     'updated' => 'General Score updated successfully.',
                     'deleted' => 'General Score deleted successfully.',
-                    'denied' => 'A viewer cannot add, edit or delete general scores.',
+                    'denied'  => 'A viewer cannot add, edit or delete general scores.',
                 ],
             ],
-
         ],
         'question-quality' => [
             'title' => 'Question Quality',
-            'help' => [
-                'title' => 'Quality Question',
+            'help'  => [
+                'title'   => 'Quality Question',
                 'content' => '
 <p><strong>Quality Questions</strong> are used to assess how reliable, complete, and well-conducted each primary study is.
 Even if a publication meets your inclusion criteria, its methodological quality can vary — and this evaluation helps you understand how trustworthy each study is when answering your Research Questions.</p>
 
 <p><strong>Why is quality assessment important?</strong></p>
-
 <ul>
     <li>Identifies more reliable and well-designed studies.</li>
     <li>Prevents weak studies from influencing your final conclusions.</li>
@@ -1121,19 +1130,15 @@ Even if a publication meets your inclusion criteria, its methodological quality 
 <hr>
 
 <p><strong>How to fill in the fields:</strong></p>
-
 <ul>
-    <li><strong>ID:</strong> A short and unique identifier for the quality question.
-        Common examples include <strong>QA01</strong>, <strong>QA02</strong>, etc., which help organize the evaluation later.</li>
-
-    <li><strong>Weight:</strong> Indicates how important this question is when computing the study’s final quality score.
+    <li><strong>ID:</strong> A short and unique identifier for the quality question. Common examples include <strong>QA01</strong>, <strong>QA02</strong>, etc.</li>
+    <li><strong>Weight:</strong> Indicates how important this question is when computing the study\'s final quality score.
         <ul>
             <li><strong>Higher weights</strong> = more influence on the final score.</li>
             <li><strong>Lower weights</strong> = less influence.</li>
         </ul>
-        Assign weights carefully so that the most relevant questions have the most impact.</li>
-
-    <li><strong>Description:</strong> Write a clear, objective question that evaluates some aspect of the study’s reliability or completeness.</li>
+    </li>
+    <li><strong>Description:</strong> Write a clear, objective question that evaluates some aspect of the study\'s reliability or completeness.</li>
 </ul>
 
 <hr>
@@ -1158,47 +1163,76 @@ Even if a publication meets your inclusion criteria, its methodological quality 
 <p>These questions will be used later in the Quality Assessment step, where each study receives scores based on the answers to the questions you define here.</p>
 ',
             ],
-
-            'id' => 'ID',
+            'id'          => 'ID',
             'description' => 'Description',
-            'weight' => 'Weight',
-            'add' => 'Add Question Quality',
-            'update' => 'Update Question Quality',
+            'weight'      => 'Weight',
+            'add'         => 'Add Question Quality',
+            'update'      => 'Update Question Quality',
+            'submit' => [
+                'warning_title'       => 'Weight Change May Reset Evaluations',
+                'warning_evaluations' => 'Changing the weight of this question will reset all quality assessments to "Not Evaluated". This action affects the conducting phase.',
+                'confirm_message'     => 'Do you want to proceed?',
+                'cancel'              => 'Cancel',
+                'confirm'             => 'Yes, proceed',
+            ],
+            'delete' => [
+                'title'               => 'Delete Quality Question',
+                'confirm_message'     => 'Are you sure you want to delete this question? This action cannot be undone.',
+                'warning_evaluations' => 'This question has evaluations linked to it. Deleting it will reset quality assessments in the conducting phase.',
+                'cancel'              => 'Cancel',
+                'confirm'             => 'Delete',
+            ],
+            'delete_score' => [
+                'title'               => 'Delete Quality Score',
+                'confirm_message'     => 'Are you sure you want to delete this score? This action cannot be undone.',
+                'warning_evaluations' => 'This score has been used in evaluations. Deleting it will reset quality assessments in the conducting phase.',
+                'cancel'              => 'Cancel',
+                'confirm'             => 'Delete',
+            ],
+            'min_score' => [
+                'warning_title'       => 'Minimum Score Change May Reset Evaluations',
+                'warning_evaluations' => 'Changing the minimum approval score will reset all quality assessments to "Not Evaluated". This action affects the conducting phase.',
+                'confirm_message'     => 'Do you want to proceed?',
+                'cancel'              => 'Cancel',
+                'confirm'             => 'Yes, proceed',
+            ],
             'livewire' => [
                 'logs' => [
-                    'added' => 'Question Quality added',
+                    'added'   => 'Question Quality added',
                     'updated' => 'Question Quality updated',
                 ],
                 'id' => [
                     'required' => 'The question quality field is invalid. Please enter a valid question quality.',
                 ],
                 'weight' => [
-                    'required' => 'The end question quality field is required.',
+                    'required' => 'The weight field is required.',
                 ],
                 'description' => [
                     'required' => 'The description question quality field is required.',
                 ],
                 'toasts' => [
-                    'duplicate_id' => 'A question with this ID already exists.',
-                    'added' => 'Question Quality added successfully.',
-                    'updated' => 'Question Quality updated successfully.',
-                    'deleted' => 'Question Quality deleted successfully.',
-                    'min_weight' => 'The weight must be greater than 0.',
+                    'duplicate_id'         => 'A question with this ID already exists.',
+                    'added'                => 'Question Quality added successfully.',
+                    'updated'              => 'Question Quality updated successfully.',
+                    'deleted'              => 'Question Quality deleted successfully.',
+                    'min_weight'           => 'The weight must be greater than 0.',
+                    'reset_qa_evaluations' => 'All quality assessments have been reset to "Not Evaluated".',
+                    'score_deleted'        => 'Quality score deleted successfully.',
+                    'denied'               => 'A viewer cannot add, edit or delete quality questions.',
                 ],
             ],
-
         ],
         'question-score' => [
-            'title' => 'Question Score',
+            'title'  => 'Question Score',
             'select' => [
-                'rule' => 'Select a rule'
+                'rule' => 'Select a rule',
             ],
             'question' => [
-                'title' => 'Question',
+                'title'       => 'Question',
                 'placeholder' => 'Select a question',
             ],
             'help' => [
-                'title' => 'Question Score',
+                'title'   => 'Question Score',
                 'content' => '
     <p>The <strong>Question Score</strong> step allows you to define how each quality question will be evaluated.
     Here you create the <strong>scoring rules</strong>, which function as the possible answers for each quality question.</p>
@@ -1217,46 +1251,18 @@ Even if a publication meets your inclusion criteria, its methodological quality 
     <hr>
 
     <h5><strong>How to fill in the fields:</strong></h5>
-
     <ul>
-        <li>
-            <strong>Question:</strong> Select the quality question that this scoring rule belongs to (e.g., QA01, QA02...).<br>
-            Each rule is always linked to a single question.
-        </li>
-
-        <li>
-            <strong>Scoring Rule:</strong> Short name for the answer option.<br>
-            Common examples:
-            <ul>
-                <li>Yes</li>
-                <li>Partial</li>
-                <li>No</li>
-                <li>High Evidence</li>
-                <li>Moderate Evidence</li>
-                <li>Low Evidence</li>
-            </ul>
-        </li>
-
-        <li>
-            <strong>Score:</strong> Select a value between 0% and 100% using the slider. <br>
-            This score will be applied when the reviewer chooses that answer.
-        </li>
-
-        <li>
-            <strong>Description:</strong> Provide a detailed explanation of when this rule should be applied. <br>
-            Example:
-            <em>"The study fully describes the implemented tool, including methodology and validation."</em>
-        </li>
+        <li><strong>Question:</strong> Select the quality question that this scoring rule belongs to.</li>
+        <li><strong>Scoring Rule:</strong> Short name for the answer option (e.g., Yes, Partial, No).</li>
+        <li><strong>Score:</strong> Select a value between 0% and 100% using the slider.</li>
+        <li><strong>Description:</strong> Provide a detailed explanation of when this rule should be applied.</li>
     </ul>
 
     <hr>
 
     <h5><strong>Complete Example</strong></h5>
-
-    <p>Suppose quality question <strong>QA01</strong> is:</p>
-    <p><em>"Does the study present the implementation of a tool for systematic literature review?"</em></p>
-
-    <p>Example scoring rules:</p>
+    <p>Suppose quality question <strong>QA01</strong> is:<br>
+    <em>"Does the study present the implementation of a tool for systematic literature review?"</em></p>
 
     <table class="table table-bordered table-striped small table-break-text">
         <thead>
@@ -1269,67 +1275,57 @@ Even if a publication meets your inclusion criteria, its methodological quality 
         </thead>
         <tbody>
             <tr>
-                <td>QA01</td>
-                <td><strong>Yes</strong></td>
-                <td>100%</td>
-                <td>The study clearly presents the full implementation of the tool, including methodology and validation.</td>
+                <td>QA01</td><td><strong>Yes</strong></td><td>100%</td>
+                <td>The study clearly presents the full implementation of the tool.</td>
             </tr>
             <tr>
-                <td>QA01</td>
-                <td><strong>Partial*</strong></td>
-                <td>50%</td>
-                <td>The study presents the tool but does not describe all implementation or validation details.</td>
+                <td>QA01</td><td><strong>Partial</strong></td><td>50%</td>
+                <td>The study presents the tool but does not describe all details.</td>
             </tr>
             <tr>
-                <td>QA01</td>
-                <td><strong>No</strong></td>
-                <td>0%</td>
+                <td>QA01</td><td><strong>No</strong></td><td>0%</td>
                 <td>The study does not present the implementation of a tool.</td>
             </tr>
         </tbody>
     </table>
-
-    <p>Repeat this process for <strong>each</strong> quality question.
-    At the end, you will have a complete scoring matrix to evaluate all included studies.</p>
     ',
             ],
-
             'description' => [
-                'title' => 'Description',
+                'title'       => 'Description',
                 'placeholder' => 'Enter description',
             ],
             'id_qa' => [
-                'title' => 'Question Quality',
-                'placeholder' => 'Select Question Quality',
-                'no-question-available' => 'No questions available',
+                'title'                  => 'Question Quality',
+                'placeholder'            => 'Select Question Quality',
+                'no-question-available'  => 'No questions available',
             ],
             'score_rule' => [
-                'title' => 'Score Rule',
-                'placeholder' => 'Select or type the Scoring Rule',
-                'description' => 'Write/Explain with a description to the scoring rule',
-                'yes' => 'Yes',
-                'partial' => 'Partial',
+                'title'        => 'Score Rule',
+                'placeholder'  => 'Select or type the Scoring Rule',
+                'description'  => 'Write/Explain with a description to the scoring rule',
+                'yes'          => 'Yes',
+                'partial'      => 'Partial',
                 'insufficient' => 'Insufficient',
-                'no' => 'No',
+                'no'           => 'No',
             ],
             'form' => [
                 'select-qa-placeholder' => 'Select a Question Quality',
-                'add' => 'Add Quality Score',
-                'update' => 'Update Quality Score',
+                'add'                   => 'Add Quality Score',
+                'update'                => 'Update Quality Score',
             ],
             'range' => [
                 'score' => 'Score',
             ],
             'livewire' => [
                 'logs' => [
-                    'added' => 'Quality Score added',
+                    'added'   => 'Quality Score added',
                     'updated' => 'Quality Score updated',
                 ],
                 'id' => [
                     'required' => 'The quality score field is invalid. Please enter a valid quality score.',
                 ],
                 'weight' => [
-                    'required' => 'The end quality score field is required.',
+                    'required' => 'The weight field is required.',
                 ],
                 'description' => [
                     'required' => 'The description quality score field is required.',
@@ -1339,36 +1335,32 @@ Even if a publication meets your inclusion criteria, its methodological quality 
                 ],
             ],
             'messages' => [
-                'unique_score_rule' => 'The scoring rule already exists for this question.',
-                'score_rule_only_letters' => 'The score rule may contain only letters and spaces.',
-                'description_only_letters_numbers' => 'The description may contain only letters, numbers, and spaces.',
+                'unique_score_rule'                  => 'The scoring rule already exists for this question.',
+                'score_rule_only_letters'            => 'The score rule may contain only letters and spaces.',
+                'description_only_letters_numbers'   => 'The description may contain only letters, numbers, and spaces.',
             ],
             'toasts' => [
-                'added' => 'Quality Score added successfully.',
+                'added'   => 'Quality Score added successfully.',
                 'updated' => 'Quality Score updated successfully.',
                 'deleted' => 'Quality Score deleted successfully.',
             ],
         ],
-
         'min-general-score' => [
-            'title' => 'Minimal General Score to Approve',
+            'title'        => 'Minimal General Score to Approve',
             'help-content' => '
 <p>After registering all quality questions, the sum of the weights of all previously recorded questions is automatically calculated by Thoth.</p>
 
-<p>This total represents the <strong>maximum score limit</strong> that a study can achieve during the quality assessment stage.
-For this reason, the <strong>upper bound of the general scoring intervals</strong> must always <strong>match the total sum of all weights</strong>
-defined in the project. This alignment is essential to ensure that the scoring calculations and quality classifications
-operate correctly during the review conduction phase.</p>
+<p>This total represents the <strong>maximum score limit</strong> that a study can achieve during the quality assessment stage.</p>
 
 <p><strong>Minimum Overall Score for Approval:</strong><br>
 This setting defines the minimum general scoring interval that will be considered the threshold to accept studies in the review.</p>
 
 <p><strong>How does this work in practice?</strong><br>
 During the <strong>quality assessment phase</strong>, each evaluated study receives a <strong>total score</strong>, calculated based on the rules and weights previously defined.
-The purpose of the <strong>general scoring intervals</strong> is to classify this study within a level or category — for example, “Very Low”, “Low”, “Moderate”, or “High”.</p>
+The purpose of the <strong>general scoring intervals</strong> is to classify this study within a level or category.</p>
 
 <p>After identifying which interval the study falls into, it is compared against the <strong>configured minimum overall interval</strong>.
-Only studies whose scores are <strong>equal to or greater than the selected minimum interval</strong> will be <strong>accepted</strong> and can proceed to the next stage of the review.</p>
+Only studies whose scores are <strong>equal to or greater than the selected minimum interval</strong> will be <strong>accepted</strong>.</p>
 
 <hr>
 <p><strong>Simple Example:</strong><br>
@@ -1376,9 +1368,7 @@ If the minimum interval configured is <strong>Moderate (2.6 – 3.75)</strong> a
 
 <p><strong>Important:</strong><br>
 In addition to the overall minimum score, each individual quality question also has a <strong>minimum score requirement</strong>.
-This means that even if a study reaches an overall interval above the defined minimum,
-it <strong>may still be rejected</strong> if it fails to meet the minimum score set for any specific quality question.
-This ensures that all critical criteria are properly evaluated and respected.</p>
+Even if a study reaches an overall interval above the defined minimum, it <strong>may still be rejected</strong> if it fails to meet the minimum score set for any specific quality question.</p>
 
 <hr>
 <p><strong>Important:</strong> To correctly configure this step, you must first:
@@ -1388,34 +1378,30 @@ This ensures that all critical criteria are properly evaluated and respected.</p
     <li>Generate the general scoring intervals;</li>
     <li>Save the intervals in the review project.</li>
 </ul>
-Also ensure that the <strong>maximum value of the last interval</strong> always matches the <strong>sum of all question weights</strong>.</p>
+</p>
 ',
-
             'cutoff' => 'Cutoff (Min Score general)',
-            'sum' => 'Total Weight',
-            'form' => [
+            'sum'    => 'Total Weight',
+            'form'   => [
                 'select-placeholder' => 'Select Minimal General Score to Approve',
-                'add' => 'Add Minimal General Score',
-                'update' => 'Update Minimal General Score',
-                'empty' => 'No general scores available. Please register general scores.',
-                'minimal-score' => 'Minimal score updated successfully',
+                'add'                => 'Add Minimal General Score',
+                'update'             => 'Update Minimal General Score',
+                'empty'              => 'No general scores available. Please register general scores.',
+                'minimal-score'      => 'Minimal score updated successfully',
             ],
-
             'livewire' => [
                 'logs' => [
-                    'added' => 'Minimal General Score to Approve added',
+                    'added'   => 'Minimal General Score to Approve added',
                     'updated' => 'Minimal General Score to Approve updated',
                 ],
                 'toasts' => [
-                    'added' => 'Minimal General Score to Approve added successfully.',
-                    'updated' => 'Minimal General Score to Approve updated successfully.',
+                    'added'    => 'Minimal General Score to Approve added successfully.',
+                    'updated'  => 'Minimal General Score to Approve updated successfully.',
                     'required' => 'Minimal General Score to Approve field is required.',
+                    'denied'   => 'A viewer cannot edit the cutoff score.',
                 ],
             ],
-
         ],
-
-
     ],
     'data-extraction' => [
         'title' => 'Data Extraction',

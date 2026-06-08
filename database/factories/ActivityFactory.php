@@ -26,7 +26,7 @@ class ActivityFactory extends Factory
     {
         return [
             'id_user' => User::factory()->create()->id,
-            'id_module' => DB::table('module')->insert(['id_module' => 2, 'description' => 'Administratoraaaaaaaaaa']),
+            'id_module' => DB::table('module')->insert(['id_module' => 2, 'description' => 'Administrator']),
             'activity' => $this->faker->sentence,
             'id_project' => null,
             'time' => now(),
