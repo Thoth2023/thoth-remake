@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => __('nav/topnav.project')])
 
-    <div class="row">
+    <div class="row mt-4 mx-4">
         @include('project.components.project-header', ['project' => $project, 'activePage' => 'overview'])
 
         <div class="card shadow-lg mx-4 mt-1">
