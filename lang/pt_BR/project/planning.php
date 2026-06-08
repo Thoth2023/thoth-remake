@@ -490,6 +490,13 @@ A escolha correta das bases garante uma revisão mais completa, confiável e met
             'no-databases' => 'Nenhuma base de dados encontrado.',
             'empty' => 'Este projeto ainda não possui bases de dados registradas'
         ],
+        'delete' => [
+            'title'           => 'Remover Base de Dados',
+            'warning'         => 'Remover :name irá excluir permanentemente todos os artigos importados desta fonte. Esta ação não pode ser desfeita.',
+            'confirm_message' => 'Tem certeza que deseja remover esta base de dados do projeto?',
+            'cancel'          => 'Cancelar',
+            'confirm'         => 'Sim, remover',
+        ],
         'suggest-new' => [
             'title' => 'Sugira uma nova Base de Dados',
             'help' => [
@@ -942,6 +949,20 @@ Ao final, seus critérios formarão a base do processo de seleção da revisão,
             'empty' => 'Sem critérios cadastrados',
             'actions' => 'Ações',
         ],
+        'delete' => [
+            'title'               => 'Excluir Critério',
+            'confirm_message'     => 'Tem certeza que deseja excluir este critério? Esta ação não pode ser desfeita.',
+            'warning_evaluations' => 'Este critério possui avaliações vinculadas. Excluí-lo pode resetar as avaliações de artigos na fase de condução.',
+            'cancel'              => 'Cancelar',
+            'confirm'             => 'Excluir',
+        ],
+        'submit' => [
+            'warning_title'       => 'Alterações Podem Resetar Avaliações',
+            'warning_evaluations' => 'Alterar o tipo ou a regra deste critério irá resetar todas as avaliações de artigos para "Não Avaliado". Esta ação impacta a fase de condução.',
+            'confirm_message'     => 'Deseja prosseguir?',
+            'cancel'              => 'Cancelar',
+            'confirm'             => 'Sim, prosseguir',
+        ],
         'livewire' => [
             'description' => [
                 'required' => 'O campo de descrição é obrigatório.',
@@ -978,166 +999,141 @@ Ao final, seus critérios formarão a base do processo de seleção da revisão,
     ],
     'quality-assessment' => [
         'title' => 'Avaliação de Qualidade',
-        'generate-intervals' => 'Gerar intervalos',
+        'generate-intervals' => 'Gerar Intervalos',
         'ranges' => [
-            'label-updated' => 'Label atualizada com sucesso.',
-            'interval-updated' => 'Intervalo atualizado com sucesso.',
-            'deletion-restricted' => 'Não é possível excluir o intervalo ":description". Existem registros/papers associados.',
-            'generated' => 'Intervalos gerados com sucesso.',
-            'reduction-not-allowed' => 'Não é possível reduzir o número de intervalos pois já existem avaliações em condução para este projeto.',
-            'new-label' => 'Intervalo :n',
+            'label-updated'          => 'Rótulo atualizado com sucesso.',
+            'interval-updated'       => 'Intervalo atualizado com sucesso.',
+            'deletion-restricted'    => 'Não é possível excluir o intervalo ":description". Existem registros/artigos associados que dependem deste intervalo.',
+            'generated'              => 'Intervalos gerados com sucesso.',
+            'reduction-not-allowed'  => 'Não é possível reduzir o número de intervalos pois já existem avaliações em andamento neste projeto.',
+            'new-label'              => 'Intervalo :n',
             'generated-successfully' => 'Intervalos de pontuação atualizados com sucesso.',
         ],
-        'qa-table'=>[
-            'min-general-score' => 'Pontuação Mínima para Aprovação	',
-            ],
+        'qa-table' => [
+            'min-general-score' => 'Pontuação Mínima para Aprovação',
+        ],
+        'cutoff' => [
+            'warning_title'       => 'Alteração da Pontuação mínima geral pode Resetar Avaliações',
+            'warning_evaluations' => 'Alterar a pontuação mínima geral para aprovação irá resetar todas as avaliações de qualidade para "Não Avaliado". Esta ação impacta a fase de condução.',
+            'confirm_message'     => 'Deseja prosseguir?',
+            'cancel'              => 'Cancelar',
+            'confirm'             => 'Sim, prosseguir',
+        ],
         'general-score' => [
-            'title' => 'Intervalos de Pontuação Geral',
-            'help' => [
-                'title' => 'Intervalos de Pontuação Geral',
-                'content' => '<p>Os <strong>intervalos de pontuação geral</strong> são usados para classificar a qualidade final de um estudo após a avaliação das questões de qualidade. Eles definem faixas de pontuação (por exemplo: “Muito Pouco”, “Pouco”, “Bom”, “Muito Bom”) e ajudam a identificar rapidamente o nível em que cada estudo se encontra.</p>
+            'title' => 'Intervalo de Pontuação Geral',
+            'help'  => [
+                'title'   => 'Intervalo de Pontuação Geral',
+                'content' => '<p>Os <strong>intervalos de pontuação geral</strong> são utilizados para classificar o nível final de qualidade de cada estudo após a avaliação de todas as questões de qualidade.</p>
 
-<p>A geração dos intervalos é <strong>automática</strong>. O usuário apenas informa <strong>quantos intervalos deseja ter</strong> em sua revisão, e a Thoth cria esses intervalos com base na <strong>soma total dos pesos das questões de qualidade</strong>. Essa soma representa o <strong>máximo possível de pontuação</strong> que um estudo pode alcançar.</p>
+<p>A geração dos intervalos é <strong>automática</strong>. O usuário escolhe <strong>quantos intervalos</strong> deseja, e o Thoth os gera com base na <strong>soma total dos pesos</strong> das questões de qualidade.</p>
 
 <p><strong>Como preencher os campos:</strong></p>
-
 <ul>
-    <li>No campo <strong>"Gerar intervalos"</strong>, digite a quantidade de intervalos que deseja (ex.: 4, 5, 6).</li>
-    <li>Clique em <strong>"Gerar intervalos"</strong>. O sistema criará automaticamente os intervalos com valores mínimos, máximos e labels padrão.</li>
-    <li>Os campos <strong>Mín</strong> e <strong>Label</strong> podem ser editados pelo usuário.</li>
-    <li>Os campos <strong>Máx</strong> dos intervalos intermediários e <strong>todos os campos travados</strong> são definidos automaticamente pela Thoth e <strong>não podem ser alterados</strong>.</li>
-    <li>O valor <strong>Máx do último intervalo</strong> é sempre igual à <strong>soma total dos pesos</strong> das questões cadastradas — esse valor é obrigatório e não pode ser maior nem menor.</li>
+    <li>No campo <strong>"Gerar intervalos"</strong>, informe o número de intervalos desejados.</li>
+    <li>Clique em <strong>"Gerar intervalos"</strong>. O Thoth criará os intervalos automaticamente.</li>
+    <li>Os campos <strong>Mín</strong> e <strong>Rótulo</strong> podem ser editados pelo usuário.</li>
+    <li>Os campos <strong>Máx</strong> intermediários são calculados automaticamente e <strong>não podem ser editados</strong>.</li>
+    <li>O <strong>valor máximo do último intervalo</strong> é sempre igual à <strong>soma total dos pesos</strong>.</li>
 </ul>
 
 <p><strong>Regras importantes:</strong></p>
 <ul>
-    <li>Se você alterar questões de qualidade (incluindo pesos), verifique novamente os intervalos: a soma dos pesos pode ter mudado.</li>
-    <li>Se desejar <strong>reduzir o número de intervalos</strong>, isso só será permitido caso <strong>nenhum estudo tenha sido avaliado</strong> ainda.</li>
-    <li>Se desejar <strong>apenas recalcular</strong> os intervalos com base na nova soma dos pesos, basta gerar novamente o mesmo número de intervalos já existentes.</li>
-    <li>Se quiser <strong>acrescentar novos intervalos</strong>, informe um número maior (por exemplo, de 4 para 5). O sistema criará apenas os intervalos adicionais.</li>
+    <li>Se modificar as questões de qualidade, revise os intervalos novamente.</li>
+    <li>Para <strong>reduzir o número de intervalos</strong>, nenhum estudo pode ter sido avaliado ainda.</li>
+    <li>Para <strong>recalcular os intervalos</strong>, gere o mesmo número novamente.</li>
+    <li>Para <strong>adicionar novos intervalos</strong>, informe o novo total desejado.</li>
 </ul>
 
 <p><strong>Exemplo:</strong></p>
-
 <table class="table table-bordered table-striped small">
     <thead>
-        <tr>
-            <th>Mínimo</th>
-            <th>Máximo</th>
-            <th>Descrição</th>
-        </tr>
+        <tr><th>Mín</th><th>Máx</th><th>Descrição</th></tr>
     </thead>
     <tbody>
-        <tr>
-            <td>0,01</td>
-            <td>1,25</td>
-            <td>Muito Pouco</td>
-        </tr>
-        <tr>
-            <td>1,26</td>
-            <td>2,5</td>
-            <td>Pouco</td>
-        </tr>
-        <tr>
-            <td>2,51</td>
-            <td>3,75</td>
-            <td>Bom</td>
-        </tr>
-        <tr>
-            <td>3,76</td>
-            <td>5</td>
-            <td>Muito Bom</td>
-        </tr>
+        <tr><td>0,01</td><td>1,25</td><td>Muito Baixo</td></tr>
+        <tr><td>1,26</td><td>2,5</td><td>Baixo</td></tr>
+        <tr><td>2,51</td><td>3,75</td><td>Bom</td></tr>
+        <tr><td>3,76</td><td>5</td><td>Muito Bom</td></tr>
     </tbody>
-</table>
- ',
+</table>',
             ],
-            'start' => 'Digite a Pontuação Mínima',
-            'end' => 'Digite a Pontuação Máxima',
-            'description' => 'Descrição',
-            'placeholder-start' => 'Pontuação Mínima (0.0)',
-            'placeholder-end' => 'Pontuação Máxima (0.0)',
-            'add' => 'Adicionar Pontuação Geral',
-            'update' => 'Atualizar Pontuação Geral',
-            'table' => [
-                'min' => 'Pontuação Mínima',
-                'max' => 'Pontuação Máxima',
+            'start'             => 'Informe a Pontuação Mínima',
+            'end'               => 'Informe a Pontuação Máxima',
+            'description'       => 'Descrição',
+            'placeholder-start' => 'Pontuação Mín (0,0)',
+            'placeholder-end'   => 'Pontuação Máx (0,0)',
+            'add'               => 'Adicionar Pontuação Geral',
+            'update'            => 'Atualizar Pontuação Geral',
+            'table'             => [
+                'min'         => 'Pontuação Mín',
+                'max'         => 'Pontuação Máx',
                 'description' => 'Descrição',
-                'action' => 'Ações',
-                'no-results' => 'Nenhuma pontuação geral encontrada.',
-                'empty' => 'Nenhuma pontuação geral registrada neste projeto.',
+                'action'      => 'Ações',
+                'no-results'  => 'Nenhuma pontuação geral encontrada.',
+                'empty'       => 'Nenhuma pontuação geral registrada no projeto.',
             ],
             'livewire' => [
                 'logs' => [
-                    'added' => 'Pontuação Geral adicionada',
+                    'added'   => 'Pontuação Geral adicionada',
                     'updated' => 'Pontuação Geral atualizada',
                 ],
                 'start' => [
-                    'invalid' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
-                    'required' => 'O campo de pontuação geral é inválido. Por favor, insira uma pontuação geral válida.',
+                    'invalid'  => 'O campo de pontuação geral é inválido. Informe um valor válido.',
+                    'required' => 'O campo de pontuação geral é inválido. Informe um valor válido.',
                 ],
                 'end' => [
-                    'required' => 'O campo de pontuação geral é obrigatório.',
-                    'after' => 'A pontuação máxima deve ser maior que a pontuação mínima.',
+                    'required' => 'O campo de pontuação máxima é obrigatório.',
+                    'after'    => 'A pontuação máxima deve ser maior que a pontuação mínima.',
                 ],
                 'description' => [
                     'required' => 'O campo de descrição da pontuação geral é obrigatório.',
                 ],
                 'toasts' => [
-                    'added' => 'Pontuação Geral adicionada com sucesso.',
+                    'added'   => 'Pontuação Geral adicionada com sucesso.',
                     'updated' => 'Pontuação Geral atualizada com sucesso.',
-                    'deleted' => 'Pontuação Geral deletada com sucesso.',
-                    'denied' => 'Um visualizador não pode adicionar, editar ou excluir pontuações gerais.',
+                    'deleted' => 'Pontuação Geral excluída com sucesso.',
+                    'denied'  => 'Um visualizador não pode adicionar, editar ou excluir pontuações gerais.',
                 ],
             ],
-
         ],
         'question-quality' => [
             'title' => 'Questão de Qualidade',
-            'help' => [
-                'title' => 'Questão de Qualidade',
+            'help'  => [
+                'title'   => 'Questão de Qualidade',
                 'content' => '
-<p>As <strong>Questões de Qualidade</strong> fazem parte da etapa em que você avalia o quão confiáveis e completos são os estudos que farão parte da sua Revisão Sistemática da Literatura (RSL). Elas ajudam a identificar se cada publicação realmente apresenta informações sólidas para responder às suas Questões de Pesquisa.</p>
-
-<p>Mesmo que um estudo atenda aos critérios de inclusão, ele ainda pode ter limitações — e a avaliação de qualidade permite medir o quanto essas limitações afetam sua utilidade na revisão.</p>
+<p><strong>Questões de Qualidade</strong> são utilizadas para avaliar o quão confiável, completo e bem conduzido é cada estudo primário.</p>
 
 <p><strong>Por que a avaliação de qualidade é importante?</strong></p>
-
 <ul>
-    <li>Ajuda a identificar estudos mais robustos e confiáveis.</li>
-    <li>Reduz o risco de conclusões baseadas em pesquisas fracas ou incompletas.</li>
-    <li>Permite dar mais peso aos estudos bem conduzidos.</li>
-    <li>Aumenta a transparência e a credibilidade do processo da revisão.</li>
-    <li>Facilita análises posteriores e recomendações mais consistentes.</li>
+    <li>Identifica estudos mais confiáveis e bem delineados.</li>
+    <li>Evita que estudos fracos influenciem suas conclusões finais.</li>
+    <li>Permite atribuir maior peso a evidências mais sólidas.</li>
+    <li>Melhora a transparência e credibilidade do processo de revisão.</li>
+    <li>Apoia uma interpretação mais robusta e recomendações futuras.</li>
 </ul>
 
 <hr>
 
 <p><strong>Como preencher os campos:</strong></p>
-
 <ul>
-    <li><strong>ID:</strong> É o identificador único da questão de qualidade.
-        O formato mais comum é usar códigos como <strong>QA01</strong>, <strong>QA02</strong>, etc., facilitando a organização durante a avaliação dos estudos.</li>
-
-    <li><strong>Peso:</strong> Indica o quanto essa pergunta influencia na pontuação final do estudo.
+    <li><strong>ID:</strong> Um identificador curto e único para a questão de qualidade. Exemplos comuns: <strong>QA01</strong>, <strong>QA02</strong>, etc.</li>
+    <li><strong>Peso:</strong> Indica a importância desta questão no cálculo da pontuação final do estudo.
         <ul>
-            <li><strong>Pesos maiores</strong> = maior importância na avaliação.</li>
-            <li><strong>Pesos menores</strong> = influência reduzida.</li>
+            <li><strong>Pesos maiores</strong> = maior influência na pontuação final.</li>
+            <li><strong>Pesos menores</strong> = menor influência.</li>
         </ul>
-        Use pesos de forma coerente: perguntas mais críticas devem ter peso maior.</li>
-
-    <li><strong>Descrição:</strong> Escreva a pergunta de qualidade que será feita ao analisar cada estudo.
-        Deve ser clara, objetiva e focada em avaliar a confiabilidade ou completude da publicação.</li>
+    </li>
+    <li><strong>Descrição:</strong> Escreva uma questão clara e objetiva que avalie algum aspecto da confiabilidade ou completude do estudo.</li>
 </ul>
 
 <hr>
 
 <p><strong>Dicas importantes:</strong></p>
 <ul>
-    <li>Evite perguntas vagas — seja direto e específico.</li>
-    <li>Cadastre <strong>uma pergunta por vez</strong>.</li>
-    <li>Use pesos consistentes com o que realmente importa na sua revisão.</li>
-    <li>Reveja as questões com o orientador ou equipe para garantir alinhamento.</li>
+    <li>Mantenha cada questão clara e específica.</li>
+    <li>Registre <strong>uma questão por vez</strong>.</li>
+    <li>Use pesos de forma consistente com base na relevância de cada item.</li>
+    <li>Revise a lista de questões com sua equipe ou orientador.</li>
 </ul>
 
 <hr>
@@ -1146,277 +1142,213 @@ Ao final, seus critérios formarão a base do processo de seleção da revisão,
 <ul>
     <li><strong>ID:</strong> QA01</li>
     <li><strong>Peso:</strong> 2</li>
-    <li><strong>Descrição:</strong> O estudo apresenta de forma clara o método utilizado para condução da revisão?</li>
+    <li><strong>Descrição:</strong> O estudo descreve claramente o método utilizado para conduzir a revisão?</li>
 </ul>
-
-<p>Essas perguntas serão utilizadas posteriormente, na etapa de Avaliação de Qualidade, onde cada estudo receberá pontuações de acordo com as respostas às questões cadastradas.</p>
 ',
             ],
-
-            'id' => 'ID',
+            'id'          => 'ID',
             'description' => 'Descrição',
-            'weight' => 'Peso',
-            'add' => 'Adicionar Questão de Qualidade',
-            'update' => 'Atualizar Questão de Qualidade',
+            'weight'      => 'Peso',
+            'add'         => 'Adicionar Questão de Qualidade',
+            'update'      => 'Atualizar Questão de Qualidade',
+            'submit' => [
+                'warning_title'       => 'Alteração de Peso Pode Resetar Avaliações',
+                'warning_evaluations' => 'Alterar o peso desta questão irá resetar todas as avaliações de qualidade para "Não Avaliado". Esta ação impacta a fase de condução.',
+                'confirm_message'     => 'Deseja prosseguir?',
+                'cancel'              => 'Cancelar',
+                'confirm'             => 'Sim, prosseguir',
+            ],
+            'delete' => [
+                'title'               => 'Excluir Questão de Qualidade',
+                'confirm_message'     => 'Tem certeza que deseja excluir esta questão? Esta ação não pode ser desfeita.',
+                'warning_evaluations' => 'Esta questão possui avaliações vinculadas. Excluí-la irá resetar as avaliações de qualidade na fase de condução.',
+                'cancel'              => 'Cancelar',
+                'confirm'             => 'Excluir',
+            ],
+            'delete_score' => [
+                'title'               => 'Excluir Pontuação de Qualidade',
+                'confirm_message'     => 'Tem certeza que deseja excluir esta pontuação? Esta ação não pode ser desfeita.',
+                'warning_evaluations' => 'Esta pontuação foi utilizada em avaliações. Excluí-la irá resetar as avaliações de qualidade na fase de condução.',
+                'cancel'              => 'Cancelar',
+                'confirm'             => 'Excluir',
+            ],
+            'min_score' => [
+                'warning_title'       => 'Alteração da Pontuação Mínima Pode Resetar Avaliações',
+                'warning_evaluations' => 'Alterar a pontuação mínima para aprovação irá resetar todas as avaliações de qualidade para "Não Avaliado". Esta ação impacta a fase de condução.',
+                'confirm_message'     => 'Deseja prosseguir?',
+                'cancel'              => 'Cancelar',
+                'confirm'             => 'Sim, prosseguir',
+            ],
             'livewire' => [
                 'logs' => [
-                    'added' => 'Questão de Qualidade adicionada',
+                    'added'   => 'Questão de Qualidade adicionada',
                     'updated' => 'Questão de Qualidade atualizada',
                 ],
                 'id' => [
-                    'required' => 'O campo de questão de qualidade é inválido. Por favor, insira uma questão de qualidade válida.',
+                    'required' => 'O campo ID é inválido. Informe um ID válido.',
                 ],
                 'weight' => [
-                    'required' => 'O campo de questão de qualidade é obrigatório.',
+                    'required' => 'O campo peso é obrigatório.',
                 ],
                 'description' => [
-                    'required' => 'O campo de descrição da questão de qualidade é obrigatório.',
+                    'required' => 'O campo descrição da questão de qualidade é obrigatório.',
                 ],
                 'toasts' => [
-                    'duplicate_id' => 'Uma questão com este ID já existe.',
-                    'added' => 'Questão de Qualidade adicionada com sucesso.',
-                    'updated' => 'Questão de Qualidade atualizada com sucesso.',
-                    'deleted' => 'Questão de Qualidade deletada com sucesso.',
-                    'min_weight' => 'O peso mínimo deve ser maior que 0.',
+                    'duplicate_id'         => 'Já existe uma questão com este ID.',
+                    'added'                => 'Questão de Qualidade adicionada com sucesso.',
+                    'updated'              => 'Questão de Qualidade atualizada com sucesso.',
+                    'deleted'              => 'Questão de Qualidade excluída com sucesso.',
+                    'min_weight'           => 'O peso deve ser maior que 0.',
+                    'reset_qa_evaluations' => 'Todas as avaliações de qualidade foram resetadas para "Não Avaliado".',
+                    'score_deleted'        => 'Pontuação de qualidade excluída com sucesso.',
+                    'denied'               => 'Um visualizador não pode adicionar, editar ou excluir questões de qualidade.',
                 ],
             ],
-
         ],
         'question-score' => [
-            'title' => 'Pontuação de Qualidade',
+            'title'  => 'Pontuação da Questão',
             'select' => [
-                'rule' => 'Selecione uma regra'
+                'rule' => 'Selecione uma regra',
             ],
             'question' => [
-                'title' => 'Questão',
+                'title'       => 'Questão',
                 'placeholder' => 'Selecione uma questão',
             ],
             'help' => [
-                'title' => 'Pontuação de Qualidade',
+                'title'   => 'Pontuação da Questão',
                 'content' => '
-    <p>A etapa de <strong>Pontuação de Qualidade</strong> permite definir como cada questão de qualidade será avaliada.
-    Aqui você cria as <strong>regras de pontuação</strong>, que funcionam como as possíveis respostas para cada questão.</p>
+    <p>O passo <strong>Pontuação da Questão</strong> permite definir como cada questão de qualidade será avaliada.
+    Aqui você cria as <strong>regras de pontuação</strong>, que funcionam como as possíveis respostas para cada questão de qualidade.</p>
 
-    <p>Cada regra possui:</p>
+    <p>Cada regra de pontuação contém:</p>
     <ul>
-        <li><strong>Uma questão associada</strong> (selecionada no campo "Questão");</li>
-        <li><strong>Uma regra de resposta</strong> (ex.: Sim, Não, Parcialmente);</li>
-        <li><strong>Um valor percentual</strong> (0% a 100%) representando a pontuação daquela resposta;</li>
-        <li><strong>Uma descrição</strong> explicando claramente quando essa regra deve ser usada.</li>
+        <li><strong>Uma questão de qualidade vinculada</strong>;</li>
+        <li><strong>Um nome para a regra de pontuação</strong> (ex.: Sim, Não, Parcial);</li>
+        <li><strong>Um valor percentual</strong> (0% a 100%);</li>
+        <li><strong>Uma descrição</strong> explicando quando essa regra deve ser selecionada.</li>
     </ul>
-
-    <p><strong>Isso significa que você deve cadastrar uma regra por vez para cada questão.</strong><br>
-    Ao final, cada questão terá seu conjunto de respostas possíveis e respectivas pontuações.</p>
 
     <hr>
 
     <h5><strong>Como preencher os campos:</strong></h5>
-
     <ul>
-        <li>
-            <strong>Questão:</strong> Selecione qual questão de qualidade receberá esta regra de pontuação
-            (ex.: QA01, QA02...).<br>
-            Cada regra sempre pertence a uma única questão.
-        </li>
-
-        <li>
-            <strong>Regra de Pontuação:</strong> Nome curto da resposta.<br>
-            Exemplos comuns:
-            <ul>
-                <li>Sim</li>
-                <li>Parcial</li>
-                <li>Não</li>
-                <li>Alta Evidência</li>
-                <li>Média Evidência</li>
-                <li>Baixa Evidência</li>
-            </ul>
-        </li>
-
-        <li>
-            <strong>Pontuação:</strong> Escolha um valor entre 0% e 100% usando o slider.<br>
-            Este valor será aplicado quando o avaliador escolher essa resposta.
-        </li>
-
-        <li>
-            <strong>Descrição:</strong> Explique, em detalhes, quando essa regra deve ser aplicada. <br>
-            Exemplo:
-            <em>"O estudo apresenta de forma completa a ferramenta analisada, com metodologia clara e validação experimental."</em>
-        </li>
+        <li><strong>Questão:</strong> Selecione a questão de qualidade à qual esta regra pertence.</li>
+        <li><strong>Regra de Pontuação:</strong> Nome curto para a opção de resposta (ex.: Sim, Parcial, Não).</li>
+        <li><strong>Pontuação:</strong> Selecione um valor entre 0% e 100% usando o controle deslizante.</li>
+        <li><strong>Descrição:</strong> Explique detalhadamente quando esta regra deve ser aplicada.</li>
     </ul>
-
-    <p>A descrição é muito importante: ela garante que <strong>todos os avaliadores apliquem as regras do mesmo modo</strong>.</p>
-
-    <hr>
-
-    <h5><strong>Exemplo completo</strong></h5>
-    <p>Suponha que a questão de qualidade <strong>QA01</strong> seja:</p>
-    <p><em>"O estudo apresenta a implementação de uma ferramenta para revisão sistemática da literatura?"</em></p>
-
-    <p>As regras de pontuação poderiam ser:</p>
-
-    <table class="table table-bordered table-striped small table-break-text">
-        <thead>
-            <tr>
-                <th class="w-15">Questão</th>
-                <th class="w-15">Regra</th>
-                <th class="w-20">Pontuação</th>
-                <th class="w-50 break-words">Descrição</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>QA01</td>
-                <td><strong>Sim</strong></td>
-                <td>100%</td>
-                <td>O estudo apresenta claramente a implementação completa da ferramenta, incluindo metodologia e validação.</td>
-            </tr>
-            <tr>
-                <td>QA01</td>
-                <td><strong>Parcial*</strong></td>
-                <td>50%</td>
-                <td>O estudo apresenta a ferramenta, mas não descreve todos os detalhes de implementação ou validação.</td>
-            </tr>
-            <tr>
-                <td>QA01</td>
-                <td><strong>Não</strong></td>
-                <td>0%</td>
-                <td>O estudo não apresenta a implementação de uma ferramenta.</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p>Repita este processo para <strong>cada questão</strong> de qualidade cadastrada.
-    Ao final, você terá uma matriz completa de pontuação para avaliar todos os estudos.</p>
     ',
             ],
             'description' => [
-                'title' => 'Descrição',
-                'placeholder' => 'Insira a descrição',
+                'title'       => 'Descrição',
+                'placeholder' => 'Informe a descrição',
             ],
             'id_qa' => [
-                'title' => 'Questão de Qualidade',
-                'placeholder' => 'Selecione a Questão de Qualidade',
+                'title'                 => 'Questão de Qualidade',
+                'placeholder'           => 'Selecione a Questão de Qualidade',
                 'no-question-available' => 'Nenhuma questão disponível',
             ],
             'score_rule' => [
-                'title' => 'Regra de Pontuação',
-                'placeholder' => 'Selecione ou digite a Regra de Pontuação',
-                'description'=>'Digite/Explique com uma descrição a regra de pontuação',
-                'yes' => 'Sim',
-                'partial' => 'Parcial',
+                'title'        => 'Regra de Pontuação',
+                'placeholder'  => 'Selecione ou digite a Regra de Pontuação',
+                'description'  => 'Escreva/Explique com uma descrição a regra de pontuação',
+                'yes'          => 'Sim',
+                'partial'      => 'Parcial',
                 'insufficient' => 'Insuficiente',
-                'no' => 'Não',
-
-            ],
-            'extra_score_rule' => [
-                'title' => 'Regra de Pontuação Extra',
-                'placeholder' => 'Insira a Regra de Pontuação Extra',
+                'no'           => 'Não',
             ],
             'form' => [
-                'select-qa-placeholder' => 'Selecione a Questão de Qualidade',
-                'add' => 'Adicionar Pontuação de Qualidade',
-                'update' => 'Atualizar Pontuação de Qualidade',
+                'select-qa-placeholder' => 'Selecione uma Questão de Qualidade',
+                'add'                   => 'Adicionar Pontuação de Qualidade',
+                'update'                => 'Atualizar Pontuação de Qualidade',
             ],
             'range' => [
                 'score' => 'Pontuação',
             ],
             'livewire' => [
                 'logs' => [
-                    'added' => 'Pontuação de Qualidade adicionada',
+                    'added'   => 'Pontuação de Qualidade adicionada',
                     'updated' => 'Pontuação de Qualidade atualizada',
                 ],
                 'id' => [
-                    'required' => 'Pontuação de Qualidade inválida. Por favor, insira uma pontuação de qualidade válida.',
+                    'required' => 'O campo de pontuação de qualidade é inválido. Informe um valor válido.',
                 ],
                 'weight' => [
-                    'required' => 'O campo de pontuação de qualidade é obrigatório.',
+                    'required' => 'O campo peso é obrigatório.',
                 ],
                 'description' => [
-                    'required' => 'O campo de descrição da pontuação de qualidade é obrigatório.',
+                    'required' => 'O campo descrição da pontuação de qualidade é obrigatório.',
                 ],
                 'rule' => [
-                    'required' => 'O campo de regra de pontuação é obrigatório.',
-                ]
+                    'required' => 'O campo regra de pontuação é obrigatório.',
+                ],
             ],
             'messages' => [
-                'unique_score_rule' => 'A regra de pontuação com este valor já existe para esta questão.',
-                'score_rule_only_letters' => 'A regra de pontuação só pode conter letras e espaços.',
-                'description_only_letters_numbers' => 'A descrição só pode conter letras, números e espaços.',
+                'unique_score_rule'                => 'Esta regra de pontuação já existe para esta questão.',
+                'score_rule_only_letters'          => 'A regra de pontuação pode conter apenas letras e espaços.',
+                'description_only_letters_numbers' => 'A descrição pode conter apenas letras, números e espaços.',
             ],
-
             'toasts' => [
-                'added' => 'Pontuação de Qualidade adicionada com sucesso.',
+                'added'   => 'Pontuação de Qualidade adicionada com sucesso.',
                 'updated' => 'Pontuação de Qualidade atualizada com sucesso.',
-                'deleted' => 'Pontuação de Qualidade deletada com sucesso.',
+                'deleted' => 'Pontuação de Qualidade excluída com sucesso.',
             ],
         ],
-
         'min-general-score' => [
-            'title' => 'Pontuação Mínima Geral para Aprovação',
-            'help-content' => '<p>Após o cadastro das questões de qualidade, a soma dos pesos de todas as questões registradas anteriormente é calculada automaticamente pela Thoth.</p>
+            'title'        => 'Pontuação Mínima Geral para Aprovação',
+            'help-content' => '
+<p>Após registrar todas as questões de qualidade, a soma dos pesos é calculada automaticamente pelo Thoth.</p>
 
-<p>Essa soma representa o <strong>limite máximo de pontuação</strong> que um estudo pode alcançar durante a avaliação de qualidade.
-Por isso, o <strong>intervalo máximo dos intervalos de pontuação geral</strong> deve sempre <strong>corresponder ao valor da soma total dos pesos</strong>
-do projeto. Essa correspondência é essencial para garantir que os cálculos de pontuação e as classificações de qualidade
-funcionem corretamente durante a etapa de condução da revisão.</p>
+<p>Este total representa o <strong>limite máximo de pontuação</strong> que um estudo pode atingir durante a avaliação de qualidade.</p>
 
 <p><strong>Pontuação Mínima Geral para Aprovação:</strong><br>
-Este item define o intervalo de pontuação mínima geral que deve ser considerado como o critério mínimo para aceitar estudos na revisão.</p>
+Esta configuração define o intervalo mínimo de pontuação geral que será considerado como limiar para aceitar estudos na revisão.</p>
 
-<p><strong>Como isso funciona na prática?</strong><br>
-Durante a <strong>etapa de condução da avaliação de qualidade</strong>, cada estudo analisado receberá uma <strong>pontuação total</strong>, calculada com base nas regras e pesos definidos anteriormente.
-A função dos <strong>intervalos de pontuação geral</strong> é classificar esse estudo dentro de um nível ou categoria — por exemplo, “Muito Baixa”, “Baixa”, “Moderada” ou “Alta”.</p>
+<p><strong>Como funciona na prática?</strong><br>
+Durante a <strong>fase de avaliação de qualidade</strong>, cada estudo avaliado recebe uma <strong>pontuação total</strong>, calculada com base nas regras e pesos definidos anteriormente.
+Os <strong>intervalos de pontuação geral</strong> classificam o estudo em um nível ou categoria.</p>
 
-<p>Após identificar em qual intervalo o estudo se enquadra, ele será comparado com o <strong>intervalo mínimo geral configurado</strong>.
-Somente estudos cuja pontuação esteja <strong>igual ou acima do intervalo mínimo selecionado</strong> serão <strong>aceitos</strong> e poderão avançar para a próxima etapa da revisão.</p>
+<p>Somente estudos cuja pontuação seja <strong>igual ou superior ao intervalo mínimo selecionado</strong> serão <strong>aceitos</strong>.</p>
 
 <hr>
 <p><strong>Exemplo simples:</strong><br>
-Se o intervalo mínimo configurado for <strong>Moderado (2.6 – 3.75)</strong> e o estudo avaliado obtiver pontuação equivalente ao intervalo <strong>Pouco (1.26 – 2.5)</strong>, este estudo será <strong>rejeitado</strong> automaticamente.</p>
+Se o intervalo mínimo configurado for <strong>Moderado (2,6 – 3,75)</strong> e o estudo avaliado receber uma pontuação no intervalo <strong>Baixo (1,26 – 2,5)</strong>, o estudo será automaticamente <strong>rejeitado</strong>.</p>
 
-<p><strong>Atenção — Rejeição por questão individual:</strong><br>
-Além do intervalo geral, cada questão de qualidade também possui um <strong>valor mínimo individual</strong> definido pelo pesquisador.
-Isso significa que mesmo que o estudo alcance uma <strong>pontuação total superior ao mínimo geral</strong>, ele ainda pode ser <strong>rejeitado</strong> caso não atenda ao mínimo exigido em <strong>qualquer uma das questões específicas</strong>.</p>
-
-<p>Exemplo adicional:<br>
-Se a questão <strong>QA02</strong> exige um mínimo de <strong>50%</strong>, mas o estudo obteve apenas <strong>0%</strong> nessa questão, ele poderá ser <strong>rejeitado</strong>, mesmo que sua pontuação total esteja dentro de um intervalo aprovado.
-Isso garante que todas as questões consideradas essenciais sejam avaliadas adequadamente.</p>
+<p><strong>Importante:</strong><br>
+Além da pontuação mínima geral, cada questão de qualidade possui um <strong>requisito de pontuação mínima individual</strong>.
+Mesmo que um estudo atinja um intervalo geral acima do mínimo definido, ele <strong>ainda pode ser rejeitado</strong> se não atingir a pontuação mínima de alguma questão específica.</p>
 
 <hr>
-
-<p><strong>Observação:</strong> Para configurar corretamente esta etapa, primeiro é necessário:
+<p><strong>Importante:</strong> Para configurar corretamente esta etapa, você deve primeiro:
 <ul>
-    <li>Cadastrar todas as questões de qualidade;</li>
-    <li>Definir regras e pontuações para cada questão;</li>
+    <li>Registrar todas as questões de qualidade;</li>
+    <li>Definir regras de pontuação e pesos para cada questão;</li>
     <li>Gerar os intervalos de pontuação geral;</li>
-    <li>Salvar os intervalos no projeto da revisão.</li>
+    <li>Salvar os intervalos no projeto de revisão.</li>
 </ul>
-Certifique-se também de que o <strong>valor máximo do último intervalo</strong> esteja sempre alinhado à <strong>soma dos pesos das questões</strong>.</p>
+</p>
 ',
-            'cutoff' => 'Pontuação Mínima Geral',
-            'sum' => 'Soma dos Pesos',
-            'form' => [
-                'select-placeholder' => 'Selecione a Pontuação Geral Mínima para Aprovação',
-                'add' => 'Adicionar Pontuação Geral Mínima para Aprovação',
-                'update' => 'Atualizar Pontuação Geral Mínima para Aprovação',
-                'empty' => 'Nenhuma pontuação geral disponível. Por favor, registre pontuações gerais.',
-                'minimal-score' => 'Pontuação mínima atualizada com sucesso',
+            'cutoff' => 'Corte (Pontuação Mínima Geral)',
+            'sum'    => 'Soma Total dos Pesos',
+            'form'   => [
+                'select-placeholder' => 'Selecione a Pontuação Mínima Geral para Aprovação',
+                'add'                => 'Adicionar Pontuação Mínima Geral',
+                'update'             => 'Atualizar Pontuação Mínima Geral',
+                'empty'              => 'Nenhuma pontuação geral disponível. Por favor, registre pontuações gerais.',
+                'minimal-score'      => 'Pontuação mínima atualizada com sucesso',
             ],
-
             'livewire' => [
                 'logs' => [
-                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada',
-                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada',
+                    'added'   => 'Pontuação Mínima Geral para Aprovação adicionada',
+                    'updated' => 'Pontuação Mínima Geral para Aprovação atualizada',
                 ],
                 'toasts' => [
-                    'added' => 'Pontuação Geral Mínima para Aprovação adicionada com sucesso.',
-                    'updated' => 'Pontuação Geral Mínima para Aprovação atualizada com sucesso.',
-                ],
-                'min-general-score' => [
-                    'required' => 'O campo de pontuação geral mínima é obrigatório.',
+                    'added'    => 'Pontuação Mínima Geral para Aprovação adicionada com sucesso.',
+                    'updated'  => 'Pontuação Mínima Geral para Aprovação atualizada com sucesso.',
+                    'required' => 'O campo Pontuação Mínima Geral para Aprovação é obrigatório.',
+                    'denied'   => 'Um visualizador não pode editar a pontuação de corte.',
                 ],
             ],
-
         ],
     ],
     'data-extraction' => [
