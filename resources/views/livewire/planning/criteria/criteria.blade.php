@@ -228,7 +228,7 @@
     </div>
 
     {{-- Modal: confirmação de exclusão --}}
-    <div wire:ignore>
+    <div>
         <div id="deleteConfirmModal" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -253,8 +253,7 @@
                         </button>
                         <button type="button"
                                 class="btn {{ $deletionHasEvaluations ? 'btn-danger' : 'btn-outline-danger' }}"
-                                wire:click="delete('{{ $confirmingDeleteId }}')"
-                                data-bs-dismiss="modal">
+                                onclick="confirmCriteriaDelete()">
                             {{ __('project/planning.criteria.delete.confirm') }}
                         </button>
                     </div>
@@ -287,8 +286,7 @@
                             {{ __('project/planning.criteria.submit.cancel') }}
                         </button>
                         <button type="button" class="btn btn-danger"
-                                wire:click="confirmSubmit"
-                                data-bs-dismiss="modal">
+                                onclick="confirmCriteriaSubmit()">
                             {{ __('project/planning.criteria.submit.confirm') }}
                         </button>
                     </div>
@@ -296,25 +294,68 @@
             </div>
         </div>
     </div>
-
-    @script
-    <script>
-        $wire.on('criteria', ([{ message, type }]) => {
-            toasty({ message, type });
-        });
-
-        $wire.on('openDeleteConfirm', () => {
-            const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-            modal.show();
-        });
-
-        $wire.on('openSubmitConfirm', () => {
-            const modal = new bootstrap.Modal(document.getElementById('submitConfirmModal'));
-            modal.show();
-        });
-    </script>
-    @endscript
 </div>
+
+@script
+<script>
+    let pendingCriteriaDeleteId = null;
+
+    $wire.on('criteria', ([{ message, type }]) => {
+        toasty({ message, type });
+    });
+
+    $wire.on('openDeleteConfirm', () => {
+        pendingCriteriaDeleteId = $wire.confirmingDeleteId;
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('deleteConfirmModal')
+        ).show();
+    });
+
+    $wire.on('openSubmitConfirm', () => {
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('submitConfirmModal')
+        ).show();
+    });
+
+    // Limpa backdrop em qualquer fechamento
+    ['deleteConfirmModal', 'submitConfirmModal'].forEach(id => {
+        document.getElementById(id)?.addEventListener('hidden.bs.modal', () => {
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.removeProperty('overflow');
+            document.body.style.removeProperty('padding-right');
+        });
+    });
+
+    window.confirmCriteriaDelete = function () {
+        if (!pendingCriteriaDeleteId) return;
+
+        const id    = pendingCriteriaDeleteId;
+        const el    = document.getElementById('deleteConfirmModal');
+        const modal = bootstrap.Modal.getInstance(el);
+
+        el.addEventListener('hidden.bs.modal', function handler() {
+            el.removeEventListener('hidden.bs.modal', handler);
+            $wire.delete(id);
+            pendingCriteriaDeleteId = null;
+        });
+
+        modal ? modal.hide() : $wire.delete(id);
+    };
+
+    window.confirmCriteriaSubmit = function () {
+        const el    = document.getElementById('submitConfirmModal');
+        const modal = bootstrap.Modal.getInstance(el);
+
+        el.addEventListener('hidden.bs.modal', function handler() {
+            el.removeEventListener('hidden.bs.modal', handler);
+            $wire.confirmSubmit();
+        });
+
+        modal ? modal.hide() : $wire.confirmSubmit();
+    };
+</script>
+@endscript
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

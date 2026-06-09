@@ -139,7 +139,7 @@
     </div>
 
     {{-- Modal: confirmação de exclusão de questão --}}
-    <div wire:ignore>
+    <div>
         <div id="qaDeleteQuestionConfirmModal" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -162,10 +162,11 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             {{ __('project/planning.quality-assessment.question-quality.delete.cancel') }}
                         </button>
-                        <button type="button"
-                                class="btn {{ $deletionHasEvaluations ? 'btn-danger' : 'btn-outline-danger' }}"
-                                wire:click="deleteQuestionQuality('{{ $confirmingDeleteQuestionId }}')"
-                                data-bs-dismiss="modal">
+                        {{-- Botão confirmar exclusão de questão --}}
+                        <button
+                            type="button"
+                            class="btn {{ $deletionHasEvaluations ? 'btn-danger' : 'btn-outline-danger' }}"
+                            onclick="confirmDeleteQuestion()">
                             {{ __('project/planning.quality-assessment.question-quality.delete.confirm') }}
                         </button>
                     </div>
@@ -175,7 +176,7 @@
     </div>
 
     {{-- Modal: confirmação de exclusão de score --}}
-    <div wire:ignore>
+    <div>
         <div id="qaDeleteScoreConfirmModal" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -198,10 +199,11 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             {{ __('project/planning.quality-assessment.question-quality.delete_score.cancel') }}
                         </button>
-                        <button type="button"
-                                class="btn {{ $deletionHasEvaluations ? 'btn-danger' : 'btn-outline-danger' }}"
-                                wire:click="deleteQuestionScore('{{ $confirmingDeleteScoreId }}')"
-                                data-bs-dismiss="modal">
+                        {{-- Botão confirmar exclusão de score --}}
+                        <button
+                            type="button"
+                            class="btn {{ $deletionHasEvaluations ? 'btn-danger' : 'btn-outline-danger' }}"
+                            onclick="confirmDeleteScore()">
                             {{ __('project/planning.quality-assessment.question-quality.delete_score.confirm') }}
                         </button>
                     </div>
@@ -246,20 +248,68 @@
 
 @script
 <script>
+    let pendingDeleteQuestionId = null;
+    let pendingDeleteScoreId    = null;
+
     $wire.on('qa-table', ([{ message, type }]) => {
         toasty({ message, type });
     });
 
     $wire.on('openQaDeleteQuestionConfirm', () => {
+        pendingDeleteQuestionId = $wire.confirmingDeleteQuestionId;
         new bootstrap.Modal(document.getElementById('qaDeleteQuestionConfirmModal')).show();
     });
 
     $wire.on('openQaDeleteScoreConfirm', () => {
+        pendingDeleteScoreId = $wire.confirmingDeleteScoreId;
         new bootstrap.Modal(document.getElementById('qaDeleteScoreConfirmModal')).show();
     });
 
     $wire.on('openQaMinScoreConfirm', () => {
         new bootstrap.Modal(document.getElementById('qaMinScoreConfirmModal')).show();
     });
+
+    window.confirmDeleteQuestion = function () {
+        if (!pendingDeleteQuestionId) return;
+
+        const id    = pendingDeleteQuestionId;
+        const modal = bootstrap.Modal.getInstance(document.getElementById('qaDeleteQuestionConfirmModal'));
+
+        // Fecha o modal e aguarda a animação terminar antes de chamar o Livewire
+        if (modal) {
+            document.getElementById('qaDeleteQuestionConfirmModal')
+                .addEventListener('hidden.bs.modal', function handler() {
+                    document.getElementById('qaDeleteQuestionConfirmModal')
+                        .removeEventListener('hidden.bs.modal', handler);
+                    $wire.deleteQuestionQuality(id);
+                    pendingDeleteQuestionId = null;
+                });
+            modal.hide();
+        } else {
+            $wire.deleteQuestionQuality(id);
+            pendingDeleteQuestionId = null;
+        }
+    };
+
+    window.confirmDeleteScore = function () {
+        if (!pendingDeleteScoreId) return;
+
+        const id    = pendingDeleteScoreId;
+        const modal = bootstrap.Modal.getInstance(document.getElementById('qaDeleteScoreConfirmModal'));
+
+        if (modal) {
+            document.getElementById('qaDeleteScoreConfirmModal')
+                .addEventListener('hidden.bs.modal', function handler() {
+                    document.getElementById('qaDeleteScoreConfirmModal')
+                        .removeEventListener('hidden.bs.modal', handler);
+                    $wire.deleteQuestionScore(id);
+                    pendingDeleteScoreId = null;
+                });
+            modal.hide();
+        } else {
+            $wire.deleteQuestionScore(id);
+            pendingDeleteScoreId = null;
+        }
+    };
 </script>
 @endscript

@@ -85,10 +85,10 @@ function toasty({ message, type, toast = true, ...props }) {
         showCloseButton: true,
         timerProgressBar: true,
         timer: 3_500, // 3.5 seconds
-        position: !toast ? 'center' : 'bottom-end',
+        position: !toast ? 'center' : 'top-end',
         customClass: {
             container: 'sweet-toast-container w-100',
-            popup: 'z-3 px-3 py-2 rounded-3 w-100 w-sm-25',
+            popup: 'z-3 px-3 py-2 rounded-3 w-200 w-sm-30',
         },
         ...props,
     });
