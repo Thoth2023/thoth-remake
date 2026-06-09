@@ -7,7 +7,7 @@ use App\Models\Project;
 use App\Models\Project\Planning\QualityAssessment\Cutoff;
 use App\Models\Project\Planning\QualityAssessment\GeneralScore;
 use App\Models\Project\Planning\QualityAssessment\Question;
-use App\Models\Project\Conducting\QualityAssessment\PapersQa;
+use App\Models\Project\Conducting\QualityAssessment\PapersQA;
 use App\Models\Project\Conducting\QualityAssessment\PapersQaAnswer;
 use App\Utils\ToastHelper;
 use App\Utils\ActivityLogHelper as Log;
@@ -74,7 +74,7 @@ class QuestionCutoff extends Component
         $memberIds = MemberModel::where('id_project', $this->currentProject->id_project)
             ->pluck('id_members');
 
-        return PapersQa::whereIn('id_member', $memberIds)
+        return PapersQA::whereIn('id_member', $memberIds)
             ->where('id_status', '!=', 3)
             ->exists();
     }
@@ -84,7 +84,7 @@ class QuestionCutoff extends Component
         $memberIds = MemberModel::where('id_project', $this->currentProject->id_project)
             ->pluck('id_members');
 
-        $papersQa = PapersQa::whereIn('id_member', $memberIds)
+        $papersQa = PapersQA::whereIn('id_member', $memberIds)
             ->where('id_status', '!=', 3)
             ->get();
 

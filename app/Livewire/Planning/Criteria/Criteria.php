@@ -470,12 +470,13 @@ class Criteria extends Component
         $memberIds = MemberModel::where('id_project', $this->currentProject->id_project)
             ->pluck('id_members');
 
-        $this->confirmingDeleteId     = $criteriaId;
+        $this->confirmingDeleteId     = $criteriaId; // salvo antes do dispatch
         $this->deletionHasEvaluations = EvaluationCriteriaModel::where('id_criteria', $criteria->id_criteria)
             ->whereIn('id_member', $memberIds)
             ->exists();
 
         $this->dispatch('openDeleteConfirm');
+        // dispatch DEPOIS de setar o estado, garantindo que o JS leia o valor correto
     }
 
     /**
@@ -484,14 +485,21 @@ class Criteria extends Component
      * @param string $criteriaId
      * @return void
      */
-    public function delete(string $criteriaId)
+    public function delete(string $criteriaId = null)
     {
         if (!$this->checkEditPermission($this->toastMessages . '.denied')) {
             return;
         }
 
+        $id = $criteriaId ?? $this->confirmingDeleteId;
+
+        if (!$id) {
+            $this->toast(message: 'Criteria not found.', type: 'error');
+            return;
+        }
+
         try {
-            $currentCriteria = CriteriaModel::findOrFail($criteriaId);
+            $currentCriteria = CriteriaModel::findOrFail($id);
             $currentCriteria->delete();
 
             Log::logActivity(

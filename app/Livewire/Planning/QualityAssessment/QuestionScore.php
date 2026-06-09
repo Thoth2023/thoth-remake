@@ -56,7 +56,7 @@ class QuestionScore extends Component
     'questionId' => 'array|required',
     'scoreRule' => 'required|string|max:30|regex:/^[a-zA-ZÀ-ÿ\s]+$/u',
     'score' => 'required|numeric',
-    'description' => 'required|string|max:255|regex:/^[a-zA-ZÀ-ÿ0-9\s]+$/u',
+    'description'    => 'required|string|regex:/^[\pL\pN\s\.,;:\?"\'\(\)\[\]\{\}\/\\\\_\-+=#@!%&*]+$/u|max:255',
   ];
 
   /**

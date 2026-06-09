@@ -6,7 +6,7 @@
     <div class="row mt-4 mx-4">
         @include('project.components.project-header', ['project' => $project, 'activePage' => 'overview'])
 
-        <div class="card shadow-lg mx-4 mt-1">
+        <div class="card shadow-lg mx-0 mt-2">
             <div class="container-fluid py-2 px-2">
                     <div class="card-body">
                         @include('projects.project-overview', [
